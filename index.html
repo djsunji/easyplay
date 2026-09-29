@@ -688,6 +688,40 @@ body.dark{background:radial-gradient(1.2px 1.2px at 12% 8%,#fff 50%,transparent 
 :root[data-theme="dark"] .voegel,:root[data-season="winter"] .voegel{display:none}
 @media (prefers-reduced-motion:reduce){.zug,.wolke,.voegel{animation:none}.voegel{display:none}}
 @media (max-width:640px){#alpen{height:36vh!important}.wolke{transform:scale(.6)}}
+
+/* ===== Hintergrund-Auswahl ===== */
+:root[data-bg="wolken"] #clouds{display:block!important}
+:root[data-bg="muster"] #pattern{display:block!important}
+:root[data-bg="wolken"] #alpen,:root[data-bg="wolken"] #himmel,:root[data-bg="wolken"] #flocken,
+:root[data-bg="muster"] #alpen,:root[data-bg="muster"] #himmel,:root[data-bg="muster"] #flocken{display:none!important}
+:root[data-bg="wolken"] body{background:#F3F5FF!important}
+:root[data-bg="wolken"] body.dark{background:#0E1230!important}
+:root[data-bg="muster"] body{background:#F5F7FF!important}
+:root[data-bg="muster"] body.dark{background:#10152C!important}
+/* Einstellungen */
+#settings{position:fixed;inset:0;z-index:20000;background:rgba(15,20,48,.45);display:grid;place-items:center;padding:16px;animation:fadeUp .2s ease both}
+.setbox{background:var(--surface);color:var(--ink);border-radius:28px;padding:22px;max-width:620px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);border:3px solid var(--line)}
+.sethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sethead h2{font-size:1.6rem}
+.setx{border:2px solid var(--line);background:var(--bg);border-radius:50%;width:44px;height:44px;font-size:1.1rem;font-weight:700}
+.bgopts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:520px){.bgopts{grid-template-columns:1fr}}
+.bgopt{border:3px solid var(--line);background:var(--bg);border-radius:20px;padding:10px;display:grid;gap:6px;text-align:center}
+.bgopt.on{border-color:#8A3FE0;box-shadow:0 0 0 3px color-mix(in srgb,#8A3FE0 30%,transparent)}
+.bgprev{display:block;height:70px;border-radius:14px}
+.prev-alpen{background:linear-gradient(180deg,#BFDDFF,#EEF3FF 60%),#fff;position:relative;overflow:hidden}
+.prev-alpen::after{content:"";position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(135deg,transparent 45%,#AEB9E3 46%) left bottom/50% 100% no-repeat,linear-gradient(225deg,transparent 45%,#8D9AD0 46%) right bottom/50% 100% no-repeat}
+.prev-wolken{background:radial-gradient(circle at 20% 30%,#3D5AFE88,transparent 50%),radial-gradient(circle at 80% 30%,#E043B888,transparent 50%),radial-gradient(circle at 50% 90%,#FFC23A88,transparent 55%),#F3F5FF}
+.prev-muster{background-color:#F5F7FF;background-image:radial-gradient(#8A3FE055 1.5px,transparent 2px),radial-gradient(#E043B855 1.5px,transparent 2px);background-size:18px 18px;background-position:0 0,9px 9px}
+.bgname{font-weight:700}
+.bgtext{font-size:.85rem;color:var(--soft)}
+.subopts{margin-top:16px;border-top:2px dashed var(--line);padding-top:12px}
+.sublbl{font-weight:700;margin:8px 0 8px}
+.setsegs{justify-content:flex-start;margin-bottom:6px}
+.setsegs .seg{min-height:44px;font-size:.95rem}
+.setsegs .seg[aria-checked="true"]{background:linear-gradient(135deg,#3D5AFE,#8A3FE0);color:#fff;border-color:transparent}
+/* Schulstufe */
+.level .schule{display:block;font-size:.8rem;color:var(--soft);font-weight:500;margin-top:2px}
 </style>
 </head>
 <body>
@@ -2078,10 +2112,8 @@ function renderNav(){
     (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button>`
        : `<button class="navbtn primary" id="navReg" type="button">Registrieren</button>`) +
     (S.canEdit ? `<button class="navbtn" id="navW" type="button">${ico("tools")} Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>` : "") +
-    `<button class="navbtn saison" id="navSaison" type="button" title="Jahreszeit ansehen (Vorschau)" aria-label="Jahreszeit wechseln (Vorschau)"><span class="emo-i">${SAISONS[document.documentElement.dataset.season||"herbst"].emo}</span></button>` +
-    `<button class="navbtn theme" id="navTheme" type="button" title="Tag, Nacht oder automatisch nach Schweizer Zeit" aria-label="Tag- oder Nachtmodus wechseln">${themaKnopf()}</button>`;
-  $("#navTheme").onclick=themaWechseln;
-  $("#navSaison").onclick=saisonWechseln;
+    `<button class="navbtn set" id="navSet" type="button" title="Hintergrund und Darstellung" aria-label="Einstellungen: Hintergrund">⚙️ <span class="tlab">Hintergrund</span></button>`;
+  $("#navSet").onclick=oeffneEinstellungen;
   $("#navBoard").onclick=()=>{ S.boardStufe=S.stufe; go("board"); };
   $("#navLive").onclick=()=>go(L.role==="host"?"livehost":L.role==="player"?"liveplay":"live");
   $("#navProfil") && ($("#navProfil").onclick=()=>go("profil"));
@@ -2116,6 +2148,7 @@ function homeTop10(){
       : `<p class="empty">Noch niemand auf der Rangliste – mach einen gewerteten Test und sei die oder der Erste!</p>`}
   </section>`;
 }
+const SCHULE = {1:"Primarschule 1.–3. Klasse", 2:"Primar- bis Oberstufe 4.–8. Klasse", 3:"Oberstufe bis Lehre/Studium"};
 function renderHome(){
   const themen = Object.keys(THEMA).filter(id=>!THEMA[id].menu).length;
   $("#app").innerHTML = `
@@ -2147,7 +2180,7 @@ function renderHome(){
     ${homeTop10()}
     <p class="label" id="stufeLbl">Deine Stufe</p>
     <div class="levels" role="group" aria-labelledby="stufeLbl">
-      ${STUFEN.map(s=>`<button class="level" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="em" aria-hidden="true">${STUFE_EMO[s.id]}</span><span><b>${s.name}</b><span class="a">${s.alter} · ${allCountL(s.id)} Fragen</span></span></button>`).join("")}
+      ${STUFEN.map(s=>`<button class="level" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="em" aria-hidden="true">${STUFE_EMO[s.id]}</span><span><b>${s.name}</b><span class="a">${s.alter} · ${allCountL(s.id)} Fragen</span><small class="schule">(${esc(SCHULE[s.id])})</small></span></button>`).join("")}
     </div>
     <p class="label" id="bereiche"><span>Bereiche</span><small>${allCountL(S.stufe)} Fragen für ${stufeObj().name} · ${allCount()} insgesamt</small></p>
     <div class="bereiche">
@@ -2792,7 +2825,7 @@ async function ladeFragenDB(){
 /* ================= Jahreszeiten & Tageszyklus (Schweizer Zeit) ================= */
 const SONNE = [[8.1,16.9],[7.6,17.6],[6.9,18.4],[6.8,20.1],[6.0,20.8],[5.5,21.4],[5.8,21.3],[6.4,20.6],[7.1,19.6],[7.8,18.6],[7.5,17.0],[8.1,16.6]];
 const SAISONS = {fruehling:{name:"Frühling",emo:"🌸"}, sommer:{name:"Sommer",emo:"☀️"}, herbst:{name:"Herbst",emo:"🍂"}, winter:{name:"Winter",emo:"❄️"}};
-const H = { modus: store.get("ep-tagmodus","auto"), saisonVorschau: null, dunkel:false, phase:"tag" };
+const H = { modus: store.get("ep-tagmodus","auto"), saisonWahl: store.get("ep-saison","auto"), bg: store.get("ep-bg","alpen"), saisonVorschau: null, dunkel:false, phase:"tag" };
 function zuerichJetzt(){
   const p=Object.fromEntries(new Intl.DateTimeFormat("de-CH",{timeZone:"Europe/Zurich",hour:"numeric",minute:"numeric",day:"numeric",month:"numeric",hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value]));
   return {h:(+p.hour%24)+(+p.minute)/60, monat:+p.month, tag:+p.day};
@@ -2806,7 +2839,7 @@ const SKY = {
 };
 function himmelAktualisieren(){
   const {h,monat,tag}=zuerichJetzt();
-  const saison = H.saisonVorschau || saisonFuer(monat,tag);
+  const saison = H.saisonWahl && H.saisonWahl!=="auto" ? H.saisonWahl : saisonFuer(monat,tag);
   const [sr,ss]=SONNE[monat-1];
   let phase = (h<sr-0.6||h>ss+0.6) ? "nacht" : (h<sr+0.8) ? "morgen" : (h>ss-0.8) ? "abend" : "tag";
   const echtDunkel = h<sr-0.25 || h>ss+0.25;
@@ -2815,7 +2848,7 @@ function himmelAktualisieren(){
   if(H.modus==="auto" && dunkel && phase!=="nacht") phase = h<12 ? "morgen" : "abend";
   H.dunkel=dunkel; H.phase=phase;
   const root=document.documentElement;
-  root.dataset.season=saison; root.dataset.theme = dunkel ? "dark" : "light"; root.dataset.phase=phase;
+  root.dataset.bg=H.bg; root.dataset.season=saison; root.dataset.theme = dunkel ? "dark" : "light"; root.dataset.phase=phase;
   const c = phase==="tag" ? SKY.tag[saison] : SKY[phase];
   root.style.setProperty("--sky1",c[0]); root.style.setProperty("--sky2",c[1]); root.style.setProperty("--sky3",c[2]);
   // Sonne und Mond auf ihrer Bahn
@@ -2838,6 +2871,50 @@ function himmelAktualisieren(){
 function themaKnopf(){ return H.modus==="auto" ? `${H.dunkel?"🌙":"☀️"} <span class="tlab">Auto</span>` : H.modus==="tag" ? `☀️ <span class="tlab">Tag</span>` : `🌙 <span class="tlab">Nacht</span>`; }
 function themaWechseln(){ H.modus = H.modus==="auto" ? (H.dunkel?"tag":"nacht") : H.modus==="tag" ? "nacht" : H.modus==="nacht" ? "auto" : "auto"; store.set("ep-tagmodus",H.modus); himmelAktualisieren(); }
 function saisonWechseln(){ const k=Object.keys(SAISONS); const cur=document.documentElement.dataset.season; H.saisonVorschau=k[(k.indexOf(cur)+1)%4]; himmelAktualisieren(); }
+
+
+/* ---------- Einstellungen: Hintergrund ---------- */
+const HINTERGRUENDE = [
+  {id:"alpen", emo:"🏔️", name:"Alpenpanorama", text:"Berge, Jahreszeiten, Sonne und Mond"},
+  {id:"wolken", emo:"🌈", name:"Farbwolken", text:"Sanfte Farben aus dem Logo"},
+  {id:"muster", emo:"✏️", name:"Lern-Muster", text:"Verspielt wie ein Schulheft"}
+];
+function segRow(name, opts, cur){ return `<div class="segs setsegs" role="radiogroup" aria-label="${esc(name)}">${opts.map(([v,l])=>`<button type="button" role="radio" class="seg" data-v="${v}" aria-checked="${cur===v}" aria-pressed="${cur===v}">${l}</button>`).join("")}</div>`; }
+function einstellungenHTML(){
+  const alpen = H.bg==="alpen";
+  return `<div class="setbox" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="sethead"><h2 id="setTitle">⚙️ Hintergrund</h2><button class="setx" id="setClose" type="button" aria-label="Schliessen">✕</button></div>
+    <div class="bgopts">${HINTERGRUENDE.map(b=>`<button type="button" class="bgopt ${H.bg===b.id?"on":""}" data-bg="${b.id}" aria-pressed="${H.bg===b.id}">
+      <span class="bgprev prev-${b.id}"></span><span class="bgname">${b.emo} ${b.name}</span><span class="bgtext">${b.text}</span></button>`).join("")}</div>
+    ${alpen ? `<div class="subopts">
+      <p class="sublbl">Jahreszeit</p>
+      ${segRow("Jahreszeit",[["auto","🗓️ Automatisch"],["fruehling","🌸 Frühling"],["sommer","☀️ Sommer"],["herbst","🍂 Herbst"],["winter","❄️ Winter"]],H.saisonWahl||"auto")}
+      <p class="sublbl">Tag und Nacht</p>
+      ${segRow("Tag und Nacht",[["auto","🕒 Nach Schweizer Zeit"],["tag","☀️ Tag"],["nacht","🌙 Nacht"]],H.modus)}
+      <p class="help">«Automatisch» richtet sich nach Datum und Uhrzeit in der Schweiz.</p></div>`
+    : `<div class="subopts"><p class="sublbl">Hell oder dunkel</p>
+      ${segRow("Darstellung",[["auto","🕒 Nach Schweizer Zeit"],["tag","☀️ Hell"],["nacht","🌙 Dunkel"]],H.modus)}</div>`}
+  </div>`;
+}
+function oeffneEinstellungen(){
+  let ov=$("#settings"); if(!ov){ ov=document.createElement("div"); ov.id="settings"; document.body.appendChild(ov); }
+  const draw=()=>{
+    ov.innerHTML=einstellungenHTML();
+    $("#setClose").onclick=schliessen;
+    ov.querySelectorAll(".bgopt").forEach(b=>b.onclick=()=>{ H.bg=b.dataset.bg; store.set("ep-bg",H.bg); himmelAktualisieren(); draw(); });
+    const groups=ov.querySelectorAll(".setsegs");
+    groups.forEach(g=>{ const lab=g.getAttribute("aria-label"); g.querySelectorAll(".seg").forEach(b=>b.onclick=()=>{
+      if(lab==="Jahreszeit"){ H.saisonWahl=b.dataset.v; store.set("ep-saison",H.saisonWahl); }
+      else { H.modus=b.dataset.v; store.set("ep-tagmodus",H.modus); }
+      himmelAktualisieren(); draw(); }); });
+    $("#setClose").focus();
+  };
+  const schliessen=()=>{ ov.remove(); document.removeEventListener("keydown",esc_); $("#navSet")?.focus(); };
+  const esc_=e=>{ if(e.key==="Escape") schliessen(); };
+  ov.onclick=e=>{ if(e.target===ov) schliessen(); };
+  document.addEventListener("keydown",esc_);
+  draw();
+}
 
 /* ---------- Start ---------- */
 $("#home").onclick=()=>go("home");
