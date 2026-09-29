@@ -731,6 +731,12 @@ body.dark{background:radial-gradient(1.2px 1.2px at 12% 8%,#fff 50%,transparent 
 @media (max-width:1300px){.navbtn.logout .tlab,.navbtn.set .tlab{display:none}.navbtn.logout,.navbtn.set{padding:6px 12px}}
 .navbtn.login{border-color:color-mix(in srgb,#3D5AFE 40%,var(--line))}
 .loginhint{max-width:640px;background:color-mix(in srgb,var(--gold) 16%,var(--surface));border-radius:16px;padding:12px 16px;margin:-6px 0 16px}
+.ktgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin-bottom:6px}
+.ktbtn{border:3px solid var(--line);background:var(--bg);border-radius:14px;padding:6px 4px;display:grid;justify-items:center;gap:2px;font-size:.78rem;font-weight:700;color:var(--soft)}
+.ktbtn .wappen{width:34px;height:40px}
+.ktbtn:hover{border-color:#8A3FE0}
+.ktbtn[aria-checked="true"]{border-color:#8A3FE0;background:var(--surface);box-shadow:0 0 0 3px color-mix(in srgb,#8A3FE0 30%,transparent);color:var(--ink)}
+.ktchosen{font-weight:600;color:#8A3FE0}
 </style>
 </head>
 <body>
@@ -2516,9 +2522,8 @@ function renderRegister(){
       <p class="help">Bitte deinen echten Namen angeben. In der Rangliste erscheinen dein Vorname und der erste Buchstabe deines Nachnamens, zum Beispiel «Lina M.».</p>
       <label id="avLbl">Wähle dein Tier</label>
       <div class="avatars" role="group" aria-labelledby="avLbl">${AVATARE.map(a=>`<button class="avbtn" type="button" data-a="${a}" aria-label="${a}" aria-pressed="${a===av}">${avatar(a)}</button>`).join("")}</div>
-      <label for="kSel">Dein Wohnkanton</label>
-      <div class="kpick"><span class="kprev" id="kPrev">${kt? wappen(kt) : ico("pin")}</span>
-        <select id="kSel" class="sel"><option value="">Bitte wählen …</option>${KANTONE.map(k=>`<option value="${k.kuerzel}" ${k.kuerzel===kt?"selected":""}>${esc(k.kurz)}</option>`).join("")}</select></div>
+      <label id="ktLbl">Dein Wohnkanton <span class="ktchosen" id="ktChosen">${kt? "– "+esc(KANTONE.find(k=>k.kuerzel===kt)?.kurz||"") : ""}</span></label>
+      <div class="ktgrid" role="radiogroup" aria-labelledby="ktLbl">${KANTONE.map(k=>`<button type="button" class="ktbtn" role="radio" data-k="${k.kuerzel}" aria-checked="${k.kuerzel===kt}" aria-label="${esc(k.kurz)}" title="${esc(k.kurz)}">${wappen(k.kuerzel)}<span>${k.kuerzel}</span></button>`).join("")}</div>
       <p class="help">Damit kannst du dich in der Rangliste mit deinem Kanton vergleichen.</p>
       <label id="stLbl">Deine Stufe</label>
       <div class="segs" role="group" aria-labelledby="stLbl">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}">${STUFE_EMO[s.id]} ${s.name} · ${s.alter}</button>`).join("")}</div>
@@ -2531,7 +2536,7 @@ function renderRegister(){
     </div>`;
   document.querySelectorAll(".avbtn").forEach(b=>b.onclick=()=>{ av=b.dataset.a; document.querySelectorAll(".avbtn").forEach(x=>x.setAttribute("aria-pressed", x===b)); $("#prevAv").innerHTML=avatar(av); });
   document.querySelectorAll(".seg").forEach(b=>b.onclick=()=>{ S.stufe=+b.dataset.s; store.set("ep-stufe",S.stufe); document.querySelectorAll(".seg").forEach(x=>x.setAttribute("aria-pressed", x===b)); });
-  $("#kSel").onchange=e=>{ kt=e.target.value; $("#kPrev").innerHTML = kt? wappen(kt) : ico("pin"); };
+  document.querySelectorAll(".ktbtn").forEach(b=>b.onclick=()=>{ kt=b.dataset.k; document.querySelectorAll(".ktbtn").forEach(x=>x.setAttribute("aria-checked", x===b)); $("#ktChosen").textContent="– "+(KANTONE.find(k=>k.kuerzel===kt)?.kurz||""); });
   $("#cancel").onclick=()=>go(edit?"profil":"home");
   $("#save").onclick=async()=>{
     const clean=v=>v.trim().replace(/\s+/g," ");
