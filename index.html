@@ -426,6 +426,43 @@ button{-webkit-tap-highlight-color:transparent}
 .mobicon{width:auto!important;height:120px!important;border-radius:0!important;box-shadow:none!important;transform:none!important;filter:drop-shadow(0 8px 12px rgba(60,40,140,.25))}
 .heroart .badge{left:auto!important;right:120px;top:auto!important;bottom:-34px!important;transform:rotate(-3deg)}
 .hero{margin-bottom:56px}
+
+/* ---- Verlauf ---- */
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin:4px 0 16px;font-size:.98rem}
+.crumb{border:0;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:6px;min-height:40px}
+.crumb:hover{border-color:var(--welt);color:var(--welt)}
+.crumb.cur{background:transparent;border-color:transparent;color:var(--soft);cursor:default}
+.crumbs .sep{color:var(--soft);font-weight:700}
+/* ---- Stufen-Leiste ---- */
+.sbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px;margin:0 0 22px}
+.sbtns{display:inline-flex;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:4px;gap:4px}
+.sbtns button{border:0;background:transparent;border-radius:999px;padding:8px 14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;min-height:42px}
+.sbtns button[aria-pressed="true"]{background:linear-gradient(135deg,#3D5AFE,#8A3FE0);color:#fff}
+.sinfo{color:var(--soft);font-weight:600}
+.bhead{justify-content:center;text-align:center}
+.bdesc{max-width:62ch;margin:-8px auto 18px;text-align:center;color:var(--soft);font-size:1.08rem}
+/* ---- Kategorie-Knöpfe mit Farbverlauf ---- */
+.thema{background:linear-gradient(160deg,color-mix(in srgb,var(--c) 24%,var(--surface)) 0%,color-mix(in srgb,var(--c) 6%,var(--surface)) 55%,var(--surface) 100%)!important}
+.thema:hover{background:linear-gradient(160deg,color-mix(in srgb,var(--c) 34%,var(--surface)) 0%,color-mix(in srgb,var(--c) 10%,var(--surface)) 60%,var(--surface) 100%)!important}
+.thema .emo{background:rgba(255,255,255,.85)!important}
+.dark .thema .emo{background:rgba(255,255,255,.12)!important}
+.kanton{background:linear-gradient(160deg,color-mix(in srgb,var(--geld) 16%,var(--surface)),var(--surface) 70%)}
+.level{background:linear-gradient(160deg,color-mix(in srgb,var(--welt) 14%,var(--surface)),var(--surface) 70%)}
+.mode{background:linear-gradient(160deg,color-mix(in srgb,var(--c,var(--welt)) 12%,var(--surface)),var(--surface) 70%)}
+.mode.test{background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 26%,var(--surface)),var(--surface) 75%)!important}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.thema,.kanton,.bereich,.level,.mode{animation:fadeUp .45s ease both}
+.themen>:nth-child(2),.kantone>:nth-child(2),.bereiche>:nth-child(2){animation-delay:.05s}
+.themen>:nth-child(3),.kantone>:nth-child(3),.bereiche>:nth-child(3){animation-delay:.1s}
+.themen>:nth-child(4),.kantone>:nth-child(4),.bereiche>:nth-child(4){animation-delay:.15s}
+.themen>:nth-child(n+5),.kantone>:nth-child(n+5){animation-delay:.2s}
+@media (prefers-reduced-motion:reduce){.thema,.kanton,.bereich,.level,.mode{animation:none}}
+
+/* Durchgehender Farbverlauf über den ganzen Schriftzug */
+.wordmark{background:linear-gradient(90deg,#2B4BF2 0%,#5B45EE 22%,#8A3FE0 42%,#E043B8 64%,#FF7A3D 84%,#FFB800 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.wordmark .easy,.wordmark .play,.dark .wordmark .easy{background:none!important;color:transparent!important;-webkit-text-fill-color:transparent}
+.logo .wordmark{display:inline-block}
+.hero .hero-wm{display:inline-block}
 </style>
 </head>
 <body>
@@ -476,26 +513,39 @@ const STUFEN = [
   {id:3, name:"Profis", alter:"15–20 Jahre"}
 ];
 const BEREICHE = [
-  {id:"welt", name:"Welt & Geschichte", emo:"globe", c:"--welt", text:"Wie die Welt wurde, wie sie ist", themen:[
+  {id:"welt", name:"Welt & Geschichte", emo:"globe", c:"--welt", text:"Wie die Welt wurde, wie sie ist", desc:"Reise durch die Zeit – vom Urknall über die Antike bis heute. Entdecke, wie Länder regiert werden, woran Menschen glauben und wie die Schweiz mit ihren 26 Kantonen entstanden ist.", themen:[
     {id:"geschichte", name:"Geschichte", emo:"castle", text:"Vom Urknall bis heute – und die Schweiz", menu:"geschmenu"},
-    {id:"politik", name:"Politik & Demokratie", emo:"ballot", text:"Wie die Schweiz entscheidet"},
-    {id:"religion", name:"Religion", emo:"dove", text:"Glaube, Feste und Traditionen"},
+    {id:"politik", name:"Politik", emo:"ballot", text:"Weltpolitik, Demokratie, Kommunismus, Diktatur", menu:"submenu", kids:["pol_welt","pol_demokratie","pol_kommunismus","pol_diktatur"]},
+    {id:"religion", name:"Religion", emo:"dove", text:"Christentum, Islam und weitere Religionen", menu:"submenu", kids:["rel_christentum","rel_islam","rel_andere"]},
     {id:"bilder", name:"Bilder-Quiz", emo:"image", text:"Wappen, Flaggen und Tiere erkennen"}]},
-  {id:"natur", name:"Natur & Wissen", emo:"microscope", c:"--natur", text:"Tiere, Pflanzen, Körper, Weltall", themen:[
-    {id:"naturtiere", name:"Natur & Tiere", emo:"fox", text:"Pflanzen, Tiere, Klima"},
-    {id:"wissenschaft", name:"Wissenschaft & Körper", emo:"atom", text:"Wie Dinge funktionieren"},
+  {id:"natur", name:"Natur & Wissen", emo:"microscope", c:"--natur", text:"Tiere, Pflanzen, Körper, Weltall", desc:"Wie funktioniert die Welt? Hier geht es um Pflanzen, Tiere und das Wetter, um Planeten und Klima, um deinen eigenen Körper und um spannende Entdeckungen aus Wissenschaft und Physik.", themen:[
+    {id:"natur", name:"Natur", emo:"tree", text:"Pflanzen, Wetter, Klima, Weltall"},
+    {id:"tiere", name:"Tiere", emo:"fox", text:"Säugetiere, Vögel, Insekten und mehr"},
+    {id:"wissenschaft", name:"Wissenschaft", emo:"flask", text:"Forschung, Chemie und Erfindungen"},
+    {id:"koerper", name:"Körper", emo:"muscle", text:"Organe, Sinne und Gesundheit"},
     {id:"physik", name:"Physik", emo:"bolt", text:"Kräfte, Licht, Strom und Energie"}]},
-  {id:"geld", name:"Schweiz, Geld & Leben", emo:"flag", c:"--geld", text:"Was man fürs Leben in der Schweiz wissen muss", themen:[
+  {id:"geld", name:"Schweiz, Geld & Leben", emo:"flag", c:"--geld", text:"Was man fürs Leben in der Schweiz wissen muss", desc:"Alles, was man als junger Mensch in der Schweiz wissen sollte: klug mit Geld umgehen, Bankkonto und Karten, Steuern und Krankenkasse, Social Media – und welche Lehre zu dir passt.", themen:[
     {id:"geld", name:"Umgang mit Geld", emo:"coin", text:"Sparen, Budget, Schulden"},
     {id:"banken", name:"Banken", emo:"bank", text:"Konto, Karte, Sicherheit"},
     {id:"steuern", name:"Steuern", emo:"receipt", text:"Wofür und wie man zahlt"},
     {id:"krankenkasse", name:"Krankenkasse", emo:"health", text:"Prämie, Franchise, Versicherung"},
     {id:"medien", name:"Medien & Social Media", emo:"phone", text:"TikTok & Co. clever nutzen"},
     {id:"beruf", name:"Berufswahl & Lehre", emo:"toolbox", text:"Welche Lehre passt zu mir?"}]},
-  {id:"alltag", name:"Alltag", emo:"bike", c:"--alltag", text:"Sicher und clever durch den Tag", themen:[
+  {id:"alltag", name:"Alltag", emo:"bike", c:"--alltag", text:"Sicher und clever durch den Tag", desc:"Sicher und clever durch den Tag: Verhalten im Strassenverkehr, Notrufnummern, Wohnen und Versicherungen, Abfall und Recycling sowie viele praktische Tipps für jeden Tag.", themen:[
     {id:"alltag", name:"Alltägliches", emo:"house", text:"Verkehr, Notfall, Wohnen, Internet"}]}
 ];
 const THEMA = {}; BEREICHE.forEach(b=>b.themen.forEach(t=>THEMA[t.id]={...t,bereich:b}));
+const SUBTHEMEN = [
+  {id:"pol_welt", name:"Weltpolitik", emo:"world", text:"UNO, EU und internationale Zusammenarbeit", parent:"submenu:politik"},
+  {id:"pol_demokratie", name:"Demokratie", emo:"ballot", text:"Wie die Schweiz entscheidet", parent:"submenu:politik"},
+  {id:"pol_kommunismus", name:"Kommunismus", emo:"redbook", text:"Idee, Geschichte und Staaten", parent:"submenu:politik"},
+  {id:"pol_diktatur", name:"Diktatur", emo:"chains", text:"Macht ohne Kontrolle – und wie man sie erkennt", parent:"submenu:politik"},
+  {id:"rel_christentum", name:"Christentum", emo:"church", text:"Bibel, Feste, Kirchen und Reformation", parent:"submenu:religion"},
+  {id:"rel_islam", name:"Islam", emo:"mosque", text:"Koran, Ramadan und die fünf Säulen", parent:"submenu:religion"},
+  {id:"rel_andere", name:"Weitere Religionen", emo:"pray", text:"Judentum, Hinduismus, Buddhismus und mehr", parent:"submenu:religion"}
+];
+SUBTHEMEN.forEach(t=>{ THEMA[t.id]={...t, bereich:BEREICHE[0]}; });
+const ALIAS = {politik:"pol_demokratie", religion:"rel_andere", naturtiere:"natur"};
 
 // Fragen: t=Thema, l=Stufe, q=Frage, a=Antworten (erste ist richtig), e=Erklärung, m=Merksatz
 const FRAGEN = [
@@ -507,20 +557,20 @@ const FRAGEN = [
  {t:"ch_geschichte",l:3,q:"Seit wann dürfen Frauen in der Schweiz auf Bundesebene abstimmen und wählen?",a:["Seit 1971","Seit 1848","Seit 1919","Seit 2000"],e:"Die Schweizer Männer stimmten 1971 zu, dass Frauen national mitbestimmen dürfen – im Vergleich zu vielen Ländern Europas sehr spät. Im Kanton Appenzell Innerrhoden kam das kantonale Stimmrecht erst 1990, nach einem Entscheid des Bundesgerichts.",m:"Frauenstimmrecht national: 1971."},
  {t:"g_neuzeit",l:3,q:"Welches Ereignis von 1989 wurde zum Symbol für das Ende des Kalten Krieges?",a:["Der Fall der Berliner Mauer","Die Mondlandung","Der Beginn des Ersten Weltkriegs","Die Gründung der UNO"],e:"Die Berliner Mauer trennte Ost- und Westberlin. Als sie im November 1989 geöffnet wurde, war das der Anfang vom Ende der Teilung Europas in Ost und West.",m:"1989: Die Mauer fällt."},
  // Politik
- {t:"politik",l:1,q:"Wie viele Landessprachen hat die Schweiz?",a:["Vier","Zwei","Drei","Sechs"],e:"In der Schweiz gibt es vier Landessprachen: Deutsch, Französisch, Italienisch und Rätoromanisch. Rätoromanisch wird vor allem in Graubünden gesprochen.",m:"Deutsch, Französisch, Italienisch, Rätoromanisch."},
- {t:"politik",l:2,q:"Wie viele Mitglieder hat der Bundesrat, die Regierung der Schweiz?",a:["Sieben","Fünf","Neun","Zwölf"],e:"Der Bundesrat besteht aus sieben Mitgliedern. Sie leiten gemeinsam das Land, und jedes Mitglied führt ein Departement, zum Beispiel für Finanzen oder Verteidigung.",m:"Bundesrat = 7 Mitglieder."},
- {t:"politik",l:2,q:"Was ist der Unterschied zwischen Wählen und Abstimmen?",a:["Beim Wählen bestimmt man Personen, beim Abstimmen entscheidet man über eine Sachfrage","Es gibt keinen Unterschied","Abstimmen machen nur Politiker","Wählen gibt es nur in den Gemeinden"],e:"Bei Wahlen bestimmst du, wer dich vertritt, zum Beispiel im Nationalrat. Bei Abstimmungen sagst du selbst Ja oder Nein zu einem Thema. In der Schweiz passiert das mehrmals pro Jahr.",m:"Wählen = Personen. Abstimmen = Sachfragen."},
- {t:"politik",l:3,q:"Wie viele Unterschriften braucht eine eidgenössische Volksinitiative?",a:["100'000 in 18 Monaten","50'000 in 100 Tagen","10'000 in einem Jahr","1 Million ohne Frist"],e:"Mit einer Volksinitiative können Bürgerinnen und Bürger eine Änderung der Bundesverfassung vorschlagen. Kommen innert 18 Monaten 100'000 gültige Unterschriften zusammen, stimmt das ganze Volk darüber ab.",m:"Initiative: 100'000 Unterschriften, 18 Monate."},
- {t:"politik",l:3,q:"Ab welchem Alter darf man in der Schweiz bei eidgenössischen Abstimmungen mitmachen?",a:["Ab 18","Ab 16","Ab 20","Ab 21"],e:"Auf Bundesebene gilt das Stimmrechtsalter 18. Der Kanton Glarus erlaubt schon ab 16 die Mitbestimmung bei kantonalen und kommunalen Fragen.",m:"National: ab 18."},
+ {t:"pol_demokratie",l:1,q:"Wie viele Landessprachen hat die Schweiz?",a:["Vier","Zwei","Drei","Sechs"],e:"In der Schweiz gibt es vier Landessprachen: Deutsch, Französisch, Italienisch und Rätoromanisch. Rätoromanisch wird vor allem in Graubünden gesprochen.",m:"Deutsch, Französisch, Italienisch, Rätoromanisch."},
+ {t:"pol_demokratie",l:2,q:"Wie viele Mitglieder hat der Bundesrat, die Regierung der Schweiz?",a:["Sieben","Fünf","Neun","Zwölf"],e:"Der Bundesrat besteht aus sieben Mitgliedern. Sie leiten gemeinsam das Land, und jedes Mitglied führt ein Departement, zum Beispiel für Finanzen oder Verteidigung.",m:"Bundesrat = 7 Mitglieder."},
+ {t:"pol_demokratie",l:2,q:"Was ist der Unterschied zwischen Wählen und Abstimmen?",a:["Beim Wählen bestimmt man Personen, beim Abstimmen entscheidet man über eine Sachfrage","Es gibt keinen Unterschied","Abstimmen machen nur Politiker","Wählen gibt es nur in den Gemeinden"],e:"Bei Wahlen bestimmst du, wer dich vertritt, zum Beispiel im Nationalrat. Bei Abstimmungen sagst du selbst Ja oder Nein zu einem Thema. In der Schweiz passiert das mehrmals pro Jahr.",m:"Wählen = Personen. Abstimmen = Sachfragen."},
+ {t:"pol_demokratie",l:3,q:"Wie viele Unterschriften braucht eine eidgenössische Volksinitiative?",a:["100'000 in 18 Monaten","50'000 in 100 Tagen","10'000 in einem Jahr","1 Million ohne Frist"],e:"Mit einer Volksinitiative können Bürgerinnen und Bürger eine Änderung der Bundesverfassung vorschlagen. Kommen innert 18 Monaten 100'000 gültige Unterschriften zusammen, stimmt das ganze Volk darüber ab.",m:"Initiative: 100'000 Unterschriften, 18 Monate."},
+ {t:"pol_demokratie",l:3,q:"Ab welchem Alter darf man in der Schweiz bei eidgenössischen Abstimmungen mitmachen?",a:["Ab 18","Ab 16","Ab 20","Ab 21"],e:"Auf Bundesebene gilt das Stimmrechtsalter 18. Der Kanton Glarus erlaubt schon ab 16 die Mitbestimmung bei kantonalen und kommunalen Fragen.",m:"National: ab 18."},
  // Religion
- {t:"religion",l:1,q:"Welches Fest feiern Christinnen und Christen zur Geburt von Jesus?",a:["Weihnachten","Ostern","Pfingsten","Halloween"],e:"An Weihnachten erinnern sich Christinnen und Christen an die Geburt von Jesus. Ostern ist ein anderes wichtiges Fest: Es erinnert an seine Auferstehung.",m:"Weihnachten = Geburt von Jesus."},
- {t:"religion",l:1,q:"Wie heisst das Gotteshaus der Musliminnen und Muslime?",a:["Moschee","Kirche","Synagoge","Tempel"],e:"Musliminnen und Muslime beten gemeinsam in einer Moschee. Christen gehen in die Kirche, Jüdinnen und Juden in die Synagoge.",m:"Moschee – Kirche – Synagoge."},
- {t:"religion",l:2,q:"Welche fünf Religionen werden oft als die grossen Weltreligionen bezeichnet?",a:["Judentum, Christentum, Islam, Hinduismus, Buddhismus","Christentum, Islam, Wikingerglaube, Hinduismus, Buddhismus","Judentum, Christentum, Islam, Olympia, Buddhismus","Nur Christentum und Islam"],e:"Diese fünf Religionen haben weltweit viele Anhängerinnen und Anhänger und eine lange Geschichte. Daneben gibt es noch viele weitere Religionen und Menschen ohne Religion.",m:"Judentum, Christentum, Islam, Hinduismus, Buddhismus."},
- {t:"religion",l:2,q:"Wie heisst das Fest am Ende des Fastenmonats Ramadan?",a:["Zuckerfest (Eid al-Fitr)","Chanukka","Diwali","Erntedank"],e:"Im Ramadan fasten viele Musliminnen und Muslime tagsüber. Am Ende feiern sie das Zuckerfest mit Familie, Besuchen und Süssigkeiten.",m:"Ende des Ramadan = Zuckerfest."},
- {t:"religion",l:2,q:"Wie heisst die heilige Schrift des Judentums, die die fünf Bücher Mose enthält?",a:["Tora","Koran","Veden","Bhagavad Gita"],e:"Die Tora ist der wichtigste Teil der jüdischen Bibel. In der Synagoge wird sie aus einer handgeschriebenen Schriftrolle vorgelesen.",m:"Tora = heilige Schrift des Judentums."},
- {t:"religion",l:3,q:"Wer gilt als Begründer des Buddhismus?",a:["Siddhartha Gautama, genannt Buddha","Konfuzius","Mose","Martin Luther"],e:"Siddhartha Gautama lebte vor rund 2500 Jahren in Indien. Nach der Überlieferung erlangte er die «Erleuchtung» und wurde darum Buddha genannt – «der Erwachte».",m:"Buddha = Siddhartha Gautama."},
- {t:"religion",l:3,q:"Welcher Reformator wirkte ab 1519 am Grossmünster in Zürich?",a:["Huldrych Zwingli","Johannes Calvin","Martin Luther","Niklaus von Flüe"],e:"Zwingli prägte die Reformation in Zürich. Calvin wirkte später in Genf, Luther in Deutschland. Deshalb ist ein grosser Teil der Schweiz reformiert geprägt.",m:"Zürich: Zwingli. Genf: Calvin."},
- {t:"religion",l:3,q:"Was bedeutet Glaubens- und Gewissensfreiheit in der Schweiz?",a:["Jede Person darf ihre Religion frei wählen, ausüben – oder keine haben","Alle müssen derselben Religion angehören","Nur Erwachsene über 30 dürfen glauben, was sie wollen","Religion ist in der Schweiz verboten"],e:"Die Bundesverfassung schützt die Glaubens- und Gewissensfreiheit. Niemand darf gezwungen werden, einer Religion beizutreten oder an religiösen Handlungen teilzunehmen.",m:"Glauben ist frei – auch nicht zu glauben."},
+ {t:"rel_christentum",l:1,q:"Welches Fest feiern Christinnen und Christen zur Geburt von Jesus?",a:["Weihnachten","Ostern","Pfingsten","Halloween"],e:"An Weihnachten erinnern sich Christinnen und Christen an die Geburt von Jesus. Ostern ist ein anderes wichtiges Fest: Es erinnert an seine Auferstehung.",m:"Weihnachten = Geburt von Jesus."},
+ {t:"rel_islam",l:1,q:"Wie heisst das Gotteshaus der Musliminnen und Muslime?",a:["Moschee","Kirche","Synagoge","Tempel"],e:"Musliminnen und Muslime beten gemeinsam in einer Moschee. Christen gehen in die Kirche, Jüdinnen und Juden in die Synagoge.",m:"Moschee – Kirche – Synagoge."},
+ {t:"rel_andere",l:2,q:"Welche fünf Religionen werden oft als die grossen Weltreligionen bezeichnet?",a:["Judentum, Christentum, Islam, Hinduismus, Buddhismus","Christentum, Islam, Wikingerglaube, Hinduismus, Buddhismus","Judentum, Christentum, Islam, Olympia, Buddhismus","Nur Christentum und Islam"],e:"Diese fünf Religionen haben weltweit viele Anhängerinnen und Anhänger und eine lange Geschichte. Daneben gibt es noch viele weitere Religionen und Menschen ohne Religion.",m:"Judentum, Christentum, Islam, Hinduismus, Buddhismus."},
+ {t:"rel_islam",l:2,q:"Wie heisst das Fest am Ende des Fastenmonats Ramadan?",a:["Zuckerfest (Eid al-Fitr)","Chanukka","Diwali","Erntedank"],e:"Im Ramadan fasten viele Musliminnen und Muslime tagsüber. Am Ende feiern sie das Zuckerfest mit Familie, Besuchen und Süssigkeiten.",m:"Ende des Ramadan = Zuckerfest."},
+ {t:"rel_andere",l:2,q:"Wie heisst die heilige Schrift des Judentums, die die fünf Bücher Mose enthält?",a:["Tora","Koran","Veden","Bhagavad Gita"],e:"Die Tora ist der wichtigste Teil der jüdischen Bibel. In der Synagoge wird sie aus einer handgeschriebenen Schriftrolle vorgelesen.",m:"Tora = heilige Schrift des Judentums."},
+ {t:"rel_andere",l:3,q:"Wer gilt als Begründer des Buddhismus?",a:["Siddhartha Gautama, genannt Buddha","Konfuzius","Mose","Martin Luther"],e:"Siddhartha Gautama lebte vor rund 2500 Jahren in Indien. Nach der Überlieferung erlangte er die «Erleuchtung» und wurde darum Buddha genannt – «der Erwachte».",m:"Buddha = Siddhartha Gautama."},
+ {t:"rel_christentum",l:3,q:"Welcher Reformator wirkte ab 1519 am Grossmünster in Zürich?",a:["Huldrych Zwingli","Johannes Calvin","Martin Luther","Niklaus von Flüe"],e:"Zwingli prägte die Reformation in Zürich. Calvin wirkte später in Genf, Luther in Deutschland. Deshalb ist ein grosser Teil der Schweiz reformiert geprägt.",m:"Zürich: Zwingli. Genf: Calvin."},
+ {t:"rel_andere",l:3,q:"Was bedeutet Glaubens- und Gewissensfreiheit in der Schweiz?",a:["Jede Person darf ihre Religion frei wählen, ausüben – oder keine haben","Alle müssen derselben Religion angehören","Nur Erwachsene über 30 dürfen glauben, was sie wollen","Religion ist in der Schweiz verboten"],e:"Die Bundesverfassung schützt die Glaubens- und Gewissensfreiheit. Niemand darf gezwungen werden, einer Religion beizutreten oder an religiösen Handlungen teilzunehmen.",m:"Glauben ist frei – auch nicht zu glauben."},
  // Physik
  {t:"physik",l:1,q:"Was passiert mit Wasser, wenn es unter 0 °C kalt wird?",a:["Es gefriert zu Eis","Es wird zu Dampf","Es wird zu Sand","Es verschwindet"],e:"Wasser hat drei Zustände: fest (Eis), flüssig (Wasser) und gasförmig (Dampf). Unter 0 °C wird flüssiges Wasser fest – es gefriert.",m:"Unter 0 °C: Wasser wird Eis."},
  {t:"physik",l:1,q:"Welche Pole von zwei Magneten ziehen sich an?",a:["Nordpol und Südpol","Nordpol und Nordpol","Südpol und Südpol","Keine"],e:"Jeder Magnet hat einen Nord- und einen Südpol. Ungleiche Pole ziehen sich an, gleiche Pole stossen sich ab.",m:"Ungleich zieht an, gleich stösst ab."},
@@ -549,16 +599,16 @@ const FRAGEN = [
  {t:"beruf",l:3,q:"Was ermöglicht dir die Berufsmaturität?",a:["Ein Studium an einer Fachhochschule, ohne Aufnahmeprüfung","Nichts Zusätzliches","Nur den Autoführerschein","Einen höheren Lohn ab dem ersten Tag"],e:"Die Berufsmaturität kannst du während oder nach der Lehre machen. Damit steht dir die Fachhochschule offen, mit einer Zusatzprüfung (Passerelle) sogar die Universität. Eine Lehre ist also kein Sackgassenweg.",m:"Lehre + BM = Tür zur Fachhochschule."},
  {t:"beruf",l:3,q:"Wo findest du in der Schweiz offizielle Infos zu Berufen und offene Lehrstellen?",a:["Auf berufsberatung.ch und bei der Berufsberatung deines Kantons","Nur in Social-Media-Kommentaren","Nur im Telefonbuch","Nirgends, man muss raten"],e:"Auf berufsberatung.ch findest du Beschreibungen zu allen Lehrberufen und den Lehrstellennachweis. Die kantonale Berufsberatung, oft BIZ genannt, berät dich kostenlos persönlich.",m:"berufsberatung.ch + BIZ im Kanton."},
  // Natur & Tiere
- {t:"naturtiere",l:1,q:"Welches dieser Tiere ist ein Säugetier?",a:["Delfin","Hai","Pinguin","Frosch"],e:"Der Delfin lebt im Meer, ist aber kein Fisch: Er atmet Luft mit der Lunge, bringt lebende Junge zur Welt und säugt sie mit Milch. Genau das macht ein Säugetier aus.",m:"Säugetiere säugen ihre Jungen mit Milch."},
- {t:"naturtiere",l:1,q:"Was brauchen Pflanzen, um selbst Nahrung herzustellen?",a:["Licht, Wasser und Luft","Nur Erde","Musik","Dunkelheit"],e:"Pflanzen machen mit Sonnenlicht, Wasser und Kohlendioxid aus der Luft Zucker. Das nennt man Photosynthese. Dabei geben sie Sauerstoff ab, den wir atmen.",m:"Photosynthese: Licht + Wasser + CO₂ → Zucker + Sauerstoff."},
- {t:"naturtiere",l:2,q:"Wie viele Planeten gibt es in unserem Sonnensystem?",a:["Acht","Neun","Sieben","Zwölf"],e:"Merkur, Venus, Erde, Mars, Jupiter, Saturn, Uranus und Neptun. Pluto galt früher als neunter Planet, zählt aber seit 2006 als Zwergplanet.",m:"8 Planeten – Pluto ist ein Zwergplanet."},
- {t:"naturtiere",l:2,q:"Warum sind Bienen für uns so wichtig?",a:["Sie bestäuben viele Pflanzen, die uns Nahrung liefern","Sie fressen Schädlinge","Sie reinigen das Wasser","Sie machen den Boden weich"],e:"Beim Sammeln tragen Bienen Blütenstaub von Blüte zu Blüte. Erst dadurch entstehen bei vielen Pflanzen Früchte, zum Beispiel Äpfel oder Kirschen.",m:"Bienen bestäuben – ohne sie weniger Früchte."},
- {t:"naturtiere",l:3,q:"Was ist die Hauptursache des heutigen Klimawandels?",a:["Treibhausgase aus menschlichen Tätigkeiten, vor allem durch Verbrennen von Kohle, Öl und Gas","Mehr Sonnenflecken","Vulkanausbrüche","Die Erdrotation wird langsamer"],e:"Beim Verbrennen fossiler Brennstoffe entsteht CO₂. Es wirkt in der Atmosphäre wie eine Decke und hält Wärme zurück. Darum wird es auf der Erde wärmer – in den Alpen sieht man das zum Beispiel am Schmelzen der Gletscher.",m:"Mehr CO₂ → mehr Wärme bleibt auf der Erde."},
+ {t:"tiere",l:1,q:"Welches dieser Tiere ist ein Säugetier?",a:["Delfin","Hai","Pinguin","Frosch"],e:"Der Delfin lebt im Meer, ist aber kein Fisch: Er atmet Luft mit der Lunge, bringt lebende Junge zur Welt und säugt sie mit Milch. Genau das macht ein Säugetier aus.",m:"Säugetiere säugen ihre Jungen mit Milch."},
+ {t:"natur",l:1,q:"Was brauchen Pflanzen, um selbst Nahrung herzustellen?",a:["Licht, Wasser und Luft","Nur Erde","Musik","Dunkelheit"],e:"Pflanzen machen mit Sonnenlicht, Wasser und Kohlendioxid aus der Luft Zucker. Das nennt man Photosynthese. Dabei geben sie Sauerstoff ab, den wir atmen.",m:"Photosynthese: Licht + Wasser + CO₂ → Zucker + Sauerstoff."},
+ {t:"natur",l:2,q:"Wie viele Planeten gibt es in unserem Sonnensystem?",a:["Acht","Neun","Sieben","Zwölf"],e:"Merkur, Venus, Erde, Mars, Jupiter, Saturn, Uranus und Neptun. Pluto galt früher als neunter Planet, zählt aber seit 2006 als Zwergplanet.",m:"8 Planeten – Pluto ist ein Zwergplanet."},
+ {t:"tiere",l:2,q:"Warum sind Bienen für uns so wichtig?",a:["Sie bestäuben viele Pflanzen, die uns Nahrung liefern","Sie fressen Schädlinge","Sie reinigen das Wasser","Sie machen den Boden weich"],e:"Beim Sammeln tragen Bienen Blütenstaub von Blüte zu Blüte. Erst dadurch entstehen bei vielen Pflanzen Früchte, zum Beispiel Äpfel oder Kirschen.",m:"Bienen bestäuben – ohne sie weniger Früchte."},
+ {t:"natur",l:3,q:"Was ist die Hauptursache des heutigen Klimawandels?",a:["Treibhausgase aus menschlichen Tätigkeiten, vor allem durch Verbrennen von Kohle, Öl und Gas","Mehr Sonnenflecken","Vulkanausbrüche","Die Erdrotation wird langsamer"],e:"Beim Verbrennen fossiler Brennstoffe entsteht CO₂. Es wirkt in der Atmosphäre wie eine Decke und hält Wärme zurück. Darum wird es auf der Erde wärmer – in den Alpen sieht man das zum Beispiel am Schmelzen der Gletscher.",m:"Mehr CO₂ → mehr Wärme bleibt auf der Erde."},
  // Wissenschaft & Körper
- {t:"wissenschaft",l:1,q:"Welches Organ pumpt das Blut durch deinen Körper?",a:["Das Herz","Die Lunge","Der Magen","Das Gehirn"],e:"Das Herz ist ein starker Muskel. Es schlägt ohne Pause und pumpt das Blut durch die Adern, damit alle Teile deines Körpers Sauerstoff bekommen.",m:"Herz = Pumpe des Körpers."},
+ {t:"koerper",l:1,q:"Welches Organ pumpt das Blut durch deinen Körper?",a:["Das Herz","Die Lunge","Der Magen","Das Gehirn"],e:"Das Herz ist ein starker Muskel. Es schlägt ohne Pause und pumpt das Blut durch die Adern, damit alle Teile deines Körpers Sauerstoff bekommen.",m:"Herz = Pumpe des Körpers."},
  {t:"wissenschaft",l:2,q:"Warum fällt ein Apfel vom Baum nach unten?",a:["Wegen der Schwerkraft","Wegen des Windes","Weil er zu schwer für die Luft ist","Wegen des Magnetfelds"],e:"Die Erde zieht alle Dinge zu sich hin. Diese Anziehungskraft heisst Schwerkraft. Sie hält auch uns am Boden und den Mond in seiner Bahn.",m:"Schwerkraft zieht alles zur Erde."},
  {t:"wissenschaft",l:2,q:"Bei wie viel Grad Celsius kocht Wasser auf Meereshöhe?",a:["100 °C","50 °C","80 °C","150 °C"],e:"Auf Meereshöhe siedet Wasser bei 100 °C. Auf einem hohen Berg ist der Luftdruck tiefer – dort kocht Wasser schon bei weniger Grad.",m:"Wasser siedet bei 100 °C (auf Meereshöhe)."},
- {t:"wissenschaft",l:3,q:"Wo ist in einer menschlichen Zelle die Erbinformation (DNA) hauptsächlich gespeichert?",a:["Im Zellkern","In der Zellmembran","Im Blutplasma","In den Knochen"],e:"Die DNA ist wie eine Bauanleitung für den Körper. Sie liegt vor allem im Zellkern, gut geschützt. Bei jeder Zellteilung wird sie kopiert.",m:"DNA = Bauanleitung, liegt im Zellkern."},
+ {t:"koerper",l:3,q:"Wo ist in einer menschlichen Zelle die Erbinformation (DNA) hauptsächlich gespeichert?",a:["Im Zellkern","In der Zellmembran","Im Blutplasma","In den Knochen"],e:"Die DNA ist wie eine Bauanleitung für den Körper. Sie liegt vor allem im Zellkern, gut geschützt. Bei jeder Zellteilung wird sie kopiert.",m:"DNA = Bauanleitung, liegt im Zellkern."},
  // Umgang mit Geld
  {t:"geld",l:1,q:"Wie heisst das Geld in der Schweiz?",a:["Schweizer Franken","Euro","Dollar","Taler"],e:"In der Schweiz bezahlt man mit Schweizer Franken, kurz CHF. Ein Franken hat 100 Rappen.",m:"1 Franken = 100 Rappen."},
  {t:"geld",l:1,q:"Du bekommst jede Woche 5 Franken und wünschst dir ein Spiel für 20 Franken. Was hilft?",a:["Einige Wochen sparen","Alles sofort für Süssigkeiten ausgeben","Das Geld verstecken und vergessen","Nichts, es geht nie"],e:"Wenn du jede Woche dein Taschengeld beiseitelegst, hast du nach vier Wochen 20 Franken zusammen. Sparen heisst: jetzt verzichten, um später etwas Grösseres zu kaufen.",m:"Sparen = heute zurücklegen, später mehr haben."},
@@ -638,57 +688,57 @@ const FRAGEN2 = [
  {t:"g_neuzeit",l:3,s:"Industrielle Revolution",q:"Was versteht man unter der Industriellen Revolution?",a:["Den Übergang zur Arbeit mit Maschinen und Fabriken ab dem 18. Jahrhundert","Eine Revolution gegen den König von Frankreich","Die Erfindung des Internets","Die Gründung der ersten Städte"],e:"Ab dem 18. Jahrhundert, zuerst in England, ersetzten Maschinen wie die Dampfmaschine viel Handarbeit. Es entstanden Fabriken, Eisenbahnen und neue Städte. Auch die Schweiz, etwa mit Textil- und Maschinenindustrie, wurde stark verändert.",m:"Industrielle Revolution = Maschinen und Fabriken."},
  {t:"ch_geschichte",l:3,s:"Henry Dunant",q:"Wer gab den Anstoss zur Gründung des Roten Kreuzes?",a:["Der Genfer Henry Dunant","Albert Einstein","Napoleon","Florence Nightingale"],e:"Henry Dunant erlebte 1859 die Schlacht von Solferino und sah das Leid der Verwundeten. Sein Buch darüber führte 1863 in Genf zur Gründung des Roten Kreuzes. 1901 erhielt er den ersten Friedensnobelpreis.",m:"Dunant = Rotes Kreuz, Genf."},
  // ===== Politik =====
- {t:"politik",l:1,s:"Flagge der Schweiz",q:"Wie sieht die Schweizer Fahne aus?",a:["Weisses Kreuz auf rotem Grund","Rotes Kreuz auf weissem Grund","Blau-weiss gestreift","Grün mit einem Stern"],e:"Die Schweizer Fahne zeigt ein weisses Kreuz auf rotem Grund und ist quadratisch – das ist selten. Das Rote Kreuz hat übrigens die Farben umgekehrt, als Ehrung für die Schweiz.",m:"Weiss auf Rot – und quadratisch."},
- {t:"politik",l:1,s:"Kanton (Schweiz)",q:"Wie viele Kantone hat die Schweiz?",a:["26","20","12","50"],e:"Die Schweiz besteht aus 26 Kantonen. Jeder Kanton hat eine eigene Regierung, ein eigenes Parlament und eigene Gesetze, zum Beispiel für die Schulen.",m:"26 Kantone."},
- {t:"politik",l:1,s:"Schweizer Bundesfeier",q:"An welchem Tag feiert die Schweiz ihren Nationalfeiertag?",a:["Am 1. August","Am 1. Mai","Am 24. Dezember","Am 1. Januar"],e:"Am 1. August erinnert man an den Bundesbrief von 1291. Überall gibt es Feuer, Feuerwerk und Reden.",m:"1. August = Bundesfeier."},
- {t:"politik",l:2,s:"Bundesversammlung (Schweiz)",q:"Aus welchen zwei Kammern besteht das Schweizer Parlament?",a:["Nationalrat und Ständerat","Bundesrat und Gemeinderat","Senat und Unterhaus","Grosser Rat und Kleiner Rat"],e:"Das Parlament heisst Bundesversammlung. Der Nationalrat vertritt das Volk, der Ständerat die Kantone. Neue Gesetze brauchen die Zustimmung beider Kammern.",m:"Nationalrat = Volk, Ständerat = Kantone."},
- {t:"politik",l:2,s:"Nationalrat (Schweiz)",q:"Wie viele Mitglieder hat der Nationalrat?",a:["200","46","7","100"],e:"Der Nationalrat hat 200 Sitze. Grosse Kantone mit vielen Einwohnern haben mehr Sitze als kleine. Er wird alle vier Jahre neu gewählt.",m:"Nationalrat = 200 Sitze."},
- {t:"politik",l:2,s:"Bundesrat (Schweiz)",q:"Wer wählt die Mitglieder des Bundesrates?",a:["Die Vereinigte Bundesversammlung","Das Volk direkt","Die Kantone","Der Bundespräsident"],e:"Nationalrat und Ständerat kommen zusammen und wählen als Vereinigte Bundesversammlung die sieben Bundesratsmitglieder. Das Volk wählt den Bundesrat also nicht direkt.",m:"Das Parlament wählt den Bundesrat."},
- {t:"politik",l:2,s:"Gemeindeversammlung",q:"Was passiert an einer Gemeindeversammlung?",a:["Die Stimmberechtigten einer Gemeinde entscheiden direkt über Geschäfte","Der Bundesrat trifft sich","Die Polizei hält eine Übung ab","Es werden Kantone gegründet"],e:"In vielen Gemeinden, vor allem kleineren, gibt es kein Gemeindeparlament. Dort treffen sich die Stimmberechtigten und entscheiden zum Beispiel über das Budget oder ein neues Schulhaus.",m:"Gemeindeversammlung = direkte Demokratie vor Ort."},
- {t:"politik",l:3,s:"Referendum (Schweiz)",q:"Wie viele Unterschriften braucht ein fakultatives Referendum gegen ein Bundesgesetz?",a:["50'000 in 100 Tagen","100'000 in 18 Monaten","10'000 in 30 Tagen","200'000 in einem Jahr"],e:"Mit dem fakultativen Referendum kann das Volk ein vom Parlament beschlossenes Gesetz zur Abstimmung bringen. Dafür braucht es 50'000 Unterschriften innert 100 Tagen – oder die Unterstützung von acht Kantonen.",m:"Referendum: 50'000 Unterschriften, 100 Tage."},
- {t:"politik",l:3,s:"Volksinitiative (Schweiz)",q:"Was braucht eine eidgenössische Volksinitiative, damit sie angenommen ist?",a:["Das Volksmehr und das Ständemehr","Nur die Mehrheit im Kanton Bern","Die Zustimmung des Bundesrates","Zwei Drittel aller Stimmen"],e:"Weil eine Initiative die Verfassung ändert, braucht sie ein doppeltes Ja: die Mehrheit der Stimmenden in der ganzen Schweiz (Volksmehr) und die Mehrheit der Kantone (Ständemehr).",m:"Initiative = Volksmehr + Ständemehr."},
- {t:"politik",l:3,s:"Ständerat",q:"Wie viele Mitglieder hat der Ständerat?",a:["46","26","200","7"],e:"Die meisten Kantone schicken zwei Mitglieder in den Ständerat, die sechs früheren Halbkantone je eines. Zusammen ergibt das 46.",m:"Ständerat = 46 Sitze."},
- {t:"politik",l:3,s:"Gewaltenteilung",q:"Was bedeutet Gewaltenteilung?",a:["Gesetzgebung, Regierung und Gerichte sind voneinander getrennt","Die Polizei teilt sich die Arbeit","Jeder Kanton hat eine eigene Armee","Nur eine Person entscheidet alles"],e:"Die Macht im Staat ist auf drei Gewalten verteilt: Das Parlament macht Gesetze (Legislative), die Regierung führt sie aus (Exekutive), die Gerichte urteilen (Judikative). So kontrollieren sie sich gegenseitig.",m:"Legislative – Exekutive – Judikative."},
- {t:"politik",l:3,s:"Bundesgericht (Schweiz)",q:"Wo hat das Bundesgericht, das oberste Gericht der Schweiz, seinen Hauptsitz?",a:["In Lausanne","In Bern","In Zürich","In Genf"],e:"Das Bundesgericht hat seinen Sitz in Lausanne, einzelne Abteilungen arbeiten in Luzern. So sind die Bundesbehörden auf verschiedene Landesteile verteilt.",m:"Bundesgericht = Lausanne."},
- {t:"politik",l:3,s:"Landsgemeinde",q:"In welchen Kantonen gibt es heute noch eine Landsgemeinde?",a:["Glarus und Appenzell Innerrhoden","Zürich und Bern","Genf und Waadt","Tessin und Graubünden"],e:"An der Landsgemeinde versammeln sich die Stimmberechtigten unter freiem Himmel und stimmen mit erhobener Hand ab. Diese uralte Form der Demokratie gibt es nur noch in Glarus und Appenzell Innerrhoden.",m:"Landsgemeinde: Glarus und Appenzell Innerrhoden."},
+ {t:"pol_demokratie",l:1,s:"Flagge der Schweiz",q:"Wie sieht die Schweizer Fahne aus?",a:["Weisses Kreuz auf rotem Grund","Rotes Kreuz auf weissem Grund","Blau-weiss gestreift","Grün mit einem Stern"],e:"Die Schweizer Fahne zeigt ein weisses Kreuz auf rotem Grund und ist quadratisch – das ist selten. Das Rote Kreuz hat übrigens die Farben umgekehrt, als Ehrung für die Schweiz.",m:"Weiss auf Rot – und quadratisch."},
+ {t:"pol_demokratie",l:1,s:"Kanton (Schweiz)",q:"Wie viele Kantone hat die Schweiz?",a:["26","20","12","50"],e:"Die Schweiz besteht aus 26 Kantonen. Jeder Kanton hat eine eigene Regierung, ein eigenes Parlament und eigene Gesetze, zum Beispiel für die Schulen.",m:"26 Kantone."},
+ {t:"pol_demokratie",l:1,s:"Schweizer Bundesfeier",q:"An welchem Tag feiert die Schweiz ihren Nationalfeiertag?",a:["Am 1. August","Am 1. Mai","Am 24. Dezember","Am 1. Januar"],e:"Am 1. August erinnert man an den Bundesbrief von 1291. Überall gibt es Feuer, Feuerwerk und Reden.",m:"1. August = Bundesfeier."},
+ {t:"pol_demokratie",l:2,s:"Bundesversammlung (Schweiz)",q:"Aus welchen zwei Kammern besteht das Schweizer Parlament?",a:["Nationalrat und Ständerat","Bundesrat und Gemeinderat","Senat und Unterhaus","Grosser Rat und Kleiner Rat"],e:"Das Parlament heisst Bundesversammlung. Der Nationalrat vertritt das Volk, der Ständerat die Kantone. Neue Gesetze brauchen die Zustimmung beider Kammern.",m:"Nationalrat = Volk, Ständerat = Kantone."},
+ {t:"pol_demokratie",l:2,s:"Nationalrat (Schweiz)",q:"Wie viele Mitglieder hat der Nationalrat?",a:["200","46","7","100"],e:"Der Nationalrat hat 200 Sitze. Grosse Kantone mit vielen Einwohnern haben mehr Sitze als kleine. Er wird alle vier Jahre neu gewählt.",m:"Nationalrat = 200 Sitze."},
+ {t:"pol_demokratie",l:2,s:"Bundesrat (Schweiz)",q:"Wer wählt die Mitglieder des Bundesrates?",a:["Die Vereinigte Bundesversammlung","Das Volk direkt","Die Kantone","Der Bundespräsident"],e:"Nationalrat und Ständerat kommen zusammen und wählen als Vereinigte Bundesversammlung die sieben Bundesratsmitglieder. Das Volk wählt den Bundesrat also nicht direkt.",m:"Das Parlament wählt den Bundesrat."},
+ {t:"pol_demokratie",l:2,s:"Gemeindeversammlung",q:"Was passiert an einer Gemeindeversammlung?",a:["Die Stimmberechtigten einer Gemeinde entscheiden direkt über Geschäfte","Der Bundesrat trifft sich","Die Polizei hält eine Übung ab","Es werden Kantone gegründet"],e:"In vielen Gemeinden, vor allem kleineren, gibt es kein Gemeindeparlament. Dort treffen sich die Stimmberechtigten und entscheiden zum Beispiel über das Budget oder ein neues Schulhaus.",m:"Gemeindeversammlung = direkte Demokratie vor Ort."},
+ {t:"pol_demokratie",l:3,s:"Referendum (Schweiz)",q:"Wie viele Unterschriften braucht ein fakultatives Referendum gegen ein Bundesgesetz?",a:["50'000 in 100 Tagen","100'000 in 18 Monaten","10'000 in 30 Tagen","200'000 in einem Jahr"],e:"Mit dem fakultativen Referendum kann das Volk ein vom Parlament beschlossenes Gesetz zur Abstimmung bringen. Dafür braucht es 50'000 Unterschriften innert 100 Tagen – oder die Unterstützung von acht Kantonen.",m:"Referendum: 50'000 Unterschriften, 100 Tage."},
+ {t:"pol_demokratie",l:3,s:"Volksinitiative (Schweiz)",q:"Was braucht eine eidgenössische Volksinitiative, damit sie angenommen ist?",a:["Das Volksmehr und das Ständemehr","Nur die Mehrheit im Kanton Bern","Die Zustimmung des Bundesrates","Zwei Drittel aller Stimmen"],e:"Weil eine Initiative die Verfassung ändert, braucht sie ein doppeltes Ja: die Mehrheit der Stimmenden in der ganzen Schweiz (Volksmehr) und die Mehrheit der Kantone (Ständemehr).",m:"Initiative = Volksmehr + Ständemehr."},
+ {t:"pol_demokratie",l:3,s:"Ständerat",q:"Wie viele Mitglieder hat der Ständerat?",a:["46","26","200","7"],e:"Die meisten Kantone schicken zwei Mitglieder in den Ständerat, die sechs früheren Halbkantone je eines. Zusammen ergibt das 46.",m:"Ständerat = 46 Sitze."},
+ {t:"pol_demokratie",l:3,s:"Gewaltenteilung",q:"Was bedeutet Gewaltenteilung?",a:["Gesetzgebung, Regierung und Gerichte sind voneinander getrennt","Die Polizei teilt sich die Arbeit","Jeder Kanton hat eine eigene Armee","Nur eine Person entscheidet alles"],e:"Die Macht im Staat ist auf drei Gewalten verteilt: Das Parlament macht Gesetze (Legislative), die Regierung führt sie aus (Exekutive), die Gerichte urteilen (Judikative). So kontrollieren sie sich gegenseitig.",m:"Legislative – Exekutive – Judikative."},
+ {t:"pol_demokratie",l:3,s:"Bundesgericht (Schweiz)",q:"Wo hat das Bundesgericht, das oberste Gericht der Schweiz, seinen Hauptsitz?",a:["In Lausanne","In Bern","In Zürich","In Genf"],e:"Das Bundesgericht hat seinen Sitz in Lausanne, einzelne Abteilungen arbeiten in Luzern. So sind die Bundesbehörden auf verschiedene Landesteile verteilt.",m:"Bundesgericht = Lausanne."},
+ {t:"pol_demokratie",l:3,s:"Landsgemeinde",q:"In welchen Kantonen gibt es heute noch eine Landsgemeinde?",a:["Glarus und Appenzell Innerrhoden","Zürich und Bern","Genf und Waadt","Tessin und Graubünden"],e:"An der Landsgemeinde versammeln sich die Stimmberechtigten unter freiem Himmel und stimmen mit erhobener Hand ab. Diese uralte Form der Demokratie gibt es nur noch in Glarus und Appenzell Innerrhoden.",m:"Landsgemeinde: Glarus und Appenzell Innerrhoden."},
  // ===== Religion =====
- {t:"religion",l:1,s:"Synagoge",q:"Wie heisst das Gotteshaus der Jüdinnen und Juden?",a:["Synagoge","Moschee","Kapelle","Pagode"],e:"In der Synagoge beten Jüdinnen und Juden gemeinsam und lesen aus der Tora. Der wichtigste Tag in der Woche ist der Sabbat, von Freitagabend bis Samstagabend.",m:"Synagoge = jüdisches Gotteshaus."},
- {t:"religion",l:1,s:"Ostern",q:"An welchem christlichen Fest suchen viele Kinder bemalte Eier?",a:["Ostern","Weihnachten","Pfingsten","Allerheiligen"],e:"Ostern ist das wichtigste Fest im Christentum und erinnert an die Auferstehung von Jesus. Eier stehen dabei für neues Leben.",m:"Ostern = Auferstehung, Ostereier."},
- {t:"religion",l:1,s:"Weihnachten",q:"Wo wurde Jesus nach der Weihnachtsgeschichte geboren?",a:["In Bethlehem","In Rom","In Zürich","In Mekka"],e:"Nach der Bibel wurde Jesus in einem Stall in Bethlehem geboren. Die Stadt liegt im Westjordanland. Viele Krippen zeigen diese Geschichte.",m:"Weihnachtsgeschichte: Bethlehem."},
- {t:"religion",l:2,s:"Koran",q:"Wie heisst die heilige Schrift des Islams?",a:["Koran","Bibel","Tora","Talmud"],e:"Für Musliminnen und Muslime ist der Koran das Wort Gottes, überbracht an den Propheten Mohammed. Er ist in Arabisch geschrieben und in Kapitel, die Suren, gegliedert.",m:"Islam = Koran."},
- {t:"religion",l:2,s:"Chanukka",q:"Wie heisst das achttägige jüdische Lichterfest?",a:["Chanukka","Diwali","Ramadan","Advent"],e:"An Chanukka zünden Familien an acht Abenden je ein Licht mehr an einem besonderen Leuchter an. Das Fest erinnert an die Wiedereinweihung des Tempels in Jerusalem.",m:"Chanukka = 8 Tage Lichterfest."},
- {t:"religion",l:2,s:"Diwali",q:"Welches grosse Lichterfest feiern Hindus im Herbst?",a:["Diwali","Chanukka","Ostern","Eid"],e:"Zu Diwali schmücken Hindus ihre Häuser mit Lichtern und Lampen. Das Fest steht für den Sieg des Lichts über die Dunkelheit und des Guten über das Böse.",m:"Diwali = hinduistisches Lichterfest."},
- {t:"religion",l:2,s:"Mekka",q:"In welcher Stadt steht die Kaaba, das wichtigste Heiligtum des Islams?",a:["Mekka","Jerusalem","Kairo","Istanbul"],e:"Die Kaaba steht in Mekka in Saudi-Arabien. Muslime beten in ihre Richtung, und viele pilgern einmal im Leben dorthin.",m:"Kaaba = Mekka."},
- {t:"religion",l:3,s:"Fünf Säulen des Islam",q:"Was gehört zu den «Fünf Säulen des Islams»?",a:["Glaubensbekenntnis, Gebet, Almosen, Fasten und Pilgerfahrt","Taufe, Kommunion, Firmung, Ehe und Beichte","Sabbat, Tora, Synagoge, Pessach und Chanukka","Yoga, Meditation, Karma, Tempel und Opfer"],e:"Die fünf Säulen sind die wichtigsten Pflichten im Islam: das Glaubensbekenntnis, das tägliche Gebet, Spenden an Bedürftige, das Fasten im Ramadan und – wer kann – die Pilgerfahrt nach Mekka.",m:"5 Säulen: Bekenntnis, Gebet, Almosen, Fasten, Pilgerfahrt."},
- {t:"religion",l:3,s:"Nirwana",q:"In welcher Religion ist das Nirwana – das Ende des Kreislaufs der Wiedergeburt – ein zentrales Ziel?",a:["Im Buddhismus","Im Christentum","Im Judentum","Im Islam"],e:"Im Buddhismus glaubt man an einen Kreislauf von Geburt, Tod und Wiedergeburt. Wer Gier, Hass und Unwissen überwindet, kann laut der Lehre das Nirwana erreichen und diesen Kreislauf verlassen.",m:"Buddhismus: Ziel Nirwana."},
- {t:"religion",l:3,s:"Religionen in der Schweiz",q:"Welche beiden christlichen Konfessionen prägten die Schweiz historisch am stärksten?",a:["Römisch-katholisch und evangelisch-reformiert","Orthodox und anglikanisch","Baptistisch und methodistisch","Mormonisch und koptisch"],e:"Seit der Reformation im 16. Jahrhundert gibt es in der Schweiz katholische und reformierte Gebiete. Heute gehört ein wachsender Teil der Bevölkerung keiner Religion an, und es gibt viele weitere Glaubensgemeinschaften.",m:"Traditionell: katholisch und reformiert."},
- {t:"religion",l:3,s:"Reformation",q:"Wer veröffentlichte 1517 Thesen gegen den Ablasshandel, was als Beginn der Reformation gilt?",a:["Martin Luther","Huldrych Zwingli","Papst Leo X.","Johannes Calvin"],e:"Martin Luther kritisierte, dass die Kirche gegen Geld Sünden «erliess». Seine 95 Thesen lösten in Europa die Reformation aus, aus der die evangelischen Kirchen entstanden.",m:"1517 Luther – Beginn der Reformation."},
- {t:"religion",l:3,s:"Atheismus",q:"Wie nennt man eine Person, die nicht an einen Gott glaubt?",a:["Atheistin oder Atheist","Pilgerin oder Pilger","Prophetin oder Prophet","Missionarin oder Missionar"],e:"Atheistinnen und Atheisten glauben nicht an Gott oder Götter. Agnostiker sagen dagegen, man könne nicht wissen, ob es einen Gott gibt. In der Schweiz ist jede dieser Haltungen durch die Glaubensfreiheit geschützt.",m:"Atheismus = kein Glaube an Gott."},
+ {t:"rel_andere",l:1,s:"Synagoge",q:"Wie heisst das Gotteshaus der Jüdinnen und Juden?",a:["Synagoge","Moschee","Kapelle","Pagode"],e:"In der Synagoge beten Jüdinnen und Juden gemeinsam und lesen aus der Tora. Der wichtigste Tag in der Woche ist der Sabbat, von Freitagabend bis Samstagabend.",m:"Synagoge = jüdisches Gotteshaus."},
+ {t:"rel_christentum",l:1,s:"Ostern",q:"An welchem christlichen Fest suchen viele Kinder bemalte Eier?",a:["Ostern","Weihnachten","Pfingsten","Allerheiligen"],e:"Ostern ist das wichtigste Fest im Christentum und erinnert an die Auferstehung von Jesus. Eier stehen dabei für neues Leben.",m:"Ostern = Auferstehung, Ostereier."},
+ {t:"rel_christentum",l:1,s:"Weihnachten",q:"Wo wurde Jesus nach der Weihnachtsgeschichte geboren?",a:["In Bethlehem","In Rom","In Zürich","In Mekka"],e:"Nach der Bibel wurde Jesus in einem Stall in Bethlehem geboren. Die Stadt liegt im Westjordanland. Viele Krippen zeigen diese Geschichte.",m:"Weihnachtsgeschichte: Bethlehem."},
+ {t:"rel_islam",l:2,s:"Koran",q:"Wie heisst die heilige Schrift des Islams?",a:["Koran","Bibel","Tora","Talmud"],e:"Für Musliminnen und Muslime ist der Koran das Wort Gottes, überbracht an den Propheten Mohammed. Er ist in Arabisch geschrieben und in Kapitel, die Suren, gegliedert.",m:"Islam = Koran."},
+ {t:"rel_andere",l:2,s:"Chanukka",q:"Wie heisst das achttägige jüdische Lichterfest?",a:["Chanukka","Diwali","Ramadan","Advent"],e:"An Chanukka zünden Familien an acht Abenden je ein Licht mehr an einem besonderen Leuchter an. Das Fest erinnert an die Wiedereinweihung des Tempels in Jerusalem.",m:"Chanukka = 8 Tage Lichterfest."},
+ {t:"rel_andere",l:2,s:"Diwali",q:"Welches grosse Lichterfest feiern Hindus im Herbst?",a:["Diwali","Chanukka","Ostern","Eid"],e:"Zu Diwali schmücken Hindus ihre Häuser mit Lichtern und Lampen. Das Fest steht für den Sieg des Lichts über die Dunkelheit und des Guten über das Böse.",m:"Diwali = hinduistisches Lichterfest."},
+ {t:"rel_islam",l:2,s:"Mekka",q:"In welcher Stadt steht die Kaaba, das wichtigste Heiligtum des Islams?",a:["Mekka","Jerusalem","Kairo","Istanbul"],e:"Die Kaaba steht in Mekka in Saudi-Arabien. Muslime beten in ihre Richtung, und viele pilgern einmal im Leben dorthin.",m:"Kaaba = Mekka."},
+ {t:"rel_islam",l:3,s:"Fünf Säulen des Islam",q:"Was gehört zu den «Fünf Säulen des Islams»?",a:["Glaubensbekenntnis, Gebet, Almosen, Fasten und Pilgerfahrt","Taufe, Kommunion, Firmung, Ehe und Beichte","Sabbat, Tora, Synagoge, Pessach und Chanukka","Yoga, Meditation, Karma, Tempel und Opfer"],e:"Die fünf Säulen sind die wichtigsten Pflichten im Islam: das Glaubensbekenntnis, das tägliche Gebet, Spenden an Bedürftige, das Fasten im Ramadan und – wer kann – die Pilgerfahrt nach Mekka.",m:"5 Säulen: Bekenntnis, Gebet, Almosen, Fasten, Pilgerfahrt."},
+ {t:"rel_andere",l:3,s:"Nirwana",q:"In welcher Religion ist das Nirwana – das Ende des Kreislaufs der Wiedergeburt – ein zentrales Ziel?",a:["Im Buddhismus","Im Christentum","Im Judentum","Im Islam"],e:"Im Buddhismus glaubt man an einen Kreislauf von Geburt, Tod und Wiedergeburt. Wer Gier, Hass und Unwissen überwindet, kann laut der Lehre das Nirwana erreichen und diesen Kreislauf verlassen.",m:"Buddhismus: Ziel Nirwana."},
+ {t:"rel_christentum",l:3,s:"Religionen in der Schweiz",q:"Welche beiden christlichen Konfessionen prägten die Schweiz historisch am stärksten?",a:["Römisch-katholisch und evangelisch-reformiert","Orthodox und anglikanisch","Baptistisch und methodistisch","Mormonisch und koptisch"],e:"Seit der Reformation im 16. Jahrhundert gibt es in der Schweiz katholische und reformierte Gebiete. Heute gehört ein wachsender Teil der Bevölkerung keiner Religion an, und es gibt viele weitere Glaubensgemeinschaften.",m:"Traditionell: katholisch und reformiert."},
+ {t:"rel_christentum",l:3,s:"Reformation",q:"Wer veröffentlichte 1517 Thesen gegen den Ablasshandel, was als Beginn der Reformation gilt?",a:["Martin Luther","Huldrych Zwingli","Papst Leo X.","Johannes Calvin"],e:"Martin Luther kritisierte, dass die Kirche gegen Geld Sünden «erliess». Seine 95 Thesen lösten in Europa die Reformation aus, aus der die evangelischen Kirchen entstanden.",m:"1517 Luther – Beginn der Reformation."},
+ {t:"rel_andere",l:3,s:"Atheismus",q:"Wie nennt man eine Person, die nicht an einen Gott glaubt?",a:["Atheistin oder Atheist","Pilgerin oder Pilger","Prophetin oder Prophet","Missionarin oder Missionar"],e:"Atheistinnen und Atheisten glauben nicht an Gott oder Götter. Agnostiker sagen dagegen, man könne nicht wissen, ob es einen Gott gibt. In der Schweiz ist jede dieser Haltungen durch die Glaubensfreiheit geschützt.",m:"Atheismus = kein Glaube an Gott."},
  // ===== Natur & Tiere =====
- {t:"naturtiere",l:1,s:"Blauwal",q:"Welches ist das grösste Tier der Welt?",a:["Der Blauwal","Der Elefant","Die Giraffe","Der Weisse Hai"],e:"Der Blauwal kann über 30 Meter lang werden – länger als ein Tennisplatz breit ist. Er ist das grösste Tier, das je gelebt hat, und frisst winzige Krebstierchen namens Krill.",m:"Blauwal = grösstes Tier."},
- {t:"naturtiere",l:1,s:"Metamorphose (Zoologie)",q:"Was wird aus einer Raupe?",a:["Ein Schmetterling","Eine Spinne","Ein Käfer","Eine Schnecke"],e:"Die Raupe frisst viel, verpuppt sich dann und verwandelt sich in der Puppe in einen Schmetterling. Diese Verwandlung nennt man Metamorphose.",m:"Raupe → Puppe → Schmetterling."},
- {t:"naturtiere",l:1,s:"Pflanzenfresser",q:"Wie nennt man ein Tier, das nur Pflanzen frisst?",a:["Pflanzenfresser","Fleischfresser","Allesfresser","Aasfresser"],e:"Kühe, Kaninchen oder Rehe sind Pflanzenfresser. Füchse fressen vor allem Fleisch, Bären und Menschen sind Allesfresser.",m:"Pflanzenfresser fressen nur Pflanzen."},
- {t:"naturtiere",l:1,s:"Reh",q:"Welches Tier lebt oft in Schweizer Wäldern, und das Männchen trägt ein Geweih?",a:["Das Reh","Der Fuchs","Der Dachs","Der Igel"],e:"Beim Reh trägt nur der Rehbock ein kleines Geweih. Er wirft es jedes Jahr ab, und es wächst wieder nach.",m:"Rehbock = Geweih, das jährlich nachwächst."},
- {t:"naturtiere",l:2,s:"Alpenmurmeltier",q:"Warum halten Murmeltiere einen langen Winterschlaf?",a:["Weil sie im Winter kaum Nahrung finden und so Energie sparen","Weil sie Angst vor Schnee haben","Weil sie im Sommer arbeiten müssen","Weil sie nachtaktiv sind"],e:"In den Alpen gibt es im Winter kaum Gras. Murmeltiere schlafen deshalb viele Monate in ihrem Bau. Herzschlag und Körpertemperatur sinken stark, so reicht ihr Fettvorrat bis zum Frühling.",m:"Winterschlaf = Energie sparen."},
- {t:"naturtiere",l:2,s:"Dufourspitze",q:"Wie heisst der höchste Berg der Schweiz?",a:["Dufourspitze","Matterhorn","Eiger","Pilatus"],e:"Die Dufourspitze im Monte-Rosa-Massiv im Wallis ist mit 4634 Metern der höchste Gipfel der Schweiz. Das berühmtere Matterhorn ist etwas tiefer.",m:"Höchster Berg: Dufourspitze."},
- {t:"naturtiere",l:2,s:"Wasserkreislauf",q:"Wie entsteht Regen?",a:["Wasser verdunstet, bildet Wolken und fällt wieder als Niederschlag","Regen kommt aus dem Weltall","Wolken sind aus Watte und werden ausgewrungen","Regen entsteht nur über Seen"],e:"Die Sonne erwärmt Wasser aus Meeren, Seen und Pflanzen, es verdunstet. In der Höhe kühlt der Wasserdampf ab und bildet Wolken. Werden die Tröpfchen schwer genug, fallen sie als Regen oder Schnee.",m:"Verdunsten – Wolke – Niederschlag."},
- {t:"naturtiere",l:2,s:"Merkur (Planet)",q:"Welcher Planet ist der Sonne am nächsten?",a:["Merkur","Venus","Mars","Neptun"],e:"Merkur ist der kleinste Planet und kreist am nächsten um die Sonne. Die Reihenfolge merkt man sich mit: Mein Vater erklärt mir jeden Sonntag unseren Nachthimmel.",m:"Merkur ist der Sonne am nächsten."},
- {t:"naturtiere",l:2,s:"Jupiter (Planet)",q:"Welcher ist der grösste Planet in unserem Sonnensystem?",a:["Jupiter","Saturn","Erde","Mars"],e:"Jupiter ist ein Gasriese und so gross, dass die Erde über tausendmal hineinpassen würde. Sein bekanntestes Merkmal ist der Grosse Rote Fleck, ein riesiger Sturm.",m:"Jupiter = grösster Planet."},
- {t:"naturtiere",l:3,s:"Biodiversität",q:"Was bedeutet Biodiversität?",a:["Die Vielfalt an Arten, Genen und Lebensräumen","Die Anzahl Bäume in einem Park","Eine Art Biodünger","Die Lehre vom Wetter"],e:"Biodiversität beschreibt die Vielfalt des Lebens: verschiedene Tier- und Pflanzenarten, Unterschiede innerhalb einer Art und verschiedene Lebensräume. Eine hohe Vielfalt macht die Natur widerstandsfähiger.",m:"Biodiversität = Vielfalt des Lebens."},
- {t:"naturtiere",l:3,s:"Nahrungskette",q:"Was zeigt eine Nahrungskette?",a:["Wer wen frisst – vom Pflanzenmaterial bis zum Raubtier","Wie man Lebensmittel einkauft","Wie Pflanzen Wasser aufnehmen","Welche Tiere Winterschlaf halten"],e:"Ein Beispiel: Gras → Maus → Fuchs. Pflanzen stehen am Anfang, weil sie mit Sonnenlicht Energie herstellen. Fehlt ein Glied, gerät die ganze Kette aus dem Gleichgewicht.",m:"Nahrungskette: Pflanze → Pflanzenfresser → Fleischfresser."},
- {t:"naturtiere",l:3,s:"Wolf",q:"Woher kamen die Wölfe, die seit den 1990er-Jahren in die Schweiz zurückkehrten?",a:["Aus Italien und Frankreich","Aus Kanada","Aus einem Zoo","Aus Australien"],e:"Der Wolf war in der Schweiz ausgerottet. Seit den 1990er-Jahren wandern Wölfe über die Alpen wieder ein, vor allem aus Italien und Frankreich. Ihre Rückkehr führt zu Diskussionen, etwa beim Schutz von Schafen.",m:"Wölfe kamen über die Alpen zurück."},
- {t:"naturtiere",l:3,s:"Ökosystem",q:"Was ist ein Ökosystem?",a:["Eine Lebensgemeinschaft von Lebewesen zusammen mit ihrem Lebensraum","Ein Computerprogramm","Ein Bio-Laden","Eine einzelne Tierart"],e:"Ein Wald, ein Teich oder eine Wiese ist ein Ökosystem. Pflanzen, Tiere, Pilze und Bakterien hängen dort voneinander und von Boden, Wasser und Klima ab.",m:"Ökosystem = Lebewesen + Lebensraum."},
+ {t:"tiere",l:1,s:"Blauwal",q:"Welches ist das grösste Tier der Welt?",a:["Der Blauwal","Der Elefant","Die Giraffe","Der Weisse Hai"],e:"Der Blauwal kann über 30 Meter lang werden – länger als ein Tennisplatz breit ist. Er ist das grösste Tier, das je gelebt hat, und frisst winzige Krebstierchen namens Krill.",m:"Blauwal = grösstes Tier."},
+ {t:"tiere",l:1,s:"Metamorphose (Zoologie)",q:"Was wird aus einer Raupe?",a:["Ein Schmetterling","Eine Spinne","Ein Käfer","Eine Schnecke"],e:"Die Raupe frisst viel, verpuppt sich dann und verwandelt sich in der Puppe in einen Schmetterling. Diese Verwandlung nennt man Metamorphose.",m:"Raupe → Puppe → Schmetterling."},
+ {t:"tiere",l:1,s:"Pflanzenfresser",q:"Wie nennt man ein Tier, das nur Pflanzen frisst?",a:["Pflanzenfresser","Fleischfresser","Allesfresser","Aasfresser"],e:"Kühe, Kaninchen oder Rehe sind Pflanzenfresser. Füchse fressen vor allem Fleisch, Bären und Menschen sind Allesfresser.",m:"Pflanzenfresser fressen nur Pflanzen."},
+ {t:"tiere",l:1,s:"Reh",q:"Welches Tier lebt oft in Schweizer Wäldern, und das Männchen trägt ein Geweih?",a:["Das Reh","Der Fuchs","Der Dachs","Der Igel"],e:"Beim Reh trägt nur der Rehbock ein kleines Geweih. Er wirft es jedes Jahr ab, und es wächst wieder nach.",m:"Rehbock = Geweih, das jährlich nachwächst."},
+ {t:"tiere",l:2,s:"Alpenmurmeltier",q:"Warum halten Murmeltiere einen langen Winterschlaf?",a:["Weil sie im Winter kaum Nahrung finden und so Energie sparen","Weil sie Angst vor Schnee haben","Weil sie im Sommer arbeiten müssen","Weil sie nachtaktiv sind"],e:"In den Alpen gibt es im Winter kaum Gras. Murmeltiere schlafen deshalb viele Monate in ihrem Bau. Herzschlag und Körpertemperatur sinken stark, so reicht ihr Fettvorrat bis zum Frühling.",m:"Winterschlaf = Energie sparen."},
+ {t:"natur",l:2,s:"Dufourspitze",q:"Wie heisst der höchste Berg der Schweiz?",a:["Dufourspitze","Matterhorn","Eiger","Pilatus"],e:"Die Dufourspitze im Monte-Rosa-Massiv im Wallis ist mit 4634 Metern der höchste Gipfel der Schweiz. Das berühmtere Matterhorn ist etwas tiefer.",m:"Höchster Berg: Dufourspitze."},
+ {t:"natur",l:2,s:"Wasserkreislauf",q:"Wie entsteht Regen?",a:["Wasser verdunstet, bildet Wolken und fällt wieder als Niederschlag","Regen kommt aus dem Weltall","Wolken sind aus Watte und werden ausgewrungen","Regen entsteht nur über Seen"],e:"Die Sonne erwärmt Wasser aus Meeren, Seen und Pflanzen, es verdunstet. In der Höhe kühlt der Wasserdampf ab und bildet Wolken. Werden die Tröpfchen schwer genug, fallen sie als Regen oder Schnee.",m:"Verdunsten – Wolke – Niederschlag."},
+ {t:"natur",l:2,s:"Merkur (Planet)",q:"Welcher Planet ist der Sonne am nächsten?",a:["Merkur","Venus","Mars","Neptun"],e:"Merkur ist der kleinste Planet und kreist am nächsten um die Sonne. Die Reihenfolge merkt man sich mit: Mein Vater erklärt mir jeden Sonntag unseren Nachthimmel.",m:"Merkur ist der Sonne am nächsten."},
+ {t:"natur",l:2,s:"Jupiter (Planet)",q:"Welcher ist der grösste Planet in unserem Sonnensystem?",a:["Jupiter","Saturn","Erde","Mars"],e:"Jupiter ist ein Gasriese und so gross, dass die Erde über tausendmal hineinpassen würde. Sein bekanntestes Merkmal ist der Grosse Rote Fleck, ein riesiger Sturm.",m:"Jupiter = grösster Planet."},
+ {t:"natur",l:3,s:"Biodiversität",q:"Was bedeutet Biodiversität?",a:["Die Vielfalt an Arten, Genen und Lebensräumen","Die Anzahl Bäume in einem Park","Eine Art Biodünger","Die Lehre vom Wetter"],e:"Biodiversität beschreibt die Vielfalt des Lebens: verschiedene Tier- und Pflanzenarten, Unterschiede innerhalb einer Art und verschiedene Lebensräume. Eine hohe Vielfalt macht die Natur widerstandsfähiger.",m:"Biodiversität = Vielfalt des Lebens."},
+ {t:"tiere",l:3,s:"Nahrungskette",q:"Was zeigt eine Nahrungskette?",a:["Wer wen frisst – vom Pflanzenmaterial bis zum Raubtier","Wie man Lebensmittel einkauft","Wie Pflanzen Wasser aufnehmen","Welche Tiere Winterschlaf halten"],e:"Ein Beispiel: Gras → Maus → Fuchs. Pflanzen stehen am Anfang, weil sie mit Sonnenlicht Energie herstellen. Fehlt ein Glied, gerät die ganze Kette aus dem Gleichgewicht.",m:"Nahrungskette: Pflanze → Pflanzenfresser → Fleischfresser."},
+ {t:"tiere",l:3,s:"Wolf",q:"Woher kamen die Wölfe, die seit den 1990er-Jahren in die Schweiz zurückkehrten?",a:["Aus Italien und Frankreich","Aus Kanada","Aus einem Zoo","Aus Australien"],e:"Der Wolf war in der Schweiz ausgerottet. Seit den 1990er-Jahren wandern Wölfe über die Alpen wieder ein, vor allem aus Italien und Frankreich. Ihre Rückkehr führt zu Diskussionen, etwa beim Schutz von Schafen.",m:"Wölfe kamen über die Alpen zurück."},
+ {t:"natur",l:3,s:"Ökosystem",q:"Was ist ein Ökosystem?",a:["Eine Lebensgemeinschaft von Lebewesen zusammen mit ihrem Lebensraum","Ein Computerprogramm","Ein Bio-Laden","Eine einzelne Tierart"],e:"Ein Wald, ein Teich oder eine Wiese ist ein Ökosystem. Pflanzen, Tiere, Pilze und Bakterien hängen dort voneinander und von Boden, Wasser und Klima ab.",m:"Ökosystem = Lebewesen + Lebensraum."},
  // ===== Wissenschaft & Körper =====
- {t:"wissenschaft",l:1,s:"Geruchssinn",q:"Mit welchem Sinnesorgan riechst du?",a:["Mit der Nase","Mit den Ohren","Mit den Augen","Mit der Haut"],e:"In der Nase sitzen viele Riechzellen. Sie erkennen Duftstoffe in der Luft und melden sie ans Gehirn. Riechen hilft auch beim Schmecken.",m:"Nase = Riechen."},
- {t:"wissenschaft",l:1,s:"Sinn (Wahrnehmung)",q:"Wie viele Sinne zählt man klassisch beim Menschen?",a:["Fünf","Drei","Sieben","Zehn"],e:"Die fünf klassischen Sinne sind Sehen, Hören, Riechen, Schmecken und Tasten. Heute weiss man, dass wir noch mehr wahrnehmen, zum Beispiel das Gleichgewicht.",m:"5 Sinne: sehen, hören, riechen, schmecken, tasten."},
- {t:"wissenschaft",l:1,s:"Skelett des Menschen",q:"Wie heisst das Gerüst aus Knochen, das deinen Körper stützt?",a:["Skelett","Muskel","Haut","Sehne"],e:"Das Skelett gibt dem Körper Halt und schützt Organe, zum Beispiel der Schädel das Gehirn. Muskeln bewegen die Knochen an den Gelenken.",m:"Skelett = Knochengerüst."},
- {t:"wissenschaft",l:2,s:"Lunge",q:"Welches Organ nimmt beim Atmen Sauerstoff aus der Luft auf?",a:["Die Lunge","Die Leber","Der Magen","Die Niere"],e:"Beim Einatmen gelangt Luft in die Lunge. Dort geht Sauerstoff ins Blut über, und Kohlendioxid wird ausgeatmet.",m:"Lunge = Sauerstoff ins Blut."},
- {t:"wissenschaft",l:2,s:"Haut",q:"Welches ist das grösste Organ des Menschen?",a:["Die Haut","Die Leber","Das Gehirn","Der Darm"],e:"Die Haut bedeckt den ganzen Körper. Sie schützt vor Keimen und Sonne, hilft die Temperatur zu regeln und lässt uns Berührungen spüren.",m:"Haut = grösstes Organ."},
- {t:"wissenschaft",l:2,s:"Leukozyt",q:"Wofür sind die weissen Blutkörperchen zuständig?",a:["Für die Abwehr von Krankheitserregern","Für den Sauerstofftransport","Für die Verdauung","Für das Haarwachstum"],e:"Weisse Blutkörperchen sind die Polizei des Körpers. Sie erkennen Bakterien und Viren und bekämpfen sie. Den Sauerstoff transportieren die roten Blutkörperchen.",m:"Weiss = Abwehr, Rot = Sauerstoff."},
- {t:"wissenschaft",l:2,s:"Skelett des Menschen",q:"Wie viele Knochen hat ein erwachsener Mensch ungefähr?",a:["Rund 206","Rund 50","Rund 1000","Rund 12"],e:"Ein erwachsener Mensch hat etwa 206 Knochen. Babys haben mehr, weil einige Knochen erst später zusammenwachsen.",m:"Erwachsene: ca. 206 Knochen."},
- {t:"wissenschaft",l:2,s:"Gebiss des Menschen",q:"Wie viele Zähne hat ein erwachsener Mensch mit allen Weisheitszähnen?",a:["32","20","28","40"],e:"Das bleibende Gebiss hat 32 Zähne, davon 4 Weisheitszähne. Kinder haben ein Milchgebiss mit 20 Zähnen.",m:"Erwachsene: 32 Zähne, Kinder: 20."},
- {t:"wissenschaft",l:3,s:"Impfung",q:"Wie funktioniert eine Impfung?",a:["Sie trainiert das Immunsystem, einen Erreger zu erkennen, bevor man krank wird","Sie tötet alle Bakterien im Körper","Sie ersetzt das Blut","Sie wirkt nur gegen Knochenbrüche"],e:"Eine Impfung zeigt dem Körper einen harmlosen Teil oder eine abgeschwächte Form eines Erregers. Das Immunsystem lernt ihn kennen und kann bei einer echten Ansteckung schneller reagieren.",m:"Impfung = Training fürs Immunsystem."},
- {t:"wissenschaft",l:3,s:"Antibiotikum",q:"Warum helfen Antibiotika meist nicht gegen eine Erkältung?",a:["Erkältungen werden meist von Viren verursacht, Antibiotika wirken nur gegen Bakterien","Weil Erkältungen zu kurz dauern","Weil Antibiotika nur bei Kindern wirken","Weil Antibiotika nur im Sommer wirken"],e:"Antibiotika bekämpfen Bakterien, gegen Viren sind sie wirkungslos. Werden sie unnötig eingesetzt, können Bakterien resistent werden – dann wirken die Mittel auch bei echten Infektionen schlechter.",m:"Antibiotika: gegen Bakterien, nicht gegen Viren."},
+ {t:"koerper",l:1,s:"Geruchssinn",q:"Mit welchem Sinnesorgan riechst du?",a:["Mit der Nase","Mit den Ohren","Mit den Augen","Mit der Haut"],e:"In der Nase sitzen viele Riechzellen. Sie erkennen Duftstoffe in der Luft und melden sie ans Gehirn. Riechen hilft auch beim Schmecken.",m:"Nase = Riechen."},
+ {t:"koerper",l:1,s:"Sinn (Wahrnehmung)",q:"Wie viele Sinne zählt man klassisch beim Menschen?",a:["Fünf","Drei","Sieben","Zehn"],e:"Die fünf klassischen Sinne sind Sehen, Hören, Riechen, Schmecken und Tasten. Heute weiss man, dass wir noch mehr wahrnehmen, zum Beispiel das Gleichgewicht.",m:"5 Sinne: sehen, hören, riechen, schmecken, tasten."},
+ {t:"koerper",l:1,s:"Skelett des Menschen",q:"Wie heisst das Gerüst aus Knochen, das deinen Körper stützt?",a:["Skelett","Muskel","Haut","Sehne"],e:"Das Skelett gibt dem Körper Halt und schützt Organe, zum Beispiel der Schädel das Gehirn. Muskeln bewegen die Knochen an den Gelenken.",m:"Skelett = Knochengerüst."},
+ {t:"koerper",l:2,s:"Lunge",q:"Welches Organ nimmt beim Atmen Sauerstoff aus der Luft auf?",a:["Die Lunge","Die Leber","Der Magen","Die Niere"],e:"Beim Einatmen gelangt Luft in die Lunge. Dort geht Sauerstoff ins Blut über, und Kohlendioxid wird ausgeatmet.",m:"Lunge = Sauerstoff ins Blut."},
+ {t:"koerper",l:2,s:"Haut",q:"Welches ist das grösste Organ des Menschen?",a:["Die Haut","Die Leber","Das Gehirn","Der Darm"],e:"Die Haut bedeckt den ganzen Körper. Sie schützt vor Keimen und Sonne, hilft die Temperatur zu regeln und lässt uns Berührungen spüren.",m:"Haut = grösstes Organ."},
+ {t:"koerper",l:2,s:"Leukozyt",q:"Wofür sind die weissen Blutkörperchen zuständig?",a:["Für die Abwehr von Krankheitserregern","Für den Sauerstofftransport","Für die Verdauung","Für das Haarwachstum"],e:"Weisse Blutkörperchen sind die Polizei des Körpers. Sie erkennen Bakterien und Viren und bekämpfen sie. Den Sauerstoff transportieren die roten Blutkörperchen.",m:"Weiss = Abwehr, Rot = Sauerstoff."},
+ {t:"koerper",l:2,s:"Skelett des Menschen",q:"Wie viele Knochen hat ein erwachsener Mensch ungefähr?",a:["Rund 206","Rund 50","Rund 1000","Rund 12"],e:"Ein erwachsener Mensch hat etwa 206 Knochen. Babys haben mehr, weil einige Knochen erst später zusammenwachsen.",m:"Erwachsene: ca. 206 Knochen."},
+ {t:"koerper",l:2,s:"Gebiss des Menschen",q:"Wie viele Zähne hat ein erwachsener Mensch mit allen Weisheitszähnen?",a:["32","20","28","40"],e:"Das bleibende Gebiss hat 32 Zähne, davon 4 Weisheitszähne. Kinder haben ein Milchgebiss mit 20 Zähnen.",m:"Erwachsene: 32 Zähne, Kinder: 20."},
+ {t:"koerper",l:3,s:"Impfung",q:"Wie funktioniert eine Impfung?",a:["Sie trainiert das Immunsystem, einen Erreger zu erkennen, bevor man krank wird","Sie tötet alle Bakterien im Körper","Sie ersetzt das Blut","Sie wirkt nur gegen Knochenbrüche"],e:"Eine Impfung zeigt dem Körper einen harmlosen Teil oder eine abgeschwächte Form eines Erregers. Das Immunsystem lernt ihn kennen und kann bei einer echten Ansteckung schneller reagieren.",m:"Impfung = Training fürs Immunsystem."},
+ {t:"koerper",l:3,s:"Antibiotikum",q:"Warum helfen Antibiotika meist nicht gegen eine Erkältung?",a:["Erkältungen werden meist von Viren verursacht, Antibiotika wirken nur gegen Bakterien","Weil Erkältungen zu kurz dauern","Weil Antibiotika nur bei Kindern wirken","Weil Antibiotika nur im Sommer wirken"],e:"Antibiotika bekämpfen Bakterien, gegen Viren sind sie wirkungslos. Werden sie unnötig eingesetzt, können Bakterien resistent werden – dann wirken die Mittel auch bei echten Infektionen schlechter.",m:"Antibiotika: gegen Bakterien, nicht gegen Viren."},
  {t:"wissenschaft",l:3,s:"Atom",q:"Was ist ein Atom?",a:["Ein winziger Baustein der Materie aus Kern und Elektronenhülle","Eine Zelle im Körper","Ein kleiner Planet","Eine Einheit für Zeit"],e:"Alles um uns besteht aus Atomen. Im Kern sitzen Protonen und Neutronen, darum kreisen Elektronen. Atome sind so klein, dass Millionen nebeneinander auf einen Millimeter passen.",m:"Atom = Kern + Elektronen."},
  {t:"wissenschaft",l:3,s:"Wasser",q:"Wie lautet die chemische Formel für Wasser?",a:["H₂O","CO₂","O₂","NaCl"],e:"Ein Wassermolekül besteht aus zwei Wasserstoffatomen (H) und einem Sauerstoffatom (O). CO₂ ist Kohlendioxid, NaCl ist Kochsalz.",m:"Wasser = H₂O."},
  {t:"wissenschaft",l:3,s:"Charles Darwin",q:"Wer entwickelte die Evolutionstheorie durch natürliche Auslese?",a:["Charles Darwin","Isaac Newton","Albert Einstein","Marie Curie"],e:"Darwin beobachtete auf seinen Reisen, dass sich Lebewesen an ihre Umgebung anpassen. Wer besser angepasst ist, überlebt eher und hat mehr Nachwuchs. So verändern sich Arten über lange Zeit.",m:"Darwin = Evolution."},
@@ -963,17 +1013,17 @@ const GESCH_IDS = [...GESCH_EPOCHEN, CH_ALLG, ...KANTONE].map(t=>t.id);
 const CH_IDS = [CH_ALLG, ...KANTONE].map(t=>t.id);
 const FRAGEN4 = [
  // Politik
- {t:"politik",l:1,s:"Gemeindepräsident",q:"Wer leitet in vielen Schweizer Gemeinden die Gemeinderegierung?",a:["Die Gemeindepräsidentin oder der Gemeindepräsident","Der Bundesrat","Die Polizei","Der Schulleiter"],e:"Jede Gemeinde hat eine eigene Regierung, meist Gemeinderat genannt. An ihrer Spitze steht die Gemeindepräsidentin oder der Gemeindepräsident. In Städten heisst das Amt oft Stadtpräsidium.",m:"Gemeinde: Gemeindepräsidium."},
- {t:"politik",l:2,s:"Nationalrat (Schweiz)",q:"Wie oft wird der Nationalrat neu gewählt?",a:["Alle vier Jahre","Jedes Jahr","Alle zehn Jahre","Nie, man bleibt lebenslang"],e:"Die Nationalratswahlen finden alle vier Jahre im Oktober statt. Die Ständeratsmitglieder werden in den meisten Kantonen am gleichen Tag gewählt.",m:"Nationalratswahlen: alle 4 Jahre."},
- {t:"politik",l:3,s:"Bundespräsident (Schweiz)",q:"Wie lange bleibt jemand Bundespräsidentin oder Bundespräsident der Schweiz?",a:["Ein Jahr","Vier Jahre","Acht Jahre","Bis zur Pensionierung"],e:"Das Präsidium wechselt jedes Jahr zwischen den sieben Bundesratsmitgliedern. Die Präsidentin oder der Präsident leitet die Sitzungen und vertritt die Schweiz, hat aber nicht mehr Macht als die anderen.",m:"Bundespräsidium: 1 Jahr."},
+ {t:"pol_demokratie",l:1,s:"Gemeindepräsident",q:"Wer leitet in vielen Schweizer Gemeinden die Gemeinderegierung?",a:["Die Gemeindepräsidentin oder der Gemeindepräsident","Der Bundesrat","Die Polizei","Der Schulleiter"],e:"Jede Gemeinde hat eine eigene Regierung, meist Gemeinderat genannt. An ihrer Spitze steht die Gemeindepräsidentin oder der Gemeindepräsident. In Städten heisst das Amt oft Stadtpräsidium.",m:"Gemeinde: Gemeindepräsidium."},
+ {t:"pol_demokratie",l:2,s:"Nationalrat (Schweiz)",q:"Wie oft wird der Nationalrat neu gewählt?",a:["Alle vier Jahre","Jedes Jahr","Alle zehn Jahre","Nie, man bleibt lebenslang"],e:"Die Nationalratswahlen finden alle vier Jahre im Oktober statt. Die Ständeratsmitglieder werden in den meisten Kantonen am gleichen Tag gewählt.",m:"Nationalratswahlen: alle 4 Jahre."},
+ {t:"pol_demokratie",l:3,s:"Bundespräsident (Schweiz)",q:"Wie lange bleibt jemand Bundespräsidentin oder Bundespräsident der Schweiz?",a:["Ein Jahr","Vier Jahre","Acht Jahre","Bis zur Pensionierung"],e:"Das Präsidium wechselt jedes Jahr zwischen den sieben Bundesratsmitgliedern. Die Präsidentin oder der Präsident leitet die Sitzungen und vertritt die Schweiz, hat aber nicht mehr Macht als die anderen.",m:"Bundespräsidium: 1 Jahr."},
  // Natur & Tiere
- {t:"naturtiere",l:1,s:"Vögel",q:"Welches Tier hat Federn und legt Eier?",a:["Das Huhn","Die Katze","Der Hund","Die Kuh"],e:"Alle Vögel haben Federn und legen Eier. Das Huhn ist ein Vogel, auch wenn es kaum fliegen kann.",m:"Federn + Eier = Vogel."},
- {t:"naturtiere",l:2,s:"Neuenburgersee",q:"Welcher ist der grösste See, der vollständig in der Schweiz liegt?",a:["Der Neuenburgersee","Der Genfersee","Der Bodensee","Der Lago Maggiore"],e:"Der Genfersee und der Bodensee sind grösser, liegen aber teilweise in Frankreich beziehungsweise Deutschland und Österreich. Der grösste See ganz auf Schweizer Boden ist der Neuenburgersee.",m:"Grösster rein schweizerischer See: Neuenburgersee."},
- {t:"naturtiere",l:3,s:"Laubfall",q:"Warum werfen viele Laubbäume im Herbst ihre Blätter ab?",a:["Um im Winter Wasser zu sparen und Frostschäden zu vermeiden","Weil die Blätter zu schwer werden","Weil Vögel sie abreissen","Damit mehr Licht auf den Boden fällt"],e:"Über die Blätter verdunstet viel Wasser. Im Winter ist der Boden oft gefroren, und der Baum kann kaum Wasser aufnehmen. Darum zieht er wichtige Stoffe aus den Blättern zurück und wirft sie ab.",m:"Laubfall = Wasser sparen im Winter."},
+ {t:"tiere",l:1,s:"Vögel",q:"Welches Tier hat Federn und legt Eier?",a:["Das Huhn","Die Katze","Der Hund","Die Kuh"],e:"Alle Vögel haben Federn und legen Eier. Das Huhn ist ein Vogel, auch wenn es kaum fliegen kann.",m:"Federn + Eier = Vogel."},
+ {t:"natur",l:2,s:"Neuenburgersee",q:"Welcher ist der grösste See, der vollständig in der Schweiz liegt?",a:["Der Neuenburgersee","Der Genfersee","Der Bodensee","Der Lago Maggiore"],e:"Der Genfersee und der Bodensee sind grösser, liegen aber teilweise in Frankreich beziehungsweise Deutschland und Österreich. Der grösste See ganz auf Schweizer Boden ist der Neuenburgersee.",m:"Grösster rein schweizerischer See: Neuenburgersee."},
+ {t:"natur",l:3,s:"Laubfall",q:"Warum werfen viele Laubbäume im Herbst ihre Blätter ab?",a:["Um im Winter Wasser zu sparen und Frostschäden zu vermeiden","Weil die Blätter zu schwer werden","Weil Vögel sie abreissen","Damit mehr Licht auf den Boden fällt"],e:"Über die Blätter verdunstet viel Wasser. Im Winter ist der Boden oft gefroren, und der Baum kann kaum Wasser aufnehmen. Darum zieht er wichtige Stoffe aus den Blättern zurück und wirft sie ab.",m:"Laubfall = Wasser sparen im Winter."},
  // Wissenschaft & Körper
- {t:"wissenschaft",l:1,s:"Zahnpflege",q:"Wie oft sollte man die Zähne mindestens putzen?",a:["Zweimal am Tag","Einmal pro Woche","Nur am Wochenende","Gar nicht"],e:"Zahnärzte empfehlen, morgens und abends die Zähne zu putzen. So werden Essensreste und Beläge entfernt, die sonst Karies verursachen können.",m:"Zähne putzen: morgens und abends."},
- {t:"wissenschaft",l:2,s:"Magen",q:"Was passiert im Magen?",a:["Die Nahrung wird mit Magensaft vermischt und zerkleinert","Das Blut wird gepumpt","Die Luft wird gefiltert","Die Knochen wachsen"],e:"Im Magen wird die Nahrung mit Säure und Verdauungssäften vermischt und durchgeknetet. Danach geht der Brei in den Darm, wo die Nährstoffe ins Blut gelangen.",m:"Magen = Nahrung vorverdauen."},
- {t:"wissenschaft",l:2,s:"Schlaf",q:"Warum ist genug Schlaf wichtig?",a:["Der Körper erholt sich, und das Gehirn verarbeitet Gelerntes","Weil man sonst verhungert","Damit die Haare schneller wachsen","Schlaf ist nicht wichtig"],e:"Im Schlaf erholen sich Körper und Gehirn. Was man am Tag gelernt hat, wird dabei im Gedächtnis gefestigt. Kinder und Jugendliche brauchen deshalb besonders viel Schlaf.",m:"Schlaf = Erholung + Lernen festigen."},
+ {t:"koerper",l:1,s:"Zahnpflege",q:"Wie oft sollte man die Zähne mindestens putzen?",a:["Zweimal am Tag","Einmal pro Woche","Nur am Wochenende","Gar nicht"],e:"Zahnärzte empfehlen, morgens und abends die Zähne zu putzen. So werden Essensreste und Beläge entfernt, die sonst Karies verursachen können.",m:"Zähne putzen: morgens und abends."},
+ {t:"koerper",l:2,s:"Magen",q:"Was passiert im Magen?",a:["Die Nahrung wird mit Magensaft vermischt und zerkleinert","Das Blut wird gepumpt","Die Luft wird gefiltert","Die Knochen wachsen"],e:"Im Magen wird die Nahrung mit Säure und Verdauungssäften vermischt und durchgeknetet. Danach geht der Brei in den Darm, wo die Nährstoffe ins Blut gelangen.",m:"Magen = Nahrung vorverdauen."},
+ {t:"koerper",l:2,s:"Schlaf",q:"Warum ist genug Schlaf wichtig?",a:["Der Körper erholt sich, und das Gehirn verarbeitet Gelerntes","Weil man sonst verhungert","Damit die Haare schneller wachsen","Schlaf ist nicht wichtig"],e:"Im Schlaf erholen sich Körper und Gehirn. Was man am Tag gelernt hat, wird dabei im Gedächtnis gefestigt. Kinder und Jugendliche brauchen deshalb besonders viel Schlaf.",m:"Schlaf = Erholung + Lernen festigen."},
  {t:"wissenschaft",l:3,s:"Penicillin",q:"Wer entdeckte 1928 das Penicillin, das erste Antibiotikum?",a:["Alexander Fleming","Louis Pasteur","Robert Koch","Marie Curie"],e:"Fleming bemerkte, dass ein Schimmelpilz Bakterien in einer Schale abtötete. Aus dieser Entdeckung entstand das Penicillin, das seither unzählige Leben gerettet hat.",m:"Penicillin: Fleming, 1928."},
  // Umgang mit Geld
  {t:"geld",l:1,s:"Banknoten des Schweizer Frankens",q:"Welche Farbe hat die aktuelle 10-Franken-Note?",a:["Gelb","Blau","Grün","Violett"],e:"Jede Schweizer Banknote hat ihre eigene Farbe: 10 Franken gelb, 20 rot, 50 grün, 100 blau, 200 braun und 1000 violett. So kann man sie leicht unterscheiden.",m:"10er gelb, 20er rot, 50er grün, 100er blau."},
@@ -1056,6 +1106,71 @@ FRAGEN.push(
 
 const KT_ALLE = {id:"kt_alle", name:"Alle Kantone", emo:"flag", text:"20 Fragen aus allen 26 Kantonen", parent:"chmenu"};
 THEMA.kt_alle = {...KT_ALLE, bereich:BEREICHE.find(b=>b.id==="welt")};
+const FRAGEN6 = [
+ // ===== Weltpolitik =====
+ {t:"pol_welt",l:1,s:"Vereinte Nationen",q:"Welche Organisation hat das Ziel, den Frieden auf der ganzen Welt zu sichern?",a:["Die UNO (Vereinte Nationen)","Die FIFA","Die Post","Der Zirkus Knie"],e:"In der UNO arbeiten fast alle Länder der Welt zusammen. Sie wollen Kriege verhindern, Menschenrechte schützen und Menschen in Not helfen.",m:"UNO = Länder arbeiten für Frieden zusammen."},
+ {t:"pol_welt",l:1,s:"Internationales Genf",q:"In welcher Schweizer Stadt haben besonders viele internationale Organisationen ihren Sitz?",a:["Genf","Chur","Luzern","Schaffhausen"],e:"In Genf arbeiten die UNO, das Rote Kreuz, die Weltgesundheitsorganisation und viele weitere Organisationen. Darum wird dort oft über Frieden verhandelt.",m:"Genf = Stadt der internationalen Organisationen."},
+ {t:"pol_welt",l:2,s:"Vereinte Nationen",q:"Wie viele Staaten sind ungefähr Mitglied der UNO?",a:["193","50","12","500"],e:"Fast alle Staaten der Welt sind Mitglied der Vereinten Nationen – es sind 193. Die Schweiz ist seit 2002 dabei.",m:"UNO: 193 Mitgliedstaaten."},
+ {t:"pol_welt",l:2,s:"Hauptquartier der Vereinten Nationen",q:"In welcher Stadt steht das Hauptquartier der UNO?",a:["New York","Genf","Paris","Brüssel"],e:"Das Hauptquartier der UNO steht in New York. In Genf befindet sich der wichtigste Sitz in Europa.",m:"UNO-Hauptquartier: New York."},
+ {t:"pol_welt",l:2,s:"Europäische Union",q:"Was stimmt über die Europäische Union (EU)?",a:["Viele europäische Staaten arbeiten eng zusammen – die Schweiz ist nicht Mitglied","Alle Länder der Welt sind Mitglied","Die Schweiz ist Gründungsmitglied","Sie ist ein Fussballverband"],e:"In der EU arbeiten 27 europäische Staaten politisch und wirtschaftlich eng zusammen. Die Schweiz ist nicht Mitglied, hat aber viele Verträge mit der EU.",m:"Schweiz: nicht in der EU, aber mit Verträgen verbunden."},
+ {t:"pol_welt",l:2,s:"NATO",q:"Was ist die NATO?",a:["Ein Verteidigungsbündnis von Staaten aus Nordamerika und Europa","Eine Organisation für Sport","Die Nationalbank der Schweiz","Eine Hilfsorganisation für Tiere"],e:"In der NATO versprechen sich die Mitglieder, einander bei einem Angriff beizustehen. Die neutrale Schweiz ist nicht Mitglied.",m:"NATO = Verteidigungsbündnis."},
+ {t:"pol_welt",l:3,s:"UN-Sicherheitsrat",q:"Welche fünf Staaten sind ständige Mitglieder im UNO-Sicherheitsrat?",a:["USA, Russland, China, Frankreich und Grossbritannien","Schweiz, Deutschland, Italien, Österreich und Frankreich","Japan, Indien, Brasilien, Kanada und Australien","USA, Kanada, Mexiko, Brasilien und Argentinien"],e:"Der Sicherheitsrat ist für Frieden und Sicherheit zuständig. Die fünf ständigen Mitglieder haben ein Vetorecht – jedes kann einen Beschluss allein verhindern.",m:"Sicherheitsrat: 5 ständige Mitglieder mit Veto."},
+ {t:"pol_welt",l:3,s:"Genfer Konventionen",q:"Was regeln die Genfer Konventionen?",a:["Den Schutz von Verwundeten, Gefangenen und Zivilpersonen in Kriegen","Die Regeln im Fussball","Die Steuern in Genf","Den Handel mit Uhren"],e:"Die Genfer Konventionen legen fest, dass auch im Krieg bestimmte Regeln gelten. Sie gehen auf eine Idee von Henry Dunant zurück.",m:"Genfer Konventionen = Regeln zum Schutz im Krieg."},
+ {t:"pol_welt",l:3,s:"Gute Dienste",q:"Was sind die «Guten Dienste» der Schweiz?",a:["Die Schweiz vermittelt zwischen Staaten oder vertritt Staaten, die keine direkten Beziehungen haben","Ein Lieferdienst für Käse","Freiwillige Hilfe in Schulen","Eine Versicherung"],e:"Als neutrales Land stellt die Schweiz Orte für Verhandlungen zur Verfügung und übernimmt Schutzmachtmandate. So hilft sie, Konflikte friedlich zu lösen.",m:"Gute Dienste = Vermitteln für den Frieden."},
+ {t:"pol_welt",l:3,s:"Botschafter",q:"Was macht eine Botschafterin oder ein Botschafter?",a:["Vertritt das eigene Land in einem anderen Staat","Verteilt Briefe","Leitet eine Bank","Schreibt Zeitungsartikel"],e:"Botschafterinnen und Botschafter pflegen die Beziehungen zwischen zwei Ländern. Sie arbeiten in einer Botschaft, meist in der Hauptstadt des Gastlandes.",m:"Botschaft = Vertretung im Ausland."},
+ // ===== Demokratie (Ergänzung) =====
+ {t:"pol_demokratie",l:1,s:"Demokratie",q:"Was bedeutet das Wort «Demokratie»?",a:["Herrschaft des Volkes","Herrschaft eines Königs","Herrschaft der Reichen","Herrschaft der Armee"],e:"Das Wort kommt aus dem Griechischen: «demos» heisst Volk, «kratos» heisst Macht. In einer Demokratie bestimmen die Menschen mit, wer regiert und was gilt.",m:"Demokratie = das Volk bestimmt."},
+ {t:"pol_demokratie",l:2,s:"Pressefreiheit",q:"Was ist in einer Demokratie besonders wichtig?",a:["Meinungs- und Pressefreiheit","Dass nur eine Partei erlaubt ist","Dass Zeitungen verboten sind","Dass niemand wählen darf"],e:"In einer Demokratie darf man seine Meinung frei sagen, und Medien dürfen kritisch berichten. Nur so können sich alle eine eigene Meinung bilden.",m:"Demokratie braucht freie Meinung und freie Medien."},
+ // ===== Kommunismus =====
+ {t:"pol_kommunismus",l:2,s:"Kommunismus",q:"Was ist die Grundidee des Kommunismus?",a:["Fabriken und Boden sollen allen gemeinsam gehören, es soll keine reichen und armen Klassen geben","Jeder soll so viel besitzen, wie er will","Ein König soll über alles bestimmen","Die Kirche soll regieren"],e:"Der Kommunismus ist eine politische Idee, nach der das Eigentum an Fabriken, Land und Maschinen der Gemeinschaft gehört. In der Praxis regierten in kommunistischen Staaten meist eine einzige Partei und ihre Führung.",m:"Kommunismus: gemeinsames Eigentum als Ziel."},
+ {t:"pol_kommunismus",l:2,s:"Manifest der Kommunistischen Partei",q:"Wer schrieb 1848 das «Kommunistische Manifest»?",a:["Karl Marx und Friedrich Engels","Napoleon und Cäsar","Martin Luther und Zwingli","Einstein und Newton"],e:"Marx und Engels beschrieben darin die Ungleichheit zwischen Arbeitern und Fabrikbesitzern und forderten eine neue Gesellschaft. Das Buch hatte grossen Einfluss auf das 20. Jahrhundert.",m:"Kommunistisches Manifest: Marx und Engels, 1848."},
+ {t:"pol_kommunismus",l:2,s:"Sowjetunion",q:"Welcher grosse Staat wurde von 1922 bis 1991 kommunistisch regiert?",a:["Die Sowjetunion","Die Schweiz","Frankreich","Kanada"],e:"Die Sowjetunion war ein riesiger Staat mit Russland als grösstem Teil. Sie zerfiel 1991 in viele unabhängige Länder.",m:"Sowjetunion: 1922–1991."},
+ {t:"pol_kommunismus",l:2,s:"Deutsche Demokratische Republik",q:"Was war die DDR?",a:["Ein kommunistisch regierter Staat im Osten Deutschlands von 1949 bis 1990","Ein Fussballclub","Ein Teil der Schweiz","Eine Automarke"],e:"Nach dem Zweiten Weltkrieg war Deutschland geteilt. Die DDR im Osten wurde von der SED regiert, die Menschen durften nicht frei in den Westen reisen. 1990 wurde Deutschland wiedervereinigt.",m:"DDR: Ostdeutschland 1949–1990."},
+ {t:"pol_kommunismus",l:3,s:"Oktoberrevolution",q:"Wer führte 1917 die Oktoberrevolution in Russland an?",a:["Lenin mit den Bolschewiki","Napoleon","Zar Nikolaus II.","Karl Marx"],e:"Lenin und die Bolschewiki übernahmen 1917 die Macht in Russland. Kurz davor lebte Lenin einige Zeit im Exil in der Schweiz, unter anderem in Zürich.",m:"1917: Lenin und die Oktoberrevolution."},
+ {t:"pol_kommunismus",l:3,s:"Planwirtschaft",q:"Was ist Planwirtschaft?",a:["Der Staat plant, was produziert wird und was es kostet","Firmen und Kundschaft bestimmen die Preise frei","Jede Familie druckt ihr eigenes Geld","Es gibt keine Waren mehr"],e:"In kommunistischen Staaten legte der Staat in Plänen fest, was hergestellt wurde. Oft gab es dadurch zu wenig von manchen Waren. In der Marktwirtschaft entscheiden dagegen Angebot und Nachfrage.",m:"Planwirtschaft: Der Staat plant die Wirtschaft."},
+ {t:"pol_kommunismus",l:3,s:"Ostblock",q:"Was kritisierten viele Menschen in den kommunistischen Staaten Osteuropas?",a:["Fehlende Meinungs- und Reisefreiheit","Zu viele Wahlen mit vielen Parteien","Zu viele Feiertage","Zu viele Schulen"],e:"Kritik an der Regierung war gefährlich, und Reisen in den Westen war meist verboten. 1989 protestierten viele Menschen friedlich – danach fielen die kommunistischen Regierungen in Osteuropa.",m:"1989: friedliche Proteste in Osteuropa."},
+ {t:"pol_kommunismus",l:3,s:"Kommunistische Partei Chinas",q:"In welchem grossen Land regiert bis heute eine kommunistische Partei als einzige Partei?",a:["China","Deutschland","Brasilien","Australien"],e:"In China regiert seit 1949 die Kommunistische Partei. Die Wirtschaft ist heute teilweise marktwirtschaftlich, politisch bestimmt aber die Partei.",m:"China: Einparteienstaat der Kommunistischen Partei."},
+ // ===== Diktatur =====
+ {t:"pol_diktatur",l:1,s:"Diktatur",q:"Was ist eine Diktatur?",a:["Eine einzelne Person oder kleine Gruppe hat die ganze Macht, das Volk darf nicht frei wählen","Alle entscheiden gemeinsam","Das Volk stimmt über alles ab","Es gibt keine Regierung"],e:"In einer Diktatur bestimmt eine Person oder eine kleine Gruppe allein. Wer anderer Meinung ist, kann bestraft werden. Das Gegenteil ist die Demokratie.",m:"Diktatur = Macht bei wenigen, keine freien Wahlen."},
+ {t:"pol_diktatur",l:2,s:"Diktator (Rom)",q:"Woher stammt das Wort «Diktator»?",a:["Aus dem alten Rom: ein Amt mit grosser Macht in Notzeiten","Aus dem Englischen für «Lehrer»","Von einem Schweizer Berg","Aus dem Mittelalter für «Ritter»"],e:"Im alten Rom konnte in Notzeiten ein Diktator ernannt werden, der für kurze Zeit fast unbeschränkte Macht hatte. Heute bezeichnet man damit Herrscher, die ohne Kontrolle regieren.",m:"Diktator: ursprünglich ein römisches Notamt."},
+ {t:"pol_diktatur",l:2,s:"Zensur",q:"Was ist Zensur?",a:["Der Staat kontrolliert oder verbietet, was in Medien, Büchern oder im Internet erscheinen darf","Eine Schulnote","Eine Steuer","Ein Wahlverfahren"],e:"In Diktaturen werden kritische Zeitungen, Bücher oder Webseiten oft verboten. In der Schweiz schützt die Verfassung die Meinungs- und Medienfreiheit.",m:"Zensur = Kontrolle der Meinung."},
+ {t:"pol_diktatur",l:2,s:"Putsch",q:"Was ist ein Putsch?",a:["Eine gewaltsame Machtübernahme, oft durch das Militär","Eine Wahl","Ein Feiertag","Ein Sportanlass"],e:"Bei einem Putsch reisst eine Gruppe die Macht an sich, ohne Wahl. Daraus entsteht häufig eine Diktatur.",m:"Putsch = Macht mit Gewalt ergreifen."},
+ {t:"pol_diktatur",l:3,s:"Zeit des Nationalsozialismus",q:"Wer regierte Deutschland von 1933 bis 1945 als Diktator?",a:["Adolf Hitler","Otto von Bismarck","Konrad Adenauer","Kaiser Wilhelm I."],e:"Die Nationalsozialisten unter Hitler errichteten eine Diktatur, verfolgten Andersdenkende und begingen den Holocaust. Der Zweite Weltkrieg, den Deutschland begann, kostete Millionen Menschen das Leben.",m:"1933–1945: NS-Diktatur in Deutschland."},
+ {t:"pol_diktatur",l:3,s:"Benito Mussolini",q:"Wer regierte ab 1922 Italien als faschistischer Diktator?",a:["Benito Mussolini","Giuseppe Garibaldi","Julius Cäsar","Napoleon"],e:"Mussolini kam 1922 an die Macht und schaffte die Demokratie in Italien schrittweise ab. Später verbündete er sich mit Hitler.",m:"Italien: Mussolini ab 1922."},
+ {t:"pol_diktatur",l:3,s:"Absolutismus",q:"Was bedeutet absolute Monarchie?",a:["Ein König oder eine Königin herrscht mit uneingeschränkter Macht","Das Volk wählt den König jedes Jahr","Der König hat keine Macht","Mehrere Könige teilen sich ein Land"],e:"Ein bekanntes Beispiel ist Ludwig XIV. von Frankreich. Ihm wird der Satz «Der Staat bin ich» zugeschrieben. Die Französische Revolution richtete sich gegen diese Herrschaftsform.",m:"Absolutismus: alle Macht beim König."},
+ {t:"pol_diktatur",l:3,s:"Propaganda",q:"Was ist Propaganda?",a:["Gezielte Beeinflussung der Menschen, oft mit einseitigen oder falschen Informationen","Neutrale Berichterstattung","Eine Art Sport","Ein Musikstil"],e:"Diktaturen nutzen Propaganda, um ihre Macht zu sichern: Sie zeigen nur, was ihnen nützt, und stellen Gegner schlecht dar. Mehrere Quellen zu vergleichen hilft, Propaganda zu erkennen.",m:"Propaganda erkennen: Quellen vergleichen."},
+ // ===== Christentum =====
+ {t:"rel_christentum",l:1,s:"Kirchengebäude",q:"Wie heisst das Gotteshaus der Christinnen und Christen?",a:["Kirche","Moschee","Synagoge","Tempel"],e:"In der Kirche feiern Christinnen und Christen Gottesdienste, zum Beispiel an Sonntagen, Weihnachten und Ostern.",m:"Christen gehen in die Kirche."},
+ {t:"rel_christentum",l:1,s:"Bibel",q:"Wie heisst die heilige Schrift der Christinnen und Christen?",a:["Die Bibel","Der Koran","Die Tora allein","Die Veden"],e:"Die Bibel besteht aus dem Alten und dem Neuen Testament. Im Neuen Testament wird vom Leben von Jesus erzählt.",m:"Christentum = Bibel."},
+ {t:"rel_christentum",l:2,s:"Pfingsten",q:"Woran erinnern Christinnen und Christen an Pfingsten?",a:["An die Sendung des Heiligen Geistes","An die Geburt von Jesus","An die Auferstehung von Jesus","An die Erschaffung der Welt"],e:"Pfingsten wird 50 Tage nach Ostern gefeiert. Laut Bibel empfingen die Jünger den Heiligen Geist und begannen, die Botschaft von Jesus zu verbreiten.",m:"Pfingsten: 50 Tage nach Ostern."},
+ {t:"rel_christentum",l:2,s:"Papst",q:"Wie heisst das Oberhaupt der römisch-katholischen Kirche?",a:["Der Papst","Der Bischof von Basel","Der Dalai Lama","Der Rabbiner"],e:"Der Papst leitet die katholische Kirche weltweit und lebt im Vatikan in Rom. Er wird von den Kardinälen gewählt.",m:"Katholische Kirche: Papst in Rom."},
+ {t:"rel_christentum",l:2,s:"Päpstliche Schweizergarde",q:"Wer beschützt den Papst im Vatikan seit über 500 Jahren?",a:["Die Schweizergarde","Die französische Armee","Die UNO","Die italienische Polizei allein"],e:"Die Päpstliche Schweizergarde wurde 1506 gegründet. Ihre Mitglieder sind junge katholische Schweizer und tragen bunte Uniformen.",m:"Schweizergarde schützt den Papst seit 1506."},
+ {t:"rel_christentum",l:3,s:"Evangelium",q:"Was bedeutet das Wort «Evangelium»?",a:["Frohe oder gute Botschaft","Heiliger Ort","Letzter Tag","Grosses Buch"],e:"Das Wort kommt aus dem Griechischen. Die vier Evangelien im Neuen Testament erzählen vom Leben und der Lehre von Jesus.",m:"Evangelium = gute Botschaft."},
+ // ===== Islam =====
+ {t:"rel_islam",l:1,s:"Ramadan",q:"Wie heisst der Fastenmonat im Islam?",a:["Ramadan","Advent","Chanukka","Diwali"],e:"Im Ramadan essen und trinken viele gläubige Musliminnen und Muslime von der Morgendämmerung bis zum Sonnenuntergang nichts. Am Abend wird oft gemeinsam gegessen.",m:"Fastenmonat = Ramadan."},
+ {t:"rel_islam",l:2,s:"Mohammed",q:"Wer ist für Musliminnen und Muslime der wichtigste Prophet?",a:["Mohammed","Mose","Buddha","Paulus"],e:"Nach islamischem Glauben empfing Mohammed im 7. Jahrhundert die Offenbarungen, die im Koran stehen.",m:"Islam: Prophet Mohammed."},
+ {t:"rel_islam",l:2,s:"Salat (Gebet)",q:"Wie oft am Tag beten gläubige Musliminnen und Muslime nach der Tradition?",a:["Fünfmal","Einmal","Zwölfmal","Nur am Freitag"],e:"Das Gebet zu festen Zeiten gehört zu den fünf Säulen des Islams. Am Freitag gibt es ein besonderes gemeinsames Gebet in der Moschee.",m:"Gebet: fünfmal am Tag."},
+ {t:"rel_islam",l:2,s:"Koran",q:"In welcher Sprache wurde der Koran ursprünglich verfasst?",a:["Arabisch","Latein","Hebräisch","Türkisch"],e:"Der Koran wurde auf Arabisch überliefert. Er ist in viele Sprachen übersetzt, doch beim Gebet wird er meist auf Arabisch rezitiert.",m:"Koran: auf Arabisch."},
+ {t:"rel_islam",l:3,s:"Haddsch",q:"Wie heisst die grosse Pilgerfahrt nach Mekka?",a:["Hadsch","Ramadan","Sabbat","Pessach"],e:"Wer gesund ist und es sich leisten kann, soll einmal im Leben die Pilgerfahrt nach Mekka unternehmen. Jedes Jahr kommen dafür Millionen Menschen zusammen.",m:"Pilgerfahrt nach Mekka = Hadsch."},
+ {t:"rel_islam",l:3,s:"Minarett",q:"Was ist ein Minarett?",a:["Ein Turm bei einer Moschee, von dem traditionell zum Gebet gerufen wird","Ein Gebetsteppich","Ein islamischer Feiertag","Eine heilige Schrift"],e:"Vom Minarett aus ruft der Muezzin traditionell zum Gebet. In der Schweiz wurde 2009 in einer Volksabstimmung beschlossen, dass keine neuen Minarette gebaut werden dürfen.",m:"Minarett = Turm der Moschee."},
+ {t:"rel_islam",l:3,s:"Sunniten",q:"Welches sind die beiden grössten Glaubensrichtungen im Islam?",a:["Sunniten und Schiiten","Katholiken und Reformierte","Orthodoxe und Anglikaner","Hindus und Sikhs"],e:"Die Trennung entstand nach dem Tod Mohammeds in der Frage, wer die Gemeinschaft führen soll. Die grosse Mehrheit der Musliminnen und Muslime sind Sunniten.",m:"Islam: Sunniten und Schiiten."},
+ // ===== Andere Religionen =====
+ {t:"rel_andere",l:2,s:"Hinduismus",q:"In welcher Religion werden unter anderem die Götter Brahma, Vishnu und Shiva verehrt?",a:["Im Hinduismus","Im Buddhismus","Im Judentum","Im Christentum"],e:"Der Hinduismus ist vor allem in Indien verbreitet und kennt viele Götter und Göttinnen. Zu den wichtigsten gehören Brahma, Vishnu und Shiva.",m:"Brahma, Vishnu, Shiva = Hinduismus."},
+ {t:"rel_andere",l:2,s:"Sabbat",q:"Wie heisst der wöchentliche Ruhetag im Judentum?",a:["Sabbat","Sonntag","Freitag","Diwali"],e:"Der Sabbat dauert von Freitagabend bis Samstagabend. Viele Jüdinnen und Juden ruhen dann, beten und essen gemeinsam mit der Familie.",m:"Judentum: Sabbat, Freitag- bis Samstagabend."},
+ {t:"rel_andere",l:2,s:"Hindu-Tempel",q:"Wie heisst das Gotteshaus im Hinduismus?",a:["Tempel (Mandir)","Kirche","Moschee","Synagoge"],e:"Im Hindu-Tempel stehen Figuren von Gottheiten. Gläubige bringen Blumen, Früchte oder Licht als Gabe.",m:"Hinduismus: Tempel."},
+ {t:"rel_andere",l:3,s:"Sikhismus",q:"Wer gilt als Begründer des Sikhismus?",a:["Guru Nanak","Buddha","Mose","Konfuzius"],e:"Der Sikhismus entstand im 15. Jahrhundert im Punjab in Indien. Viele Sikh-Männer tragen einen Turban.",m:"Sikhismus: Guru Nanak."},
+ // ===== Wissenschaft =====
+ {t:"wissenschaft",l:1,s:"Mikroskop",q:"Womit kann man sehr kleine Dinge stark vergrössert sehen?",a:["Mit einem Mikroskop","Mit einem Fernrohr","Mit einem Thermometer","Mit einem Kompass"],e:"Ein Mikroskop vergrössert winzige Dinge, zum Beispiel Zellen oder Bakterien. Mit einem Fernrohr schaut man dagegen in die Ferne.",m:"Klein anschauen = Mikroskop."},
+ {t:"wissenschaft",l:1,s:"Sauerstoff",q:"Welches Gas brauchen Menschen und Tiere zum Atmen?",a:["Sauerstoff","Helium","Kohlendioxid","Stickstoff allein"],e:"Wir atmen Luft ein, und unser Körper braucht daraus den Sauerstoff. Pflanzen stellen Sauerstoff bei der Photosynthese her.",m:"Atmen = Sauerstoff."},
+ {t:"wissenschaft",l:2,s:"Marie Curie",q:"Welche Forscherin erhielt als erste Frau einen Nobelpreis?",a:["Marie Curie","Ada Lovelace","Rosalind Franklin","Jane Goodall"],e:"Marie Curie erforschte die Radioaktivität. Sie erhielt 1903 den Nobelpreis für Physik und 1911 den für Chemie.",m:"Marie Curie: erste Nobelpreisträgerin."},
+ {t:"wissenschaft",l:2,s:"Galileo Galilei",q:"Womit entdeckte Galileo Galilei die Monde des Jupiter?",a:["Mit einem Fernrohr","Mit einem Mikroskop","Mit einer Rakete","Mit blossem Auge"],e:"Galilei richtete um 1610 als einer der Ersten ein Fernrohr auf den Himmel. Er entdeckte vier Monde des Jupiter.",m:"Galilei: Fernrohr, Jupitermonde."},
+ {t:"wissenschaft",l:2,s:"Gold",q:"Welches chemische Zeichen hat Gold?",a:["Au","Go","Gd","Ag"],e:"Das Zeichen Au kommt vom lateinischen Wort «aurum». Ag steht für Silber, vom Lateinischen «argentum».",m:"Gold = Au, Silber = Ag."},
+ {t:"wissenschaft",l:3,s:"Periodensystem",q:"Was wird im Periodensystem geordnet?",a:["Die chemischen Elemente","Die Planeten","Die Tierarten","Die Musiknoten"],e:"Das Periodensystem ordnet alle bekannten chemischen Elemente nach ihrem Aufbau. Elemente mit ähnlichen Eigenschaften stehen untereinander.",m:"Periodensystem = Ordnung der Elemente."},
+ {t:"wissenschaft",l:3,s:"Experiment",q:"Wozu machen Forschende ein Experiment?",a:["Um eine Vermutung durch einen geplanten Versuch zu überprüfen","Um Zeit zu vertreiben","Um etwas zu zerstören","Um Geld zu drucken"],e:"Bei einem Experiment stellt man eine Vermutung auf, plant einen Versuch und beobachtet genau. Wiederholt man es mit gleichem Ergebnis, wird das Wissen verlässlicher.",m:"Experiment = Vermutung prüfen."},
+ {t:"wissenschaft",l:3,s:"Kohlenstoffdioxid",q:"Welches Gas entsteht beim Verbrennen von Holz, Kohle und Benzin vor allem?",a:["Kohlendioxid (CO₂)","Sauerstoff","Helium","Wasserstoff"],e:"Beim Verbrennen verbindet sich Kohlenstoff mit Sauerstoff zu Kohlendioxid. Zu viel CO₂ in der Luft verstärkt den Treibhauseffekt.",m:"Verbrennen erzeugt CO₂."}
+];
+FRAGEN.push(...FRAGEN6);
+
 const LOGO = `<svg viewBox="0 0 64 64" aria-hidden="true">
   <rect x="3" y="3" width="58" height="58" rx="19" fill="var(--welt)"/>
   <circle cx="52" cy="12" r="7" fill="var(--alltag)"/>
@@ -1149,7 +1264,7 @@ const wikiUrl = t => "https://de.wikipedia.org/w/index.php?search=" + encodeURIC
 const quelle = f => f.s ? `<p class="src">${ico("book")} Quelle: <a href="${wikiUrl(f.s)}" target="_blank" rel="noopener">Wikipedia – «${esc(f.s)}»</a></p>` : "";
 const LEER = {trainRuns:0,trainFragen:0,trainRichtig:0,trainZeit:0,testRuns:0,testFragen:0,testRichtig:0,testZeit:0,bestTest:0};
 /* ================= Emoji-Symbole ================= */
-const EMO = {image:"🖼️",globe:"🌍",microscope:"🔬",bike:"🚲",castle:"🏰",ballot:"🗳️",dove:"🕊️",fox:"🦊",atom:"🧠",bolt:"⚡",coin:"🪙",bank:"🏦",receipt:"🧾",health:"🩺",phone:"📱",toolbox:"🧰",house:"🏠",burst:"💥",columns:"🏛️",rocket:"🚀",scroll:"📜",mountain:"🏔️",sprout:"🌱",medal:"🏅",trophy:"🏆",dumbbell:"🏋️",question:"❓",bulb:"💡",lock:"🔒",star:"⭐",starEmpty:"⭐",check:"✅",cross:"❌",speaker:"🔊",stop:"⏹️",book:"📚",compass:"🧭",sparkle:"✨",timer:"⏱️",hammer:"🔨",laptop:"💻",heart:"🤝",chart:"📊",palette:"🎨",pan:"🍳",face1:"😕",face2:"🙂",face3:"😊",face4:"🤩",tools:"🛠️",voice:"🗣️",pin:"📍"};
+const EMO = {image:"🖼️",globe:"🌍",microscope:"🔬",bike:"🚲",castle:"🏰",ballot:"🗳️",dove:"🕊️",fox:"🦊",atom:"🧠",bolt:"⚡",coin:"🪙",bank:"🏦",receipt:"🧾",health:"🩺",phone:"📱",toolbox:"🧰",house:"🏠",burst:"💥",columns:"🏛️",rocket:"🚀",scroll:"📜",mountain:"🏔️",sprout:"🌱",medal:"🏅",trophy:"🏆",dumbbell:"🏋️",question:"❓",bulb:"💡",lock:"🔒",star:"⭐",starEmpty:"⭐",check:"✅",cross:"❌",speaker:"🔊",stop:"⏹️",book:"📚",compass:"🧭",sparkle:"✨",timer:"⏱️",hammer:"🔨",laptop:"💻",heart:"🤝",chart:"📊",palette:"🎨",pan:"🍳",face1:"😕",face2:"🙂",face3:"😊",face4:"🤩",tools:"🛠️",voice:"🗣️",pin:"📍",world:"🌐",redbook:"📕",chains:"⛓️",church:"⛪",mosque:"🕌",pray:"🙏",tree:"🌳",flask:"🧪",muscle:"💪"};
 function ico(k, cls=""){
   if(k==="flag") return `<svg class="ic col flagico ${cls}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">${ICONS.flag}</svg>`;
   return `<span class="ic emo-i ${k==="starEmpty"?"dim":""} ${cls}" aria-hidden="true">${EMO[k]||"❓"}</span>`;
@@ -1185,10 +1300,10 @@ function speakText(text, btn){
     const u=new SpeechSynthesisUtterance(p.trim());
     if(v){ u.voice=v; u.lang=v.lang; } else u.lang="de-DE";
     u.rate=1; u.pitch=1.05;
-    if(i===parts.length-1) u.onend=u.onerror=()=>btn&&btn.classList.remove("on");
+    if(i===parts.length-1) u.onend=u.onerror=()=>{ if(btn){ btn.classList.remove("on"); btn.innerHTML=`${ico("speaker")} Vorlesen`; } };
     speechSynthesis.speak(u);
   });
-  btn&&btn.classList.add("on");
+  if(btn){ btn.classList.add("on"); btn.innerHTML=`${ico("stop")} Stopp`; }
 }
 function voiceSelect(){
   const vs=germanVoices(); if(!vs.length) return `<p class="help">Dieses Gerät bietet keine deutsche Vorlesestimme an.</p>`;
@@ -1208,9 +1323,9 @@ FRAGEN.push(
  {t:"alltag",l:1,img:"e:🚑",s:"Rettungsdienst",q:"Welche Notrufnummer gehört zu diesem Fahrzeug?",a:["144","118","117","145"],e:"Das ist ein Krankenwagen. Die Sanität erreichst du unter 144.",m:"Sanität: 144."},
  {t:"alltag",l:1,img:"e:🚓",s:"Polizei (Schweiz)",q:"Welche Notrufnummer gehört zu diesem Fahrzeug?",a:["117","118","144","1818"],e:"Das ist ein Polizeiauto. Die Polizei erreichst du unter 117.",m:"Polizei: 117."},
  {t:"alltag",l:2,img:"e:♻️",s:"Recycling",q:"Wofür steht dieses Zeichen?",a:["Recycling – Wiederverwerten von Material","Einbahnstrasse","Gefahr","Waschanleitung"],e:"Die drei Pfeile im Kreis stehen für Recycling. Aus gesammeltem Glas, Papier oder PET werden neue Produkte hergestellt.",m:"♻️ = wiederverwerten."},
- {t:"naturtiere",l:1,img:"e:🐝🌸",s:"Bestäubung",q:"Was macht die Biene bei der Blüte?",a:["Sie sammelt Nektar und bestäubt die Blüte","Sie schläft","Sie frisst die Blätter","Sie baut ein Nest aus der Blüte"],e:"Bienen holen Nektar und Pollen. Dabei tragen sie Blütenstaub von Blüte zu Blüte – so entstehen Früchte.",m:"Biene + Blüte = Bestäubung."},
- {t:"naturtiere",l:1,img:"e:🐛➡️🦋",s:"Metamorphose (Zoologie)",q:"Wie nennt man diese Verwandlung?",a:["Metamorphose","Winterschlaf","Häutung beim Menschen","Photosynthese"],e:"Aus der Raupe wird in der Puppe ein Schmetterling. Diese vollständige Verwandlung heisst Metamorphose.",m:"Raupe → Schmetterling = Metamorphose."},
- {t:"naturtiere",l:2,img:"e:🌧️☀️🌈",s:"Regenbogen",q:"Was entsteht, wenn die Sonne auf Regentropfen scheint?",a:["Ein Regenbogen","Ein Gewitter","Nebel","Schnee"],e:"Das Sonnenlicht wird in den Regentropfen gebrochen und in seine Farben zerlegt. Dazu muss die Sonne hinter dir stehen.",m:"Sonne + Regen = Regenbogen."},
+ {t:"tiere",l:1,img:"e:🐝🌸",s:"Bestäubung",q:"Was macht die Biene bei der Blüte?",a:["Sie sammelt Nektar und bestäubt die Blüte","Sie schläft","Sie frisst die Blätter","Sie baut ein Nest aus der Blüte"],e:"Bienen holen Nektar und Pollen. Dabei tragen sie Blütenstaub von Blüte zu Blüte – so entstehen Früchte.",m:"Biene + Blüte = Bestäubung."},
+ {t:"tiere",l:1,img:"e:🐛➡️🦋",s:"Metamorphose (Zoologie)",q:"Wie nennt man diese Verwandlung?",a:["Metamorphose","Winterschlaf","Häutung beim Menschen","Photosynthese"],e:"Aus der Raupe wird in der Puppe ein Schmetterling. Diese vollständige Verwandlung heisst Metamorphose.",m:"Raupe → Schmetterling = Metamorphose."},
+ {t:"natur",l:2,img:"e:🌧️☀️🌈",s:"Regenbogen",q:"Was entsteht, wenn die Sonne auf Regentropfen scheint?",a:["Ein Regenbogen","Ein Gewitter","Nebel","Schnee"],e:"Das Sonnenlicht wird in den Regentropfen gebrochen und in seine Farben zerlegt. Dazu muss die Sonne hinter dir stehen.",m:"Sonne + Regen = Regenbogen."},
  {t:"physik",l:1,img:"e:🧲📎",s:"Magnet",q:"Was passiert hier?",a:["Der Magnet zieht die Büroklammer an","Die Büroklammer schmilzt","Der Magnet stösst alles ab","Nichts"],e:"Büroklammern bestehen meist aus Stahl, also aus Eisen. Das wird von Magneten angezogen.",m:"Magnet zieht Eisen an."},
  {t:"physik",l:1,img:"e:🧊💧♨️",s:"Aggregatzustand",q:"Welche drei Zustände von Wasser siehst du?",a:["Fest, flüssig und gasförmig","Warm, kalt und nass","Klein, mittel und gross","Süss, sauer und salzig"],e:"Wasser kann fest sein (Eis), flüssig (Wasser) oder gasförmig (Dampf). Das nennt man Aggregatzustände.",m:"Eis – Wasser – Dampf."},
  {t:"physik",l:2,img:"e:⚡🔊",s:"Gewitter",q:"Warum siehst du bei einem Gewitter zuerst den Blitz und hörst erst dann den Donner?",a:["Licht ist schneller als Schall","Der Donner ist schüchtern","Der Blitz entsteht früher","Die Ohren sind langsamer als die Augen"],e:"Blitz und Donner entstehen gleichzeitig. Das Licht erreicht dich fast sofort, der Schall braucht etwa drei Sekunden pro Kilometer.",m:"Licht vor Schall."},
@@ -1226,11 +1341,11 @@ FRAGEN.push(
  {t:"kt_ZH",l:1,img:"e:⛄🔥",s:"Sechseläuten",q:"Welcher Zürcher Brauch ist hier gemeint?",a:["Das Sechseläuten mit dem Böögg","Die Basler Fasnacht","Die Escalade","Der Zibelemärit"],e:"Am Sechseläuten wird der Schneemann Böögg verbrannt. Je schneller sein Kopf explodiert, desto schöner soll der Sommer werden.",m:"Böögg brennt am Sechseläuten."},
  {t:"kt_GE",l:1,img:"e:🍲🍫",s:"Escalade",q:"Welches Genfer Fest ist hier gemeint?",a:["Die Escalade","Das Sechseläuten","Die Fasnacht","Das Knabenschiessen"],e:"An der Escalade zerschlägt man Schokoladentöpfe – in Erinnerung an die Suppe der Mère Royaume von 1602.",m:"Escalade = Schokoladentopf."},
  {t:"medien",l:1,img:"e:📵🛏️",s:"Schlafhygiene",q:"Was ist hier gemeint?",a:["Vor dem Schlafen das Handy weglegen","Im Bett Videos schauen","Das Bett verkaufen","Das Handy ins Bett legen"],e:"Helles Bildschirmlicht und spannende Videos halten wach. Ohne Handy schläft man besser ein.",m:"Handy weg = besser schlafen."},
- {t:"religion",l:1,img:"e:🎄🎁⭐",s:"Weihnachten",q:"Welches Fest passt zu diesen Bildern?",a:["Weihnachten","Ostern","Halloween","Diwali"],e:"Weihnachtsbaum, Geschenke und Stern gehören zu Weihnachten, dem Fest der Geburt Jesu.",m:"🎄 = Weihnachten."},
- {t:"religion",l:1,img:"e:🐣🥚🐰",s:"Ostern",q:"Welches Fest passt zu diesen Bildern?",a:["Ostern","Weihnachten","Pfingsten","Neujahr"],e:"Küken, Eier und Hasen sind Zeichen für Ostern und neues Leben im Frühling.",m:"🥚🐰 = Ostern."},
- {t:"religion",l:2,img:"e:🕎",s:"Chanukka",q:"Zu welchem Fest gehört dieser Leuchter?",a:["Chanukka","Weihnachten","Ramadan","Ostern"],e:"Am jüdischen Lichterfest Chanukka wird an acht Abenden jeweils ein Licht mehr angezündet.",m:"🕎 = Chanukka."},
- {t:"wissenschaft",l:1,img:"e:🦷🪥",s:"Zahnpflege",q:"Wie oft sollte man das mindestens am Tag machen?",a:["Zweimal","Nie","Einmal pro Woche","Zehnmal"],e:"Morgens und abends Zähne putzen schützt vor Karies.",m:"Zähneputzen: 2× am Tag."},
- {t:"politik",l:1,img:"e:🗳️✉️",s:"Abstimmung",q:"Was machen die Stimmberechtigten hier?",a:["Sie stimmen ab oder wählen","Sie schicken Ferienkarten","Sie bezahlen Rechnungen","Sie spielen Lotto"],e:"In der Schweiz kann man per Brief oder an der Urne abstimmen und wählen.",m:"Urne = abstimmen."},
+ {t:"rel_christentum",l:1,img:"e:🎄🎁⭐",s:"Weihnachten",q:"Welches Fest passt zu diesen Bildern?",a:["Weihnachten","Ostern","Halloween","Diwali"],e:"Weihnachtsbaum, Geschenke und Stern gehören zu Weihnachten, dem Fest der Geburt Jesu.",m:"🎄 = Weihnachten."},
+ {t:"rel_christentum",l:1,img:"e:🐣🥚🐰",s:"Ostern",q:"Welches Fest passt zu diesen Bildern?",a:["Ostern","Weihnachten","Pfingsten","Neujahr"],e:"Küken, Eier und Hasen sind Zeichen für Ostern und neues Leben im Frühling.",m:"🥚🐰 = Ostern."},
+ {t:"rel_andere",l:2,img:"e:🕎",s:"Chanukka",q:"Zu welchem Fest gehört dieser Leuchter?",a:["Chanukka","Weihnachten","Ramadan","Ostern"],e:"Am jüdischen Lichterfest Chanukka wird an acht Abenden jeweils ein Licht mehr angezündet.",m:"🕎 = Chanukka."},
+ {t:"koerper",l:1,img:"e:🦷🪥",s:"Zahnpflege",q:"Wie oft sollte man das mindestens am Tag machen?",a:["Zweimal","Nie","Einmal pro Woche","Zehnmal"],e:"Morgens und abends Zähne putzen schützt vor Karies.",m:"Zähneputzen: 2× am Tag."},
+ {t:"pol_demokratie",l:1,img:"e:🗳️✉️",s:"Abstimmung",q:"Was machen die Stimmberechtigten hier?",a:["Sie stimmen ab oder wählen","Sie schicken Ferienkarten","Sie bezahlen Rechnungen","Sie spielen Lotto"],e:"In der Schweiz kann man per Brief oder an der Urne abstimmen und wählen.",m:"Urne = abstimmen."},
  {t:"steuern",l:1,img:"e:🏫🛣️🚒",s:"Steuer",q:"Womit werden diese Dinge bezahlt?",a:["Mit Steuern","Mit Taschengeld","Mit Spielgeld","Gar nicht"],e:"Schulen, Strassen und Feuerwehr bezahlen wir gemeinsam mit Steuern.",m:"Steuern zahlen, was alle brauchen."},
  {t:"krankenkasse",l:1,img:"e:🤒👩‍⚕️💊",s:"Krankenversicherung",q:"Wer hilft, diese Kosten zu bezahlen?",a:["Die Krankenkasse","Die Bank","Die Schule","Der Kiosk"],e:"Arztbesuche und Medikamente werden zu einem grossen Teil über die Krankenkasse bezahlt.",m:"Krank? Krankenkasse hilft zahlen."},
  {t:"beruf",l:1,img:"e:🥖🥐",s:"Bäcker",q:"Welcher Beruf passt dazu?",a:["Bäckerin oder Bäcker","Coiffeuse oder Coiffeur","Polymechanikerin oder Polymechaniker","Gärtnerin oder Gärtner"],e:"Brot und Gipfeli werden in der Bäckerei gebacken.",m:"🥖 = Bäckerei."},
@@ -1241,7 +1356,7 @@ FRAGEN.push(
 const W8 = { run:false, done:0, err:0 };
 function renderWerkstatt(){
   if(!S.canEdit){ go("home"); return; }
-  const themen = Object.keys(THEMA).filter(id=>!THEMA[id].menu && id!=="kt_alle");
+  const themen = Object.keys(THEMA).filter(id=>!THEMA[id].menu && !THEMA[id].kids && id!=="kt_alle");
   const pend = S.pending || [];
   $("#app").innerHTML = `
     <div class="pagehead"><div class="bigav">${ico("tools")}</div><div><h1>Fragen-Werkstatt</h1>
@@ -1283,7 +1398,7 @@ async function werkstattRun(themaId, stufe, batches, bilder){
   if(W8.run || !S.sample || !S.db) return;
   W8.run=true; W8.done=0; W8.err=0; render();
   const t=THEMA[themaId];
-  const ch = CH_IDS.includes(themaId) || t.bereich.id==="geld" || ["politik","alltag","beruf","medien"].includes(themaId);
+  const ch = CH_IDS.includes(themaId) || t.bereich.id==="geld" || ["pol_demokratie","pol_welt","alltag","beruf","medien"].includes(themaId);
   const seen = new Set([...pool(themaId), ...(S.pending||[])].map(f=>norm(f.q)));
   for(let b=0; b<batches && W8.run; b++){
     const st = stufe || (b%3)+1; const so=stufeObj(st);
@@ -1665,19 +1780,21 @@ const isDark = () => (matchMedia("(prefers-color-scheme: dark)").matches && docu
 function applyDark(){ document.body.classList.toggle("dark", isDark()); }
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", ()=>render());
 
-function pool(themaId){ const all=[...FRAGEN, ...S.extra]; if(themaId==="bilder") return all.filter(f=>f.img); if(themaId==="kt_alle") return all.filter(f=>String(f.t).startsWith("kt_")); return all.filter(f=>f.t===themaId); }
+function pool(themaId){ const all=[...FRAGEN, ...S.extra]; if(THEMA[themaId]?.kids) return THEMA[themaId].kids.flatMap(k=>pool(k)); if(themaId==="bilder") return all.filter(f=>f.img); if(themaId==="kt_alle") return all.filter(f=>String(f.t).startsWith("kt_")); return all.filter(f=>f.t===themaId); }
 function allCount(){ return FRAGEN.length + S.extra.length; }
-function countThema(id){ if(id==="geschichte") return GESCH_IDS.reduce((n,x)=>n+pool(x).length,0); return pool(id).length; }
-function countIds(ids){ return ids.reduce((n,x)=>n+pool(x).length,0); }
-function countBereich(b){ return b.themen.reduce((n,t)=>n+countThema(t.id),0); }
+const byL = (arr,l) => l ? arr.filter(f=>f.l===l) : arr;
+function countThema(id,l){ if(id==="geschichte") return GESCH_IDS.reduce((n,x)=>n+byL(pool(x),l).length,0); return byL(pool(id),l).length; }
+function countIds(ids,l){ return ids.reduce((n,x)=>n+byL(pool(x),l).length,0); }
+function countBereich(b,l){ return b.themen.reduce((n,t)=>n+countThema(t.id,l),0); }
+function allCountL(l){ return byL([...FRAGEN, ...S.extra],l).length; }
 function stufeObj(id){ return STUFEN.find(s=>s.id===(id??S.stufe)) || STUFEN[0]; }
 const STUFE_EMO = {1:ico("sprout"),2:ico("rocket"),3:ico("medal")};
 
-function speakBtn(text){ return ("speechSynthesis" in window) ? `<span class="speakrow"><button class="speak" type="button" data-say="${esc(text)}">${ico("speaker")} Vorlesen</button><button class="speak stopb" type="button" data-stop="1">${ico("stop")} Stopp</button></span>` : ""; }
-function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>b.classList.remove("on")); }
+function speakBtn(text){ return ("speechSynthesis" in window) ? `<span class="speakrow"><button class="speak" type="button" data-say="${esc(text)}">${ico("speaker")} Vorlesen</button></span>` : ""; }
+function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>{ b.classList.remove("on"); b.innerHTML=`${ico("speaker")} Vorlesen`; }); }
 function bindSpeak(){
-  document.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>{ try{ speakText(b.dataset.say, b); }catch(e){} });
-  document.querySelectorAll("[data-stop]").forEach(b=>b.onclick=stopSpeak);
+  document.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>{ try{ if(b.classList.contains("on")) stopSpeak(); else speakText(b.dataset.say, b); }catch(e){} });
+  
 }
 
 function go(screen){ stopSpeak(); if(S.screen==="quiz" && screen!=="quiz" && S.quiz && !S.quiz.flushed) flushRun(false); S.screen=screen; render(); scrollTo({top:0}); }
@@ -1700,8 +1817,9 @@ function render(){
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
   renderNav();
   ({home:renderHome, bereich:renderBereich, mode:renderMode, quiz:renderQuiz, done:renderDone, berufmenu:renderBerufMenu, check:renderCheck,
-    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, werkstatt:renderWerkstatt, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
+    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
   bindSpeak();
+  bindCrumbs();
 }
 
 /* ---------- Startseite ---------- */
@@ -1734,12 +1852,12 @@ function renderHome(){
     </section>
     <p class="label" id="stufeLbl">Deine Stufe</p>
     <div class="levels" role="group" aria-labelledby="stufeLbl">
-      ${STUFEN.map(s=>`<button class="level" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="em" aria-hidden="true">${STUFE_EMO[s.id]}</span><span><b>${s.name}</b><span class="a">${s.alter}</span></span></button>`).join("")}
+      ${STUFEN.map(s=>`<button class="level" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="em" aria-hidden="true">${STUFE_EMO[s.id]}</span><span><b>${s.name}</b><span class="a">${s.alter} · ${allCountL(s.id)} Fragen</span></span></button>`).join("")}
     </div>
-    <p class="label" id="bereiche"><span>Bereiche</span><small>${allCount()} Fragen in der Datenbank</small></p>
+    <p class="label" id="bereiche"><span>Bereiche</span><small>${allCountL(S.stufe)} Fragen für ${stufeObj().name} · ${allCount()} insgesamt</small></p>
     <div class="bereiche">
       ${BEREICHE.map(b=>`<button class="bereich" type="button" data-b="${b.id}" style="--c:var(${b.c})">
-        <span class="count-pill">${countBereich(b)} Fragen</span>
+        <span class="count-pill">${countBereich(b,S.stufe)} Fragen</span>
         <span class="emo" aria-hidden="true">${ico(b.emo)}</span><h2>${b.name}</h2><p>${b.text}</p></button>`).join("")}
     </div>`;
   document.querySelectorAll(".level").forEach(b=>b.onclick=()=>{ S.stufe=+b.dataset.s; store.set("ep-stufe",S.stufe); render(); });
@@ -1757,18 +1875,20 @@ function trainStars(themaId){ return store.get("ep-sterne",{})[`${themaId}-${S.s
 function renderBereich(){
   const b = S.bereich;
   $("#app").innerHTML = `
-    <button class="back" id="backHome" type="button">← Alle Bereiche</button>
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico(b.emo)}</span><h1>${b.name}</h1><span class="sub">${countBereich(b)} Fragen in ${b.themen.length} Themen</span></div>
+    ${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">${ico(b.emo)}</span><h1>${b.name}</h1></div>
+    <p class="bdesc">${esc(b.desc||b.text)}</p>
+    ${stufeBar(`${countBereich(b,S.stufe)} Fragen in ${b.themen.length} Themen`)}
     <div class="themen">
       ${b.themen.map(t=>{ const st=trainStars(t.id), bp=myBest(t.id); return `<button class="thema" type="button" data-t="${t.id}" style="--c:var(${b.c})">
         <span class="emo" aria-hidden="true">${themaIcon(t)}</span>
         <span><b>${t.name}</b><span class="t">${st!=null ? stars(st) : t.text}${bp? " · Test: "+bp+" P." : ""}</span>
-        <span class="n">${countThema(t.id)} Fragen</span></span></button>`; }).join("")}
+        <span class="n">${countThema(t.id,S.stufe)} Fragen</span></span></button>`; }).join("")}
     </div>`;
-  $("#backHome").onclick=()=>go("home");
+  ($("#backHome")||{}).onclick=()=>go("home");
   document.querySelectorAll(".thema").forEach(x=>x.onclick=()=>{
     S.thema=THEMA[x.dataset.t];
-    if(S.thema.menu) go(S.thema.menu); else if(x.dataset.t==="beruf") go("berufmenu"); else go("mode");
+    if(S.thema.menu==="submenu"){ S.menu=S.thema.id; go("submenu"); } else if(S.thema.menu) go(S.thema.menu); else if(x.dataset.t==="beruf") go("berufmenu"); else go("mode");
   });
 }
 
@@ -1776,8 +1896,9 @@ function renderBereich(){
 function renderMode(){
   const t=S.thema, c=t.bereich.c, n=pool(t.id).length, bp=myBest(t.id), canTest=n>=TEST_LEN;
   $("#app").innerHTML = `
-    <button class="back" id="backB" type="button">← ${t.parent==="geschmenu"?"Geschichte":t.parent==="chmenu"?"Schweizer Geschichte":esc(t.bereich.name)}</button>
-    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(t)}</span><h1>${esc(t.name)}</h1><span class="sub">${n} Fragen · Stufe ${stufeObj().name} (${stufeObj().alter})</span></div>
+    ${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(t)}</span><h1>${esc(t.id==="politik"||t.id==="religion"? t.name+" – alles gemischt" : t.name)}</h1></div>
+    ${stufeBar(`${countThema(t.id,S.stufe)} von ${n} Fragen für diese Stufe`)}
     <div class="modes">
       <div class="mode" style="--c:var(${c})"><span class="em" aria-hidden="true">${ico("dumbbell")}</span><h2>Training</h2>
         <p>In deinem Tempo, ohne Zeitlimit. Nach jeder Antwort gibt es eine Erklärung.</p>
@@ -1793,7 +1914,7 @@ function renderMode(){
         ${canTest && !S.profil ? `<p style="color:var(--ink);font-weight:600">Registriere dich zuerst, um in die Rangliste zu kommen.</p>` : ""}
         ${canTest ? `<span class="big gold startlbl">${S.profil? "Test starten" : "Registrieren und starten"}</span>` : ""}</button>
     </div>`;
-  $("#backB").onclick=()=>{ if(t.parent) go(t.parent); else if(t.id==="beruf") go("berufmenu"); else go("bereich"); };
+  
   document.querySelectorAll(".cnt").forEach(b=>b.onclick=()=>{ store.set("ep-anzahl",+b.dataset.n); startQuiz(t.id,"train",+b.dataset.n); });
   $("#mTest").onclick=()=>{ if(!canTest) return; if(!S.profil){ S.after="mode"; go("register"); } else startQuiz(t.id,"test"); };
 }
@@ -1867,9 +1988,8 @@ function renderQuiz(){
         <div class="merke"><small>Merke dir</small>${esc(f.m)}</div>
         ${quelle(f)}
         <div class="row" style="justify-content:flex-start">${answered ? `<button class="big" id="next" type="button">${nextLbl}</button>` : `<button class="big" id="toQuestion" type="button">${ico("question")} Zur Frage</button>`}</div></div>`;
-  $("#app").innerHTML = `
+  $("#app").innerHTML = `${crumbs()}
     <div class="qtop" style="--c:var(${test?"--gold":c})">
-      <button class="back" id="backB" type="button">← ${test? "Test abbrechen" : esc(S.thema.name)}</button>
       <div class="bar" aria-hidden="true"><i style="width:${prog}%"></i></div>
       ${test? `<span class="timer" id="timer">${ico("timer")}</span>`:""}
       <span class="count">Frage ${Q.i+1} von ${Q.list.length}</span>
@@ -1881,7 +2001,7 @@ function renderQuiz(){
       </div>`}
       ${body}
     </div>`;
-  $("#backB").onclick=()=>{ if(test && !confirm("Test abbrechen? Er wird nicht gewertet.")) return; go("mode"); };
+  ($("#backB")||{}).onclick=()=>{ if(test && !confirm("Test abbrechen? Er wird nicht gewertet.")) return; go("mode"); };
   document.querySelectorAll(".tabbtn").forEach(b=>b.onclick=()=>{ stopSpeak(); Q.tab=b.dataset.tab; render(); });
   document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>answer(+b.dataset.i));
   $("#next") && ($("#next").onclick=nextQ);
@@ -1944,7 +2064,7 @@ function renderDone(){
       ${!test && S.canEdit ? `<div class="more"><button class="big alt" id="gen" type="button">${ico("tools")} Mehr Fragen in der Werkstatt erzeugen</button></div>` : ""}
     </div>`;
   $("#again").onclick=()=>startQuiz(t.id, Q.mode, Q.count);
-  $("#other").onclick=()=>go(t.parent || (t.id==="beruf"?"berufmenu":"bereich"));
+  $("#other").onclick=()=>goParent(t);
   $("#board") && ($("#board").onclick=()=>{ S.boardStufe=S.stufe; go("board"); });
   $("#toTest") && ($("#toTest").onclick=()=>{ if(!S.profil){ S.after="mode"; go("register"); } else startQuiz(t.id,"test"); });
   $("#gen") && ($("#gen").onclick=()=>go("werkstatt"));
@@ -2061,45 +2181,111 @@ function renderBoard(){
   $("#reg") && ($("#reg").onclick=()=>go("register"));
 }
 
+/* ---------- Verlauf (Breadcrumbs), Stufen-Leiste, Untermenüs ---------- */
+function goParent(t){
+  if(!t) return go("home");
+  if(t.parent?.startsWith("submenu:")){ S.menu=t.parent.slice(8); return go("submenu"); }
+  if(t.parent) return go(t.parent);
+  if(t.id==="beruf") return go("berufmenu");
+  S.bereich=t.bereich; go("bereich");
+}
+function crumbPath(){
+  const P=[["Start",()=>go("home")]];
+  const B=b=>P.push([b.name,()=>{ S.bereich=b; go("bereich"); }]);
+  const byId=id=>BEREICHE.find(x=>x.id===id);
+  const G=()=>P.push(["Geschichte",()=>go("geschmenu")]);
+  const CH=()=>P.push(["Schweizer Geschichte",()=>go("chmenu")]);
+  const SUB=id=>P.push([THEMA[id].name,()=>{ S.menu=id; go("submenu"); }]);
+  const BER=()=>P.push(["Berufswahl & Lehre",()=>go("berufmenu")]);
+  const chain=t=>{ B(t.bereich); if(t.parent==="geschmenu") G(); else if(t.parent==="chmenu"){ G(); CH(); } else if(t.parent?.startsWith("submenu:")) SUB(t.parent.slice(8)); else if(t.id==="beruf") BER(); else if(t.menu==="submenu"){} };
+  const t=S.thema; let cur="";
+  switch(S.screen){
+    case "bereich": cur=S.bereich.name; break;
+    case "geschmenu": B(byId("welt")); cur="Geschichte"; break;
+    case "chmenu": B(byId("welt")); G(); cur="Schweizer Geschichte"; break;
+    case "submenu": B(THEMA[S.menu].bereich); cur=THEMA[S.menu].name; break;
+    case "berufmenu": B(byId("geld")); cur="Berufswahl & Lehre"; break;
+    case "check": case "checkdone": B(byId("geld")); BER(); cur="Berufs-Check"; break;
+    case "mode": chain(t); if(t.menu==="submenu"){ SUB(t.id); cur="Alles gemischt"; } else cur=t.name; break;
+    case "quiz": case "done": chain(t); if(t.menu==="submenu") SUB(t.id); P.push([t.menu==="submenu"?"Alles gemischt":t.name,()=>go("mode")]); cur=S.quiz?.mode==="test"?"Gewerteter Test":"Training"; break;
+  }
+  return {P,cur};
+}
+function crumbs(){
+  const {P,cur}=crumbPath(); S._crumbs=P.map(x=>x[1]);
+  return `<nav class="crumbs" aria-label="Verlauf">${P.map((x,i)=>`<button type="button" class="crumb" data-ci="${i}">${i===0?ico("house")+" ":""}${esc(x[0])}</button><span class="sep" aria-hidden="true">›</span>`).join("")}<span class="crumb cur" aria-current="page">${esc(cur)}</span></nav>`;
+}
+function bindCrumbs(){
+  document.querySelectorAll(".crumb[data-ci]").forEach(b=>b.onclick=()=>{
+    if(S.screen==="quiz" && S.quiz?.mode==="test" && !S.quiz.flushed && !confirm("Test abbrechen? Er wird nicht gewertet.")) return;
+    const f=S._crumbs?.[+b.dataset.ci]; f&&f();
+  });
+  document.querySelectorAll(".sbar [data-sl]").forEach(b=>b.onclick=()=>{ S.stufe=+b.dataset.sl; store.set("ep-stufe",S.stufe); render(); });
+}
+function stufeBar(info){
+  return `<div class="sbar"><div class="sbtns" role="group" aria-label="Stufe">${STUFEN.map(s=>`<button type="button" data-sl="${s.id}" aria-pressed="${S.stufe===s.id}">${STUFE_EMO[s.id]} ${s.name}</button>`).join("")}</div><span class="sinfo">${info}</span></div>`;
+}
+function renderSubMenu(){
+  const m=THEMA[S.menu]; if(!m){ go("home"); return; } const b=m.bereich;
+  $("#app").innerHTML = `
+    ${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">${ico(m.emo)}</span><h1>${esc(m.name)}</h1></div>
+    ${stufeBar(`${countThema(m.id,S.stufe)} Fragen in ${m.kids.length} Unterkategorien`)}
+    <div class="themen">
+      ${m.kids.map(id=>{ const t=THEMA[id], st=trainStars(id), bp=myBest(id); return `<button class="thema" type="button" data-t="${id}" style="--c:var(${b.c})">
+        <span class="emo" aria-hidden="true">${ico(t.emo)}</span>
+        <span><b>${esc(t.name)}</b><span class="t">${st!=null ? stars(st) : esc(t.text)}${bp? " · Test: "+bp+" P." : ""}</span>
+        <span class="n">${countThema(id,S.stufe)} Fragen</span></span></button>`; }).join("")}
+    </div>
+    <div class="bereiche" style="grid-template-columns:1fr;margin-top:18px">
+      <button class="bereich" type="button" id="mixAll" style="--c:var(${b.c});min-height:150px"><span class="count-pill">${countThema(m.id,S.stufe)} Fragen</span>
+        <span class="emo" aria-hidden="true">${ico("sparkle")}</span><h2>Alles gemischt</h2><p>Fragen aus allen Unterkategorien – auch als gewerteter Test</p></button>
+    </div>`;
+  document.querySelectorAll(".thema[data-t]").forEach(x=>x.onclick=()=>{ S.thema=THEMA[x.dataset.t]; go("mode"); });
+  $("#mixAll").onclick=()=>{ S.thema=m; go("mode"); };
+}
+
 /* ---------- Geschichte ---------- */
 function renderGeschMenu(){
   const b=THEMA.geschichte.bereich;
   $("#app").innerHTML = `
-    <button class="back" id="backB" type="button">← ${esc(b.name)}</button>
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico("castle")}</span><h1>Geschichte</h1><span class="sub">${countThema("geschichte")} Fragen · vom Urknall bis heute</span></div>
+    ${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">${ico("castle")}</span><h1>Geschichte</h1></div>
+    ${stufeBar(`${countThema("geschichte",S.stufe)} Fragen · vom Urknall bis heute`)}
     <p class="label"><span>Die Zeitreise</span><small>in zeitlicher Reihenfolge</small></p>
     <div class="themen epochs">
       ${GESCH_EPOCHEN.map((t,i)=>`<button class="thema" type="button" data-t="${t.id}" style="--c:var(${b.c})">
         <span class="step" aria-hidden="true">${i+1}</span><span class="emo" aria-hidden="true">${themaIcon(t)}</span>
-        <span><b>${t.name}</b><span class="t">${t.text}</span><span class="n">${pool(t.id).length} Fragen</span></span></button>`).join("")}
+        <span><b>${t.name}</b><span class="t">${t.text}</span><span class="n">${countThema(t.id,S.stufe)} Fragen</span></span></button>`).join("")}
     </div>
     <p class="label" style="margin-top:30px"><span>Spezial</span></p>
     <div class="bereiche" style="grid-template-columns:1fr">
-      <button class="bereich" type="button" id="toCh" style="--c:var(--geld)"><span class="count-pill">${countIds(CH_IDS)} Fragen</span>
+      <button class="bereich" type="button" id="toCh" style="--c:var(--geld)"><span class="count-pill">${countIds(CH_IDS,S.stufe)} Fragen</span>
         <span class="emo" aria-hidden="true">${ico("flag")}</span><h2>Schweizer Geschichte</h2><p>Allgemein und alle 26 Kantone</p></button>
     </div>`;
-  $("#backB").onclick=()=>{ S.bereich=b; go("bereich"); };
+  ($("#backB")||{}).onclick=()=>{ S.bereich=b; go("bereich"); };
   document.querySelectorAll(".epochs .thema").forEach(x=>x.onclick=()=>{ S.thema=THEMA[x.dataset.t]; go("mode"); });
   $("#toCh").onclick=()=>go("chmenu");
 }
 function renderChMenu(){
   $("#app").innerHTML = `
-    <button class="back" id="backG" type="button">← Geschichte</button>
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico("flag")}</span><h1>Schweizer Geschichte</h1><span class="sub">${countIds(CH_IDS)} Fragen · 26 Kantone</span></div>
+    ${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">${ico("flag")}</span><h1>Schweizer Geschichte</h1></div>
+    ${stufeBar(`${countIds(CH_IDS,S.stufe)} Fragen · 26 Kantone`)}
     <div class="bereiche" style="grid-template-columns:1fr">
-      <button class="bereich" type="button" data-t="${CH_ALLG.id}" style="--c:var(--geld);min-height:150px"><span class="count-pill">${pool(CH_ALLG.id).length} Fragen</span>
+      <button class="bereich" type="button" data-t="${CH_ALLG.id}" style="--c:var(--geld);min-height:150px"><span class="count-pill">${countThema(CH_ALLG.id,S.stufe)} Fragen</span>
         <span class="emo" aria-hidden="true">${ico("flag")}</span><h2>Schweizer Geschichte</h2><p>Von 1291 über 1848 bis heute</p></button>
     </div>
     <div class="bereiche" style="grid-template-columns:1fr;margin-top:16px">
-      <button class="bereich" type="button" data-t="kt_alle" style="--c:var(--welt);min-height:160px"><span class="count-pill">${pool("kt_alle").length} Fragen</span>
+      <button class="bereich" type="button" data-t="kt_alle" style="--c:var(--welt);min-height:160px"><span class="count-pill">${countThema("kt_alle",S.stufe)} Fragen</span>
         <span class="emo" aria-hidden="true">${ico("flag")}</span><h2>Alle Kantone</h2><p>Gemischt aus allen 26 Kantonen – auch als gewerteter Test</p></button>
     </div>
     <p class="label" style="margin-top:30px"><span>Die Kantone</span><small>Training pro Kanton</small></p>
     <div class="kantone">
       ${KANTONE.map(k=>{ const bp=myBest(k.id); return `<button class="kanton" type="button" data-t="${k.id}">
-        <span class="kw">${wappen(k.kuerzel)}</span><span class="kn"><b>${esc(k.kurz)}</b><span>${pool(k.id).length} Fragen${bp? " · "+bp+" P.":""}</span></span></button>`; }).join("")}
+        <span class="kw">${wappen(k.kuerzel)}</span><span class="kn"><b>${esc(k.kurz)}</b><span>${countThema(k.id,S.stufe)} Fragen${bp? " · "+bp+" P.":""}</span></span></button>`; }).join("")}
     </div>`;
-  $("#backG").onclick=()=>go("geschmenu");
+  ($("#backG")||{}).onclick=()=>go("geschmenu");
   document.querySelectorAll("[data-t]").forEach(x=>x.onclick=()=>{ S.thema=THEMA[x.dataset.t]; go("mode"); });
 }
 
@@ -2107,21 +2293,21 @@ function renderChMenu(){
 function renderBerufMenu(){
   const b=THEMA.beruf.bereich; S.thema=THEMA.beruf;
   $("#app").innerHTML = `
-    <button class="back" id="backB" type="button">← ${esc(b.name)}</button>
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico("toolbox")}</span><h1>Berufswahl & Lehre</h1><span class="sub">${pool("beruf").length} Fragen · ${AUSSAGEN.length} Aussagen im Berufs-Check</span></div>
+    ${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">${ico("toolbox")}</span><h1>Berufswahl & Lehre</h1></div>
+    ${stufeBar(`${countThema("beruf",S.stufe)} Fragen · ${AUSSAGEN.length} Aussagen im Berufs-Check`)}
     <div class="bereiche">
       <button class="bereich" type="button" id="goCheck" style="--c:var(${b.c})"><span class="emo" aria-hidden="true">${ico("compass")}</span><h2>Berufs-Check</h2><p>Finde Berufsfelder und Lehren, die zu dir passen</p></button>
       <button class="bereich" type="button" id="goQuiz" style="--c:var(--welt)"><span class="emo" aria-hidden="true">${ico("question")}</span><h2>Quiz zur Lehre</h2><p>EFZ, EBA, Schnuppern, Berufsmaturität</p></button>
     </div>`;
-  $("#backB").onclick=()=>{ S.bereich=b; go("bereich"); };
+  ($("#backB")||{}).onclick=()=>{ S.bereich=b; go("bereich"); };
   $("#goCheck").onclick=()=>{ S.check={i:0, pts:{}, order:shuffle(AUSSAGEN)}; go("check"); };
   $("#goQuiz").onclick=()=>go("mode");
 }
 function renderCheck(){
   const C=S.check, a=C.order[C.i], c=THEMA.beruf.bereich.c;
-  $("#app").innerHTML = `
+  $("#app").innerHTML = `${crumbs()}
     <div class="qtop" style="--c:var(${c})">
-      <button class="back" id="backM" type="button">← Berufswahl</button>
       <div class="bar" aria-hidden="true"><i style="width:${C.i/C.order.length*100}%"></i></div>
       <span class="count">${C.i+1} von ${C.order.length}</span>
     </div>
@@ -2131,7 +2317,7 @@ function renderCheck(){
       <div class="answers">${SKALA.map(([t,v])=>`<button class="ans" type="button" data-v="${v}"><span class="key">${ico("face"+(v+1))}</span><span>${t}</span></button>`).join("")}</div>
       <p class="hint">Hier gibt es kein Richtig oder Falsch – antworte so, wie es für dich stimmt.</p>
     </div>`;
-  $("#backM").onclick=()=>go("berufmenu");
+  ($("#backM")||{}).onclick=()=>go("berufmenu");
   document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{
     C.pts[a.f]=(C.pts[a.f]||0)+ +b.dataset.v;
     if(C.i+1<C.order.length){ C.i++; render(); } else go("checkdone");
@@ -2161,7 +2347,7 @@ async function generate(themaId){
   const t=THEMA[themaId], st=stufeObj(), st_el=$("#status"), btn=$("#gen");
   btn.disabled=true; st_el.textContent="Neue Fragen werden geschrieben … das dauert meist unter einer Minute."; st_el.classList.add("pulse");
   const known = pool(themaId).map(f=>f.q).slice(0,40).join(" | ");
-  const ch = CH_IDS.includes(themaId) || t.bereich.id==="geld" || themaId==="politik" || themaId==="alltag";
+  const ch = CH_IDS.includes(themaId) || t.bereich.id==="geld" || themaId==="pol_demokratie" || themaId==="alltag";
   const prompt = `Erstelle 5 neue Multiple-Choice-Lernfragen für ein Lernspiel für Kinder und Jugendliche in der Schweiz.
 Thema: ${t.name}. Zielgruppe: ${st.alter} (Stufe "${st.name}"). Passe Wortwahl und Schwierigkeit genau an dieses Alter an.
 ${ch ? "Beziehe dich auf die Schweiz (Bund, Kantone, Gemeinden, CHF). Nenne keine exakten aktuellen Beträge, Sätze oder Zinsen, die sich jährlich ändern." : ""}
@@ -2198,7 +2384,7 @@ render();
   if(!db) return;
   S.db = db;
   db.collection("fragen").onSnapshot(snap=>{
-    const all = snap.docs.map(d=>{ const x=d.data()||{}; const o={id:d.id, t:String(x.t), l:+x.l||1, q:String(x.q||""), a:Array.isArray(x.a)?x.a.map(String):[], e:String(x.e||""), m:String(x.m||""), s:x.s?String(x.s):"", status:x.status||"ok", ki:true}; if(typeof x.img==="string" && /^e:/.test(x.img)) o.img=x.img; return o; })
+    const all = snap.docs.map(d=>{ const x=d.data()||{}; const o={id:d.id, t:ALIAS[x.t]||String(x.t), l:+x.l||1, q:String(x.q||""), a:Array.isArray(x.a)?x.a.map(String):[], e:String(x.e||""), m:String(x.m||""), s:x.s?String(x.s):"", status:x.status||"ok", ki:true}; if(typeof x.img==="string" && /^e:/.test(x.img)) o.img=x.img; return o; })
       .filter(x=>THEMA[x.t] && x.q && x.a.length===4);
     S.extra = all.filter(x=>x.status!=="neu");
     S.pending = all.filter(x=>x.status==="neu");
