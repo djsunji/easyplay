@@ -780,6 +780,85 @@ body.dark{background:radial-gradient(1.2px 1.2px at 12% 8%,#fff 50%,transparent 
 @keyframes lyBoy{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(1.4deg) translateY(-6px)}}
 @media (prefers-reduced-motion:reduce){.combo2 .ly{animation:none}}
 .hero2 .badge{right:auto!important;left:0!important;bottom:6%!important}
+
+/* ===== Menü ===== */
+.menuwrap{position:relative}
+.menubtn{gap:6px}
+.menu{position:absolute;right:0;top:calc(100% + 8px);z-index:15000;min-width:250px;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:8px;box-shadow:0 24px 50px -18px rgba(20,24,60,.45);display:grid;gap:2px;animation:fadeUp .18s ease both}
+.menu[hidden]{display:none}
+.menu button{border:0;background:transparent;text-align:left;padding:11px 14px;border-radius:14px;font-weight:600;font-size:1rem;color:var(--ink);display:flex;align-items:center;gap:8px}
+.menu button:hover,.menu button:focus-visible{background:color-mix(in srgb,#8A3FE0 12%,var(--surface))}
+.menu hr{border:0;border-top:2px solid var(--line);margin:4px 6px}
+.menu .m-out{color:var(--bad)}
+/* ===== Wissensdatenbank ===== */
+.bibtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:0 0 20px}
+.bibsuche{max-width:420px;flex:1 1 280px;text-align:left!important}
+.bib{display:grid;gap:22px}
+.bibbereich h2{font-size:1.5rem;margin:0 0 10px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.bibbereich h2 .bemo{font-size:1.3em}
+.bibthema{background:var(--surface);border:2px solid color-mix(in srgb,var(--c,var(--welt)) 30%,var(--line));border-left:6px solid var(--c,var(--welt));border-radius:16px;margin:0 0 8px;overflow:hidden}
+.bibthema>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 16px;font-weight:700}
+.bibthema>summary::-webkit-details-marker{display:none}
+.bibthema>summary::after{content:"▸";margin-left:6px;color:var(--soft);transition:transform .2s}
+.bibthema[open]>summary::after{transform:rotate(90deg)}
+.bibthema>summary .bname{flex:1}
+.bibthema>summary .bn{font-size:.85rem;font-weight:600;color:var(--soft);background:var(--bg);border-radius:999px;padding:2px 10px}
+.bemo{display:inline-flex;align-items:center;font-size:1.25rem}.bemo .wappen{width:22px;height:26px}
+.bibinner{padding:0 12px 8px}
+.bibsub h4{margin:8px 4px 6px;color:var(--soft);font-size:.95rem}
+.bibthema .bibthema{border-left-width:4px}
+.bibliste{display:grid;gap:8px;padding:0 12px 12px}
+.bib>.bibliste,.bib .bibliste:empty{padding:0}
+.bibq{display:flex;gap:14px;align-items:flex-start;background:var(--bg);border-radius:14px;padding:12px 14px;text-align:left}
+.bibimg{flex:none;width:70px;display:grid;place-items:center}
+.bibimg .qbig,.bibimg .qemoji,.bibimg svg,.bibimg img{height:auto!important;max-height:70px;width:70px!important;font-size:1.8rem!important;padding:4px!important;box-shadow:none!important}
+.bibfrage{font-weight:700;margin:0 0 4px}
+.bibst{display:inline-block;font-size:.72rem;font-weight:700;color:var(--soft);background:var(--surface);border-radius:999px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+.bibans{margin:0 0 4px;color:var(--ok);font-weight:700}
+.bibe{margin:0 0 4px;color:var(--ink)}
+.bibm{margin:0;color:var(--soft);font-size:.9rem}
+.bibm a{color:var(--ink)}
+.bibinfo{text-align:center;color:var(--soft);font-weight:600}
+.bibthemalabel{font-size:.82rem;font-weight:700;color:var(--soft);margin:6px 2px -2px}
+mark{background:color-mix(in srgb,var(--gold) 45%,transparent);color:inherit;border-radius:4px;padding:0 2px}
+@media (max-width:560px){.bibq{flex-direction:column}.bibimg{width:auto}}
+
+/* ===== Suche & eigene Tests ===== */
+.themechips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 14px}
+.tchip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.tchip b{color:#8A3FE0}
+.tchip .wappen{width:18px;height:22px}
+.sucheinfo{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;color:var(--soft);font-weight:600}
+.suchliste{display:grid;gap:6px;margin-bottom:110px}
+.sq{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 14px;cursor:pointer;text-align:left}
+.sq.on{border-color:#8A3FE0;background:color-mix(in srgb,#8A3FE0 8%,var(--surface))}
+.sq input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:#8A3FE0}
+.sq b{display:block}
+.sq small{color:var(--soft)}
+.sq .wappen{width:14px;height:17px}
+.testbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:12000;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--surface);border:3px solid #8A3FE0;border-radius:22px;padding:10px 14px;box-shadow:0 20px 40px -14px rgba(20,24,60,.5);width:min(96vw,980px)}
+.testbar[hidden]{display:none}
+.testbar .sel{flex:1 1 180px;min-height:46px;font-size:1rem}
+.tbcount{font-weight:600}
+.sharebox{display:grid;gap:8px}
+.sharelink{font-size:.9rem!important;min-height:46px}
+a.big{text-decoration:none}
+.mtlist{display:grid;gap:8px;margin-top:16px}
+.mtitem{display:grid;gap:2px;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px 16px}
+.mtitem:hover{border-color:#8A3FE0}
+.mtitem span{color:var(--soft);font-size:.92rem}
+.rtable{display:grid;gap:6px}
+.rrowd{background:var(--bg);border-radius:14px}
+.rrowd>summary{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;cursor:pointer;list-style:none}
+.rrowd>summary::-webkit-details-marker{display:none}
+.rrowd .rk{width:34px;text-align:center}.rrowd .rk .emo-i{font-size:1.4rem}
+.rrowd b{flex:1}
+.rrowd .rs{font-weight:800}
+.rrowd .rz{color:var(--soft);font-size:.88rem}
+.rdet{margin:0;padding:4px 18px 12px 40px;display:grid;gap:4px}
+.rdet li small{display:block;color:var(--soft)}
+.rdet li.bad{color:var(--bad)}
+.lwait.fremd{max-width:560px;margin:30px auto}
 </style>
 </head>
 <body>
@@ -2185,19 +2264,34 @@ function anmelden(){
 }
 function renderNav(){
   const p=S.profil;
-  $("#nav").innerHTML = `<button class="navbtn live" id="navLive" type="button">${ico("bolt")} Wettbewerb</button><button class="navbtn" id="navBoard" type="button">${ico("trophy")} Rangliste</button>` +
-    (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button><button class="navbtn logout" id="navOut" type="button" title="Abmelden">🚪 <span class="tlab">Abmelden</span></button>`
+  $("#nav").innerHTML =
+    (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button>`
        : `<button class="navbtn login" id="navIn" type="button">🔑 Anmelden</button><button class="navbtn primary" id="navReg" type="button">Registrieren</button>`) +
-    (S.canEdit ? `<button class="navbtn" id="navW" type="button">${ico("tools")} Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>` : "") +
-    `<button class="navbtn set" id="navSet" type="button" title="Hintergrund und Darstellung" aria-label="Einstellungen: Hintergrund">⚙️ <span class="tlab">Hintergrund</span></button>`;
-  $("#navSet").onclick=oeffneEinstellungen;
-  $("#navBoard").onclick=()=>{ S.boardStufe=S.stufe; go("board"); };
-  $("#navLive").onclick=()=>go(L.role==="host"?"livehost":L.role==="player"?"liveplay":"live");
+    `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
+      <div class="menu" id="hauptmenue" role="menu" hidden>
+        <button role="menuitem" type="button" data-m="home">🏠 Startseite</button>
+        <button role="menuitem" type="button" data-m="bib">📚 Wissensdatenbank</button>
+        <button role="menuitem" type="button" data-m="suche">🔎 Suchen & Test erstellen</button>
+        <button role="menuitem" type="button" data-m="meinetests">📝 Meine Tests</button>
+        <button role="menuitem" type="button" data-m="live">⚡ Wettbewerb</button>
+        <button role="menuitem" type="button" data-m="board">🏆 Rangliste</button>
+        ${p? `<button role="menuitem" type="button" data-m="profil">👤 Mein Profil</button>`:""}
+        ${S.canEdit? `<button role="menuitem" type="button" data-m="werkstatt">🛠️ Fragen-Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>`:""}
+        <button role="menuitem" type="button" data-m="set">⚙️ Hintergrund</button>
+        ${p? `<hr><button role="menuitem" type="button" data-m="out" class="m-out">🚪 Abmelden</button>`:""}
+      </div></div>`;
   $("#navProfil") && ($("#navProfil").onclick=()=>go("profil"));
   $("#navReg") && ($("#navReg").onclick=()=>go("register"));
-  $("#navOut") && ($("#navOut").onclick=abmelden);
   $("#navIn") && ($("#navIn").onclick=anmelden);
-  $("#navW") && ($("#navW").onclick=()=>go("werkstatt"));
+  const btn=$("#navMenu"), menu=$("#hauptmenue");
+  const zu=()=>{ menu.hidden=true; btn.setAttribute("aria-expanded","false"); document.removeEventListener("click",aussen,true); document.removeEventListener("keydown",taste); };
+  const aussen=e=>{ if(!e.target.closest(".menuwrap")) zu(); };
+  const taste=e=>{ if(e.key==="Escape"){ zu(); btn.focus(); } };
+  btn.onclick=()=>{ if(menu.hidden){ menu.hidden=false; btn.setAttribute("aria-expanded","true"); menu.querySelector("button")?.focus(); document.addEventListener("click",aussen,true); document.addEventListener("keydown",taste); } else zu(); };
+  menu.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{ const m=b.dataset.m; zu();
+    if(m==="home") go("home"); else if(m==="bib") go("bibliothek"); else if(m==="suche") go("suche"); else if(m==="meinetests") go("meinetests"); else if(m==="live") go(L.role==="host"?"livehost":L.role==="player"?"liveplay":"live");
+    else if(m==="board"){ S.boardStufe=S.stufe; go("board"); } else if(m==="profil") go("profil"); else if(m==="werkstatt") go("werkstatt");
+    else if(m==="set") oeffneEinstellungen(); else if(m==="out") abmelden(); });
 }
 
 function render(){
@@ -2205,7 +2299,7 @@ function render(){
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
   renderNav();
   ({home:renderHome, bereich:renderBereich, mode:renderMode, quiz:renderQuiz, done:renderDone, berufmenu:renderBerufMenu, check:renderCheck,
-    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
+    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
   bindSpeak();
   bindCrumbs();
 }
@@ -2236,8 +2330,7 @@ function renderHome(){
         <div class="mobkids"><div class="kid girl">${KID_GIRL}</div><img class="mobicon" src="${ICON_SRC}" alt=""><div class="kid boy">${KID_BOY}</div></div>
         <h1 class="hero-wm2"><img src="${WM_SRC}" alt="easyplay"></h1>
         <p class="tagline">Fragen. Wissen. Weiterkommen.</p>
-        <p class="catch"><span>Spiel dich schlau!</span> Ob Entdecker, Könner oder Profi – bei easyplay wird jede Frage zum Abenteuer.</p>
-        <p>Beantworte Fragen zu Geschichte, Natur, Geld, Social Media und vielem mehr. Trainiere in deinem Tempo oder miss dich im Test mit anderen.</p>
+        <p class="catch"><span>Spiel dich schlau!</span> Entdecke spannende Themen, knacke knifflige Fragen und lerne ganz nebenbei Neues dazu. Bei easyPlay wird Wissen zum Spiel und jede Frage zu einer neuen Herausforderung!</p>
         <div class="chips">
           <div class="chip"><b>${allCount()}</b><span>Fragen</span></div>
           <div class="chip"><b>${themen}</b><span>Themen</span></div>
@@ -2433,7 +2526,7 @@ function renderQuiz(){
   const Q = S.quiz, f = Q.list[Q.i], c = S.thema.bereich.c, answered = Q.picked!=null, test=Q.mode==="test";
   const prog = ((Q.i + (answered?1:0)) / Q.list.length) * 100;
   const nextLbl = Q.i+1<Q.list.length ? "Nächste Frage" : "Ergebnis";
-  const frage = `${test? `<span class="modebadge">${ico("trophy")} Gewerteter Test · ${Q.points} Punkte</span>`:""}
+  const frage = `${test? (Q.custom? `<span class="modebadge">📝 ${esc(Q.titel)}</span>` : `<span class="modebadge">${ico("trophy")} Gewerteter Test · ${Q.points} Punkte</span>`):""}
       ${speakBtn(f.q + ". " + f.opts.map((o,i)=>"ABCD"[i]+": "+o.txt).join(". "))}
       ${f.img?`<div class="qimg">${imgSvg(f.img)}</div>`:""}
       <h2 class="question">${esc(f.q)}</h2>
@@ -2441,7 +2534,7 @@ function renderQuiz(){
         let cls=""; if(answered){ if(o.ok) cls="right"; else if(Q.picked===i) cls="wrong"; }
         return `<button class="ans ${cls}" type="button" data-i="${i}" ${answered?"disabled":""}><span class="key">${"ABCD"[i]}</span><span>${esc(o.txt)}</span></button>`;
       }).join("")}</div>
-      ${answered ? `<div class="feedback pop"><p>${f.opts[Q.picked].ok ? `${ico("check")} Richtig!${test? " +"+Q.lastPts+" Punkte":""}` : `${ico("cross")} Nicht ganz.`}</p>
+      ${answered ? `<div class="feedback pop"><p>${f.opts[Q.picked].ok ? `${ico("check")} Richtig!${test && !Q.custom? " +"+Q.lastPts+" Punkte":""}` : `${ico("cross")} Nicht ganz.`}</p>
         <span class="row" style="margin:0">${test? "" : `<button class="big alt" id="toExplain" type="button">Erklärung ansehen</button>`}
         <button class="big" id="next" type="button">${nextLbl}</button></span></div>` : ""}`;
   let body;
@@ -2457,7 +2550,7 @@ function renderQuiz(){
   $("#app").innerHTML = `${crumbs()}
     <div class="qtop" style="--c:var(${test?"--gold":c})">
       <div class="bar" aria-hidden="true"><i style="width:${prog}%"></i></div>
-      ${test? `<span class="timer" id="timer">${ico("timer")}</span>`:""}
+      ${test && !Q.custom? `<span class="timer" id="timer">${ico("timer")}</span>`:""}
       <span class="count">Frage ${Q.i+1} von ${Q.list.length}</span>
     </div>
     <div class="card" style="--c:var(${c})">
@@ -2473,7 +2566,7 @@ function renderQuiz(){
   $("#next") && ($("#next").onclick=nextQ);
   $("#toExplain") && ($("#toExplain").onclick=()=>{ Q.tab="erklaerung"; render(); });
   $("#toQuestion") && ($("#toQuestion").onclick=()=>{ Q.tab="frage"; render(); });
-  if(test) tick();
+  if(test && !Q.custom) tick();
 }
 
 function nextQ(){
@@ -2485,6 +2578,7 @@ function nextQ(){
 function finishQuiz(){
   const Q=S.quiz;
   const ratio = Q.score/Q.list.length; Q.stars = ratio>=.99?3:ratio>=.6?2:ratio>0?1:0;
+  if(Q.custom){ Q.flushed=true; go("fremddone"); return; }
   if(Q.mode==="train"){ const b=store.get("ep-sterne",{}), k=`${S.thema.id}-${S.stufe}`; if(b[k]==null||Q.stars>b[k]){ b[k]=Q.stars; store.set("ep-sterne",b); } }
   flushRun(true);
   go("done");
@@ -2493,6 +2587,7 @@ function finishQuiz(){
 /* Statistik speichern */
 async function flushRun(finished){
   const Q=S.quiz; if(!Q || Q.flushed) return; Q.flushed=true;
+  if(Q.custom) return;
   if(Q.mode==="test" && !finished) return;            // abgebrochene Tests zählen nicht
   if(!Q.seen) return;
   const st={...LEER, ...S.stats};
@@ -2689,13 +2784,19 @@ function crumbPath(){
   const t=S.thema; let cur="";
   switch(S.screen){
     case "bereich": cur=S.bereich.name; break;
+    case "bibliothek": cur="Wissensdatenbank"; break;
+    case "suche": cur="Suchen & Test erstellen"; break;
+    case "meinetests": cur="Meine Tests"; break;
+    case "testergebnis": P.push(["Meine Tests",()=>go("meinetests")]); cur=meineTests().find(x=>x.k===S.meinTest)?.titel||"Test"; break;
+    case "resinfo": cur="Resultat"; break;
     case "geschmenu": B(byId("welt")); cur="Geschichte"; break;
     case "chmenu": B(byId("welt")); G(); cur="Schweizer Geschichte"; break;
     case "submenu": B(THEMA[S.menu].bereich); cur=THEMA[S.menu].name; break;
     case "berufmenu": B(byId("geld")); cur="Berufswahl & Lehre"; break;
     case "check": case "checkdone": B(byId("geld")); BER(); cur="Berufs-Check"; break;
     case "mode": chain(t); if(t.menu==="submenu"){ SUB(t.id); cur="Alles gemischt"; } else cur=t.name; break;
-    case "quiz": case "done": chain(t); if(t.menu==="submenu") SUB(t.id); P.push([t.menu==="submenu"?"Alles gemischt":t.name,()=>go("mode")]); cur=S.quiz?.mode==="test"?"Gewerteter Test":"Training"; break;
+    case "quiz": if(S.quiz?.custom){ cur=S.quiz.titel; break; }
+    case "done": chain(t); if(t.menu==="submenu") SUB(t.id); P.push([t.menu==="submenu"?"Alles gemischt":t.name,()=>go("mode")]); cur=S.quiz?.mode==="test"?"Gewerteter Test":"Training"; break;
   }
   return {P,cur};
 }
@@ -2997,10 +3098,251 @@ function oeffneEinstellungen(){
 }
 
 
+
+/* ---------- Wissensdatenbank (Bibliothek aller Fragen) ---------- */
+const BIB = { q:"", stufe:0 };
+function bibGruppen(){
+  return BEREICHE.map(b=>({b, items:b.themen.filter(t=>t.id!=="bilder").map(t=>{
+    if(t.id==="geschichte") return {t, gruppen:[{name:"Epochen", ids:GESCH_EPOCHEN.map(x=>x.id)},{name:"Schweizer Geschichte", ids:[CH_ALLG.id]},{name:"Kantone", ids:KANTONE.map(k=>k.id)}]};
+    if(t.kids) return {t, gruppen:[{name:null, ids:t.kids}]};
+    return {t, ids:[t.id]};
+  })}));
+}
+const bibFilter = arr => BIB.stufe ? arr.filter(f=>f.l===BIB.stufe) : arr;
+function bibKarte(f, hl){
+  const mark = s => { const t=esc(s); if(!hl) return t; const re=new RegExp("("+hl.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi"); return t.replace(re,"<mark>$1</mark>"); };
+  const bild = f.img ? `<div class="bibimg">${imgSvg(f.img)}</div>` : "";
+  return `<article class="bibq">${bild}<div>
+    <p class="bibfrage"><span class="bibst">${STUFE_EMO[f.l]||""} ${esc(stufeObj(f.l).name)}</span>${mark(f.q)}</p>
+    <p class="bibans">✅ ${mark(f.a[0])}</p>
+    <p class="bibe">${mark(f.e)}</p>
+    <p class="bibm">💡 ${esc(f.m)}${f.s?` · <a href="${wikiUrl(f.s)}" target="_blank" rel="noopener">📚 Wikipedia «${esc(f.s)}»</a>`:""}</p></div></article>`;
+}
+function bibThemaHTML(id, label){
+  const t=THEMA[id]; const n=bibFilter(pool(id)).length; if(!n) return "";
+  return `<details class="bibthema" data-id="${id}"><summary><span class="bemo">${themaIcon(t)}</span><span class="bname">${esc(label||t.name)}</span><span class="bn">${n} ${n===1?"Frage":"Fragen"}</span></summary><div class="bibliste"></div></details>`;
+}
+function renderBibliothek(){
+  const gesamt=bibFilter([...FRAGEN,...S.extra]).length;
+  let inhalt="";
+  if(BIB.q.trim().length>=2){
+    const q=BIB.q.trim().toLowerCase();
+    const treffer=bibFilter([...FRAGEN,...S.extra]).filter(f=>(f.q+" "+f.a[0]+" "+f.e+" "+(f.s||"")).toLowerCase().includes(q));
+    inhalt = `<p class="bibinfo">${treffer.length} ${treffer.length===1?"Treffer":"Treffer"} für «${esc(BIB.q.trim())}»${treffer.length>150?" – die ersten 150 werden angezeigt":""}</p>
+      <div class="bibliste">${treffer.slice(0,150).map(f=>`<div class="bibthemalabel">${themaIcon(THEMA[f.t])} ${esc(THEMA[f.t]?.name||"")}</div>`+bibKarte(f,BIB.q.trim())).join("") || `<p class="empty">Nichts gefunden. Versuch ein anderes Stichwort.</p>`}</div>`;
+  } else {
+    inhalt = bibGruppen().map(({b,items})=>{
+      const blocks=items.map(it=>{
+        if(it.ids) return bibThemaHTML(it.ids[0]);
+        const inner=it.gruppen.map(g=>{ const html=g.ids.map(id=>bibThemaHTML(id, id.startsWith("kt_")?THEMA[id].kurz:null)).join(""); return html ? (g.name?`<div class="bibsub"><h4>${esc(g.name)}</h4>${html}</div>`:html) : ""; }).join("");
+        const n=it.gruppen.flatMap(g=>g.ids).reduce((s,id)=>s+bibFilter(pool(id)).length,0);
+        return n? `<details class="bibthema gruppe"><summary><span class="bemo">${ico(it.t.emo)}</span><span class="bname">${esc(it.t.name)}</span><span class="bn">${n} Fragen</span></summary><div class="bibinner">${inner}</div></details>` : "";
+      }).join("");
+      return `<section class="bibbereich" style="--c:var(${b.c})"><h2><span class="bemo">${ico(b.emo)}</span> ${esc(b.name)}</h2>${blocks}</section>`;
+    }).join("");
+  }
+  $("#app").innerHTML = `${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">📚</span><h1>Wissensdatenbank</h1></div>
+    <p class="bdesc">Alle Fragen mit Antwort, Erklärung und Quelle – geordnet nach Themen wie in einer Bibliothek. Zum Nachschlagen, Lernen und Stöbern.</p>
+    <div class="bibtools">
+      <label class="sr-only" for="bibSuche">Suchen</label>
+      <input id="bibSuche" class="sel bibsuche" type="search" placeholder="🔎 Suchen, z. B. Matterhorn, Steuern, Pharao …" value="${esc(BIB.q)}" autocomplete="off">
+      <div class="segs" role="group" aria-label="Stufe">${[[0,"Alle Stufen"],[1,"🌱 Entdecker"],[2,"🚀 Könner"],[3,"🏅 Profis"]].map(([v,l])=>`<button type="button" class="seg" data-bs="${v}" aria-pressed="${BIB.stufe===v}">${l}</button>`).join("")}</div>
+      <span class="sinfo">${gesamt} Fragen</span>
+    </div>
+    <div class="bib">${inhalt}</div>`;
+  const inp=$("#bibSuche"); let tm;
+  inp.oninput=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ BIB.q=inp.value; const pos=inp.selectionStart; render(); const n=$("#bibSuche"); n.focus(); try{ n.setSelectionRange(pos,pos); }catch(e){} },250); };
+  document.querySelectorAll("[data-bs]").forEach(b=>b.onclick=()=>{ BIB.stufe=+b.dataset.bs; render(); });
+  document.querySelectorAll("details.bibthema[data-id]").forEach(d=>d.addEventListener("toggle",()=>{
+    const box=d.querySelector(".bibliste"); if(d.open && !box.dataset.done){ box.innerHTML=bibFilter(pool(d.dataset.id)).map(f=>bibKarte(f)).join(""); box.dataset.done="1"; }
+  }));
+}
+
+/* ================= Eigene Tests: suchen, erstellen, teilen, auswerten ================= */
+const TEST_BASE = window.claude ? ARTIFACT_URL : location.href.split("#")[0];
+function qid(f){ let h=2166136261; for(const c of String(f.q)){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return (h>>>0).toString(36); }
+function alleFragen(){ return [...FRAGEN, ...S.extra]; }
+function frageMap(){ const m={}; alleFragen().forEach(f=>{ m[qid(f)]=f; }); return m; }
+const b64e = o => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64d = s => { s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="="; return JSON.parse(decodeURIComponent(escape(atob(s)))); };
+const testLink = t => `${TEST_BASE}#t=${b64e({k:t.k,n:t.titel,c:t.von,q:t.ids})}`;
+const meineTests = () => store.get("ep-mytests",[]);
+const speichereTests = l => store.set("ep-mytests",l);
+const SUCHE = { q:"", stufe:0, sel:[], titel:"" };
+
+function renderSuche(){
+  const q=SUCHE.q.trim().toLowerCase();
+  const pool0=alleFragen().filter(f=>THEMA[f.t] && (!SUCHE.stufe || f.l===SUCHE.stufe));
+  const themenTreffer = q.length>=2 ? Object.keys(THEMA).filter(id=>!THEMA[id].menu && id!=="kt_alle" && id!=="bilder" && THEMA[id].name.toLowerCase().includes(q)) : [];
+  const fragen = q.length>=2 ? pool0.filter(f=>(f.q+" "+f.a.join(" ")+" "+f.e+" "+(f.s||"")+" "+(THEMA[f.t]?.name||"")).toLowerCase().includes(q)) : [];
+  const sel=new Set(SUCHE.sel);
+  $("#app").innerHTML = `${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">🔎</span><h1>Suchen & Test erstellen</h1></div>
+    <p class="bdesc">Suche nach Themen oder Wörtern, wähle Fragen aus und erstelle daraus einen eigenen Test. Den Link kannst du an Freunde, die Klasse oder die Familie schicken – und danach ihre Resultate ansehen.</p>
+    <div class="bibtools">
+      <label class="sr-only" for="suchFeld">Suchen</label>
+      <input id="suchFeld" class="sel bibsuche" type="search" placeholder="🔎 z. B. Römer, Steuern, Tiere, Bern …" value="${esc(SUCHE.q)}" autocomplete="off">
+      <div class="segs" role="group" aria-label="Stufe">${[[0,"Alle Stufen"],[1,"🌱 Entdecker"],[2,"🚀 Könner"],[3,"🏅 Profis"]].map(([v,l])=>`<button type="button" class="seg" data-ss="${v}" aria-pressed="${SUCHE.stufe===v}">${l}</button>`).join("")}</div>
+    </div>
+    ${q.length<2 ? `<p class="empty">Gib mindestens zwei Buchstaben ein, um Fragen zu finden.</p>` : `
+      ${themenTreffer.length? `<div class="themechips">${themenTreffer.map(id=>{ const n=pool0.filter(f=>f.t===id).length; return n? `<button type="button" class="tchip" data-addt="${id}">${themaIcon(THEMA[id])} ${esc(THEMA[id].name)} <b>+ alle ${n}</b></button>`:""; }).join("")}</div>`:""}
+      <div class="sucheinfo"><span>${fragen.length} Fragen gefunden${fragen.length>200?" – die ersten 200 werden angezeigt":""}</span>
+        ${fragen.length? `<button type="button" class="big alt small" id="alleWahl">Alle angezeigten auswählen</button>`:""}</div>
+      <div class="suchliste">${fragen.slice(0,200).map(f=>{ const id=qid(f); return `<label class="sq ${sel.has(id)?"on":""}"><input type="checkbox" data-q="${id}" ${sel.has(id)?"checked":""}>
+        <span><b>${esc(f.q)}</b><small>${themaIcon(THEMA[f.t])} ${esc(THEMA[f.t].name)} · ${STUFE_EMO[f.l]} ${esc(stufeObj(f.l).name)} · ✅ ${esc(f.a[0])}</small></span></label>`; }).join("") || `<p class="empty">Nichts gefunden. Versuch ein anderes Stichwort.</p>`}</div>`}
+    <div class="testbar" ${sel.size?"":"hidden"}>
+      <span class="tbcount"><b>${sel.size}</b> ${sel.size===1?"Frage":"Fragen"} ausgewählt${sel.size>50?" (max. 50)":""}</span>
+      <label class="sr-only" for="tTitel">Titel des Tests</label><input id="tTitel" class="sel" maxlength="60" placeholder="Titel, z. B. Römer-Quiz für die 5b" value="${esc(SUCHE.titel)}">
+      ${S.profil? "" : `<label class="sr-only" for="tVon">Dein Name</label><input id="tVon" class="sel" maxlength="30" placeholder="Dein Name">`}
+      <button type="button" class="big alt small" id="wahlLeer">Leeren</button>
+      <button type="button" class="big gold" id="testMachen" ${sel.size&&sel.size<=50?"":"disabled"}>📝 Test erstellen</button>
+    </div>`;
+  const inp=$("#suchFeld"); let tm;
+  inp.oninput=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ SUCHE.q=inp.value; SUCHE.titel=$("#tTitel")?.value||SUCHE.titel; const pos=inp.selectionStart; render(); const n=$("#suchFeld"); n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){} },300); };
+  document.querySelectorAll("[data-ss]").forEach(b=>b.onclick=()=>{ SUCHE.stufe=+b.dataset.ss; render(); });
+  const merkeTitel=()=>{ if($("#tTitel")) SUCHE.titel=$("#tTitel").value; };
+  document.querySelectorAll("[data-q]").forEach(c=>c.onchange=()=>{ merkeTitel(); const s2=new Set(SUCHE.sel); c.checked?s2.add(c.dataset.q):s2.delete(c.dataset.q); SUCHE.sel=[...s2]; const y=scrollY; render(); scrollTo(0,y); });
+  document.querySelectorAll("[data-addt]").forEach(b=>b.onclick=()=>{ merkeTitel(); const s2=new Set(SUCHE.sel); pool0.filter(f=>f.t===b.dataset.addt).forEach(f=>s2.add(qid(f))); SUCHE.sel=[...s2]; if(!SUCHE.titel) SUCHE.titel=THEMA[b.dataset.addt].name+"-Quiz"; const y=scrollY; render(); scrollTo(0,y); });
+  $("#alleWahl") && ($("#alleWahl").onclick=()=>{ merkeTitel(); const s2=new Set(SUCHE.sel); fragen.slice(0,200).forEach(f=>s2.add(qid(f))); SUCHE.sel=[...s2]; const y=scrollY; render(); scrollTo(0,y); });
+  $("#wahlLeer") && ($("#wahlLeer").onclick=()=>{ SUCHE.sel=[]; render(); });
+  $("#testMachen") && ($("#testMachen").onclick=()=>{
+    const titel=($("#tTitel").value.trim()||"Mein easyplay-Test").slice(0,60);
+    const von=S.profil?.name || ($("#tVon")?.value.trim()) || "Jemand";
+    const t={k:Math.random().toString(36).slice(2,10), titel, von:von.slice(0,30), ids:SUCHE.sel.slice(0,50), erstellt:new Date().toISOString(), resultate:[]};
+    const l=meineTests(); l.unshift(t); speichereTests(l);
+    SUCHE.sel=[]; SUCHE.titel=""; S.meinTest=t.k; go("testergebnis");
+  });
+}
+
+function teilenKnoepfe(link, text){
+  const enc=encodeURIComponent;
+  return `<div class="sharebox"><input class="sel sharelink" readonly value="${esc(link)}" aria-label="Link">
+    <div class="row" style="justify-content:flex-start">
+      <button type="button" class="big small" data-copy="${esc(link)}">📋 Link kopieren</button>
+      ${navigator.share? `<button type="button" class="big alt small" data-share="${esc(link)}" data-text="${esc(text)}">📤 Teilen</button>`:""}
+      <a class="big alt small" href="https://wa.me/?text=${enc(text+" "+link)}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="big alt small" href="mailto:?subject=${enc(text)}&body=${enc(text+"\n\n"+link)}">✉️ E-Mail</a>
+    </div><p class="status copymsg" aria-live="polite"></p></div>`;
+}
+function bindTeilen(){
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{ const msg=b.closest(".sharebox").querySelector(".copymsg");
+    try{ await navigator.clipboard.writeText(b.dataset.copy); msg.textContent="✅ Link kopiert!"; }catch(e){ const i=b.closest(".sharebox").querySelector(".sharelink"); i.select(); msg.textContent="Link markiert – jetzt mit Strg+C bzw. «Kopieren» kopieren."; } });
+  document.querySelectorAll("[data-share]").forEach(b=>b.onclick=()=>navigator.share({title:"easyplay",text:b.dataset.text,url:b.dataset.share}).catch(()=>{}));
+}
+
+function renderMeineTests(){
+  const l=meineTests();
+  $("#app").innerHTML = `${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">📝</span><h1>Meine Tests</h1></div>
+    <div class="row"><button class="big gold" id="neuTest" type="button">🔎 Neuen Test erstellen</button></div>
+    <div class="mtlist">${l.length? l.map(t=>`<button type="button" class="mtitem" data-k="${t.k}"><b>${esc(t.titel)}</b><span>${t.ids.length} Fragen · erstellt ${new Date(t.erstellt).toLocaleDateString("de-CH")} · <strong>${t.resultate.length} ${t.resultate.length===1?"Resultat":"Resultate"}</strong></span></button>`).join("")
+      : `<p class="empty">Du hast noch keine Tests erstellt.</p>`}</div>
+    <div class="statcard" style="margin-top:22px"><h2>🔗 Link öffnen oder Resultat hinzufügen</h2>
+      <p class="help" style="margin-top:0">Hast du einen Test-Link oder einen Resultat-Link erhalten? Füge ihn hier ein.</p>
+      <div class="row" style="justify-content:flex-start"><input id="linkIn" class="sel" style="flex:1 1 300px" placeholder="Link hier einfügen …"><button class="big small" id="linkGo" type="button">Öffnen</button></div>
+      <p class="err" id="linkErr" aria-live="polite"></p></div>`;
+  $("#neuTest").onclick=()=>go("suche");
+  document.querySelectorAll(".mtitem").forEach(b=>b.onclick=()=>{ S.meinTest=b.dataset.k; go("testergebnis"); });
+  $("#linkGo").onclick=()=>{ const v=$("#linkIn").value.trim(); if(!oeffneTestLink(v)) $("#linkErr").textContent="Das ist kein gültiger easyplay-Test- oder Resultat-Link."; };
+}
+
+function renderTestErgebnis(){
+  const t=meineTests().find(x=>x.k===S.meinTest); if(!t){ go("meinetests"); return; }
+  const map=frageMap(); const fr=t.ids.map(id=>map[id]).filter(Boolean);
+  const link=testLink(t);
+  const res=[...t.resultate].sort((a,b)=>b.s/b.t-a.s/a.t || a.z-b.z);
+  $("#app").innerHTML = `${crumbs()}
+    <div class="bhead"><span class="emo" aria-hidden="true">📝</span><h1>${esc(t.titel)}</h1></div>
+    <p class="bdesc">${fr.length} Fragen · erstellt von ${esc(t.von)}</p>
+    <div class="statcard"><h2>📤 Test verschicken</h2>
+      <p class="help" style="margin-top:0">Schicke diesen Link an die Personen, die den Test lösen sollen. Sie tragen ihren Namen ein, lösen den Test und schicken dir danach ihren Resultat-Link zurück.</p>
+      ${teilenKnoepfe(link, `Kannst du meinen easyplay-Test «${t.titel}» lösen?`)}</div>
+    <div class="statcard" style="margin-top:18px"><h2>📊 Resultate (${res.length})</h2>
+      ${res.length? `<div class="rtable">${res.map((r,i)=>`<details class="rrowd"><summary><span class="rk">${medalSvg(i)}</span><b>${esc(r.n)}</b><span class="rs">${r.s}/${r.t} · ${Math.round(r.s/r.t*100)} %</span><span class="rz">${fmtZeit(r.z*1000)} · ${new Date(r.d).toLocaleDateString("de-CH")}</span></summary>
+          <ol class="rdet">${fr.map((f,j)=>`<li class="${r.a[j]==="1"?"ok":"bad"}">${r.a[j]==="1"?"✅":"❌"} ${esc(f.q)} <small>Richtig: ${esc(f.a[0])}</small></li>`).join("")}</ol></details>`).join("")}</div>
+        <p class="help">Durchschnitt: ${Math.round(res.reduce((n,r)=>n+r.s/r.t,0)/res.length*100)} % richtig</p>`
+      : `<p class="empty">Noch keine Resultate. Sobald dir jemand seinen Resultat-Link schickt, öffne ihn – das Resultat erscheint dann hier.</p>`}
+      <div class="row" style="justify-content:flex-start"><input id="resIn" class="sel" style="flex:1 1 300px" placeholder="Resultat-Link hier einfügen …"><button class="big small" id="resGo" type="button">Hinzufügen</button></div>
+      <p class="err" id="resErr" aria-live="polite"></p></div>
+    <details class="bibthema" style="margin-top:18px"><summary><span class="bname">👀 Fragen in diesem Test</span><span class="bn">${fr.length}</span></summary><div class="bibliste">${fr.map(f=>bibKarte(f)).join("")}</div></details>
+    <div class="row"><button class="big alt small" id="tDel" type="button">🗑️ Test löschen</button></div>`;
+  bindTeilen();
+  $("#resGo").onclick=()=>{ if(!oeffneTestLink($("#resIn").value.trim())) $("#resErr").textContent="Das ist kein gültiger Resultat-Link."; };
+  $("#tDel").onclick=()=>{ if(!confirm("Diesen Test und alle Resultate löschen?")) return; speichereTests(meineTests().filter(x=>x.k!==t.k)); go("meinetests"); };
+}
+
+function oeffneTestLink(v){
+  const m=String(v).match(/#?([tr])=([A-Za-z0-9_-]+)/); if(!m) return false;
+  let d; try{ d=b64d(m[2]); }catch(e){ return false; }
+  if(m[1]==="t"){
+    if(!d || !Array.isArray(d.q)) return false;
+    const map=frageMap(); const list=d.q.map(id=>map[id]).filter(Boolean);
+    if(!list.length){ S.fremd={fehler:true}; go("fremdtest"); return true; }
+    S.fremd={k:d.k, titel:String(d.n||"easyplay-Test").slice(0,60), von:String(d.c||"Jemand").slice(0,30), ids:d.q, list};
+    go("fremdtest"); return true;
+  }
+  if(m[1]==="r"){
+    if(!d || !d.k) return false;
+    const l=meineTests(); const t=l.find(x=>x.k===d.k);
+    if(!t){ S.fremdRes={unbekannt:true, n:d.n}; go("resinfo"); return true; }
+    const r={n:String(d.n||"Anonym").slice(0,30), s:+d.s||0, t:+d.t||t.ids.length, z:+d.z||0, a:String(d.a||""), d:d.d||new Date().toISOString()};
+    if(!t.resultate.some(x=>x.n===r.n && x.d===r.d)) t.resultate.push(r);
+    speichereTests(l); S.meinTest=t.k; go("testergebnis"); return true;
+  }
+  return false;
+}
+
+function renderResInfo(){
+  $("#app").innerHTML = `${crumbs()}<div class="lwait"><h2>🤔 Test nicht gefunden</h2><p>Dieses Resultat${S.fremdRes?.n?` von ${esc(S.fremdRes.n)}`:""} gehört zu einem Test, der nicht auf diesem Gerät erstellt wurde. Öffne den Link auf dem Gerät, auf dem du den Test erstellt hast.</p><div class="row"><button class="big" id="zH" type="button">Zur Startseite</button></div></div>`;
+  $("#zH").onclick=()=>go("home");
+}
+
+function renderFremdTest(){
+  const F=S.fremd;
+  if(!F || F.fehler){ $("#app").innerHTML=`<div class="lwait"><h2>😕 Test nicht verfügbar</h2><p>Die Fragen dieses Tests gibt es in dieser Version von easyplay nicht mehr.</p></div>`; return; }
+  $("#app").innerHTML = `<div class="lwait fremd">
+    <div style="font-size:3rem">📝</div>
+    <h2>${esc(F.titel)}</h2>
+    <p><b>${esc(F.von)}</b> hat dir einen Test mit <b>${F.list.length} Fragen</b> geschickt.</p>
+    <label class="pick-lbl" for="fName" style="margin-top:14px">Dein Name</label>
+    <input id="fName" class="sel" maxlength="30" style="max-width:320px;text-align:center" value="${esc(S.profil?.name||"")}" placeholder="Vorname und Nachname" autocomplete="name">
+    <p class="err" id="fErr" aria-live="polite"></p>
+    <button class="big gold" id="fStart" type="button">Test starten</button></div>`;
+  $("#fName").focus();
+  $("#fStart").onclick=()=>{
+    const n=$("#fName").value.trim(); if(n.length<2){ $("#fErr").textContent="Bitte gib deinen Namen ein."; return; }
+    F.name=n.slice(0,30);
+    S.thema={id:"custom", name:F.titel, bereich:BEREICHE[0], emo:"question"};
+    S.quiz={ mode:"test", custom:true, titel:F.titel, list:F.list.map(f=>({...f, opts:shuffle(f.a.map((txt,i)=>({txt,ok:i===0})))})), i:0, score:0, points:0, picked:null, tab:"frage", qStart:performance.now(), start:performance.now(), zeit:0, seen:0, log:[], flushed:false, lastPts:0, count:F.list.length, timeout:false };
+    go("quiz");
+  };
+}
+
+function renderFremdDone(){
+  const Q=S.quiz, F=S.fremd; if(!Q||!F){ go("home"); return; }
+  const a=Q.log.map(l=>l.ok?"1":"0").join("");
+  const r={k:F.k, n:F.name, s:Q.score, t:Q.list.length, z:Math.round(Q.zeit/1000), a, d:new Date().toISOString()};
+  const link=`${TEST_BASE}#r=${b64e(r)}`;
+  const pct=Math.round(Q.score/Q.list.length*100);
+  $("#app").innerHTML = `<div class="card done pop">
+    <div class="stars">${stars(Q.stars||0)}</div>
+    <h1>${Q.score} von ${Q.list.length} richtig</h1>
+    <p>${pct} % · Zeit ${fmtZeit(Q.zeit)} · ${esc(F.titel)}</p>
+    <div class="statcard" style="text-align:left;margin-top:18px"><h2>📨 Resultat an ${esc(F.von)} schicken</h2>
+      <p class="help" style="margin-top:0">Damit ${esc(F.von)} dein Resultat sieht, schicke diesen Link zurück.</p>
+      ${teilenKnoepfe(link, `Mein Resultat im easyplay-Test «${F.titel}»: ${Q.score}/${Q.list.length}`)}</div>
+    ${reviewHTML(Q)}
+    <div class="row"><button class="big alt" id="zH" type="button">Zur Startseite</button></div></div>`;
+  bindTeilen(); $("#zH").onclick=()=>go("home");
+}
+
 /* ---------- Start ---------- */
 $("#home").onclick=()=>go("home");
 himmelAktualisieren();
 render();
+if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash);
+addEventListener("hashchange",()=>{ if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash); });
 himmelAktualisieren();
 setInterval(himmelAktualisieren, 60000);
 ladeFragenDB();
