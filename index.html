@@ -737,6 +737,49 @@ body.dark{background:radial-gradient(1.2px 1.2px at 12% 8%,#fff 50%,transparent 
 .ktbtn:hover{border-color:#8A3FE0}
 .ktbtn[aria-checked="true"]{border-color:#8A3FE0;background:var(--surface);box-shadow:0 0 0 3px color-mix(in srgb,#8A3FE0 30%,transparent);color:var(--ink)}
 .ktchosen{font-weight:600;color:#8A3FE0}
+
+/* ===== Neues Hero mit animiertem Gesamt-Logo ===== */
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero2{display:block!important;text-align:center;margin:0 0 36px}
+.hero2 .combo{position:relative;max-width:780px;margin:0 auto 6px}
+.comboimg{display:block;width:100%;height:auto;position:relative;z-index:1;filter:drop-shadow(0 18px 24px rgba(60,40,140,.28));animation:comboFloat 6s ease-in-out infinite;transform-origin:50% 60%}
+@keyframes comboFloat{0%,100%{transform:translateY(0) rotate(0) scale(1)}25%{transform:translateY(-10px) rotate(-.8deg) scale(1.01)}50%{transform:translateY(-16px) rotate(0) scale(1.015)}75%{transform:translateY(-8px) rotate(.8deg) scale(1.01)}}
+.comboimg:hover{animation-duration:2.5s}
+.combo-glow{position:absolute;inset:8% 14% 6%;border-radius:50%;background:radial-gradient(circle,rgba(224,67,184,.35),rgba(61,90,254,.22) 45%,transparent 70%);filter:blur(24px);animation:glowPulse 4s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{transform:scale(.95);opacity:.75}50%{transform:scale(1.08);opacity:1}}
+.spark{position:absolute;z-index:2;font-size:22px;color:#FFC23A;text-shadow:0 0 10px rgba(255,194,58,.9);animation:twinkle 2.6s ease-in-out infinite;pointer-events:none}
+.s1{left:8%;top:14%;animation-delay:0s}.s2{right:10%;top:8%;color:#3D8BFD;text-shadow:0 0 10px rgba(61,139,253,.9);animation-delay:.5s}
+.s3{left:44%;top:-2%;color:#E043B8;text-shadow:0 0 10px rgba(224,67,184,.9);animation-delay:1s;font-size:26px}
+.s4{right:4%;top:52%;animation-delay:1.5s}.s5{left:2%;top:58%;color:#8A3FE0;text-shadow:0 0 10px rgba(138,63,224,.9);animation-delay:2s}
+.s6{left:58%;top:12%;color:#17A35A;text-shadow:0 0 10px rgba(23,163,90,.9);animation-delay:.8s;font-size:16px}
+@keyframes twinkle{0%,100%{transform:scale(.4) rotate(0);opacity:0}50%{transform:scale(1.2) rotate(90deg);opacity:1}}
+.hero2 .badge{position:absolute;left:auto!important;right:6%!important;bottom:4%!important;top:auto!important;z-index:3;transform:rotate(-4deg);animation:badgeBob 3s ease-in-out infinite}
+@keyframes badgeBob{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-6px)}}
+.hero2 .tagline{font-size:clamp(1.4rem,3.4vw,1.9rem)!important;margin:4px 0 8px!important}
+.hero2 .catch,.hero2 .herotext{max-width:60ch;margin-left:auto!important;margin-right:auto!important}
+.hero2 .herotext{color:var(--soft);font-size:1.1rem}
+.hero2 .chips,.hero2 .ctas{justify-content:center}
+@media (max-width:640px){.hero2 .badge{display:none}.spark{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.comboimg,.combo-glow,.spark,.hero2 .badge{animation:none}.spark{opacity:.8}}
+.herocard{max-width:780px;margin:0 auto;padding:18px 22px 22px;border-radius:28px;background:color-mix(in srgb,var(--surface) 78%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:2px solid color-mix(in srgb,var(--line) 70%,transparent);box-shadow:var(--shadow)}
+.herocard .chips{margin-bottom:16px}
+
+
+
+/* Neues Logo aus Ebenen, einzeln animiert */
+.hero2 .combo{max-width:620px!important}
+.combo2{position:relative;width:100%;z-index:1;filter:drop-shadow(0 18px 24px rgba(60,40,140,.25))}
+.combo2 .ly{position:absolute;height:auto;display:block}
+.ly-icon{animation:lyIcon 4.6s ease-in-out infinite;transform-origin:50% 80%}
+.ly-wm{animation:lyWm 5.5s ease-in-out infinite;transform-origin:50% 50%}
+.ly-girl{animation:lyGirl 4s ease-in-out infinite;transform-origin:60% 100%}
+.ly-boy{animation:lyBoy 4.4s ease-in-out infinite;transform-origin:30% 100%}
+@keyframes lyIcon{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-14px) rotate(-2deg)}60%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes lyWm{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+@keyframes lyGirl{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-1.6deg) translateY(-3px)}}
+@keyframes lyBoy{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(1.4deg) translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.combo2 .ly{animation:none}}
+.hero2 .badge{right:auto!important;left:0!important;bottom:6%!important}
 </style>
 </head>
 <body>
@@ -2952,6 +2995,7 @@ function oeffneEinstellungen(){
   document.addEventListener("keydown",esc_);
   draw();
 }
+
 
 /* ---------- Start ---------- */
 $("#home").onclick=()=>go("home");
