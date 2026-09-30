@@ -862,9 +862,6 @@ a.big{text-decoration:none}
 .suchthema{max-width:300px;flex:1 1 220px}
 
 /* ===== Bibliothek-Modus ===== */
-:root[data-mode="lib"] #alpen,:root[data-mode="lib"] #himmel,:root[data-mode="lib"] #flocken,:root[data-mode="lib"] #clouds,:root[data-mode="lib"] #pattern{display:none!important}
-:root[data-mode="lib"] body{background:#F7F1E3!important;background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(120,90,40,.06) 31px 32px)!important}
-:root[data-mode="lib"] body.dark{background:#1C1A16!important;background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(255,230,180,.04) 31px 32px)!important}
 :root[data-mode="lib"]{--libink:#3B2F1E;--libpaper:#FFFDF7;--libline:#E6D9BD;--libacc:#8A5A2B}
 :root[data-mode="lib"][data-theme="dark"]{--libink:#F1E6CF;--libpaper:#26231D;--libline:#4A4234;--libacc:#E0B070}
 .navbtn.libbtn{border-color:#C9A66B;background:linear-gradient(135deg,#FFF6E3,#F3E1BC);color:#5A3E1B}
@@ -1145,6 +1142,9 @@ a.big{text-decoration:none}
 .t10n + .avimg{width:32px}
 .bigav:has(.avimg){overflow:hidden;padding:7px;box-sizing:border-box;background:linear-gradient(160deg,color-mix(in srgb,#8A3FE0 10%,var(--surface)),var(--surface))}
 .bigav .avimg{width:100%!important;height:100%!important;object-fit:contain;object-position:center bottom;display:block}
+.libhero{max-width:760px;margin:10px auto 22px;padding:16px 22px;border-radius:26px;background:color-mix(in srgb,var(--libpaper) 82%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid color-mix(in srgb,var(--libline) 80%,transparent);box-shadow:var(--shadow)}
+.libhome-suche .sel{background:var(--libpaper)}
+.libhint{display:table;margin:14px auto 30px!important;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--libpaper) 85%,transparent)}
 </style>
 </head>
 <body>
