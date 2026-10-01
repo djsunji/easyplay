@@ -2,9 +2,9 @@
 
 Die Website lädt die Fragen beim Start aus einer eigenen Datenquelle:
 
-1. **Supabase** – wenn in `config.js` URL und Schlüssel eingetragen sind (empfohlen für Tausende Fragen)
-2. **fragen.json** – sonst die Datei im Repository
-3. **eingebaute Fragen** – falls beides nicht erreichbar ist (z. B. wenn du `index.html` direkt vom Computer öffnest)
+1. **Supabase**, wenn in `config.js` URL und Schlüssel eingetragen sind (empfohlen für Tausende Fragen)
+2. **fragen.json**, sonst die Datei im Repository
+3. **eingebaute Fragen**, falls beides nicht erreichbar ist (z. B. wenn du `index.html` direkt vom Computer öffnest)
 
 ## Variante A: fragen.json (sofort einsatzbereit)
 Lade `index.html`, `config.js` und `fragen.json` in dein Repository. Fertig.
@@ -15,7 +15,7 @@ Aufbau einer Frage:
 {"t":"steuern","l":2,"q":"Frage?","a":["richtig","falsch","falsch","falsch"],"e":"Erklärung","m":"Merksatz","s":"Wikipedia-Stichwort"}
 ```
 - `t` = Thema-Kürzel, `l` = Stufe (1 Entdecker, 2 Könner, 3 Profis)
-- Die **erste Antwort ist immer die richtige** – die Reihenfolge wird im Spiel gemischt.
+- Die **erste Antwort ist immer die richtige**, die Reihenfolge wird im Spiel gemischt.
 - Optional `img`: `"e:🚒"` (Emoji-Bild), `"w:ZH"` (Wappen), `"f:DE"` (Flagge), `"a:fuchs"` (Tier)
 
 ## Variante B: Supabase (echte Datenbank)
@@ -25,7 +25,7 @@ Aufbau einer Frage:
 4. Unter **Project Settings → API** (bzw. „API Keys“) die **Project URL** und den **öffentlichen Schlüssel** (anon bzw. publishable) kopieren.
 5. Beides in `config.js` eintragen und `config.js` auf GitHub hochladen.
 
-Die Website lädt die Fragen jetzt aus Supabase. Neue Fragen fügst du im Table Editor hinzu – sie erscheinen sofort, ohne dass du die Website neu hochladen musst.
+Die Website lädt die Fragen jetzt aus Supabase. Neue Fragen fügst du im Table Editor hinzu, sie erscheinen sofort, ohne dass du die Website neu hochladen musst.
 
 **Wichtig:** Nur den öffentlichen Schlüssel verwenden, nie den geheimen `service_role`- oder `secret`-Schlüssel. Die Sicherheitsregel in `schema.sql` sorgt dafür, dass über die Website nur gelesen, aber nichts verändert werden kann.
 
