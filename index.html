@@ -1447,6 +1447,31 @@ html,body{overflow-x:clip}
 @media (min-width:761px){.hero .ctas .big{padding:12px 20px!important}}
 @media (max-width:760px){.hero .ctas .big{font-size:1.05rem!important;padding:12px 10px!important}.hero .ctas .cicon{font-size:1.45em}}
 @media (min-width:761px){.hero .ctas{gap:8px!important}.hero .ctas .big{padding:12px 14px!important;font-size:1.06rem!important;gap:7px}.hero .ctas .cicon{font-size:1.5em}}
+@media (min-width:761px){.hero .ctas{display:flex!important;width:100%;flex-wrap:nowrap!important}.hero .ctas .big{flex:1 1 0!important;padding:14px 12px!important}}
+@media (min-width:761px){.hero .ctas .big{padding:20px 12px!important;min-height:72px;border-radius:20px}}
+@media (max-width:760px){.hero .ctas .big{min-height:64px;padding:16px 10px!important}}
+.pschild{display:flex!important;align-items:center;gap:12px;padding:12px 18px 12px 14px!important;border-radius:20px!important;background:linear-gradient(135deg,#FFF8E1,#FFFFFF 60%)!important;border:3px solid #FFD34D!important;box-shadow:0 10px 22px -10px rgba(224,160,0,.6),0 0 0 4px rgba(255,211,77,.18)!important;color:#3B2F1E!important;overflow:visible}
+:root[data-theme="dark"] .pschild{background:linear-gradient(135deg,#3A2F12,#232744 70%)!important;color:#FFF4D6!important}
+.psstern{font-size:2.3rem;line-height:1;filter:drop-shadow(0 0 8px rgba(255,200,40,.8));animation:psDreh 4s ease-in-out infinite;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+@keyframes psDreh{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.12)}}
+.pstext{display:grid;line-height:1.2;text-align:left}
+.pstext b{font-size:1.15rem;font-weight:800;background:linear-gradient(90deg,#E09A12,#E0315F);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="dark"] .pstext b{background:linear-gradient(90deg,#FFD34D,#FF8FB1);-webkit-background-clip:text;background-clip:text}
+.pstext small{font-size:.82rem;font-weight:600;opacity:.75}
+.pfunke{position:absolute;font-style:normal;color:#FFC23A;text-shadow:0 0 8px rgba(255,194,58,.9);animation:twinkle 2.4s ease-in-out infinite;pointer-events:none}
+.pfunke.f1{top:-12px;left:18%;font-size:16px}.pfunke.f2{top:-16px;right:14%;font-size:13px;animation-delay:.5s;color:#FF8FB1;text-shadow:0 0 8px rgba(255,143,177,.9)}
+.pfunke.f3{bottom:-14px;left:40%;font-size:15px;animation-delay:1s}.pfunke.f4{top:30%;right:-14px;font-size:14px;animation-delay:1.5s;color:#7FD1FF;text-shadow:0 0 8px rgba(127,209,255,.9)}
+.pfunke.f5{top:40%;left:-12px;font-size:12px;animation-delay:2s}
+@media (prefers-reduced-motion:reduce){.psstern,.pfunke{animation:none}}
+.ppos{color:var(--ok)}.pneg{color:var(--bad)}
+.pdetail{margin:2px 0 0;font-size:.92rem;color:var(--soft);font-weight:600}
+.pbilanz{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:8px 0 4px}
+.pbilanz span{background:var(--bg);border:2px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:700;font-size:.92rem}
+.punkteinfo{margin:8px 0 0;text-align:left;background:color-mix(in srgb,var(--gold) 10%,var(--surface));border-radius:14px;padding:6px 12px}
+.punkteinfo summary{cursor:pointer;font-weight:700}
+.punkteinfo ul{margin:6px 0 4px;padding-left:4px;list-style:none;display:grid;gap:3px;font-size:.92rem}
+.pstext{transition:opacity .35s,transform .35s;min-width:230px}
+.pstext.weg{opacity:0;transform:translateY(6px)}
 </style>
 </head>
 <body>
@@ -2114,7 +2139,7 @@ FRAGEN.push(
 );
 
 
-const KT_ALLE = {id:"kt_alle", name:"Alle Kantone", emo:"flag", text:"20 Fragen aus allen 26 Kantonen", parent:"chmenu"};
+const KT_ALLE = {id:"kt_alle", name:"Alle Kantone", emo:"flag", text:"25 Fragen aus allen 26 Kantonen", parent:"chmenu"};
 THEMA.kt_alle = {...KT_ALLE, bereich:BEREICHE.find(b=>b.id==="welt")};
 const FRAGEN6 = [
  // ===== Weltpolitik =====
@@ -2268,7 +2293,8 @@ const STUFE_AV = {1:"e",2:"k",3:"p"};
 function levelAvatare(st){ const p=STUFE_AV[st]||"e"; return Object.keys(AVATAR_IMG).filter(k=>k[0]===p).sort((a,b)=>+a.slice(1)-+b.slice(1)); }
 function avatar(k){ if(AVATAR_IMG[k]) return `<img class="avimg" src="${AVATAR_IMG[k]}" alt="" draggable="false">`; k = ALT_AVATAR[k] || k; return `<svg class="ic av-ic" viewBox="0 0 48 48" aria-hidden="true" focusable="false">${AVATAR_SVG[k]||AVATAR_SVG.fuchs}</svg>`; }
 
-const TEST_LEN = 20;
+const TEST_LEN = 25; const TEST_MIN = 20;
+const PUNKTE = {basis:100, tempoMax:100, tempoVoll:5, tempoNull:30, serieSchritt:10, serieMax:50, falsch:-20, faktor:{1:1, 2:1.2, 3:1.5}};
 const TEST_TIME = 30*60*1000;
 const TRAIN_OPTS = [5,10,20];
 
@@ -2923,6 +2949,34 @@ function homeTop10(){
   </section>`;
 }
 const SCHULE = {1:"Primarschule 1.–3. Klasse", 2:"Primar- bis Oberstufe 4.–8. Klasse", 3:"Oberstufe bis Lehre/Studium"};
+function punkteFolien(){
+  const p=S.profil, pts=p?totalPts(p):0; const f=[];
+  if(p && pts>0){
+    const liste=(S.online?S.spieler:[p]).map(x=>totalPts(x)).filter(x=>x>0).sort((a,b)=>b-a); const rang=liste.indexOf(pts)+1;
+    f.push([`${pts.toLocaleString("de-CH")} Punkte`, rang>0?`Rang ${rang} in der Schweiz – weiter so!`:"Deine Ranglistenpunkte"]);
+  } else if(p){ f.push(["Hol dir deine ersten Punkte!","Mach einen gewerteten Test"]); }
+  f.push(["Bis zu 350 Punkte","pro Frage im gewerteten Test"],
+         ["✅ Richtig: 100 Punkte","für jede richtige Antwort"],
+         ["⚡ Tempo: bis +100","volle Punkte bis 5 Sekunden"],
+         ["🔥 Serie: bis +50","+10 für jede Antwort in Folge"],
+         ["🚀 Profi-Fragen ×1,5","Könner-Fragen zählen ×1,2"],
+         ["❌ Falsch: −20 Punkte","und die Serie beginnt von vorn"]);
+  return f;
+}
+function punkteSchild(){
+  const f=punkteFolien()[0];
+  return `<div class="badge pschild" aria-hidden="true"><span class="psstern">⭐</span><span class="pstext" id="psText"><b>${esc(f[0])}</b><small>${esc(f[1])}</small></span>
+    <i class="pfunke f1">✦</i><i class="pfunke f2">★</i><i class="pfunke f3">✧</i><i class="pfunke f4">✦</i><i class="pfunke f5">★</i></div>`;
+}
+function punkteSchildStart(){
+  clearInterval(S.psTimer); const folien=punkteFolien(); let i=0;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  S.psTimer=setInterval(()=>{
+    const el=$("#psText"); if(!el || S.screen!=="home"){ clearInterval(S.psTimer); return; }
+    el.classList.add("weg");
+    setTimeout(()=>{ i=(i+1)%folien.length; const [k,z]=folien[i]; el.innerHTML=`<b>${esc(k)}</b><small>${esc(z)}</small>`; el.classList.remove("weg"); },350);
+  },3800);
+}
 function renderHome(){
   const themen = Object.keys(THEMA).filter(id=>!THEMA[id].menu).length;
   $("#app").innerHTML = `${eventBanner()}
@@ -2942,7 +2996,7 @@ function renderHome(){
         <div class="glow"></div>
         <img class="heroicon" src="${ICON_SRC}" alt="">
         <div class="kid girl">${KID_GIRL}</div><div class="kid boy">${KID_BOY}</div>
-        <div class="badge">${ico("star")} +150 Punkte</div>
+        ${punkteSchild()}
       </div>
       <div class="ctas">
           <button class="big" id="play" type="button"><span class="cicon">🎮</span> Jetzt spielen</button>
@@ -2967,6 +3021,7 @@ function renderHome(){
   $("#play").onclick=()=>$("#bereiche").scrollIntoView({behavior:"smooth"});
   $("#toLive").onclick=()=>go("live");
   $("#zufall") && ($("#zufall").onclick=startZufall);
+  punkteSchildStart();
   $("#toLib") && ($("#toLib").onclick=()=>{ setLibModus(true); scrollTo(0,0); });
   $("#top10all") && ($("#top10all").onclick=()=>{ S.boardStufe=S.stufe; go("board"); });
   $("#toReg") && ($("#toReg").onclick=()=>go("register"));
@@ -2999,7 +3054,7 @@ function renderBereich(){
 
 /* ---------- Modus wählen ---------- */
 function renderMode(){
-  const t=S.thema, c=t.bereich.c, n=pool(t.id).length, bp=myBest(t.id), canTest=n>=TEST_LEN;
+  const t=S.thema, c=t.bereich.c, n=pool(t.id).length, bp=myBest(t.id), canTest=n>=TEST_MIN;
   $("#app").innerHTML = `
     ${crumbs()}
     <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(t)}</span><h1>${esc(t.id==="politik"||t.id==="religion"? t.name+" – alles gemischt" : t.name)}</h1></div>
@@ -3017,9 +3072,15 @@ function renderMode(){
         <div class="counts">${[5,10,20,50,100].filter(k=>k<=Math.min(100,n)).map(k=>`<button class="cnt quick" type="button" data-q="${k}">${k}</button>`).join("")}</div>
         <button class="big" id="startTrain" type="button" style="margin-top:12px">${ico("dumbbell")} Training starten</button></div>
       <button class="mode test" id="mTest" type="button" ${canTest?"":"disabled"}><span class="em" aria-hidden="true">${ico("trophy")}</span><h2>Gewerteter Test</h2>
-        <p>${canTest ? `Immer ${TEST_LEN} Fragen, Zeitlimit 30 Minuten. Richtige und schnelle Antworten geben Punkte für die Rangliste.${bp? " Dein Bestwert: "+bp+" Punkte.":""}` :
+        <p>${canTest ? `${Math.min(TEST_LEN,n)} Fragen, Zeitlimit 30 Minuten.${bp? " Dein Bestwert: "+bp+" Punkte.":""}</p>
+          <details class="punkteinfo"><summary>🏅 So bekommst du Punkte</summary><ul>
+            <li>✅ <b>Richtig:</b> 100 Punkte</li>
+            <li>⚡ <b>Tempo:</b> bis +100 – volle Punkte bis 5 Sekunden, danach weniger, ab 30 Sekunden kein Bonus</li>
+            <li>🔥 <b>Serie:</b> +10 für jede weitere richtige Antwort in Folge, bis +50</li>
+            <li>🚀 <b>Schwierigkeit:</b> Könner-Fragen ×1,2 · Profi-Fragen ×1,5</li>
+            <li>❌ <b>Falsch:</b> −20 Punkte und die Serie ist weg</li></ul></details><p style="display:none">` :
           t.id.startsWith("kt_") ? `Für einzelne Kantone gibt es noch nicht genug Fragen. Den gewerteten Test findest du unter «Alle Kantone».` :
-          `Für einen Test braucht es mindestens ${TEST_LEN} Fragen – hier sind es erst ${n}.`}</p>
+          `Für einen Test braucht es mindestens ${TEST_MIN} Fragen – hier sind es erst ${n}.`}</p>
         ${canTest && !S.profil ? `<p style="color:var(--ink);font-weight:600">Registriere dich zuerst, um in die Rangliste zu kommen.</p>` : ""}
         ${canTest ? `<span class="big gold startlbl">${S.profil? "Test starten" : "Registrieren und starten"}</span>` : ""}</button>
     </div>`;
@@ -3036,7 +3097,7 @@ function renderMode(){
 function startQuiz(themaId, mode, count){
   if(themaId==="zufall") return startZufall();
   const all = pool(themaId);
-  if(mode==="test" && all.length<TEST_LEN) return;
+  if(mode==="test" && all.length<TEST_MIN) return;
   const exact = shuffle(all.filter(f=>f.l===S.stufe));
   const near = shuffle(all.filter(f=>f.l!==S.stufe)).sort((a,b)=>Math.abs(a.l-S.stufe)-Math.abs(b.l-S.stufe));
   const list = [...exact, ...near].slice(0, mode==="test"? TEST_LEN : (count||10));
@@ -3071,7 +3132,22 @@ function answer(i){
   Q.picked=i; Q.zeit+=dt; Q.seen++;
   const ok=f.opts[i].ok;
   let pts=0;
-  if(ok){ Q.score++; if(Q.mode==="test"){ pts = 100 + Math.max(0, Math.round(50 - dt/1000*3)); Q.points+=pts; } }
+  if(ok) Q.score++;
+  if(Q.mode==="test" && !Q.custom){
+    if(ok){
+      Q.serie=(Q.serie||0)+1;
+      const sek=dt/1000, P=PUNKTE;
+      const tempo=Math.round(P.tempoMax*Math.min(1,Math.max(0,(P.tempoNull-sek)/(P.tempoNull-P.tempoVoll))));
+      const serie=Math.min(P.serieMax,(Q.serie-1)*P.serieSchritt);
+      const faktor=P.faktor[f.l]||1;
+      pts=Math.round((P.basis+tempo)*faktor)+serie;
+      Q.lastBreak={ok:true, basis:P.basis, tempo, serie, faktor, pts, sek:Math.round(sek)};
+      Q.sumTempo=(Q.sumTempo||0)+tempo; Q.sumSerie=(Q.sumSerie||0)+serie; Q.maxSerie=Math.max(Q.maxSerie||0,Q.serie);
+    } else {
+      Q.serie=0; pts=PUNKTE.falsch; Q.lastBreak={ok:false, pts}; Q.sumAbzug=(Q.sumAbzug||0)+pts;
+    }
+    Q.points=Math.max(0,(Q.points||0)+pts);
+  }
   Q.lastPts=pts;
   Q.log.push({q:f.q, ok, richtig:f.a[0], dein:f.opts[i].txt, m:f.m, s:f.s, img:f.img});
   render();
@@ -3139,7 +3215,8 @@ function renderQuiz(){
         let cls=""; if(answered){ if(o.ok) cls="right"; else if(Q.picked===i) cls="wrong"; }
         return `<button class="ans ${cls}" type="button" data-i="${i}" ${answered?"disabled":""}><span class="key">${"ABCD"[i]}</span><span>${esc(o.txt)}</span></button>`;
       }).join("")}</div>
-      ${answered ? `<div class="feedback pop"><p>${f.opts[Q.picked].ok ? `${ico("check")} Richtig!${test && !Q.custom? " +"+Q.lastPts+" Punkte":""}` : `${ico("cross")} Nicht ganz.`}</p>
+      ${answered ? `<div class="feedback pop"><p>${f.opts[Q.picked].ok ? `${ico("check")} Richtig!${test && !Q.custom && Q.lastBreak?.ok ? ` <b class="ppos">+${Q.lastBreak.pts} Punkte</b>`:""}` : `${ico("cross")} Nicht ganz.${test && !Q.custom ? ` <b class="pneg">${PUNKTE.falsch} Punkte</b>`:""}`}</p>
+        ${test && !Q.custom && Q.lastBreak?.ok ? `<p class="pdetail">✅ 100${Q.lastBreak.tempo?` · ⚡ Tempo +${Q.lastBreak.tempo} (${Q.lastBreak.sek} s)`:` · ⚡ kein Tempo-Bonus (${Q.lastBreak.sek} s)`}${Q.lastBreak.faktor>1?` · 🚀 ×${String(Q.lastBreak.faktor).replace(".",",")}`:""}${Q.lastBreak.serie?` · 🔥 Serie +${Q.lastBreak.serie}`:""}</p>` : ""}
         <span class="row" style="margin:0">${test? "" : `<button class="big alt" id="toExplain" type="button">Erklärung ansehen</button>`}
         <button class="big" id="next" type="button">${nextLbl}</button></span></div>` : ""}`;
   let body;
@@ -3233,10 +3310,11 @@ function renderDone(){
       <h1>${test? `${Q.points} Punkte` : msg}</h1>
       ${Q.timeout ? `<p class="timeup">${ico("timer")} Die 30 Minuten sind abgelaufen – nicht beantwortete Fragen zählen als falsch.</p>` : ""}
       <p>${Q.score} von ${Q.list.length} richtig · Zeit ${fmtZeit(Q.zeit)}${test && Q.newBest ? " · Neuer Bestwert!" : ""}</p>
+      ${test && !Q.custom ? `<div class="pbilanz"><span>✅ ${Q.score} richtig</span><span>⚡ Tempo +${Q.sumTempo||0}</span><span>🔥 Serien +${Q.sumSerie||0}${Q.maxSerie>1?` (beste: ${Q.maxSerie})`:""}</span><span>❌ Abzug ${Q.sumAbzug||0}</span></div>` : ""}
       ${test? `<p>${msg}</p>`:""}
       <div class="row">
         <button class="big ${test?"gold":""}" id="again" type="button">${test? "Nochmals testen" : "Nochmals spielen"}</button>
-        ${test? `<button class="big alt" id="board" type="button">${ico("trophy")} Rangliste</button>` : (pool(t.id).length>=TEST_LEN ? `<button class="big alt" id="toTest" type="button">${ico("trophy")} Test machen</button>` : "")}
+        ${test? `<button class="big alt" id="board" type="button">${ico("trophy")} Rangliste</button>` : (pool(t.id).length>=TEST_MIN ? `<button class="big alt" id="toTest" type="button">${ico("trophy")} Test machen</button>` : "")}
         <button class="big alt" id="other" type="button">Anderes Thema</button>
       </div>
       ${reviewHTML(Q)}
