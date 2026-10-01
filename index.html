@@ -1337,6 +1337,19 @@ a.big{text-decoration:none}
 @media (max-width:720px){.v3 .schild{position:relative!important;padding:6px 16px;z-index:0}.v3 .schild::before{inset:0!important}}
 .v3 .schild{align-self:center}
 @media (max-width:720px){.v3 .schild{margin:4px auto 14px!important}}
+/* Gegliederte Bibliothekstexte */
+.beschr.strukt{font-size:1.05rem;line-height:1.65}
+.blead{font-size:1.2rem;font-weight:600;color:var(--libink);margin:0 0 14px!important;padding-left:14px;border-left:5px solid var(--bf,var(--libacc))}
+.babschn{background:color-mix(in srgb,var(--libacc) 6%,var(--libpaper));border:2px solid var(--libline);border-radius:16px;padding:10px 14px;margin:0 0 10px}
+.babschn h4{margin:0 0 4px;font-family:Georgia,serif;font-size:1.1rem;color:var(--libacc);display:flex;align-items:center;gap:8px}
+.babschn h4 .bem{font-size:1.4rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.babschn p{margin:0!important}
+.beschr strong{color:var(--libacc);font-weight:800}
+.bgewusst{background:color-mix(in srgb,#FFC23A 22%,var(--libpaper));border-radius:16px;padding:10px 14px;margin:4px 0 14px;border:2px dashed #E0A400}
+.bgewusst p{margin:4px 0 0!important}
+.adminleiste{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border:2px dashed color-mix(in srgb,#8A3FE0 45%,var(--libline));background:color-mix(in srgb,#8A3FE0 6%,var(--libpaper));border-radius:14px;padding:8px 12px;margin:4px 0 14px}
+.adminleiste>span:first-child{font-size:.82rem;font-weight:700;color:#8A3FE0}
+.adminleiste .status{flex-basis:100%;margin:0}
 </style>
 </head>
 <body>
@@ -3494,7 +3507,7 @@ async function ladeFragenDB(){
   }catch(e){ console.warn("Fragen-Datenbank nicht erreichbar, nutze eingebaute Fragen:", e); rows = null; }
   const ok = (rows||[]).filter(f=>f && f.t && f.q && Array.isArray(f.a) && f.a.length===4 && f.l>=1 && f.l<=3);
   if(ok.length){ FRAGEN.length = 0; FRAGEN.push(...ok); render(); }
-  try{ const tr=await fetch(cfg.texteDatei||"texte.json",{cache:"no-cache"}); if(tr.ok){ const tj=await tr.json(); if(tj && typeof tj==="object"){ const t={}, bi={}; for(const [k,v] of Object.entries(tj)){ if(typeof v==="string") t[k]=v; else if(v && typeof v.text==="string"){ t[k]=v.text; if(v.bild) bi[k]=String(v.bild); } } S.texte=t; S.bilder=bi; if(S.screen.startsWith("lib")) render(); } } }catch(e){}
+  try{ const tr=await fetch(cfg.texteDatei||"texte.json",{cache:"no-cache"}); if(tr.ok){ const tj=await tr.json(); if(tj && typeof tj==="object"){ const t={}, bi={}; for(const [k,v] of Object.entries(tj)){ if(typeof v==="string") t[k]=v; else if(v && typeof v.text==="string"){ t[k]=v.text; if(v.bild) bi[k]=String(v.bild); if(v.teile) (S.teile[k]=v.teile); } } S.texte=t; S.bilder=bi; if(S.screen.startsWith("lib")) render(); } } }catch(e){}
 }
 
 
@@ -4112,13 +4125,13 @@ function renderLibSeite(){
   else {
     const merk=[...new Set(s.fragen.map(f=>f.m).filter(Boolean))];
     const txt=S.texte[seiteKey(s)];
-    const beschr = txt ? `<div class="beschr">${txt.split(/\n+/).map(p=>`<p>${esc(p)}</p>`).join("")}</div>`
-      : (S.canEdit && S.sample) ? `<div class="beschr leer"><p>Für diese Seite gibt es noch keine Beschreibung.</p><div class="row" style="justify-content:flex-start;margin:0"><button class="big gold small" id="textGen" type="button" ${TX.run?"disabled":""}>✨ Beschreibung mit KI erstellen</button></div><p class="status" id="textSt" aria-live="polite"></p></div>`
-      : `<div class="beschr leer"><p>📝 Eine ausführliche Beschreibung zu «${esc(s.titel)}» folgt bald. Bis dahin findest du unten die wichtigsten Fakten.</p></div>`;
+    const adminLeiste = S.canEdit ? `<div class="adminleiste"><span>🛠️ Nur für dich sichtbar</span>${S.sample ? `<button class="big ${txt?"alt":"gold"} small" id="textGen" type="button" ${TX.run?"disabled":""}>${txt?"🔄 Text neu erstellen":"✨ Beschreibung mit KI erstellen"}</button>` : `<span class="help">Die KI ist hier nicht verfügbar.</span>`}<p class="status" id="textSt" aria-live="polite"></p></div>` : "";
+    const beschr = adminLeiste + (txt ? textHTML(seiteKey(s))
+      : `<div class="beschr leer"><p>📝 Eine ausführliche Beschreibung zu «${esc(s.titel)}» folgt bald. Bis dahin findest du unten die wichtigsten Fakten.</p></div>`);
     const karte=f=>`<div class="wk"><span class="bibst">${STUFE_EMO[f.l]||""} ${esc(stufeObj(f.l).name)}</span>${f.img?`<div class="bibimg" style="float:right">${imgSvg(f.img)}</div>`:""}<p class="wkq">${esc(f.q)}</p><p class="wka">${esc(f.a[0])}</p><p class="wke">${esc(f.e)}</p></div>`;
     const erste=s.fragen.slice(0,5), rest=s.fragen.slice(5);
-    inhalt = `${beschr}
-      ${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
+    inhalt = `${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
+      ${beschr}
       <h3 class="faktkopf">📚 Fakten${s.fragen.length>5?` <small>(5 von ${s.fragen.length})</small>`:""}</h3>
       <div class="wkarten">${erste.map(karte).join("")}</div>
       ${rest.length?`<details class="mehrfakten"><summary>Weitere ${rest.length} ${rest.length===1?"Fakt":"Fakten"} anzeigen</summary><div class="wkarten">${rest.map(karte).join("")}</div></details>`:""}
@@ -4351,7 +4364,24 @@ function blasenStart(){
 }
 
 /* ---------- Beschreibungstexte für die Bibliothek ---------- */
-S.texte = S.texte || {}; S.bilder = S.bilder || {};
+S.texte = S.texte || {}; S.bilder = S.bilder || {}; S.teile = S.teile || {};
+function fettHTML(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>"); }
+function satzListe(t){ return String(t).replace(/\s+/g," ").match(/[^.!?]+[.!?]+(\s|$)/g)||[String(t)]; }
+function textHTML(k){
+  const T=S.teile[k];
+  if(T && (T.einleitung || T.abschnitte?.length)){
+    return `<div class="beschr strukt">
+      ${T.einleitung?`<p class="blead">${fettHTML(T.einleitung)}</p>`:""}
+      ${(T.abschnitte||[]).map(a=>`<section class="babschn"><h4><span class="bem">${esc(a.emoji||"📌")}</span>${esc(a.titel||"")}</h4><p>${fettHTML(a.text||"")}</p></section>`).join("")}
+      ${T.gewusst?`<div class="bgewusst"><b>💡 Schon gewusst?</b><p>${fettHTML(T.gewusst)}</p></div>`:""}</div>`;
+  }
+  const t=S.texte[k]; if(!t) return "";
+  const sz=satzListe(t).map(x=>x.trim()).filter(Boolean);
+  const lead=sz.slice(0,2).join(" "), rest=sz.slice(2,-1), letzt=sz.length>4?sz[sz.length-1]:"";
+  const abs=[]; for(let i=0;i<rest.length;i+=3) abs.push(rest.slice(i,i+3).join(" "));
+  if(!letzt && sz.length>2) abs.push(sz[sz.length-1]);
+  return `<div class="beschr strukt"><p class="blead">${fettHTML(lead)}</p>${abs.map(p=>`<section class="babschn"><p>${fettHTML(p)}</p></section>`).join("")}${letzt?`<div class="bgewusst"><b>💡 Schon gewusst?</b><p>${fettHTML(letzt)}</p></div>`:""}</div>`;
+}
 function seiteKey(s){ const k=(s.kap?.id||"")+"|"+String(s.titel).toLowerCase(); let h=2166136261; for(const c of k){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return "t"+(h>>>0).toString(36); }
 const TX = { run:false, done:0, err:0, ctrl:null, buch:"natur", kap:"" };
 async function texteErzeugen(seiten, statusEl){
@@ -4360,8 +4390,11 @@ async function texteErzeugen(seiten, statusEl){
   const liste = seiten.map((s,i)=>{ const fakten=[...new Set(s.fragen.flatMap(f=>[f.a[0]&&f.q? `${f.q} → ${f.a[0]}`:"", f.m||""]).filter(Boolean))].slice(0,8).join(" | ");
     return `${i+1}. id: ${seiteKey(s)} · Stichwort: ${s.titel} · Kapitel: ${s.kap.titel} · Fakten: ${fakten}`; }).join("\n");
   const prompt = `Schreibe für die Lern-Bibliothek «easyplay» (Kinder und Jugendliche in der Schweiz, 8 bis 16 Jahre) zu jedem der folgenden Stichworte eine Beschreibung.
-Regeln für jede Beschreibung:
-- 7 bis 10 vollständige, gut verständliche Sätze, als zusammenhängender Text (keine Aufzählung, keine Überschrift).
+Die Beschreibung soll für Kinder leicht lesbar sein und ist in Teile gegliedert:
+- "einleitung": 1 bis 2 kurze Sätze, die neugierig machen und sagen, worum es geht.
+- "abschnitte": 2 bis 3 Abschnitte, jeweils mit "emoji" (1 passendes Emoji), "titel" (kurze Zwischenüberschrift, max. 5 Wörter) und "text" (2 bis 3 kurze Sätze).
+- "gewusst": 1 überraschender, kindgerechter Fakt als ein Satz.
+Insgesamt 7 bis 10 Sätze. Kurze Sätze (meist unter 15 Wörtern), einfache Wörter, Fachbegriffe kurz erklären. Markiere pro Abschnitt 1 bis 2 wichtige Begriffe mit **Sternchen** (z. B. **Schnurrhaare**).
 - Nur sachlich korrekte, gut belegte Fakten, wie sie in der deutschsprachigen Wikipedia stehen. Keine Zahlen, die sich jährlich ändern.
 - Anschaulich, mit mindestens einem Beispiel oder Vergleich aus dem Alltag. Wo es passt, ein Bezug zur Schweiz.
 - Religion und Politik neutral und respektvoll. Schweizer Rechtschreibung ("ss" statt "ß").
@@ -4369,16 +4402,19 @@ Regeln für jede Beschreibung:
 Stichworte:
 ${liste}
 Gib zu jedem Stichwort zusätzlich unter "bild" den genauen Titel eines Artikels der deutschsprachigen Wikipedia an, dessen Hauptbild das Thema gut zeigt (meist der Artikel zum Stichwort selbst, bei abstrakten Begriffen ein passender konkreter Artikel).
-Antworte NUR mit einem JSON-Objekt der Form {"<id>": {"text": "<Beschreibung>", "bild": "<Wikipedia-Artikeltitel>"}, ...} mit genau den angegebenen ids.`;
+Antworte NUR mit einem JSON-Objekt der Form {"<id>": {"einleitung": "...", "abschnitte": [{"emoji": "🐾", "titel": "...", "text": "..."}], "gewusst": "...", "bild": "<Wikipedia-Artikeltitel>"}, ...} mit genau den angegebenen ids.`;
   try{
     const res = await S.sample.json(prompt, {modelTier:"default", cache:false, signal:TX.ctrl.signal});
     for(const s of seiten){
-      const k=seiteKey(s); const v=res?.[k]; let t=typeof v==="string" ? v.trim() : typeof v?.text==="string" ? v.text.trim() : "";
+      const k=seiteKey(s); const v=res?.[k];
+      const clip=(x,n)=>String(x||"").replace(/ß/g,"ss").trim().slice(0,n);
+      const teile = v && typeof v==="object" && (v.einleitung||Array.isArray(v.abschnitte)) ? {einleitung:clip(v.einleitung,400), abschnitte:(Array.isArray(v.abschnitte)?v.abschnitte:[]).slice(0,4).map(a=>({emoji:clip(a?.emoji,8), titel:clip(a?.titel,60), text:clip(a?.text,700)})).filter(a=>a.text), gewusst:clip(v.gewusst,300)} : null;
+      let t = teile ? [teile.einleitung, ...teile.abschnitte.map(a=>a.text), teile.gewusst].filter(Boolean).join(" ").replace(/\*\*/g,"") : typeof v==="string" ? v.trim() : typeof v?.text==="string" ? v.text.trim() : "";
       const bild=typeof v?.bild==="string" ? v.bild.trim().slice(0,120) : "";
       const saetze=(t.match(/[.!?](\s|$)/g)||[]).length;
       if(!t || saetze<5){ TX.err++; continue; }
       t=t.replace(/ß/g,"ss").slice(0,3000);
-      try{ await S.db.collection("texte").doc(k).set({text:t, bild, titel:String(s.titel).slice(0,120), kapitel:s.kap.id, erstellt:new Date().toISOString()}); S.texte[k]=t; if(bild) S.bilder[k]=bild; TX.done++; }catch(e){ TX.err++; }
+      try{ await S.db.collection("texte").doc(k).set({text:t, ...(teile?{teile}:{}), bild, titel:String(s.titel).slice(0,120), kapitel:s.kap.id, erstellt:new Date().toISOString()}); S.texte[k]=t; if(teile) S.teile[k]=teile; if(bild) S.bilder[k]=bild; TX.done++; }catch(e){ TX.err++; }
     }
     if(statusEl) statusEl.textContent=`Fertig: ${TX.done} ${TX.done===1?"Beschreibung":"Beschreibungen"} gespeichert${TX.err?` · ${TX.err} nicht gelungen`:""}.`;
   }catch(e){
@@ -4408,7 +4444,8 @@ function werkstattTexteHTML(){
     <select id="txK" class="sel">${D.kap.filter(k=>k.seiten.some(s=>s.typ==="fr")).map(k=>{ const fr=k.seiten.filter(s=>s.typ==="fr"); const m=fr.filter(s=>S.texte[seiteKey(s)]).length; return `<option value="${k.id}" ${k.id===TX.kap?"selected":""}>${esc(k.titel)} (${m}/${fr.length})</option>`; }).join("")}</select>
     <p class="help" style="margin:6px 0 0">In diesem Kapitel: ${mit} von ${seiten.length} Seiten mit Text. Seiten mit den meisten Fakten kommen zuerst dran.</p>
     <div class="row" style="justify-content:flex-start">
-      <button class="big gold" id="txGo" type="button" ${TX.run||mit===seiten.length?"disabled":""}>✨ 10 Texte erzeugen</button>
+      <label class="chk" style="width:100%"><input type="checkbox" id="txAlt" ${TX.alt?"checked":""}> Auch ältere Fliesstexte neu und übersichtlich erstellen</label>
+      <button class="big gold" id="txGo" type="button" ${TX.run||(mit===seiten.length&&!TX.alt)?"disabled":""}>✨ 10 Texte erzeugen</button>
       <button class="big alt" id="txStop" type="button" ${TX.run?"":"disabled"}>Anhalten</button></div>
     <p class="status" id="txSt" aria-live="polite"></p>
     <div class="row" style="justify-content:flex-start"><button class="big alt" id="txEx" type="button">📥 texte.json exportieren</button></div>
@@ -4418,10 +4455,11 @@ function bindWerkstattTexte(){
   $("#txB") && ($("#txB").onchange=e=>{ TX.buch=e.target.value; TX.kap=""; render(); });
   $("#txK") && ($("#txK").onchange=e=>{ TX.kap=e.target.value; render(); });
   $("#txGo") && ($("#txGo").onclick=()=>{ const kap=buchDaten(TX.buch).kap.find(k=>k.id===TX.kap); if(!kap) return;
-    const offen=kap.seiten.filter(s=>s.typ==="fr" && !S.texte[seiteKey(s)]).sort((a,b)=>b.fragen.length-a.fragen.length).slice(0,10);
+    const offen=kap.seiten.filter(s=>s.typ==="fr" && (!S.texte[seiteKey(s)] || (TX.alt && !S.teile[seiteKey(s)]))).sort((a,b)=>(!!S.texte[seiteKey(a)])-(!!S.texte[seiteKey(b)]) || b.fragen.length-a.fragen.length).slice(0,10);
     texteErzeugen(offen, $("#txSt")); $("#txGo").disabled=true; $("#txStop").disabled=false; });
+  $("#txAlt") && ($("#txAlt").onchange=e=>{ TX.alt=e.target.checked; render(); });
   $("#txStop") && ($("#txStop").onclick=()=>{ try{ TX.ctrl?.abort(); }catch(e){} });
-  $("#txEx") && ($("#txEx").onclick=()=>dateiSpeichern("texte.json", JSON.stringify(Object.fromEntries(Object.entries(S.texte).map(([k,t])=>[k, S.bilder[k]?{text:t,bild:S.bilder[k]}:{text:t}]))), $("#txSt"), `${Object.keys(S.texte).length} Texte exportiert – lade texte.json in dein GitHub-Repository hoch.`));
+  $("#txEx") && ($("#txEx").onclick=()=>dateiSpeichern("texte.json", JSON.stringify(Object.fromEntries(Object.entries(S.texte).map(([k,t])=>[k, {text:t, ...(S.bilder[k]?{bild:S.bilder[k]}:{}), ...(S.teile[k]?{teile:S.teile[k]}:{})}]))), $("#txSt"), `${Object.keys(S.texte).length} Texte exportiert – lade texte.json in dein GitHub-Repository hoch.`));
 }
 
 /* ---------- Start ---------- */
@@ -4436,7 +4474,7 @@ ladeFragenDB();
 
 (async()=>{
   if(!window.claude || !window.claude.use) return;
-  claude.use("sample").then(s=>{ S.sample=s; if(S.screen==="done") render(); });
+  claude.use("sample").then(s=>{ S.sample=s; if(S.screen==="done"||S.screen==="libseite") render(); });
   const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
   if(!db) return;
   S.db = db;
@@ -4447,8 +4485,8 @@ ladeFragenDB();
     S.pending = all.filter(x=>x.status==="neu");
     if(["home","bereich","mode","berufmenu","werkstatt","geschmenu","chmenu"].includes(S.screen)) render(); else renderNav();
   }, ()=>{});
-  db.collection("texte").onSnapshot(snap=>{ const t={}, bi={}; snap.docs.forEach(d=>{ const x=d.data()||{}; if(typeof x.text==="string") t[d.id]=x.text; if(typeof x.bild==="string"&&x.bild) bi[d.id]=x.bild; }); S.texte=t; S.bilder=bi; if(S.screen==="libseite"&&!TX.run) render(); }, ()=>{});
-  try{ S.canEdit = user ? await user.canEdit() : false; if(S.canEdit) renderNav(); }catch(e){}
+  db.collection("texte").onSnapshot(snap=>{ const t={}, bi={}, te={}; snap.docs.forEach(d=>{ const x=d.data()||{}; if(typeof x.text==="string") t[d.id]=x.text; if(typeof x.bild==="string"&&x.bild) bi[d.id]=x.bild; if(x.teile&&typeof x.teile==="object") te[d.id]=x.teile; }); S.texte=t; S.bilder=bi; S.teile=te; if(S.screen==="libseite"&&!TX.run) render(); }, ()=>{});
+  try{ S.canEdit = user ? await user.canEdit() : false; if(S.canEdit){ if(S.screen==="libseite") render(); else renderNav(); } }catch(e){}
   const uid = user ? await user.id() : null;
   if(!uid) return;
   S.uid = uid; S.online = true;
