@@ -1497,6 +1497,66 @@ html,body{overflow-x:clip}
 .level b{font-size:1.45rem}
 .label>span:first-child,.label:not(:has(span)){background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important;text-shadow:0 2px 0 rgba(255,255,255,.75),0 0 14px rgba(255,255,255,.9)}
 :root[data-theme="dark"] .label>span:first-child,:root[data-theme="dark"] .label:not(:has(span)){text-shadow:0 2px 0 rgba(0,0,0,.5),0 0 14px rgba(0,0,0,.8)}
+
+/* ===== Kennzahlen auf der Startseite ===== */
+.kennzahlen{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 4px}
+.kzk{position:relative;display:flex;align-items:center;gap:14px;padding:14px 22px 14px 14px;border-radius:24px;background:var(--surface);border:3px solid transparent;background-clip:padding-box;box-shadow:0 14px 28px -16px rgba(60,40,140,.55);min-width:230px;animation:kzSchweb 5s ease-in-out infinite}
+.kzk::before{content:"";position:absolute;inset:-3px;border-radius:26px;padding:3px;background:var(--kzg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.kzk-fragen{--kzg:linear-gradient(135deg,#3D5AFE,#8A3FE0,#E043B8)}
+.kzk-themen{--kzg:linear-gradient(135deg,#17A35A,#10B5A6,#FFC23A);animation-delay:-2.5s}
+.kzicon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:2rem;background:var(--kzg);box-shadow:0 8px 14px -8px rgba(0,0,0,.45);font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.kztext{display:grid;line-height:1.05}
+.kztext b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2.6rem;font-weight:800;background:var(--kzg);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.02em}
+.kztext span{font-weight:700;color:var(--soft);font-size:1rem}
+.kzf{position:absolute;font-style:normal;color:#FFC23A;text-shadow:0 0 8px rgba(255,194,58,.9);animation:twinkle 2.6s ease-in-out infinite;pointer-events:none}
+.kzf.a{top:-10px;right:18px;font-size:16px}.kzf.b{bottom:-8px;left:46%;font-size:13px;animation-delay:1.2s;color:#FF8FB1;text-shadow:0 0 8px rgba(255,143,177,.9)}
+@keyframes kzSchweb{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (max-width:560px){.kzk{min-width:0;flex:1 1 140px;padding:10px 12px}.kzicon{width:44px;height:44px;font-size:1.5rem}.kztext b{font-size:2rem}.kztext span{font-size:.85rem}}
+/* ===== Podest in der Rangliste ===== */
+.podium{position:relative;display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:10px;max-width:760px;margin:10px auto 26px;padding:30px 10px 0;border-radius:28px;background:radial-gradient(ellipse at 50% 100%,rgba(255,211,77,.35),transparent 65%),linear-gradient(180deg,color-mix(in srgb,var(--surface) 70%,transparent),color-mix(in srgb,var(--surface) 92%,transparent));border:2px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
+.pkonfetti i{position:absolute;top:-14px;left:var(--x);width:8px;height:12px;border-radius:2px;background:var(--c);animation:pkFall 4.8s linear infinite;animation-delay:var(--d);opacity:.9}
+@keyframes pkFall{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(440px) rotate(540deg);opacity:0}}
+.pst{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.pfigur{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding-bottom:8px;animation:pHuepf 3s ease-in-out infinite}
+.p1 .pfigur{animation-delay:-.5s}.p3 .pfigur{animation-delay:-1.4s}
+@keyframes pHuepf{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.pav{width:78px;height:78px;border-radius:50%;background:var(--surface);border:4px solid var(--pc);box-shadow:0 0 0 4px color-mix(in srgb,var(--pc) 30%,transparent),0 10px 18px -8px rgba(0,0,0,.45);display:grid;place-items:center;overflow:hidden;font-size:2.4rem}
+.p1 .pav{width:100px;height:100px}
+.pav .avimg{width:100%;height:100%;object-fit:contain}
+.pkrone{font-size:2.2rem;line-height:1;margin-bottom:-12px;z-index:2;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));animation:kroneWipp 2.4s ease-in-out infinite;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+@keyframes kroneWipp{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg) translateY(-3px)}}
+.pname{font-size:1.05rem;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pkt{font-weight:800;font-size:.95rem;color:var(--ink);display:inline-flex;gap:6px;align-items:center}.pkt .wappen{width:18px;height:22px}
+.psockel{width:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:10px;border-radius:14px 14px 0 0;background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 92%,#fff),var(--pc) 40%,color-mix(in srgb,var(--pc) 70%,#000));box-shadow:inset 0 4px 0 rgba(255,255,255,.45),inset 0 -6px 0 rgba(0,0,0,.18);color:#fff}
+.p1{--pc:#F2B400}.p2{--pc:#A9B4C8}.p3{--pc:#CD7F45}
+.p1 .psockel{height:150px}.p2 .psockel{height:110px}.p3 .psockel{height:82px}
+.pnr{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:2.8rem;line-height:1;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+.p1 .pnr{font-size:3.6rem}
+.pmedal{font-size:1.6rem;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.ppokal{position:absolute;bottom:10px;font-size:1.6rem;opacity:.9;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.pst.ich .pav{box-shadow:0 0 0 4px #8A3FE0,0 0 20px rgba(138,63,224,.6)}
+.pst.leer .pfigur{height:60px}.pst.leer .psockel{opacity:.45}
+.p1 .psockel::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 45%,transparent 60%);background-size:250% 100%;animation:glanz 3.5s ease-in-out infinite}
+@keyframes glanz{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
+@media (max-width:560px){.podium{gap:6px;padding-top:24px}.pav{width:56px;height:56px}.p1 .pav{width:70px;height:70px}.pname{font-size:.85rem;max-width:96px}.pkt{font-size:.8rem}.p1 .psockel{height:120px}.p2 .psockel{height:88px}.p3 .psockel{height:64px}.pnr{font-size:2rem}.p1 .pnr{font-size:2.6rem}}
+@media (prefers-reduced-motion:reduce){.kz,.kzf,.pfigur,.pkrone,.pkonfetti i,.p1 .psockel::after{animation:none!important}.pkonfetti{display:none}}
+.kennzahlen{flex-wrap:nowrap!important;max-width:560px}
+.kzk{flex:1 1 0!important;min-width:0!important;padding:12px 16px 12px 12px!important}
+.kztext span{white-space:nowrap}
+.kzicon{flex:none!important}
+.kztext{min-width:0}
+.pkonfetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.pst.leer .pfigur{height:auto}
+.pst.leer .psockel{opacity:.55}
+.pfrei{border-style:dashed!important;color:var(--soft);font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:2rem!important;background:color-mix(in srgb,var(--surface) 70%,transparent)!important}
+.pst.leer .pname{color:var(--soft)}.pst.leer .pkt{color:var(--soft);font-weight:600;font-size:.82rem}
+.top10 .podium{margin:6px auto 16px;box-shadow:none}
+/* Kennzahlen zentriert, kein Abschneiden */
+.kzk{justify-content:center!important;text-align:center}
+.kztext{justify-items:center;text-align:center}
+.kztext span{white-space:normal!important;line-height:1.2}
+.kennzahlen{max-width:600px}
+@media (max-width:560px){.kzk{flex-direction:column;gap:6px!important;padding:12px 8px!important}}
 </style>
 </head>
 <body>
@@ -2964,12 +3024,12 @@ function homeTop10(){
   const meId = S.online ? S.uid : "me";
   return `<section class="top10">
     <div class="top10head"><h2>${ico("trophy")} Top 10 der Schweiz</h2><button class="big alt small" id="top10all" type="button">Ganze Rangliste</button></div>
-    ${list.length ? `<ol class="t10">${list.map((p,i)=>`<li class="${p.id===meId?"me":""}">
+    ${list.length ? `<ol class="t10">${list.map((p,i)=>{ return `<li class="${p.id===meId?"me":""}">
         <span class="t10r">${medalSvg(i)}</span>
         <span class="t10k">${p.kanton? wappen(p.kanton) : ico("flag")}</span>
         <span class="t10n"><b>${esc(p.name)}</b><span>${p.kanton? esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||"") : "Schweiz"}</span></span>
         <span class="t10s">${STUFE_EMO[p.stufe]||""} ${esc(stufeObj(p.stufe).name)}</span>
-        <span class="t10p">${p.pts}<small>Punkte</small></span></li>`).join("")}</ol>`
+        <span class="t10p">${p.pts.toLocaleString("de-CH")}<small>Punkte</small></span></li>`; }).join("")}</ol>`
       : `<p class="empty">Noch niemand auf der Rangliste, mach einen gewerteten Test und sei die oder der Erste!</p>`}
   </section>`;
 }
@@ -3011,9 +3071,9 @@ function renderHome(){
         <h1 class="hero-wm2"><img src="${WM_SRC}" alt="easyplay"></h1>
         <p class="tagline">Fragen. Wissen. Weiterkommen.</p>
         <p class="catch"><span>Spiel dich schlau!</span> Entdecke spannende Themen, knacke knifflige Fragen und lerne ganz nebenbei Neues dazu. Bei easyPlay wird Wissen zum Spiel und jede Frage zu einer neuen Herausforderung!</p>
-        <div class="chips">
-          <div class="chip"><b>${allCount()}</b><span>Fragen</span></div>
-          <div class="chip"><b>${themen}</b><span>Themen</span></div>
+        <div class="kennzahlen">
+          <div class="kzk kzk-fragen"><span class="kzicon">❓</span><span class="kztext"><b class="zaehler" data-ziel="${allCount()}">${allCount().toLocaleString("de-CH")}</b><span>Fragen zum Knobeln</span></span><i class="kzf a">✦</i><i class="kzf b">✧</i></div>
+          <div class="kzk kzk-themen"><span class="kzicon">📚</span><span class="kztext"><b class="zaehler" data-ziel="${themen}">${themen}</b><span>spannende Themen</span></span><i class="kzf a">★</i><i class="kzf b">✦</i></div>
         </div>
 
       </div>
@@ -3046,6 +3106,8 @@ function renderHome(){
   $("#play").onclick=()=>$("#bereiche").scrollIntoView({behavior:"smooth"});
   $("#toLive").onclick=()=>go("live");
   $("#zufall") && ($("#zufall").onclick=startZufall);
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelectorAll(".zaehler").forEach(el=>{ const ziel=+el.dataset.ziel; if(!ziel) return; const t0=performance.now(), dauer=1400;
+    const tick=t=>{ const p=Math.min(1,(t-t0)/dauer), e=1-Math.pow(1-p,3); el.textContent=Math.round(ziel*e).toLocaleString("de-CH"); if(p<1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
   punkteSchildStart();
   $("#toLib") && ($("#toLib").onclick=()=>{ setLibModus(true); scrollTo(0,0); });
   $("#top10all") && ($("#top10all").onclick=()=>{ S.boardStufe=S.stufe; go("board"); });
@@ -3455,6 +3517,18 @@ function renderProfil(){
 function sumBest(p, stufe){ const b=(p&&p.best)||{}; return Object.keys(b).filter(k=>k.startsWith(`s${stufe}_`)).reduce((n,k)=>n+(+b[k]||0),0); }
 function themenGespielt(p, stufe){ const b=(p&&p.best)||{}; return Object.keys(b).filter(k=>k.startsWith(`s${stufe}_`)).length; }
 
+function podiumHTML(top, meId){
+  const platz=[top[1],top[0],top[2]]; const nr=[2,1,3];
+  return `<div class="podium">
+    <div class="pkonfetti" aria-hidden="true">${Array.from({length:26},(_,i)=>`<i style="--x:${(i*37)%100}%;--d:${(i%9)*.45}s;--c:${["#FFD34D","#FF6FA8","#7FD1FF","#7BE07B","#B98CFF","#FF8A3D"][i%6]}"></i>`).join("")}</div>
+    ${platz.map((p,k)=>{ const n=nr[k]; if(!p) return `<div class="pst p${n} leer"><div class="pfigur"><div class="pav pfrei">?</div><b class="pname">Noch frei</b><span class="pkt">Hol dir den Platz!</span></div><div class="psockel"><span class="pmedal">${["🥇","🥈","🥉"][n-1]}</span><span class="pnr">${n}</span></div></div>`;
+      return `<div class="pst p${n} ${p.id===meId?"ich":""}">
+        <div class="pfigur">${n===1?`<span class="pkrone">👑</span>`:""}<div class="pav">${avatar(p.avatar)}</div>
+          <b class="pname">${esc(p.name)}${p.id===meId?" (du)":""}</b>
+          <span class="pkt">${p.kanton?wappen(p.kanton):""} ${p.pts.toLocaleString("de-CH")} P.</span></div>
+        <div class="psockel"><span class="pmedal">${["🥇","🥈","🥉"][n-1]}</span><span class="pnr">${n}</span>${n===1?`<span class="ppokal">🏆</span>`:""}</div></div>`; }).join("")}
+  </div>`;
+}
 function renderBoard(){
   const stufe=S.boardStufe||S.stufe, kf=S.boardKanton||"";
   let list = S.online ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []);
@@ -3468,11 +3542,12 @@ function renderBoard(){
     <div class="segs" role="group" aria-label="Stufe">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${stufe===s.id}">${STUFE_EMO[s.id]} ${s.name}</button>`).join("")}</div>
     <div class="kpick" style="max-width:420px;margin-bottom:18px"><span class="kprev">${kf? wappen(kf) : ico("flag")}</span>
       <select id="bK" class="sel"><option value="">Ganze Schweiz</option>${KANTONE.map(k=>`<option value="${k.kuerzel}" ${k.kuerzel===kf?"selected":""}>${esc(k.kurz)}</option>`).join("")}</select></div>
-    <div class="board">${list.length ? list.map((p,i)=>`<div class="rrow ${p.id===meId?"me":""}">
+    ${podiumHTML(list.slice(0,3), meId)}
+    <div class="board">${list.length>3 ? list.slice(3).map((p,j)=>{ const i=j+3; return `<div class="rrow ${p.id===meId?"me":""}">
         <span class="rank">${medal(i)}</span><span class="rav" aria-hidden="true">${avatar(p.avatar)}</span>
         <span class="rname"><b>${esc(p.name)}${p.id===meId?" (du)":""}</b><span>${p.kanton? wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||"")+" · ":""}${p.th} ${p.th===1?"Thema":"Themen"} getestet</span></span>
-        <span class="rpts">${p.pts}<small>Punkte</small></span></div>`).join("")
-      : `<div class="empty">Noch niemand in dieser Stufe. Mach einen gewerteten Test und sei die erste Person auf der Liste!</div>`}</div>
+        <span class="rpts">${p.pts.toLocaleString("de-CH")}<small>Punkte</small></span></div>`; }).join("")
+      : list.length ? "" : `<div class="empty">Noch niemand in dieser Stufe. Mach einen gewerteten Test und sei die erste Person auf der Liste!</div>`}</div>
     ${S.online? "" : `<p class="note">In dieser Ansicht gibt es keine gemeinsame Rangliste, du siehst nur deine eigenen Punkte.</p>`}
     <div class="row" style="justify-content:flex-start">${S.profil? "" : `<button class="big gold" id="reg" type="button">Registrieren und mitspielen</button>`}</div>`;
   document.querySelectorAll(".seg").forEach(b=>b.onclick=()=>{ S.boardStufe=+b.dataset.s; render(); });
