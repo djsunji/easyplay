@@ -1752,6 +1752,17 @@ html,body{overflow-x:clip}
 .gipfelinfo.jura{background:linear-gradient(135deg,color-mix(in srgb,#17A35A 14%,var(--libpaper)),var(--libpaper))}
 .gipfelinfo.pass .gihoehe b{background:linear-gradient(180deg,#E09A12,#C0392B);-webkit-background-clip:text;background-clip:text}
 .gipfelinfo.jura .gihoehe b{background:linear-gradient(180deg,#17A35A,#0E5E3A);-webkit-background-clip:text;background-clip:text}
+.steckbrief{background:linear-gradient(135deg,color-mix(in srgb,#C8213A 8%,var(--libpaper)),var(--libpaper));border:2px solid var(--libline);border-radius:18px;padding:12px 16px;margin:4px 0 14px}
+.steckbrief.st-bahn{background:linear-gradient(135deg,color-mix(in srgb,#3D5AFE 10%,var(--libpaper)),var(--libpaper))}
+.steckbrief.st-sich{background:linear-gradient(135deg,color-mix(in srgb,#E09A12 12%,var(--libpaper)),var(--libpaper))}
+.steckbrief.st-betr{background:linear-gradient(135deg,color-mix(in srgb,#17A35A 10%,var(--libpaper)),var(--libpaper))}
+.stkopf{display:flex;align-items:center;gap:8px;margin-bottom:6px}.stkopf b{font-family:Georgia,serif;font-size:1.1rem;color:var(--libacc)}
+.stemo{font-size:1.5rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.steckbrief dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:0 0 6px}
+.steckbrief dt{font-weight:800;color:color-mix(in srgb,var(--libink) 70%,transparent)}.steckbrief dd{margin:0}
+.steckbrief dd .wappen{width:16px;height:19px;vertical-align:-3px}
+.steckbrief p{margin:4px 0 0;line-height:1.55}
+@media (max-width:560px){.steckbrief dl{grid-template-columns:1fr}.steckbrief dd{margin:-2px 0 6px}}
 </style>
 </head>
 <body>
@@ -4809,6 +4820,143 @@ function juraKapitel(){
   return [ueber, ...JURA.map(([titel,wiki,h,kt,geb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,geb,art:/Pass/.test(geb)?"pass":"jura", verb:/Pass/.test(geb)?geb.replace(/ \(Pass\)/,""):""}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)}))].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
 }
 
+/* ---------- Bibliothek: Bundesbehörden, Sicherheit, Bundesbetriebe und Bergbahnen ---------- */
+// [Titel, Wikipedia-Titel, Abkürzung, Gruppe/Departement, Aufgaben, Sitz, Suchmuster]
+const CH_BEHOERDEN = [
+ ["Bundesversammlung","Bundesversammlung (Schweiz)","","Parlament (Legislative)","Das Parlament der Schweiz mit Nationalrat (200 Sitze) und Ständerat (46 Sitze). Es macht die Gesetze, beschliesst das Budget und wählt den Bundesrat und die Bundesrichterinnen und Bundesrichter.","Bern, Bundeshaus",/Bundesversammlung|Vereinigte Bundesversammlung/],
+ ["Bundesrat","Bundesrat (Schweiz)","","Regierung (Exekutive)","Die Landesregierung mit sieben gleichberechtigten Mitgliedern. Jedes Mitglied leitet ein Departement, Entscheide fällt der Bundesrat gemeinsam. Der Vorsitz, das Bundespräsidium, wechselt jedes Jahr.","Bern, Bundeshaus",/Bundesrat(?!s?haus)|Bundespräsident/],
+ ["Bundeskanzlei","Schweizerische Bundeskanzlei","BK","Stabsstelle des Bundesrats","Die Bundeskanzlei unterstützt den Bundesrat, organisiert eidgenössische Wahlen und Abstimmungen, veröffentlicht die Gesetze und informiert die Bevölkerung. Geleitet wird sie von der Bundeskanzlerin oder dem Bundeskanzler.","Bern",/Bundeskanzl/],
+ ["Departement für auswärtige Angelegenheiten","Eidgenössisches Departement für auswärtige Angelegenheiten","EDA","Departement","Zuständig für die Aussenpolitik: Botschaften und Konsulate in aller Welt, Hilfe für Schweizerinnen und Schweizer im Ausland und die Entwicklungszusammenarbeit (DEZA).","Bern",/\bEDA\b|auswärtige Angelegenheiten|Aussenminister/],
+ ["Departement des Innern","Eidgenössisches Departement des Innern","EDI","Departement","Zuständig für Gesundheit, Sozialversicherungen wie AHV und IV, Kultur, Statistik, Wetter (MeteoSchweiz) und Gleichstellung.","Bern",/\bEDI\b|Departement des Innern/],
+ ["Justiz- und Polizeidepartement","Eidgenössisches Justiz- und Polizeidepartement","EJPD","Departement","Zuständig für Justiz, Migration und Asyl (SEM) sowie die Bundespolizei fedpol.","Bern",/\bEJPD\b|Justiz- und Polizeidepartement/],
+ ["Departement für Verteidigung, Bevölkerungsschutz und Sport","Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport","VBS","Departement","Zuständig für die Armee, den Bevölkerungsschutz, den Sport (Magglingen, Jugend+Sport), die Landeskarten (swisstopo) und den Nachrichtendienst.","Bern",/\bVBS\b|Verteidigungsdepartement/],
+ ["Finanzdepartement","Eidgenössisches Finanzdepartement","EFD","Departement","Zuständig für die Bundesfinanzen, die Steuern (ESTV), den Zoll und die Grenzsicherheit (BAZG) und das Bundespersonal.","Bern",/\bEFD\b|Finanzdepartement/],
+ ["Departement für Wirtschaft, Bildung und Forschung","Eidgenössisches Departement für Wirtschaft, Bildung und Forschung","WBF","Departement","Zuständig für Wirtschaft und Arbeit (SECO), Landwirtschaft, Bildung, Forschung und Innovation sowie die Preisüberwachung.","Bern",/\bWBF\b|Departement für Wirtschaft/],
+ ["Departement für Umwelt, Verkehr, Energie und Kommunikation","Eidgenössisches Departement für Umwelt, Verkehr, Energie und Kommunikation","UVEK","Departement","Zuständig für Verkehr (Bahn, Strasse, Luftfahrt), Energie, Umwelt und Kommunikation. Es ist auch Eigner-Vertreter für SBB und Post.","Bern",/\bUVEK\b/],
+ ["Bundesgericht","Bundesgericht (Schweiz)","BGer","Gericht (Judikative)","Das höchste Gericht der Schweiz. Es überprüft Urteile der kantonalen Gerichte und der anderen Bundesgerichte und sorgt dafür, dass das Recht überall gleich angewendet wird.","Lausanne und Luzern",/Bundesgericht(?!e)/],
+ ["Bundesstrafgericht","Bundesstrafgericht","BStGer","Gericht","Beurteilt Straftaten, für die der Bund zuständig ist, zum Beispiel Terrorismus, Spionage oder grosse Wirtschaftsdelikte.","Bellinzona",/Bundesstrafgericht/],
+ ["Bundesverwaltungsgericht","Bundesverwaltungsgericht","BVGer","Gericht","Prüft Entscheide der Bundesverwaltung, zum Beispiel im Asylrecht, bei Umwelt oder Steuern.","St. Gallen",/Bundesverwaltungsgericht/],
+ ["Bundespatentgericht","Bundespatentgericht","","Gericht","Entscheidet Streitigkeiten über Patente, also über den Schutz von Erfindungen.","St. Gallen",/Bundespatentgericht/],
+ ["Bundesamt für Gesundheit","Bundesamt für Gesundheit","BAG","EDI","Schützt die Gesundheit der Bevölkerung, zum Beispiel bei Epidemien, Impfungen, Lebensmittelsicherheit und Krankenversicherung.","Bern-Liebefeld",/\bBAG\b|Bundesamt für Gesundheit/],
+ ["Bundesamt für Statistik","Bundesamt für Statistik","BFS","EDI","Sammelt und veröffentlicht Zahlen über die Schweiz, etwa zu Bevölkerung, Arbeit, Bildung und Umwelt.","Neuenburg",/\bBFS\b|Bundesamt für Statistik/],
+ ["MeteoSchweiz","MeteoSchweiz","","EDI","Der Wetter- und Klimadienst des Bundes. Er erstellt Wetterprognosen und warnt vor Unwettern.","Zürich",/MeteoSchweiz/],
+ ["Bundesamt für Sozialversicherungen","Bundesamt für Sozialversicherungen","BSV","EDI","Zuständig für AHV, IV, Ergänzungsleistungen und Familienzulagen.","Bern",/\bBSV\b|Sozialversicherungen/],
+ ["Bundesamt für Kultur","Bundesamt für Kultur","BAK","EDI","Fördert Kultur, Film, Museen und die Landessprachen und betreut die Nationalbibliothek.","Bern",/Bundesamt für Kultur/],
+ ["Staatssekretariat für Migration","Staatssekretariat für Migration","SEM","EJPD","Regelt Einreise, Aufenthalt, Einbürgerung und Asyl.","Bern-Wabern",/\bSEM\b|Staatssekretariat für Migration/],
+ ["Bundesamt für Justiz","Bundesamt für Justiz","BJ","EJPD","Bereitet Gesetze vor, führt das Strafregister und arbeitet mit anderen Ländern in Rechtsfragen zusammen.","Bern",/Bundesamt für Justiz/],
+ ["Schweizer Armee","Schweizer Armee","","VBS","Eine Milizarmee: Viele Soldatinnen und Soldaten leisten ihren Dienst neben Beruf oder Ausbildung. Sie schützt das Land und hilft bei Katastrophen.","Bern",/Schweizer Armee|Rekrutenschule|Militärdienst|Milizarmee|Militärpflicht/],
+ ["Bundesamt für Bevölkerungsschutz","Bundesamt für Bevölkerungsschutz","BABS","VBS","Bereitet die Schweiz auf Katastrophen und Notlagen vor. Es organisiert den jährlichen Sirenentest am ersten Mittwoch im Februar.","Bern",/Bevölkerungsschutz|Sirenentest|Zivilschutz/],
+ ["Bundesamt für Sport","Bundesamt für Sport","BASPO","VBS","Fördert Sport und Bewegung, betreibt das Sportzentrum Magglingen und das Programm Jugend+Sport.","Magglingen",/BASPO|Magglingen|Jugend\+Sport|J\+S/],
+ ["Bundesamt für Landestopografie","Bundesamt für Landestopografie","swisstopo","VBS","Vermisst die Schweiz und erstellt die Landeskarten.","Wabern bei Bern",/swisstopo|Landeskarte|Landestopografie/],
+ ["Nachrichtendienst des Bundes","Nachrichtendienst des Bundes","NDB","VBS","Sammelt Informationen, um die Schweiz vor Terrorismus, Spionage und Cyberangriffen zu schützen.","Bern",/Nachrichtendienst/],
+ ["Eidgenössische Steuerverwaltung","Eidgenössische Steuerverwaltung","ESTV","EFD","Zieht die Bundessteuern ein, zum Beispiel die Mehrwertsteuer und die direkte Bundessteuer.","Bern",/\bESTV\b|Steuerverwaltung|Mehrwertsteuer/],
+ ["Staatssekretariat für Wirtschaft","Staatssekretariat für Wirtschaft","SECO","WBF","Kümmert sich um Wirtschaftspolitik, Arbeitsmarkt, Arbeitslosenversicherung und Handel mit anderen Ländern.","Bern",/\bSECO\b|Staatssekretariat für Wirtschaft/],
+ ["Bundesamt für Landwirtschaft","Bundesamt für Landwirtschaft","BLW","WBF","Unterstützt die Bauernbetriebe, zum Beispiel mit Direktzahlungen, und setzt die Agrarpolitik um.","Bern",/Bundesamt für Landwirtschaft|Direktzahlung/],
+ ["Staatssekretariat für Bildung, Forschung und Innovation","Staatssekretariat für Bildung, Forschung und Innovation","SBFI","WBF","Zuständig für die Berufsbildung (Lehre), die Hochschulen und die Forschungsförderung.","Bern",/\bSBFI\b/],
+ ["Preisüberwachung","Preisüberwacher","","WBF","Der Preisüberwacher achtet darauf, dass Preise nicht missbräuchlich hoch sind, etwa bei Gebühren oder Medikamenten.","Bern",/Preisüberwach/],
+ ["Bundesamt für Verkehr","Bundesamt für Verkehr","BAV","UVEK","Beaufsichtigt Bahnen, Busse, Schiffe und Seilbahnen und plant den Ausbau des öffentlichen Verkehrs.","Bern-Ittigen",/\bBAV\b|Bundesamt für Verkehr/],
+ ["Bundesamt für Strassen","Bundesamt für Strassen","ASTRA","UVEK","Baut und unterhält die Nationalstrassen, also die Autobahnen.","Bern-Ittigen",/\bASTRA\b|Nationalstrasse/],
+ ["Bundesamt für Zivilluftfahrt","Bundesamt für Zivilluftfahrt","BAZL","UVEK","Beaufsichtigt die Luftfahrt, Flughäfen und Drohnen.","Bern-Ittigen",/\bBAZL\b|Zivilluftfahrt/],
+ ["Bundesamt für Energie","Bundesamt für Energie","BFE","UVEK","Zuständig für die Energieversorgung und die Energiestrategie.","Bern-Ittigen",/Bundesamt für Energie|Energiestrategie/],
+ ["Bundesamt für Umwelt","Bundesamt für Umwelt","BAFU","UVEK","Schützt Natur, Wasser, Luft und Klima und warnt vor Naturgefahren.","Bern-Ittigen",/\bBAFU\b|Bundesamt für Umwelt/],
+ ["Bundesamt für Kommunikation","Bundesamt für Kommunikation","BAKOM","UVEK","Zuständig für Radio, Fernsehen, Post und Telekommunikation.","Biel",/\bBAKOM\b/],
+ ["Datenschutzbeauftragter","Eidgenössischer Datenschutz- und Öffentlichkeitsbeauftragter","EDÖB","unabhängig","Wacht darüber, dass persönliche Daten geschützt werden und Behörden ihre Dokumente offenlegen.","Bern",/Datenschutz/],
+ ["Schweizerische Nationalbank","Schweizerische Nationalbank","SNB","unabhängig","Sorgt für stabile Preise, gibt die Banknoten heraus und verwaltet die Währungsreserven. Sie ist unabhängig vom Bundesrat.","Bern und Zürich",/Nationalbank|\bSNB\b/]
+];
+const CH_SICHERHEIT = [
+ ["Notrufnummern","Notruf","Notfall","Polizei 117, Feuerwehr 118, Sanität 144, europäischer Notruf 112, Rega 1414, Tox Info Suisse 145 bei Vergiftungen und 147 als Beratung für Kinder und Jugendliche (Pro Juventute).","",/\b11[278]\b|\b144\b|\b1414\b|\b145\b|\b147\b|Notruf/],
+ ["Kantonspolizei","Kantonspolizei","Polizei","Jeder Kanton hat eine eigene Polizei. Sie sorgt für Sicherheit und Ordnung, regelt den Verkehr und ermittelt bei Straftaten. Notruf 117.","in jedem Kanton",/Kantonspolizei|Polizei/],
+ ["Stadt- und Gemeindepolizei","Stadtpolizei Zürich","Polizei","Grössere Städte und manche Gemeinden haben eine eigene Polizei, zum Beispiel die Stadtpolizei Zürich.","in Städten",/Stadtpolizei|Gemeindepolizei/],
+ ["Bundesamt für Polizei","Bundesamt für Polizei","Bund (EJPD)","fedpol bekämpft Terrorismus und organisierte Kriminalität, schützt Behörden und arbeitet mit Interpol und Europol zusammen. Dazu gehört die Bundeskriminalpolizei.","Bern",/fedpol|Bundeskriminalpolizei|Bundespolizei/],
+ ["Bundesamt für Zoll und Grenzsicherheit","Bundesamt für Zoll und Grenzsicherheit","Bund (EFD)","Kontrolliert Waren und Personen an der Grenze, erhebt Zölle und verkauft die Autobahnvignette. Früher hiess es Eidgenössische Zollverwaltung.","Bern",/\bBAZG\b|Zoll|Grenzwache|Grenzwacht/],
+ ["Transportpolizei","Transportpolizei","SBB","Die Bahnpolizei der SBB sorgt in Zügen und Bahnhöfen für Sicherheit.","schweizweit",/Transportpolizei|Bahnpolizei/],
+ ["Militärpolizei","Militärpolizei (Schweiz)","Armee","Die Polizei der Armee. Sie hilft auch bei grossen Anlässen und beim Schutz von Konferenzen.","schweizweit",/Militärpolizei/],
+ ["Feuerwehr","Feuerwehr in der Schweiz","Gemeinden","Löscht Brände, rettet Menschen und Tiere und hilft bei Unwettern. Die meisten Feuerwehrleute sind Freiwillige aus der Gemeinde. Notruf 118.","in jeder Gemeinde",/Feuerwehr/],
+ ["Rettungsdienst","Rettungsdienst","Sanität","Die Sanität kommt mit dem Krankenwagen bei Unfällen und Notfällen. Notruf 144.","schweizweit",/Rettungsdienst|Sanität|Krankenwagen|Ambulanz/],
+ ["Rega","Rega","Stiftung","Die Schweizerische Rettungsflugwacht rettet mit Helikoptern und Ambulanzjets. Sie wird von Gönnerinnen und Gönnern getragen. Notruf 1414.","Zürich-Flughafen",/\bRega\b|Rettungsflugwacht/],
+ ["Zivilschutz","Zivilschutz (Schweiz)","Kantone","Hilft bei Katastrophen und Notlagen, betreibt Schutzräume und unterstützt bei Grossanlässen.","in den Kantonen",/Zivilschutz|Schutzraum/]
+];
+const CH_BETRIEBE = [
+ ["SBB","Schweizerische Bundesbahnen","Bahn","1902","100 % Bund","Die grösste Bahngesellschaft der Schweiz für Personen und Güter.",/\bSBB\b|Bundesbahnen|Spanisch.Brötli|Bahnhofsuhr|Gotthard.Basistunnel|Taktfahrplan|Generalabonnement|Halbtax|Bahn 2000/],
+ ["Die Post","Die Schweizerische Post","Post und Logistik","1998 (vorher PTT)","100 % Bund","Bringt Briefe und Pakete, betreibt mit PostAuto Busse auf dem Land und mit PostFinance eine Bank.",/\bPost(?:Auto|Finance)?\b|Briefmarke|Postauto/],
+ ["Swisscom","Swisscom","Telekommunikation","1998 (vorher PTT)","Bund hält die Mehrheit","Grösste Telekommunikationsfirma der Schweiz für Handy, Internet und Fernsehen.",/Swisscom/],
+ ["Skyguide","Skyguide","Flugsicherung","1996 (Vorläufer seit 1922)","mehrheitlich Bund","Lotst die Flugzeuge sicher durch den Schweizer Luftraum.",/Skyguide|Flugsicherung|Fluglots/],
+ ["RUAG","RUAG","Rüstung und Technik","1999","100 % Bund","Wartet und repariert Flugzeuge, Fahrzeuge und Systeme der Schweizer Armee.",/\bRUAG\b/]
+];
+// [Titel, Wikipedia-Titel, Typ, Eröffnung, Kantone, Besonderheit, Suchmuster]
+const BERGBAHNEN = [
+ ["Vitznau-Rigi-Bahn","Vitznau-Rigi-Bahn","Zahnradbahn","1871","LU, SZ","Die erste Bergbahn Europas, sie fährt von Vitznau am Vierwaldstättersee auf die Rigi.",/Vitznau|Rigibahn|Rigi-Bahn/],
+ ["Arth-Rigi-Bahn","Arth-Rigi-Bahn","Zahnradbahn","1875","SZ","Fährt von Arth-Goldau auf die Rigi Kulm.",/Arth.Rigi/],
+ ["Pilatusbahn","Pilatusbahn","Zahnradbahn","1889","LU, NW, OW","Die steilste Zahnradbahn der Welt mit bis zu 48 Prozent Steigung.",/Pilatusbahn|steilste Zahnradbahn/],
+ ["Brienz-Rothorn-Bahn","Brienz-Rothorn-Bahn","Zahnradbahn","1892","BE, LU, OW","Fährt bis heute oft mit Dampflokomotiven auf das Brienzer Rothorn.",/Rothorn.?Bahn/],
+ ["Gornergrat Bahn","Gornergratbahn","Zahnradbahn","1898","VS","Die erste elektrische Zahnradbahn der Schweiz, mit Blick auf das Matterhorn.",/Gornergrat/],
+ ["Wengernalpbahn","Wengernalpbahn","Zahnradbahn","1893","BE","Verbindet Lauterbrunnen und Grindelwald über die Kleine Scheidegg, eine der längsten Zahnradbahnen der Welt.",/Wengernalp|Kleine Scheidegg/],
+ ["Jungfraubahn","Jungfraubahn","Zahnradbahn","1912 (bis Jungfraujoch)","BE","Fährt durch Eiger und Mönch zum Jungfraujoch auf 3454 Metern, dem höchsten Bahnhof Europas.",/Jungfraubahn|höchste[rn]? Bahnhof/],
+ ["Schynige-Platte-Bahn","Schynige-Platte-Bahn","Zahnradbahn","1893","BE","Führt zu einem Alpengarten mit über 600 Pflanzenarten.",/Schynige Platte/],
+ ["Monte-Generoso-Bahn","Monte-Generoso-Bahn","Zahnradbahn","1890","TI","Fährt auf den Monte Generoso mit Blick über den Luganersee.",/Generoso/],
+ ["Rochers-de-Naye-Bahn","Montreux-Glion-Rochers-de-Naye-Bahn","Zahnradbahn","1892","VD","Führt von Montreux auf die Rochers de Naye hoch über dem Genfersee.",/Rochers.de.Naye/],
+ ["Matterhorn-Gotthard-Bahn","Matterhorn-Gotthard-Bahn","Schmalspurbahn mit Zahnstangen","2003 (aus BVZ und FO)","VS, UR, GR","Fährt teilweise mit Zahnrad über Furka und Oberalp und ist Teil der Strecke des Glacier Express.",/Matterhorn.Gotthard.Bahn|\bMGB\b/],
+ ["Rhätische Bahn","Rhätische Bahn","Schmalspurbahn","1889","GR","Die Albula- und die Berninalinie gehören seit 2008 zum UNESCO-Welterbe, berühmt ist das Landwasserviadukt.",/Rhätische Bahn|\bRhB\b|Landwasserviadukt|Albula/],
+ ["Glacier Express","Glacier Express","Panoramazug","1930","VS, UR, GR","Fährt von Zermatt nach St. Moritz und gilt als langsamster Schnellzug der Welt.",/Glacier Express/],
+ ["Bernina Express","Bernina Express","Panoramazug","1973 (als Name)","GR","Überquert den Berninapass ohne Zahnrad mit bis zu 7 Prozent Steigung und fährt bis Tirano in Italien.",/Bernina Express|Berninabahn/],
+ ["Stoosbahn","Stoosbahn","Standseilbahn","2017","SZ","Die steilste Standseilbahn der Welt mit bis zu 110 Prozent Steigung, die Kabinen drehen sich wie Fässer, damit man immer gerade steht.",/Stoos/],
+ ["Gelmerbahn","Gelmerbahn","Standseilbahn","1926","BE","Ursprünglich für den Bau einer Staumauer gebaut, mit bis zu 106 Prozent Steigung.",/Gelmer/],
+ ["Giessbachbahn","Giessbachbahn","Standseilbahn","1879","BE","Eine der ältesten Standseilbahnen Europas, sie führt zu den Giessbachfällen am Brienzersee.",/Giessbach/],
+ ["Niesenbahn","Niesenbahn","Standseilbahn","1910","BE","Daneben verläuft die längste Treppe der Welt mit 11'674 Stufen, die nur einmal im Jahr beim Treppenlauf geöffnet ist.",/Niesenbahn|Niesentreppe|längste Treppe/],
+ ["Marzilibahn","Marzilibahn","Standseilbahn","1885","BE","Verbindet in Bern das Marziliquartier mit dem Bundeshaus und ist nur etwa 100 Meter lang.",/Marzili/],
+ ["Polybahn","Polybahn","Standseilbahn","1889","ZH","Fährt in Zürich vom Central hinauf zur ETH.",/Polybahn/],
+ ["Reichenbachfall-Bahn","Reichenbachfall-Bahn","Standseilbahn","1899","BE","Führt bei Meiringen zum Reichenbachfall, der aus den Sherlock-Holmes-Geschichten bekannt ist.",/Reichenbach/],
+ ["Muottas-Muragl-Bahn","Muottas-Muragl-Bahn","Standseilbahn","1907","GR","Führt bei Pontresina zu einem Aussichtspunkt über den Oberengadiner Seen.",/Muottas Muragl/],
+ ["Titlis Rotair","Titlis","Luftseilbahn","1992","OW, BE","Die erste drehende Luftseilbahn der Welt, die Kabine dreht sich während der Fahrt einmal ganz um sich selbst.",/Rotair|Titlis/],
+ ["CabriO Stanserhorn","Stanserhorn-Bahn","Luftseilbahn","2012","NW","Die erste Seilbahn der Welt mit offenem Oberdeck auf dem Kabinendach.",/CabriO|Stanserhorn/],
+ ["Schilthornbahn","Schilthornbahn","Luftseilbahn","1967","BE","Führt zum Drehrestaurant Piz Gloria, das durch einen James-Bond-Film berühmt wurde.",/Schilthorn|Piz Gloria/],
+ ["Matterhorn Glacier Paradise","Klein Matterhorn","Luftseilbahn","1979","VS","Die höchste Bergstation Europas auf dem Klein Matterhorn auf 3883 Metern.",/Glacier Paradise|Klein Matterhorn/],
+ ["Matterhorn Alpine Crossing","Matterhorn Alpine Crossing","Seilbahnverbindung","2023","VS","Verbindet seit 2023 Zermatt mit Cervinia in Italien über die Alpen.",/Alpine Crossing/],
+ ["Eiger Express","Eiger Express","Dreiseilumlaufbahn","2020","BE","Bringt Gäste von Grindelwald zum Eigergletscher und verkürzt den Weg zum Jungfraujoch.",/Eiger Express/],
+ ["Säntis-Schwebebahn","Säntis-Schwebebahn","Luftseilbahn","1935","AI, AR","Fährt von der Schwägalp auf den Säntis.",/Säntis.?(Schwebe)?bahn|Schwägalp/],
+ ["Pilatus Dragon Ride","Pilatus","Luftseilbahn","2015","LU, NW, OW","Grosse Panoramakabinen fahren von der Fräkmüntegg auf den Pilatus.",/Dragon Ride/],
+ ["Glacier 3000","Glacier 3000","Luftseilbahn","1964","VD, BE","Führt auf den Gletscher beim Col du Pillon, dort hängt der Peak Walk, eine Hängebrücke zwischen zwei Gipfeln.",/Glacier 3000|Peak Walk/]
+];
+const SBB_TEILE = { v:2,
+ einleitung:"Die **SBB**, die Schweizerischen Bundesbahnen, sind das grösste Verkehrsunternehmen der Schweiz. Jeden Tag fahren rund eine Million Menschen mit ihren Zügen, und auf ihren Schienen rollen auch viele Güterzüge.",
+ wichtigste:["Die SBB wurden 1902 gegründet, nachdem das Volk 1898 entschieden hatte, die grossen Privatbahnen zu verstaatlichen.","Seit 1999 sind die SBB eine Aktiengesellschaft, die vollständig dem Bund gehört.","Die SBB betreiben ein Schienennetz von rund 3200 Kilometern.","Der Taktfahrplan sorgt seit 1982 dafür, dass Züge jede Stunde zur gleichen Minute fahren.","Durch die Alpen führen neue Basistunnel, darunter der Gotthard-Basistunnel, der längste Eisenbahntunnel der Welt.","Der Bahnstrom der SBB stammt grösstenteils aus Wasserkraft.","Die Bahnhofsuhr der SBB ist weltberühmt."],
+ abschnitte:[
+  {emoji:"📜",titel:"Wie alles begann",text:"Die erste Bahnstrecke, die ganz in der Schweiz lag, fuhr 1847 von Zürich nach Baden. Man nannte sie **Spanisch-Brötli-Bahn**, weil sie das beliebte Gebäck aus Baden schnell nach Zürich brachte. Danach bauten viele private Gesellschaften Bahnen. 1898 stimmte das Volk zu, die grossen Bahnen zu kaufen, und 1902 entstanden daraus die SBB."},
+  {emoji:"🏛️",titel:"Wem gehören die SBB?",text:"Seit 1999 sind die SBB eine **spezialgesetzliche Aktiengesellschaft**. Alle Aktien gehören dem Bund, also der ganzen Bevölkerung. Der Bundesrat legt fest, welche Ziele die SBB erreichen sollen. Der Hauptsitz befindet sich in Bern."},
+  {emoji:"🚆",titel:"Viele Züge, viele Menschen",text:"Rund 35'000 Menschen arbeiten bei den SBB, damit ist sie einer der grössten Arbeitgeber der Schweiz. Die Menschen in der Schweiz fahren pro Kopf so viel Zug wie kaum irgendwo sonst auf der Welt. Der grösste Bahnhof ist **Zürich HB**, durch den täglich Hunderttausende Menschen gehen."},
+  {emoji:"⏱️",titel:"Pünktlich nach Takt",text:"Mit dem **Taktfahrplan** von 1982 fahren Züge regelmässig zur gleichen Minute ab, man muss sich nur noch eine Zahl merken. Das Projekt Bahn 2000 baute das Angebot bis 2004 stark aus, damit die Anschlüsse in grossen Bahnhöfen genau zusammenpassen. Die meisten Fahrgäste kommen pünktlich an, als pünktlich gilt bei der SBB eine Verspätung von weniger als drei Minuten."},
+  {emoji:"🕰️",titel:"Die berühmte Bahnhofsuhr",text:"Die **Bahnhofsuhr** entwarf der Ingenieur Hans Hilfiker 1944, der rote Sekundenzeiger in Form einer Kelle kam später dazu. Der Sekundenzeiger braucht etwas weniger als eine Minute für eine Runde und wartet dann oben kurz. Erst wenn alle Uhren das Signal bekommen, springt der Minutenzeiger weiter, so zeigen alle Uhren im Land genau dieselbe Zeit."},
+  {emoji:"⛰️",titel:"Tunnel durch die Alpen",text:"Mit der **NEAT** bekam die Schweiz neue flache Bahnstrecken durch die Alpen. Der Lötschberg-Basistunnel wurde 2007 eröffnet, der **Gotthard-Basistunnel** 2016 und der Ceneri-Basistunnel 2020. Der Gotthard-Basistunnel ist 57 Kilometer lang und der längste Eisenbahntunnel der Welt. Güterzüge brauchen so weniger Kraft, und Reisende kommen schneller ins Tessin."},
+  {emoji:"⚡",titel:"Strom und Umwelt",text:"Fast alle Züge fahren elektrisch. Die SBB besitzen eigene Kraftwerke und beziehen ihren **Bahnstrom** grösstenteils aus Wasserkraft. Eine Bahnfahrt verursacht deshalb viel weniger Treibhausgase als dieselbe Strecke mit dem Auto."},
+  {emoji:"📦",titel:"Güter, Billette und Berufe",text:"**SBB Cargo** transportiert Güter wie Lebensmittel, Post und Baumaterial. Für Reisende gibt es Abonnemente wie das **Halbtax** und das Generalabonnement GA, mit dem man fast überall in der Schweiz fahren kann. Die SBB bilden jedes Jahr viele Lernende aus, zum Beispiel als Lokführerin, Polymechaniker oder Kauffrau."}
+ ],
+ begriffe:[{wort:"Taktfahrplan",erklaerung:"Züge fahren in regelmässigen Abständen, zum Beispiel jede Stunde zur gleichen Minute."},{wort:"Basistunnel",erklaerung:"Ein langer Tunnel tief unten durch den Berg, damit Züge fast ohne Steigung fahren können."},{wort:"Normalspur",erklaerung:"Der Abstand zwischen den beiden Schienen von 1435 Millimetern, wie bei den meisten Bahnen in Europa."},{wort:"Rollmaterial",erklaerung:"Alle Fahrzeuge einer Bahn, also Lokomotiven und Wagen."},{wort:"Fahrleitung",erklaerung:"Der Draht über den Gleisen, über den die Züge ihren Strom bekommen."}],
+ gewusst:["Das Generalabonnement gibt es schon seit 1898.","Der Gotthard-Basistunnel liegt an seiner tiefsten Stelle rund 2300 Meter unter dem Gipfel des Bergmassivs.","In der Schweiz fahren Züge auf manchen Strecken im Viertelstundentakt."]
+};
+function steckHTML(s){
+  const g=s.steck; if(!g) return "";
+  return `<div class="steckbrief st-${g.art||"x"}"><div class="stkopf"><span class="stemo">${g.emo||"📋"}</span><b>${esc(g.titel||"Steckbrief")}</b></div>
+    <dl>${g.zeilen.filter(z=>z[1]).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${/^[A-Z]{2}(, [A-Z]{2})*$/.test(v)?kantonNamen(v):esc(v)}</dd>`).join("")}</dl>
+    ${g.text?`<p>${esc(g.text)}</p>`:""}</div>`;
+}
+function chKapitel(){
+  const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
+  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
+  const such=re=>uniq.filter(f=>re.test(text(f))).slice(0,40);
+  const sortiere=a=>a.sort((x,y)=>x.titel.localeCompare(y.titel,"de"));
+  const beh=CH_BEHOERDEN.map(([titel,wiki,abk,gr,auf,sitz,re])=>({typ:"fr", titel:abk&&!titel.startsWith(abk)?`${titel} (${abk})`:titel, wiki, steck:{art:"beh",emo:"🏛️",titel:"Steckbrief",zeilen:[["Abkürzung",abk],["Gehört zu",gr],["Sitz",sitz]],text:auf}, fragen:such(re)}));
+  const sich=CH_SICHERHEIT.map(([titel,wiki,gr,auf,ort,re])=>({typ:"fr", titel, wiki, steck:{art:"sich",emo:"🚨",titel:"Steckbrief",zeilen:[["Zuständig",gr],["Wo",ort]],text:auf}, fragen:such(re)}));
+  const betr=CH_BETRIEBE.map(([titel,wiki,br,gr,eig,auf,re])=>({typ:"fr", titel, wiki, steck:{art:"betr",emo:"🏢",titel:"Steckbrief",zeilen:[["Branche",br],["Gegründet",gr],["Eigentum",eig]],text:auf}, teile: titel==="SBB"?SBB_TEILE:null, fragen:such(re)}));
+  return [
+    {id:"ch_behoerden", titel:"Bundesbehörden", emo:"🏛️", seiten:sortiere(beh)},
+    {id:"ch_sicherheit", titel:"Polizei, Sicherheit & Notfall", emo:"🚓", seiten:sortiere(sich)},
+    {id:"ch_betriebe", titel:"Bundesbetriebe", emo:"🚆", seiten:sortiere(betr)}
+  ];
+}
+function bahnSeiten(uniq,text){
+  return BERGBAHNEN.map(([titel,wiki,typ,jahr,kt,bes,re])=>({typ:"fr", titel, wiki, bahn:true, steck:{art:"bahn",emo:/Zahnrad/.test(typ)?"🚞":/Standseil/.test(typ)?"🚟":/seil|Seil/.test(typ)?"🚡":"🚆",titel:"Steckbrief",zeilen:[["Art",typ],["Eröffnet",jahr],["Kanton",kt]],text:bes}, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)}));
+}
+
 /* ---------- Bibliothek: Kapitel «Die Schweizer Alpen» ---------- */
 const ALPEN_SEITEN = [
   ["Alpen (Überblick)","Alpen",/\balpen\b|alpenraum|alpenland/i],
@@ -4827,7 +4975,7 @@ const ALPEN_SEITEN = [
 function alpenKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
   const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
-  return [...ALPEN_SEITEN.map(([titel,wiki,re])=>({typ:"fr", titel, wiki, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)})), ...gipfelSeiten(uniq,text), ...passSeiten(uniq,text)].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
+  return [...ALPEN_SEITEN.map(([titel,wiki,re])=>({typ:"fr", titel, wiki, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)})), ...gipfelSeiten(uniq,text), ...passSeiten(uniq,text), ...bahnSeiten(uniq,text)].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
 }
 function startListe(list, titel){
   list=shuffle([...list]).slice(0,25); if(!list.length) return;
@@ -4851,6 +4999,7 @@ function buchDaten(bid){
   let kap=[];
   if(bid==="politik"){
     kap.push({id:"__schweiz", titel:"So funktioniert die Schweiz", emo:"🇨🇭", seiten:ARTIKEL.map(a=>({typ:"art", titel:a.titel, art:a}))});
+    chKapitel().forEach(k=>kap.push(k));
     ["pol_welt","pol_demokratie","pol_kommunismus","pol_diktatur"].forEach(id=>kap.push({id, titel:THEMA[id].name, emo:themaIcon(THEMA[id]), seiten:kapitelSeiten(id).map(s=>({typ:"fr",...s}))}));
   } else {
     const b=BEREICHE.find(x=>x.id===bid);
@@ -4924,12 +5073,12 @@ function renderLibKapitel(){
   const B=BUECHER.find(x=>x.id===LIB.buch); if(!B){ go("lib"); return; }
   const D=buchDaten(B.id); const k=D.kap.find(x=>x.id===LIB.kap); if(!k){ go("libbuch"); return; }
   const q=(LIB.qk||"").trim(); const af=k.id==="alpen"?(LIB.alpF||"alle"):"alle";
-  const filt=x=> af==="alle" || (af==="gipfel" && x.gipfel && x.gipfel.art!=="pass") || (af==="pass" && x.gipfel?.art==="pass") || (af==="themen" && !x.gipfel);
+  const filt=x=> af==="alle" || (af==="gipfel" && x.gipfel && x.gipfel.art!=="pass") || (af==="pass" && x.gipfel?.art==="pass") || (af==="bahn" && x.bahn) || (af==="themen" && !x.gipfel && !x.bahn);
   const liste=(q.length>=2 ? seitenSuche(k.seiten,q) : k.seiten).filter(filt);
   $("#app").innerHTML = `${crumbs()}
     <article class="libart" style="--bf:${B.farbe}"><header><span class="aemo big">${k.emo}</span><h1>${esc(k.titel)}</h1><p class="libdesc">${k.rubrik?`${k.rubrik.emo} ${esc(k.rubrik.name)} · `:""}Kapitel im Buch «${esc(B.titel)}» · Seiten ${k.von} bis ${k.bis}</p></header>
       ${(k.id==="alpen"||k.id==="jura") && q.length<2 ? top10HTML(k) : ""}
-      ${k.id==="alpen" ? `<div class="segs alpfilter" role="group" aria-label="Anzeigen">${[["alle","Alle"],["gipfel","⛰️ Gipfel"],["pass","🛣️ Pässe"],["themen","📚 Themen"]].map(([v,l])=>`<button type="button" class="seg" data-af="${v}" aria-pressed="${(LIB.alpF||"alle")===v}">${l}</button>`).join("")}</div>` : ""}
+      ${k.id==="alpen" ? `<div class="segs alpfilter" role="group" aria-label="Anzeigen">${[["alle","Alle"],["gipfel","⛰️ Gipfel"],["pass","🛣️ Pässe"],["bahn","🚡 Bahnen"],["themen","📚 Themen"]].map(([v,l])=>`<button type="button" class="seg" data-af="${v}" aria-pressed="${(LIB.alpF||"alle")===v}">${l}</button>`).join("")}</div>` : ""}
       ${suchfeldHTML("kapSuche", LIB.qk, k.id==="alpen" ? "🔎 Gipfel oder Stichwort suchen, z. B. Pizzo, Eiger …" : "🔎 In diesem Kapitel suchen …")}
       <h3>📑 Index</h3>
       ${liste.length ? (()=>{ const item=s=>`<button type="button" class="regitem" data-sn="${s.nr}"><span>${esc(s.titel)}${s.typ==="fr"?` <small>(${s.fragen.length})</small>`:""}</span><span class="rpunkte"></span><span class="rnr">${s.nr}</span></button>`;
@@ -4942,7 +5091,7 @@ function renderLibKapitel(){
   document.querySelectorAll("[data-af]").forEach(b=>b.onclick=()=>{ LIB.alpF=b.dataset.af; const y=scrollY; render(); scrollTo(0,y); });
   document.querySelectorAll(".gkarte").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
   document.querySelectorAll(".regitem").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
-  $("#libQuiz") && ($("#libQuiz").onclick=()=> (k.id==="alpen"||k.id==="jura") ? startListe([...new Map(k.seiten.flatMap(x=>x.fragen).map(f=>[f.q,f])).values()], k.titel) : libZumQuiz(k.id));
+  $("#libQuiz") && ($("#libQuiz").onclick=()=> ["alpen","jura","ch_behoerden","ch_sicherheit","ch_betriebe"].includes(k.id) ? startListe([...new Map(k.seiten.flatMap(x=>x.fragen).map(f=>[f.q,f])).values()], k.titel) : libZumQuiz(k.id));
 }
 function renderLibSeite(){
   const B=BUECHER.find(x=>x.id===LIB.buch); if(!B){ go("lib"); return; }
@@ -4952,13 +5101,14 @@ function renderLibSeite(){
   if(s.typ==="art"){ inhalt = s.art.html==="__PARTEIEN__" ? parteienHTML() : s.art.html; }
   else {
     const merk=[...new Set(s.fragen.map(f=>f.m).filter(Boolean))];
+    if(s.teile && !S.texte[seiteKey(s)]){ const T=s.teile; S.teile[seiteKey(s)]=T; S.texte[seiteKey(s)]=[T.einleitung,...T.wichtigste,...T.abschnitte.map(a=>a.text),...T.gewusst].join(" ").replace(/\*\*/g,""); }
     const txt=S.texte[seiteKey(s)];
     const adminLeiste = S.canEdit ? `<div class="adminleiste"><span>🛠️ Nur für dich sichtbar</span>${S.sample ? `<button class="big ${txt?"alt":"gold"} small" id="textGen" type="button" ${TX.run?"disabled":""}>${txt?(S.teile[seiteKey(s)]?.v===2?"🔄 Text neu erstellen":"🔄 Ausführlich neu erstellen"):"✨ Ausführliche Beschreibung erstellen"}</button>` : `<span class="help">Die KI ist hier nicht verfügbar.</span>`}<p class="status" id="textSt" aria-live="polite"></p></div>` : "";
     const beschr = adminLeiste + (txt ? textHTML(seiteKey(s))
       : `<div class="beschr leer"><p>📝 Eine ausführliche Beschreibung zu «${esc(s.titel)}» folgt bald. Bis dahin findest du unten die wichtigsten Fakten.</p></div>`);
     const karte=f=>`<div class="wk"><span class="bibst">${STUFE_EMO[f.l]||""} ${esc(stufeObj(f.l).name)}</span>${f.img?`<div class="bibimg" style="float:right">${imgSvg(f.img)}</div>`:""}<p class="wkq">${esc(f.q)}</p><p class="wka">${esc(f.a[0])}</p><p class="wke">${esc(f.e)}</p></div>`;
     const erste=s.fragen.slice(0,5), rest=s.fragen.slice(5);
-    inhalt = `${gipfelInfoHTML(s)}${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
+    inhalt = `${gipfelInfoHTML(s)}${steckHTML(s)}${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
       ${beschr}
       <figure class="karte" id="kartenBox" hidden></figure>
       ${s.fragen.length?"":`<p class="empty">Zu diesem Stichwort gibt es noch keine Quizfragen.</p>`}
@@ -4991,7 +5141,7 @@ function renderLibSeite(){
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
   nach && ($("#sNach").onclick=()=>blatt(nach.nr));
   $("#sIdx").onclick=()=>{ LIB.kap=s.kap.id; go("libkapitel"); scrollTo(0,0); };
-  $("#libQuiz") && ($("#libQuiz").onclick=()=> (s.kap.id==="alpen"||s.kap.id==="jura") ? startListe(s.fragen.length>=3?s.fragen:s.kap.seiten.flatMap(x=>x.fragen), s.fragen.length>=3?s.titel:s.kap.titel) : libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
+  $("#libQuiz") && ($("#libQuiz").onclick=()=> ["alpen","jura","ch_behoerden","ch_sicherheit","ch_betriebe"].includes(s.kap.id) ? startListe(s.fragen.length>=3?s.fragen:s.kap.seiten.flatMap(x=>x.fragen), s.fragen.length>=3?s.titel:s.kap.titel) : libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
   if(s.typ==="art") document.querySelectorAll(".lpartei").forEach(b=>b.onclick=()=>{ const p=PARTEIEN[+b.dataset.p];
     document.querySelectorAll(".lpartei").forEach(x=>x.classList.toggle("on",x===b));
     $("#pInfo").innerHTML=`<div class="pcard" style="--pf:${p.f}"><b>${esc(p.k)}, ${esc(p.n)}</b>${p.sitze?`<span class="psitze">${p.sitze} von 200 Sitzen im Nationalrat</span>`:""}<p>${esc(p.t)}</p></div>`; });
