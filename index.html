@@ -1717,6 +1717,41 @@ html,body{overflow-x:clip}
 .inhalt .rbemo{font-size:1.5rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
 .inhalt .rbseiten{font-family:Georgia,serif;font-weight:700;color:var(--libacc);font-size:.9rem;white-space:nowrap}
 .inhalt .rubrik ~ li .kapitel{padding-left:18px}
+.lvsuch{width:100%;text-align:left!important}
+.lvtreffer{margin:6px 0 0;font-size:.95rem;font-weight:600;min-height:0}
+.lvtreffer.ok{color:var(--ok)}.lvtreffer.leer{color:var(--bad)}
+.lvtreffer b{font-size:1.15rem}
+@media (max-width:760px){
+  .mobkids .mobicon{width:46%!important;max-width:220px!important;margin:0 -7% 2%!important;position:relative;z-index:2;filter:drop-shadow(0 10px 18px rgba(138,63,224,.45))}
+  .mobkids .kid.girl{width:31%!important;max-width:140px}
+  .mobkids .kid.boy{width:28%!important;max-width:124px}
+  .mobkids .kid{position:relative;z-index:1}
+}
+@media (max-width:760px){.mobkids .mobicon{width:56%!important;max-width:260px!important;margin:0 -11% 0!important}.mobkids{margin-top:0!important}}
+
+/* Gipfel */
+.gipfelinfo{display:flex;gap:16px;align-items:center;background:linear-gradient(135deg,color-mix(in srgb,#8D9AD0 18%,var(--libpaper)),var(--libpaper));border:2px solid var(--libline);border-radius:18px;padding:12px 16px;margin:4px 0 14px}
+.gihoehe{display:grid;text-align:center;min-width:110px}
+.gihoehe b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2.4rem;line-height:1;background:linear-gradient(180deg,#3D5AFE,#17A35A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gihoehe span{font-weight:700;color:color-mix(in srgb,var(--libink) 60%,transparent);font-size:.85rem}
+.gidaten{display:grid;gap:4px;flex:1;font-size:.98rem}.gidaten .wappen{width:16px;height:19px;vertical-align:-3px}
+.gibalken{display:block;height:10px;border-radius:999px;background:var(--libline);overflow:hidden;margin-top:4px}.gibalken i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#17A35A,#3D5AFE,#8A3FE0)}
+.gidaten small{color:color-mix(in srgb,var(--libink) 60%,transparent)}
+.top10titel{margin:6px 0 10px!important}
+.gtop{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:8px}
+.gkarte{position:relative;display:grid;justify-items:center;gap:2px;padding:12px 8px 10px;border-radius:16px;border:2px solid var(--libline);background:linear-gradient(180deg,#DCEBFF,var(--libpaper) 70%);color:var(--libink);text-align:center}
+.gkarte:hover{border-color:var(--libacc);transform:translateY(-2px)}
+.gkarte b{font-family:Georgia,serif;font-size:1.02rem}.gkarte small{color:color-mix(in srgb,var(--libink) 60%,transparent);font-size:.78rem;font-weight:600}
+.gberg svg{width:64px;height:38px;display:block}
+.grang{position:absolute;top:6px;left:8px;font-family:Georgia,serif;font-weight:900;color:var(--libacc);font-size:1.1rem}
+.gkarte:nth-child(1) .grang{color:#E0A400}.gkarte:nth-child(2) .grang{color:#8E9AAF}.gkarte:nth-child(3) .grang{color:#CD7F45}
+.gzahl{font-size:.88rem;color:color-mix(in srgb,var(--libink) 60%,transparent);margin:0 0 14px!important}
+@media (max-width:760px){.gtop{grid-template-columns:repeat(2,1fr)}.gipfelinfo{flex-direction:column;align-items:stretch}.gihoehe{min-width:0}}
+.alpfilter{justify-content:center;margin:0 0 10px;flex-wrap:wrap!important}
+.gipfelinfo.pass{background:linear-gradient(135deg,color-mix(in srgb,#E09A12 16%,var(--libpaper)),var(--libpaper))}
+.gipfelinfo.jura{background:linear-gradient(135deg,color-mix(in srgb,#17A35A 14%,var(--libpaper)),var(--libpaper))}
+.gipfelinfo.pass .gihoehe b{background:linear-gradient(180deg,#E09A12,#C0392B);-webkit-background-clip:text;background-clip:text}
+.gipfelinfo.jura .gihoehe b{background:linear-gradient(180deg,#17A35A,#0E5E3A);-webkit-background-clip:text;background-clip:text}
 </style>
 </head>
 <body>
@@ -2905,6 +2940,9 @@ function renderLive(){
         <p>Du zeigst die Fragen auf einem grossen Bildschirm. Die anderen spielen auf ihrem Handy mit.</p>
         <label class="pick-lbl" for="lvCat">Kategorie</label>
         <select id="lvCat" class="sel"></select>
+        <label class="pick-lbl" for="lvSuch">Spezifisches Thema (optional)</label>
+        <input id="lvSuch" class="sel lvsuch" type="search" placeholder="🔎 z. B. Katzen, Römer, Alpen, Steuern …" autocomplete="off" value="${esc(S.liveSuch||"")}">
+        <p class="lvtreffer" id="lvTreffer" aria-live="polite"></p>
         <p class="pick-lbl" id="lvStl">Stufe</p>
         <div class="segs lvstufe" role="group" aria-labelledby="lvStl">${[[0,"🎲","Gemischt"],[1,"🌱","Entdecker"],[2,"🚀","Könner"],[3,"🏅","Profis"]].map(([v,e,l])=>`<button class="seg" type="button" data-lst="${v}" aria-pressed="${(S.liveStufe??0)===v}"><span class="sgi">${e}</span><span class="sgt">${l}</span></button>`).join("")}</div>
         <label class="pick-lbl" for="lvN">Anzahl Fragen</label>
@@ -2925,35 +2963,46 @@ function renderLive(){
     </div>
     <p class="err" id="lvErr" aria-live="polite"></p>`;
   let stufe=S.liveStufe??0;
-  const lvPool=id=> stufe ? pool(id).filter(f=>f.l===stufe) : pool(id);
+  const suchText=()=>($("#lvSuch")?.value||"").trim().toLowerCase();
+  const passt=f=>{ const q=suchText(); if(q.length<2) return true; return (f.q+" "+(f.a||[]).join(" ")+" "+f.e+" "+(f.s||"")+" "+(f.m||"")+" "+(THEMA[f.t]?.name||"")).toLowerCase().includes(q); };
+  const lvBasis=id=> stufe ? pool(id).filter(f=>f.l===stufe) : pool(id);
+  const lvPool=id=> lvBasis(id).filter(passt);
   const sl=$("#lvN"), cat=$("#lvCat");
   const fuelleKat=()=>{ const alt=cat.value||S.liveCat; const ok=themen.filter(id=>lvPool(id).length>=3);
     const gruppen={}; ok.forEach(id=>{ const g=katBereich(id)||"Alles"; (gruppen[g]=gruppen[g]||[]).push(id); });
     cat.innerHTML=Object.entries(gruppen).map(([g,ids])=>`<optgroup label="${esc(g)}">${ids.map(id=>`<option value="${id}">${esc(katName(id))} (${lvPool(id).length})</option>`).join("")}</optgroup>`).join("");
     if(ok.includes(alt)) cat.value=alt; aktualisiere(); };
-  const aktualisiere=()=>{ const max=Math.max(3,Math.min(50,lvPool(cat.value).length)); sl.max=max; if(+sl.value>max) sl.value=max;
+  const aktualisiere=()=>{ const verf=lvPool(cat.value).length, q=suchText();
+    const tr=$("#lvTreffer");
+    if(q.length>=2){ tr.innerHTML = verf ? `✅ <b>${verf}</b> ${verf===1?"Frage":"Fragen"} zu «${esc($("#lvSuch").value.trim())}» in «${esc(cat.options[cat.selectedIndex]?.text.replace(/ \(\d+\)$/,"")||"")}»` : `😕 Keine Fragen zu «${esc($("#lvSuch").value.trim())}» gefunden. Versuch ein anderes Wort oder wähle «Alle Themen gemischt».`; tr.className="lvtreffer "+(verf>=3?"ok":"leer"); }
+    else { tr.textContent=""; tr.className="lvtreffer"; }
+    $("#lvHost").disabled = verf<3;
+    if(verf>0 && verf<3) tr.innerHTML+=" Für einen Wettbewerb braucht es mindestens 3 Fragen.";
+    const max=Math.max(3,Math.min(50,verf)); sl.max=max; if(+sl.value>max) sl.value=max;
     $("#lvMax").textContent=max; $("#lvNv").textContent=sl.value;
     const pct=(sl.value-sl.min)/(sl.max-sl.min||1)*100; sl.style.setProperty("--p",pct+"%");
     const sek=sl.value*(LIVE_DUR/1000+6); $("#lvNinfo").textContent=`Dauer etwa ${Math.max(1,Math.round(sek/60))} Minuten · ${lvPool(cat.value).length} Fragen verfügbar`; };
   document.querySelectorAll("[data-lst]").forEach(b=>b.onclick=()=>{ stufe=+b.dataset.lst; S.liveStufe=stufe; document.querySelectorAll("[data-lst]").forEach(x=>x.setAttribute("aria-pressed",x===b)); fuelleKat(); });
   cat.onchange=()=>{ S.liveCat=cat.value; aktualisiere(); };
+  let lvT; $("#lvSuch").oninput=()=>{ clearTimeout(lvT); lvT=setTimeout(()=>{ S.liveSuch=$("#lvSuch").value; fuelleKat(); },200); };
   sl.oninput=aktualisiere;
   fuelleKat();
-  $("#lvHost").onclick=()=>liveHost($("#lvCat").value, +sl.value, stufe);
+  $("#lvHost").onclick=()=>liveHost($("#lvCat").value, +sl.value, stufe, suchText());
   $("#lvJoin").onclick=()=>liveJoin($("#lvPin").value.trim(), $("#lvName").value.trim());
 }
 
 /* ---- Spielleitung ---- */
-async function liveHost(cat, n, stufe){
+async function liveHost(cat, n, stufe, such){
   const room = await liveRoom();
   if(!room){ $("#lvErr").textContent="Live-Spiele funktionieren nur in der claude.ai-Ansicht dieser Seite."; return; }
   liveLeave();
-  const all = shuffle(stufe ? pool(cat).filter(f=>f.l===stufe) : pool(cat));
+  const q=(such||"").trim().toLowerCase();
+  const all = shuffle((stufe ? pool(cat).filter(f=>f.l===stufe) : pool(cat)).filter(f=> q.length<2 || (f.q+" "+(f.a||[]).join(" ")+" "+f.e+" "+(f.s||"")+" "+(f.m||"")+" "+(THEMA[f.t]?.name||"")).toLowerCase().includes(q)));
   const list = all.slice(0, Math.min(n, all.length)).map(f=>{ const o=shuffle(f.a.map((t,i)=>({t,ok:i===0}))); return {q:f.q, img:f.img||null, opts:o.map(x=>x.t), c:o.findIndex(x=>x.ok), e:f.m}; });
   L.pin = String(Math.floor(1000+Math.random()*9000));
   L.sub = room.join("easyplay-"+L.pin);
   L.role="host";
-  L.host = { cat, catName:(cat==="alle"?"Alle Themen":cat==="geschichte"?"Geschichte":THEMA[cat].name)+(stufe?` · ${stufeObj(stufe).name}`:""), list, qi:-1, phase:"lobby", scores:{}, answers:{}, qStart:0, last:{} };
+  L.host = { cat, catName:(q.length>=2?`«${such.trim()}» · `:"")+(cat==="alle"?"Alle Themen":cat==="geschichte"?"Geschichte":THEMA[cat].name)+(stufe?` · ${stufeObj(stufe).name}`:""), list, qi:-1, phase:"lobby", scores:{}, answers:{}, qStart:0, last:{} };
   hostPublish();
   L.unsub.push(L.sub.onPeers(ch=>{ hostCollect(ch.peers); if(S.screen==="livehost") renderLiveHost(); }));
   go("livehost");
@@ -3604,7 +3653,8 @@ function renderDone(){
   $("#again").onclick=()=>startQuiz(t.id, Q.mode, Q.count);
   $("#other").onclick=()=>goParent(t);
   $("#board") && ($("#board").onclick=()=>{ S.boardStufe=S.stufe; go("board"); });
-  if(t.id==="zufall"){ $("#toTest")?.remove(); const o=$("#other"); if(o) o.textContent="Zur Startseite"; }
+  if(t.id==="liste"){ $("#again").onclick=()=>startListe(Q.list, t.name); }
+  if(t.id==="zufall"||t.id==="liste"){ $("#toTest")?.remove(); const o=$("#other"); if(o) o.textContent="Zur Startseite"; }
   $("#toTest") && ($("#toTest").onclick=()=>{ if(!S.profil){ S.after="mode"; go("register"); } else startQuiz(t.id,"test"); });
   $("#gen") && ($("#gen").onclick=()=>go("werkstatt"));
 }
@@ -3809,7 +3859,7 @@ function renderBoard(){
 
 /* ---------- Verlauf (Breadcrumbs), Stufen-Leiste, Untermenüs ---------- */
 function goParent(t){
-  if(!t || t.id==="zufall") return go("home");
+  if(!t || t.id==="zufall" || t.id==="liste") return go("home");
   if(t.parent?.startsWith("submenu:")){ S.menu=t.parent.slice(8); return go("submenu"); }
   if(t.parent) return go(t.parent);
   if(t.id==="beruf") return go("berufmenu");
@@ -3849,7 +3899,7 @@ function crumbPath(){
     case "berufmenu": B(byId("geld")); cur="Berufswahl & Lehre"; break;
     case "check": case "checkdone": B(byId("geld")); BER(); cur="Berufs-Check"; break;
     case "mode": chain(t); if(t.menu==="submenu"){ SUB(t.id); cur="Alles gemischt"; } else cur=t.name; break;
-    case "quiz": if(S.quiz?.custom){ cur=S.quiz.titel; break; } if(t?.id==="zufall"){ cur="🎲 Zufallsmix"; break; }
+    case "quiz": if(S.quiz?.custom){ cur=S.quiz.titel; break; } if(t?.id==="zufall"){ cur="🎲 Zufallsmix"; break; } if(t?.id==="liste"){ cur=t.name; break; }
     case "done": chain(t); if(t.menu==="submenu") SUB(t.id); P.push([t.menu==="submenu"?"Alles gemischt":t.name,()=>go("mode")]); cur=S.quiz?.mode==="test"?"Gewerteter Test":"Training"; break;
   }
   return {P,cur};
@@ -4564,6 +4614,228 @@ function renderLib(){
   blasenStart();
   document.querySelectorAll("[data-buch]").forEach(b=>b.onclick=()=>{ const B=BUECHER.find(x=>x.id===b.dataset.buch); zauberOeffnen(b, B, ()=>{ LIB.buch=B.id; LIB.q=""; LIB.tab="inhalt"; go("libbuch"); scrollTo(0,0); }); });
 }
+
+/* ---------- Schweizer Gipfel (Höhen in m ü. M., gerundet nach gängigen Angaben) ---------- */
+const GIPFEL = [
+ // name, wiki, höhe, kantone, gebirge, [kontext-regex]
+ ["Dufourspitze","Dufourspitze",4634,"VS","Walliser Alpen"],
+ ["Nordend","Nordend",4609,"VS","Walliser Alpen"],
+ ["Zumsteinspitze","Zumsteinspitze",4563,"VS","Walliser Alpen"],
+ ["Signalkuppe","Signalkuppe",4554,"VS","Walliser Alpen"],
+ ["Dom","Dom (Berg)",4545,"VS","Walliser Alpen",/\bDom\b[^.]{0,50}(Berg|Gipfel|Mischabel|4545|Randa|Saas)|(Mischabel)[^.]{0,50}\bDom\b/],
+ ["Liskamm","Liskamm",4527,"VS","Walliser Alpen"],
+ ["Weisshorn","Weisshorn",4506,"VS","Walliser Alpen"],
+ ["Täschhorn","Täschhorn",4491,"VS","Walliser Alpen"],
+ ["Matterhorn","Matterhorn",4478,"VS","Walliser Alpen"],
+ ["Dent Blanche","Dent Blanche",4357,"VS","Walliser Alpen"],
+ ["Nadelhorn","Nadelhorn",4327,"VS","Walliser Alpen"],
+ ["Grand Combin","Grand Combin",4314,"VS","Walliser Alpen"],
+ ["Lenzspitze","Lenzspitze",4294,"VS","Walliser Alpen"],
+ ["Finsteraarhorn","Finsteraarhorn",4274,"BE, VS","Berner Alpen"],
+ ["Castor","Castor (Berg)",4228,"VS","Walliser Alpen",/\bCastor\b[^.]{0,40}(Berg|Gipfel|Pollux|4228)/],
+ ["Zinalrothorn","Zinalrothorn",4221,"VS","Walliser Alpen"],
+ ["Hohberghorn","Hohberghorn",4219,"VS","Walliser Alpen"],
+ ["Alphubel","Alphubel",4206,"VS","Walliser Alpen"],
+ ["Rimpfischhorn","Rimpfischhorn",4199,"VS","Walliser Alpen"],
+ ["Aletschhorn","Aletschhorn",4193,"VS","Berner Alpen"],
+ ["Strahlhorn","Strahlhorn",4190,"VS","Walliser Alpen"],
+ ["Dent d'Hérens","Dent d’Hérens",4174,"VS","Walliser Alpen",/Dent d.H[ée]rens/],
+ ["Breithorn","Breithorn (Zermatt)",4164,"VS","Walliser Alpen",/Breithorn/],
+ ["Jungfrau","Jungfrau (Berg)",4158,"BE, VS","Berner Alpen",/\bJungfrau\b(?![- ]?Maria)(?!joch)/],
+ ["Bishorn","Bishorn",4153,"VS","Walliser Alpen"],
+ ["Mönch","Mönch (Berg)",4107,"BE, VS","Berner Alpen",/Mönch[^.]{0,60}(Berg|Eiger|Jungfrau|4107|Gipfel)|(Eiger|Jungfrau)[^.]{0,60}Mönch/],
+ ["Pollux","Pollux (Berg)",4092,"VS","Walliser Alpen",/\bPollux\b[^.]{0,40}(Berg|Gipfel|Castor|4092)|Castor[^.]{0,20}Pollux/],
+ ["Schreckhorn","Schreckhorn",4078,"BE","Berner Alpen"],
+ ["Ober Gabelhorn","Ober Gabelhorn",4063,"VS","Walliser Alpen"],
+ ["Gross Fiescherhorn","Gross Fiescherhorn",4049,"BE, VS","Berner Alpen",/Fiescherhorn/],
+ ["Piz Bernina","Piz Bernina",4049,"GR","Bündner Alpen (Bernina)",/Piz Bernina|höchste[rn]? (Berg|Gipfel) (Graubündens|der Ostalpen)/],
+ ["Gross Grünhorn","Gross Grünhorn",4044,"VS","Berner Alpen",/Grünhorn/],
+ ["Lauteraarhorn","Lauteraarhorn",4042,"BE","Berner Alpen"],
+ ["Dürrenhorn","Dürrenhorn",4035,"VS","Walliser Alpen"],
+ ["Allalinhorn","Allalinhorn",4027,"VS","Walliser Alpen"],
+ ["Weissmies","Weissmies",4017,"VS","Walliser Alpen"],
+ ["Lagginhorn","Lagginhorn",4010,"VS","Walliser Alpen"],
+ ["Eiger","Eiger",3967,"BE","Berner Alpen",/\bEiger/],
+ ["Piz Roseg","Piz Roseg",3937,"GR","Bündner Alpen (Bernina)"],
+ ["Bietschhorn","Bietschhorn",3934,"VS","Berner Alpen"],
+ ["Piz Palü","Piz Palü",3901,"GR","Bündner Alpen (Bernina)"],
+ ["Klein Matterhorn","Klein Matterhorn",3883,"VS","Walliser Alpen"],
+ ["Mont Blanc de Cheilon","Mont Blanc de Cheilon",3870,"VS","Walliser Alpen"],
+ ["Pigne d'Arolla","Pigne d’Arolla",3790,"VS","Walliser Alpen",/Pigne d.Arolla/],
+ ["Piz Morteratsch","Piz Morteratsch",3751,"GR","Bündner Alpen (Bernina)"],
+ ["Balmhorn","Balmhorn",3698,"BE, VS","Berner Alpen"],
+ ["Wetterhorn","Wetterhorn",3692,"BE","Berner Alpen"],
+ ["Blüemlisalp","Blüemlisalp",3661,"BE","Berner Alpen"],
+ ["Dammastock","Dammastock",3630,"UR, VS","Urner Alpen"],
+ ["Tödi","Tödi",3614,"GL, GR","Glarner Alpen"],
+ ["Galenstock","Galenstock",3586,"UR, VS","Urner Alpen"],
+ ["Monte Leone","Monte Leone",3553,"VS","Lepontinische Alpen"],
+ ["Sustenhorn","Sustenhorn",3503,"BE, UR","Urner Alpen"],
+ ["Piz Corvatsch","Piz Corvatsch",3451,"GR","Bündner Alpen (Bernina)"],
+ ["Gspaltenhorn","Gspaltenhorn",3436,"BE","Berner Alpen"],
+ ["Piz Kesch","Piz Kesch",3418,"GR","Albula-Alpen"],
+ ["Piz Linard","Piz Linard",3410,"GR","Silvretta"],
+ ["Rheinwaldhorn","Rheinwaldhorn",3402,"GR, TI","Lepontinische Alpen"],
+ ["Piz Julier","Piz Julier",3380,"GR","Albula-Alpen"],
+ ["Piz Buin","Piz Buin",3312,"GR","Silvretta"],
+ ["Piz Badile","Piz Badile",3308,"GR","Bergeller Berge"],
+ ["Piz Languard","Piz Languard",3262,"GR","Livigno-Alpen"],
+ ["Dents du Midi","Dents du Midi",3257,"VS","Chablais-Alpen"],
+ ["Wildhorn","Wildhorn",3248,"BE, VS","Berner Alpen"],
+ ["Wildstrubel","Wildstrubel",3244,"BE, VS","Berner Alpen"],
+ ["Titlis","Titlis",3238,"OW, BE","Urner Alpen"],
+ ["Les Diablerets","Les Diablerets",3210,"VD, VS","Berner Alpen",/Diablerets/],
+ ["Gornergrat","Gornergrat",3135,"VS","Walliser Alpen"],
+ ["Bristen","Bristen (Berg)",3073,"UR","Glarner Alpen",/\bBristen\b/],
+ ["Piz Nair","Piz Nair",3057,"GR","Albula-Alpen"],
+ ["Grand Muveran","Grand Muveran",3051,"VD, VS","Berner Alpen"],
+ ["Schilthorn","Schilthorn",2970,"BE","Berner Alpen"],
+ ["Uri-Rotstock","Uri-Rotstock",2928,"UR","Urner Alpen",/Uri.Rotstock/],
+ ["Glärnisch","Glärnisch",2915,"GL","Glarner Alpen"],
+ ["Säntis","Säntis",2502,"AI, AR, SG","Appenzeller Alpen"],
+ ["Niesen","Niesen",2362,"BE","Berner Voralpen",/\bNiesen\b[^.]{0,50}(Berg|Pyramide|Thun|Bahn|Gipfel|2362)|(Berg|Pyramide|Thunersee)[^.]{0,40}\bNiesen\b/],
+ ["Brienzer Rothorn","Brienzer Rothorn",2350,"BE, LU, OW","Emmentaler Alpen"],
+ ["Alvier","Alvier",2343,"SG","Appenzeller Alpen"],
+ ["Männlichen","Männlichen",2343,"BE","Berner Alpen"],
+ ["Chäserrugg","Chäserrugg",2262,"SG","Churfirsten"],
+ ["Stockhorn","Stockhorn",2190,"BE","Berner Voralpen",/\bStockhorn\b/],
+ ["Pilatus","Pilatus (Berg)",2128,"LU, NW, OW","Luzerner Voralpen",/(?<!Pontius )Pilatus(?![^.]{0,40}(Jesus|Statthalter|römisch))/],
+ ["Le Moléson","Moléson",2002,"FR","Freiburger Voralpen",/Moléson/],
+ ["Monte Tamaro","Monte Tamaro",1962,"TI","Luganer Voralpen"],
+ ["Fronalpstock","Fronalpstock",1922,"SZ","Schwyzer Alpen"],
+ ["Grosser Mythen","Grosser Mythen",1898,"SZ","Schwyzer Alpen",/Mythen/],
+ ["Stanserhorn","Stanserhorn",1898,"NW","Urner Alpen"],
+ ["Rigi","Rigi",1797,"SZ, LU","Schwyzer Alpen",/\bRigi\b/],
+ ["Hoher Kasten","Hoher Kasten",1794,"AI, SG","Appenzeller Alpen"],
+ ["Monte Generoso","Monte Generoso",1701,"TI","Luganer Voralpen"],
+ ["Monte San Salvatore","Monte San Salvatore",912,"TI","Luganer Voralpen",/San Salvatore/]
+];
+const GIPFEL_TOP10 = ["Matterhorn","Eiger","Jungfrau","Mönch","Dufourspitze","Titlis","Pilatus","Säntis","Rigi","Piz Bernina"];
+function gipfelSeiten(uniq, text){
+  return GIPFEL.map(([titel,wiki,h,kt,geb,re])=>{ const rx=re||new RegExp(titel.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));
+    return {typ:"fr", titel, wiki, gipfel:{h,kt,geb}, fragen:uniq.filter(f=>rx.test(text(f))).slice(0,40)}; });
+}
+function kantonNamen(kt){ return kt.split(",").map(x=>x.trim()).map(k=>{ const K=KANTONE.find(y=>y.kuerzel===k); return K?`${wappen(k)} ${esc(K.kurz)}`:k; }).join(", "); }
+function gipfelInfoHTML(s){
+  const g=s.gipfel; if(!g) return "";
+  const ref = g.art==="pass" ? (g.geb ? {h:1447, n:"Col du Marchairuz, dem höchsten Jurapass der Schweiz"} : {h:2501, n:"Umbrailpass, dem höchsten Strassenpass der Schweiz"}) : g.art==="jura" ? {h:1679, n:"Mont Tendre, dem höchsten Jura-Gipfel der Schweiz"} : {h:4634, n:"Dufourspitze, dem höchsten Gipfel der Schweiz"};
+  const pct=Math.round(g.h/ref.h*100);
+  const label = g.art==="pass" ? "Passhöhe" : "m ü. M.";
+  const einordnung = g.art==="pass" ? `🛣️ Pass${g.verb?` · verbindet ${esc(g.verb)}`:""}` : g.art==="jura" ? "🌲 Ein Gipfel des Juras" : g.h>=4000?"⭐ Einer der Viertausender der Schweiz":g.h>=3000?"Ein Dreitausender":"Ein Berg der Voralpen";
+  return `<div class="gipfelinfo ${g.art||"alp"}"><div class="gihoehe"><b>${g.h.toLocaleString("de-CH")}</b><span>${g.art==="pass"?"m ü. M. Passhöhe":"m ü. M."}</span></div>
+    <div class="gidaten">${g.geb?`<span>${g.art==="jura"?"🌲":"🏔️"} <b>Region:</b> ${esc(g.geb)}</span>`:""}<span>📍 <b>${g.kt.includes(",")?"Kantone":"Kanton"}:</b> ${kantonNamen(g.kt)}</span>
+      <span class="gibalken" title="Im Vergleich zum ${esc(ref.n)}"><i style="width:${Math.min(100,pct)}%"></i></span>
+      <small>${einordnung} · ${pct} % so hoch wie der ${esc(ref.n)}</small></div></div>`;
+}
+
+function topKartenHTML(k, namen, titel, refH, hinweis){
+  const seiten=namen.map(n=>k.seiten.find(s=>s.titel===n)).filter(Boolean);
+  if(!seiten.length) return "";
+  const y=h=>Math.round(32-h/refH*28);
+  return `<h3 class="top10titel">${titel}</h3>
+    <div class="gtop">${seiten.map((s,i)=>`<button type="button" class="gkarte" data-sn="${s.nr}"><span class="grang">${i+1}</span><span class="gberg" aria-hidden="true"><svg viewBox="0 0 60 36"><path d="M2 34 L22 ${y(s.gipfel.h)} L30 ${Math.round(34-s.gipfel.h/refH*22)} L40 ${Math.round(30-s.gipfel.h/refH*24)} L58 34Z" fill="${k.id==="jura"?"#7FA07A":"#8D9AD0"}"/>${k.id==="jura"?"":`<path d="M18 ${y(s.gipfel.h)+6} L22 ${y(s.gipfel.h)} L26 ${y(s.gipfel.h)+6}Z" fill="#fff"/>`}</svg></span><b>${esc(s.titel)}</b><small>${s.gipfel.h.toLocaleString("de-CH")} m · ${esc(s.gipfel.kt)}</small></button>`).join("")}</div>
+    <p class="gzahl">${hinweis}</p>`;
+}
+function top10HTML(k){
+  if(k.id==="jura"){ const n=k.seiten.filter(s=>s.gipfel).length; return topKartenHTML(k, JURA_TOP, "⭐ Die 10 bekanntesten Jura-Gipfel", 1679, `Insgesamt ${n} Gipfel und Pässe im Schweizer Jura. Die Höhen sind gerundet.`); }
+  const g=k.seiten.filter(s=>s.gipfel&&s.gipfel.art!=="pass"), p=k.seiten.filter(s=>s.gipfel?.art==="pass");
+  return topKartenHTML(k, GIPFEL_TOP10, "⭐ Die 10 bekanntesten Gipfel der Schweiz", 4634, `Insgesamt ${g.length} Gipfel (davon ${g.filter(s=>s.gipfel.h>=4000).length} Viertausender) und ${p.length} Pässe in diesem Kapitel. Die Höhen sind gerundet, je nach Messung können sie leicht abweichen.`);
+}
+
+
+/* ---------- Pässe und Jura ---------- */
+const PAESSE = [
+ ["Umbrailpass","Umbrailpass",2501,"GR","Val Müstair und Stilfserjoch (Italien)"],
+ ["Nufenenpass","Nufenenpass",2478,"VS, TI","Wallis und Tessin"],
+ ["Grosser Sankt Bernhard","Grosser Sankt Bernhard",2469,"VS","Wallis und Aostatal (Italien)",/Sankt Bernhard|St\. Bernhard|Bernhardiner/],
+ ["Furkapass","Furkapass",2429,"UR, VS","Uri und Wallis",/Furka/],
+ ["Flüelapass","Flüelapass",2383,"GR","Davos und Unterengadin"],
+ ["Berninapass","Berninapass",2328,"GR","Engadin und Puschlav",/Berninapass|Bernina.?(Express|bahn|linie)/],
+ ["Albulapass","Albulapass",2312,"GR","Albulatal und Engadin",/Albula/],
+ ["Gemmipass","Gemmipass",2314,"BE, VS","Kandersteg und Leukerbad (Wanderweg)",/Gemmi/],
+ ["Julierpass","Julierpass",2284,"GR","Oberhalbstein und Engadin",/Julierpass/],
+ ["Sanetschpass","Sanetschpass",2252,"VS, BE","Sion und Gsteig",/Sanetsch/],
+ ["Sustenpass","Sustenpass",2224,"BE, UR","Berner Oberland und Uri",/Susten/],
+ ["Grimselpass","Grimselpass",2164,"BE, VS","Haslital und Goms",/Grimsel/],
+ ["Ofenpass","Ofenpass",2149,"GR","Engadin und Val Müstair"],
+ ["Splügenpass","Splügenpass",2114,"GR","Rheinwald und Chiavenna (Italien)",/Splügen/],
+ ["Gotthardpass","Gotthardpass",2106,"UR, TI","Uri und Tessin",/Gotthardpass|Gotthard-?Pass|St\. Gotthard|Sankt Gotthard/],
+ ["San-Bernardino-Pass","San-Bernardino-Pass",2066,"GR","Rheinwald und Misox",/San.Bernardino/],
+ ["Oberalppass","Oberalppass",2044,"UR, GR","Uri und Graubünden",/Oberalp/],
+ ["Simplonpass","Simplonpass",2005,"VS","Brig und Domodossola (Italien)",/Simplon/],
+ ["Klausenpass","Klausenpass",1948,"UR, GL","Uri und Glarus",/Klausen/],
+ ["Lukmanierpass","Lukmanierpass",1915,"GR, TI","Surselva und Bleniotal",/Lukmanier/],
+ ["Malojapass","Malojapass",1815,"GR","Engadin und Bergell",/Maloja/],
+ ["Pragelpass","Pragelpass",1550,"SZ, GL","Muotatal und Klöntal",/Pragel/],
+ ["Col du Pillon","Col du Pillon",1546,"VD","Gstaad und Les Diablerets",/Pillon/],
+ ["Glaubenbergpass","Glaubenbergpass",1543,"LU, OW","Entlebuch und Sarnen",/Glaubenberg/],
+ ["Col de la Forclaz","Col de la Forclaz",1527,"VS","Martigny und Chamonix (Frankreich)",/Forclaz/],
+ ["Jaunpass","Jaunpass",1509,"BE, FR","Simmental und Greyerzerland",/Jaunpass/],
+ ["Col des Mosses","Col des Mosses",1445,"VD","Château-d'Oex und Aigle",/Mosses/],
+ ["Ibergeregg","Ibergeregg",1406,"SZ","Schwyz und Oberiberg"],
+ ["Brünigpass","Brünigpass",1008,"BE, OW","Berner Oberland und Obwalden",/Brünig/]
+];
+const JURA = [
+ ["Mont Tendre","Mont Tendre",1679,"VD","Waadtländer Jura"],
+ ["La Dôle","La Dôle",1677,"VD","Waadtländer Jura",/La Dôle|\bDôle\b/],
+ ["Chasseron","Chasseron",1607,"VD","Waadtländer Jura"],
+ ["Chasseral","Chasseral",1607,"BE","Berner Jura"],
+ ["Le Suchet","Le Suchet",1588,"VD","Waadtländer Jura",/Suchet/],
+ ["Dent de Vaulion","Dent de Vaulion",1483,"VD","Waadtländer Jura",/Vaulion/],
+ ["Creux du Van","Creux du Van",1463,"NE","Neuenburger Jura",/Creux.du.Van|Soliat/],
+ ["Hasenmatt","Hasenmatt",1445,"SO","Solothurner Jura"],
+ ["Mont Racine","Mont Racine",1439,"NE","Neuenburger Jura"],
+ ["Tête de Ran","Tête de Ran",1422,"NE","Neuenburger Jura"],
+ ["Weissenstein","Weissenstein (Jura)",1395,"SO","Solothurner Jura",/Weissenstein/],
+ ["Mont Raimeux","Mont Raimeux",1302,"BE, JU","Berner und Jurassischer Jura",/Raimeux/],
+ ["Mont Soleil","Mont Soleil",1291,"BE","Berner Jura"],
+ ["Passwang","Passwang",1204,"SO","Solothurner Jura"],
+ ["Chaumont","Chaumont (Neuenburg)",1180,"NE","Neuenburger Jura",/Chaumont/],
+ ["Belchenflue","Belchenflue",1099,"SO, BL","Basler und Solothurner Jura",/Belchen/],
+ ["Randen","Randen",912,"SH","Schaffhauser Jura (Tafeljura)",/\bRanden\b/],
+ ["Lägern","Lägern",866,"ZH, AG","Östlichster Faltenjura",/Lägern/],
+ ["Gislifluh","Gislifluh",772,"AG","Aargauer Jura",/Gisliflue|Gislifluh/],
+ ["Vue des Alpes","Vue des Alpes",1283,"NE","Neuenburger Jura (Pass)",/Vue des Alpes/],
+ ["Col du Marchairuz","Col du Marchairuz",1447,"VD","Waadtländer Jura (Pass)",/Marchairuz/],
+ ["Les Rangiers","Les Rangiers",856,"JU","Jura (Pass)",/Rangiers/]
+];
+const JURA_TOP = ["Chasseral","Creux du Van","Weissenstein","Mont Tendre","La Dôle","Chasseron","Dent de Vaulion","Hasenmatt","Le Suchet","Mont Soleil"];
+function jsonRx(name){ return new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")); }
+function passSeiten(uniq,text){ return PAESSE.map(([titel,wiki,h,kt,verb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,art:"pass",verb}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)})); }
+function juraKapitel(){
+  const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
+  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
+  const ueber={typ:"fr", titel:"Jura (Überblick)", wiki:"Jura (Gebirge)", fragen:uniq.filter(f=>/Juragebirge|Faltenjura|Kettenjura|Tafeljura|\bJura\b[^.]{0,40}(Gebirge|Kette|Bogen|Kalk|Höhenzug)/.test(text(f))).slice(0,40)};
+  return [ueber, ...JURA.map(([titel,wiki,h,kt,geb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,geb,art:/Pass/.test(geb)?"pass":"jura", verb:/Pass/.test(geb)?geb.replace(/ \(Pass\)/,""):""}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)}))].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
+}
+
+/* ---------- Bibliothek: Kapitel «Die Schweizer Alpen» ---------- */
+const ALPEN_SEITEN = [
+  ["Alpen (Überblick)","Alpen",/\balpen\b|alpenraum|alpenland/i],
+  ["Jungfraujoch","Jungfraujoch",/jungfraujoch/i],
+  ["Grosser Aletschgletscher","Grosser Aletschgletscher",/aletsch/i],
+  ["Gletscher","Gletscher",/gletscher/i],
+  ["Alpenpässe","Alpenpass",/\bpass\b|pässe|furka|grimsel|simplon|bernardino|gotthardpass|klausen/i],
+  ["Gotthard-Basistunnel","Gotthard-Basistunnel",/basistunnel|neat\b|gotthardtunnel/i],
+  ["Schweizerischer Nationalpark","Schweizerischer Nationalpark",/nationalpark/i],
+  ["Alpensteinbock","Alpensteinbock",/steinbock/i],
+  ["Alpenmurmeltier","Alpenmurmeltier",/murmeltier/i],
+  ["Edelweiss","Edelweiss",/edelweiss|edelweiß/i],
+  ["Alpwirtschaft","Alpwirtschaft",/alpabzug|alpaufzug|\balp\b|sennerei|senn\b|sennen/i],
+  ["Lawinen","Lawine",/lawine/i]
+];
+function alpenKapitel(){
+  const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
+  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
+  return [...ALPEN_SEITEN.map(([titel,wiki,re])=>({typ:"fr", titel, wiki, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)})), ...gipfelSeiten(uniq,text), ...passSeiten(uniq,text)].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
+}
+function startListe(list, titel){
+  list=shuffle([...list]).slice(0,25); if(!list.length) return;
+  S.thema={id:"liste", name:titel, text:"", emo:"mountain", bereich:{id:"liste", name:titel, c:"--welt"}};
+  S.quiz={ mode:"train", zufall:true, list:list.map(f=>({...f, opts:shuffle(f.a.map((txt,i)=>({txt, ok:i===0})))})), i:0, score:0, points:0, picked:null, tab:"frage", qStart:performance.now(), start:performance.now(), zeit:0, seen:0, log:[], flushed:false, lastPts:0, count:list.length, timeout:false };
+  setLibModus(false); go("quiz");
+}
+
 /* ---------- Bücher mit Kapiteln, Seiten, Register und Suche ---------- */
 const BUCHCACHE = {};
 function kapitelSeiten(id){
@@ -4584,9 +4856,10 @@ function buchDaten(bid){
     const b=BEREICHE.find(x=>x.id===bid);
     libThemenListe(b).filter(([id])=>!id.startsWith("pol_")).forEach(([id,label])=>kap.push({id, titel:label, emo:themaIcon(THEMA[id]), seiten:kapitelSeiten(id).map(s=>({typ:"fr",...s}))}));
   }
+  if(bid==="welt"){ const ai=kap.findIndex(k=>k.id==="geo_schweiz"); kap.splice(ai>=0?ai+1:kap.length,0,{id:"alpen", titel:"Die Schweizer Alpen", emo:"🏔️", seiten:alpenKapitel()},{id:"jura", titel:"Der Jura", emo:"🌲", seiten:juraKapitel()}); }
   kap=kap.filter(k=>k.seiten.length);
   if(bid==="welt"){ const R={g:{name:"Geschichte",emo:"🏰"}, o:{name:"Geografie",emo:"🗺️"}, r:{name:"Religion",emo:"🕊️"}};
-    const rub=id=> id==="kt_alle"||id.startsWith("geo_") ? R.o : id.startsWith("rel_") ? R.r : R.g;
+    const rub=id=> id==="kt_alle"||id==="alpen"||id==="jura"||id.startsWith("geo_") ? R.o : id.startsWith("rel_") ? R.r : R.g;
     kap.forEach(k=>k.rubrik=rub(k.id)); const ord=[R.g,R.o,R.r]; kap.sort((a,b)=>ord.indexOf(a.rubrik)-ord.indexOf(b.rubrik)); }
   let nr=0; const seiten=[];
   kap.forEach(k=>{ k.von=nr+1; k.seiten.forEach(s=>{ s.nr=++nr; s.kap=k; seiten.push(s); }); k.bis=nr; });
@@ -4650,10 +4923,14 @@ function renderLibBuch(){
 function renderLibKapitel(){
   const B=BUECHER.find(x=>x.id===LIB.buch); if(!B){ go("lib"); return; }
   const D=buchDaten(B.id); const k=D.kap.find(x=>x.id===LIB.kap); if(!k){ go("libbuch"); return; }
-  const q=(LIB.qk||"").trim(); const liste=q.length>=2 ? seitenSuche(k.seiten,q) : k.seiten;
+  const q=(LIB.qk||"").trim(); const af=k.id==="alpen"?(LIB.alpF||"alle"):"alle";
+  const filt=x=> af==="alle" || (af==="gipfel" && x.gipfel && x.gipfel.art!=="pass") || (af==="pass" && x.gipfel?.art==="pass") || (af==="themen" && !x.gipfel);
+  const liste=(q.length>=2 ? seitenSuche(k.seiten,q) : k.seiten).filter(filt);
   $("#app").innerHTML = `${crumbs()}
     <article class="libart" style="--bf:${B.farbe}"><header><span class="aemo big">${k.emo}</span><h1>${esc(k.titel)}</h1><p class="libdesc">${k.rubrik?`${k.rubrik.emo} ${esc(k.rubrik.name)} · `:""}Kapitel im Buch «${esc(B.titel)}» · Seiten ${k.von} bis ${k.bis}</p></header>
-      ${suchfeldHTML("kapSuche", LIB.qk, "🔎 In diesem Kapitel suchen …")}
+      ${(k.id==="alpen"||k.id==="jura") && q.length<2 ? top10HTML(k) : ""}
+      ${k.id==="alpen" ? `<div class="segs alpfilter" role="group" aria-label="Anzeigen">${[["alle","Alle"],["gipfel","⛰️ Gipfel"],["pass","🛣️ Pässe"],["themen","📚 Themen"]].map(([v,l])=>`<button type="button" class="seg" data-af="${v}" aria-pressed="${(LIB.alpF||"alle")===v}">${l}</button>`).join("")}</div>` : ""}
+      ${suchfeldHTML("kapSuche", LIB.qk, k.id==="alpen" ? "🔎 Gipfel oder Stichwort suchen, z. B. Pizzo, Eiger …" : "🔎 In diesem Kapitel suchen …")}
       <h3>📑 Index</h3>
       ${liste.length ? (()=>{ const item=s=>`<button type="button" class="regitem" data-sn="${s.nr}"><span>${esc(s.titel)}${s.typ==="fr"?` <small>(${s.fragen.length})</small>`:""}</span><span class="rpunkte"></span><span class="rnr">${s.nr}</span></button>`;
         if(q.length>=2 || k.id.startsWith("__")) return `<div class="reg">${liste.map(item).join("")}</div>`;
@@ -4662,8 +4939,10 @@ function renderLibKapitel(){
       ${k.id.startsWith("__")?"":`<div class="row libnav"><button class="big gold" id="libQuiz" type="button">🎮 Quiz zu «${esc(k.titel)}»</button></div>`}
     </article>`;
   bindSuchfeld("kapSuche", v=>LIB.qk=v);
+  document.querySelectorAll("[data-af]").forEach(b=>b.onclick=()=>{ LIB.alpF=b.dataset.af; const y=scrollY; render(); scrollTo(0,y); });
+  document.querySelectorAll(".gkarte").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
   document.querySelectorAll(".regitem").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
-  $("#libQuiz") && ($("#libQuiz").onclick=()=>libZumQuiz(k.id));
+  $("#libQuiz") && ($("#libQuiz").onclick=()=> (k.id==="alpen"||k.id==="jura") ? startListe([...new Map(k.seiten.flatMap(x=>x.fragen).map(f=>[f.q,f])).values()], k.titel) : libZumQuiz(k.id));
 }
 function renderLibSeite(){
   const B=BUECHER.find(x=>x.id===LIB.buch); if(!B){ go("lib"); return; }
@@ -4679,13 +4958,14 @@ function renderLibSeite(){
       : `<div class="beschr leer"><p>📝 Eine ausführliche Beschreibung zu «${esc(s.titel)}» folgt bald. Bis dahin findest du unten die wichtigsten Fakten.</p></div>`);
     const karte=f=>`<div class="wk"><span class="bibst">${STUFE_EMO[f.l]||""} ${esc(stufeObj(f.l).name)}</span>${f.img?`<div class="bibimg" style="float:right">${imgSvg(f.img)}</div>`:""}<p class="wkq">${esc(f.q)}</p><p class="wka">${esc(f.a[0])}</p><p class="wke">${esc(f.e)}</p></div>`;
     const erste=s.fragen.slice(0,5), rest=s.fragen.slice(5);
-    inhalt = `${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
+    inhalt = `${gipfelInfoHTML(s)}${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
       ${beschr}
       <figure class="karte" id="kartenBox" hidden></figure>
-      <h3 class="faktkopf">📚 Fakten${s.fragen.length>5?` <small>(5 von ${s.fragen.length})</small>`:""}</h3>
+      ${s.fragen.length?"":`<p class="empty">Zu diesem Stichwort gibt es noch keine Quizfragen.</p>`}
+      <h3 class="faktkopf" ${s.fragen.length?"":"hidden"}>📚 Fakten${s.fragen.length>5?` <small>(5 von ${s.fragen.length})</small>`:""}</h3>
       <div class="wkarten">${erste.map(karte).join("")}</div>
       ${rest.length?`<details class="mehrfakten"><summary>Weitere ${rest.length} ${rest.length===1?"Fakt":"Fakten"} anzeigen</summary><div class="wkarten">${rest.map(karte).join("")}</div></details>`:""}
-      ${s.titel!=="Allgemeines"?`<p class="wikilink"><a href="${wikiUrl(s.titel)}" target="_blank" rel="noopener">📚 Mehr über «${esc(s.titel)}» auf Wikipedia</a></p>`:""}`;
+      ${s.titel!=="Allgemeines"?`<p class="wikilink"><a href="${wikiUrl(s.wiki||s.titel)}" target="_blank" rel="noopener">📚 Mehr über «${esc(s.titel)}» auf Wikipedia</a></p>`:""}`;
   }
   $("#app").innerHTML = `${crumbs()}
     <article class="libart buchseite" style="--bf:${B.farbe}">
@@ -4705,13 +4985,13 @@ function renderLibSeite(){
   const blatt=(n)=>{ const art=$(".buchseite"); if(matchMedia("(prefers-reduced-motion: reduce)").matches){ LIB.seite=n; render(); scrollTo(0,0); return; }
     art.animate([{transform:"perspective(1200px) rotateY(0)",opacity:1},{transform:`perspective(1200px) rotateY(${n>s.nr?-12:12}deg)`,opacity:0}],{duration:220,easing:"ease-in"}).onfinish=()=>{ LIB.seite=n; render(); scrollTo(0,0); $(".buchseite")?.animate([{transform:`perspective(1200px) rotateY(${n>s.nr?12:-12}deg)`,opacity:0},{transform:"none",opacity:1}],{duration:260,easing:"ease-out"}); }; };
   if(s.typ==="art") zeigeWikiBild(s.art.bild, s.nr);
-  else zeigeKarte(s.titel, s.nr, s.kap.id);
-  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel);
+  else zeigeKarte(s.wiki||s.titel, s.nr, s.kap.id);
+  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
   nach && ($("#sNach").onclick=()=>blatt(nach.nr));
   $("#sIdx").onclick=()=>{ LIB.kap=s.kap.id; go("libkapitel"); scrollTo(0,0); };
-  $("#libQuiz") && ($("#libQuiz").onclick=()=>libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
+  $("#libQuiz") && ($("#libQuiz").onclick=()=> (s.kap.id==="alpen"||s.kap.id==="jura") ? startListe(s.fragen.length>=3?s.fragen:s.kap.seiten.flatMap(x=>x.fragen), s.fragen.length>=3?s.titel:s.kap.titel) : libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
   if(s.typ==="art") document.querySelectorAll(".lpartei").forEach(b=>b.onclick=()=>{ const p=PARTEIEN[+b.dataset.p];
     document.querySelectorAll(".lpartei").forEach(x=>x.classList.toggle("on",x===b));
     $("#pInfo").innerHTML=`<div class="pcard" style="--pf:${p.f}"><b>${esc(p.k)}, ${esc(p.n)}</b>${p.sitze?`<span class="psitze">${p.sitze} von 200 Sitzen im Nationalrat</span>`:""}<p>${esc(p.t)}</p></div>`; });
