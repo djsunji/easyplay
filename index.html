@@ -1680,6 +1680,37 @@ html,body{overflow-x:clip}
 .regsocial{max-width:none;margin:0 0 14px;padding:14px 18px}
 .regsocial .trenner{margin-top:0}
 .regsocial{max-width:640px!important;margin-left:0!important}
+.lvstufe{display:grid!important;grid-template-columns:repeat(4,1fr);gap:6px!important;width:100%}
+.lvstufe .seg{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px!important;font-size:.85rem!important;white-space:nowrap}
+.lvstufe .sgi{font-size:1.4rem;line-height:1}
+.lvanzahl{display:flex;align-items:baseline;justify-content:center;gap:6px;margin:2px 0 4px}
+.lvanzahl b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2.6rem;font-weight:800;background:linear-gradient(90deg,#3D5AFE,#E043B8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lvanzahl span{font-weight:700;color:var(--soft)}
+.lvslider{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:999px;background:linear-gradient(90deg,#3D5AFE,#8A3FE0 var(--p,15%),var(--line) var(--p,15%));outline:none;cursor:pointer}
+.lvslider::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:#fff;border:4px solid #8A3FE0;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.lvslider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid #8A3FE0;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.lvslider:focus-visible::-webkit-slider-thumb{outline:3px solid var(--focus);outline-offset:2px}
+.lvskala{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;color:var(--soft);margin-top:4px}
+.lvskala,.lvslider,.lvanzahl{width:100%;box-sizing:border-box}
+.libkopf{position:relative;max-width:1100px;margin:0 auto}
+.libkopf .libgast{position:absolute;bottom:-30px;height:260px;width:auto;z-index:2}
+.libkopf .gl{left:0}.libkopf .gr{right:0}
+.libkopf .libhero{position:relative;z-index:1}
+@media (max-width:1060px){.libkopf .libgast{height:200px}}
+@media (max-width:860px){
+  .libkopf{display:grid;grid-template-columns:1fr 1fr;align-items:end}
+  .libkopf .libgast{position:static;height:175px;justify-self:center;margin-bottom:-22px}
+  .libkopf .libhero{grid-column:1 / -1;grid-row:2}
+}
+
+/* Kartenausschnitt */
+.karte{clear:both;margin:14px 0 16px;border:2px solid var(--libline);border-radius:18px;overflow:hidden;background:var(--libpaper);box-shadow:0 10px 20px -14px rgba(80,50,10,.5)}
+.karte .kkopf{padding:10px 14px;font-size:1.05rem;background:color-mix(in srgb,#17A35A 9%,var(--libpaper));border-bottom:2px solid var(--libline)}
+.karte .kframe{position:relative;aspect-ratio:16/9;background:#E8EEF2}
+.karte iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.karte .kfuss{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:6px 12px;font-size:.78rem;color:color-mix(in srgb,var(--libink) 60%,transparent)}
+.karte .kfuss a{color:var(--libacc);font-weight:700}
+@media (max-width:560px){.karte .kframe{aspect-ratio:4/3}}
 </style>
 </head>
 <body>
@@ -2857,7 +2888,9 @@ function liveHostPeer(){
 
 /* ---- Einstiegsseite ---- */
 function renderLive(){
-  const themen = Object.keys(THEMA).filter(id=>!THEMA[id].menu && pool(id).length>=5);
+  const themen = ["alle", ...BEREICHE.flatMap(b=>b.themen.flatMap(t=> t.id==="geschichte" ? ["geschichte", ...GESCH_IDS] : t.kids ? [t.id, ...t.kids] : [t.id]))].filter((id,i,a)=>a.indexOf(id)===i);
+  const katName=id=> id==="alle" ? "🌍 Alle Themen gemischt" : id==="geschichte" ? "Geschichte (alle Epochen und Kantone)" : (THEMA[id]?.kids ? THEMA[id].name+" (alles)" : (THEMA[id]?.name||id));
+  const katBereich=id=> id==="alle" ? "" : (THEMA[id]?.bereich?.name || (GESCH_IDS.includes(id)?BEREICHE[0].name:""));
   $("#app").innerHTML = `
     <div class="pagehead"><div class="bigav live">${ico("bolt")}</div><div><h1>Wettbewerb</h1>
       <span style="color:var(--soft)">Live gegeneinander spielen, wie in einer Quizshow</span></div></div>
@@ -2865,9 +2898,14 @@ function renderLive(){
       <div class="mode" style="--c:var(--welt)"><span class="em">${ico("trophy")}</span><h2>Spiel leiten</h2>
         <p>Du zeigst die Fragen auf einem grossen Bildschirm. Die anderen spielen auf ihrem Handy mit.</p>
         <label class="pick-lbl" for="lvCat">Kategorie</label>
-        <select id="lvCat" class="sel">${themen.map(id=>`<option value="${id}">${esc(THEMA[id].name)} (${pool(id).length})</option>`).join("")}</select>
-        <p class="pick-lbl" id="lvNl">Anzahl Fragen</p>
-        <div class="counts" role="group" aria-labelledby="lvNl">${[5,10,15,20].map(n=>`<button class="cnt ${n===10?"on":""}" type="button" data-n="${n}">${n}</button>`).join("")}</div>
+        <select id="lvCat" class="sel"></select>
+        <p class="pick-lbl" id="lvStl">Stufe</p>
+        <div class="segs lvstufe" role="group" aria-labelledby="lvStl">${[[0,"🎲","Gemischt"],[1,"🌱","Entdecker"],[2,"🚀","Könner"],[3,"🏅","Profis"]].map(([v,e,l])=>`<button class="seg" type="button" data-lst="${v}" aria-pressed="${(S.liveStufe??0)===v}"><span class="sgi">${e}</span><span class="sgt">${l}</span></button>`).join("")}</div>
+        <label class="pick-lbl" for="lvN">Anzahl Fragen</label>
+        <div class="lvanzahl"><b id="lvNv">10</b><span>Fragen</span></div>
+        <input type="range" id="lvN" class="lvslider" min="3" max="50" step="1" value="10" aria-describedby="lvNinfo">
+        <div class="lvskala"><span id="lvMin">3</span><span id="lvMax">50</span></div>
+        <p class="help" id="lvNinfo" style="margin:4px 0 0"></p>
         <button class="big gold" id="lvHost" type="button" style="margin-top:16px">Wettbewerb erstellen</button>
       </div>
       <div class="mode" style="--c:var(--geld)"><span class="em">${ico("phone")}</span><h2>Mitspielen</h2>
@@ -2880,23 +2918,36 @@ function renderLive(){
       </div>
     </div>
     <p class="err" id="lvErr" aria-live="polite"></p>`;
-  let n=10;
-  document.querySelectorAll(".cnt").forEach(b=>b.onclick=()=>{ n=+b.dataset.n; document.querySelectorAll(".cnt").forEach(x=>x.classList.toggle("on",x===b)); });
-  $("#lvHost").onclick=()=>liveHost($("#lvCat").value, n);
+  let stufe=S.liveStufe??0;
+  const lvPool=id=> stufe ? pool(id).filter(f=>f.l===stufe) : pool(id);
+  const sl=$("#lvN"), cat=$("#lvCat");
+  const fuelleKat=()=>{ const alt=cat.value||S.liveCat; const ok=themen.filter(id=>lvPool(id).length>=3);
+    const gruppen={}; ok.forEach(id=>{ const g=katBereich(id)||"Alles"; (gruppen[g]=gruppen[g]||[]).push(id); });
+    cat.innerHTML=Object.entries(gruppen).map(([g,ids])=>`<optgroup label="${esc(g)}">${ids.map(id=>`<option value="${id}">${esc(katName(id))} (${lvPool(id).length})</option>`).join("")}</optgroup>`).join("");
+    if(ok.includes(alt)) cat.value=alt; aktualisiere(); };
+  const aktualisiere=()=>{ const max=Math.max(3,Math.min(50,lvPool(cat.value).length)); sl.max=max; if(+sl.value>max) sl.value=max;
+    $("#lvMax").textContent=max; $("#lvNv").textContent=sl.value;
+    const pct=(sl.value-sl.min)/(sl.max-sl.min||1)*100; sl.style.setProperty("--p",pct+"%");
+    const sek=sl.value*(LIVE_DUR/1000+6); $("#lvNinfo").textContent=`Dauer etwa ${Math.max(1,Math.round(sek/60))} Minuten · ${lvPool(cat.value).length} Fragen verfügbar`; };
+  document.querySelectorAll("[data-lst]").forEach(b=>b.onclick=()=>{ stufe=+b.dataset.lst; S.liveStufe=stufe; document.querySelectorAll("[data-lst]").forEach(x=>x.setAttribute("aria-pressed",x===b)); fuelleKat(); });
+  cat.onchange=()=>{ S.liveCat=cat.value; aktualisiere(); };
+  sl.oninput=aktualisiere;
+  fuelleKat();
+  $("#lvHost").onclick=()=>liveHost($("#lvCat").value, +sl.value, stufe);
   $("#lvJoin").onclick=()=>liveJoin($("#lvPin").value.trim(), $("#lvName").value.trim());
 }
 
 /* ---- Spielleitung ---- */
-async function liveHost(cat, n){
+async function liveHost(cat, n, stufe){
   const room = await liveRoom();
   if(!room){ $("#lvErr").textContent="Live-Spiele funktionieren nur in der claude.ai-Ansicht dieser Seite."; return; }
   liveLeave();
-  const all = shuffle(pool(cat));
+  const all = shuffle(stufe ? pool(cat).filter(f=>f.l===stufe) : pool(cat));
   const list = all.slice(0, Math.min(n, all.length)).map(f=>{ const o=shuffle(f.a.map((t,i)=>({t,ok:i===0}))); return {q:f.q, img:f.img||null, opts:o.map(x=>x.t), c:o.findIndex(x=>x.ok), e:f.m}; });
   L.pin = String(Math.floor(1000+Math.random()*9000));
   L.sub = room.join("easyplay-"+L.pin);
   L.role="host";
-  L.host = { cat, catName:THEMA[cat].name, list, qi:-1, phase:"lobby", scores:{}, answers:{}, qStart:0, last:{} };
+  L.host = { cat, catName:(cat==="alle"?"Alle Themen":cat==="geschichte"?"Geschichte":THEMA[cat].name)+(stufe?` · ${stufeObj(stufe).name}`:""), list, qi:-1, phase:"lobby", scores:{}, answers:{}, qStart:0, last:{} };
   hostPublish();
   L.unsub.push(L.sub.onPeers(ch=>{ hostCollect(ch.peers); if(S.screen==="livehost") renderLiveHost(); }));
   go("livehost");
@@ -3056,7 +3107,7 @@ const isDark = () => (matchMedia("(prefers-color-scheme: dark)").matches && docu
 function applyDark(){ document.body.classList.toggle("dark", isDark()); }
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", ()=>render());
 
-function pool(themaId){ const all=[...FRAGEN, ...S.extra]; if(THEMA[themaId]?.kids) return THEMA[themaId].kids.flatMap(k=>pool(k)); if(themaId==="bilder") return all.filter(f=>f.img); if(themaId==="kt_alle") return all.filter(f=>String(f.t).startsWith("kt_")); return all.filter(f=>f.t===themaId); }
+function pool(themaId){ const all=[...FRAGEN, ...S.extra]; if(themaId==="alle") return all; if(themaId==="geschichte") return GESCH_IDS.flatMap(x=>pool(x)); if(THEMA[themaId]?.kids) return THEMA[themaId].kids.flatMap(k=>pool(k)); if(themaId==="bilder") return all.filter(f=>f.img); if(themaId==="kt_alle") return all.filter(f=>String(f.t).startsWith("kt_")); return all.filter(f=>f.t===themaId); }
 function allCount(){ return FRAGEN.length + S.extra.length; }
 const byL = (arr,l) => l ? arr.filter(f=>f.l===l) : arr;
 function countThema(id,l){ if(id==="geschichte") return GESCH_IDS.reduce((n,x)=>n+byL(pool(x),l).length,0); return byL(pool(id),l).length; }
@@ -4470,7 +4521,8 @@ const BUECHER = [
 ];
 function renderLib(){
   $("#app").innerHTML = `${crumbs()}
-    <div class="libhero"><span class="libemo">📖</span><h1>Bibliothek</h1><p>Lesen. Verstehen. Mitreden. Nimm ein Buch aus dem Regal und lies nach, was in den Quiz vorkommt, mit besonderem Blick auf die Schweiz.</p></div>
+    <div class="libkopf"><img class="gast gl libgast" src="${GAESTE.maedchen}" alt="" aria-hidden="true"><img class="gast gr libgast" src="${GAESTE.junge}" alt="" aria-hidden="true">
+    <div class="libhero"><span class="libemo">📖</span><h1>Bibliothek</h1><p>Lesen. Verstehen. Mitreden. Nimm ein Buch aus dem Regal und lies nach, was in den Quiz vorkommt, mit besonderem Blick auf die Schweiz.</p></div></div>
     <div class="libhome-suche">${suchfeldHTML("libSuche", LIB.qa, "🔎 Alle Bücher durchsuchen, z. B. Katze, Bundesrat, Römer …")}</div>
     ${(LIB.qa||"").trim().length>=2 ? `<div class="libresultate">${(()=>{ const q=LIB.qa; const ql=q.trim().toLowerCase(); const t=BUECHER.flatMap(B=>seitenSuche(buchDaten(B.id).seiten,q).map(s=>({s,B}))).sort((a,b)=>(b.s.titel.toLowerCase().includes(ql))-(a.s.titel.toLowerCase().includes(ql))); return `<h2 class="bstat" style="text-align:center;margin-bottom:10px">🔎 ${t.length} Seiten gefunden</h2>`+trefferHTML(t,true); })()}</div>` : `
     <div class="libszene v3">
@@ -4617,6 +4669,7 @@ function renderLibSeite(){
     const erste=s.fragen.slice(0,5), rest=s.fragen.slice(5);
     inhalt = `${merk.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${merk.slice(0,5).map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
       ${beschr}
+      <figure class="karte" id="kartenBox" hidden></figure>
       <h3 class="faktkopf">📚 Fakten${s.fragen.length>5?` <small>(5 von ${s.fragen.length})</small>`:""}</h3>
       <div class="wkarten">${erste.map(karte).join("")}</div>
       ${rest.length?`<details class="mehrfakten"><summary>Weitere ${rest.length} ${rest.length===1?"Fakt":"Fakten"} anzeigen</summary><div class="wkarten">${rest.map(karte).join("")}</div></details>`:""}
@@ -4640,7 +4693,8 @@ function renderLibSeite(){
   const blatt=(n)=>{ const art=$(".buchseite"); if(matchMedia("(prefers-reduced-motion: reduce)").matches){ LIB.seite=n; render(); scrollTo(0,0); return; }
     art.animate([{transform:"perspective(1200px) rotateY(0)",opacity:1},{transform:`perspective(1200px) rotateY(${n>s.nr?-12:12}deg)`,opacity:0}],{duration:220,easing:"ease-in"}).onfinish=()=>{ LIB.seite=n; render(); scrollTo(0,0); $(".buchseite")?.animate([{transform:`perspective(1200px) rotateY(${n>s.nr?12:-12}deg)`,opacity:0},{transform:"none",opacity:1}],{duration:260,easing:"ease-out"}); }; };
   if(s.typ==="art") zeigeWikiBild(s.art.bild, s.nr);
-  else zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel);
+  else zeigeKarte(s.titel, s.nr, s.kap.id);
+  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
   nach && ($("#sNach").onclick=()=>blatt(nach.nr));
@@ -5249,6 +5303,44 @@ function renderLogin(){
 }
 function bindPwZeigen(){ document.querySelectorAll(".pwzeig").forEach(b=>b.onclick=()=>{ const i=$("#"+b.dataset.for); i.type=i.type==="password"?"text":"password"; b.textContent=i.type==="password"?"👁️":"🙈"; }); }
 
+
+/* ---------- Kartenausschnitt für Orte und Länder (OpenStreetMap, nur eigene Website) ---------- */
+async function wikiKoord(titel){
+  if(window.claude || !titel || titel==="Allgemeines") return null;
+  const k="ep-wk:"+titel; const alt=store.get(k,undefined); if(alt!==undefined) return alt;
+  let res=null;
+  try{
+    const r=await fetch(`https://de.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(titel.replace(/ /g,"_"))}`,{headers:{accept:"application/json"}});
+    if(r.ok){ const d=await r.json(); if(d.coordinates && isFinite(d.coordinates.lat) && isFinite(d.coordinates.lon) && d.type!=="disambiguation") res={lat:+d.coordinates.lat, lon:+d.coordinates.lon, besch:String(d.description||""), titel:d.title}; }
+  }catch(e){ return null; }
+  store.set(k,res); return res;
+}
+function kartenSpanne(k, kapId){
+  const b=(k.besch||"").toLowerCase();
+  if(/kontinent/.test(b)) return 40;
+  if(/staat|land in|republik|königreich|fürstentum|inselstaat|bundesstaat/.test(b) || kapId==="geo_welt" || kapId==="geo_europa") return /kleinstaat|stadtstaat|fürstentum/.test(b)?0.6:9;
+  if(/kanton|region|gebirge|alpen|massiv|tal|insel|halbinsel/.test(b) || String(kapId).startsWith("kt_")) return 1.1;
+  if(/see|fluss|strom/.test(b)) return 0.9;
+  if(/berg|gipfel|pass/.test(b)) return 0.25;
+  if(/stadt|gemeinde|dorf|ort|hauptstadt/.test(b)) return 0.12;
+  return 0.35;
+}
+function zeigeKarte(titel, nr, kapId){
+  const box=$("#kartenBox"); if(!box) return;
+  wikiKoord(titel).then(k=>{
+    if(!k || LIB.seite!==nr || !$("#kartenBox")) return;
+    const sp=kartenSpanne(k,kapId), lonSp=sp/Math.max(.3,Math.cos(k.lat*Math.PI/180));
+    const bbox=[k.lon-lonSp,k.lat-sp*.62,k.lon+lonSp,k.lat+sp*.62].map(v=>v.toFixed(4)).join(",");
+    const zoom=sp>20?3:sp>5?5:sp>0.8?8:sp>0.3?10:sp>0.2?11:13;
+    const b=$("#kartenBox");
+    b.innerHTML=`<div class="kkopf">🗺️ <b>Wo liegt ${esc(k.titel)}?</b></div>
+      <div class="kframe"><iframe title="Karte von ${esc(k.titel)}" loading="lazy" referrerpolicy="no-referrer" src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${k.lat.toFixed(5)},${k.lon.toFixed(5)}"></iframe></div>
+      <div class="kfuss"><span>Karte: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a></span>
+      <a href="https://www.openstreetmap.org/?mlat=${k.lat.toFixed(5)}&mlon=${k.lon.toFixed(5)}#map=${zoom}/${k.lat.toFixed(4)}/${k.lon.toFixed(4)}" target="_blank" rel="noopener">🔍 Grössere Karte</a></div>`;
+    b.hidden=false; b.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:400});
+  });
+}
+
 /* ---------- Start ---------- */
 $("#home").onclick=()=>{ if(S.libModus) setLibModus(false); else go("home"); };
 authInit();
@@ -5271,7 +5363,7 @@ ladeFragenDB();
       .filter(x=>THEMA[x.t] && x.q && x.a.length===4);
     S.extra = all.filter(x=>x.status!=="neu").map(frageOhneStrich);
     S.pending = all.filter(x=>x.status==="neu");
-    if(["home","bereich","mode","berufmenu","werkstatt","geschmenu","chmenu"].includes(S.screen)) render(); else renderNav();
+    if(["home","bereich","mode","berufmenu","werkstatt","geschmenu","chmenu","submenu","live","board","bibliothek","suche","lib","libbuch","libkapitel"].includes(S.screen)) render(); else renderNav();
   }, ()=>{});
   db.collection("texte").onSnapshot(snap=>{ const t={}, bi={}, te={}; snap.docs.forEach(d=>{ const x=d.data()||{}; if(typeof x.text==="string") t[d.id]=ohneStrich(x.text); if(Array.isArray(x.bilder)&&x.bilder.length) bi[d.id]=x.bilder; else if(typeof x.bild==="string"&&x.bild) bi[d.id]=x.bild; if(x.teile&&typeof x.teile==="object") te[d.id]=JSON.parse(ohneStrich(JSON.stringify(x.teile))); }); S.texte=t; S.bilder=bi; S.teile=te; if(S.screen==="libseite"&&!TX.run) render(); }, ()=>{});
   try{ S.canEdit = user ? await user.canEdit() : false; if(S.canEdit){ if(S.screen==="libseite") render(); else renderNav(); } }catch(e){}
