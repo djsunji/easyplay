@@ -7,7 +7,7 @@ Spielerische Lern-Website für Kinder und Jugendliche (6 bis 20 Jahre) mit über
 - Gewertete Tests (20 Fragen, 30 Minuten) mit Punkten, Rangliste und Top 10 der Schweiz
 - Bereiche: Welt & Geschichte (inkl. Geografie, Politik, Religion, 26 Kantone), Natur & Wissen, Schweiz/Geld/Leben, Alltag
 - Bilderfragen (Kantonswappen, Flaggen, Tiere, Emoji-Rätsel)
-- Wissensdatenbank mit Suche, alle Fragen wie in einer Bibliothek
+- Fragendatenbank mit Suche, alle Fragen wie in einer Bibliothek
 - Eigene Tests erstellen, per Link verschicken und Resultate auswerten
 - Live-Wettbewerb (nur auf claude.ai), Vorlesefunktion, Animationen
 - Hintergründe: Alpenpanorama (mit Jahreszeiten und Tag/Nacht nach Schweizer Zeit), Farbwolken, Lern-Muster

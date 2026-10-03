@@ -790,7 +790,7 @@ body.dark{background:radial-gradient(1.2px 1.2px at 12% 8%,#fff 50%,transparent 
 .menu button:hover,.menu button:focus-visible{background:color-mix(in srgb,#8A3FE0 12%,var(--surface))}
 .menu hr{border:0;border-top:2px solid var(--line);margin:4px 6px}
 .menu .m-out{color:var(--bad)}
-/* ===== Wissensdatenbank ===== */
+/* ===== Fragendatenbank ===== */
 .bibtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:0 0 20px}
 .bibsuche{max-width:420px;flex:1 1 280px;text-align:left!important}
 .bib{display:grid;gap:22px}
@@ -1639,6 +1639,47 @@ html,body{overflow-x:clip}
   .libszene.v3 .leser.lumi{width:53%!important;order:2}
   .libszene.v3 .leser .sblase{left:0!important;right:0!important;bottom:100%!important;top:auto!important;margin-bottom:12px;max-width:none!important;width:auto!important}
 }
+@media (min-width:761px){
+  .heroart{height:440px!important}
+  .heroart .kid.girl{width:250px!important;height:352px!important;left:-70px!important;top:60px!important}
+  .heroart .kid.boy{width:212px!important;height:360px!important;right:-80px!important;top:66px!important}
+}
+.kontomenu{min-width:270px}
+.kopt{display:flex!important;align-items:center;gap:12px!important;padding:12px 14px!important}
+.kopt .ki{font-size:1.6rem;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,#8A3FE0 12%,var(--surface));flex:none}
+.kopt b{display:block;font-size:1.05rem}.kopt small{display:block;color:var(--soft);font-weight:600;font-size:.85rem}
+.kontomenu{left:0;right:auto}
+@media (max-width:560px){.kontomenu{left:auto;right:auto;position:fixed;top:120px;left:12px;right:12px;min-width:0}}
+
+/* ===== Anmelden / Registrieren ===== */
+.authbox{max-width:480px;margin:10px auto 30px;background:var(--surface);border:2px solid var(--line);border-radius:26px;padding:24px clamp(16px,4vw,30px);box-shadow:var(--shadow);display:grid;gap:6px}
+.authkopf{text-align:center;margin-bottom:8px}.authkopf h1{margin:6px 0}.authkopf p{color:var(--soft);margin:0}
+.authicon{display:inline-grid;place-items:center;width:72px;height:72px;border-radius:50%;font-size:2.2rem;background:linear-gradient(135deg,#3D5AFE,#8A3FE0);box-shadow:0 10px 20px -10px rgba(61,90,254,.7)}
+.authbox label,.konto label{font-weight:700;margin-top:6px}
+.authbox input,.konto input[type=email],.konto input[type=password],.konto input[type=text]{width:100%}
+.pwfeld{position:relative}.pwfeld input{padding-right:48px}
+.pwzeig{position:absolute;right:6px;top:50%;translate:0 -50%;border:0;background:none;font-size:1.2rem;padding:6px}
+.linkbtn{border:0;background:none;color:#5A3FE0;font-weight:700;text-decoration:underline;padding:4px;justify-self:center}
+.social .trenner{display:flex;align-items:center;gap:10px;color:var(--soft);font-weight:600;margin:12px 0 8px}
+.social .trenner::before,.social .trenner::after{content:"";flex:1;height:2px;background:var(--line)}
+.provbtns{display:grid;gap:8px}
+.sbtn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:14px;border:2px solid var(--line);background:#fff;color:#1F1F1F;font-weight:700;font-size:1rem}
+.sbtn:hover{border-color:#8A3FE0}
+.sbtn.s-facebook{background:#1877F2;color:#fff;border-color:#1877F2}.sbtn.s-apple{background:#000;color:#fff;border-color:#000}
+.authwechsel{text-align:center;margin:10px 0 0;color:var(--soft)}
+.konto{background:color-mix(in srgb,#3D5AFE 6%,var(--surface));border:2px solid var(--line);border-radius:18px;padding:12px 16px;margin:10px 0;display:grid;gap:4px}
+.konto h3{margin:0 0 4px;font-size:1.1rem}
+.konto .chk{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:8px}
+.konto .chk input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:#8A3FE0}
+.pwstark{height:6px;border-radius:999px;background:var(--line);overflow:hidden}.pwstark i{display:block;height:100%;width:0;transition:width .3s,background .3s}
+.authinfo{background:color-mix(in srgb,var(--gold) 14%,var(--surface));border-radius:14px;padding:10px 14px;font-size:.92rem}
+.provbtns .sbtn{width:100%}
+.authbox input[type=email],.authbox input[type=password],.authbox input[type=text],.konto input[type=email],.konto input[type=password]{width:100%;min-height:54px;border:3px solid var(--line);border-radius:14px;padding:10px 14px;font-size:1.05rem;background:var(--bg);color:var(--ink)}
+.authbox input:focus,.konto input:focus{border-color:var(--focus);outline:none}
+.authbox .err:empty,.konto .err:empty{display:none}
+.regsocial{max-width:none;margin:0 0 14px;padding:14px 18px}
+.regsocial .trenner{margin-top:0}
+.regsocial{max-width:640px!important;margin-left:0!important}
 </style>
 </head>
 <body>
@@ -3034,35 +3075,38 @@ function bindSpeak(){
 
 function go(screen){ stopSpeak(); if(S.screen==="quiz" && screen!=="quiz" && S.quiz && !S.quiz.flushed) flushRun(false); S.screen=screen; render(); scrollTo({top:0}); }
 
+let kontoSyncT=0;
+function kontoSync(){
+  const p=S.profil; if(!p?.email) return;
+  const k=lokaleKonten(); if(k[p.email]){ k[p.email].profil=p; store.set("ep-konten",k); }
+  const now=Date.now(); if(AUTH.modus==="supabase" && AUTH.user && now-kontoSyncT>8000){ kontoSyncT=now; AUTH.sb.auth.updateUser({data:{best:p.best||{}, tests:p.tests||0, avatar:p.avatar, stufe:p.stufe, kanton:p.kanton}}).catch(()=>{}); }
+}
 function abmelden(){
   if(!confirm("Möchtest du dich wirklich abmelden? Deine Punkte bleiben gespeichert.")) return;
   store.set("ep-abgemeldet",true);
+  try{ AUTH.sb?.auth.signOut(); }catch(e){}
   store.set("ep-profil-alt", S.profil);
   try{ localStorage.removeItem("ep-profil"); }catch(e){}
   S.profil=null;
   go("home");
 }
-function anmelden(){
-  store.set("ep-abgemeldet",false);
-  const me=S.online ? S.spieler.find(x=>x.id===S.uid && x.name) : null;
-  const alt=store.get("ep-profil-alt",null);
-  if(me){ S.profil={name:me.name, vorname:alt?.vorname, nachname:alt?.nachname, avatar:me.avatar, stufe:me.stufe, kanton:me.kanton||"", best:me.best||{}, tests:me.tests||0, erstellt:me.erstellt}; }
-  else if(alt && alt.name){ S.profil=alt; }
-  if(S.profil){ store.set("ep-profil",S.profil); go("profil"); }
-  else { S.loginHinweis=true; go("register"); }
-}
+function anmelden(){ go("login"); }
 function renderNav(){
   const p=S.profil;
   $("#nav").innerHTML =
     (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button>`
-       : `<button class="navbtn login" id="navIn" type="button">🔑 Anmelden</button><button class="navbtn primary" id="navReg" type="button">Registrieren</button>`) +
-    `<button class="navbtn libbtn" id="navLib" type="button" title="${S.libModus?"Zurück zum Spiel":"Zur Bibliothek wechseln"}">${S.libModus?"🎮 <span class=\"tlab\">Spielen</span>":"📖 <span class=\"tlab\">Bibliothek</span>"}</button>` +
+       : `<div class="menuwrap kontowrap"><button class="navbtn primary" id="navKonto" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="kontomenue">👤 <span class="tlab">Anmelden</span></button>
+          <div class="menu kontomenu" id="kontomenue" role="menu" hidden>
+            <button role="menuitem" type="button" id="navIn" class="kopt"><span class="ki">🔑</span><span><b>Anmelden</b><small>Ich habe schon ein Profil</small></span></button>
+            <button role="menuitem" type="button" id="navReg" class="kopt"><span class="ki">✨</span><span><b>Registrieren</b><small>Ich bin neu hier</small></span></button>
+          </div></div>`) +
+    (S.libModus ? `<button class="navbtn" id="navSpiel" type="button" title="Zurück zum Spiel">🎮 <span class="tlab">Spielen</span></button>` : `<button class="navbtn" id="navLib" type="button" title="Zur Bibliothek">📖 <span class="tlab">Bibliothek</span></button>`) +
     `<button class="navbtn" id="navBoard" type="button" title="Rangliste">🏆 <span class="tlab">Rangliste</span></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
       <div class="menu" id="hauptmenue" role="menu" hidden>
         <button role="menuitem" type="button" data-m="home">🏠 Startseite</button>
         <button role="menuitem" type="button" data-m="lib">📖 Bibliothek (Lesen)</button>
-        <button role="menuitem" type="button" data-m="bib">📚 Wissensdatenbank</button>
+        <button role="menuitem" type="button" data-m="bib">📚 Fragendatenbank</button>
         <button role="menuitem" type="button" data-m="suche">🔎 Suchen & Test erstellen</button>
         <button role="menuitem" type="button" data-m="meinetests">📝 Meine Tests</button>
         <button role="menuitem" type="button" data-m="live">⚡ Wettbewerb</button>
@@ -3076,7 +3120,14 @@ function renderNav(){
   $("#navReg") && ($("#navReg").onclick=()=>go("register"));
   $("#navIn") && ($("#navIn").onclick=anmelden);
   $("#navBoard").onclick=()=>{ if(S.libModus) setLibModus(false); S.boardStufe=S.stufe; go("board"); };
-  $("#navLib").onclick=()=>{ setLibModus(!S.libModus); scrollTo(0,0); };
+  $("#navLib") && ($("#navLib").onclick=()=>{ setLibModus(true); scrollTo(0,0); });
+  $("#navSpiel") && ($("#navSpiel").onclick=()=>{ setLibModus(false); scrollTo(0,0); });
+  if($("#navKonto")){ const kb=$("#navKonto"), km=$("#kontomenue");
+    const kzu=()=>{ km.hidden=true; kb.setAttribute("aria-expanded","false"); document.removeEventListener("click",kaus,true); document.removeEventListener("keydown",ktaste); };
+    const kaus=e=>{ if(!e.target.closest(".kontowrap")) kzu(); };
+    const ktaste=e=>{ if(e.key==="Escape"){ kzu(); kb.focus(); } };
+    kb.onclick=()=>{ if(km.hidden){ km.hidden=false; kb.setAttribute("aria-expanded","true"); km.querySelector("button")?.focus(); document.addEventListener("click",kaus,true); document.addEventListener("keydown",ktaste); } else kzu(); };
+    $("#navIn").addEventListener("click",kzu); $("#navReg").addEventListener("click",kzu); }
   const btn=$("#navMenu"), menu=$("#hauptmenue");
   const zu=()=>{ menu.hidden=true; btn.setAttribute("aria-expanded","false"); document.removeEventListener("click",aussen,true); document.removeEventListener("keydown",taste); };
   const aussen=e=>{ if(!e.target.closest(".menuwrap")) zu(); };
@@ -3089,11 +3140,12 @@ function renderNav(){
 }
 
 function render(){
+  try{ kontoSync(); }catch(e){}
   applyDark();
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
   renderNav();
   ({home:renderHome, bereich:renderBereich, mode:renderMode, quiz:renderQuiz, done:renderDone, berufmenu:renderBerufMenu, check:renderCheck,
-    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
+    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
   bindSpeak();
   bindCrumbs();
 }
@@ -3506,7 +3558,8 @@ function renderRegister(){
   let av = p?.avatar && (AVATAR_IMG[p.avatar]||ALT_AVATAR[p.avatar]||AVATARE.includes(p.avatar)) ? (ALT_AVATAR[p.avatar]||p.avatar) : levelAvatare(S.stufe)[0];
   let kt = p?.kanton || "";
   $("#app").innerHTML = `
-    <div class="pagehead"><div class="bigav" id="prevAv">${avatar(av)}</div><h1>${edit? "Profil bearbeiten" : "Werde Teil von easyplay"}</h1></div>
+    <div class="pagehead"><div class="bigav" id="prevAv">${avatar(av)}</div><h1>${S.profilErgaenzen? "Profil vervollständigen" : edit? "Profil bearbeiten" : "Werde Teil von easyplay"}</h1></div>
+    ${!edit ? `<div class="authbox regsocial">${socialHTML().replace("oder weiter mit","Schnell registrieren mit")}<p class="authwechsel" style="margin-top:4px">Schon ein Profil? <button type="button" class="linkbtn" id="zuLogin">Hier anmelden</button></p></div>` : ""}
     ${!edit && S.loginHinweis ? `<p class="loginhint">🔑 Auf diesem Gerät wurde noch kein Profil gefunden. Registriere dich einfach neu, es dauert nur einen Moment.</p>` : ""}
     <div class="form">
       <div class="namerow"><div><label for="pvor">Vorname</label>
@@ -3514,6 +3567,13 @@ function renderRegister(){
         <div><label for="pnach">Nachname</label>
         <input type="text" id="pnach" maxlength="30" autocomplete="family-name" value="${esc(p?.nachname||"")}" placeholder="z. B. Meier"></div></div>
       <p class="help">Bitte deinen echten Namen angeben. In der Rangliste erscheinen dein Vorname und der erste Buchstabe deines Nachnamens, zum Beispiel «Lina M.».</p>
+      ${!edit ? `<div class="konto"><h3>🔐 Dein Zugang</h3>
+        <label for="rMail">E-Mail-Adresse</label><input id="rMail" type="email" autocomplete="email" placeholder="name@beispiel.ch">
+        <label for="rPw">Passwort</label><div class="pwfeld"><input id="rPw" type="password" autocomplete="new-password" placeholder="Mindestens 8 Zeichen"><button type="button" class="pwzeig" data-for="rPw" aria-label="Passwort anzeigen">👁️</button></div>
+        <div class="pwstark" aria-hidden="true"><i id="pwBar"></i></div><small class="help" id="pwTxt" style="margin:0">Tipp: Mischung aus Buchstaben, Zahlen und Zeichen.</small>
+        <label for="rPw2">Passwort wiederholen</label><input id="rPw2" type="password" autocomplete="new-password" placeholder="Nochmals eingeben">
+        <label class="chk"><input type="checkbox" id="rOk"><span>Ich bin einverstanden, dass meine Angaben für easyplay gespeichert werden. Bist du unter 16 Jahre alt, frag bitte zuerst deine Eltern.</span></label>
+      </div>` : (p?.email ? `<div class="konto"><h3>🔐 Dein Zugang</h3><p style="margin:0">Angemeldet mit <b>${esc(p.email)}</b></p></div>` : "")}
       <label id="stLbl">Deine Stufe</label>
       <div class="segs" role="group" aria-labelledby="stLbl">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}">${STUFE_EMO[s.id]} ${s.name} · ${s.alter}</button>`).join("")}</div>
       <label id="avLbl">Wähle deine Figur</label>
@@ -3536,7 +3596,11 @@ function renderRegister(){
   document.querySelectorAll(".seg[data-s]").forEach(b=>b.onclick=()=>{ S.stufe=+b.dataset.s; store.set("ep-stufe",S.stufe); document.querySelectorAll(".seg[data-s]").forEach(x=>x.setAttribute("aria-pressed", x===b));
     if(!levelAvatare(S.stufe).includes(av)){ av=levelAvatare(S.stufe)[0]; $("#prevAv").innerHTML=avatar(av); } zeichneAv(); });
   document.querySelectorAll(".ktbtn").forEach(b=>b.onclick=()=>{ kt=b.dataset.k; document.querySelectorAll(".ktbtn").forEach(x=>x.setAttribute("aria-checked", x===b)); $("#ktChosen").textContent="· "+(KANTONE.find(k=>k.kuerzel===kt)?.kurz||""); });
-  $("#cancel").onclick=()=>go(edit?"profil":"home");
+  $("#cancel").onclick=()=>{ S.profilErgaenzen=false; go(edit?"profil":"home"); };
+  bindSocial(); bindPwZeigen();
+  $("#zuLogin") && ($("#zuLogin").onclick=()=>go("login"));
+  $("#rPw") && ($("#rPw").oninput=()=>{ const v=$("#rPw").value; let st=0; if(v.length>=8) st++; if(v.length>=12) st++; if(/[A-Z]/.test(v)&&/[a-z]/.test(v)) st++; if(/\d/.test(v)) st++; if(/[^A-Za-z0-9]/.test(v)) st++;
+    const t=["Zu kurz","Schwach","Okay","Gut","Stark","Sehr stark"][st]; $("#pwBar").style.width=(st*20)+"%"; $("#pwBar").style.background=["#E5484D","#E5484D","#F5A524","#F5A524","#17A35A","#17A35A"][st]; $("#pwTxt").textContent="Passwort: "+t; });
   $("#save").onclick=async()=>{
     const clean=v=>v.trim().replace(/\s+/g," ");
     const vor=clean($("#pvor").value), nach=clean($("#pnach").value);
@@ -3544,8 +3608,36 @@ function renderRegister(){
     if(!re.test(vor)){ $("#err").textContent="Bitte gib deinen Vornamen ein (nur Buchstaben)."; return; }
     if(!re.test(nach)){ $("#err").textContent="Bitte gib deinen Nachnamen ein (nur Buchstaben)."; return; }
     if(!kt){ $("#err").textContent="Bitte wähle deinen Wohnkanton."; return; }
+    let mail="", pw="";
+    if(!edit){
+      mail=$("#rMail").value.trim().toLowerCase(); pw=$("#rPw").value;
+      if(!emailOk(mail)){ $("#err").textContent="Bitte gib eine gültige E-Mail-Adresse ein."; return; }
+      if(pw.length<8){ $("#err").textContent="Dein Passwort braucht mindestens 8 Zeichen."; return; }
+      if(pw!==$("#rPw2").value){ $("#err").textContent="Die beiden Passwörter sind nicht gleich."; return; }
+      if(!$("#rOk").checked){ $("#err").textContent="Bitte bestätige das Einverständnis."; return; }
+    }
     const name = `${vor} ${nach.charAt(0).toUpperCase()}.`;
     S.profil={ ...(p||{best:{},tests:0,erstellt:new Date().toISOString()}), name, vorname:vor, nachname:nach, avatar:av, stufe:S.stufe, kanton:kt };
+    if(mail) S.profil.email=mail;
+    if(!edit){
+      $("#save").disabled=true;
+      try{
+        if(AUTH.modus==="supabase"){
+          const meta={vorname:vor, nachname:nach, avatar:av, stufe:S.stufe, kanton:kt, best:{}, tests:0, erstellt:S.profil.erstellt};
+          const {error}=await AUTH.sb.auth.signUp({email:mail, password:pw, options:{data:meta, emailRedirectTo:location.origin+location.pathname}});
+          if(error) throw new Error(/registered|exists/i.test(error.message)?"Mit dieser E-Mail gibt es schon ein Profil. Melde dich an.":"Registrierung hat nicht geklappt: "+error.message);
+          S.regMail=mail;
+        } else {
+          const konten=lokaleKonten(); if(konten[mail]) throw new Error("Mit dieser E-Mail gibt es auf diesem Gerät schon ein Profil. Melde dich an.");
+          const salt=crypto.getRandomValues(new Uint32Array(4)).join("-"); konten[mail]={salt, hash:await pwHash(pw,salt), profil:S.profil}; store.set("ep-konten",konten);
+        }
+        store.set("ep-letztemail",mail);
+      }catch(e){ $("#err").textContent=e.message; $("#save").disabled=false; return; }
+    } else if(AUTH.modus==="supabase" && AUTH.user){
+      AUTH.sb.auth.updateUser({data:{vorname:vor, nachname:nach, avatar:av, stufe:S.stufe, kanton:kt}}).catch(()=>{});
+    }
+    S.profilErgaenzen=false;
+    kontoSync();
     store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false);
     if(S.online){ try{
       const {vorname, nachname, ...oeffentlich} = S.profil;
@@ -3678,7 +3770,7 @@ function crumbPath(){
   const t=S.thema; let cur="";
   switch(S.screen){
     case "bereich": cur=S.bereich.name; break;
-    case "bibliothek": cur="Wissensdatenbank"; break;
+    case "bibliothek": cur="Fragendatenbank"; break;
     case "lib": P.length=0; P.push(["🎮 Zum Spiel",()=>setLibModus(false)]); cur="📖 Bibliothek"; break;
     case "libbuch": P.length=0; P.push(["📖 Bibliothek",()=>go("lib")]); cur=BUECHER.find(x=>x.id===LIB.buch)?.titel||""; break;
     case "libkapitel": case "libseite": { P.length=0; P.push(["📖 Bibliothek",()=>go("lib")]); const B=BUECHER.find(x=>x.id===LIB.buch); if(B) P.push([B.titel,()=>go("libbuch")]);
@@ -3692,6 +3784,7 @@ function crumbPath(){
     case "meinetests": cur="Meine Tests"; break;
     case "testergebnis": P.push(["Meine Tests",()=>go("meinetests")]); cur=meineTests().find(x=>x.k===S.meinTest)?.titel||"Test"; break;
     case "resinfo": cur="Resultat"; break;
+    case "login": cur="Anmelden"; break;
     case "historie": P.push(["Mein Profil",()=>go("profil")]); cur="Historie"; break;
     case "geschmenu": B(byId("welt")); cur="Geschichte"; break;
     case "chmenu": B(byId("welt")); G(); cur="Schweizer Geschichte"; break;
@@ -4006,7 +4099,7 @@ function oeffneEinstellungen(){
 
 
 
-/* ---------- Wissensdatenbank (Bibliothek aller Fragen) ---------- */
+/* ---------- Fragendatenbank (Bibliothek aller Fragen) ---------- */
 const BIB = { q:"", stufe:0 };
 function bibGruppen(){
   return BEREICHE.map(b=>({b, items:b.themen.filter(t=>t.id!=="bilder").map(t=>{
@@ -4049,7 +4142,7 @@ function renderBibliothek(){
     }).join("");
   }
   $("#app").innerHTML = `${crumbs()}
-    <div class="bhead"><span class="emo" aria-hidden="true">📚</span><h1>Wissensdatenbank</h1></div>
+    <div class="bhead"><span class="emo" aria-hidden="true">📚</span><h1>Fragendatenbank</h1></div>
     <p class="bdesc">Alle Fragen mit Antwort, Erklärung und Quelle, geordnet nach Themen wie in einer Bibliothek. Zum Nachschlagen, Lernen und Stöbern.</p>
     <div class="bibtools">
       <label class="sr-only" for="bibSuche">Suchen</label>
@@ -5065,8 +5158,100 @@ function renderHistorie(){
 
 function ohneStrich(t){ if(typeof t!=="string") return t; return t.replace(/(\d)\s*[–—]\s*(\d)/g,"$1 bis $2").replace(/([.!?:;,])\s*[–—]\s*/g,"$1 ").replace(/(^|[\n(\["'])\s*[–—]\s*/g,"$1").replace(/\s+[–—]\s*$/g,"").replace(/\s+[–—]\s+/g,", ").replace(/[–—]/g,"-"); }
 function frageOhneStrich(f){ return {...f, q:ohneStrich(f.q), a:Array.isArray(f.a)?f.a.map(ohneStrich):f.a, e:ohneStrich(f.e), m:ohneStrich(f.m)}; }
+/* ================= Konten: E-Mail + Passwort, Google, Facebook, Apple ================= */
+const AUTH = { sb:null, bereit:false, modus:"lokal", user:null };
+const PROVIDER = [
+  {id:"google", name:"Google", icon:'<svg viewBox="0 0 48 48" width="22" height="22"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>'},
+  {id:"facebook", name:"Facebook", icon:'<svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.1 12.9l.4-2.8h-2.7V8.3c0-.8.4-1.5 1.6-1.5h1.2V4.4s-1.1-.2-2.2-.2c-2.2 0-3.7 1.4-3.7 3.9v2.1H7.3v2.8h2.4V20h3.1v-7.1h2.3z"/></svg>'},
+  {id:"apple", name:"Apple", icon:'<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.7c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg>'}
+];
+const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+async function pwHash(pw, salt){ const d=new TextEncoder().encode(salt+"|"+pw); const h=await crypto.subtle.digest("SHA-256", d); return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join(""); }
+const lokaleKonten = () => store.get("ep-konten",{});
+function profilAusMeta(meta, email){
+  const m=meta||{}; const vor=m.vorname||m.given_name||(m.full_name||m.name||"").split(" ")[0]||""; const nach=m.nachname||m.family_name||(m.full_name||m.name||"").split(" ").slice(1).join(" ")||"";
+  return { name: vor ? `${vor} ${(nach||" ").charAt(0).toUpperCase()}.`.replace(/ \.$/,"") : (email||"").split("@")[0], vorname:vor, nachname:nach, email, avatar:m.avatar||levelAvatare(m.stufe||S.stufe)[0], stufe:m.stufe||S.stufe, kanton:m.kanton||"", best:m.best||{}, tests:m.tests||0, erstellt:m.erstellt||new Date().toISOString() };
+}
+async function authInit(){
+  const cfg=window.EP_CONFIG||{};
+  if(window.claude || !cfg.supabaseUrl || !cfg.supabaseKey){ AUTH.bereit=true; return; }
+  try{
+    await new Promise((ok,err)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"; sc.onload=ok; sc.onerror=err; document.head.appendChild(sc); });
+    AUTH.sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+    AUTH.modus="supabase";
+    AUTH.sb.auth.onAuthStateChange((ev, sess)=>{
+      AUTH.user=sess?.user||null;
+      if(AUTH.user){
+        const p=profilAusMeta(AUTH.user.user_metadata, AUTH.user.email);
+        const lokal=store.get("ep-profil",null);
+        S.profil={...p, ...(lokal&&lokal.email===AUTH.user.email?{best:lokal.best||p.best, tests:lokal.tests||p.tests}:{})};
+        store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false);
+        if(!S.profil.kanton){ S.profilErgaenzen=true; go("register"); } else if(S.screen==="login"||S.screen==="register") go("profil"); else render();
+      }
+    });
+  }catch(e){ AUTH.modus="lokal"; }
+  AUTH.bereit=true;
+}
+function socialHTML(){
+  return `<div class="social"><p class="trenner"><span>oder weiter mit</span></p><div class="provbtns">${PROVIDER.map(p=>`<button type="button" class="sbtn s-${p.id}" data-prov="${p.id}">${p.icon}<span>${p.name}</span></button>`).join("")}</div>
+    <p class="err" id="socErr" aria-live="polite"></p></div>`;
+}
+function bindSocial(){
+  document.querySelectorAll("[data-prov]").forEach(b=>b.onclick=async()=>{
+    const err=$("#socErr");
+    if(AUTH.modus!=="supabase"){ err.textContent = window.claude ? "Die Anmeldung mit "+b.textContent.trim()+" funktioniert nur auf deiner eigenen Website, nicht in der claude.ai-Vorschau." : "Die Anmeldung mit "+b.textContent.trim()+" ist noch nicht eingerichtet. Dafür braucht es Supabase (siehe ANLEITUNG-LOGIN.md)."; return; }
+    try{ const {error}=await AUTH.sb.auth.signInWithOAuth({provider:b.dataset.prov, options:{redirectTo: location.origin+location.pathname}}); if(error) throw error; }
+    catch(e){ err.textContent="Das hat nicht geklappt: "+(e.message||"unbekannter Fehler"); }
+  });
+}
+function renderLogin(){
+  $("#app").innerHTML = `${crumbs()}
+    <div class="authbox">
+      <div class="authkopf"><span class="authicon">🔑</span><h1>Anmelden</h1><p>Schön, dass du wieder da bist! Melde dich mit der E-Mail-Adresse an, mit der du dich registriert hast.</p></div>
+      <label for="lMail">E-Mail-Adresse</label>
+      <input id="lMail" type="email" autocomplete="email" placeholder="name@beispiel.ch" value="${esc(store.get("ep-letztemail",""))}">
+      <label for="lPw">Passwort</label>
+      <div class="pwfeld"><input id="lPw" type="password" autocomplete="current-password" placeholder="Dein Passwort"><button type="button" class="pwzeig" data-for="lPw" aria-label="Passwort anzeigen">👁️</button></div>
+      <p class="err" id="lErr" aria-live="polite"></p>
+      <button class="big" id="lGo" type="button" style="width:100%">Anmelden</button>
+      <button type="button" class="linkbtn" id="lVergessen">Passwort vergessen?</button>
+      ${socialHTML()}
+      <p class="authwechsel">Noch kein Profil? <button type="button" class="linkbtn" id="zuReg">Jetzt registrieren</button></p>
+    </div>`;
+  bindPwZeigen(); bindSocial();
+  $("#zuReg").onclick=()=>go("register");
+  const los=async()=>{
+    const mail=$("#lMail").value.trim().toLowerCase(), pw=$("#lPw").value, err=$("#lErr");
+    if(!emailOk(mail)){ err.textContent="Bitte gib eine gültige E-Mail-Adresse ein."; return; }
+    if(!pw){ err.textContent="Bitte gib dein Passwort ein."; return; }
+    $("#lGo").disabled=true; err.textContent="";
+    try{
+      if(AUTH.modus==="supabase"){
+        const {error}=await AUTH.sb.auth.signInWithPassword({email:mail, password:pw});
+        if(error) throw new Error(/confirm/i.test(error.message)?"Bitte bestätige zuerst deine E-Mail-Adresse (Link im Bestätigungsmail).":"E-Mail oder Passwort stimmt nicht.");
+        store.set("ep-letztemail",mail);
+      } else {
+        const k=lokaleKonten()[mail];
+        if(!k || await pwHash(pw,k.salt)!==k.hash) throw new Error("E-Mail oder Passwort stimmt nicht.");
+        S.profil=k.profil; store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false); store.set("ep-letztemail",mail);
+        go("profil");
+      }
+    }catch(e){ err.textContent=e.message; $("#lGo").disabled=false; }
+  };
+  $("#lGo").onclick=los; $("#lPw").onkeydown=e=>{ if(e.key==="Enter") los(); };
+  $("#lVergessen").onclick=async()=>{
+    const mail=$("#lMail").value.trim().toLowerCase(), err=$("#lErr");
+    if(!emailOk(mail)){ err.textContent="Gib oben deine E-Mail-Adresse ein, dann schicken wir dir einen Link."; return; }
+    if(AUTH.modus==="supabase"){ const {error}=await AUTH.sb.auth.resetPasswordForEmail(mail,{redirectTo:location.origin+location.pathname}); err.textContent=error?"Das hat nicht geklappt, bitte später nochmals.":"📧 Wir haben dir einen Link zum Zurücksetzen geschickt."; }
+    else err.textContent="Ohne Server kann kein E-Mail verschickt werden. Bitte frag eine erwachsene Person, die die Website betreut.";
+  };
+  ($("#lMail").value?$("#lPw"):$("#lMail")).focus();
+}
+function bindPwZeigen(){ document.querySelectorAll(".pwzeig").forEach(b=>b.onclick=()=>{ const i=$("#"+b.dataset.for); i.type=i.type==="password"?"text":"password"; b.textContent=i.type==="password"?"👁️":"🙈"; }); }
+
 /* ---------- Start ---------- */
 $("#home").onclick=()=>{ if(S.libModus) setLibModus(false); else go("home"); };
+authInit();
 himmelAktualisieren();
 render();
 if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash);
