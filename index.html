@@ -1711,6 +1711,12 @@ html,body{overflow-x:clip}
 .karte .kfuss{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:6px 12px;font-size:.78rem;color:color-mix(in srgb,var(--libink) 60%,transparent)}
 .karte .kfuss a{color:var(--libacc);font-weight:700}
 @media (max-width:560px){.karte .kframe{aspect-ratio:4/3}}
+.inhalt .rubrik{display:flex;align-items:center;gap:10px;margin:14px 0 4px;padding:8px 12px;border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--bf,var(--libacc)) 18%,var(--libpaper)),transparent);border-left:5px solid var(--bf,var(--libacc))}
+.inhalt .rubrik:first-child{margin-top:0}
+.inhalt .rubrik b{font-family:Georgia,serif;font-size:1.25rem;flex:1;color:var(--libink)}
+.inhalt .rbemo{font-size:1.5rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.inhalt .rbseiten{font-family:Georgia,serif;font-weight:700;color:var(--libacc);font-size:.9rem;white-space:nowrap}
+.inhalt .rubrik ~ li .kapitel{padding-left:18px}
 </style>
 </head>
 <body>
@@ -4579,6 +4585,9 @@ function buchDaten(bid){
     libThemenListe(b).filter(([id])=>!id.startsWith("pol_")).forEach(([id,label])=>kap.push({id, titel:label, emo:themaIcon(THEMA[id]), seiten:kapitelSeiten(id).map(s=>({typ:"fr",...s}))}));
   }
   kap=kap.filter(k=>k.seiten.length);
+  if(bid==="welt"){ const R={g:{name:"Geschichte",emo:"🏰"}, o:{name:"Geografie",emo:"🗺️"}, r:{name:"Religion",emo:"🕊️"}};
+    const rub=id=> id==="kt_alle"||id.startsWith("geo_") ? R.o : id.startsWith("rel_") ? R.r : R.g;
+    kap.forEach(k=>k.rubrik=rub(k.id)); const ord=[R.g,R.o,R.r]; kap.sort((a,b)=>ord.indexOf(a.rubrik)-ord.indexOf(b.rubrik)); }
   let nr=0; const seiten=[];
   kap.forEach(k=>{ k.von=nr+1; k.seiten.forEach(s=>{ s.nr=++nr; s.kap=k; seiten.push(s); }); k.bis=nr; });
   return BUCHCACHE[bid]={key, kap, seiten};
@@ -4618,7 +4627,10 @@ function renderLibBuch(){
     rechts=`<h2>Register A bis Z</h2><div class="abc">${Object.keys(gruppen).map(L=>`<a href="#reg-${L}">${L}</a>`).join("")}</div>
       ${Object.entries(gruppen).map(([L,l])=>`<div class="buchst" id="reg-${L}"><span class="initial">${L}</span><div class="reg">${l.map(s=>`<button type="button" class="regitem" data-sn="${s.nr}"><span>${esc(s.titel)}</span><span class="rpunkte"></span><span class="rnr">${s.nr}</span></button>`).join("")}</div></div>`).join("")}`;
   } else {
-    rechts=`<h2>Inhalt</h2><ol class="inhalt">${D.kap.map((k,i)=>`<li><button type="button" class="kapitel" data-kap="${k.id}"><span class="knr">${i+1}</span><span class="kemo">${k.emo}</span><span class="kt"><b>${esc(k.titel)}</b><small>${k.seiten.length} ${k.seiten.length===1?"Seite":"Seiten"}</small></span><span class="kpunkte"></span><span class="kseite">S. ${k.von}${k.bis>k.von?" bis "+k.bis:""}</span></button></li>`).join("")}</ol>`;
+    let letzteRub=null;
+    rechts=`<h2>Inhalt</h2><ol class="inhalt">${D.kap.map((k,i)=>{ let kopf="";
+      if(k.rubrik && k.rubrik!==letzteRub){ letzteRub=k.rubrik; const ks=D.kap.filter(x=>x.rubrik===k.rubrik); kopf=`<li class="rubrik"><span class="rbemo">${k.rubrik.emo}</span><b>${esc(k.rubrik.name)}</b><span class="rbseiten">S. ${ks[0].von} bis ${ks[ks.length-1].bis}</span></li>`; }
+      return kopf+`<li><button type="button" class="kapitel" data-kap="${k.id}"><span class="knr">${i+1}</span><span class="kemo">${k.emo}</span><span class="kt"><b>${esc(k.titel)}</b><small>${k.seiten.length} ${k.seiten.length===1?"Seite":"Seiten"}</small></span><span class="kpunkte"></span><span class="kseite">S. ${k.von}${k.bis>k.von?" bis "+k.bis:""}</span></button></li>`; }).join("")}</ol>`;
   }
   $("#app").innerHTML = `${crumbs()}
     <div class="offen" style="--bf:${B.farbe};--bf2:${B.farbe2}">
@@ -4640,7 +4652,7 @@ function renderLibKapitel(){
   const D=buchDaten(B.id); const k=D.kap.find(x=>x.id===LIB.kap); if(!k){ go("libbuch"); return; }
   const q=(LIB.qk||"").trim(); const liste=q.length>=2 ? seitenSuche(k.seiten,q) : k.seiten;
   $("#app").innerHTML = `${crumbs()}
-    <article class="libart" style="--bf:${B.farbe}"><header><span class="aemo big">${k.emo}</span><h1>${esc(k.titel)}</h1><p class="libdesc">Kapitel im Buch «${esc(B.titel)}» · Seiten ${k.von} bis ${k.bis}</p></header>
+    <article class="libart" style="--bf:${B.farbe}"><header><span class="aemo big">${k.emo}</span><h1>${esc(k.titel)}</h1><p class="libdesc">${k.rubrik?`${k.rubrik.emo} ${esc(k.rubrik.name)} · `:""}Kapitel im Buch «${esc(B.titel)}» · Seiten ${k.von} bis ${k.bis}</p></header>
       ${suchfeldHTML("kapSuche", LIB.qk, "🔎 In diesem Kapitel suchen …")}
       <h3>📑 Index</h3>
       ${liste.length ? (()=>{ const item=s=>`<button type="button" class="regitem" data-sn="${s.nr}"><span>${esc(s.titel)}${s.typ==="fr"?` <small>(${s.fragen.length})</small>`:""}</span><span class="rpunkte"></span><span class="rnr">${s.nr}</span></button>`;
