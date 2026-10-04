@@ -1809,6 +1809,24 @@ html,body{overflow-x:clip}
 .seasonbonus.m1{background:linear-gradient(135deg,#17A35A,#1E9BE0)}.seasonbonus.m3{background:linear-gradient(135deg,#FF3D3D,#FFB800)}
 @media (max-width:560px){.spzeile{grid-template-columns:1fr 1fr 1fr}.spbox b{font-size:1.3rem}.stier{font-size:2.4rem}.smult{font-size:1.7rem}}
 @media (prefers-reduced-motion:reduce){.seasonband,.smult,.stier{animation:none!important}}
+
+.qnav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0 0 12px}
+.qnbtn{min-height:46px;padding:8px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:800;display:inline-flex;align-items:center;gap:6px;box-shadow:0 3px 0 var(--line)}
+.qnbtn:disabled{opacity:.4}
+.qnbtn.mark.on{background:#FFE8E8;border-color:#E5484D;color:#B3261E}
+.qnbtn.abgabe{background:linear-gradient(135deg,#17A35A,#1E9BE0);color:#fff;border-color:transparent;box-shadow:0 3px 0 #0B6E6A}
+.qnm{background:#FFE8E8;color:#B3261E;border-radius:999px;padding:0 8px;font-size:.85rem}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:12px;margin:0 0 14px;box-shadow:var(--shadow)}
+.qg{position:relative;min-height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);font-weight:800}
+.qg.rok{background:color-mix(in srgb,var(--ok) 22%,var(--surface));border-color:var(--ok)}
+.qg.rbad{background:color-mix(in srgb,var(--bad) 18%,var(--surface));border-color:var(--bad)}
+.qg.jetzt{outline:3px solid #8A3FE0;outline-offset:2px}
+.qg i{position:absolute;top:-8px;right:-6px;font-style:normal;font-size:.9rem}
+.qglegende{grid-column:1 / -1;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:4px 0 0;font-size:.82rem;color:var(--soft);font-weight:600}
+.qglegende span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px;vertical-align:-1px;border:2px solid var(--line)}
+.qglegende .l2::before{background:color-mix(in srgb,var(--ok) 22%,var(--surface));border-color:var(--ok)}.qglegende .l3::before{background:color-mix(in srgb,var(--bad) 18%,var(--surface));border-color:var(--bad)}
+.qglegende span:last-child::before{display:none}
+@media (max-width:560px){.qnav{gap:5px}.qnbtn{padding:8px 10px;font-size:.92rem}.qnbtn .tlab{display:none}}
 </style>
 </head>
 <body>
@@ -3508,16 +3526,15 @@ function timeUp(){
   const Q=S.quiz; if(!Q || Q.flushed) return;
   clearInterval(S.timer); S.timer=null;
   if(Q.picked==null){ Q.zeit += performance.now()-Q.qStart; }
-  const from = Q.picked==null ? Q.i : Q.i+1;
-  for(let k=from;k<Q.list.length;k++){ const f=Q.list[k]; Q.log.push({q:f.q, ok:false, richtig:f.a[0], m:f.m, s:f.s, img:f.img, skip:true}); }
   Q.timeout=true; finishQuiz();
 }
 
 function answer(i){
   const Q=S.quiz, f=Q.list[Q.i];
   if(Q.picked!=null) return;
-  const dt = performance.now()-Q.qStart;
-  Q.picked=i; Q.zeit+=dt; Q.seen++;
+  const stq=qStatus(Q)[Q.i];
+  const dt = stq.zeit + (performance.now()-Q.qStart);
+  Q.picked=i; Q.zeit+=performance.now()-Q.qStart; Q.seen++; stq.picked=i;
   const ok=f.opts[i].ok;
   let pts=0;
   if(ok) Q.score++;
@@ -3536,8 +3553,7 @@ function answer(i){
     }
     Q.points=Math.max(0,(Q.points||0)+pts);
   }
-  Q.lastPts=pts;
-  Q.log.push({q:f.q, ok, richtig:f.a[0], dein:f.opts[i].txt, m:f.m, s:f.s, img:f.img});
+  Q.lastPts=pts; stq.ok=ok; stq.brk=Q.lastBreak||null; stq.pts=pts;
   render();
   fxAnswer(i, ok);
 }
@@ -3593,8 +3609,9 @@ function fxAnswer(i, ok){
 
 function renderQuiz(){
   const Q = S.quiz, f = Q.list[Q.i], c = S.thema.bereich.c, answered = Q.picked!=null, test=Q.mode==="test";
-  const prog = ((Q.i + (answered?1:0)) / Q.list.length) * 100;
-  const nextLbl = Q.i+1<Q.list.length ? "Nächste Frage" : "Ergebnis";
+  const stQ=qStatus(Q), offenN=stQ.filter(x=>x.picked==null).length;
+  const prog = ((Q.list.length-offenN) / Q.list.length) * 100;
+  const nextLbl = offenN===0 ? (Q.mode==="test"?"✅ Test abgeben":"Ergebnis") : (Q.i+1<Q.list.length && stQ[Q.i+1].picked==null ? "Nächste Frage" : "Zur nächsten offenen Frage");
   const frage = `${test? (Q.custom? `<span class="modebadge">📝 ${esc(Q.titel)}</span>` : `<span class="modebadge">${ico("trophy")} Gewerteter Test · ${Q.points} Punkte</span>`):""}
       ${speakBtn(f.q + ". " + f.opts.map((o,i)=>"ABCD"[i]+": "+o.txt).join(". "))}
       ${f.img?`<div class="qimg">${imgSvg(f.img)}</div>`:""}
@@ -3621,8 +3638,9 @@ function renderQuiz(){
     <div class="qtop" style="--c:var(${test?"--gold":c})">
       <div class="bar" aria-hidden="true"><i style="width:${prog}%"></i></div>
       ${test && !Q.custom? `<span class="timer" id="timer">${ico("timer")}</span>`:""}
-      <span class="count">Frage ${Q.i+1} von ${Q.list.length}</span>
+      <span class="count">Frage ${Q.i+1} von ${Q.list.length}${stQ[Q.i].mark?" 🚩":""}</span>
     </div>
+    ${quizNavHTML(Q)}
     <div class="card" style="--c:var(${c})">
       ${test? "" : `<div class="tabs" role="tablist">
         <button class="tabbtn" role="tab" type="button" data-tab="frage" aria-selected="${Q.tab==="frage"}">${ico("question")} Frage</button>
@@ -3634,19 +3652,64 @@ function renderQuiz(){
   document.querySelectorAll(".tabbtn").forEach(b=>b.onclick=()=>{ stopSpeak(); Q.tab=b.dataset.tab; render(); });
   document.querySelectorAll(".ans").forEach(b=>b.onclick=()=>answer(+b.dataset.i));
   $("#next") && ($("#next").onclick=nextQ);
+  bindQuizNav();
   $("#toExplain") && ($("#toExplain").onclick=()=>{ Q.tab="erklaerung"; render(); });
   $("#toQuestion") && ($("#toQuestion").onclick=()=>{ Q.tab="frage"; render(); });
   if(test && !Q.custom) tick();
 }
 
+
+/* ---------- Freie Navigation im Quiz: zurück, weiter, springen, markieren ---------- */
+function qStatus(Q){ if(!Q.st) Q.st=Q.list.map(()=>({picked:null, zeit:0, mark:false})); return Q.st; }
+function gehe(i){
+  const Q=S.quiz; const st=qStatus(Q); if(i<0||i>=Q.list.length||i===Q.i&&S.screen==="quiz") { if(i===Q.i) return; }
+  stopSpeak();
+  const cur=st[Q.i]; if(cur && cur.picked==null) cur.zeit+=performance.now()-Q.qStart;
+  Q.i=i; const n=st[i]; Q.picked=n.picked; Q.lastBreak=n.brk||null; Q.tab="frage"; Q.qStart=performance.now();
+  render(); scrollTo({top:0});
+}
+function offeneFragen(Q){ return qStatus(Q).map((x,k)=>x.picked==null?k:-1).filter(k=>k>=0); }
+function abgeben(){
+  const Q=S.quiz, offen=offeneFragen(Q);
+  if(offen.length && !confirm(`Noch ${offen.length} ${offen.length===1?"Frage ist":"Fragen sind"} offen. ${Q.mode==="test"?"Abgeben? Offene Fragen zählen als nicht beantwortet.":"Trotzdem beenden?"}`)) return;
+  const st=qStatus(Q); if(st[Q.i]?.picked==null) st[Q.i].zeit+=performance.now()-Q.qStart;
+  finishQuiz();
+}
+function quizNavHTML(Q){
+  const st=qStatus(Q), beantw=st.filter(x=>x.picked!=null).length, mark=st.filter(x=>x.mark).length, cur=st[Q.i];
+  return `<div class="qnav">
+    <button class="qnbtn" id="qPrev" type="button" ${Q.i===0?"disabled":""} aria-label="Vorherige Frage">← <span class="tlab">Zurück</span></button>
+    <button class="qnbtn mark ${cur.mark?"on":""}" id="qMark" type="button" aria-pressed="${cur.mark}">🚩 <span class="tlab">${cur.mark?"Markiert":"Markieren"}</span></button>
+    <button class="qnbtn" id="qGrid" type="button" aria-expanded="${!!Q.gridOffen}">🧭 <span>${beantw}/${Q.list.length}</span>${mark?` <span class="qnm">🚩${mark}</span>`:""}</button>
+    <button class="qnbtn" id="qNext" type="button" ${Q.i===Q.list.length-1?"disabled":""} aria-label="Nächste Frage"><span class="tlab">Weiter</span> →</button>
+    <button class="qnbtn abgabe" id="qAbgabe" type="button">${Q.mode==="test"?"✅ Abgeben":"🏁 Beenden"}</button>
+  </div>
+  ${Q.gridOffen ? `<div class="qgrid" role="group" aria-label="Zu Frage springen">${st.map((x,k)=>{ const cls=[k===Q.i?"jetzt":"", x.picked!=null?(x.ok?"rok":"rbad"):"", x.mark?"mk":""].join(" ");
+      return `<button type="button" class="qg ${cls}" data-qg="${k}" aria-label="Frage ${k+1}${x.picked!=null?", beantwortet":", offen"}${x.mark?", markiert":""}">${k+1}${x.mark?"<i>🚩</i>":""}</button>`; }).join("")}
+    <p class="qglegende"><span class="l1">offen</span><span class="l2">richtig</span><span class="l3">falsch</span><span>🚩 markiert</span></p></div>` : ""}`;
+}
+function bindQuizNav(){
+  const Q=S.quiz;
+  $("#qPrev") && ($("#qPrev").onclick=()=>gehe(Q.i-1));
+  $("#qNext") && ($("#qNext").onclick=()=>gehe(Q.i+1));
+  $("#qMark") && ($("#qMark").onclick=()=>{ const st=qStatus(Q); st[Q.i].mark=!st[Q.i].mark; render(); });
+  $("#qGrid") && ($("#qGrid").onclick=()=>{ Q.gridOffen=!Q.gridOffen; render(); });
+  $("#qAbgabe") && ($("#qAbgabe").onclick=abgeben);
+  document.querySelectorAll("[data-qg]").forEach(b=>b.onclick=()=>gehe(+b.dataset.qg));
+}
+
 function nextQ(){
   const Q=S.quiz;
   stopSpeak();
-  if(Q.i+1<Q.list.length){ Q.i++; Q.picked=null; Q.tab="frage"; Q.qStart=performance.now(); render(); scrollTo({top:0}); return; }
+  const offen=offeneFragen(Q);
+  if(Q.i+1<Q.list.length && qStatus(Q)[Q.i+1].picked==null){ gehe(Q.i+1); return; }
+  if(offen.length){ const naechste=offen.find(k=>k>Q.i); gehe(naechste!=null?naechste:offen[0]); return; }
   finishQuiz();
 }
 function finishQuiz(){
   const Q=S.quiz;
+  const stF=qStatus(Q); Q.log=Q.list.map((f,k)=>{ const x=stF[k]; return x.picked!=null ? {q:f.q, ok:!!x.ok, richtig:f.a[0], dein:f.opts[x.picked].txt, m:f.m, s:f.s, img:f.img} : {q:f.q, ok:false, richtig:f.a[0], m:f.m, s:f.s, img:f.img, skip:true}; });
+  clearInterval(S.timer); S.timer=null;
   const ratio = Q.score/Q.list.length; Q.stars = ratio>=.99?3:ratio>=.6?2:ratio>0?1:0;
   historieSpeichern(Q);
   if(Q.custom){ Q.flushed=true; go("fremddone"); return; }
