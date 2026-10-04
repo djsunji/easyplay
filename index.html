@@ -1763,6 +1763,52 @@ html,body{overflow-x:clip}
 .steckbrief dd .wappen{width:16px;height:19px;vertical-align:-3px}
 .steckbrief p{margin:4px 0 0;line-height:1.55}
 @media (max-width:560px){.steckbrief dl{grid-template-columns:1fr}.steckbrief dd{margin:-2px 0 6px}}
+
+/* ===== Seasons ===== */
+.seasonband{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 18px;border-radius:22px;margin:18px 0;border:3px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(135deg,#17A35A,#1E9BE0) border-box;box-shadow:var(--shadow)}
+.seasonband.phase2{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(135deg,#FF8A3D,#E043B8,#FFD34D) border-box;animation:sbPuls 2.4s ease-in-out infinite}
+.seasonband.phase3{background:linear-gradient(135deg,#2A0E3D,#5A1240) padding-box,linear-gradient(135deg,#FF3D3D,#FFD34D,#FF3DBE,#FF3D3D) border-box;color:#fff;animation:sbPuls 1.4s ease-in-out infinite}
+.seasonband.phase3 small,.seasonband.phase3 .sbname{color:#FFE2F3!important}
+@keyframes sbPuls{0%,100%{box-shadow:0 0 0 0 rgba(255,138,61,.0),var(--shadow)}50%{box-shadow:0 0 26px 4px rgba(255,90,140,.55),var(--shadow)}}
+.stier{font-size:3rem;line-height:1;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;animation:pHuepf 3s ease-in-out infinite}
+.sbtext{flex:1;min-width:220px}.sbname{display:block;font-weight:800;color:var(--soft);font-size:.9rem;text-transform:uppercase;letter-spacing:.03em}
+.sbinfo{display:flex;align-items:center;gap:12px;margin-top:4px}.sbinfo strong{display:block;font-size:1.15rem}.sbinfo small{display:block;color:var(--soft);font-weight:600}
+.smult{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2.2rem;font-weight:900;line-height:1;padding:6px 12px;border-radius:16px;color:#fff}
+.smult.m1{background:linear-gradient(135deg,#17A35A,#1E9BE0)}.smult.m2{background:linear-gradient(135deg,#FF8A3D,#E043B8);animation:multWack 1.2s ease-in-out infinite}.smult.m3{background:linear-gradient(135deg,#FF3D3D,#FFB800);animation:multWack .8s ease-in-out infinite;box-shadow:0 0 20px rgba(255,184,0,.8)}
+@keyframes multWack{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.12) rotate(3deg)}}
+.seasonband.klein .sbtext{min-width:180px}
+.stimeline{margin:10px 0 0}
+.stl-bar{position:relative;display:flex;height:22px;border-radius:999px;overflow:visible;background:var(--line)}
+.stl-bar span{display:grid;place-items:center;font-style:normal;color:#fff;font-weight:900;font-size:.8rem}
+.stl-bar .seg1{background:linear-gradient(90deg,#17A35A,#1E9BE0);border-radius:999px 0 0 999px}.stl-bar .seg2{background:linear-gradient(90deg,#FF8A3D,#E043B8)}.stl-bar .seg3{background:linear-gradient(90deg,#FF3D3D,#FFB800);border-radius:0 999px 999px 0}
+.stl-bar i{font-style:normal}
+.stl-heute{position:absolute;top:-6px;width:6px;height:34px;margin-left:-3px;border-radius:4px;background:var(--ink);box-shadow:0 0 0 3px var(--surface)}
+.stl-heute::after{content:"Heute";position:absolute;top:-20px;left:50%;translate:-50% 0;font-size:.72rem;font-weight:800;white-space:nowrap}
+.stl-lbl{display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;color:var(--soft);margin-top:4px}
+.rlmodus{display:flex!important;justify-content:center;margin:0 auto 12px;width:max-content;max-width:100%}
+.rlmodus .seg{font-size:1.05rem!important;padding:10px 18px!important}
+.seasonwahl{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:0 auto 6px;max-width:760px}
+.seasonwahl select{min-width:260px}
+.seasonkopf{max-width:1040px;margin:0 auto 12px}
+.seasonkopf .seasonband{margin:0}
+.rrow[data-pid],.pst[data-pid]{cursor:pointer}
+.rrow[data-pid]:hover{border-color:#8A3FE0}
+.pst[data-pid]:hover .pav{transform:scale(1.06)}
+.pokale{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:8px}
+.pokal{display:grid;justify-items:center;text-align:center;gap:2px;padding:12px 8px;border-radius:16px;background:linear-gradient(180deg,#FFF3C4,var(--surface));border:2px solid #FFD34D}
+.pokal .pkicon{font-size:2.6rem;line-height:1;filter:drop-shadow(0 4px 6px rgba(224,164,0,.5))}
+.pokal small{color:var(--soft);font-weight:600;font-size:.8rem}
+.erfolge{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}
+.erfolg{display:grid;justify-items:center;text-align:center;gap:2px;padding:10px 8px;border-radius:16px;border:2px dashed var(--line);opacity:.45;filter:grayscale(1)}
+.erfolg.ok{opacity:1;filter:none;border-style:solid;border-color:#8A3FE0;background:color-mix(in srgb,#8A3FE0 7%,var(--surface))}
+.erfolg span{font-size:2rem;line-height:1}.erfolg small{color:var(--soft);font-size:.76rem}
+.spzeile{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.spbox{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--shadow)}
+.spbox b{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.8rem}.spbox small{color:var(--soft);font-weight:600}
+.seasonbonus{display:inline-flex;gap:8px;align-items:center;padding:6px 14px;border-radius:999px;font-weight:800;color:#fff;background:linear-gradient(135deg,#FF8A3D,#E043B8);margin:4px 0}
+.seasonbonus.m1{background:linear-gradient(135deg,#17A35A,#1E9BE0)}.seasonbonus.m3{background:linear-gradient(135deg,#FF3D3D,#FFB800)}
+@media (max-width:560px){.spzeile{grid-template-columns:1fr 1fr 1fr}.spbox b{font-size:1.3rem}.stier{font-size:2.4rem}.smult{font-size:1.7rem}}
+@media (prefers-reduced-motion:reduce){.seasonband,.smult,.stier{animation:none!important}}
 </style>
 </head>
 <body>
@@ -3262,7 +3308,7 @@ function render(){
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
   renderNav();
   ({home:renderHome, bereich:renderBereich, mode:renderMode, quiz:renderQuiz, done:renderDone, berufmenu:renderBerufMenu, check:renderCheck,
-    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
+    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, spieler:renderSpieler, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
   bindSpeak();
   bindCrumbs();
 }
@@ -3341,6 +3387,7 @@ function renderHome(){
           <button class="big bibl" id="toLib" type="button"><span class="cicon buchsym">📖</span> Bibliothek</button>
         </div>
     </section>
+    ${seasonBannerHTML(true)}
     ${homeTop10()}
     <p class="label" id="stufeLbl">Deine Stufe</p>
     <div class="levels" role="group" aria-labelledby="stufeLbl">
@@ -3357,6 +3404,7 @@ function renderHome(){
   $("#play").onclick=()=>$("#bereiche").scrollIntoView({behavior:"smooth"});
   $("#toLive").onclick=()=>go("live");
   $("#zufall") && ($("#zufall").onclick=startZufall);
+  $("#zurSeason") && ($("#zurSeason").onclick=()=>{ S.boardModus="season"; S.boardSeason=aktuelleSeason().id; go("board"); scrollTo(0,0); });
   if(!matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelectorAll(".zaehler").forEach(el=>{ const ziel=+el.dataset.ziel; if(!ziel) return; const t0=performance.now(), dauer=1400;
     const tick=t=>{ const p=Math.min(1,(t-t0)/dauer), e=1-Math.pow(1-p,3); el.textContent=Math.round(ziel*e).toLocaleString("de-CH"); if(p<1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
   punkteSchildStart();
@@ -3622,7 +3670,9 @@ async function flushRun(finished){
     const k=bestKey(S.thema.id), best={...(S.profil.best||{})};
     Q.newBest = !best[k] || Q.points>best[k];
     if(Q.newBest) best[k]=Q.points;
-    S.profil={...S.profil, best, tests:(S.profil.tests||0)+1};
+    const se=aktuelleSeason(), ph=seasonPhase(se); const saison={...(S.profil.saison||{})}; const eintrag={...(saison[se.id]||{})};
+    Q.seasonMult=ph.mult; Q.seasonPts=Math.round((Q.points||0)*ph.mult); eintrag[S.stufe]=(+eintrag[S.stufe]||0)+Q.seasonPts; saison[se.id]=eintrag;
+    S.profil={...S.profil, best, saison, tests:(S.profil.tests||0)+1};
     store.set("ep-profil",S.profil);
     if(S.online){ try{ const {vorname, nachname, ...oeffentlich}=S.profil; await S.db.doc(`spieler/${S.uid}`).set(oeffentlich); }catch(e){} }
     if(S.screen==="done") render();
@@ -3651,6 +3701,7 @@ function renderDone(){
       <h1>${test? `${Q.points} Punkte` : msg}</h1>
       ${Q.timeout ? `<p class="timeup">${ico("timer")} Die 30 Minuten sind abgelaufen, nicht beantwortete Fragen zählen als falsch.</p>` : ""}
       <p>${Q.score} von ${Q.list.length} richtig · Zeit ${fmtZeit(Q.zeit)}${test && Q.newBest ? " · Neuer Bestwert!" : ""}</p>
+      ${test && !Q.custom && Q.seasonPts!=null ? `<p><span class="seasonbonus m${Q.seasonMult}">${aktuelleSeason().tier.e} Season: +${Q.seasonPts.toLocaleString("de-CH")} Punkte${Q.seasonMult>1?` (×${Q.seasonMult} Bonus!)`:""}</span></p>` : ""}
       ${test && !Q.custom ? `<div class="pbilanz"><span>✅ ${Q.score} richtig</span><span>⚡ Tempo +${Q.sumTempo||0}</span><span>🔥 Serien +${Q.sumSerie||0}${Q.maxSerie>1?` (beste: ${Q.maxSerie})`:""}</span><span>❌ Abzug ${Q.sumAbzug||0}</span></div>` : ""}
       ${test? `<p>${msg}</p>`:""}
       <div class="row">
@@ -3797,6 +3848,7 @@ function renderProfil(){
         <div class="num"><b>${st.bestTest||0}</b><span>bester Test (Punkte)</span></div>
         <div class="num"><b>${total}</b><span>Ranglistenpunkte</span></div></div></div>
     </div>
+    ${pokaleHTML({...p, id:S.online?S.uid:"me"})}${erfolgeHTML({...p, id:S.online?S.uid:"me"})}
     ${historieHTML()}
     <div class="statcard" style="margin-top:22px"><h2>${ico("voice")} Vorlesestimme</h2>
       <p class="help" style="margin-top:0">Wähle eine deutsche Stimme. Stimmen mit «Natural» oder «Online» im Namen klingen besonders natürlich, welche es gibt, hängt von deinem Gerät und Browser ab.</p>
@@ -3816,7 +3868,7 @@ function podiumHTML(top, meId){
   return `<div class="podium">
     <div class="pkonfetti" aria-hidden="true">${Array.from({length:26},(_,i)=>`<i style="--x:${(i*37)%100}%;--d:${(i%9)*.45}s;--c:${["#FFD34D","#FF6FA8","#7FD1FF","#7BE07B","#B98CFF","#FF8A3D"][i%6]}"></i>`).join("")}</div>
     ${platz.map((p,k)=>{ const n=nr[k]; if(!p) return `<div class="pst p${n} leer"><div class="pfigur"><div class="pav pfrei">?</div><b class="pname">Noch frei</b><span class="pkt">Hol dir den Platz!</span></div><div class="psockel"><span class="pmedal">${["🥇","🥈","🥉"][n-1]}</span><span class="pnr">${n}</span></div></div>`;
-      return `<div class="pst p${n} ${p.id===meId?"ich":""}">
+      return `<div class="pst p${n} ${p.id===meId?"ich":""}" data-pid="${esc(p.id)}" role="button" tabindex="0" title="Profil von ${esc(p.name)} ansehen">
         <div class="pfigur">${n===1?`<span class="pkrone">👑</span>`:""}<div class="pav">${avatar(p.avatar)}</div>
           <b class="pname">${esc(p.name)}${p.id===meId?" (du)":""}</b>
           <span class="pkt">${p.kanton?wappen(p.kanton):""} ${p.pts.toLocaleString("de-CH")} P.</span></div>
@@ -3825,7 +3877,8 @@ function podiumHTML(top, meId){
 }
 function renderBoard(){
   const stufe=(S.boardStufe===0||S.boardStufe) ? S.boardStufe : S.stufe, kf=S.boardKanton||"";
-  const ptsVon=p=> stufe===0 ? [1,2,3].reduce((n,l)=>n+sumBest(p,l),0) : sumBest(p,stufe);
+  const sMod=S.boardModus==="season", sid=S.boardSeason||aktuelleSeason().id, seA=alleSeasons().find(x=>x.id===sid)||aktuelleSeason();
+  const ptsVon=p=> sMod ? seasonPunkte(p,sid,stufe||0) : stufe===0 ? [1,2,3].reduce((n,l)=>n+sumBest(p,l),0) : sumBest(p,stufe);
   const thVon=p=> stufe===0 ? [1,2,3].reduce((n,l)=>n+themenGespielt(p,l),0) : themenGespielt(p,stufe);
   let list = S.online ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []);
   if(kf) list = list.filter(p=>p.kanton===kf);
@@ -3847,14 +3900,20 @@ function renderBoard(){
         <div><b>🏔️ Dein Kanton</b><span>Wähle unten einen Kanton und sieh, wer in deiner Region vorne liegt.</span></div>
       </div>
     </div>
+    <div class="segs rlmodus" role="group" aria-label="Art der Rangliste"><button class="seg" type="button" data-bm="gesamt" aria-pressed="${!sMod}">🏆 Gesamt</button><button class="seg" type="button" data-bm="season" aria-pressed="${sMod}">${aktuelleSeason().tier.e} Seasons</button></div>
+    ${sMod ? `<div class="seasonkopf">
+      <div class="seasonwahl"><label for="seasonSel"><b>Season:</b></label><select id="seasonSel" class="sel">${[...new Set(alleSeasons().map(x=>x.jahr))].map(j=>`<optgroup label="${j}">${alleSeasons().filter(x=>x.jahr===j).map(x=>`<option value="${x.id}" ${x.id===sid?"selected":""}>${x.tier.e} ${esc(x.name)} (${esc(x.zeitraum)})${x.id===aktuelleSeason().id?" · läuft":""}</option>`).join("")}</optgroup>`).join("")}</select></div>
+      ${seA.id===aktuelleSeason().id ? seasonBannerHTML(false)+seasonTimelineHTML(seA) : `<div class="seasonband"><span class="stier">${seA.tier.e}</span><div class="sbtext"><span class="sbname">Abgeschlossen</span><div class="sbinfo"><span><strong>${esc(seA.name)}</strong><small>${esc(seA.zeitraum)} · Die besten 10 haben einen Pokal erhalten 🏆</small></span></div></div></div>`}
+      <p class="help" style="text-align:center">In jeder Season zählt jeder gewertete Test. Die ersten Wochen gibt es normale Punkte, in der zweitletzten Woche doppelte und in der letzten Woche dreifache. Die besten 10 jeder Stufe bekommen einen Pokal für ihr Profil.</p>
+    </div>` : ""}
     <div class="segs rlsegs" role="group" aria-label="Stufe">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${stufe===s.id}"><span class="sgi">${STUFE_EMO[s.id]}</span><span class="sgt">${s.name}</span></button>`).join("")}<button class="seg alle" type="button" data-s="0" aria-pressed="${stufe===0}"><span class="sgi">🌍</span><span class="sgt">Alle Stufen</span></button></div>
     <div class="kpick" style="max-width:420px;margin-bottom:18px"><span class="kprev">${kf? wappen(kf) : ico("flag")}</span>
       <select id="bK" class="sel"><option value="">Ganze Schweiz</option>${KANTONE.map(k=>`<option value="${k.kuerzel}" ${k.kuerzel===kf?"selected":""}>${esc(k.kurz)}</option>`).join("")}</select></div>
     <div class="podwrap"><img class="gast pgl" src="${GAESTE.maedchen}" alt="" aria-hidden="true">${podiumHTML(list.slice(0,3), meId)}<img class="gast pgr" src="${GAESTE.junge}" alt="" aria-hidden="true"></div>
     <div class="rlliste">
-      <div class="rlkopfleiste"><b>${stufe===0?"🌍 Gesamtrangliste aller Stufen":`${STUFE_EMO[stufe]} Rangliste ${esc(stufeObj(stufe).name)}`}</b><span>${list.length} ${list.length===1?"Person":"Personen"}${meinRang?` · dein Rang: <strong>${meinRang}</strong>`:""}</span></div>
+      <div class="rlkopfleiste"><b>${sMod?`${seA.tier.e} ${esc(seA.name)} · `:""}${stufe===0?(sMod?"Alle Stufen":"🌍 Gesamtrangliste aller Stufen"):`${sMod?"":STUFE_EMO[stufe]+" Rangliste "}${esc(stufeObj(stufe).name)}`}</b><span>${list.length} ${list.length===1?"Person":"Personen"}${meinRang?` · dein Rang: <strong>${meinRang}</strong>`:""}</span></div>
       <div class="rlsuche"><label class="sr-only" for="bSuche">Name suchen</label><input id="bSuche" class="sel" type="search" placeholder="🔎 Nach einem Namen suchen …" value="${esc(S.boardQ||"")}" autocomplete="off">${meinRang?`<button class="big alt small" id="zuMir" type="button">📍 Zu mir</button>`:""}</div>
-    <div class="board rlscroll" id="rlScroll">${zeilen.length ? zeilen.map(p=>{ const i=p.rang-1; return `<div class="rrow ${p.id===meId?"me":""}" ${p.id===meId?'id="rlIch"':""}>
+    <div class="board rlscroll" id="rlScroll">${zeilen.length ? zeilen.map(p=>{ const i=p.rang-1; return `<div class="rrow ${p.id===meId?"me":""}" data-pid="${esc(p.id)}" role="button" tabindex="0" ${p.id===meId?'id="rlIch"':""}>
         <span class="rank">${medal(i)}</span><span class="rav" aria-hidden="true">${avatar(p.avatar)}</span>
         <span class="rname"><b>${esc(p.name)}${p.id===meId?" (du)":""}</b><span>${p.kanton? wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||"")+" · ":""}${p.th} ${p.th===1?"Thema":"Themen"} getestet</span></span>
         <span class="rpts">${p.pts.toLocaleString("de-CH")}<small>Punkte</small></span></div>`; }).join("")
@@ -3862,6 +3921,9 @@ function renderBoard(){
     ${S.online? "" : `<p class="note">In dieser Ansicht gibt es keine gemeinsame Rangliste, du siehst nur deine eigenen Punkte.</p>`}
 `;
   document.querySelectorAll(".rlsegs .seg").forEach(b=>b.onclick=()=>{ S.boardStufe=+b.dataset.s; render(); });
+  document.querySelectorAll("[data-bm]").forEach(b=>b.onclick=()=>{ S.boardModus=b.dataset.bm; render(); });
+  $("#seasonSel") && ($("#seasonSel").onchange=e=>{ S.boardSeason=e.target.value; render(); });
+  document.querySelectorAll("[data-pid]").forEach(el=>{ const auf=()=>{ S.spielerId=el.dataset.pid; go("spieler"); scrollTo(0,0); }; el.onclick=auf; el.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); auf(); } }; });
   const bs=$("#bSuche"); let btm; bs.oninput=()=>{ clearTimeout(btm); btm=setTimeout(()=>{ S.boardQ=bs.value; const pos=bs.selectionStart; const y=scrollY; render(); scrollTo(0,y); const n=$("#bSuche"); n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){} },250); };
   $("#zuMir") && ($("#zuMir").onclick=()=>{ S.boardQ=""; render(); const el=$("#rlIch"), box=$("#rlScroll"); if(el&&box){ box.scrollTo({top:el.offsetTop-box.offsetTop-box.clientHeight/2+el.clientHeight/2,behavior:"smooth"}); el.classList.add("blink"); } else $(".podium")?.scrollIntoView({behavior:"smooth",block:"center"}); });
   $("#bK").onchange=e=>{ S.boardKanton=e.target.value; render(); };
@@ -3902,6 +3964,7 @@ function crumbPath(){
     case "meinetests": cur="Meine Tests"; break;
     case "testergebnis": P.push(["Meine Tests",()=>go("meinetests")]); cur=meineTests().find(x=>x.k===S.meinTest)?.titel||"Test"; break;
     case "resinfo": cur="Resultat"; break;
+    case "spieler": P.push(["Rangliste",()=>go("board")]); cur=(S.online?S.spieler.find(x=>x.id===S.spielerId)?.name:S.profil?.name)||"Profil"; break;
     case "login": cur="Anmelden"; break;
     case "historie": P.push(["Mein Profil",()=>go("profil")]); cur="Historie"; break;
     case "geschmenu": B(byId("welt")); cur="Geschichte"; break;
@@ -5781,6 +5844,93 @@ function zeigeKarte(titel, nr, kapId){
       <a href="https://www.openstreetmap.org/?mlat=${k.lat.toFixed(5)}&mlon=${k.lon.toFixed(5)}#map=${zoom}/${k.lat.toFixed(4)}/${k.lon.toFixed(4)}" target="_blank" rel="noopener">🔍 Grössere Karte</a></div>`;
     b.hidden=false; b.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:400});
   });
+}
+
+/* ================= Seasons: 2 Monate, Tier aus dem chinesischen Tierkreis, Bonuswochen ================= */
+const TIERKREIS = [
+ {n:"Ratte",e:"🐀"},{n:"Büffel",e:"🐂"},{n:"Tiger",e:"🐅"},{n:"Hase",e:"🐇"},{n:"Drache",e:"🐉"},{n:"Schlange",e:"🐍"},
+ {n:"Pferd",e:"🐎"},{n:"Ziege",e:"🐐"},{n:"Affe",e:"🐒"},{n:"Hahn",e:"🐓"},{n:"Hund",e:"🐕"},{n:"Schwein",e:"🐖"}
+];
+const SEASON_START = {jahr:2026, block:4};          // erste Season: September und Oktober 2026
+const MONATE = ["Jan.","Feb.","März","April","Mai","Juni","Juli","Aug.","Sept.","Okt.","Nov.","Dez."];
+function seasonAus(jahr, block){
+  const idx=(jahr-2026)*6+block;                       // 2026 ist das Jahr des Pferdes: Jan./Feb. 2026 = Pferd
+  const tier=TIERKREIS[((idx+6)%12+12)%12];
+  const start=Date.UTC(jahr, block*2, 1), ende=Date.UTC(jahr, block*2+2, 1)-86400000;
+  return { id:`${jahr}-${block+1}`, jahr, block, nr:block+1, tier, start, ende, tage:Math.round((ende-start)/86400000)+1,
+    name:`${tier.n}-Season ${jahr}`, zeitraum:`${MONATE[block*2]} und ${MONATE[block*2+1]} ${jahr}` };
+}
+function heuteUTC(){ const {jahr,monat,tag}=zuerichJetzt(); return Date.UTC(jahr,monat-1,tag); }
+function aktuelleSeason(){ const {jahr,monat}=zuerichJetzt(); return seasonAus(jahr, Math.floor((monat-1)/2)); }
+function alleSeasons(){
+  const cur=aktuelleSeason(), l=[]; let j=SEASON_START.jahr, b=SEASON_START.block;
+  while(j<cur.jahr || (j===cur.jahr && b<=cur.block)){ l.push(seasonAus(j,b)); b++; if(b>5){ b=0; j++; } }
+  return l.reverse();
+}
+function seasonPhase(se, tagUTC){
+  const t=tagUTC??heuteUTC(); const rest=Math.round((se.ende-t)/86400000)+1;   // inklusive heute
+  if(t<se.start||t>se.ende) return {mult:1, rest:0, name:"vorbei"};
+  if(rest<=7) return {mult:3, rest, name:"Finale", text:"🔥 Finalwoche: dreifache Punkte!"};
+  if(rest<=14) return {mult:2, rest, name:"Bonus", text:"⚡ Bonuswoche: doppelte Punkte!"};
+  return {mult:1, rest, name:"Normal", text:"Normale Punkte", bisBonus:rest-14};
+}
+function seasonPunkte(p, sid, stufe){ const e=(p?.saison||{})[sid]; if(!e) return 0; return stufe ? (+e[stufe]||0) : [1,2,3].reduce((n,l)=>n+(+e[l]||0),0); }
+function seasonTimelineHTML(se){
+  const t=heuteUTC(), p=seasonPhase(se,t), lauf=t>=se.start&&t<=se.ende;
+  const pos=lauf ? Math.min(100,Math.max(0,(t-se.start)/(se.ende-se.start+86400000)*100)) : 100;
+  const n1=(se.tage-14)/se.tage*100, n2=7/se.tage*100;
+  return `<div class="stimeline"><div class="stl-bar"><span class="seg1" style="width:${n1}%"><i>×1</i></span><span class="seg2" style="width:${n2}%"><i>×2</i></span><span class="seg3" style="width:${n2}%"><i>×3</i></span>${lauf?`<b class="stl-heute" style="left:${pos}%" title="Heute"></b>`:""}</div>
+    <div class="stl-lbl"><span>${new Date(se.start).getUTCDate()}. ${MONATE[se.block*2]}</span><span>Bonus ab ${new Date(se.ende-13*86400000).getUTCDate()}. ${MONATE[se.block*2+1]}</span><span>${new Date(se.ende).getUTCDate()}. ${MONATE[se.block*2+1]}</span></div></div>`;
+}
+function seasonBannerHTML(klein){
+  const se=aktuelleSeason(), p=seasonPhase(se);
+  const info = p.mult>1 ? `<b class="smult m${p.mult}">×${p.mult}</b><span><strong>${p.text}</strong><small>Noch ${p.rest} ${p.rest===1?"Tag":"Tage"} bis zum Season-Ende. Jeder Test zählt ${p.mult===3?"dreifach":"doppelt"}!</small></span>`
+    : `<b class="smult m1">×1</b><span><strong>Noch ${p.rest} Tage in dieser Season</strong><small>In ${p.bisBonus} ${p.bisBonus===1?"Tag":"Tagen"} beginnen die Bonuswochen mit doppelten und dann dreifachen Punkten.</small></span>`;
+  return `<div class="seasonband phase${p.mult} ${klein?"klein":""}"><span class="stier">${se.tier.e}</span><div class="sbtext"><span class="sbname">${esc(se.name)} · ${esc(se.zeitraum)}</span><div class="sbinfo">${info}</div></div>${klein?`<button class="big small" id="zurSeason" type="button">🏆 Season-Rangliste</button>`:""}</div>`;
+}
+function seasonListe(sid, stufe){
+  const meId=S.online?S.uid:"me";
+  let list=S.online ? S.spieler.map(p=>({...p})) : (S.profil?[{...S.profil,id:"me"}]:[]);
+  return list.map(p=>({...p, pts:seasonPunkte(p,sid,stufe)})).filter(p=>p.pts>0).sort((a,b)=>b.pts-a.pts).map((p,i)=>({...p,rang:i+1, ich:p.id===meId}));
+}
+function pokaleVon(p){
+  const cur=aktuelleSeason().id, res=[];
+  alleSeasons().filter(se=>se.id!==cur).forEach(se=>{
+    [1,2,3].forEach(st=>{ const l=seasonListe(se.id, st).slice(0,10); const r=l.find(x=>x.id===p.id||(p.id==null&&x.ich)); if(r) res.push({se, stufe:st, rang:r.rang, pts:r.pts}); });
+  });
+  return res;
+}
+function erfolgeVon(p){
+  const t=p.tests||0, pts=totalPts(p), th=Object.keys(p.best||{}).length, sz=Object.keys(p.saison||{}).length, pok=pokaleVon(p);
+  const E=[
+   ["🎯","Erster Test","Den ersten gewerteten Test geschafft", t>=1],["🔟","Zehn Tests","10 gewertete Tests", t>=10],["💯","Fleissig","50 gewertete Tests", t>=50],["🏅","Profi-Spieler","100 gewertete Tests", t>=100],
+   ["⭐","1'000 Punkte","Ranglistenpunkte gesammelt", pts>=1000],["🌟","10'000 Punkte","Ranglistenpunkte gesammelt", pts>=10000],["💫","50'000 Punkte","Ranglistenpunkte gesammelt", pts>=50000],
+   ["📚","Entdecker","In 5 Themen getestet", th>=5],["🧭","Weltenbummler","In 15 Themen getestet", th>=15],["🗺️","Allwissend","In 30 Themen getestet", th>=30],
+   ["🐲","Season-Teilnahme","In einer Season Punkte gesammelt", sz>=1],["🔁","Treu dabei","In 3 Seasons Punkte gesammelt", sz>=3],
+   ["🏆","Top 10","In einer Season unter den besten 10", pok.length>=1],["🥇","Season-Sieg","Eine Season gewonnen", pok.some(x=>x.rang===1)]
+  ];
+  return E.map(([e,n,d,ok])=>({e,n,d,ok}));
+}
+function pokaleHTML(p){
+  const pk=pokaleVon(p);
+  return `<div class="statcard pokalcard" style="margin-top:22px"><h2>🏆 Pokale</h2>${pk.length ? `<div class="pokale">${pk.map(x=>`<div class="pokal r${Math.min(x.rang,4)}"><span class="pkicon">${x.rang===1?"🥇":x.rang===2?"🥈":x.rang===3?"🥉":"🏆"}</span><b>Platz ${x.rang}</b><small>${x.se.tier.e} ${esc(x.se.name)}</small><small>${x.stufe?esc(stufeObj(x.stufe).name):"Alle Stufen"} · ${x.pts.toLocaleString("de-CH")} P.</small></div>`).join("")}</div>`
+    : `<p class="empty" style="margin:6px 0 0">Noch keine Pokale. Wer am Ende einer Season unter den besten 10 ist, bekommt einen Pokal!</p>`}</div>`;
+}
+function erfolgeHTML(p){
+  const E=erfolgeVon(p), n=E.filter(x=>x.ok).length;
+  return `<div class="statcard" style="margin-top:22px"><h2>🎖️ Erfolge <small>(${n} von ${E.length})</small></h2><div class="erfolge">${E.map(x=>`<div class="erfolg ${x.ok?"ok":""}" title="${esc(x.d)}"><span>${x.e}</span><b>${esc(x.n)}</b><small>${esc(x.d)}</small></div>`).join("")}</div></div>`;
+}
+function renderSpieler(){
+  const id=S.spielerId; const p = (S.online?S.spieler.find(x=>x.id===id):null) || (S.profil&&(id==="me"||id===S.uid)?{...S.profil,id}:null);
+  if(!p){ go("board"); return; }
+  const se=aktuelleSeason();
+  $("#app").innerHTML = `${crumbs()}
+    <div class="pagehead spkopf"><div class="bigav">${avatar(p.avatar)}</div><div><h1>${esc(p.name)}</h1>
+      <span style="color:var(--soft)">${p.kanton?wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||""):""} · ${STUFE_EMO[p.stufe]||""} ${esc(stufeObj(p.stufe).name)} · ${totalPts(p).toLocaleString("de-CH")} Ranglistenpunkte · ${p.tests||0} Tests</span></div></div>
+    <div class="spzeile"><div class="spbox"><b>${seasonPunkte(p,se.id).toLocaleString("de-CH")}</b><small>${se.tier.e} Punkte in der aktuellen Season</small></div><div class="spbox"><b>${Object.keys(p.best||{}).length}</b><small>Themen getestet</small></div><div class="spbox"><b>${pokaleVon(p).length}</b><small>Pokale</small></div></div>
+    ${pokaleHTML(p)}${erfolgeHTML(p)}
+    <div class="row"><button class="big alt" id="spZur" type="button">← Zurück zur Rangliste</button></div>`;
+  $("#spZur").onclick=()=>go("board");
 }
 
 /* ---------- Start ---------- */
