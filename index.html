@@ -1827,6 +1827,43 @@ html,body{overflow-x:clip}
 .qglegende .l2::before{background:color-mix(in srgb,var(--ok) 22%,var(--surface));border-color:var(--ok)}.qglegende .l3::before{background:color-mix(in srgb,var(--bad) 18%,var(--surface));border-color:var(--bad)}
 .qglegende span:last-child::before{display:none}
 @media (max-width:560px){.qnav{gap:5px}.qnbtn{padding:8px 10px;font-size:.92rem}.qnbtn .tlab{display:none}}
+/* ===== Duell ===== */
+.dukopf{text-align:center;max-width:720px;margin:0 auto 14px}.dukopf h1{margin:4px 0}.dukopf p{color:var(--soft);font-size:1.05rem}
+.dusw{display:inline-grid;place-items:center;width:84px;height:84px;border-radius:50%;font-size:2.8rem;background:linear-gradient(135deg,#E5484D,#FF8A3D);box-shadow:0 12px 24px -10px rgba(229,72,77,.7);animation:pHuepf 2.6s ease-in-out infinite}
+.dueinst{max-width:640px;margin:0 auto 16px}
+.dumodi{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dumodus{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);display:grid;gap:8px;align-content:start;text-align:center}
+.dumodus h2{margin:0;font-size:1.25rem}.dumodus p{margin:0;color:var(--soft);font-size:.95rem}
+.dmi{font-size:2.4rem;line-height:1}
+.dunamen,.dujoin{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dujoin{grid-template-columns:1fr auto}
+@media (max-width:860px){.dumodi{grid-template-columns:1fr}}
+.splitfeld{position:fixed;inset:0;z-index:50;display:grid;grid-template-rows:1fr auto 1fr;background:linear-gradient(180deg,#3D1E6B,#1B2A6B 50%,#0E5E5A)}
+.sphalb{display:grid;grid-template-rows:auto 1fr auto auto;gap:8px;padding:12px 14px;color:#fff;min-height:0}
+.sphalb.sp1{transform:rotate(180deg);background:rgba(229,72,77,.18)}.sphalb.sp0{background:rgba(30,155,224,.18)}
+.spkopf{display:flex;justify-content:space-between;align-items:center;font-size:1.1rem}
+.spscore{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.8rem;font-weight:900;background:rgba(255,255,255,.16);border-radius:12px;padding:2px 12px}
+.spfrage{display:grid;align-content:center;text-align:center;min-height:0;overflow:auto}.spfrage p{font-size:clamp(1rem,2.6vh,1.5rem);font-weight:800;margin:0}
+.spimg{font-size:2.2rem}.spimg svg{max-height:12vh}
+.spants{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spant{min-height:clamp(48px,8vh,74px);border-radius:14px;border:0;background:rgba(255,255,255,.92);color:#1B1B2F;font-weight:800;font-size:clamp(.85rem,1.9vh,1.05rem);display:flex;align-items:center;gap:8px;padding:6px 10px;text-align:left}
+.spant .key{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#E6E8F5;font-size:.85rem}
+.spant.right{background:#3CCB7F;color:#fff}.spant.wrong{background:#E5484D;color:#fff}.spant:disabled:not(.right):not(.wrong){opacity:.55}
+.spfuss{text-align:center;font-weight:800;opacity:.9}
+.spmitte{display:flex;justify-content:center;align-items:center;gap:14px;padding:6px;background:rgba(0,0,0,.35);color:#fff;font-weight:900;font-size:1.3rem}
+.spexit{border:0;border-radius:999px;padding:6px 12px;background:rgba(255,255,255,.2);color:#fff;font-weight:700}
+.dutop{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:700;margin-bottom:6px}
+.duich b,.dugeg b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.3rem}.dugeg{color:#E5484D}
+.dubar{position:relative;margin-bottom:12px}.dubar .gegbar{position:absolute;left:0;top:0;height:100%;background:rgba(229,72,77,.5)}
+.dufb{font-weight:700;margin-top:10px}
+.dulobby{max-width:560px;margin:0 auto}.dupin{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:4rem;font-weight:900;letter-spacing:.2em;background:linear-gradient(90deg,#E5484D,#FF8A3D);-webkit-background-clip:text;background-clip:text;color:transparent}
+.duvs{display:flex;align-items:center;justify-content:center;gap:18px;margin:16px 0}
+.duvs>div{display:grid;justify-items:center;gap:4px}.duvs .pav{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:var(--bg);border:3px solid var(--line)}
+.duvs .vs{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2rem;font-weight:900;color:#E5484D}
+.duvs.gross .dupkt{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:3rem;font-weight:900}
+.duvs .sieger{transform:scale(1.1)}.duvs .sieger b::after{content:" 👑"}
+.duende{text-align:center;max-width:620px;margin:0 auto}
+.duteilen{max-width:520px;margin:8px auto}
+.dukonf{position:fixed;inset:0;pointer-events:none;z-index:5}
 </style>
 </head>
 <body>
@@ -3291,6 +3328,7 @@ function renderNav(){
         <button role="menuitem" type="button" data-m="suche">🔎 Suchen & Test erstellen</button>
         <button role="menuitem" type="button" data-m="meinetests">📝 Meine Tests</button>
         <button role="menuitem" type="button" data-m="live">⚡ Wettbewerb</button>
+        <button role="menuitem" type="button" data-m="duell">⚔️ Duell</button>
         <button role="menuitem" type="button" data-m="board">🏆 Rangliste</button>
         ${p? `<button role="menuitem" type="button" data-m="profil">👤 Mein Profil</button>`:""}
         ${S.canEdit? `<button role="menuitem" type="button" data-m="werkstatt">🛠️ Fragen-Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>`:""}
@@ -3315,6 +3353,7 @@ function renderNav(){
   const taste=e=>{ if(e.key==="Escape"){ zu(); btn.focus(); } };
   btn.onclick=()=>{ if(menu.hidden){ menu.hidden=false; btn.setAttribute("aria-expanded","true"); menu.querySelector("button")?.focus(); document.addEventListener("click",aussen,true); document.addEventListener("keydown",taste); } else zu(); };
   menu.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{ const m=b.dataset.m; zu();
+    if(m==="duell"){ if(S.libModus) setLibModus(false); go("duell"); return; }
     if(m==="home"){ if(S.libModus) setLibModus(false); else go("home"); } else if(m==="lib") setLibModus(true); else if(m==="bib") go("bibliothek"); else if(m==="suche") go("suche"); else if(m==="meinetests") go("meinetests"); else if(m==="live") go(L.role==="host"?"livehost":L.role==="player"?"liveplay":"live");
     else if(m==="board"){ S.boardStufe=S.stufe; go("board"); } else if(m==="profil") go("profil"); else if(m==="werkstatt") go("werkstatt");
     else if(m==="set") oeffneEinstellungen(); else if(m==="out") abmelden(); });
@@ -3326,7 +3365,7 @@ function render(){
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
   renderNav();
   ({home:renderHome, bereich:renderBereich, mode:renderMode, quiz:renderQuiz, done:renderDone, berufmenu:renderBerufMenu, check:renderCheck,
-    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, spieler:renderSpieler, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
+    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, duell:renderDuell, duellsplit:renderDuellSplit, duellplay:renderDuellPlay, duelllobby:renderDuellLobby, duellende:renderDuellEnde, duellannahme:renderDuellAnnahme, duellresultat:renderDuellResultat, spieler:renderSpieler, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
   bindSpeak();
   bindCrumbs();
 }
@@ -4027,6 +4066,8 @@ function crumbPath(){
     case "meinetests": cur="Meine Tests"; break;
     case "testergebnis": P.push(["Meine Tests",()=>go("meinetests")]); cur=meineTests().find(x=>x.k===S.meinTest)?.titel||"Test"; break;
     case "resinfo": cur="Resultat"; break;
+    case "duell": cur="⚔️ Duell"; break;
+    case "duellplay": case "duelllobby": case "duellende": case "duellannahme": case "duellresultat": P.push(["⚔️ Duell",()=>{ duellLeave(); go("duell"); }]); cur=S.screen==="duellplay"?"Spiel":S.screen==="duelllobby"?"Warten":S.screen==="duellannahme"?"Herausforderung":"Ergebnis"; break;
     case "spieler": P.push(["Rangliste",()=>go("board")]); cur=(S.online?S.spieler.find(x=>x.id===S.spielerId)?.name:S.profil?.name)||"Profil"; break;
     case "login": cur="Anmelden"; break;
     case "historie": P.push(["Mein Profil",()=>go("profil")]); cur="Historie"; break;
@@ -5996,13 +6037,222 @@ function renderSpieler(){
   $("#spZur").onclick=()=>go("board");
 }
 
+/* ================= ⚔️ Duell: zu zweit auf einem Gerät, online live oder per Link ================= */
+const DUELL_ZEIT = 15000;
+const DU = { cat:"alle", stufe:0, n:10, mode:null, list:null, sub:null, unsub:[], tick:null, pin:null, rolle:null, ich:null, gegner:null, split:null, run:null };
+function duellPool(cat, stufe){ const p=pool(cat||"alle"); return stufe ? p.filter(f=>f.l===stufe) : p; }
+function duellFragen(cat, stufe, n){ return shuffle([...duellPool(cat,stufe)]).slice(0,n).map(f=>{ const o=shuffle(f.a.map((t,i)=>({t,ok:i===0}))); return {id:qid(f), q:f.q, img:f.img||null, opts:o.map(x=>x.t), c:o.findIndex(x=>x.ok), m:f.m}; }); }
+function duellKats(){ return [["alle","🌍 Alle Themen"], ...BEREICHE.flatMap(b=>b.themen.map(t=>[t.id, `${b.name}: ${t.name}`]))].filter(([id])=>duellPool(id,0).length>=5); }
+function duellPunkte(ok, ms){ return ok ? 100 + Math.round(50*Math.max(0,1-ms/DUELL_ZEIT)) : 0; }
+function duellLeave(){ DU.unsub.forEach(u=>{ try{u();}catch(e){} }); DU.unsub=[]; clearInterval(DU.tick); DU.tick=null; try{ DU.sub?.leave(); }catch(e){} DU.sub=null; }
+
+/* ---------- Startseite des Duells ---------- */
+function renderDuell(){
+  duellLeave();
+  const kats=duellKats(); if(!kats.some(k=>k[0]===DU.cat)) DU.cat="alle";
+  const max=Math.min(20, duellPool(DU.cat,DU.stufe).length);
+  if(DU.n>max) DU.n=Math.max(3,max);
+  const online = !!window.claude?.use;
+  $("#app").innerHTML = `${crumbs()}
+    <div class="dukopf"><span class="dusw">⚔️</span><h1>Duell</h1><p>Wer weiss mehr? Tritt gegen eine Freundin, einen Freund oder deine Familie an. Wer zuerst richtig antwortet, holt die Punkte!</p></div>
+    <div class="card dueinst">
+      <label class="pick-lbl" for="duCat">Thema</label>
+      <select id="duCat" class="sel">${kats.map(([id,l])=>`<option value="${id}" ${id===DU.cat?"selected":""}>${esc(l)} (${duellPool(id,DU.stufe).length})</option>`).join("")}</select>
+      <p class="pick-lbl">Stufe</p>
+      <div class="segs lvstufe">${[[0,"🎲","Gemischt"],[1,"🌱","Entdecker"],[2,"🚀","Könner"],[3,"🏅","Profis"]].map(([v,e,l])=>`<button class="seg" type="button" data-dst="${v}" aria-pressed="${DU.stufe===v}"><span class="sgi">${e}</span><span class="sgt">${l}</span></button>`).join("")}</div>
+      <label class="pick-lbl" for="duN">Anzahl Fragen</label>
+      <div class="lvanzahl"><b id="duNv">${DU.n}</b><span>Fragen</span></div>
+      <input type="range" id="duN" class="lvslider" min="3" max="${Math.max(3,max)}" value="${DU.n}" style="--p:${(DU.n-3)/Math.max(1,max-3)*100}%">
+    </div>
+    <div class="dumodi">
+      <div class="dumodus"><span class="dmi">📱</span><h2>Auf einem Gerät</h2><p>Zwei Spieler, ein Handy oder Tablet. Legt es zwischen euch, jeder tippt auf seiner Seite. Funktioniert ganz ohne Internet.</p>
+        <div class="dunamen"><input id="duP1" class="sel" maxlength="14" placeholder="Spieler 1" value="${esc(S.profil?.name?.split(" ")[0]||"")}"><input id="duP2" class="sel" maxlength="14" placeholder="Spieler 2"></div>
+        <button class="big" id="duSplit" type="button">⚔️ Duell starten</button></div>
+      <div class="dumodus"><span class="dmi">🌐</span><h2>Online live</h2><p>Jeder spielt auf seinem eigenen Gerät, gleichzeitig. Du siehst live, wie weit dein Gegner ist.</p>
+        ${online ? `<button class="big" id="duHost" type="button">Duell erstellen</button>
+        <div class="dujoin"><input id="duPin" class="sel" inputmode="numeric" maxlength="4" placeholder="PIN"><button class="big alt" id="duJoin" type="button">Beitreten</button></div>`
+        : `<p class="help">Das Live-Duell funktioniert zurzeit in der claude.ai-Version. Auf der eigenen Website braucht es dafür Supabase Realtime, und in der späteren App Bluetooth.</p>`}</div>
+      <div class="dumodus"><span class="dmi">🔗</span><h2>Per Link herausfordern</h2><p>Du spielst zuerst, dann schickst du den Link per WhatsApp oder E-Mail. Dein Gegner spielt dieselben Fragen, wann er will.</p>
+        <button class="big" id="duLink" type="button">Herausforderung spielen</button></div>
+    </div>
+    <p class="err" id="duErr" aria-live="polite"></p>`;
+  $("#duCat").onchange=e=>{ DU.cat=e.target.value; render(); };
+  document.querySelectorAll("[data-dst]").forEach(b=>b.onclick=()=>{ DU.stufe=+b.dataset.dst; render(); });
+  const sl=$("#duN"); sl.oninput=()=>{ DU.n=+sl.value; $("#duNv").textContent=sl.value; sl.style.setProperty("--p",(sl.value-3)/Math.max(1,sl.max-3)*100+"%"); };
+  $("#duSplit").onclick=()=>{ const n1=$("#duP1").value.trim()||"Spieler 1", n2=$("#duP2").value.trim()||"Spieler 2"; splitStart(n1,n2); };
+  $("#duLink").onclick=()=>{ DU.mode="link"; DU.list=duellFragen(DU.cat,DU.stufe,DU.n); DU.herausf=null; soloStart(); };
+  $("#duHost") && ($("#duHost").onclick=duOnlineHost);
+  $("#duJoin") && ($("#duJoin").onclick=()=>duOnlineJoin($("#duPin").value.trim()));
+}
+
+/* ---------- 📱 Zwei Spieler auf einem Gerät ---------- */
+function splitStart(n1,n2){
+  if(duellPool(DU.cat,DU.stufe).length<3){ $("#duErr").textContent="Zu wenige Fragen für dieses Thema."; return; }
+  DU.split={ namen:[n1,n2], score:[0,0], list:duellFragen(DU.cat,DU.stufe,DU.n), i:0, lock:[false,false], pick:[null,null], start:0, aus:false, gewinner:null };
+  go("duellsplit"); splitFrage();
+}
+function splitFrage(){ const D=DU.split; D.lock=[false,false]; D.pick=[null,null]; D.aus=false; D.gewinner=null; D.start=Date.now(); renderDuellSplit();
+  clearInterval(DU.tick); DU.tick=setInterval(()=>{ if(S.screen!=="duellsplit"){ clearInterval(DU.tick); return; } const left=DUELL_ZEIT-(Date.now()-D.start); document.querySelectorAll(".spzeit").forEach(el=>el.textContent=Math.max(0,Math.ceil(left/1000))); if(left<=0 && !D.aus) splitAufloesen(); },200); }
+function splitTipp(p,i){
+  const D=DU.split; if(D.aus||D.lock[p]) return; const f=D.list[D.i];
+  D.pick[p]=i;
+  if(i===f.c){ D.score[p]+=duellPunkte(true,Date.now()-D.start); D.gewinner=p; splitAufloesen(); }
+  else { D.lock[p]=true; if(D.lock[0]&&D.lock[1]) splitAufloesen(); else renderDuellSplit(); }
+}
+function splitAufloesen(){ const D=DU.split; D.aus=true; clearInterval(DU.tick); renderDuellSplit();
+  setTimeout(()=>{ if(S.screen!=="duellsplit") return; D.i++; if(D.i<D.list.length) splitFrage(); else { go("duellende"); } }, 1800); }
+function renderDuellSplit(){
+  const D=DU.split; if(!D) return go("duell"); const f=D.list[D.i];
+  const seite=p=>`<div class="sphalb sp${p}"><div class="spkopf"><b>${esc(D.namen[p])}</b><span class="spscore">${D.score[p]}</span></div>
+    <div class="spfrage">${f.img?`<div class="spimg">${imgSvg(f.img)}</div>`:""}<p>${esc(f.q)}</p></div>
+    <div class="spants">${f.opts.map((o,i)=>{ let cls=""; if(D.aus&&i===f.c) cls="right"; else if(D.pick[p]===i) cls="wrong";
+      return `<button type="button" class="spant ${cls}" data-sp="${p}" data-i="${i}" ${D.aus||D.lock[p]?"disabled":""}><span class="key">${"ABCD"[i]}</span>${esc(o)}</button>`; }).join("")}</div>
+    <div class="spfuss">${D.aus ? (D.gewinner===p?"🎉 Punkt für dich!":D.gewinner===1-p?"😮 Zu langsam!":"⏱️ Niemand richtig") : D.lock[p]?"❌ Falsch, warte auf die nächste Frage":`⏱️ <span class="spzeit">${Math.ceil(DUELL_ZEIT/1000)}</span> s · Frage ${D.i+1}/${D.list.length}`}</div></div>`;
+  $("#app").innerHTML = `<div class="splitfeld">${seite(1)}<div class="spmitte"><button type="button" class="spexit" id="spExit">✕ Beenden</button><span>⚔️ ${D.score[0]} : ${D.score[1]}</span></div>${seite(0)}</div>`;
+  document.querySelectorAll(".spant").forEach(b=>b.onclick=()=>splitTipp(+b.dataset.sp,+b.dataset.i));
+  $("#spExit").onclick=()=>{ if(confirm("Duell beenden?")){ clearInterval(DU.tick); go("duell"); } };
+}
+
+/* ---------- Gemeinsamer Ablauf für Online und Link: jeder spielt seine Fragen ---------- */
+function soloStart(){ DU.run={ i:0, score:0, ant:[], start:Date.now(), qStart:Date.now(), aus:false, pick:null }; go("duellplay"); soloFrage(); }
+function soloFrage(){ const R=DU.run; R.aus=false; R.pick=null; R.qStart=Date.now(); renderDuellPlay();
+  clearInterval(DU.tick); DU.tick=setInterval(()=>{ if(S.screen!=="duellplay"){ clearInterval(DU.tick); return; } const left=DUELL_ZEIT-(Date.now()-R.qStart); const el=$("#duZeit"); if(el) el.textContent=Math.max(0,Math.ceil(left/1000)); if(left<=0 && !R.aus) soloTipp(-1); },200); }
+function soloTipp(i){
+  const R=DU.run; if(R.aus) return; const f=DU.list[R.i]; const ms=Date.now()-R.qStart, ok=i===f.c, pts=duellPunkte(ok,ms);
+  R.aus=true; R.pick=i; R.score+=pts; R.ant.push(ok?1:0); clearInterval(DU.tick);
+  if(DU.mode==="online") duPresence();
+  renderDuellPlay();
+  setTimeout(()=>{ if(S.screen!=="duellplay") return; R.i++; if(R.i<DU.list.length) soloFrage(); else soloEnde(); }, 1300);
+}
+function soloEnde(){
+  const R=DU.run; R.fertig=true;
+  if(DU.mode==="online"){ duPresence(); go("duellende"); return; }
+  if(DU.mode==="link"){
+    const name=S.profil?.name||DU.linkName||"Jemand";
+    if(DU.herausf){ const h=DU.herausf; DU.ergebnis={a:{n:h.n,s:h.s,a:h.a}, b:{n:name,s:R.score,a:R.ant}}; DU.antwortLink=`${TEST_BASE}#e=${b64e({k:h.k, n:name, s:R.score, a:R.ant.join("")})}`; }
+    else { const k=Math.random().toString(36).slice(2,9); const d={k, n:name, s:R.score, a:R.ant.join(""), q:DU.list.map(f=>f.id), c:DU.cat, st:DU.stufe, d:new Date().toISOString()};
+      const l=store.get("ep-duelle",[]); l.unshift({...d, gegner:[]}); store.set("ep-duelle",l.slice(0,30)); DU.linkUrl=`${TEST_BASE}#d=${b64e(d)}`; DU.ergebnis=null; }
+    go("duellende");
+  }
+}
+function renderDuellPlay(){
+  const R=DU.run, f=DU.list[R.i]; const g=DU.mode==="online"?duGegner():null;
+  $("#app").innerHTML = `${crumbs()}
+    <div class="dutop"><span class="duich">${esc(S.profil?.name||DU.linkName||"Du")}: <b>${R.score}</b></span>
+      ${g?`<span class="dugeg">${esc(g.name)}: <b>${g.score||0}</b> <small>(Frage ${Math.min((g.i||0)+1,DU.list.length)})</small></span>`:DU.herausf?`<span class="dugeg">${esc(DU.herausf.n)} hatte <b>${DU.herausf.s}</b></span>`:""}
+      <span class="duzeit">⏱️ <b id="duZeit">${Math.ceil(DUELL_ZEIT/1000)}</b></span></div>
+    <div class="bar dubar"><i style="width:${R.i/DU.list.length*100}%"></i>${g?`<i class="gegbar" style="width:${(g.i||0)/DU.list.length*100}%"></i>`:""}</div>
+    <div class="card">
+      <span class="modebadge">⚔️ Duell · Frage ${R.i+1} von ${DU.list.length}</span>
+      ${f.img?`<div class="qimg">${imgSvg(f.img)}</div>`:""}
+      <h2 class="question">${esc(f.q)}</h2>
+      <div class="answers">${f.opts.map((o,i)=>{ let cls=""; if(R.aus){ if(i===f.c) cls="right"; else if(R.pick===i) cls="wrong"; }
+        return `<button class="ans ${cls}" type="button" data-di="${i}" ${R.aus?"disabled":""}><span class="key">${"ABCD"[i]}</span><span>${esc(o)}</span></button>`; }).join("")}</div>
+      ${R.aus?`<p class="dufb">${R.pick===f.c?"✅ Richtig!":"❌ "+(R.pick<0?"Zeit abgelaufen":"Leider falsch")} · 💡 ${esc(f.m||"")}</p>`:""}
+    </div>`;
+  document.querySelectorAll("[data-di]").forEach(b=>b.onclick=()=>soloTipp(+b.dataset.di));
+}
+
+/* ---------- 🌐 Online live (Räume auf claude.ai) ---------- */
+function duGegner(){ const ps=(DU.sub?.peers()||[]).map(p=>p.presence||{}).filter(p=>p.pin===DU.pin && p.rolle && p.rolle!==DU.rolle); return ps[0]||null; }
+function duPresence(){ if(!DU.sub) return; const R=DU.run||{}; const st={pin:DU.pin, rolle:DU.rolle, name:S.profil?.name||DU.ich||"Spieler", av:S.profil?.avatar||null, i:R.i||0, score:R.score||0, fertig:!!R.fertig, ant:(R.ant||[]).join("")};
+  if(DU.rolle==="host"){ st.list=DU.list; st.phase=DU.phase; st.startAt=DU.startAt||0; }
+  DU.sub.presence(st).catch(()=>{}); }
+async function duOnlineHost(){
+  const room=await liveRoom(); if(!room){ $("#duErr").textContent="Das Live-Duell funktioniert nur in der claude.ai-Version."; return; }
+  duellLeave(); DU.mode="online"; DU.rolle="host"; DU.pin=String(Math.floor(1000+Math.random()*9000)); DU.list=duellFragen(DU.cat,DU.stufe,DU.n); DU.phase="lobby"; DU.run=null;
+  DU.sub=room.join("easyplay-duell-"+DU.pin); duPresence();
+  DU.unsub.push(DU.sub.onPeers(()=>{ if(S.screen==="duelllobby") renderDuellLobby(); else if(S.screen==="duellplay") { const g=duGegner(); const el=document.querySelector(".dugeg b"); if(el&&g) el.textContent=g.score||0; } else if(S.screen==="duellende") renderDuellEnde(); }));
+  go("duelllobby");
+}
+async function duOnlineJoin(pin){
+  if(!/^\d{4}$/.test(pin)){ $("#duErr").textContent="Der PIN hat 4 Ziffern."; return; }
+  const room=await liveRoom(); if(!room){ $("#duErr").textContent="Das Live-Duell funktioniert nur in der claude.ai-Version."; return; }
+  duellLeave(); DU.mode="online"; DU.rolle="gast"; DU.pin=pin; DU.list=null; DU.run=null;
+  DU.sub=room.join("easyplay-duell-"+pin); duPresence();
+  DU.unsub.push(DU.sub.onPeers(()=>{ const g=duGegner();
+    if(g?.list && !DU.list) DU.list=g.list;
+    if(g?.phase==="spiel" && !DU.run && DU.list){ const warte=Math.max(0,(g.startAt||0)-Date.now()); setTimeout(()=>{ if(!DU.run) soloStart(); }, warte); }
+    if(S.screen==="duelllobby") renderDuellLobby(); else if(S.screen==="duellende") renderDuellEnde(); }));
+  go("duelllobby");
+}
+function renderDuellLobby(){
+  const g=duGegner();
+  $("#app").innerHTML = `${crumbs()}<div class="card lwait dulobby">
+    ${DU.rolle==="host" ? `<h2>⚔️ Dein Duell-PIN</h2><div class="dupin">${DU.pin}</div><p>Dein Gegner öffnet easyplay → ⚔️ Duell → Online live und gibt diesen PIN ein.</p>`
+      : `<h2>⚔️ Duell ${esc(DU.pin)}</h2>`}
+    <div class="duvs"><div><span class="pav">${avatar(S.profil?.avatar||"e0")}</span><b>${esc(S.profil?.name||"Du")}</b></div><span class="vs">VS</span>
+      <div>${g?`<span class="pav">${avatar(g.av||"e1")}</span><b>${esc(g.name)}</b>`:`<span class="pav pfrei">?</span><b>Wartet …</b>`}</div></div>
+    ${DU.rolle==="host" ? `<button class="big" id="duGo" type="button" ${g?"":"disabled"}>${g?"🚀 Duell starten":"Warte auf Gegner …"}</button>` : `<p>${DU.list?"Gleich geht es los, sobald der Gastgeber startet!":"Suche das Duell …"}</p>`}
+    <button class="big alt" id="duAb" type="button">Abbrechen</button></div>`;
+  $("#duGo") && ($("#duGo").onclick=()=>{ DU.phase="spiel"; DU.startAt=Date.now()+1500; duPresence(); setTimeout(soloStart,1500); });
+  $("#duAb").onclick=()=>{ duellLeave(); go("duell"); };
+}
+
+/* ---------- Ergebnis ---------- */
+function renderDuellEnde(){
+  let a, b, links="";
+  if(DU.split && S.screenVon==="split"){}
+  if(DU.mode==="online"){ const R=DU.run||{score:0}; const g=duGegner(); a={n:S.profil?.name||"Du", s:R.score}; b={n:g?.name||"Gegner", s:g?.score||0, fertig:g?.fertig};
+    if(g && !g.fertig) links=`<p class="help">${esc(g.name)} spielt noch … (Frage ${Math.min((g.i||0)+1,DU.list.length)} von ${DU.list.length})</p>`; }
+  else if(DU.mode==="link"){
+    if(DU.ergebnis){ a=DU.ergebnis.b; b=DU.ergebnis.a; links=`<p>Schick dein Ergebnis zurück:</p>${teilKnoepfe(DU.antwortLink, `Ich habe dein easyplay-Duell gespielt: ${a.s} zu ${b.s} Punkte!`)}`; }
+    else { const R=DU.run; a={n:S.profil?.name||"Du", s:R.score}; b=null; links=`<p><b>Jetzt herausfordern!</b> Schicke diesen Link. Wer mehr Punkte holt, gewinnt.</p>${teilKnoepfe(DU.linkUrl, `⚔️ Ich fordere dich zum easyplay-Duell heraus! Ich habe ${R.score} Punkte, schaffst du mehr?`)}`; }
+  } else { const D=DU.split; a={n:D.namen[0], s:D.score[0]}; b={n:D.namen[1], s:D.score[1]}; }
+  const sieg = b && (b.fertig!==false) ? (a.s>b.s?"a":a.s<b.s?"b":"u") : null;
+  $("#app").innerHTML = `${crumbs()}<div class="card duende">
+    ${sieg==="u"?`<h1>🤝 Unentschieden!</h1>`:sieg?`<h1>🏆 ${esc((sieg==="a"?a:b).n)} gewinnt!</h1>`:`<h1>⚔️ Deine Punkte: ${a.s}</h1>`}
+    ${b?`<div class="duvs gross"><div class="${sieg==="a"?"sieger":""}"><b>${esc(a.n)}</b><span class="dupkt">${a.s}</span></div><span class="vs">:</span><div class="${sieg==="b"?"sieger":""}"><b>${esc(b.n)}</b><span class="dupkt">${b.s}</span></div></div>`:""}
+    ${links}
+    <div class="row"><button class="big" id="duNeu" type="button">🔁 ${DU.mode==="link"&&!DU.ergebnis?"Neues Duell":"Revanche"}</button><button class="big alt" id="duMenu" type="button">⚔️ Zum Duell-Menü</button></div></div>
+    ${sieg&&sieg!=="u"?`<div class="pkonfetti dukonf" aria-hidden="true">${Array.from({length:30},(_,i)=>`<i style="--x:${(i*37)%100}%;--d:${(i%9)*.4}s;--c:${["#FFD34D","#FF6FA8","#7FD1FF","#7BE07B","#B98CFF"][i%5]}"></i>`).join("")}</div>`:""}`;
+  bindTeilKnoepfe();
+  $("#duNeu").onclick=()=>{ if(DU.mode==="online"||DU.mode==="link"){ duellLeave(); go("duell"); } else splitStart(DU.split.namen[0],DU.split.namen[1]); };
+  $("#duMenu").onclick=()=>{ duellLeave(); go("duell"); };
+}
+function teilKnoepfe(url, text){ return `<div class="duteilen"><input class="sel" readonly value="${esc(url)}" id="duUrl"><div class="row" style="margin:6px 0 0"><a class="big alt small" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(text+" "+url)}">WhatsApp</a><a class="big alt small" href="mailto:?subject=${encodeURIComponent("easyplay-Duell")}&body=${encodeURIComponent(text+"\n\n"+url)}">E-Mail</a><button class="big alt small" type="button" id="duKopie">Link kopieren</button>${navigator.share?`<button class="big alt small" type="button" id="duShare">Teilen</button>`:""}</div></div>`; }
+function bindTeilKnoepfe(){ const u=$("#duUrl"); if(!u) return;
+  $("#duKopie").onclick=async()=>{ try{ await navigator.clipboard.writeText(u.value); $("#duKopie").textContent="✅ Kopiert"; }catch(e){ u.select(); } };
+  $("#duShare") && ($("#duShare").onclick=()=>navigator.share({title:"easyplay-Duell", url:u.value}).catch(()=>{})); }
+
+/* ---------- Links öffnen: #d= Herausforderung, #e= Antwort ---------- */
+function oeffneDuellLink(v){
+  const m=String(v).match(/#([de])=([A-Za-z0-9_-]+)/); if(!m) return false; let d; try{ d=b64d(m[2]); }catch(e){ return false; }
+  if(m[1]==="d"){ const map=frageMap(); const list=(d.q||[]).map(id=>map[id]).filter(Boolean);
+    if(!list.length) return false;
+    DU.mode="link"; DU.herausf={k:d.k, n:String(d.n||"Jemand").slice(0,30), s:+d.s||0, a:String(d.a||"").split("").map(Number)};
+    DU.list=list.map(f=>{ const o=shuffle(f.a.map((t,i)=>({t,ok:i===0}))); return {id:qid(f), q:f.q, img:f.img||null, opts:o.map(x=>x.t), c:o.findIndex(x=>x.ok), m:f.m}; });
+    go("duellannahme"); return true; }
+  if(m[1]==="e"){ const l=store.get("ep-duelle",[]); const t=l.find(x=>x.k===d.k);
+    if(t){ t.gegner=t.gegner||[]; if(!t.gegner.some(x=>x.n===d.n&&x.s===d.s)) t.gegner.push({n:String(d.n).slice(0,30), s:+d.s||0}); store.set("ep-duelle",l); }
+    DU.mode="link"; DU.ergebnis={a:{n:String(d.n||"Gegner"), s:+d.s||0}, b:{n:t?.n||"Du", s:t?.s||0}}; DU.antwortLink=null;
+    go("duellresultat"); return true; }
+  return false;
+}
+function renderDuellAnnahme(){
+  const h=DU.herausf;
+  $("#app").innerHTML = `${crumbs()}<div class="card lwait"><span class="dusw">⚔️</span><h2>${esc(h.n)} fordert dich heraus!</h2>
+    <p>${DU.list.length} Fragen, je ${DUELL_ZEIT/1000} Sekunden. ${esc(h.n)} hat <b>${h.s} Punkte</b> geholt. Schaffst du mehr?</p>
+    ${S.profil?"":`<input id="duName" class="sel" maxlength="14" placeholder="Dein Name">`}
+    <button class="big" id="duAnnehmen" type="button">⚔️ Herausforderung annehmen</button></div>`;
+  $("#duAnnehmen").onclick=()=>{ if(!S.profil){ DU.linkName=$("#duName").value.trim()||"Gast"; } soloStart(); };
+}
+function renderDuellResultat(){
+  const e=DU.ergebnis; const sieg=e.b.s>e.a.s?"b":e.b.s<e.a.s?"a":"u";
+  $("#app").innerHTML = `${crumbs()}<div class="card duende"><h1>${sieg==="u"?"🤝 Unentschieden!":sieg==="b"?"🏆 Du hast gewonnen!":`😮 ${esc(e.a.n)} hat gewonnen!`}</h1>
+    <div class="duvs gross"><div class="${sieg==="b"?"sieger":""}"><b>${esc(e.b.n)}</b><span class="dupkt">${e.b.s}</span></div><span class="vs">:</span><div class="${sieg==="a"?"sieger":""}"><b>${esc(e.a.n)}</b><span class="dupkt">${e.a.s}</span></div></div>
+    <div class="row"><button class="big" id="duMenu" type="button">⚔️ Neues Duell</button></div></div>`;
+  $("#duMenu").onclick=()=>go("duell");
+}
+
 /* ---------- Start ---------- */
 $("#home").onclick=()=>{ if(S.libModus) setLibModus(false); else go("home"); };
 authInit();
 himmelAktualisieren();
 render();
 if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash);
-addEventListener("hashchange",()=>{ if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash); });
+if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash);
+addEventListener("hashchange",()=>{ if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash); if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash); });
 himmelAktualisieren();
 setInterval(himmelAktualisieren, 60000);
 ladeFragenDB();
