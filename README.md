@@ -31,3 +31,20 @@ Alternativ Netlify oder Vercel (funktioniert auch mit privatem Repository).
 Diese Teile nutzen `window.claude.use(...)` und brauchen für die eigene Domain einen eigenen Dienst (z. B. Supabase):
 gemeinsame Rangliste und Profile (`db`, `user`), Live-Wettbewerb (`room`), KI-Fragen-Werkstatt (`sample`).
 Auf GitHub werden Profil, Statistik und eigene Tests lokal im Browser gespeichert.
+
+
+## Dateien im Repository (Stand Oktober 2026)
+
+| Datei | Wozu |
+|---|---|
+| `index.html` | Die ganze Website (Spiel, Bibliothek, Rangliste, Wettbewerb, Profil) |
+| `config.js` | Einstellungen für Supabase (leer lassen = ohne Server) |
+| `fragen.json` | Alle Quizfragen |
+| `fragen.csv` | Dieselben Fragen als Tabelle, für den Import in Supabase |
+| `texte.json` | Die Beschreibungstexte der Bibliothek |
+| `logo.png`, `logo-mit-kindern.png` | Logos |
+| `ANLEITUNG-DATENBANK.md` | Supabase für Fragen und Rangliste einrichten |
+| `ANLEITUNG-LOGIN.md` | Anmeldung mit E-Mail, Google, Facebook und Apple einrichten |
+| `supabase/schema.sql` | Tabellen für Supabase |
+
+**Aktuelle Fragen und Texte:** In der claude.ai-Version unter Fragen-Werkstatt die Knöpfe «fragen.json exportieren» und «texte.json exportieren» nutzen und die Dateien hier ersetzen.
