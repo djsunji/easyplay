@@ -862,6 +862,8 @@ a.big{text-decoration:none}
 .suchthema{max-width:300px;flex:1 1 220px}
 
 /* ===== Bibliothek-Modus ===== */
+:root{--libink:#3B2F1E;--libpaper:#FFFDF7;--libline:#E6D9BD;--libacc:#8A5A2B}
+:root[data-theme="dark"]{--libink:#F1E6CF;--libpaper:#26231D;--libline:#4A4234;--libacc:#E0B070}
 :root[data-mode="lib"]{--libink:#3B2F1E;--libpaper:#FFFDF7;--libline:#E6D9BD;--libacc:#8A5A2B}
 :root[data-mode="lib"][data-theme="dark"]{--libink:#F1E6CF;--libpaper:#26231D;--libline:#4A4234;--libacc:#E0B070}
 .navbtn.libbtn{border-color:#C9A66B;background:linear-gradient(135deg,#FFF6E3,#F3E1BC);color:#5A3E1B}
@@ -1903,6 +1905,21 @@ html,body{overflow-x:clip}
 .kzchips i{font-style:normal;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.25);font-size:.85rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
 @media (prefers-reduced-motion:reduce){.kennzahlen.kz2 .kzk::before,.kennzahlen.kz2 .kzicon{animation:none}}
 @media (max-width:560px){.kennzahlen.kz2 .kztext b{font-size:2rem}.kzchips{font-size:.7rem}.kzchips i{width:20px;height:20px;font-size:.72rem}}
+
+
+/* ---- Querverweise ---- */
+a.vlink{color:var(--bf,#3D5AFE);font-weight:700;text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer;border-radius:4px;transition:background .15s}
+a.vlink:hover,a.vlink:focus-visible{background:rgba(61,90,254,.12);text-decoration-style:solid}
+.verbindungen{margin:26px 0 10px;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(61,90,254,.07),rgba(224,67,184,.07));border:2px solid rgba(61,90,254,.18)}
+.verbindungen h3{margin:0 0 10px}
+.vgruppe+.vgruppe{margin-top:14px}
+.vkopf{margin:0 0 8px;font-weight:800;color:var(--soft)}
+.vchips{display:flex;flex-wrap:wrap;gap:8px}
+.vchip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;border:2px solid rgba(0,0,0,.08);background:var(--surface,#fff);cursor:pointer;text-align:left;font:inherit;box-shadow:0 3px 0 rgba(0,0,0,.08);transition:transform .12s}
+.vchip:hover{transform:translateY(-2px);border-color:var(--bf,#3D5AFE)}
+.vemo{font-size:1.3rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.vt{display:grid;line-height:1.15}.vt b{font-size:.95rem}.vt small{font-size:.75rem;color:var(--soft)}
+@media (max-width:560px){.vchip{flex:1 1 100%}}
 
 </style>
 </head>
@@ -5025,7 +5042,7 @@ function jsonRx(name){ return new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g,"\\$
 function passSeiten(uniq,text){ return PAESSE.map(([titel,wiki,h,kt,verb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,art:"pass",verb}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)})); }
 function juraKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
-  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
+  const text=fTextM;
   const ueber={typ:"fr", titel:"Jura (Überblick)", wiki:"Jura (Gebirge)", fragen:uniq.filter(f=>/Juragebirge|Faltenjura|Kettenjura|Tafeljura|\bJura\b[^.]{0,40}(Gebirge|Kette|Bogen|Kalk|Höhenzug)/.test(text(f))).slice(0,40)};
   return [ueber, ...JURA.map(([titel,wiki,h,kt,geb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,geb,art:/Pass/.test(geb)?"pass":"jura", verb:/Pass/.test(geb)?geb.replace(/ \(Pass\)/,""):""}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)}))].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
 }
@@ -5151,7 +5168,7 @@ function steckHTML(s){
 }
 function chKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
-  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
+  const text=fTextM;
   const such=re=>uniq.filter(f=>re.test(text(f))).slice(0,40);
   const sortiere=a=>a.sort((x,y)=>x.titel.localeCompare(y.titel,"de"));
   const beh=CH_BEHOERDEN.map(([titel,wiki,abk,gr,auf,sitz,re])=>({typ:"fr", titel:abk&&!titel.startsWith(abk)?`${titel} (${abk})`:titel, wiki, steck:{art:"beh",emo:"🏛️",titel:"Steckbrief",zeilen:[["Abkürzung",abk],["Gehört zu",gr],["Sitz",sitz]],text:auf}, fragen:such(re)}));
@@ -5183,8 +5200,8 @@ const EXTRA_KAP = {
 function istSonderKapitel(id){ return ["alpen","jura","ch_behoerden","ch_sicherheit","ch_betriebe"].includes(id) || String(id).startsWith("x_"); }
 function extraKapitel(bid){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
-  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"");
-  const rx=t=>{ const w=t.replace(/\s*\(.*\)$/,"").trim(); if(w.length<4) return null; return new RegExp("(^|[^A-Za-zÄÖÜäöü])"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-zäöü])"); };
+  const text=fText;
+  const rx=t=>{ const w=t.replace(/\s*\(.*\)$/,"").trim(); if(w.length<4) return null; const re=new RegExp("(^|[^A-Za-zÄÖÜäöü])"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-zäöü])"); return {test:s=>s.includes(w) && re.test(s)}; };
   return Object.entries(EXTRA_KAP).filter(([,k])=>k.buch===bid).map(([id,k])=>({id, titel:k.titel, emo:k.emo,
     seiten:EXTRA_EINTRAEGE.filter(e=>e.kap===id).map(e=>{ const re=rx(e.titel); const eigene=e.fragen.map(f=>({...f, t:id, s:e.titel}));
       const weitere=re? uniq.filter(f=>re.test(text(f)) && !eigene.some(x=>x.q===f.q)).slice(0,13) : [];
@@ -5204,6 +5221,93 @@ function zufallArtikel(){
 }
 function bibSeitenZahl(){ try{ return BUECHER.reduce((n,B)=>n+buchDaten(B.id).seiten.length,0); }catch(e){ return 0; } }
 
+
+/* Suchtext je Frage nur einmal bauen (spart viel Zeit beim Aufbau der Bibliothek) */
+const FT_CACHE=new WeakMap(), FTM_CACHE=new WeakMap();
+function fText(f){ let t=FT_CACHE.get(f); if(t===undefined){ t=f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||""); FT_CACHE.set(f,t); } return t; }
+function fTextM(f){ let t=FTM_CACHE.get(f); if(t===undefined){ t=fText(f)+" "+(f.m||""); FTM_CACHE.set(f,t); } return t; }
+/* ---------- Bibliothek: Querverweise zwischen Artikeln ---------- */
+const VL = { key:"", alias:null, re:null, rueck:{} };
+function vlSeitenAlle(){ return BUECHER.flatMap(B=>buchDaten(B.id).seiten.map(s=>({s,B}))); }
+function vlAlias(t){ return String(t).replace(/\s*\([^)]*\)\s*$/,"").trim(); }
+function vlEsc(t){ return t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
+function vlIndex(){
+  const key=FRAGEN.length+"|"+S.extra.length;
+  if(VL.key===key && VL.re) return VL;
+  const map=new Map();
+  const score=s=>(s.teile||s.typ==="art"?5:0)+(S.texte[seiteKey(s)]?3:0)+Math.min((s.fragen||[]).length,20)/10;
+  vlSeitenAlle().forEach(({s,B})=>{
+    if(s.titel==="Allgemeines") return;
+    const a=vlAlias(s.titel); if(a.length<4 || /^\d+$/.test(a) || VL_STOPP.has(a)) return;
+    const alt=map.get(a); const sc=score(s);
+    if(!alt || sc>alt.sc) map.set(a,{b:B.id, nr:s.nr, titel:s.titel, emo:B.emo, buch:B.titel, kap:s.kap?.titel||"", sc});
+  });
+  const namen=[...map.keys()].sort((x,y)=>y.length-x.length);
+  VL.alias=map; VL.key=key; VL.rueck={};
+  VL.re = namen.length ? new RegExp("(?<![A-Za-zÄÖÜäöüß])("+namen.map(vlEsc).join("|")+")(?:s|es)?(?![A-Za-zäöüß])","g") : null;
+  return VL;
+}
+const VL_STOPP=new Set(["Schweiz","Wasser","Sommer","Winter","Frühling","Herbst","Welt","Leben","Zeit","Geld","Menschen","Mensch","Tiere","Natur","Familie","Schule","Arbeit","Luft","Farben","Zahlen"]);
+const VL_SKIP="a,button,h1,figure,.skopf,.blaettern,.libnav,.zufallleiste,.kframe,.kfuss,.verbindungen,.adminleiste,.stkopf,dt,.bibst,.flusstabs,.kkopf,.kinfo,.wikilink,.speak,svg,script,style";
+function verlinkeSeite(s, B){
+  const root=$(".buchseite"); if(!root) return;
+  let V; try{ V=vlIndex(); }catch(e){ return; }
+  if(!V.re) return;
+  const selbst=vlAlias(s.titel); const gefunden=new Map();
+  const walker=document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode:n=> n.nodeValue.trim().length<4 || n.parentElement.closest(VL_SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+  const knoten=[]; while(walker.nextNode()) knoten.push(walker.currentNode);
+  for(const n of knoten){
+    const txt=n.nodeValue; V.re.lastIndex=0; let m, pos=0; const frag=document.createDocumentFragment(); let geaendert=false;
+    while((m=V.re.exec(txt))){
+      const ziel=V.alias.get(m[1]); if(!ziel || m[1]===selbst || (ziel.b===B.id && ziel.nr===s.nr)) continue;
+      const k=ziel.b+"|"+ziel.nr; if(gefunden.has(k) || gefunden.size>=40) continue;
+      gefunden.set(k,ziel);
+      frag.append(txt.slice(pos,m.index));
+      const a=document.createElement("a"); a.href="#"; a.className="vlink"; a.dataset.sb=ziel.b; a.dataset.sn=ziel.nr; a.title=`Zum Artikel «${ziel.titel}»`; a.textContent=m[0];
+      frag.append(a); pos=m.index+m[0].length; geaendert=true;
+    }
+    if(geaendert){ frag.append(txt.slice(pos)); n.parentNode.replaceChild(frag,n); }
+  }
+  root.querySelectorAll(".vlink").forEach(a=>a.onclick=e=>{ e.preventDefault(); vlOeffnen(a.dataset.sb, +a.dataset.sn); });
+  const box=$("#verbBox"); if(!box) return;
+  const chip=z=>`<button type="button" class="vchip" data-sb="${z.b}" data-sn="${z.nr}"><span class="vemo">${z.emo}</span><span class="vt"><b>${esc(z.titel)}</b><small>${esc(z.buch)} · ${esc(z.kap)}</small></span></button>`;
+  const raus=[...gefunden.values()];
+  const zeichne=rein=>{
+    if(!$("#verbBox")) return;
+    if(!raus.length && !rein.length){ box.hidden=true; return; }
+    box.innerHTML=`<h3>🔗 Verbindungen</h3>
+      ${raus.length?`<div class="vgruppe"><p class="vkopf">➡️ In diesem Artikel erwähnt</p><div class="vchips">${raus.map(chip).join("")}</div></div>`:""}
+      ${rein.length?`<div class="vgruppe"><p class="vkopf">⬅️ «${esc(s.titel)}» wird erwähnt in</p><div class="vchips">${rein.map(chip).join("")}</div></div>`:""}`;
+    box.hidden=false;
+    box.querySelectorAll(".vchip").forEach(b=>b.onclick=()=>vlOeffnen(b.dataset.sb, +b.dataset.sn));
+  };
+  zeichne([]);
+  const rk=B.id+"|"+s.nr;
+  if(VL.rueck[rk]){ zeichne(VL.rueck[rk]); return; }
+  if(selbst.length<4){ return; }
+  setTimeout(()=>{
+    if(LIB.seite!==s.nr) return;
+    const re=new RegExp("(?<![A-Za-zÄÖÜäöüß])"+vlEsc(selbst)+"(?:s|es)?(?![A-Za-zäöüß])");
+    const rein=[];
+    for(const {s:x,B:XB} of vlSeitenAlle()){
+      if(x===s || x.titel==="Allgemeines" || vlAlias(x.titel)===selbst) continue;
+      const t = x.typ==="art" ? String(x.art.html||"").replace(/<[^>]+>/g," ") :
+        (x.fragen||[]).map(f=>f.q+" "+f.a[0]+" "+f.e+" "+(f.m||"")).join(" ")+" "+(S.texte[seiteKey(x)]||"")+" "+(x.teile?[x.teile.einleitung,...(x.teile.wichtigste||[]),...(x.teile.abschnitte||[]).map(a=>a.text),...(x.teile.gewusst||[])].join(" "):"")+" "+(x.steck?.zeilen||[]).map(z=>z[1]).join(" ");
+      if(re.test(t) && !rein.some(z=>vlAlias(z.titel)===vlAlias(x.titel))) rein.push({b:XB.id, nr:x.nr, titel:x.titel, emo:XB.emo, buch:XB.titel, kap:x.kap?.titel||""});
+      if(rein.length>=24) break;
+    }
+    VL.rueck[rk]=rein; zeichne(rein);
+  },60);
+}
+function bibAufwaermen(){
+  const ids=BUECHER.map(B=>B.id); let i=0;
+  const schritt=()=>{ if(i>=ids.length){ try{ vlIndex(); }catch(e){} return; } try{ buchDaten(ids[i++]); }catch(e){}
+    (window.requestIdleCallback||((f)=>setTimeout(f,200)))(schritt,{timeout:3000}); };
+  setTimeout(schritt,2500);
+}
+setTimeout(bibAufwaermen,0);
+function vlOeffnen(b, nr){ LIB.buch=b; LIB.seite=nr; LIB.zufall=false; go("libseite"); scrollTo(0,0); }
+
 /* ---------- Bibliothek: Kapitel «Die Schweizer Alpen» ---------- */
 const ALPEN_SEITEN = [
   ["Alpen (Überblick)","Alpen",/\balpen\b|alpenraum|alpenland/i],
@@ -5221,7 +5325,7 @@ const ALPEN_SEITEN = [
 ];
 function alpenKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
-  const text=f=>f.q+" "+(f.a?.[0]||"")+" "+f.e+" "+(f.s||"")+" "+(f.m||"");
+  const text=fTextM;
   return [...ALPEN_SEITEN.map(([titel,wiki,re])=>({typ:"fr", titel, wiki, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)})), ...gipfelSeiten(uniq,text), ...passSeiten(uniq,text), ...bahnSeiten(uniq,text)].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
 }
 function startListe(list, titel){
@@ -5375,6 +5479,7 @@ function renderLibSeite(){
       <figure class="wbild ersatz" id="wBild">${ersatzBildHTML(s,B)}</figure>
       ${speakBtn(s.titel+". "+(s.typ==="art"?s.art.html.replace(/<[^>]+>/g," "):(S.texte[seiteKey(s)]||s.fragen.slice(0,5).map(f=>f.a[0]+". "+f.e).join(" "))))}
       ${inhalt}
+      <section class="verbindungen" id="verbBox" hidden></section>
       <div class="blaettern">
         <button class="big alt" id="sVor" type="button" ${vor?"":"disabled"}>← ${vor?`S. ${vor.nr}`:""}</button>
         <button class="big alt" id="sIdx" type="button">📑 Kapitel-Index</button>
@@ -5388,6 +5493,7 @@ function renderLibSeite(){
   if(s.typ==="art") zeigeWikiBild(null, s.nr, [s.art.bild||null, s.titel], s.titel+" Schweiz");
   else zeigeKarte(s.wiki||s.titel, s.nr, s.kap.id, s);
   $("#nochZufall") && ($("#nochZufall").onclick=zufallArtikel);
+  setTimeout(()=>{ if(LIB.seite===s.nr && LIB.buch===B.id){ try{ verlinkeSeite(s, B); }catch(e){ console.warn(e); } } },30);
   if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
