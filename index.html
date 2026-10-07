@@ -1907,18 +1907,18 @@ html,body{overflow-x:clip}
 @media (max-width:560px){.kennzahlen.kz2 .kztext b{font-size:2rem}.kzchips{font-size:.7rem}.kzchips i{width:20px;height:20px;font-size:.72rem}}
 
 
-/* ---- Querverweise ---- */
-a.vlink{color:var(--bf,#3D5AFE);font-weight:700;text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer;border-radius:4px;transition:background .15s}
-a.vlink:hover,a.vlink:focus-visible{background:rgba(61,90,254,.12);text-decoration-style:solid}
-.verbindungen{margin:26px 0 10px;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(61,90,254,.07),rgba(224,67,184,.07));border:2px solid rgba(61,90,254,.18)}
-.verbindungen h3{margin:0 0 10px}
+/* ---- Querverweise (Bibliotheksbraun) ---- */
+a.vlink{color:var(--libacc);font-weight:800;text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer;border-radius:4px;transition:background .15s}
+a.vlink:hover,a.vlink:focus-visible{background:color-mix(in srgb,var(--libacc) 16%,transparent);text-decoration-style:solid}
+.verbindungen{margin:26px 0 10px;padding:16px;border-radius:18px;background:color-mix(in srgb,var(--libacc) 8%,var(--libpaper));border:2px solid var(--libline);color:var(--libink)}
+.verbindungen h3{margin:0 0 10px;color:var(--libacc)}
 .vgruppe+.vgruppe{margin-top:14px}
-.vkopf{margin:0 0 8px;font-weight:800;color:var(--soft)}
+.vkopf{margin:0 0 8px;font-weight:800;color:var(--libacc)}
 .vchips{display:flex;flex-wrap:wrap;gap:8px}
-.vchip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;border:2px solid rgba(0,0,0,.08);background:var(--surface,#fff);cursor:pointer;text-align:left;font:inherit;box-shadow:0 3px 0 rgba(0,0,0,.08);transition:transform .12s}
-.vchip:hover{transform:translateY(-2px);border-color:var(--bf,#3D5AFE)}
+.vchip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;border:2px solid var(--libline);background:var(--libpaper);color:var(--libink);cursor:pointer;text-align:left;font:inherit;box-shadow:0 3px 0 color-mix(in srgb,var(--libacc) 35%,transparent);transition:transform .12s,border-color .12s}
+.vchip:hover,.vchip:focus-visible{transform:translateY(-2px);border-color:var(--libacc)}
 .vemo{font-size:1.3rem;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
-.vt{display:grid;line-height:1.15}.vt b{font-size:.95rem}.vt small{font-size:.75rem;color:var(--soft)}
+.vt{display:grid;line-height:1.15}.vt b{font-size:.95rem;color:var(--libink)}.vt small{font-size:.75rem;color:color-mix(in srgb,var(--libink) 65%,transparent)}
 @media (max-width:560px){.vchip{flex:1 1 100%}}
 
 </style>
