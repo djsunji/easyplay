@@ -5820,17 +5820,20 @@ function startZufall(){
   const all=[...FRAGEN, ...S.extra].filter(f=>THEMA[f.t]);
   const seen=new Set(); const uniq=all.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
   const nachBereich={}; uniq.forEach(f=>{ const b=THEMA[f.t]?.bereich?.id||"x"; (nachBereich[b]=nachBereich[b]||[]).push(f); });
-  Object.values(nachBereich).forEach(a=>shuffle(a));
-  const toepfe=Object.values(nachBereich); const list=[]; let i=0, stufe=1;
+  // zuletzt gespielte Fragen ans Ende, damit nicht immer dieselben kommen
+  const zuletzt=new Set(store.get("ep-zufall-zuletzt",[]));
+  const toepfe=shuffle(Object.values(nachBereich).map(a=>{ const m=shuffle(a); return [...m.filter(f=>!zuletzt.has(f.q)), ...m.filter(f=>zuletzt.has(f.q))]; }));
+  const list=[]; let i=0, stufe=1+Math.floor(Math.random()*3);
   while(list.length<25 && toepfe.some(a=>a.length)){
     const topf=toepfe[i%toepfe.length]; i++;
     if(!topf.length) continue;
     let idx=topf.findIndex(f=>f.l===stufe); if(idx<0) idx=0;
     list.push(topf.splice(idx,1)[0]); stufe = stufe%3+1;
   }
-  shuffle(list);
+  const gemischt=shuffle(list);
+  store.set("ep-zufall-zuletzt",[...gemischt.map(f=>f.q),...zuletzt].slice(0,600));
   S.thema = ZUFALL_THEMA;
-  S.quiz = { mode:"train", zufall:true, list: list.map(f=>({...f, opts: shuffle(f.a.map((txt,i)=>({txt, ok:i===0}))) })), i:0, score:0, points:0,
+  S.quiz = { mode:"train", zufall:true, list: gemischt.map(f=>({...f, opts: shuffle(f.a.map((txt,i)=>({txt, ok:i===0}))) })), i:0, score:0, points:0,
     picked:null, tab:"frage", qStart:performance.now(), start:performance.now(), zeit:0, seen:0, log:[], flushed:false, lastPts:0, count:list.length, timeout:false };
   go("quiz");
 }
