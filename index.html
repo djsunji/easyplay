@@ -1921,6 +1921,18 @@ a.vlink:hover,a.vlink:focus-visible{background:color-mix(in srgb,var(--libacc) 1
 .vt{display:grid;line-height:1.15}.vt b{font-size:.95rem;color:var(--libink)}.vt small{font-size:.75rem;color:color-mix(in srgb,var(--libink) 65%,transparent)}
 @media (max-width:560px){.vchip{flex:1 1 100%}}
 
+
+/* ---- Blättern oben im Artikel ---- */
+.obennav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 14px}
+.onav{display:flex;align-items:center;gap:10px;min-width:0;padding:9px 12px;border-radius:14px;border:2px solid var(--libline);background:color-mix(in srgb,var(--libacc) 7%,var(--libpaper));color:var(--libink);font:inherit;cursor:pointer;text-align:left;box-shadow:0 3px 0 color-mix(in srgb,var(--libacc) 30%,transparent);transition:transform .12s,border-color .12s}
+.onav.nach{justify-content:flex-end;text-align:right}
+.onav:hover:not(:disabled),.onav:focus-visible{transform:translateY(-2px);border-color:var(--libacc)}
+.onav:disabled{opacity:.45;cursor:default;box-shadow:none}
+.opfeil{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--libacc);color:var(--libpaper);font-weight:900}
+.otext{display:grid;min-width:0;line-height:1.2}
+.otext small{font-size:.72rem;font-weight:700;color:var(--libacc)}
+.otext b{font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:560px){.onav{padding:8px 9px;gap:7px}.opfeil{width:26px;height:26px}.otext b{font-size:.84rem}}
 </style>
 </head>
 <body>
@@ -5474,6 +5486,10 @@ function renderLibSeite(){
   $("#app").innerHTML = `${crumbs()}
     <article class="libart buchseite" style="--bf:${B.farbe}">
       <div class="skopf"><span>${esc(B.titel)} · ${esc(s.kap.titel)}</span><span>Seite ${s.nr} von ${D.seiten.length}</span></div>
+      <nav class="obennav" aria-label="Seiten blättern">
+        <button type="button" class="onav vor" id="oVor" ${vor?"":"disabled"} ${vor?`title="Vorherige Seite: ${esc(vor.titel)}"`:""}><span class="opfeil">←</span><span class="otext"><small>${vor?`S. ${vor.nr}`:"Anfang"}</small><b>${vor?esc(vor.titel):"Keine vorherige Seite"}</b></span></button>
+        <button type="button" class="onav nach" id="oNach" ${nach?"":"disabled"} ${nach?`title="Nächste Seite: ${esc(nach.titel)}"`:""}><span class="otext"><small>${nach?`S. ${nach.nr}`:"Ende"}</small><b>${nach?esc(nach.titel):"Keine weitere Seite"}</b></span><span class="opfeil">→</span></button>
+      </nav>
       <header><h1>${esc(s.titel)}</h1></header>
       ${LIB.zufall?`<div class="zufallleiste"><span>🎲 Zufallsartikel aus «${esc(B.titel)}»</span><button class="big zufallart" id="nochZufall" type="button"><span class="wuerfel">🎲</span> Noch ein zufälliger Artikel</button></div>`:""}
       <figure class="wbild ersatz" id="wBild">${ersatzBildHTML(s,B)}</figure>
@@ -5497,6 +5513,8 @@ function renderLibSeite(){
   if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
+  vor && ($("#oVor").onclick=()=>blatt(vor.nr));
+  nach && ($("#oNach").onclick=()=>blatt(nach.nr));
   nach && ($("#sNach").onclick=()=>blatt(nach.nr));
   $("#sIdx").onclick=()=>{ LIB.kap=s.kap.id; go("libkapitel"); scrollTo(0,0); };
   $("#libQuiz") && ($("#libQuiz").onclick=()=> istSonderKapitel(s.kap.id) ? startListe(s.fragen.length>=3?s.fragen:s.kap.seiten.flatMap(x=>x.fragen), s.fragen.length>=3?s.titel:s.kap.titel) : libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
