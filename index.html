@@ -553,6 +553,9 @@ button{-webkit-tap-highlight-color:transparent}
 .answers .ans.right::after{content:"✅";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.4rem}
 .answers .ans.wrong::after{content:"❌";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.4rem}
 .answers{grid-auto-rows:1fr}
+.tasthinweis{display:none;margin:14px 0 0;text-align:center;font-size:.85rem;color:var(--muted,#667)}
+.tasthinweis kbd{display:inline-block;min-width:1.6em;padding:1px 6px;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;background:var(--surface);font:600 .8rem system-ui,sans-serif}
+@media (hover:hover) and (pointer:fine) and (min-width:900px){.tasthinweis{display:block}}
 .answers .ans{min-height:96px;height:100%;min-width:0}
 .answers .ans>span:last-child{min-width:0;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
 @media (max-width:640px){.answers .ans{min-height:76px}}
@@ -3805,6 +3808,7 @@ function renderQuiz(){
         let cls=""; if(answered){ if(o.ok) cls="right"; else if(Q.picked===i) cls="wrong"; }
         return `<button class="ans ${cls}" type="button" data-i="${i}" ${answered?"disabled":""}><span class="key">${"ABCD"[i]}</span><span>${esc(o.txt)}</span></button>`;
       }).join("")}</div>
+      <p class="tasthinweis" aria-hidden="true">⌨️ Tasten <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> <kbd>D</kbd> zum Antworten · <kbd>←</kbd> <kbd>→</kbd> für vorherige und nächste Frage</p>
       ${answered ? `<div class="feedback pop"><p>${f.opts[Q.picked].ok ? `${ico("check")} Richtig!${test && !Q.custom && Q.lastBreak?.ok ? ` <b class="ppos">+${Q.lastBreak.pts} Punkte</b>`:""}` : `${ico("cross")} Nicht ganz.${test && !Q.custom ? ` <b class="pneg">${PUNKTE.falsch} Punkte</b>`:""}`}</p>
         ${test && !Q.custom && Q.lastBreak?.ok ? `<p class="pdetail">✅ 100${Q.lastBreak.tempo?` · ⚡ Tempo +${Q.lastBreak.tempo} (${Q.lastBreak.sek} s)`:` · ⚡ kein Tempo-Bonus (${Q.lastBreak.sek} s)`}${Q.lastBreak.faktor>1?` · 🚀 ×${String(Q.lastBreak.faktor).replace(".",",")}`:""}${Q.lastBreak.serie?` · 🔥 Serie +${Q.lastBreak.serie}`:""}</p>` : ""}
         <span class="row" style="margin:0">${test? "" : `<button class="big alt" id="toExplain" type="button">Erklärung ansehen</button>`}
@@ -3845,6 +3849,23 @@ function renderQuiz(){
   if(test && !Q.custom) tick();
 }
 
+
+/* ---------- Tastatur im Quiz: A bis D antworten, Pfeile vor und zurück ---------- */
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing) return;
+  const t=e.target; if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+  if(document.querySelector('[role="dialog"]:not([hidden]), .overlay, .modal')) return;
+  const k=e.key.toLowerCase(), i="abcd".indexOf(k);
+  if(i>=0 && k.length===1 && !e.shiftKey){
+    const b=document.querySelectorAll("#app .answers .ans")[i];
+    if(b && !b.disabled && b.offsetParent){ e.preventDefault(); b.click(); }
+    return;
+  }
+  if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
+    const b=$(e.key==="ArrowLeft"?"#qPrev":"#qNext");
+    if(b && !b.disabled){ e.preventDefault(); b.click(); }
+  }
+});
 
 /* ---------- Freie Navigation im Quiz: zurück, weiter, springen, markieren ---------- */
 function qStatus(Q){ if(!Q.st) Q.st=Q.list.map(()=>({picked:null, zeit:0, mark:false})); return Q.st; }
