@@ -552,6 +552,10 @@ button{-webkit-tap-highlight-color:transparent}
 .answers .ans.wrong{box-shadow:0 0 0 4px var(--surface),0 0 0 8px #D6362E,0 5px 0 var(--ad)!important}
 .answers .ans.right::after{content:"✅";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.4rem}
 .answers .ans.wrong::after{content:"❌";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.4rem}
+.answers{grid-auto-rows:1fr}
+.answers .ans{min-height:96px;height:100%;min-width:0}
+.answers .ans>span:last-child{min-width:0;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
+@media (max-width:640px){.answers .ans{min-height:76px}}
 
 /* Regler für die Anzahl Fragen */
 .slider{width:100%;max-width:420px;margin:4px auto 10px;display:grid;gap:6px;justify-items:center}
