@@ -52,4 +52,4 @@ Auf GitHub werden Profil, Statistik und eigene Tests lokal im Browser gespeicher
 
 ## Fragenummern
 
-Jede Frage hat eine feste Nummer (Feld `nr` in fragen.json). Sie steht beim Spielen klein unten rechts in der Fragekarte, und unter «Suchen & Test erstellen» findet man eine Frage mit «Nr. 1234», «#1234» oder einfach «1234». Neue Fragen ohne `nr` erhalten automatisch eine feste fünfstellige Nummer.
+Jede Frage hat eine feste Nummer (Feld `nr` in fragen.json). Sie steht beim Spielen klein unten rechts in der Fragekarte, und unter «Suchen & Test erstellen» findet man eine Frage mit «Nr. 1234», «#1234» oder einfach «1234». Neue Fragen ohne `nr` erhalten automatisch eine feste sechsstellige Nummer.
