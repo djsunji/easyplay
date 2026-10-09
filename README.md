@@ -39,7 +39,7 @@ Auf GitHub werden Profil, Statistik und eigene Tests lokal im Browser gespeicher
 |---|---|
 | `index.html` | Die ganze Website (Spiel, Bibliothek, Rangliste, Wettbewerb, Profil) |
 | `config.js` | Einstellungen für Supabase (leer lassen = ohne Server) |
-| `fragen.json` | Alle Quizfragen |
+| `fragen.json` | Alle Quizfragen, jede mit fester Nummer im Feld `nr` |
 | `fragen.csv` | Dieselben Fragen als Tabelle, für den Import in Supabase |
 | `texte.json` | Die Beschreibungstexte der Bibliothek |
 | `logo.png`, `logo-mit-kindern.png` | Logos |
@@ -48,3 +48,8 @@ Auf GitHub werden Profil, Statistik und eigene Tests lokal im Browser gespeicher
 | `supabase/schema.sql` | Tabellen für Supabase |
 
 **Aktuelle Fragen und Texte:** In der claude.ai-Version unter Fragen-Werkstatt die Knöpfe «fragen.json exportieren» und «texte.json exportieren» nutzen und die Dateien hier ersetzen.
+
+
+## Fragenummern
+
+Jede Frage hat eine feste Nummer (Feld `nr` in fragen.json). Sie steht beim Spielen klein unten rechts in der Fragekarte, und unter «Suchen & Test erstellen» findet man eine Frage mit «Nr. 1234», «#1234» oder einfach «1234». Neue Fragen ohne `nr` erhalten automatisch eine feste fünfstellige Nummer.
