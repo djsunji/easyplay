@@ -1,6 +1,6 @@
 # easyplay, Fragen. Wissen. Weiterkommen.
 
-Spielerische Lern-Website für Kinder und Jugendliche (6 bis 20 Jahre) mit über 700 Multiple-Choice-Fragen, vielen Schweiz-Themen und drei Stufen (Entdecker, Könner, Profis).
+Spielerische Lern-Website für Kinder und Jugendliche (6 bis 20 Jahre) mit über 22 000 Multiple-Choice-Fragen, vielen Schweiz-Themen und drei Stufen (Entdecker, Könner, Profis).
 
 ## Funktionen
 - Training mit frei wählbarer Anzahl Fragen (1 bis 100), Erklärungen, Merksätzen und Wikipedia-Quellen
@@ -17,8 +17,8 @@ Spielerische Lern-Website für Kinder und Jugendliche (6 bis 20 Jahre) mit über
 |---|---|
 | `index.html` | Die komplette Website (Design, Code, Bilder und alle Fragen als Sicherheitsnetz) |
 | `config.js` | Einstellungen für die Fragen-Datenbank (Supabase optional) |
-| `fragen.json` | Fragen-Datenbank (Variante A), wird beim Start geladen |
-| `fragen.csv` | Dieselben Fragen zum Import in Supabase (Variante B) |
+| `fragen-1.json` bis `fragen-3.json` | Fragen-Datenbank (Variante A), wird beim Start geladen |
+| `fragen-1.csv` bis `fragen-3.csv` | Dieselben Fragen zum Import in Supabase (Variante B) |
 | `supabase/schema.sql` | Tabelle und Sicherheitsregeln für Supabase |
 | `ANLEITUNG-DATENBANK.md` | Anleitung für die Fragen-Datenbank |
 | `logo.png`, `logo-mit-kindern.png` | Logo-Vorlagen |
@@ -39,8 +39,8 @@ Auf GitHub werden Profil, Statistik und eigene Tests lokal im Browser gespeicher
 |---|---|
 | `index.html` | Die ganze Website (Spiel, Bibliothek, Rangliste, Wettbewerb, Profil) |
 | `config.js` | Einstellungen für Supabase (leer lassen = ohne Server) |
-| `fragen.json` | Alle Quizfragen, jede mit fester Nummer im Feld `nr` |
-| `fragen.csv` | Dieselben Fragen als Tabelle, für den Import in Supabase |
+| `fragen-1.json` bis `fragen-3.json` | Alle Quizfragen, jede mit fester Nummer im Feld `nr` |
+| `fragen-1.csv` bis `fragen-3.csv` | Dieselben Fragen als Tabelle, für den Import in Supabase (nacheinander importieren) |
 | `texte.json` | Die Beschreibungstexte der Bibliothek |
 | `logo.png`, `logo-mit-kindern.png` | Logos |
 | `ANLEITUNG-DATENBANK.md` | Supabase für Fragen und Rangliste einrichten |
@@ -53,3 +53,11 @@ Auf GitHub werden Profil, Statistik und eigene Tests lokal im Browser gespeicher
 ## Fragenummern
 
 Jede Frage hat eine feste Nummer (Feld `nr` in fragen.json). Sie steht beim Spielen klein unten rechts in der Fragekarte, und unter «Suchen & Test erstellen» findet man eine Frage mit «Nr. 1234», «#1234» oder einfach «1234». Neue Fragen ohne `nr` erhalten automatisch eine feste sechsstellige Nummer.
+
+## Bibliothekstexte
+
+`texte-1.json` und `texte-2.json` enthalten die ausführlichen Texte aus der Datenbank, `texte2-1.json` bis `texte2-4.json` die weiteren Lexikontexte für alle übrigen Bibliotheksseiten (aufgeteilt, damit jede Datei klein genug für den Upload im Browser ist). Alle Dateien werden beim Start geladen, Texte aus `texte-1.json` und `texte-2.json` haben Vorrang.
+
+## Dateigrösse
+
+Alle Dateien sind kleiner als 5 MB, damit sie sich auch im Browser auf GitHub hochladen lassen. Die grossen Daten (Fragen, Bilder, Texte) stehen deshalb in eigenen Dateien: `daten-fragen-1.js`, `daten-fragen-2.js`, `daten-bilder.js`, `daten-texte.js`, `fragen-1.json` bis `fragen-3.json`, `texte-1.json`, `texte-2.json` und `texte2-1.json` bis `texte2-4.json`. Alle diese Dateien müssen im selben Ordner wie `index.html` liegen. Alte Dateien `fragen.json`, `fragen.csv`, `texte.json` und `texte2.json` werden nicht mehr gebraucht.

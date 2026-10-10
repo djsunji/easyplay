@@ -7,8 +7,8 @@ Die Website lädt die Fragen beim Start aus einer eigenen Datenquelle:
 3. **eingebaute Fragen**, falls beides nicht erreichbar ist (z. B. wenn du `index.html` direkt vom Computer öffnest)
 
 ## Variante A: fragen.json (sofort einsatzbereit)
-Lade `index.html`, `config.js` und `fragen.json` in dein Repository. Fertig.
-Neue Fragen trägst du direkt in `fragen.json` ein und lädst die Datei neu hoch.
+Lade alle Dateien aus dem Ordner (index.html, config.js, die daten-*.js-, fragen-*.json- und texte*-Dateien) in dein Repository. Fertig.
+Neue Fragen trägst du direkt in `fragen-3.json` ein und lädst die Datei neu hoch.
 
 Aufbau einer Frage:
 ```json
@@ -21,7 +21,7 @@ Aufbau einer Frage:
 ## Variante B: Supabase (echte Datenbank)
 1. Kostenloses Konto auf **supabase.com** erstellen und ein neues Projekt anlegen (Region: Europa, z. B. Frankfurt oder Zürich, falls verfügbar).
 2. Im Projekt links **SQL Editor** öffnen, den Inhalt von `supabase/schema.sql` einfügen und **Run** klicken.
-3. Links **Table Editor** → Tabelle `fragen` → **Insert** → **Import data from CSV** → `fragen.csv` hochladen.
+3. Links **Table Editor** → Tabelle `fragen` → **Insert** → **Import data from CSV** → `fragen-1.csv`, danach `fragen-2.csv` und `fragen-3.csv` hochladen.
 4. Unter **Project Settings → API** (bzw. „API Keys“) die **Project URL** und den **öffentlichen Schlüssel** (anon bzw. publishable) kopieren.
 5. Beides in `config.js` eintragen und `config.js` auf GitHub hochladen.
 
