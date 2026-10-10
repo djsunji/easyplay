@@ -2081,6 +2081,24 @@ body.reelsauf{overflow:hidden}
 #reels .rzu span{display:inline!important}
 #reels .rplay{font-weight:900;font-size:.85rem;font-family:"Bricolage Grotesque",system-ui,sans-serif}
 #reels .rmeta.offen .rtext{background:rgba(0,0,0,.6)}
+/* Qeels Artikel: Inhalt als gut lesbare Karte in der Mitte */
+#reels .ra .rschatten{background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.25) 30%,rgba(0,0,0,.35) 60%,rgba(0,0,0,.75))}
+#reels .rainhalt{position:absolute;z-index:2;top:68px;bottom:84px;left:14px;right:78px;display:flex;flex-direction:column;justify-content:center;gap:10px;min-height:0}
+#reels .rainhalt .rtag{align-self:flex-start;background:rgba(0,0,0,.35);backdrop-filter:blur(8px)}
+#reels .ratitel{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:clamp(1.6rem,5vh,2.2rem);line-height:1.1;margin:0;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+#reels .rakarte{flex:0 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;background:rgba(10,12,24,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;font-size:1rem;line-height:1.5}
+#reels .raintro{margin:0;font-weight:500}
+@media (max-width:480px){#reels .rakarte{font-size:.95rem;padding:12px 14px;gap:10px}#reels .rapunkte ul{font-size:.9rem}#reels .ratitel{font-size:1.7rem}}
+#reels .rapunkte b,#reels .ragewusst b{display:block;font-size:.85rem;letter-spacing:.02em;margin-bottom:4px}
+#reels .rapunkte b{color:#9FF0C4}
+#reels .rapunkte ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.95rem}
+#reels .ragewusst{background:#fff;color:#1B2240;border-radius:14px;padding:10px 12px;transform:rotate(-1deg);box-shadow:0 8px 22px rgba(0,0,0,.3)}
+#reels .ragewusst b{color:#D62976}
+#reels .ragewusst p{margin:0;font-size:.95rem;line-height:1.45}
+#reels .ralesen{align-self:flex-start;border:0;border-radius:999px;padding:10px 18px;font-weight:800;font-size:.95rem;color:#1B2240;background:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+#reels .ralesen:hover{transform:translateY(-1px)}
+#reels .ra .rmeta{padding-bottom:14px}
+
 #reels .rmeta .rsticker{position:static;left:auto;right:auto;top:auto;transform:rotate(-1.5deg);margin:0 0 12px;max-width:94%;max-height:30vh;overflow:auto}
 #reels .rmeta.offen .rsticker{display:none}
 #reels .rmehr{display:inline-block;width:auto;margin:2px 0 0;text-align:left;font-size:.9rem;opacity:.95;text-decoration:underline;text-underline-offset:3px}
@@ -4151,10 +4169,18 @@ function rlArtikelHTML(it, idx){
   return `<section class="reel ra" data-i="${idx}" style="--r1:${B.farbe};--r2:${B.farbe2}">
     <div class="rbild">${ersatzBildHTML(s,B)}</div>
     <div class="rschatten" aria-hidden="true"></div>
+    <div class="rainhalt">
+      <span class="rtag">${B.emo} ${esc(B.titel)} · ${esc(s.kap.titel)}</span>
+      <h2 class="ratitel">${esc(s.titel)}</h2>
+      <div class="rakarte">
+        <p class="raintro">${esc((String(I.intro).match(/[^.!?]+[.!?]+(\s|$)/g)||[I.intro]).slice(0,2).join("").trim())}</p>
+        ${I.gewusst?`<div class="ragewusst"><b>💡 Wusstest du schon?</b><p>${esc(I.gewusst)}</p></div>`:""}
+        ${I.punkte.length?`<div class="rapunkte"><b>🎯 Das Wichtigste</b><ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
+      </div>
+      <button type="button" class="ralesen" data-lesen>📖 Ganzen Artikel lesen</button>
+    </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-lesen><span class="rbi">📖</span><small>Lesen</small></button>${rlEigene(s).length?`<button type="button" class="rbtn" data-dazu><span class="rbi">🎮</span><small>Frage dazu</small></button>`:""}`)}
-    ${rlMeta(`${B.emo} Bibliothek`, `<h2 class="rtitel">${esc(s.titel)}</h2>
-      <div class="rtext"><p>${esc(I.intro)}</p>${I.punkte.length?`<ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>`:""}</div>
-      <button type="button" class="rmehr" data-mehr>… mehr</button>`, `${esc(B.titel)} · ${esc(s.kap.titel)}`, I.gewusst?`<div class="rsticker"><b>💡 Wusstest du schon?</b><p>${esc(I.gewusst)}</p></div>`:"")}
+    ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`)}
     <div class="rprog"><i></i></div>
   </section>`;
 }
@@ -4203,7 +4229,7 @@ function rlBinde(sec, it){
   sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
   const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } e.hidden=!e.hidden; });
   const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
-  const le=sec.querySelector("[data-lesen]"); le && (le.onclick=()=>rlSheet(it.b, it.nr));
+  sec.querySelectorAll("[data-lesen]").forEach(le=>le.onclick=()=>rlSheet(it.b, it.nr));
   const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"… mehr"; });
   const dz=sec.querySelector("[data-dazu]"); dz && (dz.onclick=()=>{
     const fr=rlEigene(it.s); if(!fr.length) return; const f=fr[Math.floor(Math.random()*fr.length)];
