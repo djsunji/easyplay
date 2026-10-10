@@ -5027,9 +5027,9 @@ async function ladeFragenDB(){
       }
       S.fragenQuelle = "Supabase";
     } else {
-      const teile = cfg.fragenDateien || ["fragen-1.json","fragen-2.json","fragen-3.json"];
+      const teile = cfg.fragenDateien || Array.from({length:30},(_,i)=>`fragen-${i+1}.json`);
       const res = await Promise.all(teile.map(f=>fetch(f,{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null)));
-      if(res.every(Array.isArray)) rows = res.flat();
+      if(Array.isArray(res[0])) rows = res.filter(Array.isArray).flat();
       else { const r = await fetch(cfg.fragenDatei || "fragen.json", {cache:"no-cache"}); if(!r.ok) throw new Error("fragen.json "+r.status); rows = await r.json(); }
       S.fragenQuelle = "fragen.json";
     }
