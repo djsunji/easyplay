@@ -26,3 +26,25 @@ create policy "Freigegebene Fragen sind lesbar"
   on public.fragen for select
   to anon, authenticated
   using (status = 'ok');
+
+-- easyplay: Likes für die Qeels (Anzahl «Gefällt mir» pro Qeel)
+create table if not exists public.likes (
+  id  text primary key,              -- z. B. "q8894" für Frage Nr. 8894
+  n   integer not null default 0 check (n >= 0)
+);
+alter table public.likes enable row level security;
+drop policy if exists "Likes sind lesbar" on public.likes;
+create policy "Likes sind lesbar" on public.likes for select to anon, authenticated using (true);
+
+-- Zählen nur über diese Funktion (+1 oder -1), direktes Schreiben ist gesperrt
+create or replace function public.like_aendern(p_id text, p_delta integer)
+returns integer language plpgsql security definer set search_path = public as $$
+declare neu integer;
+begin
+  if p_delta not in (-1, 1) or length(p_id) > 80 then raise exception 'ungueltig'; end if;
+  insert into public.likes (id, n) values (p_id, greatest(p_delta, 0))
+  on conflict (id) do update set n = greatest(public.likes.n + p_delta, 0)
+  returning n into neu;
+  return neu;
+end $$;
+grant execute on function public.like_aendern(text, integer) to anon, authenticated;

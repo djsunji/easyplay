@@ -2077,6 +2077,26 @@ body.reelsauf{overflow:hidden}
 #reels .rtoast{position:absolute;z-index:10;left:50%;bottom:40px;transform:translateX(-50%);background:rgba(255,255,255,.95);color:#111;font-weight:700;padding:10px 16px;border-radius:999px;font-size:.9rem;box-shadow:0 6px 20px rgba(0,0,0,.4)}
 @media (prefers-reduced-motion:reduce){#reels .reel.aktiv .rprog i,#reels .rweiter span,#reels .rherz{animation:none}}
 .navbtn.reelsnav{background:linear-gradient(45deg,#FA7E1E,#D62976 50%,#962FBF);color:#fff;border-color:transparent}
+/* Qeels: Zurück-Knopf, Wusstest-du im Textblock, mehr direkt unter dem Text, Teilen-Fenster */
+#reels .rzu span{display:inline!important}
+#reels .rplay{font-weight:900;font-size:.85rem;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+#reels .rmeta.offen .rtext{background:rgba(0,0,0,.6)}
+#reels .rmeta .rsticker{position:static;left:auto;right:auto;top:auto;transform:rotate(-1.5deg);margin:0 0 12px;max-width:94%;max-height:30vh;overflow:auto}
+#reels .rmeta.offen .rsticker{display:none}
+#reels .rmehr{display:inline-block;width:auto;margin:2px 0 0;text-align:left;font-size:.9rem;opacity:.95;text-decoration:underline;text-underline-offset:3px}
+#reels .rtext{margin-bottom:0}
+#reels .rteilen{position:absolute;z-index:12;left:50%;bottom:0;transform:none;translate:-50% 0;width:min(100vw,480px);background:#fff;color:#1B2240;border-radius:22px 22px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+#reels .rtkopf{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+#reels .rtkopf b{font-size:1.1rem}
+#reels .rtziele{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px;margin-bottom:14px}
+#reels .rtziel{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;color:#1B2240;background:none;border:0;cursor:pointer;font:inherit}
+#reels .rtziel .rti{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.5rem;background:#F1F2F8;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+#reels .rtziel small{font-size:.75rem;font-weight:700}
+#reels .rtlink{display:flex;gap:8px}
+#reels .rtlink input{flex:1;min-width:0;border:2px solid #E3E5EF;border-radius:12px;padding:9px 10px;font-size:.85rem;color:#1B2240;background:#F8F9FC}
+#reels .rtlink button{border:0;border-radius:12px;padding:9px 12px;font-weight:800;background:linear-gradient(45deg,#FA7E1E,#D62976 50%,#962FBF);color:#fff;cursor:pointer;white-space:nowrap}
+#reels .rteilen .rszu{background:#F1F2F8;color:#1B2240}
+
 .navbtn.reelsnav .rnico{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;border:2px solid #fff;font-size:.55rem}
 #reels .rsheet-bg{position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.5)}
 #reels .rsheet{position:absolute;z-index:21;left:50%;bottom:0;width:min(100vw,620px);margin-left:calc(min(100vw,620px) / -2);max-height:86dvh;display:flex;flex-direction:column;background:var(--libpaper,#FBF6EC);color:var(--libink,#2B1D10);border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.45);transition:transform .2s}
@@ -3658,13 +3678,13 @@ function renderNav(){
             <button role="menuitem" type="button" id="navReg" class="kopt"><span class="ki">✨</span><span><b>Registrieren</b><small>Ich bin neu hier</small></span></button>
           </div></div>`) +
     (S.libModus ? `<button class="navbtn" id="navSpiel" type="button" title="Zurück zum Spiel">🎮 <span class="tlab">Spielen</span></button>` : `<button class="navbtn" id="navLib" type="button" title="Zur Bibliothek">📖 <span class="tlab">Bibliothek</span></button>`) +
-    `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Reels wechseln"><span class="rnico">▶</span> <span class="tlab">Reels</span></button>` +
+    `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><span class="rnico">Q</span> <span class="tlab">Qeels</span></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
       <div class="menu" id="hauptmenue" role="menu" hidden>
         <button role="menuitem" type="button" data-m="home">🏠 Startseite</button>
         <button role="menuitem" type="button" data-m="lib">📖 Bibliothek (Lesen)</button>
         <button role="menuitem" type="button" data-m="bib">📚 Fragendatenbank</button>
-        <button role="menuitem" type="button" data-m="reels">▶️ Reels</button>
+        <button role="menuitem" type="button" data-m="reels">🅠 Qeels</button>
         <button role="menuitem" type="button" data-m="suche">🔎 Suchen & Test erstellen</button>
         <button role="menuitem" type="button" data-m="meinetests">📝 Meine Tests</button>
         <button role="menuitem" type="button" data-m="live">⚡ Wettbewerb</button>
@@ -4070,6 +4090,7 @@ function rlNaechsterArtikel(){
   RL.seenA.clear(); const w=p[Math.floor(Math.random()*p.length)]; return {typ:"a", b:w[0], nr:w[1]};
 }
 function rlNaechstes(){
+  if(RL.start){ const s=RL.start; RL.start=null; RL.n++; return s; }
   const t=RL.tab; let it=null;
   if(t==="quiz") it=rlNaechsteFrage();
   else if(t==="wissen") it=rlNaechsterArtikel();
@@ -4097,8 +4118,8 @@ function rlRail(id, extra){
     ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
   </aside>`;
 }
-function rlMeta(tag, text, ton){
-  return `<div class="rmeta"><div class="rkanal"><span class="ravatar">${rlLogo()}</span><b>@easyplay</b><span class="rchip">${tag}</span></div>
+function rlMeta(tag, text, ton, oben){
+  return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar">${rlLogo()}</span><b>@easyplay</b><span class="rchip">${tag}</span></div>
     ${text}<p class="rton">🎵 ${ton}</p></div>`;
 }
 function rlFrageHTML(it, idx){
@@ -4130,11 +4151,10 @@ function rlArtikelHTML(it, idx){
   return `<section class="reel ra" data-i="${idx}" style="--r1:${B.farbe};--r2:${B.farbe2}">
     <div class="rbild">${ersatzBildHTML(s,B)}</div>
     <div class="rschatten" aria-hidden="true"></div>
-    ${I.gewusst?`<div class="rsticker"><b>💡 Wusstest du?</b><p>${esc(I.gewusst)}</p></div>`:""}
     ${rlRail(id, `<button type="button" class="rbtn" data-lesen><span class="rbi">📖</span><small>Lesen</small></button>${rlEigene(s).length?`<button type="button" class="rbtn" data-dazu><span class="rbi">🎮</span><small>Frage dazu</small></button>`:""}`)}
     ${rlMeta(`${B.emo} Bibliothek`, `<h2 class="rtitel">${esc(s.titel)}</h2>
       <div class="rtext"><p>${esc(I.intro)}</p>${I.punkte.length?`<ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>`:""}</div>
-      <button type="button" class="rmehr" data-mehr>mehr</button>`, `${esc(B.titel)} · ${esc(s.kap.titel)}`)}
+      <button type="button" class="rmehr" data-mehr>… mehr</button>`, `${esc(B.titel)} · ${esc(s.kap.titel)}`, I.gewusst?`<div class="rsticker"><b>💡 Wusstest du schon?</b><p>${esc(I.gewusst)}</p></div>`:"")}
     <div class="rprog"><i></i></div>
   </section>`;
 }
@@ -4152,7 +4172,8 @@ function rlToast(t){ const o=$("#reels"); if(!o) return; const d=document.create
 function rlHerz(sec, x, y){ const h=document.createElement("span"); h.className="rherz"; h.textContent="❤️"; const r=sec.getBoundingClientRect(); h.style.left=(x-r.left)+"px"; h.style.top=(y-r.top)+"px"; sec.appendChild(h); setTimeout(()=>h.remove(),900); }
 function rlLike(sec, an){
   const b=sec.querySelector("[data-like]"); if(!b) return; const id=b.dataset.like;
-  const neu = an==null ? !RL.likes[id] : an; if(neu) RL.likes[id]=1; else delete RL.likes[id]; store.set("ep-likes", RL.likes);
+  const war=!!RL.likes[id]; const neu = an==null ? !RL.likes[id] : an; if(neu) RL.likes[id]=1; else delete RL.likes[id]; store.set("ep-likes", RL.likes);
+  if(neu!==war){ const vorher=LK.cache[id]; if(typeof vorher==="number") rlLikeAnzeigen(sec, Math.max(0,vorher+(neu?1:-1))); likeAendern(id, neu?1:-1).then(n=>{ if(n!=null) rlLikeAnzeigen(sec,n); }); }
   b.classList.toggle("an", neu); b.setAttribute("aria-pressed", neu); b.querySelector(".rbi").textContent = neu?"❤️":"🤍";
   if(neu) b.querySelector(".rbi").animate([{transform:"scale(1)"},{transform:"scale(1.45)"},{transform:"scale(1)"}],{duration:380});
 }
@@ -4179,14 +4200,11 @@ function rlBinde(sec, it){
   sec.querySelectorAll(".ropt").forEach(b=>b.onclick=()=>rlAntwort(sec,it,+b.dataset.o));
   sec.querySelector("[data-like]").onclick=()=>rlLike(sec);
   const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ try{ speakText(it.say); }catch(e){} });
-  sec.querySelector("[data-teilen]").onclick=async()=>{
-    try{ if(navigator.share){ await navigator.share({title:"easyplay", text:it.share}); return; } }catch(e){ return; }
-    try{ await navigator.clipboard.writeText(it.share); rlToast("📋 Kopiert, jetzt kannst du es einfügen"); }catch(e){ rlToast("Teilen ist hier nicht möglich"); }
-  };
+  sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
   const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } e.hidden=!e.hidden; });
   const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
   const le=sec.querySelector("[data-lesen]"); le && (le.onclick=()=>rlSheet(it.b, it.nr));
-  const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"mehr"; });
+  const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"… mehr"; });
   const dz=sec.querySelector("[data-dazu]"); dz && (dz.onclick=()=>{
     const fr=rlEigene(it.s); if(!fr.length) return; const f=fr[Math.floor(Math.random()*fr.length)];
     const neu={typ:"q", f, ctx:{name:it.s.titel, buch:it.B.titel, emo:it.B.emo, c1:it.B.farbe, c2:it.B.farbe2}}, idx=RL.map.size; RL.map.set(idx, neu);
@@ -4267,6 +4285,7 @@ function rlTaste(e){
   if(!RL.offen || e.ctrlKey||e.metaKey||e.altKey) return;
   const t=e.target; if(t&&(/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
   const k=e.key;
+  if($("#rteilen")){ if(k==="Escape"){ e.preventDefault(); rlTeilenZu(); } return; }
   if(rlSheetOffen()){ if(k==="Escape"){ e.preventDefault(); rlSheetZu(); } return; }
   if(k==="Escape"){ e.preventDefault(); schliesseReels(); return; }
   if(k==="ArrowDown"||k==="PageDown"||k==="j"){ e.preventDefault(); rlGehe(1); return; }
@@ -4284,19 +4303,19 @@ function oeffneReels(tab){
     const feed=$("#rfeed"), sec=feed && [...feed.children].find(x=>+x.dataset.i===RL.pos);
     if(sec){ feed.style.scrollSnapType="none"; feed.scrollTop=sec.offsetTop; requestAnimationFrame(()=>{ feed.style.scrollSnapType=""; feed.scrollTop=sec.offsetTop; }); }
     alt.animate([{opacity:0},{opacity:1}],{duration:180}); return; }
-  const o=document.createElement("div"); o.id="reels"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); o.setAttribute("aria-label","easyplay Reels");
+  const o=document.createElement("div"); o.id="reels"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); o.setAttribute("aria-label","easyplay Qeels");
   o.innerHTML=`<div class="rkopf">
-      <span class="rmarke"><span class="rplay">▶</span> Reels</span>
+      <span class="rmarke"><span class="rplay">Q</span> Qeels</span>
       <div class="rtabs" role="tablist">${RL_TABS.map(([id,n])=>`<button type="button" role="tab" data-rtab="${id}" aria-selected="${id===(tab||RL.tab)}">${n}</button>`).join("")}</div>
       <span class="rserie" id="rserie" hidden></span>
-      <button type="button" class="rzu" id="rZu" title="Zurück zur Website">🌐 <span>Website</span></button>
+      <button type="button" class="rzu" id="rZu" title="Zurück">← <span>Zurück</span></button>
     </div>
     <div class="rfeed" id="rfeed"></div>
-    <div class="rpfeile"><button type="button" id="rHoch" aria-label="Vorheriges Reel">⌃</button><button type="button" id="rRunter" aria-label="Nächstes Reel">⌄</button></div>`;
+    <div class="rpfeile"><button type="button" id="rHoch" aria-label="Vorheriges Qeel">⌃</button><button type="button" id="rRunter" aria-label="Nächstes Qeel">⌄</button></div>`;
   document.body.appendChild(o);
   RL.obs=new IntersectionObserver(es=>es.forEach(en=>{
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
-      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak();
+      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlLikeLaden(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
       if(!sec.nextElementSibling || !sec.nextElementSibling.nextElementSibling || !sec.nextElementSibling.nextElementSibling.nextElementSibling) rlHinzu(4);
@@ -4313,11 +4332,83 @@ function oeffneReels(tab){
 function schliesseReels(){
   if(!RL.offen) return; RL.offen=false; stopSpeak();
   const a=rlAktiv(); if(a) RL.pos=+a.dataset.i;
-  $("#rsheet")?.remove(); $("#rsheetBg")?.remove();
+  $("#rsheet")?.remove(); $("#rsheetBg")?.remove(); rlTeilenZu();
   document.removeEventListener("keydown", rlTaste);
   const o=$("#reels"); if(o) o.hidden=true;   // Feed bleibt erhalten, damit man beim nächsten Öffnen am selben Reel weitermacht
   document.body.classList.remove("reelsauf");
 }
+
+
+/* ---------- Qeels: Likes zählen (gemeinsam über Datenbank) ---------- */
+const LK={cache:{}, warte:{}};
+function lkSupa(){ const c=window.EP_CONFIG||{}; return (!window.claude && c.supabaseUrl && c.supabaseKey) ? {u:c.supabaseUrl.replace(/\/$/,""), h:{apikey:c.supabaseKey, Authorization:`Bearer ${c.supabaseKey}`, "Content-Type":"application/json"}} : null; }
+async function likeZahl(id){
+  if(id in LK.cache) return LK.cache[id];
+  if(LK.warte[id]) return LK.warte[id];
+  return LK.warte[id]=(async()=>{ try{
+    if(S.db){ const d=await S.db.doc("likes/"+id).get(); return LK.cache[id]=(d.exists ? Math.max(0,+(d.data().n)||0) : 0); }
+    const sp=lkSupa(); if(sp){ const r=await fetch(`${sp.u}/rest/v1/likes?id=eq.${encodeURIComponent(id)}&select=n`,{headers:sp.h}); if(r.ok){ const j=await r.json(); return LK.cache[id]=(j[0]?.n||0); } }
+  }catch(e){} return null; })();
+}
+async function likeAendern(id, d){
+  try{
+    if(S.db){ const ref=S.db.doc("likes/"+id); const s=await ref.get(); const n=Math.max(0,(s.exists?(+(s.data().n)||0):0)+d); await ref.set({n, geaendert:new Date().toISOString()}); LK.cache[id]=n; return n; }
+    const sp=lkSupa(); if(sp){ const r=await fetch(`${sp.u}/rest/v1/rpc/like_aendern`,{method:"POST",headers:sp.h,body:JSON.stringify({p_id:id,p_delta:d})}); if(r.ok){ const n=await r.json(); LK.cache[id]=+n||0; return LK.cache[id]; } }
+  }catch(e){}
+  if(typeof LK.cache[id]==="number"){ LK.cache[id]=Math.max(0,LK.cache[id]+d); return LK.cache[id]; }
+  return null;
+}
+function zahlKurz(n){ return n>=1e6 ? (n/1e6).toFixed(1).replace(".0","")+" Mio." : n>=1e4 ? Math.round(n/1e3)+"k" : n>=1000 ? (n/1e3).toFixed(1).replace(".0","")+"k" : String(n); }
+function rlLikeAnzeigen(sec, n){ const sm=sec.querySelector("[data-like] small"); if(!sm) return; sm.textContent = (n==null) ? "Gefällt mir" : zahlKurz(n); }
+async function rlLikeLaden(sec){ const b=sec.querySelector("[data-like]"); if(!b||b.dataset.geladen) return; b.dataset.geladen="1"; const n=await likeZahl(b.dataset.like); rlLikeAnzeigen(sec, n); }
+
+/* ---------- Qeels: Teilen über WhatsApp, Telegram usw. oder als Link ---------- */
+function qeelBasis(){ const c=window.EP_CONFIG||{}; if(c.teilenUrl) return c.teilenUrl; if(window.claude || !/^https?:/.test(location.protocol)) return "https://djsunji.github.io/easyplay/"; return location.origin+location.pathname; }
+function qeelLink(it){
+  if(it.typ==="q") return qeelBasis()+"#qeel=q"+frageNr(it.f);
+  const s=it.s||buchDaten(it.b).seiten.find(x=>x.nr===it.nr); return qeelBasis()+"#qeel=a"+encodeURIComponent(it.b)+"~"+(s?seiteKey(s):"");
+}
+function rlTeilenZu(){ $("#rteilen")?.remove(); $("#rteilenBg")?.remove(); }
+function rlTeilen(it){
+  const o=$("#reels"); if(!o) return; rlTeilenZu();
+  const link=qeelLink(it), text=it.share, voll=text+"\n"+link, e=encodeURIComponent;
+  const ziele=[
+    ["WhatsApp","🟢",`https://wa.me/?text=${e(voll)}`],
+    ["Telegram","✈️",`https://t.me/share/url?url=${e(link)}&text=${e(text)}`],
+    ["Facebook","📘",`https://www.facebook.com/sharer/sharer.php?u=${e(link)}`],
+    ["X","✖️",`https://twitter.com/intent/tweet?text=${e(text.split("\n")[0])}&url=${e(link)}`],
+    ["E-Mail","✉️",`mailto:?subject=${e("easyplay Qeel")}&body=${e(voll)}`],
+    ["SMS","💬",`sms:?&body=${e(voll)}`]
+  ];
+  o.insertAdjacentHTML("beforeend",`<div class="rsheet-bg" id="rteilenBg"></div>
+    <div class="rteilen" id="rteilen" role="dialog" aria-modal="true" aria-label="Teilen">
+      <div class="rtkopf"><b>Teilen</b><button type="button" class="rszu" id="rtZu" aria-label="Schliessen">✕</button></div>
+      <div class="rtziele">${ziele.map(([n,i,u])=>`<a class="rtziel" href="${esc(u)}" target="_blank" rel="noopener"><span class="rti">${i}</span><small>${n}</small></a>`).join("")}
+        ${navigator.share?`<button type="button" class="rtziel" id="rtMehr"><span class="rti">⋯</span><small>Mehr</small></button>`:""}</div>
+      <div class="rtlink"><input type="text" readonly value="${esc(link)}" id="rtLinkFeld" aria-label="Link"><button type="button" id="rtKopier">🔗 Link kopieren</button></div>
+    </div>`);
+  const sh=$("#rteilen"); sh.animate([{transform:"translateY(100%)"},{transform:"none"}],{duration:240,easing:"cubic-bezier(.2,.9,.3,1)"});
+  $("#rteilenBg").onclick=rlTeilenZu; $("#rtZu").onclick=rlTeilenZu;
+  sh.querySelectorAll("a.rtziel").forEach(a=>a.addEventListener("click",()=>setTimeout(rlTeilenZu,200)));
+  $("#rtMehr") && ($("#rtMehr").onclick=async()=>{ try{ await navigator.share({title:"easyplay", text, url:link}); rlTeilenZu(); }catch(e){} });
+  $("#rtKopier").onclick=async()=>{ const f=$("#rtLinkFeld"); try{ await navigator.clipboard.writeText(link); }catch(e){ try{ f.select(); document.execCommand("copy"); }catch(_){} } $("#rtKopier").textContent="✅ Kopiert"; rlToast("🔗 Link kopiert"); };
+}
+
+/* ---------- Qeels: geteilten Link öffnen (#qeel=...) ---------- */
+function qeelStartAusLink(h){
+  const m=/#qeel=([^&]+)/.exec(h||""); if(!m) return null; const v=decodeURIComponent(m[1]);
+  if(v[0]==="q"){ const nr=+v.slice(1); const f=alleFragen().find(x=>frageNr(x)===nr); return f?{typ:"q", f}:null; }
+  if(v[0]==="a"){ const [b,k]=v.slice(1).split("~"); try{ const s=buchDaten(b).seiten.find(x=>x.typ!=="art"&&seiteKey(x)===k); return s?{typ:"a", b, nr:s.nr}:null; }catch(e){ return null; } }
+  return null;
+}
+function oeffneQeelLink(versuch){
+  const st=qeelStartAusLink(location.hash); if(!st){ if(/#qeel=/.test(location.hash) && (versuch||0)<4) setTimeout(()=>oeffneQeelLink((versuch||0)+1),1500); return; }
+  RL.start=st;
+  if(RL.offen){ rlTab(RL.tab); } else { const alt=$("#reels"); if(alt){ alt.remove(); RL.map.clear(); } oeffneReels("mix"); }
+  try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+}
+addEventListener("hashchange",()=>{ if(/#qeel=/.test(location.hash)) oeffneQeelLink(); });
+setTimeout(()=>{ if(/#qeel=/.test(location.hash)) oeffneQeelLink(); }, 1200);
 
 /* ---------- Tastatur im Quiz: A bis D antworten, Pfeile vor und zurück ---------- */
 document.addEventListener("keydown",e=>{
