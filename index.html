@@ -1900,7 +1900,12 @@ html,body{overflow-x:clip}
 @keyframes ebschweb{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
 @media (prefers-reduced-motion:reduce){.ebemo{animation:none}}
 .zufallleiste{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:10px 12px;border-radius:16px;background:linear-gradient(135deg,rgba(138,63,224,.12),rgba(224,67,184,.12));border:2px dashed rgba(138,63,224,.35)}
-.zufallleiste span{font-weight:700;color:var(--soft);flex:1 1 200px;min-width:0}
+.zufallleiste>span{font-weight:700;color:var(--soft)}
+.zufallart span{color:#fff}
+.zufallleiste{flex-wrap:nowrap!important}
+.zufallleiste>span{flex:1 1 auto!important;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zufallart .zkurz{display:none}
+@media (max-width:760px){.zufallart .zlang{display:none}.zufallart .zkurz{display:inline}.zufallleiste>span{font-size:.9rem}}
 .zufallleiste .zufallart{margin-left:auto;flex:0 0 auto;width:auto!important;min-width:0!important;max-width:100%;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .big.zufallart{background:linear-gradient(135deg,#8A3FE0,#E043B8)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 4px 0 #5E2399!important;padding:10px 16px}
 .big.zufallart:hover .wuerfel{display:inline-block;animation:wuerfeln .6s ease-in-out}
@@ -6244,7 +6249,7 @@ function renderLibSeite(){
       </nav>
       <header><h1>${esc(s.titel)}</h1></header>
       ${LIB.vonQuiz&&S.quiz?`<div class="zurueckquiz"><button class="big gold" id="zumQuiz" type="button">↩️ Zurück zum Quiz (Frage ${S.quiz.i+1} von ${S.quiz.list.length})</button></div>`:""}
-      ${LIB.zufall?`<div class="zufallleiste"><span>🎲 Zufallsartikel aus «${esc(B.titel)}»</span><button class="big zufallart" id="nochZufall" type="button"><span class="wuerfel">🎲</span> Noch ein zufälliger Artikel</button></div>`:""}
+      ${LIB.zufall?`<div class="zufallleiste"><span>🎲 Zufallsartikel aus «${esc(B.titel)}»</span><button class="big zufallart" id="nochZufall" type="button"><span class="wuerfel">🎲</span> <span class="zlang">Noch ein zufälliger Artikel</span><span class="zkurz">Nächster</span></button></div>`:""}
       <figure class="wbild ersatz" id="wBild">${ersatzBildHTML(s,B)}</figure>
       ${speakBtn(s.titel+". "+(s.typ==="art"?s.art.html.replace(/<[^>]+>/g," "):(S.texte[seiteKey(s)]||s.fragen.slice(0,5).map(f=>f.a[0]+". "+f.e).join(" "))))}
       ${inhalt}
@@ -6482,14 +6487,14 @@ function blasenStart(){
 S.texte = S.texte || {}; S.bilder = S.bilder || {}; S.teile = S.teile || {};
 /* Auf einen Blick: doppelte Aussagen entfernen (auch gegen «Das Wichtigste» und die Einleitung) */
 const BLICK_STOP=new Set("der die das den dem des ein eine einer eines einem einen und oder aber auch als wie mit von vom zum zur zu im in ins am an auf aus bei bis für gegen nach ohne über unter vor durch um ist sind war waren wird werden wurde wurden hat haben hatte hatten kann können konnte muss müssen darf soll sollte man sich sie er es wir ihr ich du sein seine seiner seinen seinem ihre ihren ihrem ihrer nicht noch nur schon sehr mehr viel viele vielen etwa rund heute dass weil wenn dann denn doch so auch diese dieser dieses diesen diesem jede jeder jedes jeden alle allen allem welche welcher welches was wer wo wie gibt geben gilt heisst nennt nennen genannt besonders oft immer meist meisten".split(" "));
-function blickWorte(t){ return new Set(String(t).toLowerCase().replace(/\*\*/g,"").replace(/[^a-zäöüéèàç0-9]+/g," ").split(" ").filter(w=>w.length>2&&!BLICK_STOP.has(w)).map(w=>/^\d+$/.test(w)?w:w.slice(0,6))); }
+function blickWorte(t){ return new Set(String(t).toLowerCase().replace(/\*\*/g,"").replace(/[^a-zäöüéèàç0-9]+/g," ").split(" ").filter(w=>w.length>2&&!BLICK_STOP.has(w)).map(w=>/^\d+$/.test(w)?w:w.slice(0,5))); }
 function blickAehnlich(a,b){ if(a.size<2||b.size<2) return 0; let n=0; for(const w of a) if(b.has(w)) n++; return n/Math.min(a.size,b.size); }
 function blickListe(merk,key){
   const T=key&&S.teile[key]; const vergleich=[];
-  if(T){ if(T.einleitung) satzListe(T.einleitung).forEach(x=>vergleich.push(blickWorte(x))); (T.wichtigste||[]).forEach(w=>vergleich.push(blickWorte(w))); }
+  if(T){ if(T.einleitung) satzListe(T.einleitung).forEach(x=>vergleich.push(blickWorte(x))); (T.wichtigste||[]).forEach(w=>vergleich.push(blickWorte(w))); [].concat(T.gewusst||[]).forEach(g=>vergleich.push(blickWorte(g))); }
   const behalten=[], bw=[];
   for(const m of merk){ const w=blickWorte(m);
-    if(bw.some(x=>blickAehnlich(w,x)>=0.5)) continue;
+    if(bw.some(x=>blickAehnlich(w,x)>=0.4)) continue;
     if(vergleich.some(x=>blickAehnlich(w,x)>=0.6)) continue;
     behalten.push(m); bw.push(w); if(behalten.length>=5) break; }
   return behalten;
