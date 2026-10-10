@@ -60,4 +60,4 @@ Jede Frage hat eine feste Nummer (Feld `nr` in fragen.json). Sie steht beim Spie
 
 ## Dateigrösse
 
-Alle Dateien sind kleiner als 5 MB, damit sie sich auch im Browser auf GitHub hochladen lassen. Die grossen Daten (Fragen, Bilder, Texte) stehen deshalb in eigenen Dateien: `daten-fragen-1.js`, `daten-fragen-2.js`, `daten-bilder.js`, `daten-texte.js`, `fragen-1.json` bis `fragen-3.json`, `texte-1.json`, `texte-2.json` und `texte2-1.json` bis `texte2-4.json`. Alle diese Dateien müssen im selben Ordner wie `index.html` liegen. Alte Dateien `fragen.json`, `fragen.csv`, `texte.json` und `texte2.json` werden nicht mehr gebraucht.
+Alle Dateien sind kleiner als 5 MB, damit sie sich auch im Browser auf GitHub hochladen lassen. Die grossen Daten (Fragen, Bilder, Texte) stehen deshalb in eigenen Dateien: `daten-01.js` bis `daten-11.js`, `fragen-1.json` bis `fragen-3.json`, `texte-1.json`, `texte-2.json` und `texte2-1.json` bis `texte2-4.json`. Alle diese Dateien müssen im selben Ordner wie `index.html` liegen. Alte Dateien `fragen.json`, `fragen.csv`, `texte.json` und `texte2.json` werden nicht mehr gebraucht.

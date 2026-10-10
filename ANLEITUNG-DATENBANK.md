@@ -7,7 +7,7 @@ Die Website lädt die Fragen beim Start aus einer eigenen Datenquelle:
 3. **eingebaute Fragen**, falls beides nicht erreichbar ist (z. B. wenn du `index.html` direkt vom Computer öffnest)
 
 ## Variante A: fragen.json (sofort einsatzbereit)
-Lade alle Dateien aus dem Ordner (index.html, config.js, die daten-*.js-, fragen-*.json- und texte*-Dateien) in dein Repository. Fertig.
+Lade alle Dateien aus dem Ordner (index.html, config.js, die daten-01.js- bis daten-11.js-, fragen-*.json- und texte*-Dateien) in dein Repository. Fertig.
 Neue Fragen trägst du direkt in `fragen-3.json` ein und lädst die Datei neu hoch.
 
 Aufbau einer Frage:
