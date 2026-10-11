@@ -6757,16 +6757,16 @@ function historieSpeichern(Q){
       log: (Q.log||[]).map(l=>({q:String(l.q).slice(0,300), ok:!!l.ok, dein:String(l.dein||"").slice(0,200), richtig:String(l.richtig||"").slice(0,200), m:String(l.m||"").slice(0,160), skip:!!l.skip})) };
     S.historie=[e, ...S.historie.filter(x=>x.id!==e.id)];
     store.set("ep-historie", S.historie);
-    if(S.online && S.db && S.uid){ S.db.doc(`data/users/${S.uid}/historie/${e.id}`).set(e).catch(()=>{}); }
+    if(S.online && S.db && S.uid){ S.db.doc(`data/users/${S.uid}/h_${e.id}`).set(e).catch(()=>{}); }
   }catch(err){}
 }
 function historieLaden(){
   if(!(S.online && S.db && S.uid)) return;
-  S.db.collection(`data/users/${S.uid}/historie`).onSnapshot(snap=>{
-    const online=snap.docs.map(d=>({id:d.id,...(d.data()||{})}));
+  S.db.collection(`data/users/${S.uid}`).onSnapshot(snap=>{
+    const online=snap.docs.filter(d=>String(d.id).startsWith("h_")).map(d=>({...(d.data()||{}),id:String(d.id).slice(2)}));
     const ids=new Set(online.map(x=>x.id));
     const nurLokal=S.historie.filter(x=>!ids.has(x.id));
-    nurLokal.forEach(x=>S.db.doc(`data/users/${S.uid}/historie/${x.id}`).set(x).catch(()=>{}));
+    nurLokal.forEach(x=>S.db.doc(`data/users/${S.uid}/h_${x.id}`).set(x).catch(()=>{}));
     S.historie=[...online,...nurLokal].sort((a,b)=>String(b.datum).localeCompare(String(a.datum)));
     store.set("ep-historie", S.historie);
     if(S.screen==="profil"||S.screen==="historie") render();
@@ -7335,5 +7335,6 @@ ladeFragenDB(); ladeTexteDatei();
   }catch(e){}
 })();
 </script>
+<script src="lehrer.js"></script>
 </body>
 </html>
