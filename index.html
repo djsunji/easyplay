@@ -2271,6 +2271,53 @@ p#bereiche.label>span{background:linear-gradient(135deg,#17A35A,#E0A100)!importa
 .eplegal{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:40px 0 24px;font-size:.9rem}
 .eplegal a{color:var(--ink);opacity:.75;text-decoration:none;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
 .eplegal a:hover{opacity:1;text-decoration:underline}
+
+/* Runde 5: Bibliothek grösser und schöner, Bereich-Karten zentriert */
+.bereiche .bereich .emo{right:auto!important;top:auto!important;left:auto!important;margin:34px auto 12px!important}
+.bereiche .bereich h2{font-size:clamp(1.5rem,2.6vw,2.15rem)!important}
+.bereiche .bereich p{font-size:clamp(1rem,1.4vw,1.18rem)!important;font-weight:500}
+html[data-mode="lib"] .wrap{max-width:1300px}
+.libszene{max-width:1240px!important}
+.libhero{max-width:880px!important;padding:24px 36px 30px!important;border-radius:32px!important;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--libpaper) 94%,transparent),color-mix(in srgb,var(--libpaper) 80%,transparent))!important;
+  border:3px solid color-mix(in srgb,#8A3FE0 45%,var(--libline))!important;box-shadow:0 26px 50px -26px rgba(0,0,0,.6),0 0 0 7px color-mix(in srgb,#8A3FE0 12%,transparent)!important}
+.libhero h1{font-size:clamp(2.6rem,6vw,3.9rem)!important;margin:6px 0 10px!important;letter-spacing:-.01em}
+.libhero p{font-size:clamp(1.12rem,1.8vw,1.35rem)!important;line-height:1.6!important;color:var(--libink)!important;max-width:54ch!important;margin:0 auto!important}
+.libbuchani{display:inline-block;position:relative;width:150px;height:96px;perspective:700px;margin:4px 0 6px;animation:floaty 5s ease-in-out infinite}
+.libbuchani::before{content:"";position:absolute;left:-8px;right:-8px;top:-6px;bottom:-8px;border-radius:12px;background:linear-gradient(135deg,#8A3FE0,#3D5AFE);box-shadow:0 14px 22px -10px rgba(0,0,0,.55)}
+.libbuchani .lb-l,.libbuchani .lb-r{position:absolute;top:0;width:50%;height:100%;background:repeating-linear-gradient(180deg,transparent 0 14px,rgba(80,60,30,.13) 14px 16px),linear-gradient(90deg,#FFFBF1,#F4E8D0);background-origin:content-box;padding:12px 10px}
+.libbuchani .lb-l{left:0;border-radius:8px 2px 2px 8px;box-shadow:inset -10px 0 12px -8px rgba(0,0,0,.3)}
+.libbuchani .lb-r{right:0;border-radius:2px 8px 8px 2px;box-shadow:inset 10px 0 12px -8px rgba(0,0,0,.3)}
+.libbuchani .lb-p{position:absolute;top:2px;left:50%;width:calc(50% - 2px);height:calc(100% - 4px);border-radius:0 6px 6px 0;transform-origin:left center;
+  background:repeating-linear-gradient(180deg,transparent 0 14px,rgba(80,60,30,.1) 14px 16px),linear-gradient(90deg,#F7EDD8,#FFFDF7);background-origin:content-box;padding:10px 8px;
+  animation:blattUm 4.5s ease-in-out infinite;box-shadow:-2px 0 6px rgba(0,0,0,.12);backface-visibility:visible}
+.libbuchani .lb-p.p2{animation-delay:1.5s}.libbuchani .lb-p.p3{animation-delay:3s}
+@keyframes blattUm{0%,8%{transform:rotateY(0)}42%,100%{transform:rotateY(-180deg)}}
+.libbuchani .lb-f{position:absolute;color:#FFD54A;font-size:1.1rem;animation:twinkle 2.4s ease-in-out infinite}
+.libbuchani .lb-f.a{left:-26px;top:-6px}.libbuchani .lb-f.b{right:-24px;top:10px;animation-delay:.8s}.libbuchani .lb-f.c{right:-6px;top:-24px;font-size:.8rem;animation-delay:1.6s}
+@media (prefers-reduced-motion:reduce){.libbuchani,.libbuchani .lb-p,.libbuchani .lb-f{animation:none}}
+.libhome-suche{max-width:920px!important;margin:8px auto 30px!important}
+.libsuche input.sel{font-size:clamp(1.15rem,2vw,1.45rem)!important;padding:20px 30px!important;min-height:74px;border-radius:999px!important;border-width:3px!important;box-shadow:0 16px 32px -18px rgba(0,0,0,.55)!important}
+.libsuche input.sel:focus{outline:none;border-color:#8A3FE0!important;box-shadow:0 0 0 7px color-mix(in srgb,#8A3FE0 25%,transparent),0 16px 32px -18px rgba(0,0,0,.55)!important}
+.offen .libsuche input.sel{font-size:1.1rem!important;min-height:56px;padding:14px 22px!important}
+.regal{max-width:1240px;margin:0 auto 30px;padding:22px 26px 30px;border-radius:30px;container-type:inline-size;
+  background:repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 2px,transparent 2px 60px),linear-gradient(180deg,#80502A,#5C3818);box-shadow:inset 0 0 0 9px #A06C3A,inset 0 0 0 12px #6E4520,0 34px 60px -30px rgba(0,0,0,.7)}
+.regaltitel{margin:6px 0 18px;text-align:center;color:#FFF3DC;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:clamp(1.5rem,3vw,2rem);text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.regal .buecher{position:static!important;left:auto!important;top:auto!important;width:auto!important;height:auto!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important;gap:34px 22px!important;padding:6px 6px 0!important;background:none!important;box-shadow:none!important}
+.regal .buch{width:100%!important;height:auto!important;aspect-ratio:.68!important;position:relative}
+.regal .buch::after{content:"";position:absolute;left:-14px;right:-14px;bottom:-18px;height:12px;border-radius:3px;background:linear-gradient(180deg,#B47B43,#7A4B22);box-shadow:0 6px 10px -4px rgba(0,0,0,.6);z-index:-1}
+.regal .buch .bemo2{font-size:3.2rem!important}
+.regal .buch .btitel{font-size:clamp(1.15rem,1.9vw,1.45rem)!important;line-height:1.1!important}
+.regal .buch .bunter{font-size:clamp(.78rem,1.1vw,.9rem)!important;line-height:1.25!important}
+.regal .buch .blogo{font-size:.75rem!important}
+.regal .buch:hover{transform:translateY(-8px) rotate(-2deg);transition:transform .2s}
+@media (max-width:760px){.regal{padding:16px 12px 24px}.regal .buecher{grid-template-columns:repeat(2,1fr)!important}}
+.regal .buecher{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;max-width:1010px;margin:0 auto!important}
+.regal .buch{width:170px!important;flex:none}
+.buecher-deko .spines{display:flex;align-items:flex-end;justify-content:center;gap:.25cqw;height:100%;width:100%}
+@media (max-width:760px){.regal .buch{width:calc(50% - 14px)!important}}
+@media (max-width:760px){html[data-mode="lib"] .nav{grid-template-columns:repeat(4,1fr)!important}html[data-mode="lib"] .nav .navbtn .tlab{font-size:.66rem}}
+@media (min-width:900px){.libart.buchseite,.offen{zoom:1.12}}
 </style>
 </head>
 <body>
@@ -4553,7 +4600,7 @@ function rlTeilen(it){
 function qeelStartAusLink(h){
   const m=/#qeel=([^&]+)/.exec(h||""); if(!m) return null; const v=decodeURIComponent(m[1]);
   if(v[0]==="q"){ const nr=+v.slice(1); const f=alleFragen().find(x=>frageNr(x)===nr); return f?{typ:"q", f}:null; }
-  if(v[0]==="a"){ const [b,k]=v.slice(1).split("~"); try{ const s=buchDaten(b).seiten.find(x=>x.typ!=="art"&&seiteKey(x)===k); return s?{typ:"a", b, nr:s.nr}:null; }catch(e){ return null; } }
+  if(v[0]==="a"){ const [b,k]=v.slice(1).split("~"); try{ for(const bb of [b, ...BUECHER.map(x=>x.id).filter(x=>x!==b)]){ const s=buchDaten(bb).seiten.find(x=>x.typ!=="art"&&seiteKey(x)===k); if(s) return {typ:"a", b:bb, nr:s.nr}; } return null; }catch(e){ return null; } }
   return null;
 }
 function oeffneQeelLink(versuch){
@@ -5648,18 +5695,42 @@ function libMerkliste(id){
 }
 /* LESER: ausgelagert nach daten-texte.js */
 const BUECHER = [
-  {id:"welt", titel:"Welt & Geschichte", untertitel:"Vom Urknall bis heute", emo:"🌍", farbe:"#2F4BD8", farbe2:"#1B2E99"},
-  {id:"natur", titel:"Natur & Wissen", untertitel:"Tiere, Körper, Weltall", emo:"🔬", farbe:"#17915A", farbe2:"#0E5E3A"},
-  {id:"politik", titel:"Politik & Schweiz", untertitel:"So funktioniert unser Land", emo:"🏛️", farbe:"#9B1C2E", farbe2:"#5E0F1B", gross:true},
-  {id:"geld", titel:"Geld & Leben", untertitel:"Fit fürs Leben in der Schweiz", emo:"💰", farbe:"#D8452F", farbe2:"#8E2515"},
-  {id:"alltag", titel:"Alltag", untertitel:"Sicher und clever durch den Tag", emo:"🚲", farbe:"#E09A12", farbe2:"#98650A"}
+  {id:"geschichte", titel:"Geschichte", untertitel:"Vom Urknall bis heute", emo:"🏰", farbe:"#6A3FC8", farbe2:"#3F2390", desc:"Reise durch die Zeit: von der Steinzeit über die Antike und das Mittelalter bis heute, mit der ganzen Geschichte der Schweiz."},
+  {id:"welt", titel:"Welt", untertitel:"Länder, Alpen, Religionen", emo:"🌍", farbe:"#2F4BD8", farbe2:"#1B2E99", desc:"Entdecke die Länder der Erde, die 26 Kantone, die Alpen und den Jura und die grossen Religionen der Welt."},
+  {id:"natur", titel:"Natur", untertitel:"Pflanzen, Tiere, Körper", emo:"🌿", farbe:"#17915A", farbe2:"#0E5E3A", desc:"Pflanzen und Tiere, dein eigener Körper, unsere Erde und das Weltall: alles über die Natur."},
+  {id:"wissen", titel:"Wissen", untertitel:"Forschen, Rechnen, Erfinden", emo:"🔬", farbe:"#0E8A8A", farbe2:"#085C5C", desc:"Wissenschaft, Physik, Chemie, Mathematik, Technik und Informatik verständlich erklärt."},
+  {id:"schweiz", titel:"Schweiz", untertitel:"So funktioniert unser Land", emo:"🏛️", farbe:"#C62828", farbe2:"#7F1616", gross:true, desc:"Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen."},
+  {id:"politik", titel:"Politik", untertitel:"Demokratie und Weltpolitik", emo:"🗳️", farbe:"#9B1C2E", farbe2:"#5E0F1B", desc:"Wie Länder regiert werden: Demokratie, Diktatur, Kommunismus und die grosse Weltpolitik."},
+  {id:"geld", titel:"Geld", untertitel:"Sparen, Banken, Steuern", emo:"💰", farbe:"#D8452F", farbe2:"#8E2515", desc:"Wie man mit Geld umgeht: Sparen, Banken, Steuern, Krankenkasse und Wirtschaft."},
+  {id:"leben", titel:"Leben", untertitel:"Beruf, Haushalt, Medien", emo:"🏡", farbe:"#AD1457", farbe2:"#6A0C35", desc:"Fit fürs Leben in der Schweiz: Berufswahl und Lehre, Haushalt und Ernährung, Medien und die Schweiz im Alltag."},
+  {id:"alltag", titel:"Alltag", untertitel:"Sprache, Kunst, Sport", emo:"🚲", farbe:"#E09A12", farbe2:"#98650A"}
 ];
+/* Bücher, die aus einem grösseren Buch herausgelöst sind */
+const NATUR_KAP=new Set(["natur","tiere","koerper","erde","weltall"]);
+const GELD_KAP=new Set(["geld","banken","steuern","krankenkasse","wirtschaft","x_firmen"]);
+const BUCH_TEIL={
+  welt:{quelle:"welt", f:k=>k.rubrik?.name!=="Geschichte"},
+  geschichte:{quelle:"welt", f:k=>k.rubrik?.name==="Geschichte"},
+  natur:{quelle:"natur", f:k=>NATUR_KAP.has(k.id)},
+  wissen:{quelle:"natur", f:k=>!NATUR_KAP.has(k.id)},
+  politik:{quelle:"politik", f:k=>String(k.id).startsWith("pol_")},
+  schweiz:{quelle:"politik", f:k=>!String(k.id).startsWith("pol_")},
+  geld:{quelle:"geld", f:k=>GELD_KAP.has(k.id)},
+  leben:{quelle:"geld", f:k=>!GELD_KAP.has(k.id)}
+};
+function buchDaten(bid){
+  const T=BUCH_TEIL[bid]; if(!T) return buchDatenRoh(bid);
+  const R=buchDatenRoh(T.quelle); const c=BUCHCACHE["~"+bid]; if(c && c.roh===R) return c;
+  let nr=0; const seiten=[];
+  const kap=R.kap.filter(T.f).map(k=>{ const k2={...k}; k2.von=nr+1; k2.seiten=k.seiten.map(s=>{ const s2={...s, nr:++nr, kap:k2}; seiten.push(s2); return s2; }); k2.bis=nr; return k2; });
+  return BUCHCACHE["~"+bid]={roh:R, kap, seiten};
+}
 function renderLib(){
   LIB.zufall=false;
   LIB.vonQuiz=false;
   $("#app").innerHTML = `${crumbs()}
     <div class="libkopf"><img class="gast gl libgast" src="${GAESTE.maedchen}" alt="" aria-hidden="true"><img class="gast gr libgast" src="${GAESTE.junge}" alt="" aria-hidden="true">
-    <div class="libhero"><span class="libemo">📖</span><h1>Bibliothek</h1><p>Lesen. Verstehen. Mitreden. Nimm ein Buch aus dem Regal und lies nach, was in den Quiz vorkommt, mit besonderem Blick auf die Schweiz.</p></div></div>
+    <div class="libhero"><span class="libbuchani" aria-hidden="true"><i class="lb-l"></i><i class="lb-r"></i><i class="lb-p"></i><i class="lb-p p2"></i><i class="lb-p p3"></i><b class="lb-f a">✦</b><b class="lb-f b">✧</b><b class="lb-f c">★</b></span><h1>Bibliothek</h1><p>Lesen. Verstehen. Mitreden. Nimm ein Buch aus dem Regal und lies nach, was in den Quiz vorkommt, mit besonderem Blick auf die Schweiz.</p></div></div>
     <div class="libhome-suche">${suchfeldHTML("libSuche", LIB.qa, "🔎 Alle Bücher durchsuchen, z. B. Katze, Bundesrat, Römer …")}</div>
     ${(LIB.qa||"").trim().length>=2 ? `<div class="libresultate">${(()=>{ const q=LIB.qa; const ql=q.trim().toLowerCase(); const t=BUECHER.flatMap(B=>seitenSuche(buchDaten(B.id).seiten,q).map(s=>({s,B}))).sort((a,b)=>(b.s.titel.toLowerCase().includes(ql))-(a.s.titel.toLowerCase().includes(ql))); return `<h2 class="bstat" style="text-align:center;margin-bottom:10px">🔎 ${t.length} Seiten gefunden</h2>`+trefferHTML(t,true); })()}</div>` : `
     <div class="libszene v3">
@@ -6250,7 +6321,7 @@ function kapitelSeiten(id){
     if(!map.has(key)) map.set(key, roh!==titel ? {titel, wiki:roh, fragen:[]} : {titel, fragen:[]}); map.get(key).fragen.push(f); });
   return [...map.values()].sort((a,b)=> a.titel==="Allgemeines"?1: b.titel==="Allgemeines"?-1 : a.titel.localeCompare(b.titel,"de"));
 }
-function buchDaten(bid){
+function buchDatenRoh(bid){
   const key=bid+"|"+FRAGEN.length+"|"+S.extra.length;
   if(BUCHCACHE[bid]?.key===key) return BUCHCACHE[bid];
   let kap=[];
@@ -6317,7 +6388,7 @@ function renderLibBuch(){
   $("#app").innerHTML = `${crumbs()}
     <div class="offen" style="--bf:${B.farbe};--bf2:${B.farbe2}">
       <div class="seite links"><div class="minicover"><span class="bemo2">${B.emo}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div>
-        <p class="libdesc">${esc(B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
+        <p class="libdesc">${esc(B.desc ? B.desc : B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
         <p class="bstat">📄 ${D.seiten.length} Seiten · ${D.kap.length} Kapitel</p>
         ${suchfeldHTML("buchSuche", LIB.q, "🔎 In diesem Buch suchen …")}
         <div class="segs btabs" role="group" aria-label="Ansicht"><button type="button" class="seg" data-tab="inhalt" aria-pressed="${tab==="inhalt"&&q.length<2}">📑 Inhalt</button><button type="button" class="seg" data-tab="register" aria-pressed="${tab==="register"&&q.length<2}">🔤 Register A bis Z</button></div></div>
@@ -7473,6 +7544,9 @@ ladeFragenDB(); ladeTexteDatei();
   }catch(e){}
 })();
 </script>
+<script>/*__epRegal*/(function(){ if(typeof window.renderLib!=="function") return; const vor=window.renderLib;
+window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=document.querySelector(".libszene .buecher"), sz=document.querySelector(".libszene");
+  if(bu && sz){ const dk=sz.querySelector(".sdeko .spines"); if(dk){ const ph=document.createElement("div"); ph.className="buecher buecher-deko"; ph.setAttribute("aria-hidden","true"); ph.appendChild(dk.cloneNode(true)); bu.replaceWith(ph); } const reg=document.createElement("section"); reg.className="regal"; reg.innerHTML='<h2 class="regaltitel">📚 Wähle ein Buch</h2>'; reg.appendChild(bu); sz.before(reg); } }catch(e){ console.warn(e); } return r; }; })();</script>
 <script src="lehrer.js"></script>
 <script src="hardcore.js"></script>
 <script>/*__epScrollPause*/(function(){let t=0;addEventListener('scroll',function(){if(!t)document.body.classList.add('scrollt');clearTimeout(t);t=setTimeout(function(){document.body.classList.remove('scrollt');t=0;},180);},{passive:true});document.addEventListener('visibilitychange',function(){document.body.classList.toggle('scrollt',document.hidden);});})();</script>
