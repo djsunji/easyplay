@@ -2272,6 +2272,7 @@ const BEREICHE = [
     {id:"alltag", name:"Alltägliches", emo:"house", text:"Verkehr, Notfall, Wohnen, Internet"},
     {id:"sprache", name:"Sprache & Deutsch", emo:"abc", text:"Grammatik, Rechtschreibung, Literatur"},
     {id:"fremdsprachen", name:"Fremdsprachen", emo:"voice", text:"Englisch und Französisch"},
+    {id:"englisch", name:"Englisch", emo:"uk", text:"Wörter, Grammatik und Kultur"},
     {id:"kunst", name:"Kunst & Kultur", emo:"palette", text:"Malerei, Epochen und Bauwerke"},
     {id:"musik", name:"Musik", emo:"music", text:"Instrumente, Noten und Komponisten"},
     {id:"sport", name:"Sport", emo:"soccer", text:"Sportarten, Regeln und Rekorde"},
@@ -3045,7 +3046,7 @@ const wikiUrl = t => "https://de.wikipedia.org/w/index.php?search=" + encodeURIC
 const quelle = f => f.s ? `<p class="src">${ico("book")} Quelle: <a href="${wikiUrl(f.s)}" target="_blank" rel="noopener">Wikipedia, «${esc(String(f.s).replace(/ß/g,"ss"))}»</a></p>` : "";
 const LEER = {trainRuns:0,trainFragen:0,trainRichtig:0,trainZeit:0,testRuns:0,testFragen:0,testRichtig:0,testZeit:0,bestTest:0};
 /* ================= Emoji-Symbole ================= */
-const EMO = {image:"🖼️",globe:"🌍",microscope:"🔬",bike:"🚲",castle:"🏰",ballot:"🗳️",dove:"🕊️",fox:"🦊",atom:"🧠",bolt:"⚡",coin:"🪙",bank:"🏦",receipt:"🧾",health:"🩺",phone:"📱",toolbox:"🧰",house:"🏠",burst:"💥",columns:"🏛️",rocket:"🚀",scroll:"📜",mountain:"🏔️",sprout:"🌱",medal:"🏅",trophy:"🏆",dumbbell:"🏋️",question:"❓",bulb:"💡",lock:"🔒",star:"⭐",starEmpty:"⭐",check:"✅",cross:"❌",speaker:"🔊",stop:"⏹️",book:"📚",compass:"🧭",sparkle:"✨",timer:"⏱️",hammer:"🔨",laptop:"💻",heart:"🤝",chart:"📊",palette:"🎨",pan:"🍳",face1:"😕",face2:"🙂",face3:"😊",face4:"🤩",tools:"🛠️",voice:"🗣️",pin:"📍",world:"🌐",redbook:"📕",chains:"⛓️",church:"⛪",mosque:"🕌",pray:"🙏",tree:"🌳",flask:"🧪",muscle:"💪",map:"🗺️",tower:"🗼",americas:"🌎",telescope:"🔭",volcano:"🌋",testtube:"⚗️",numbers:"🔢",robot:"🤖",money:"💰",abc:"🔤",music:"🎵",soccer:"⚽",clapper:"🎬",puzzle:"🧩"};
+const EMO = {uk:"💂",croissant:"🥐",scale:"⚖️",image:"🖼️",globe:"🌍",microscope:"🔬",bike:"🚲",castle:"🏰",ballot:"🗳️",dove:"🕊️",fox:"🦊",atom:"🧠",bolt:"⚡",coin:"🪙",bank:"🏦",receipt:"🧾",health:"🩺",phone:"📱",toolbox:"🧰",house:"🏠",burst:"💥",columns:"🏛️",rocket:"🚀",scroll:"📜",mountain:"🏔️",sprout:"🌱",medal:"🏅",trophy:"🏆",dumbbell:"🏋️",question:"❓",bulb:"💡",lock:"🔒",star:"⭐",starEmpty:"⭐",check:"✅",cross:"❌",speaker:"🔊",stop:"⏹️",book:"📚",compass:"🧭",sparkle:"✨",timer:"⏱️",hammer:"🔨",laptop:"💻",heart:"🤝",chart:"📊",palette:"🎨",pan:"🍳",face1:"😕",face2:"🙂",face3:"😊",face4:"🤩",tools:"🛠️",voice:"🗣️",pin:"📍",world:"🌐",redbook:"📕",chains:"⛓️",church:"⛪",mosque:"🕌",pray:"🙏",tree:"🌳",flask:"🧪",muscle:"💪",map:"🗺️",tower:"🗼",americas:"🌎",telescope:"🔭",volcano:"🌋",testtube:"⚗️",numbers:"🔢",robot:"🤖",money:"💰",abc:"🔤",music:"🎵",soccer:"⚽",clapper:"🎬",puzzle:"🧩"};
 function ico(k, cls=""){
   if(k==="flag") return `<svg class="ic col flagico ${cls}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">${ICONS.flag}</svg>`;
   return `<span class="ic emo-i ${k==="starEmpty"?"dim":""} ${cls}" aria-hidden="true">${EMO[k]||"❓"}</span>`;

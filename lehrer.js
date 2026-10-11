@@ -93,7 +93,8 @@ const THEMA_LP21 = {
   mathe:[["MA.1.A","MA.2.A"],["MA.1.A","MA.2.A","MA.3.A"]], technik:[["NMG.5","MI.2"],["NT.1","MI.2"]],
   geld:[["NMG.6"],["WAH.2"]], banken:[["NMG.6"],["WAH.2"]], steuern:[["NMG.6","NMG.10"],["WAH.2","RZG.8"]], krankenkasse:[["NMG.1","NMG.6"],["WAH.5","WAH.4"]],
   medien:[["MI.1"],["MI.1"]], beruf:[["NMG.6"],["BO.2","BO.1"]], schweiz:[["NMG.10","NMG.8"],["RZG.5","RZG.8"]], wirtschaft:[["NMG.6"],["WAH.2","WAH.1"]], logos:[["NMG.6"],["WAH.3"]],
-  alltag:[["NMG.10","NMG.1"],["WAH.5","ERG.5"]], sprache:[["D.5","D.6"],["D.5","D.6"]], fremdsprachen:[["FS1E.5","FS2F.5"],["FS1E.5","FS2F.5"]],
+  alltag:[["NMG.10","NMG.1"],["WAH.5","ERG.5"]], sprache:[["D.5","D.6"],["D.5","D.6"]], englisch:[["FS1E.5","FS1E.6"],["FS1E.5","FS1E.6"]], franzoesisch:[["FS2F.5","FS2F.6"],["FS2F.5","FS2F.6"]], ethik:[["NMG.11"],["ERG.2","ERG.1","ERG.5"]], informatik:[["MI.2"],["MI.2","MI.AK"]], haushalt:[["NMG.6","NMG.1"],["WAH.4","WAH.3","WAH.5"]],
+  fremdsprachen:[["FS1E.5","FS2F.5"],["FS1E.5","FS2F.5"]],
   kunst:[["BG.3"],["BG.3"]], musik:[["MU.6","MU.2"],["MU.6","MU.2"]], sport:[["BS.4"],["BS.4"]], unterhaltung:[["MI.1","D.6"],["MI.1","D.6"]], allgemein:[["NMG.4"],["NT.1"]]
 };
 function lp21Vorschlag(themaIds, zyklus){
