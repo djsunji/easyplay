@@ -213,6 +213,7 @@ h1,h2,h3{font-family:"Bricolage Grotesque","Lexend",system-ui,sans-serif;line-he
 .qimg{display:flex;justify-content:center;margin:0 0 18px}
 .qimg .qbig{width:auto;height:170px;max-width:100%;filter:drop-shadow(0 8px 14px rgba(27,34,64,.18))}
 .qimg .flag.qbig{height:140px}
+img.flagimg{aspect-ratio:4/3;object-fit:cover;border-radius:6px;box-shadow:0 0 0 1px rgba(27,34,64,.25)}
 .wappen{width:1em;height:1.2em;display:inline-block;vertical-align:-.25em}
 .kw{flex:none;width:46px;height:56px;display:grid;place-items:center}
 .kw .wappen{width:44px;height:53px}
@@ -3331,7 +3332,7 @@ const FLAGS = {
  EU:{name:"Europäische Union", svg:`<rect width="60" height="40" fill="#003399"/>${Array.from({length:12},(_,i)=>{const a=i/12*Math.PI*2;return star(30+12*Math.sin(a),20-12*Math.cos(a),2.2,"#FFCC00");}).join("")}`, e:"Zwölf goldene Sterne im Kreis auf Blau."},
  RK:{name:"Rotes Kreuz", svg:`<rect width="60" height="40" fill="#fff"/><path d="M26.5 8h7v8.5H42v7h-8.5V32h-7v-8.5H18v-7h8.5z" fill="#E0312B"/>`, e:"Das Rote Kreuz ist die Schweizer Fahne in umgekehrten Farben, zu Ehren der Schweiz, wo es gegründet wurde."}
 };
-function flagSvg(k, cls=""){ const f=FLAGS[k]; return f ? `<svg class="flag ${cls}" viewBox="0 0 60 40" role="img" aria-label="Flagge"><rect width="60" height="40" fill="#fff"/>${f.svg}<rect width="60" height="40" fill="none" stroke="#1B2240" stroke-opacity=".25" stroke-width="1"/></svg>` : ""; }
+function flagSvg(k, cls=""){ const f=FLAGS[k]; return f ? `<svg class="flag ${cls}" viewBox="0 0 60 40" role="img" aria-label="Flagge"><rect width="60" height="40" fill="#fff"/>${f.svg}<rect width="60" height="40" fill="none" stroke="#1B2240" stroke-opacity=".25" stroke-width="1"/></svg>` : (/^[a-z]{2}(-[a-z]+)?$/.test(k) ? `<img class="flag flagimg ${cls}" src="flags/${k}.svg" alt="Flagge" loading="lazy">` : ""); }
 function imgSvg(code){
   const t=String(code).slice(0,1), k=String(code).slice(2);
   if(t==="e") return `<span class="qemoji" role="img" aria-label="Bild">${esc(k)}</span>`;
