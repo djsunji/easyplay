@@ -2257,7 +2257,8 @@ const BEREICHE = [
     {id:"erde", name:"Erde & Naturphänomene", emo:"volcano", text:"Wetter, Vulkane, Erdbeben, Klima"},
     {id:"chemie", name:"Chemie", emo:"testtube", text:"Stoffe, Atome und Reaktionen"},
     {id:"mathe", name:"Mathematik & Logik", emo:"numbers", text:"Rechnen, Geometrie und Rätsel"},
-    {id:"technik", name:"Technik & Erfindungen", emo:"robot", text:"Maschinen, Computer und Erfinder"}]},
+    {id:"technik", name:"Technik & Erfindungen", emo:"robot", text:"Maschinen, Computer und Erfinder"},
+    {id:"informatik", name:"Informatik", emo:"laptop", text:"Programmieren, Daten und Netzwerke"}]},
   {id:"geld", name:"Schweiz, Geld & Leben", emo:"flag", c:"--geld", text:"Was man fürs Leben in der Schweiz wissen muss", desc:"Alles, was man als junger Mensch in der Schweiz wissen sollte: klug mit Geld umgehen, Bankkonto und Karten, Steuern und Krankenkasse, Social Media, und welche Lehre zu dir passt.", themen:[
     {id:"geld", name:"Umgang mit Geld", emo:"coin", text:"Sparen, Budget, Schulden"},
     {id:"banken", name:"Banken", emo:"bank", text:"Konto, Karte, Sicherheit"},
@@ -2265,6 +2266,7 @@ const BEREICHE = [
     {id:"krankenkasse", name:"Krankenkasse", emo:"health", text:"Prämie, Franchise, Versicherung"},
     {id:"medien", name:"Medien & Social Media", emo:"phone", text:"TikTok & Co. clever nutzen"},
     {id:"beruf", name:"Berufswahl & Lehre", emo:"toolbox", text:"Welche Lehre passt zu mir?"},
+    {id:"haushalt", name:"Haushalt & Ernährung", emo:"pan", text:"Essen, Konsum und Wohnen"},
     {id:"schweiz", name:"Die Schweiz", emo:"flag", text:"Kantone, Demokratie und Traditionen"},
     {id:"wirtschaft", name:"Geld & Wirtschaft", emo:"money", text:"Franken, Handel, Börse und Nationalbank"},
     {id:"logos", name:"Logo-Quiz", emo:"image", text:"Marken und Firmen am Logo erkennen"}]},
@@ -2278,7 +2280,8 @@ const BEREICHE = [
     {id:"musik", name:"Musik", emo:"music", text:"Instrumente, Noten und Komponisten"},
     {id:"sport", name:"Sport", emo:"soccer", text:"Sportarten, Regeln und Rekorde"},
     {id:"unterhaltung", name:"Medien & Unterhaltung", emo:"clapper", text:"Bücher, Filme, Comics und Games"},
-    {id:"allgemein", name:"Allgemeinwissen", emo:"puzzle", text:"Rekorde, Rätsel und Wissenswertes"}]}
+    {id:"allgemein", name:"Allgemeinwissen", emo:"puzzle", text:"Rekorde, Rätsel und Wissenswertes"},
+    {id:"ethik", name:"Ethik", emo:"scale", text:"Werte, Gerechtigkeit und Zusammenleben"}]}
 ];
 const THEMA = {}; BEREICHE.forEach(b=>b.themen.forEach(t=>THEMA[t.id]={...t,bereich:b}));
 const SUBTHEMEN = [
