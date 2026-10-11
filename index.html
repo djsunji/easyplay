@@ -2225,6 +2225,7 @@ body.scrollt *,body.scrollt *::before,body.scrollt *::after{animation-play-state
 </div>
 
 <script src="config.js"></script>
+<script src="bibidx.js"></script>
 <script src="daten-01.js"></script>
 <script src="daten-02.js"></script>
 <script src="daten-03.js"></script>
@@ -5686,9 +5687,24 @@ const GIPFEL = [
  ["Monte San Salvatore","Monte San Salvatore",912,"TI","Luganer Voralpen",/San Salvatore/]
 ];
 const GIPFEL_TOP10 = ["Matterhorn","Eiger","Jungfrau","Mönch","Dufourspitze","Titlis","Pilatus","Säntis","Rigi","Piz Bernina"];
+/* Tempo: schnelle Suche über alle Fragen in einem grossen Text */
+const RXB={};
+function rxBlob(text){ const key=FRAGEN.length+"|"+S.extra.length+"|"+(text===fTextM?"m":"t"); let b=RXB[key]; if(b) return b;
+  for(const k in RXB) delete RXB[k];
+  const seen=new Set(), uniq=[]; for(const f of [...FRAGEN,...S.extra]){ if(seen.has(f.q)) continue; seen.add(f.q); uniq.push(f); }
+  const offs=new Int32Array(uniq.length), parts=new Array(uniq.length); let pos=0;
+  for(let i=0;i<uniq.length;i++){ const t=String(text(uniq[i])).replace(/\n/g," "); offs[i]=pos; parts[i]=t; pos+=t.length+3; }
+  return RXB[key]={uniq, offs, big:parts.join(" .\n")}; }
+function rxTreffer(uniq,text,re,max,ok){ const {uniq:U,offs,big}=rxBlob(text);
+  const P=window.EP_BIBIDX; if(P && P.n===FRAGEN.length){ const r=P.r[re.source+"/"+re.flags+"/"+max+"/"+(text===fTextM?"m":"t")+(ok?"/o":"")];
+    if(r){ const b=rxBlob(text); if(!b.nrMap){ b.nrMap=new Map(); for(const f of U){ const k=f.nr!=null?f.nr:"q:"+f.q; if(!b.nrMap.has(k)) b.nrMap.set(k,f); } } return r.map(x=>b.nrMap.get(x)).filter(Boolean); } }
+  const g=new RegExp(re.source, re.flags.replace(/[gy]/g,"")+"g"); const out=[]; let m;
+  while(out.length<max && (m=g.exec(big))){ let lo=0,hi=offs.length-1; const p=m.index; while(lo<hi){ const mid=(lo+hi+1)>>1; if(offs[mid]<=p) lo=mid; else hi=mid-1; }
+    const f=U[lo]; if(!ok||ok(f)) out.push(f); g.lastIndex = lo+1<offs.length ? Math.max(g.lastIndex+(m[0].length?0:1), offs[lo+1]) : big.length; }
+  return out; }
 function gipfelSeiten(uniq, text){
   return GIPFEL.map(([titel,wiki,h,kt,geb,re])=>{ const rx=re||new RegExp(titel.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));
-    return {typ:"fr", titel, wiki, gipfel:{h,kt,geb}, fragen:uniq.filter(f=>rx.test(text(f))).slice(0,40)}; });
+    return {typ:"fr", titel, wiki, gipfel:{h,kt,geb}, fragen:rxTreffer(uniq,text,rx,40)}; });
 }
 function kantonNamen(kt){ return kt.split(",").map(x=>x.trim()).map(k=>{ const K=KANTONE.find(y=>y.kuerzel===k); return K?`${wappen(k)} ${esc(K.kurz)}`:k; }).join(", "); }
 function gipfelInfoHTML(s){
@@ -5776,12 +5792,12 @@ const JURA = [
 ];
 const JURA_TOP = ["Chasseral","Creux du Van","Weissenstein","Mont Tendre","La Dôle","Chasseron","Dent de Vaulion","Hasenmatt","Le Suchet","Mont Soleil"];
 function jsonRx(name){ return new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")); }
-function passSeiten(uniq,text){ return PAESSE.map(([titel,wiki,h,kt,verb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,art:"pass",verb}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)})); }
+function passSeiten(uniq,text){ return PAESSE.map(([titel,wiki,h,kt,verb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,art:"pass",verb}, fragen:rxTreffer(uniq,text,(re||jsonRx(titel)),40)})); }
 function juraKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
   const text=fTextM;
-  const ueber={typ:"fr", titel:"Jura (Überblick)", wiki:"Jura (Gebirge)", fragen:uniq.filter(f=>/Juragebirge|Faltenjura|Kettenjura|Tafeljura|\bJura\b[^.]{0,40}(Gebirge|Kette|Bogen|Kalk|Höhenzug)/.test(text(f))).slice(0,40)};
-  return [ueber, ...JURA.map(([titel,wiki,h,kt,geb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,geb,art:/Pass/.test(geb)?"pass":"jura", verb:/Pass/.test(geb)?geb.replace(/ \(Pass\)/,""):""}, fragen:uniq.filter(f=>(re||jsonRx(titel)).test(text(f))).slice(0,40)}))].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
+  const ueber={typ:"fr", titel:"Jura (Überblick)", wiki:"Jura (Gebirge)", fragen:rxTreffer(uniq,text,/Juragebirge|Faltenjura|Kettenjura|Tafeljura|\bJura\b[^.]{0,40}(Gebirge|Kette|Bogen|Kalk|Höhenzug)/,40)};
+  return [ueber, ...JURA.map(([titel,wiki,h,kt,geb,re])=>({typ:"fr", titel, wiki, gipfel:{h,kt,geb,art:/Pass/.test(geb)?"pass":"jura", verb:/Pass/.test(geb)?geb.replace(/ \(Pass\)/,""):""}, fragen:rxTreffer(uniq,text,(re||jsonRx(titel)),40)}))].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
 }
 
 /* ---------- Bibliothek: Bundesbehörden, Sicherheit, Bundesbetriebe und Bergbahnen ---------- */
@@ -5906,7 +5922,7 @@ function steckHTML(s){
 function chKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
   const text=fTextM;
-  const such=re=>uniq.filter(f=>re.test(text(f))).slice(0,40);
+  const such=re=>rxTreffer(uniq,text,re,40);
   const sortiere=a=>a.sort((x,y)=>x.titel.localeCompare(y.titel,"de"));
   const beh=CH_BEHOERDEN.map(([titel,wiki,abk,gr,auf,sitz,re])=>({typ:"fr", titel:abk&&!titel.startsWith(abk)?`${titel} (${abk})`:titel, wiki, steck:{art:"beh",emo:"🏛️",titel:"Steckbrief",zeilen:[["Abkürzung",abk],["Gehört zu",gr],["Sitz",sitz]],text:auf}, fragen:such(re)}));
   const sich=CH_SICHERHEIT.map(([titel,wiki,gr,auf,ort,re])=>({typ:"fr", titel, wiki, steck:{art:"sich",emo:"🚨",titel:"Steckbrief",zeilen:[["Zuständig",gr],["Wo",ort]],text:auf}, fragen:such(re)}));
@@ -5918,7 +5934,7 @@ function chKapitel(){
   ];
 }
 function bahnSeiten(uniq,text){
-  return BERGBAHNEN.map(([titel,wiki,typ,jahr,kt,bes,re])=>({typ:"fr", titel, wiki, bahn:true, steck:{art:"bahn",emo:/Zahnrad/.test(typ)?"🚞":/Standseil/.test(typ)?"🚟":/seil|Seil/.test(typ)?"🚡":"🚆",titel:"Steckbrief",zeilen:[["Art",typ],["Eröffnet",jahr],["Kanton",kt]],text:bes}, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)}));
+  return BERGBAHNEN.map(([titel,wiki,typ,jahr,kt,bes,re])=>({typ:"fr", titel, wiki, bahn:true, steck:{art:"bahn",emo:/Zahnrad/.test(typ)?"🚞":/Standseil/.test(typ)?"🚟":/seil|Seil/.test(typ)?"🚡":"🚆",titel:"Steckbrief",zeilen:[["Art",typ],["Eröffnet",jahr],["Kanton",kt]],text:bes}, fragen:rxTreffer(uniq,text,re,40)}));
 }
 
 
@@ -5954,10 +5970,10 @@ function istSonderKapitel(id){ return ["alpen","jura","ch_behoerden","ch_sicherh
 function extraKapitel(bid){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
   const text=fText;
-  const rx=t=>{ const w=t.replace(/\s*\(.*\)$/,"").trim(); if(w.length<4) return null; const re=new RegExp("(^|[^A-Za-zÄÖÜäöü])"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-zäöü])"); return {test:s=>s.includes(w) && re.test(s)}; };
+  const rx=t=>{ const w=t.replace(/\s*\(.*\)$/,"").trim(); if(w.length<4) return null; return new RegExp("(?<![A-Za-zÄÖÜäöü])"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-zäöü])"); };
   return Object.entries(EXTRA_KAP).filter(([,k])=>k.buch===bid).map(([id,k])=>({id, titel:k.titel, emo:k.emo,
     seiten:EXTRA_EINTRAEGE.filter(e=>e.kap===id).map(e=>{ const re=rx(e.titel); const eigene=e.fragen.map(f=>({...f, t:id, s:e.titel}));
-      const weitere=re? uniq.filter(f=>re.test(text(f)) && !eigene.some(x=>x.q===f.q)).slice(0,13) : [];
+      const weitere=re? rxTreffer(uniq,text,re,13,f=>!eigene.some(x=>x.q===f.q)) : [];
       return {typ:"fr", titel:e.titel, wiki:e.wiki, emo:e.emo, geo:e.geo||null, fluss:id==="x_fluesse", logo:e.logo||null, chlogo:CH_FIRMA_NR[e.titel]||null, olympia:id==="x_sport"?(OLYMPIA[e.titel]||null):null,
         steck:{art:id.slice(2), roh:true, emo:e.emo, titel:id==="x_fluesse"?"Vom Anfang bis zum Ende":"Steckbrief", zeilen:e.steck},
         teile:{v:2, einleitung:e.einleitung, wichtigste:e.wichtigste||[], abschnitte:e.abschnitte||[], begriffe:[], gewusst:e.gewusst||[]},
@@ -6111,7 +6127,7 @@ const ALPEN_SEITEN = [
 function alpenKapitel(){
   const alle=[...FRAGEN,...S.extra]; const seen=new Set(); const uniq=alle.filter(f=>{ if(seen.has(f.q)) return false; seen.add(f.q); return true; });
   const text=fTextM;
-  return [...ALPEN_SEITEN.map(([titel,wiki,re])=>({typ:"fr", titel, wiki, fragen:uniq.filter(f=>re.test(text(f))).slice(0,40)})), ...gipfelSeiten(uniq,text), ...passSeiten(uniq,text), ...bahnSeiten(uniq,text)].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
+  return [...ALPEN_SEITEN.map(([titel,wiki,re])=>({typ:"fr", titel, wiki, fragen:rxTreffer(uniq,text,re,40)})), ...gipfelSeiten(uniq,text), ...passSeiten(uniq,text), ...bahnSeiten(uniq,text)].sort((a,b)=>a.titel.localeCompare(b.titel,"de"));
 }
 function startListe(list, titel){
   list=shuffle([...list]).slice(0,25); if(!list.length) return;
