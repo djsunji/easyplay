@@ -2316,7 +2316,6 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 .regal .buch{width:170px!important;flex:none}
 .buecher-deko .spines{display:flex;align-items:flex-end;justify-content:center;gap:.25cqw;height:100%;width:100%}
 @media (max-width:760px){.regal .buch{width:calc(50% - 14px)!important}}
-@media (max-width:760px){html[data-mode="lib"] .nav{grid-template-columns:repeat(4,1fr)!important}html[data-mode="lib"] .nav .navbtn .tlab{font-size:.66rem}}
 @media (min-width:900px){.libart.buchseite,.offen{zoom:1.12}}
 /* Kopfknöpfe immer gleich gross */
 .nav .navbtn{height:52px!important;min-height:52px!important;max-height:52px;box-sizing:border-box}
@@ -3899,7 +3898,7 @@ function renderNav(){
             <button role="menuitem" type="button" id="navIn" class="kopt"><span class="ki">🔑</span><span><b>Anmelden</b><small>Ich habe schon ein Profil</small></span></button>
             <button role="menuitem" type="button" id="navReg" class="kopt"><span class="ki">✨</span><span><b>Registrieren</b><small>Ich bin neu hier</small></span></button>
           </div></div>`) +
-    (S.libModus ? `<button class="navbtn" id="navSpiel" type="button" title="Zurück zum Spiel">🎮 <span class="tlab">Spielen</span></button>` : "") +
+    
     `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><span class="rnico">Q</span> <span class="tlab">Qeels</span></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
       <div class="menu" id="hauptmenue" role="menu" hidden>
