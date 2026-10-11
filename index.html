@@ -2166,6 +2166,8 @@ body.reelsauf{overflow:hidden}
 /* Knopfreihe final: 3 Spalten auf grossen Bildschirmen */
 @media (max-width:760px){.hero .ctas .big{white-space:normal!important;font-size:.95rem!important;line-height:1.15!important;gap:6px!important;padding:12px 8px!important;min-width:0!important}.hero .ctas .cicon{font-size:1.3em!important;flex:none}}
 @media (min-width:761px){.hero .ctas{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}.hero .ctas .big{width:100%!important;min-width:0!important;white-space:nowrap!important;flex:none!important}}
+body.scrollt *,body.scrollt *::before,body.scrollt *::after{animation-play-state:paused!important}
+.blob{contain:strict}
 </style>
 </head>
 <body>
@@ -6088,7 +6090,7 @@ function bibAufwaermen(){
     (window.requestIdleCallback||((f)=>setTimeout(f,200)))(schritt,{timeout:3000}); };
   setTimeout(schritt,2500);
 }
-setTimeout(bibAufwaermen,0);
+/* Bibliothek wird erst beim Öffnen aufgebaut (Tempo) */
 function vlOeffnen(b, nr){ LIB.buch=b; LIB.seite=nr; LIB.zufall=false; go("libseite"); scrollTo(0,0); }
 
 /* ---------- Bibliothek: Kapitel «Die Schweizer Alpen» ---------- */
@@ -7351,5 +7353,6 @@ ladeFragenDB(); ladeTexteDatei();
 })();
 </script>
 <script src="lehrer.js"></script>
+<script>/*__epScrollPause*/(function(){let t=0;addEventListener('scroll',function(){if(!t)document.body.classList.add('scrollt');clearTimeout(t);t=setTimeout(function(){document.body.classList.remove('scrollt');t=0;},180);},{passive:true});document.addEventListener('visibilitychange',function(){document.body.classList.toggle('scrollt',document.hidden);});})();</script>
 </body>
 </html>
