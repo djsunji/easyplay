@@ -2318,6 +2318,15 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 @media (max-width:760px){.regal .buch{width:calc(50% - 14px)!important}}
 @media (max-width:760px){html[data-mode="lib"] .nav{grid-template-columns:repeat(4,1fr)!important}html[data-mode="lib"] .nav .navbtn .tlab{font-size:.66rem}}
 @media (min-width:900px){.libart.buchseite,.offen{zoom:1.12}}
+/* Kopfknöpfe immer gleich gross */
+.nav .navbtn{height:52px!important;min-height:52px!important;max-height:52px;box-sizing:border-box}
+.nav .navbtn .av{width:30px!important;height:30px!important;font-size:1.25rem!important;line-height:30px;flex:none;display:inline-grid;place-items:center;overflow:hidden}
+.nav .navbtn .av svg,.nav .navbtn .av img{width:100%;height:100%}
+@media (max-width:760px){.nav .navbtn{height:78px!important;min-height:78px!important;max-height:78px}.nav .navbtn .av{width:34px!important;height:34px!important}#navProfil{flex-direction:column!important;gap:4px!important;font-size:.72rem!important;overflow:hidden}}
+/* Fusszeile immer ganz unten */
+.wrap{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:0!important}
+.wrap>main{flex:1 0 auto;padding-bottom:60px}
+.eplegal{margin:auto 0 0!important;padding:22px 0 26px}
 </style>
 </head>
 <body>
