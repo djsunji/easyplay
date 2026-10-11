@@ -145,7 +145,21 @@ function hcBoard(){
   document.querySelectorAll("[data-pid]").forEach(el=>{ const auf=()=>{ S.spielerId=el.dataset.pid; go("spieler"); }; el.onclick=auf; el.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); auf(); } }; });
 }
 
-const HC_SEITEN = { hardcoreinfo:hcInfo, hardcore:()=>{ hcZeichne(); if(!HC.vorbei && HC.pick==null) hcTick(); }, hcboard:hcBoard };
+
+function spielmodi(){
+  hcStop();
+  const k=(id,emo,titel,text,farbe)=>`<button class="smkarte" type="button" data-sm="${id}" style="--f1:${farbe[0]};--f2:${farbe[1]}"><span class="smemo">${emo}</span><b>${titel}</b><span>${text}</span></button>`;
+  $("#app").innerHTML = `<div class="hcwrap smwrap">
+    <div class="pagehead"><div class="bigav hcicon">🎮</div><div><h1>Wettbewerb, Duell & Hardcore</h1><p class="help">Miss dich mit anderen oder mit dir selbst.</p></div></div>
+    <div class="smgitter">
+      ${k("live","⚡","Wettbewerb","Eine Person stellt die Fragen, alle spielen gleichzeitig mit einem PIN.",["#3D5AFE","#8A3FE0"])}
+      ${k("duell","⚔️","Duell","Fordere jemanden heraus und beantwortet dieselben Fragen gegeneinander.",["#17A35A","#0E7A45"])}
+      ${k("hardcoreinfo","🔥","Hardcore","Alle Themen, alle Stufen, 30 Sekunden pro Frage. Ein Fehler und es ist vorbei.",["#E0312B","#F2A000"])}
+    </div></div>`;
+  document.querySelectorAll("[data-sm]").forEach(b=>b.onclick=()=>{ const m=b.dataset.sm;
+    if(m==="live"){ try{ go(L.role==="host"?"livehost":L.role==="player"?"liveplay":"live"); }catch(e){ go("live"); } } else go(m); });
+}
+const HC_SEITEN = { spielmodi, hardcoreinfo:hcInfo, hardcore:()=>{ hcZeichne(); if(!HC.vorbei && HC.pick==null) hcTick(); }, hcboard:hcBoard };
 const vorRender = window.render;
 window.render = function(){
   if(S.screen!=="hardcore") hcStop();
@@ -166,28 +180,26 @@ document.addEventListener("keydown", e=>{
   if(i>=0 && HC.opts && i<HC.opts.length){ e.preventDefault(); hcAntwort(i); }
 });
 
-// Menü
-if(typeof window.renderNav==="function"){
-  const vorNav = window.renderNav;
-  window.renderNav = function(){
-    const r = vorNav.apply(this, arguments);
-    try{ const menu=document.getElementById("hauptmenue");
-      if(menu && !menu.querySelector("[data-hcm]")){
-        const ref=menu.querySelector('[data-m="board"]');
-        const w=document.createElement("div"); w.innerHTML=`<button role="menuitem" type="button" data-hcm="hardcoreinfo">🔥 Hardcore</button><button role="menuitem" type="button" data-hcm="hcboard">🔥 Hardcore-Rangliste</button>`;
-        const items=[...w.children]; if(ref){ items.reverse().forEach(x=>ref.after(x)); } else items.forEach(x=>menu.appendChild(x));
-        menu.querySelectorAll("[data-hcm]").forEach(b=>b.onclick=()=>{ const btn=document.getElementById("navMenu"); if(btn && !menu.hidden) btn.click(); try{ if(S.libModus && typeof setLibModus==="function"){ S.libModus=false; document.documentElement.dataset.mode="spiel"; } }catch(e){} go(b.dataset.hcm); });
-      } }catch(e){}
-    return r;
-  };
-}
 // Startseite: Knopf «Hardcore»
 if(typeof window.renderHome==="function"){
   const vorHome = window.renderHome;
   window.renderHome = function(){
     const r = vorHome.apply(this, arguments);
     try{ const c=document.querySelector(".hero .ctas"); if(c && !document.getElementById("hcHome")){ const b=document.createElement("button"); b.className="big hardcore"; b.type="button"; b.id="hcHome";
-      b.innerHTML=`<span class="cicon" aria-hidden="true">🔥</span> Hardcore`; b.onclick=()=>go("hardcoreinfo"); c.prepend(b); } }catch(e){}
+      b.innerHTML=`<span class="cicon" aria-hidden="true">🎮</span> Wettbewerb, Duell & Hardcore`; b.onclick=()=>go("spielmodi"); c.prepend(b); } }catch(e){}
+    return r;
+  };
+}
+// Profil: Hintergrund
+if(typeof window.renderProfil==="function"){
+  const vorProfil = window.renderProfil;
+  window.renderProfil = function(){
+    const r = vorProfil.apply(this, arguments);
+    try{ const app=document.getElementById("app"); if(S.screen==="profil" && app && !document.getElementById("hgProfil")){
+      const box=document.createElement("section"); box.className="statcard"; box.id="hgProfil";
+      box.innerHTML=`<h2>🎨 Hintergrund</h2><p class="help">Wähle Jahreszeit, Hintergrund und Darstellung der Seite.</p><div class="row"><button class="big" type="button" id="hgOeffnen">⚙️ Hintergrund anpassen</button></div>`;
+      app.appendChild(box); box.querySelector("#hgOeffnen").onclick=()=>{ try{ oeffneEinstellungen(); }catch(e){ console.warn(e); } };
+    } }catch(e){}
     return r;
   };
 }
@@ -220,6 +232,9 @@ css.textContent = `
 .hcregeln{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
 .hcregeln div{display:flex;flex-direction:column;gap:4px}
 .hcicon{font-size:2.2rem;display:grid;place-items:center}
+.smgitter{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:10px}
+.smkarte{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:26px 18px;border:0;border-radius:26px;color:#fff;cursor:pointer;background:linear-gradient(150deg,var(--f1),var(--f2));box-shadow:0 7px 0 rgba(0,0,0,.25);transition:transform .15s}
+.smkarte:hover{transform:translateY(-4px)}.smkarte .smemo{font-size:3rem}.smkarte b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.6rem}.smkarte span{font-size:.95rem;opacity:.95}
 .hero .ctas .big.hardcore{background:linear-gradient(135deg,#E0312B,#F2A000);color:#fff;box-shadow:0 5px 0 #8A1A12}
 `;
 document.head.appendChild(css);

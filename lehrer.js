@@ -1034,10 +1034,10 @@ if(typeof window.renderNav==="function"){
     const r=origNav.apply(this, arguments);
     try{
       const menu=$q("#hauptmenue");
-      if(menu && !menu.querySelector("[data-lm]")){
-        const ref=menu.querySelector('[data-m="meinetests"]') || menu.querySelector('[data-m="set"]');
+      if(menu && !menu.dataset.lmGebunden){ menu.dataset.lmGebunden="1";
+        if(!menu.querySelector("[data-lm]")){ const ref=menu.querySelector('[data-m="meinetests"]') || menu.querySelector('[data-m="set"]');
         const wrap=document.createElement("div"); wrap.innerHTML=`<button role="menuitem" type="button" data-lm="lehrer">🎓 Lehrerbereich</button><button role="menuitem" type="button" data-lm="lcode">🔢 Test mit Code</button>`;
-        const items=[...wrap.children]; if(ref && ref.parentNode===menu){ items.reverse().forEach(x=>ref.after(x)); } else items.forEach(x=>menu.appendChild(x));
+        const items=[...wrap.children]; if(ref && ref.parentNode===menu){ items.reverse().forEach(x=>ref.after(x)); } else items.forEach(x=>menu.appendChild(x)); }
         menu.querySelectorAll("[data-lm]").forEach(b=>b.onclick=()=>{ const btn=$q("#navMenu"); if(btn && !menu.hidden) btn.click(); if(b.dataset.lm==="lcode") LZ.kid=null; zuSeite(b.dataset.lm); });
       }
       const km=$q("#kontomenue");

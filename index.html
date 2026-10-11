@@ -2194,6 +2194,51 @@ body.scrollt *,body.scrollt *::before,body.scrollt *::after{animation-play-state
 .topbar .wmimg{height:92px!important}
 .nav .navbtn{min-height:42px!important;padding:5px 14px!important;font-size:.9rem!important;gap:6px!important}
 @media (max-width:760px){.topbar .wmimg{height:62px!important}.nav{grid-template-columns:repeat(3,1fr)!important}.nav .navbtn{min-height:54px!important;font-size:1.25rem!important;padding:6px 4px!important;border-radius:16px!important}.nav .navbtn .tlab{font-size:.72rem}}
+
+/* Runde 3: Kopfzeile, Menügruppe, Stufe und Bereiche */
+.topbar .wmimg{height:140px!important}
+@media (max-width:760px){.topbar .wmimg{height:86px!important}}
+@media (min-width:761px){.nav{flex-wrap:nowrap!important}.nav .navbtn{width:150px!important;min-width:150px!important;max-width:150px;justify-content:center!important;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .nav>.menuwrap,.nav>.kontowrap{flex:none}
+  #navProfil{display:flex}#navProfil .av{flex:none}}
+.menu .mgruppe{margin:6px 0 2px;padding:6px 0 0;border-top:2px solid var(--line)}
+.menu .mgruppe .mkopf{font-weight:800}
+.menu .mgruppe .msub{padding-left:34px!important;font-size:.95em}
+#stufeLbl,#bereiche{justify-content:flex-start!important;gap:16px!important;font-size:clamp(2.1rem,4.4vw,3.1rem)!important;margin:40px 0 20px!important}
+#stufeLbl::before,#bereiche::before{content:"🎯";display:grid;place-items:center;width:1.55em;height:1.55em;font-size:.78em;border-radius:20px;flex:none;transform:rotate(-6deg);
+  background:linear-gradient(135deg,#8A3FE0,#3D5AFE);box-shadow:0 6px 0 rgba(0,0,0,.25),0 12px 26px -10px #8A3FE0}
+#bereiche::before{content:"🧭";transform:rotate(6deg);background:linear-gradient(135deg,#17A35A,#F2A000);box-shadow:0 6px 0 rgba(0,0,0,.25),0 12px 26px -10px #F2A000}
+p#stufeLbl.label{display:flex!important;flex-wrap:nowrap!important}
+#stufeLbl>span{text-decoration:underline wavy #F2A000;text-decoration-thickness:4px;text-underline-offset:12px}
+#stufeLbl::before,#stufeLbl::after{text-decoration:none}
+#bereiche>span{text-decoration:underline wavy #17A35A;text-decoration-thickness:4px;text-underline-offset:12px}
+#stufeLbl::after,#bereiche::after{content:"✨";font-size:.55em;animation:twinkle 2.2s ease-in-out infinite;order:1}
+#bereiche small{order:2;margin-left:auto}
+.levels{gap:18px!important}
+.levels .level{position:relative;min-height:220px;padding:28px 18px 22px!important;border-radius:28px!important;border-width:3px!important;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.levels .level:hover{transform:translateY(-4px)}
+.levels .level .em{font-size:3.6rem!important;line-height:1;display:inline-block;animation:floaty 4s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))}
+.levels .level b{font-size:1.7rem!important;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+.levels .level[data-s="1"]{background:linear-gradient(160deg,color-mix(in srgb,#17A35A 38%,var(--surface)),var(--surface) 75%)!important;border-color:#17A35A!important}
+.levels .level[data-s="2"]{background:linear-gradient(160deg,color-mix(in srgb,#3D5AFE 38%,var(--surface)),var(--surface) 75%)!important;border-color:#3D5AFE!important}
+.levels .level[data-s="3"]{background:linear-gradient(160deg,color-mix(in srgb,#F2A000 40%,var(--surface)),var(--surface) 75%)!important;border-color:#F2A000!important}
+.levels .level::before{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 70%);pointer-events:none}
+.levels .level[aria-pressed="true"]{box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 70%,transparent),0 14px 30px -10px rgba(0,0,0,.45)!important;transform:translateY(-4px)}
+.levels .level[aria-pressed="true"]::after{content:"✓ Gewählt";position:absolute;top:12px;right:12px;font-size:.8rem;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--ink);color:var(--surface)}
+.bereiche{gap:20px!important}
+.bereiche .bereich{position:relative;overflow:hidden;min-height:250px;transition:transform .2s}
+.bereiche .bereich:hover{transform:translateY(-5px) rotate(-.4deg)}
+.bereiche .bereich h2{font-size:clamp(1.7rem,3vw,2.3rem)!important}
+.bereiche .bereich .emo{transform:scale(1.25);transform-origin:center}
+.bereiche .bereich::after{position:absolute;right:-22px;bottom:-34px;font-size:7.5rem;opacity:.16;transform:rotate(-14deg);pointer-events:none;line-height:1;z-index:0}
+.bereiche .bereich h2,.bereiche .bereich p,.bereiche .bereich .emo{position:relative;z-index:1}
+.bereiche .bereich[data-b="welt"]::after{content:"🌍"}
+.bereiche .bereich[data-b="natur"]::after{content:"🔬"}
+.bereiche .bereich[data-b="geld"]::after{content:"🏔️"}
+.bereiche .bereich[data-b="alltag"]::after{content:"🎨"}
+.bereiche .bereich::before{content:"";position:absolute;left:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.35),transparent 70%);pointer-events:none}
+@media (max-width:760px){.levels .level{min-height:0}.levels .level .em{font-size:2.6rem!important}.levels .level b{font-size:1.35rem!important}.bereiche .bereich{min-height:200px}}
+@media (prefers-reduced-motion:reduce){.levels .level .em,#stufeLbl::after,#bereiche::after{animation:none}}
 </style>
 </head>
 <body>
@@ -3750,16 +3795,18 @@ function renderNav(){
       <div class="menu" id="hauptmenue" role="menu" hidden>
         <button role="menuitem" type="button" data-m="home">🏠 Startseite</button>
         <button role="menuitem" type="button" data-m="lib">📖 Bibliothek (Lesen)</button>
-        <button role="menuitem" type="button" data-m="bib">📚 Fragendatenbank</button>
         <button role="menuitem" type="button" data-m="reels">🅠 Qeels</button>
-        <button role="menuitem" type="button" data-m="suche">🔎 Suchen & Test erstellen</button>
-        <button role="menuitem" type="button" data-m="meinetests">📝 Meine Tests</button>
-        <button role="menuitem" type="button" data-m="live">⚡ Wettbewerb</button>
-        <button role="menuitem" type="button" data-m="duell">⚔️ Duell</button>
+        <button role="menuitem" type="button" data-m="spielmodi">🎮 Wettbewerb, Duell & Hardcore</button>
         <button role="menuitem" type="button" data-m="board">🏆 Rangliste</button>
         ${p? `<button role="menuitem" type="button" data-m="profil">👤 Mein Profil</button>`:""}
         ${S.canEdit? `<button role="menuitem" type="button" data-m="werkstatt">🛠️ Fragen-Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>`:""}
-        <button role="menuitem" type="button" data-m="set">⚙️ Hintergrund</button>
+        <div class="mgruppe" role="group" aria-label="Lehrerbereich">
+          <button role="menuitem" type="button" data-lm="lehrer" class="mkopf">🎓 Lehrerbereich</button>
+          <button role="menuitem" type="button" data-m="suche" class="msub">🔎 Suchen & Test erstellen</button>
+          <button role="menuitem" type="button" data-lm="lcode" class="msub">🔢 Test mit Code</button>
+          <button role="menuitem" type="button" data-m="meinetests" class="msub">📝 Meine Tests</button>
+          <button role="menuitem" type="button" data-m="bib" class="msub">📚 Fragendatenbank</button>
+        </div>
         ${p? `<hr><button role="menuitem" type="button" data-m="out" class="m-out">🚪 Abmelden</button>`:""}
       </div></div>`;
   $("#navProfil") && ($("#navProfil").onclick=()=>go("profil"));
@@ -3783,6 +3830,7 @@ function renderNav(){
   menu.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{ const m=b.dataset.m; zu();
     if(m==="reels"){ oeffneReels(); return; }
     if(m==="duell"){ if(S.libModus) setLibModus(false); go("duell"); return; }
+    if(m==="spielmodi"){ if(S.libModus) setLibModus(false); go("spielmodi"); return; }
     if(m==="home"){ if(S.libModus) setLibModus(false); else go("home"); } else if(m==="lib") setLibModus(true); else if(m==="bib") go("bibliothek"); else if(m==="suche") go("suche"); else if(m==="meinetests") go("meinetests"); else if(m==="live") go(L.role==="host"?"livehost":L.role==="player"?"liveplay":"live");
     else if(m==="board"){ S.boardStufe=S.stufe; go("board"); } else if(m==="profil") go("profil"); else if(m==="werkstatt") go("werkstatt");
     else if(m==="set") oeffneEinstellungen(); else if(m==="out") abmelden(); });
@@ -3873,7 +3921,7 @@ function renderHome(){
           <button class="big zartikel" id="zufallArt" type="button"><span class="cicon wuerfel">🔮</span> Zufälliger Artikel</button>
         </div>
     </section>
-    <p class="label" id="stufeLbl">Deine Stufe</p>
+    <p class="label" id="stufeLbl"><span>Deine Stufe</span></p>
     <div class="levels" role="group" aria-labelledby="stufeLbl">
       ${STUFEN.map(s=>`<button class="level" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="em" aria-hidden="true">${STUFE_EMO[s.id]}</span><span><b>${s.name}</b><span class="a">${s.alter} · ${allCountL(s.id)} Fragen</span><small class="schule">(${esc(SCHULE[s.id])})</small></span></button>`).join("")}
     </div>
