@@ -494,7 +494,7 @@ async function pdfPins(k){
     doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(255,255,255); doc.text("easyplay · Mein Test-PIN", x+8, y+10);
     doc.setTextColor(...FARBE.tinte); doc.setFontSize(13); doc.text(pdfText(s.name), x+6, y+21);
     doc.setFontSize(24); doc.setTextColor(...FARBE.blau); doc.text(String(s.pin).split("").join(" "), x+6, y+33);
-    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(...FARBE.grau); doc.text(pdfText("Startseite: «Test mit Code starten»"), x+cw-5, y+36, {align:"right"});
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(...FARBE.grau); doc.text(pdfText("Menü: «Test mit Code»"), x+cw-5, y+36, {align:"right"});
     i++; if(i%2){ x=M+cw+6; } else { x=M; y+=ch+6; }
   });
   return doc;
@@ -881,7 +881,7 @@ function seiteTest(){
     <div class="lz-grid2">
       <section class="statcard"><h2>📤 Test verteilen</h2>
         <p class="lz-codegross" aria-label="Test-Code ${h(t.code.split("").join(" "))}">${h(t.code)}</p>
-        <p class="help">Die Kinder öffnen den Link oder tippen auf der Startseite auf <b>«Test mit Code starten»</b>, geben den Test-Code und ihren PIN ein und lösen den Test.</p>
+        <p class="help">Die Kinder öffnen den Link oder tippen im Menü auf <b>«Test mit Code»</b>, geben den Test-Code und ihren PIN ein und lösen den Test.</p>
         ${teilenHTML(link, `easyplay-Test «${t.titel}», Code ${t.code}`)}
         <label class="lz-schalter"><input type="checkbox" id="lzAktiv" ${t.aktiv!==false?"checked":""}><span>Test ist offen (Kinder können ihn lösen)</span></label>
       </section>
@@ -1047,16 +1047,6 @@ if(typeof window.renderNav==="function"){
         km.appendChild(b); b.onclick=()=>{ const kb=$q("#navKonto"); if(kb && !km.hidden) kb.click(); zuSeite("lehrer"); };
       }
     }catch(e){ console.warn("lehrer.js Menü", e); }
-    return r;
-  };
-}
-// Startseite: «Test mit Code starten»
-if(typeof window.renderHome==="function"){
-  const origHome=window.renderHome;
-  window.renderHome=function(){
-    const r=origHome.apply(this, arguments);
-    try{ const c=$q(".ctas"); if(c && !$q("#lzCodeStart")){ const b=document.createElement("button"); b.className="big lz-codestart"; b.type="button"; b.id="lzCodeStart";
-        b.innerHTML=`<span class="cicon" aria-hidden="true">🔢</span> Test mit Code<span class="lz-lang"> starten</span>`; b.onclick=()=>{ LZ.kid=null; go("lcode"); }; c.appendChild(b); } }catch(e){}
     return r;
   };
 }
