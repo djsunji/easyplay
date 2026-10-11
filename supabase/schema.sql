@@ -48,3 +48,22 @@ begin
   return neu;
 end $$;
 grant execute on function public.like_aendern(text, integer) to anon, authenticated;
+
+-- Qeels: Kommentare
+create table if not exists kommentare (
+  id bigserial primary key,
+  qeel text not null,
+  name text not null check (char_length(name) between 1 and 30),
+  avatar text,
+  text text not null check (char_length(text) between 2 and 200),
+  gemeldet int not null default 0,
+  erstellt timestamptz not null default now()
+);
+create index if not exists kommentare_qeel on kommentare(qeel, erstellt desc);
+alter table kommentare enable row level security;
+create policy "kommentare lesen" on kommentare for select using (gemeldet < 3);
+create policy "kommentare schreiben" on kommentare for insert with check (gemeldet = 0);
+create or replace function kommentar_melden(p_id bigint) returns void language sql security definer as $$
+  update kommentare set gemeldet = gemeldet + 1 where id = p_id;
+$$;
+grant execute on function kommentar_melden(bigint) to anon, authenticated;

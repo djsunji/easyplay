@@ -2327,6 +2327,27 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 .wrap{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:0!important}
 .wrap>main{flex:1 0 auto;padding-bottom:60px}
 .eplegal{margin:auto 0 0!important;padding:22px 0 26px}
+
+/* Qeels: Kanal und Kommentare */
+.rkanal b .rkslash{opacity:.8;font-weight:600}
+.rkomm{z-index:22}
+.rkomm .rkkopf{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.1)}
+.rkomm .rkzu{background:none;border:0;font-size:1.3rem;cursor:pointer;color:inherit}
+.rkomm .rkliste{overflow:auto;padding:8px 18px;flex:1 1 auto;min-height:120px;max-height:52dvh}
+.rkomm .rkitem{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.rkomm .rkav{width:34px;height:34px;flex:none;display:grid;place-items:center;font-size:1.4rem;border-radius:50%;background:rgba(0,0,0,.06);overflow:hidden}
+.rkomm .rkav svg,.rkomm .rkav img{width:100%;height:100%}
+.rkomm .rktext{flex:1;min-width:0}.rkomm .rktext p{margin:2px 0 4px;overflow-wrap:anywhere}
+.rkomm .rktext small{opacity:.6}
+.rkomm .rkakt{display:flex;gap:12px}.rkomm .rkakt button{background:none;border:0;padding:0;font-size:.8rem;opacity:.6;cursor:pointer;color:inherit}
+.rkomm .rkakt button:hover{opacity:1;text-decoration:underline}
+.rkomm .rkleer{text-align:center;opacity:.7;padding:24px 0}
+.rkomm .rkform{display:flex;gap:8px;align-items:center;padding:12px 18px 4px;border-top:1px solid rgba(0,0,0,.1)}
+.rkomm .rkform input{flex:1;min-width:0;padding:12px 16px;border-radius:999px;border:2px solid rgba(0,0,0,.15);font:inherit;background:#fff;color:#111}
+.rkomm .rksend{border:0;border-radius:999px;padding:12px 18px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,#8A3FE0,#3D5AFE)}
+.rkomm .rksend:disabled{opacity:.5}
+.rkomm .rkregel{margin:4px 18px 14px;font-size:.78rem;opacity:.7}.rkomm .rkfehler{color:#C62828;opacity:1}
+.rkomm .rkgast{justify-content:space-between;padding-bottom:16px}.rkomm .rkgast p{margin:0}
 </style>
 </head>
 <body>
@@ -4316,13 +4337,14 @@ function rlRail(id, extra){
   const an=!!RL.likes[id];
   return `<aside class="rrail">
     <button type="button" class="rbtn rlike ${an?"an":""}" data-like="${esc(id)}" aria-pressed="${an}"><span class="rbi">${an?"❤️":"🤍"}</span><small>Gefällt mir</small></button>
+    <button type="button" class="rbtn" data-komm="${esc(id)}"><span class="rbi">💬</span><small>Kommentare</small></button>
     ${extra}
     <button type="button" class="rbtn" data-teilen><span class="rbi">↗️</span><small>Teilen</small></button>
     ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
   </aside>`;
 }
-function rlMeta(tag, text, ton, oben){
-  return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar">${rlLogo()}</span><b>@easyplay</b><span class="rchip">${tag}</span></div>
+function rlMeta(tag, text, ton, oben, kanal){
+  return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar">${rlLogo()}</span><b>@easyplay${kanal?`<span class="rkslash">/${esc(kanal)}</span>`:""}</b><span class="rchip">${tag}</span></div>
     ${text}<p class="rton">🎵 ${ton}</p></div>`;
 }
 function rlFrageHTML(it, idx){
@@ -4341,7 +4363,7 @@ function rlFrageHTML(it, idx){
       <div class="rerkl" hidden></div>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-erkl><span class="rbi">💡</span><small>Erklärung</small></button><button type="button" class="rbtn" data-qart><span class="rbi">📖</span><small>Artikel</small></button>`)}
-    ${rlMeta("Quiz", `<p class="rcap">Tippe auf die richtige Antwort! <span class="rlnr">Nr. ${frageNr(f)}</span></p>`, `${esc(th.bereich.name)} · ${esc(th.name)}`)}
+    ${rlMeta("Quiz", `<p class="rcap">Tippe auf die richtige Antwort! <span class="rlnr">Nr. ${frageNr(f)}</span></p>`, `${esc(th.bereich.name)} · ${esc(th.name)}`, "", rlKanal(th.bereich.name))}
     <div class="rprog"><i></i></div>
   </section>`;
 }
@@ -4365,7 +4387,7 @@ function rlArtikelHTML(it, idx){
       <button type="button" class="ralesen" data-lesen>📖 Ganzen Artikel lesen</button>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-lesen><span class="rbi">📖</span><small>Lesen</small></button>${rlEigene(s).length?`<button type="button" class="rbtn" data-dazu><span class="rbi">🎮</span><small>Frage dazu</small></button>`:""}`)}
-    ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`)}
+    ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`, "", rlKanal(B.titel))}
     <div class="rprog"><i></i></div>
   </section>`;
 }
@@ -4412,6 +4434,7 @@ function rlBinde(sec, it){
   sec.querySelector("[data-like]").onclick=()=>rlLike(sec);
   const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ try{ speakText(it.say); }catch(e){} });
   sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
+  const kb=sec.querySelector("[data-komm]"); kb && (kb.onclick=()=>kmOeffnen(sec, kb.dataset.komm));
   const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } e.hidden=!e.hidden; });
   const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
   sec.querySelectorAll("[data-lesen]").forEach(le=>le.onclick=()=>rlSheet(it.b, it.nr));
@@ -4526,7 +4549,7 @@ function oeffneReels(tab){
   document.body.appendChild(o);
   RL.obs=new IntersectionObserver(es=>es.forEach(en=>{
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
-      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlLikeLaden(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
+      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
       if(!sec.nextElementSibling || !sec.nextElementSibling.nextElementSibling || !sec.nextElementSibling.nextElementSibling.nextElementSibling) rlHinzu(4);
@@ -4568,6 +4591,67 @@ async function likeAendern(id, d){
   }catch(e){}
   if(typeof LK.cache[id]==="number"){ LK.cache[id]=Math.max(0,LK.cache[id]+d); return LK.cache[id]; }
   return null;
+}
+/* ---------- Qeels: Kanal und Kommentare ---------- */
+function rlKanal(s){ return String(s||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").split(/[\s,&·]+/).filter(Boolean)[0]?.replace(/[^a-z0-9]/g,"")||""; }
+const KM={cache:{}, gemeldet:store.get("ep-km-gemeldet",{})||{}};
+const KM_WORTE=["scheiss","scheiß","arsch","fick","fuck","hure","wichser","spast","missgeburt","bitch","schlampe","nutte","fotze","penner","kacke","idiot","depp","trottel","hurensohn","schwuchtel","neger","kanake"];
+function kmPruefen(t){
+  const s=String(t||"").trim(); if(s.length<2) return "Der Kommentar ist zu kurz.";
+  if(s.length>200) return "Höchstens 200 Zeichen.";
+  if(/(https?:\/\/|www\.|\.(ch|com|de|net|org|io)\b)/i.test(s)) return "Links sind in Kommentaren nicht erlaubt.";
+  if(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i.test(s)) return "E-Mail-Adressen sind nicht erlaubt.";
+  if(/(\+41|0041|\b0)\s?\d{2}[\s.\/-]?\d{3}[\s.\/-]?\d{2}[\s.\/-]?\d{2}/.test(s)) return "Telefonnummern sind nicht erlaubt.";
+  const wl=s.toLowerCase().split(/[^a-zäöüß]+/); if(wl.some(x=>KM_WORTE.some(w=>x.startsWith(w)))) return "Bitte bleib freundlich. Dieser Kommentar enthält ein Wort, das hier nicht erlaubt ist.";
+  return "";
+}
+function kmLokal(){ return store.get("ep-kommentare",{})||{}; }
+async function kmLaden(id){
+  try{
+    if(S.db){ const sn=await S.db.doc("kommentare/"+id).collection("liste").orderBy("zeit","desc").limit(100).get(); return KM.cache[id]=sn.docs.map(d=>({id:d.id, ...(d.data()||{})})); }
+    const sp=lkSupa(); if(sp){ const r=await fetch(`${sp.u}/rest/v1/kommentare?qeel=eq.${encodeURIComponent(id)}&select=id,name,avatar,text,zeit:erstellt,gemeldet&order=erstellt.desc&limit=100`,{headers:sp.h}); if(r.ok) return KM.cache[id]=await r.json(); }
+  }catch(e){ console.warn("kommentare", e); }
+  return KM.cache[id]=(kmLokal()[id]||[]).slice().reverse();
+}
+async function kmSenden(id, text){
+  const p=S.profil; const k={name:String(p.name||"").slice(0,30), avatar:p.avatar||"", text:String(text).trim(), zeit:new Date().toISOString(), uid:S.uid||"lokal", gemeldet:0};
+  if(S.db){ await S.db.doc("kommentare/"+id).collection("liste").add(k); return; }
+  const sp=lkSupa(); if(sp){ const r=await fetch(`${sp.u}/rest/v1/kommentare`,{method:"POST",headers:{...sp.h,Prefer:"return=minimal"},body:JSON.stringify({qeel:id,name:k.name,avatar:k.avatar,text:k.text})}); if(!r.ok) throw new Error("senden"); return; }
+  const all=kmLokal(); (all[id]=all[id]||[]).push({...k, id:"l"+Date.now()}); store.set("ep-kommentare", all);
+}
+async function kmMelden(id, k){
+  KM.gemeldet[k.id]=1; store.set("ep-km-gemeldet", KM.gemeldet);
+  try{ if(S.db) await S.db.doc("kommentare/"+id).collection("liste").doc(k.id).update({gemeldet:(+k.gemeldet||0)+1});
+    else { const sp=lkSupa(); if(sp) await fetch(`${sp.u}/rest/v1/rpc/kommentar_melden`,{method:"POST",headers:sp.h,body:JSON.stringify({p_id:+k.id})}); } }catch(e){}
+}
+async function kmLoeschen(id, k){
+  try{ if(S.db){ await S.db.doc("kommentare/"+id).collection("liste").doc(k.id).delete(); return; } }catch(e){ throw e; }
+  const all=kmLokal(); all[id]=(all[id]||[]).filter(x=>x.id!==k.id); store.set("ep-kommentare", all);
+}
+function kmZeit(z){ const d=(Date.now()-new Date(z).getTime())/1000; if(!(d>=0)) return ""; if(d<60) return "gerade eben"; if(d<3600) return `vor ${Math.floor(d/60)} Min.`; if(d<86400) return `vor ${Math.floor(d/3600)} Std.`; const t=Math.floor(d/86400); return t===1?"gestern":`vor ${t} Tagen`; }
+function kmAnzeigen(sec, n){ const sm=sec&&sec.querySelector("[data-komm] small"); if(sm) sm.textContent = n ? zahlKurz(n) : "Kommentare"; }
+function kmSichtbar(l){ return (l||[]).filter(k=>!KM.gemeldet[k.id] && (+k.gemeldet||0)<3); }
+async function kmZaehlen(sec){ const b=sec.querySelector("[data-komm]"); if(!b||b.dataset.geladen) return; b.dataset.geladen="1"; const l=await kmLaden(b.dataset.komm); kmAnzeigen(sec, kmSichtbar(l).length); }
+async function kmOeffnen(sec, id){
+  const o=$("#reels"); if(!o) return; $("#rkomm")?.remove();
+  const d=document.createElement("div"); d.id="rkomm"; d.className="rsheet rkomm"; d.setAttribute("role","dialog"); d.setAttribute("aria-label","Kommentare");
+  o.appendChild(d);
+  const zeichne=(liste, fehler)=>{
+    const l=kmSichtbar(liste), meinId=S.uid||"lokal";
+    d.innerHTML=`<div class="rkkopf"><b>💬 ${l.length} ${l.length===1?"Kommentar":"Kommentare"}</b><button type="button" class="rkzu" aria-label="Schliessen">✕</button></div>
+      <div class="rkliste">${l.length? l.map(k=>`<div class="rkitem"><span class="rkav" aria-hidden="true">${avatar(k.avatar)}</span><div class="rktext"><b>${esc(k.name||"Jemand")}</b> <small>${kmZeit(k.zeit)}</small><p>${esc(k.text)}</p>
+        <span class="rkakt">${(k.uid&&k.uid===meinId)||S.canEdit?`<button type="button" data-kdel="${esc(k.id)}">Löschen</button>`:""}<button type="button" data-kmeld="${esc(k.id)}">Melden</button></span></div></div>`).join("") : `<p class="rkleer">Noch keine Kommentare. Schreib den ersten!</p>`}</div>
+      ${S.profil ? `<form class="rkform"><span class="rkav" aria-hidden="true">${avatar(S.profil.avatar)}</span><label class="sr-only" for="rkInput">Kommentar</label><input id="rkInput" maxlength="200" placeholder="Schreib etwas Nettes …" autocomplete="off"><button type="submit" class="rksend">Senden</button></form>
+        <p class="rkregel">${fehler?`<b class="rkfehler">${esc(fehler)}</b>`:"Sei freundlich. Keine Links, Telefonnummern oder E-Mail-Adressen."}</p>`
+        : `<div class="rkform rkgast"><p>Melde dich an, um zu kommentieren.</p><button type="button" class="rksend" data-kreg>Anmelden</button></div>`}`;
+    d.querySelector(".rkzu").onclick=()=>d.remove();
+    d.querySelector("[data-kreg]")?.addEventListener("click",()=>{ try{ schliesseReels(); }catch(e){} go("register"); });
+    d.querySelectorAll("[data-kmeld]").forEach(b=>b.onclick=async()=>{ const k=liste.find(x=>x.id===b.dataset.kmeld); if(!k) return; await kmMelden(id,k); rlToast("Danke! Der Kommentar wurde gemeldet."); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); });
+    d.querySelectorAll("[data-kdel]").forEach(b=>b.onclick=async()=>{ const k=liste.find(x=>x.id===b.dataset.kdel); if(!k) return; try{ await kmLoeschen(id,k); }catch(e){ rlToast("Löschen hat nicht geklappt"); return; } liste=await kmLaden(id); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); });
+    const f=d.querySelector("form.rkform"); if(f){ const inp=f.querySelector("input"); f.onsubmit=async e=>{ e.preventDefault(); const t=inp.value; const fe=kmPruefen(t); if(fe){ zeichne(liste, fe); const n=d.querySelector("#rkInput"); n.value=t; n.focus(); return; }
+      f.querySelector(".rksend").disabled=true; try{ await kmSenden(id,t); }catch(x){ zeichne(liste,"Senden hat nicht geklappt. Versuche es nochmals."); return; } liste=await kmLaden(id); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); }; }
+  };
+  let liste=KM.cache[id]||[]; zeichne(liste); liste=await kmLaden(id); if(document.body.contains(d)) zeichne(liste);
 }
 function zahlKurz(n){ return n>=1e6 ? (n/1e6).toFixed(1).replace(".0","")+" Mio." : n>=1e4 ? Math.round(n/1e3)+"k" : n>=1000 ? (n/1e3).toFixed(1).replace(".0","")+"k" : String(n); }
 function rlLikeAnzeigen(sec, n){ const sm=sec.querySelector("[data-like] small"); if(!sm) return; sm.textContent = (n==null) ? "Gefällt mir" : zahlKurz(n); }
