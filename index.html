@@ -2189,6 +2189,11 @@ body.scrollt *,body.scrollt *::before,body.scrollt *::after{animation-play-state
 .fahne:hover .tuch{transform:scale(1.04);transition:transform .2s}
 @media (max-width:760px){.fahnen{justify-content:center;gap:18px;height:120px}.fahne{width:84px;height:120px}.fahne .mast{height:116px}.fahne .tuch{width:64px;height:48px}.fahne .tuch i{width:calc(64px / 28);background-size:64px 48px;background-position:calc(var(--i) * -64px / 28) 0}}
 @media (prefers-reduced-motion:reduce){.fahne .tuch i,.fahne .tuch i::after{animation:none}}
+
+/* Kopfzeile: grosser Schriftzug, kleinere Knöpfe, ohne Bibliothek */
+.topbar .wmimg{height:92px!important}
+.nav .navbtn{min-height:42px!important;padding:5px 14px!important;font-size:.9rem!important;gap:6px!important}
+@media (max-width:760px){.topbar .wmimg{height:62px!important}.nav{grid-template-columns:repeat(3,1fr)!important}.nav .navbtn{min-height:54px!important;font-size:1.25rem!important;padding:6px 4px!important;border-radius:16px!important}.nav .navbtn .tlab{font-size:.72rem}}
 </style>
 </head>
 <body>
@@ -3739,7 +3744,7 @@ function renderNav(){
             <button role="menuitem" type="button" id="navIn" class="kopt"><span class="ki">🔑</span><span><b>Anmelden</b><small>Ich habe schon ein Profil</small></span></button>
             <button role="menuitem" type="button" id="navReg" class="kopt"><span class="ki">✨</span><span><b>Registrieren</b><small>Ich bin neu hier</small></span></button>
           </div></div>`) +
-    (S.libModus ? `<button class="navbtn" id="navSpiel" type="button" title="Zurück zum Spiel">🎮 <span class="tlab">Spielen</span></button>` : `<button class="navbtn" id="navLib" type="button" title="Zur Bibliothek">📖 <span class="tlab">Bibliothek</span></button>`) +
+    (S.libModus ? `<button class="navbtn" id="navSpiel" type="button" title="Zurück zum Spiel">🎮 <span class="tlab">Spielen</span></button>` : "") +
     `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><span class="rnico">Q</span> <span class="tlab">Qeels</span></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
       <div class="menu" id="hauptmenue" role="menu" hidden>
