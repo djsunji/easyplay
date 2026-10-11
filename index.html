@@ -1443,6 +1443,10 @@ a.big{text-decoration:none}
 @keyframes buchAuf{0%,100%{transform:rotateY(0)}50%{transform:rotateY(-50deg) scale(1.15)}}
 @media (min-width:761px){.hero .ctas{gap:8px}.hero .ctas .big{padding:11px 13px;font-size:.92rem}}
 @media (max-width:760px){.hero .ctas .big:last-child:nth-child(odd){grid-column:1 / -1}}
+/* Knopfreihe: nie aus der Box ragen */
+@media (min-width:761px){.hero .ctas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hero .ctas .big{width:100%;justify-content:center;white-space:normal;line-height:1.2;text-align:center;overflow:hidden}}
+/* Ruhig: beim erneuten Zeichnen derselben Seite keine Einblend-Animation */
+body.ruhig .thema,body.ruhig .kanton,body.ruhig .bereich,body.ruhig .level,body.ruhig .mode,body.ruhig .buch{animation:none!important}
 @media (min-width:761px){.hero .ctas{grid-column:1 / -1;position:relative;z-index:4;flex-wrap:wrap;margin-top:-6px}.hero .ctas .big{flex:0 0 auto;padding:12px 18px;font-size:.98rem}}
 html,body{overflow-x:clip}
 .hero .ctas .big.bibl{background:linear-gradient(135deg,#5B3FE0 0%,#8E4DFF 50%,#C86BFF 100%)!important;box-shadow:0 5px 0 #3E2299!important}
@@ -2158,6 +2162,10 @@ body.reelsauf{overflow:hidden}
   .nav .navbtn{position:relative}
   .nav #navProfil{font-size:.8rem;font-weight:800;overflow:hidden;white-space:nowrap}
 }
+
+/* Knopfreihe final: 3 Spalten auf grossen Bildschirmen */
+@media (max-width:760px){.hero .ctas .big{white-space:normal!important;font-size:.95rem!important;line-height:1.15!important;gap:6px!important;padding:12px 8px!important;min-width:0!important}.hero .ctas .cicon{font-size:1.3em!important;flex:none}}
+@media (min-width:761px){.hero .ctas{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}.hero .ctas .big{width:100%!important;min-width:0!important;white-space:nowrap!important;flex:none!important}}
 </style>
 </head>
 <body>
@@ -3752,6 +3760,7 @@ function renderNav(){
 }
 
 function render(){
+  try{ const jetzt=performance.now(); const gleich=S.screen===window.__epLetzteSeite && jetzt-(window.__epLetztesRender||0)<5000 && !["quiz","done","duellplay","check","live"].includes(S.screen); document.body.classList.toggle("ruhig",gleich); window.__epLetzteSeite=S.screen; window.__epLetztesRender=jetzt; }catch(e){}
   try{ kontoSync(); }catch(e){}
   applyDark();
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
@@ -3855,7 +3864,7 @@ function renderHome(){
   $("#toLive").onclick=()=>go("live");
   $("#zufall") && ($("#zufall").onclick=startZufall);
   $("#zurSeason") && ($("#zurSeason").onclick=()=>{ S.boardModus="season"; S.boardSeason=aktuelleSeason().id; go("board"); scrollTo(0,0); });
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelectorAll(".zaehler").forEach(el=>{ const ziel=+el.dataset.ziel; if(!ziel) return; const t0=performance.now(), dauer=1400;
+  if(!window.__epGezaehlt && (window.claude || S.fragenQuelle) && !matchMedia("(prefers-reduced-motion: reduce)").matches && (window.__epGezaehlt=true)) document.querySelectorAll(".zaehler").forEach(el=>{ const ziel=+el.dataset.ziel; if(!ziel) return; const t0=performance.now(), dauer=1400;
     const tick=t=>{ const p=Math.min(1,(t-t0)/dauer), e=1-Math.pow(1-p,3); el.textContent=Math.round(ziel*e).toLocaleString("de-CH"); if(p<1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
   punkteSchildStart();
   $("#toLib") && ($("#toLib").onclick=()=>{ setLibModus(true); scrollTo(0,0); });
