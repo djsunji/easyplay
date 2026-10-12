@@ -2383,6 +2383,19 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 /* Hintergrund-Auswahl: Knöpfe umbrechen statt abschneiden */
 .setsegs{display:flex!important;flex-wrap:wrap!important;gap:8px!important;overflow:visible!important}
 .setsegs .seg{flex:1 1 auto!important;width:auto!important;min-width:max-content!important;max-width:none!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;justify-content:center}
+/* Offenes Buch auf dem Handy */
+.offen>.seite{min-width:0}
+@media (max-width:760px){
+  .offen{grid-template-columns:minmax(0,1fr)!important;padding:8px!important;gap:8px}
+  .offen .seite{padding:18px 14px!important;border-radius:10px!important}
+  .offen .kapitel{gap:8px}
+  .offen .kapitel .kt{min-width:0;flex:1 1 auto}
+  .offen .kapitel .kseite{margin-left:auto;text-align:right}
+  .offen .kapitel .kpunkte{display:none}
+  .offen .kapitel .kseite{font-size:.78rem;white-space:nowrap}
+  .offen .rubrik{flex-wrap:wrap}
+  .offen .rubrik .rbseiten{font-size:.75rem}
+}
 </style>
 </head>
 <body>
