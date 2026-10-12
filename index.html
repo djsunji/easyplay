@@ -2,6 +2,9 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://de.wikipedia.org https://commons.wikimedia.org https://*.supabase.co wss://*.supabase.co; frame-src https://www.openstreetmap.org; media-src 'self' https: data: blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>easyplay, Fragen. Wissen. Weiterkommen.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3443,7 +3446,7 @@ function renderWerkstatt(){
         <b>${f.img?`<span class="wimg">${esc(f.img.slice(2))}</span> `:""}${esc(f.q)}</b>
         <span>${esc(THEMA[f.t]?.name||f.t)} · Stufe ${f.l} · Richtig: <strong>${esc(f.a[0])}</strong> · Falsch: ${f.a.slice(1).map(esc).join(", ")}</span>
         <span>${esc(f.e)}${f.s?` · Quelle: Wikipedia «${esc(f.s)}»`:""}</span>
-        <span class="row" style="justify-content:flex-start;margin-top:8px"><button class="big alt small" data-ok="${f.id}" type="button">${ico("check")} Freigeben</button><button class="big alt small" data-del="${f.id}" type="button">${ico("cross")} Löschen</button></span>
+        <span class="row" style="justify-content:flex-start;margin-top:8px"><button class="big alt small" data-ok="${esc(f.id)}" type="button">${ico("check")} Freigeben</button><button class="big alt small" data-del="${esc(f.id)}" type="button">${ico("cross")} Löschen</button></span>
       </div>`).join("")}${pend.length>60?`<p class="note">… und ${pend.length-60} weitere.</p>`:""}</div>`;
   $("#wGo").onclick=()=>{ W8.fokus=$("#wF").value.trim(); werkstattRun($("#wT").value, +$("#wL").value, +$("#wN").value, $("#wB").checked, W8.fokus); };
   $("#wStop").onclick=()=>{ try{ W8.ctrl?.abort(); }catch(e){} };
@@ -3889,8 +3892,15 @@ async function liveJoin(pin, name){
   L.tick=setInterval(()=>{ const el=$("#lvTime"); if(el && L.me.qSeenAt){ el.textContent=Math.max(0,Math.ceil((LIVE_DUR-(Date.now()-L.me.qSeenAt))/1000)); } },250);
   setTimeout(()=>{ if(S.screen==="liveplay" && !liveHostPeer()) renderLivePlay(); }, 4000);
 }
+function liveStand(p){
+  if(!p) return p;
+  const zahl=v=>{ const n=+v; return isFinite(n)?n:0; };
+  const zahlen=o=>{ const r={}; if(o&&typeof o==="object") for(const k of Object.keys(o)) r[k]=zahl(o[k]); return r; };
+  const q=p.q&&typeof p.q==="object"?{...p.q, text:String(p.q.text||""), opts:Array.isArray(p.q.opts)?p.q.opts.map(String):[]}:p.q;
+  return {...p, qi:zahl(p.qi), total:zahl(p.total), c:p.c==null?p.c:zahl(p.c), scores:zahlen(p.scores), last:zahlen(p.last), q};
+}
 function renderLivePlay(){
-  const hp=liveHostPeer(); const st=hp?.presence; const me=L.me;
+  const hp=liveHostPeer(); const st=liveStand(hp?.presence); const me=L.me;
   let body;
   if(!st){ body=`<div class="lwait">${ico("timer")}<h2>Suche Spiel ${esc(L.pin)} …</h2><p>Falls nichts passiert: Stimmt der PIN? Ist der Wettbewerb schon erstellt?</p></div>`; }
   else if(st.phase==="lobby"){ body=`<div class="lwait"><div class="pav">${avatar(me.av)}</div><h2>Du bist dabei, ${esc(me.name)}!</h2><p>Kategorie: ${esc(st.cat)}. Warte, bis das Spiel startet …</p></div>`; }
@@ -4033,6 +4043,19 @@ function render(){
 }
 
 /* ---------- Startseite ---------- */
+// Nur diese Felder sind öffentlich in der Rangliste (keine E-Mail, keine Namen)
+function oeffentlichesProfil(p){
+  p=p||{}; const o={name:String(p.name||"").slice(0,40), avatar:p.avatar||null, stufe:+p.stufe||1, kanton:String(p.kanton||"").slice(0,4), best:p.best||{}, saison:p.saison||{}, tests:+p.tests||0};
+  if(p.hc) o.hc=p.hc; if(p.erstellt) o.erstellt=p.erstellt; return o;
+}
+// Fremde Profile aus der Datenbank: nur erwartete Felder und Typen übernehmen
+function spielerSauber(id, d){
+  d=d||{}; const zahlen=o=>{ const r={}; if(o&&typeof o==="object") for(const k of Object.keys(o).slice(0,400)) { const n=+o[k]; if(isFinite(n)) r[String(k).slice(0,60)]=Math.max(0,Math.min(n,1e6)); } return r; };
+  const saison={}; if(d.saison&&typeof d.saison==="object") for(const k of Object.keys(d.saison).slice(0,60)) saison[String(k).slice(0,40)]=zahlen(d.saison[k]);
+  const hc=d.hc&&typeof d.hc==="object"?{best:Math.max(0,Math.min(+d.hc.best||0,100000)), zeit:+d.hc.zeit||0, datum:String(d.hc.datum||"").slice(0,30), spiele:+d.hc.spiele||0}:undefined;
+  return {id:String(id), name:String(d.name||"").slice(0,40), avatar:typeof d.avatar==="string"?d.avatar.slice(0,40):null, stufe:[1,2,3].includes(+d.stufe)?+d.stufe:1,
+    kanton:typeof d.kanton==="string"?d.kanton.slice(0,4):"", best:zahlen(d.best), saison, tests:Math.max(0,+d.tests||0), hc, erstellt:d.erstellt};
+}
 function totalPts(p){ const b=(p&&p.best)||{}; return Object.values(b).reduce((n,v)=>n+(+v||0),0); }
 function homeTop10(){
   const list = (S.online ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []))
@@ -4935,7 +4958,7 @@ async function flushRun(finished){
     Q.seasonMult=ph.mult; Q.seasonPts=Math.round((Q.points||0)*ph.mult); eintrag[S.stufe]=(+eintrag[S.stufe]||0)+Q.seasonPts; saison[se.id]=eintrag;
     S.profil={...S.profil, best, saison, tests:(S.profil.tests||0)+1};
     store.set("ep-profil",S.profil);
-    if(S.online){ try{ const {vorname, nachname, ...oeffentlich}=S.profil; await S.db.doc(`spieler/${S.uid}`).set(oeffentlich); }catch(e){} }
+    if(S.online){ try{ await S.db.doc(`spieler/${S.uid}`).set(oeffentlichesProfil(S.profil)); }catch(e){} }
     if(S.screen==="done") render();
   }
 }
@@ -5070,8 +5093,7 @@ function renderRegister(){
     kontoSync();
     store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false);
     if(S.online){ try{
-      const {vorname, nachname, ...oeffentlich} = S.profil;
-      await S.db.doc(`spieler/${S.uid}`).set(oeffentlich);
+      await S.db.doc(`spieler/${S.uid}`).set(oeffentlichesProfil(S.profil));
       await S.db.doc(`data/users/${S.uid}/privat`).set({vorname, nachname});
     }catch(e){ $("#err").textContent="Speichern in der Rangliste hat nicht geklappt, dein Profil ist lokal gesichert."; } }
     const after=S.after; S.after=null;
@@ -5614,7 +5636,7 @@ const NR_KEYS="46odv1,1j3x38c,1o1bbeo,18b7xog,xztrad,1i21hkx,1viotb5,pvh7ys,1lnl
 let NRMAP=null;
 function nrKey(f){ return qid({q:f.q+(f.img?"|"+f.img:"")}); }
 function frageNr(f){
-  if(!f) return 0; if(f.nr) return +f.nr; if(f._nr) return f._nr;
+  if(!f) return 0; if(f.nr) return +f.nr; if(f._nr) return +f._nr||0;
   if(!NRMAP){ NRMAP=new Map(); NR_KEYS.split(",").forEach((k,i)=>NRMAP.set(k,i+1)); }
   const k=nrKey(f); const n=NRMAP.get(k) || 100000+parseInt(k,36)%900000;
   try{ Object.defineProperty(f,"_nr",{value:n,enumerable:false}); }catch(e){}
@@ -6829,7 +6851,7 @@ function funken(ov, x, y, bw){
 
 /* ---------- Bilder aus Wikipedia (nur auf der eigenen Website, nicht auf claude.ai) ---------- */
 const WB_CACHE = {};
-const stripHtml = h => { const d=document.createElement("div"); d.innerHTML=String(h||""); return (d.textContent||"").replace(/\s+/g," ").trim(); };
+const stripHtml = h => { const d=new DOMParser().parseFromString(String(h||""),"text/html"); return ((d.body&&d.body.textContent)||"").replace(/\s+/g," ").trim(); };
 async function wikiBild(titel){
   if(window.claude || !titel || titel==="Allgemeines") return null;
   if(titel in WB_CACHE) return WB_CACHE[titel];
@@ -6869,9 +6891,11 @@ async function wikiSuche(q){
 }
 /* Bibliothek: vorab gefundene freie Bilder (bildindex.json, erstellt von tools/bilder_finden.py) */
 let BIDX=null, BIDXP=null;
+// Nur echte https-Adressen aus dem Bildindex verwenden
+function nurHttps(u){ try{ const x=new URL(String(u||"")); return x.protocol==="https:" ? x.href : ""; }catch(e){ return ""; } }
 function bildIndex(){ if(BIDX) return Promise.resolve(BIDX); if(!BIDXP) BIDXP=fetch("bildindex.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({})).then(j=>BIDX=j||{}); return BIDXP; }
 async function bildFuerSeite(s, kand, suche, roh){
-  try{ const ix=await bildIndex(); const e=s && ix[seiteKey(s)]; if(e && e[0]) return {src:e[0], alt:e[1]||s.titel, artist:e[2]||"", lizenz:e[3]||"", dateiUrl:e[4]||"", seite:e[4]||"", datei:""}; }catch(e){}
+  try{ const ix=await bildIndex(); const e=s && ix[seiteKey(s)]; if(e && nurHttps(e[0])) return {src:e[0], alt:e[1]||s.titel, artist:e[2]||"", lizenz:e[3]||"", dateiUrl:nurHttps(e[4])||"", seite:nurHttps(e[4])||"", datei:""}; }catch(e){}
   return wikiBildMehrfach(kand, suche, roh);
 }
 async function wikiBildMehrfach(kandidaten, suche, roh){
@@ -7520,7 +7544,7 @@ function renderSpieler(){
   const se=aktuelleSeason();
   $("#app").innerHTML = `${crumbs()}
     <div class="pagehead spkopf"><div class="bigav">${avatar(p.avatar)}</div><div><h1>${esc(p.name)}</h1>
-      <span style="color:var(--soft)">${p.kanton?wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||""):""} · ${STUFE_EMO[p.stufe]||""} ${esc(stufeObj(p.stufe).name)} · ${totalPts(p).toLocaleString("de-CH")} Ranglistenpunkte · ${p.tests||0} Tests</span></div></div>
+      <span style="color:var(--soft)">${p.kanton?wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||""):""} · ${STUFE_EMO[p.stufe]||""} ${esc(stufeObj(p.stufe).name)} · ${totalPts(p).toLocaleString("de-CH")} Ranglistenpunkte · ${+p.tests||0} Tests</span></div></div>
     <div class="spzeile"><div class="spbox"><b>${seasonPunkte(p,se.id).toLocaleString("de-CH")}</b><small>${se.tier.e} Punkte in der aktuellen Season</small></div><div class="spbox"><b>${Object.keys(p.best||{}).length}</b><small>Themen getestet</small></div><div class="spbox"><b>${pokaleVon(p).length}</b><small>Pokale</small></div></div>
     ${pokaleHTML(p)}${erfolgeHTML(p)}
     <div class="row"><button class="big alt" id="spZur" type="button">← Zurück zur Rangliste</button></div>`;
@@ -7645,7 +7669,7 @@ function renderDuellPlay(){
 }
 
 /* ---------- 🌐 Online live (Räume auf claude.ai) ---------- */
-function duGegner(){ const ps=(DU.sub?.peers()||[]).map(p=>p.presence||{}).filter(p=>p.pin===DU.pin && p.rolle && p.rolle!==DU.rolle); return ps[0]||null; }
+function duGegner(){ const ps=(DU.sub?.peers()||[]).map(p=>p.presence||{}).filter(p=>p.pin===DU.pin && p.rolle && p.rolle!==DU.rolle); const g=ps[0]; return g?{...g, name:String(g.name||"Gegner").slice(0,40), score:+g.score||0, i:Math.max(0,+g.i||0), fertig:!!g.fertig}:null; }
 function duPresence(){ if(!DU.sub) return; const R=DU.run||{}; const st={pin:DU.pin, rolle:DU.rolle, name:S.profil?.name||DU.ich||"Spieler", av:S.profil?.avatar||null, i:R.i||0, score:R.score||0, fertig:!!R.fertig, ant:(R.ant||[]).join("")};
   if(DU.rolle==="host"){ st.list=DU.list; st.phase=DU.phase; st.startAt=DU.startAt||0; }
   DU.sub.presence(st).catch(()=>{}); }
@@ -7768,9 +7792,9 @@ ladeFragenDB(); ladeTexteDatei();
   S.uid = uid; S.online = true;
   historieLaden();
   db.collection("spieler").onSnapshot(snap=>{
-    S.spieler = snap.docs.map(d=>({id:d.id, ...(d.data()||{})})).filter(p=>p.name);
+    S.spieler = snap.docs.map(d=>spielerSauber(d.id, d.data())).filter(p=>p.name);
     const me = S.spieler.find(p=>p.id===uid);
-    if(me && !store.get("ep-abgemeldet",false)){ const lokal=store.get("ep-profil",{})||{}; S.profil = {name:me.name, vorname:lokal.vorname, nachname:lokal.nachname, avatar:me.avatar, stufe:me.stufe, kanton:me.kanton||"", best:me.best||{}, tests:me.tests||0, erstellt:me.erstellt}; store.set("ep-profil",S.profil); }
+    if(me && !store.get("ep-abgemeldet",false)){ const lokal=store.get("ep-profil",{})||{}; S.profil = {name:me.name, vorname:lokal.vorname, nachname:lokal.nachname, avatar:me.avatar, stufe:me.stufe, kanton:me.kanton||"", best:me.best||{}, saison:me.saison||{}, hc:me.hc, tests:me.tests||0, erstellt:me.erstellt}; store.set("ep-profil",S.profil); }
     if(["home","board","profil","bereich","mode"].includes(S.screen)) render();
   }, ()=>{});
   try{

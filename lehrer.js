@@ -343,6 +343,16 @@ function claudeSpeicher(db, user){
 
 /* ================= 4. Auswertung ================= */
 // pro Kind und Test nur die erste Abgabe
+// Abgaben nie blind übernehmen: aus den Antworten neu bewerten und nur Zahlen zulassen
+function abgabenPruefen(list, tests){
+  const nachCode={}; (tests||[]).forEach(t=>nachCode[t.code]=t);
+  return (list||[]).filter(a=>a && nachCode[a.code]).map(a=>{
+    const t=nachCode[a.code], ant=Array.isArray(a.antworten)?a.antworten.slice(0,t.fragen.length).map(x=>x==null?null:+x):[];
+    const b=bewerte(t.fragen, ant);
+    return {...a, id:String(a.id), code:String(a.code), sid:String(a.sid), name:String(a.name||"").slice(0,60), antworten:ant,
+      punkte:b.punkte, max:b.max, note:b.note, dauer:Math.max(0,Math.min(+a.dauer||0, 864e5)), datum:String(a.datum||"").slice(0,40)};
+  });
+}
 function abgabenEindeutig(list){ const seen=new Set(); return [...list].sort((a,b)=>String(a.datum).localeCompare(String(b.datum))).filter(a=>{ const k=a.code+"|"+a.sid; if(seen.has(k)) return false; seen.add(k); return true; }); }
 function fehlerAnalyse(tests, abgaben, sid){
   const tm={}; tests.forEach(t=>tm[t.code]=t); const map=new Map();
@@ -518,7 +528,7 @@ function datenAktuell(){ return LZ.daten && SP && LZ.lid===SP.lehrerId(); }
 async function ladeDaten(){
   if(LZ.laedt) return; LZ.laedt=true; LZ.fehler="";
   try{ const sp=await speicher(); const [k,t]=await Promise.all([sp.klassen(), sp.tests()]); const a=await sp.abgaben();
-    LZ.daten={klassen:k, tests:t, abgaben:abgabenEindeutig(a)}; LZ.lid=sp.lehrerId(); }
+    LZ.daten={klassen:k, tests:t, abgaben:abgabenEindeutig(abgabenPruefen(a, t))}; LZ.lid=sp.lehrerId(); }
   catch(e){ console.warn("lehrer.js", e); LZ.fehler=fehlerText(e); LZ.daten=null; }
   finally{ LZ.laedt=false; rerender(); }
 }
@@ -620,7 +630,7 @@ function seiteLehrer(){
 function tabelleKindTest(k, ts){
   const kids=k.schueler||[]; if(!kids.length || !ts.length) return `<p class="empty">Noch keine Tests oder Kinder in dieser Klasse.</p>`;
   const tsorted=[...ts].sort((a,b)=>String(a.erstellt).localeCompare(String(b.erstellt)));
-  const zell=(kid,t)=>{ const a=LZ.daten.abgaben.find(x=>x.code===t.code && x.sid===kid.id); return a ? `<td class="lz-n ${noteKlasse(a.note)}" title="${a.punkte}/${a.max} Punkte">${fmtNote(a.note)}</td>` : `<td class="lz-n leer" title="noch nicht abgegeben">·</td>`; };
+  const zell=(kid,t)=>{ const a=LZ.daten.abgaben.find(x=>x.code===t.code && x.sid===kid.id); return a ? `<td class="lz-n ${noteKlasse(a.note)}" title="${h(a.punkte)}/${h(a.max)} Punkte">${fmtNote(a.note)}</td>` : `<td class="lz-n leer" title="noch nicht abgegeben">·</td>`; };
   return `<div class="lz-tabwrap" tabindex="0" role="region" aria-label="Tabelle Kinder und Tests"><table class="lz-tab">
     <thead><tr><th scope="col">Kind</th>${tsorted.map(t=>`<th scope="col" title="${h(t.titel)}"><button type="button" class="lz-th" data-t="${h(t.code)}">${h(t.titel.length>14?t.titel.slice(0,13)+"…":t.titel)}</button><small>${datum(t.erstellt)}</small></th>`).join("")}<th scope="col">Ø</th></tr></thead>
     <tbody>${kids.map(kid=>{ const ns=LZ.daten.abgaben.filter(a=>a.sid===kid.id && tsorted.some(t=>t.code===a.code)).map(a=>a.note); const s=schnitt(ns);
@@ -722,7 +732,7 @@ function seiteKind(){
     </section>
     <section class="statcard lz-sek"><h2>📝 Tests</h2>
       ${ts.length?`<div class="lz-tabwrap"><table class="lz-tab lz-liste"><thead><tr><th scope="col">Test</th><th scope="col">Punkte</th><th scope="col">Note</th><th scope="col">Zeit</th><th scope="col">Datum</th></tr></thead><tbody>
-      ${[...ts].sort((a,b)=>String(a.erstellt).localeCompare(String(b.erstellt))).map(t=>{ const a=abK.find(x=>x.code===t.code); return `<tr><th scope="row"><button type="button" class="lz-th" data-t="${h(t.code)}">${h(t.titel)}</button></th>${a?`<td>${a.punkte}/${a.max}</td><td class="lz-n ${noteKlasse(a.note)}">${fmtNote(a.note)}</td><td>${h(zeit(a.dauer))}</td><td>${datum(a.datum)}</td>`:`<td colspan="4" class="lz-offen">noch nicht abgegeben</td>`}</tr>`; }).join("")}
+      ${[...ts].sort((a,b)=>String(a.erstellt).localeCompare(String(b.erstellt))).map(t=>{ const a=abK.find(x=>x.code===t.code); return `<tr><th scope="row"><button type="button" class="lz-th" data-t="${h(t.code)}">${h(t.titel)}</button></th>${a?`<td>${h(a.punkte)}/${h(a.max)}</td><td class="lz-n ${noteKlasse(a.note)}">${fmtNote(a.note)}</td><td>${h(zeit(a.dauer))}</td><td>${datum(a.datum)}</td>`:`<td colspan="4" class="lz-offen">noch nicht abgegeben</td>`}</tr>`; }).join("")}
       </tbody></table></div>`:`<p class="empty">Noch keine Tests.</p>`}
     </section>
     <section class="statcard lz-sek"><h2>🔍 Fehleranalyse für ${h(s.name)}</h2>
@@ -894,7 +904,7 @@ function seiteTest(){
     <section class="statcard lz-sek"><h2>📊 Resultate <span class="lz-zahl">${ab.length}/${kids.length}</span></h2>
       ${ab.length?`<div class="lz-kpis"><div><b>${fmtNote(s)}</b><span>Ø Note</span></div><div><b>${sp!=null?(Math.round(sp*10)/10).toLocaleString("de-CH"):"-"}/${t.fragen.length}</b><span>Ø Punkte</span></div><div><b>${h(zeit(sz))}</b><span>Ø Zeit</span></div><div><b>${ab.filter(a=>a.note>=4).length}/${ab.length}</b><span>genügend</span></div></div>`:""}
       ${zeilen.length?`<div class="lz-tabwrap"><table class="lz-tab lz-liste"><thead><tr><th scope="col">Kind</th><th scope="col">Punkte</th><th scope="col">Note</th><th scope="col">Zeit</th><th scope="col">Abgabe</th><th scope="col"><span class="sr-only">Aktion</span></th></tr></thead><tbody>
-        ${zeilen.map(({kid,a})=>a?`<tr><th scope="row"><button type="button" class="lz-th" data-kind="${h(kid.id)}">${h(kid.name)}</button></th><td>${a.punkte}/${a.max}</td><td class="lz-n ${noteKlasse(a.note)}">${fmtNote(a.note)}</td><td>${h(zeit(a.dauer))}</td><td>${datum(a.datum)}</td><td><button type="button" class="lz-mini" data-abdel="${h(a.id)}" title="Abgabe löschen, damit das Kind nochmals lösen kann" aria-label="Abgabe von ${h(kid.name)} löschen">↩️</button></td></tr>`
+        ${zeilen.map(({kid,a})=>a?`<tr><th scope="row"><button type="button" class="lz-th" data-kind="${h(kid.id)}">${h(kid.name)}</button></th><td>${h(a.punkte)}/${h(a.max)}</td><td class="lz-n ${noteKlasse(a.note)}">${fmtNote(a.note)}</td><td>${h(zeit(a.dauer))}</td><td>${datum(a.datum)}</td><td><button type="button" class="lz-mini" data-abdel="${h(a.id)}" title="Abgabe löschen, damit das Kind nochmals lösen kann" aria-label="Abgabe von ${h(kid.name)} löschen">↩️</button></td></tr>`
           :`<tr><th scope="row">${h(kid.name)}</th><td colspan="5" class="lz-offen">noch nicht abgegeben · PIN ${h(kid.pin||"")}</td></tr>`).join("")}
       </tbody></table></div>`:`<p class="empty">Diese Klasse hat noch keine Kinder.</p>`}
     </section>

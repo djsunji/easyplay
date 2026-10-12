@@ -28,6 +28,13 @@ HEIKEL = re.compile(r"nude|naked|nackt|akt\b|erotic|erotik|sex|porn|breast|brust
 FREI = re.compile(r"^(cc0|cc[- ]?by(?:[- ]sa)?(?:[- ][0-9.]+)?|public domain|pd|pd-.*|gemeinfrei|attribution|no restrictions)", re.I)
 
 
+def https_url(u):
+    """Nur https-Adressen ohne Sonderzeichen übernehmen."""
+    u = str(u or "")
+    p = urllib.parse.urlparse(u)
+    return u if p.scheme == "https" and p.netloc and not re.search(r"[\s\"'<>]", u) else ""
+
+
 def holen(url, versuche=4):
     for i in range(versuche):
         try:
@@ -80,7 +87,9 @@ def eintrag(datei, ii, alt):
     urheber = text(md.get("Artist", {}).get("value", "")) or "Wikimedia Commons"
     lic = text(md.get("LicenseShortName", {}).get("value", ""))
     url = ii.get("thumburl") or ii.get("url")
-    return [url, alt, urheber, lic, ii.get("descriptionurl", "")]
+    if not https_url(url):
+        return None
+    return [url, alt, urheber, lic, https_url(ii.get("descriptionurl", ""))]
 
 
 def commons_infos(dateien):
@@ -156,6 +165,8 @@ def openverse(begriff):
         {"q": begriff, "license": "cc0,pdm,by,by-sa", "mature": "false", "page_size": "10"})
     j = holen(url, versuche=2)
     for r in (j or {}).get("results", []) or []:
+        if not https_url(r.get("url")):
+            continue
         w, h = r.get("width") or 0, r.get("height") or 0
         if w < 800 or h < 500 or not (0.45 < w / max(1, h) < 2.6):
             continue
@@ -164,7 +175,7 @@ def openverse(begriff):
         lic = ("CC0" if r.get("license") == "cc0" else "Public Domain" if r.get("license") == "pdm"
                else f"CC {str(r.get('license','')).upper()} {r.get('license_version','')}".strip())
         return [r.get("url"), r.get("title") or begriff, (r.get("creator") or "unbekannt")[:120], lic,
-                r.get("foreign_landing_url") or ""]
+                https_url(r.get("foreign_landing_url"))]
     return None
 
 

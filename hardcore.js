@@ -37,7 +37,7 @@ async function hcSpeichern(){
   if(besser){ hc.best = HC.n; hc.zeit = Math.round(HC.zeit); hc.datum = new Date().toISOString(); HC.neu = true; }
   S.profil = { ...S.profil, hc };
   try{ store.set("ep-profil", S.profil); }catch(e){}
-  if(S.online){ try{ const {vorname, nachname, ...oeffentlich} = S.profil; await S.db.doc(`spieler/${S.uid}`).set(oeffentlich); }catch(e){ console.warn("hardcore speichern", e); } }
+  if(S.online){ try{ await S.db.doc(`spieler/${S.uid}`).set(oeffentlichesProfil(S.profil)); }catch(e){ console.warn("hardcore speichern", e); } }
 }
 function hcEnde(grund){
   if(HC.vorbei) return;
