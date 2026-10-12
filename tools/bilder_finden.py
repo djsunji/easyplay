@@ -226,7 +226,7 @@ def openverse(begriff, begriffe=None):
             continue
         lic = ("CC0" if r.get("license") == "cc0" else "Public Domain" if r.get("license") == "pdm"
                else f"CC {str(r.get('license','')).upper()} {r.get('license_version','')}".strip())
-        return [r.get("url"), r.get("title") or begriff, (r.get("creator") or "unbekannt")[:120], lic,
+        return [r.get("url"), begriff, text(r.get("creator") or "unbekannt"), lic,
                 https_url(r.get("foreign_landing_url")), "o"]
     return None
 

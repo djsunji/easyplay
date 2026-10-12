@@ -11,6 +11,20 @@ for f in sorted(glob.glob(os.path.join(W, "teile", "**", "bildindex-teil-*.json"
     alle.update(d)
     print(f, len(d))
 ohne -= set(alle)
+# Titel ohne HTML-Reste, Seitentitel aus bildseiten.json bevorzugen
+import re
+try:
+    titel = {s["k"]: s["t"] for s in json.load(open(os.path.join(W, "tools", "bildseiten.json"), encoding="utf-8"))}
+except Exception:
+    titel = {}
+for k, v in alle.items():
+    if k == "_ohne" or not isinstance(v, list):
+        continue
+    for i in (1, 2):
+        if len(v) > i and isinstance(v[i], str) and "<" in v[i]:
+            v[i] = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", v[i])).strip()[:120]
+    if len(v) > 5 and v[5] == "o" and k in titel:
+        v[1] = titel[k]
 if ohne:
     alle["_ohne"] = sorted(ohne)
 json.dump(alle, open(ziel, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
