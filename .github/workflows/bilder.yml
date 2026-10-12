@@ -1,0 +1,37 @@
+name: Bilder für die Bibliothek finden
+on:
+  workflow_dispatch:
+    inputs:
+      neu:
+        description: "Alle Bilder neu suchen (1) statt nur fehlende (0)"
+        default: "0"
+  push:
+    paths: ["tools/bildseiten.json"]
+permissions:
+  contents: write
+concurrency:
+  group: bilder
+  cancel-in-progress: false
+jobs:
+  bilder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Bilder suchen
+        env:
+          NEU: ${{ github.event.inputs.neu || '0' }}
+          MAX_MINUTEN: "320"
+        run: python3 tools/bilder_finden.py
+      - name: Ergebnis speichern
+        run: |
+          git config user.name "easyplay-bilder"
+          git config user.email "easyplay-bilder@users.noreply.github.com"
+          git add bildindex.json
+          git diff --cached --quiet && echo "Keine Änderungen" && exit 0
+          git commit -m "Bibliothek: Bildindex aktualisiert"
+          git pull --rebase -X theirs || true
+          git push

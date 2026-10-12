@@ -4579,7 +4579,7 @@ function rlBinde(sec, it){
   });
   if(it.typ==="a" && !window.claude){
     const s=it.s, kand = s.typ==="art" ? [s.art.bild||null, s.titel] : [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel];
-    const laden=()=>wikiBildMehrfach(kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(b=>{
+    const laden=()=>bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(b=>{
       if(!b || !sec.isConnected) return; const box=sec.querySelector(".rbild"); const img=new Image(); img.alt=b.alt||""; img.onload=()=>{ box.innerHTML=""; box.appendChild(img); box.classList.add("foto"); img.animate([{opacity:0},{opacity:1}],{duration:400}); }; img.src=b.src; }).catch(()=>{});
     it.laden=laden;
   }
@@ -4633,7 +4633,7 @@ function rlSheet(b, nr){
   g.addEventListener("touchend",()=>{ if(y0==null) return; y0=null; sh.style.transition=""; if(dy>110) rlSheetZu(); else sh.style.transform=""; });
   if(!window.claude){
     const kand = s.typ==="art" ? [s.art.bild||null, s.titel] : [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel];
-    wikiBildMehrfach(kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(bi=>{
+    bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(bi=>{
       const f=sh.querySelector(".rsbild"); if(!bi||!f||!sh.isConnected) return;
       const img=new Image(); img.alt=bi.alt||""; img.onload=()=>{ f.classList.remove("ersatz"); f.innerHTML=""; f.appendChild(img); const c=document.createElement("figcaption"); c.innerHTML=`Bild: ${bi.artist?esc(bi.artist):"Wikimedia Commons"}${bi.lizenz?`, ${esc(bi.lizenz)}`:""}`; f.appendChild(c); }; img.src=bi.src; }).catch(()=>{});
   }
@@ -6707,7 +6707,7 @@ function renderLibSeite(){
   $("#nochZufall") && ($("#nochZufall").onclick=zufallArtikel);
   $("#zumQuiz") && ($("#zumQuiz").onclick=()=>{ LIB.vonQuiz=false; S.libModus=false; document.documentElement.dataset.mode="spiel"; go("quiz"); scrollTo(0,0); });
   setTimeout(()=>{ if(LIB.seite===s.nr && LIB.buch===B.id){ try{ verlinkeSeite(s, B); }catch(e){ console.warn(e); } } },30);
-  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel, s.kap.id==="x_firmen");
+  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel, s.kap.id==="x_firmen", s);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
   vor && ($("#oVor").onclick=()=>blatt(vor.nr));
@@ -6867,6 +6867,13 @@ async function wikiSuche(q){
     const j=await r.json(); liste=Object.values(j?.query?.pages||{}).sort((a,b)=>(a.index||0)-(b.index||0)).filter(p=>p.thumbnail).map(p=>({titel:p.title, src:p.thumbnail.source})); }catch(e){ return []; }
   store.set(k,liste); return liste;
 }
+/* Bibliothek: vorab gefundene freie Bilder (bildindex.json, erstellt von tools/bilder_finden.py) */
+let BIDX=null, BIDXP=null;
+function bildIndex(){ if(BIDX) return Promise.resolve(BIDX); if(!BIDXP) BIDXP=fetch("bildindex.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({})).then(j=>BIDX=j||{}); return BIDXP; }
+async function bildFuerSeite(s, kand, suche, roh){
+  try{ const ix=await bildIndex(); const e=s && ix[seiteKey(s)]; if(e && e[0]) return {src:e[0], alt:e[1]||s.titel, artist:e[2]||"", lizenz:e[3]||"", dateiUrl:e[4]||"", seite:e[4]||"", datei:""}; }catch(e){}
+  return wikiBildMehrfach(kand, suche, roh);
+}
 async function wikiBildMehrfach(kandidaten, suche, roh){
   const gut=b=>b && (roh || !BILD_SCHLECHT.test(b.datei||b.src||""));
   const gefunden=[];
@@ -6874,9 +6881,9 @@ async function wikiBildMehrfach(kandidaten, suche, roh){
   for(const p of await wikiSuche(suche)){ if(!BILD_SCHLECHT.test(p.src)){ const b=await wikiBild(p.titel); if(gut(b)) return b; if(b) gefunden.push(b); } }
   return gefunden[0]||null;
 }
-function zeigeWikiBild(titel, nr, kandidaten, suche, roh){
+function zeigeWikiBild(titel, nr, kandidaten, suche, roh, seite){
   const fig=$("#wBild"); if(!fig) return;
-  (kandidaten ? wikiBildMehrfach(kandidaten, suche, roh) : wikiBild(titel)).then(b=>{
+  (kandidaten ? (seite ? bildFuerSeite(seite, kandidaten, suche, roh) : wikiBildMehrfach(kandidaten, suche, roh)) : wikiBild(titel)).then(b=>{
     if(!b || LIB.seite!==nr || !$("#wBild")) return;
     const f=$("#wBild"); const ersatz=f.innerHTML; f.classList.remove("ersatz");
     f.innerHTML=`<img src="${esc(b.src)}" alt="${esc(b.alt)}" loading="lazy"><figcaption>${esc(b.alt)} · Bild: ${b.artist?esc(b.artist):"Wikimedia Commons"}${b.lizenz?`, ${esc(b.lizenz)}`:""} · <a href="${esc(b.dateiUrl||b.seite)}" target="_blank" rel="noopener">Quelle</a></figcaption>`;
