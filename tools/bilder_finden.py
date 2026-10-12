@@ -173,9 +173,18 @@ def main():
     alt = {}
     if os.path.exists(ZIEL) and os.environ.get("NEU", "") != "1":
         alt = json.load(open(ZIEL, encoding="utf-8"))
-    offen = [s for s in seiten if s["k"] not in alt]
-    print(f"{len(seiten)} Seiten, {len(alt)} schon mit Bild, {len(offen)} offen")
+    # "_ohne": Seiten, für die schon gesucht und nichts gefunden wurde. So macht ein
+    # neuer Lauf nach dem Zeitlimit dort weiter, wo der letzte aufgehört hat.
+    ohne = set(alt.pop("_ohne", []) or [])
+    offen = [s for s in seiten if s["k"] not in alt and s["k"] not in ohne]
+    print(f"{len(seiten)} Seiten, {len(alt)} schon mit Bild, {len(ohne)} ohne Treffer, {len(offen)} offen")
     ergebnis = dict(alt)
+
+    def speichern():
+        aus = dict(ergebnis)
+        if ohne:
+            aus["_ohne"] = sorted(ohne)
+        json.dump(aus, open(ZIEL, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
     # 1. Wikipedia-Hauptbilder
     haupt = wiki_hauptbilder([c for s in offen for c in s["c"]])
@@ -197,7 +206,7 @@ def main():
         else:
             rest.append(s)
     print(f"Nach Wikipedia: {len(ergebnis)} mit Bild, {len(rest)} ohne")
-    json.dump(ergebnis, open(ZIEL, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    speichern()
 
     # 2. Commons-Suche, 3. Openverse
     n = 0
@@ -206,6 +215,7 @@ def main():
             print("Zeitlimit erreicht, der Rest folgt beim nächsten Lauf")
             break
         if s["t"] in ("Allgemeines",):
+            ohne.add(s["k"])
             continue
         roh = bool(s.get("r"))
         treffer = None
@@ -220,11 +230,13 @@ def main():
             time.sleep(1.2)
         if treffer:
             ergebnis[s["k"]] = treffer
+        else:
+            ohne.add(s["k"])
         n += 1
         if n % 200 == 0:
             print(f"  Suche {n}/{len(rest)}, total {len(ergebnis)}")
-            json.dump(ergebnis, open(ZIEL, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    json.dump(ergebnis, open(ZIEL, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+            speichern()
+    speichern()
     print(f"Fertig: {len(ergebnis)} von {len(seiten)} Seiten haben ein Bild")
 
 
