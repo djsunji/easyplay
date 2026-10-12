@@ -120,7 +120,7 @@ const CODE_ZEICHEN = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const neuerCode = () => Array.from({length:6},()=>CODE_ZEICHEN[zufallInt(CODE_ZEICHEN.length)]).join("");
 const normCode = s => String(s||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
 const normPin = s => String(s||"").replace(/\D/g,"").slice(0,6);
-function neuerPin(belegt){ const set=new Set(belegt||[]); for(let i=0;i<500;i++){ const p=String(1000+zufallInt(9000)); if(!set.has(p)) return p; } return String(10000+zufallInt(90000)); }
+function neuerPin(belegt){ const set=new Set(belegt||[]); for(let i=0;i<500;i++){ const p=String(100000+zufallInt(900000)); if(!set.has(p)) return p; } return String(100000+zufallInt(900000)); }
 async function hashHex(s){
   try{ if(crypto?.subtle){ const d=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)); return [...new Uint8Array(d)].map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,24); } }catch(e){}
   let x=2166136261, y=5381; for(const c of s){ x^=c.charCodeAt(0); x=Math.imul(x,16777619); y=(Math.imul(y,33)^c.charCodeAt(0))>>>0; }

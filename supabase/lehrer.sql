@@ -113,11 +113,13 @@ declare v_code text := upper(trim(coalesce(p_code, '')));
 begin
   fehler := null;
   if v_code !~ '^[A-Z0-9]{6}$' then fehler := 'code'; return; end if;
-  if (select count(*) from public.lehrer_fehlversuche f where f.code = v_code and f.zeit > now() - interval '10 minutes') >= 20 then
+  -- Sperre pro Test-Code und zusätzlich für alle Codes zusammen (gegen Durchprobieren vieler Codes)
+  if (select count(*) from public.lehrer_fehlversuche f where f.code = v_code and f.zeit > now() - interval '10 minutes') >= 10
+     or (select count(*) from public.lehrer_fehlversuche f where f.zeit > now() - interval '1 minute') >= 120 then
     fehler := 'gesperrt'; return;
   end if;
   select * into t from public.lehrer_tests x where x.code = v_code;
-  if not found then fehler := 'code'; return; end if;
+  if not found then insert into public.lehrer_fehlversuche (code) values (v_code); fehler := 'code'; return; end if;
   select * into s from public.lehrer_schueler y where y.klasse_id = t.klasse_id and y.pin = v_pin;
   if not found then
     insert into public.lehrer_fehlversuche (code) values (v_code);
