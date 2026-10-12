@@ -13,5 +13,5 @@ jobs:
             https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js \
             https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js; do
             h=$(curl -fsSL "$u" | openssl dgst -sha384 -binary | openssl base64 -A)
-            echo "SRI $u sha384-$h"
+            echo "::notice::SRI $u sha384-$h"
           done
