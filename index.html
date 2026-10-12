@@ -3872,7 +3872,7 @@ function drawQR(){
   const box=$("#qr"); if(!box) return;
   const make=()=>{ try{ box.innerHTML=""; new QRCode(box,{text:ARTIFACT_URL,width:220,height:220,colorDark:"#14245E",colorLight:"#ffffff"}); }catch(e){ box.innerHTML=`<p class="url">${esc(ARTIFACT_URL)}</p>`; } };
   if(window.QRCode) return make();
-  if(!L.qrLoaded){ L.qrLoaded=true; const s=document.createElement("script"); s.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; s.onload=make; s.onerror=()=>{ box.innerHTML=`<p class="url">${esc(ARTIFACT_URL)}</p>`; }; document.head.appendChild(s); }
+  if(!L.qrLoaded){ L.qrLoaded=true; const s=document.createElement("script"); s.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; s.integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"; s.crossOrigin="anonymous"; s.onload=make; s.onerror=()=>{ box.innerHTML=`<p class="url">${esc(ARTIFACT_URL)}</p>`; }; document.head.appendChild(s); }
   else setTimeout(()=>{ if(window.QRCode) make(); },500);
 }
 
@@ -7317,7 +7317,7 @@ async function authInit(){
   const cfg=window.EP_CONFIG||{};
   if(window.claude || !cfg.supabaseUrl || !cfg.supabaseKey){ AUTH.bereit=true; return; }
   try{
-    await new Promise((ok,err)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"; sc.onload=ok; sc.onerror=err; document.head.appendChild(sc); });
+    await new Promise((ok,err)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"; sc.integrity="sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug"; sc.crossOrigin="anonymous"; sc.onload=ok; sc.onerror=err; document.head.appendChild(sc); });
     AUTH.sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
     AUTH.modus="supabase";
     AUTH.sb.auth.onAuthStateChange((ev, sess)=>{

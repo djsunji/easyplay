@@ -395,7 +395,7 @@ function verlaufSVG(reihen, titel){
 let JSPDF_P=null;
 function ladeJsPDF(){
   if(window.jspdf?.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
-  if(!JSPDF_P) JSPDF_P=new Promise((ok,err)=>{ const s=document.createElement("script"); s.src=JSPDF_URL; s.async=true;
+  if(!JSPDF_P) JSPDF_P=new Promise((ok,err)=>{ const s=document.createElement("script"); s.src=JSPDF_URL; s.integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk"; s.crossOrigin="anonymous"; s.async=true;
     s.onload=()=> window.jspdf?.jsPDF ? ok(window.jspdf.jsPDF) : err(new Error("jsPDF fehlt"));
     s.onerror=()=>{ JSPDF_P=null; s.remove(); err(new Error("jsPDF konnte nicht geladen werden. Bist du online?")); };
     document.head.appendChild(s); });
