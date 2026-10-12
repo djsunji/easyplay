@@ -5,6 +5,9 @@ on:
       neu:
         description: "Alle Bilder neu suchen (1) statt nur fehlende (0)"
         default: "0"
+      wieder:
+        description: "Seiten ohne Treffer nochmals versuchen (1)"
+        default: "0"
   push:
     paths: ["tools/bildseiten.json"]
 permissions:
@@ -31,6 +34,7 @@ jobs:
       - name: Bilder suchen (Teil ${{ matrix.teil }} von 8)
         env:
           NEU: ${{ github.event.inputs.neu || '0' }}
+          WIEDER: ${{ github.event.inputs.wieder || '0' }}
           TEIL: "${{ matrix.teil }}/8"
           MAX_MINUTEN: "180"
         run: python3 tools/bilder_finden.py

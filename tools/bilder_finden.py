@@ -136,6 +136,7 @@ def commons_infos(dateien):
                 continue
             name = p["title"].split(":", 1)[1]
             aus[name] = p["imageinfo"][0]
+            aus[name.replace(" ", "_")] = p["imageinfo"][0]  # pageimages liefert Namen mit _
         time.sleep(0.3)
     return aus
 
@@ -170,6 +171,23 @@ def wiki_hauptbilder(titel):
         if i % 2000 == 0:
             print(f"  Wikipedia {i}/{len(titel)}")
     return aus
+
+
+def wiki_suche(begriff, begriffe):
+    """Wikipedia-Volltextsuche: Hauptbild des besten passenden Artikels (Titel muss den Begriff enthalten)."""
+    j = api("de.wikipedia.org", {"action": "query", "generator": "search", "gsrsearch": begriff, "gsrlimit": "4",
+                                 "gsrnamespace": "0", "prop": "pageimages|pageprops", "piprop": "name", "ppprop": "disambiguation"})
+    seiten = sorted(((j or {}).get("query", {}).get("pages", []) or []), key=lambda p: p.get("index", 99))
+    for p in seiten:
+        if "disambiguation" in (p.get("pageprops") or {}) or not p.get("pageimage"):
+            continue
+        if not passt(begriffe, p.get("title", "")):
+            continue
+        d = p["pageimage"]
+        if HEIKEL.search(d) or SCHLECHT.search(d):
+            continue
+        return d
+    return None
 
 
 def commons_suche(begriff, roh=False, begriffe=None):
@@ -221,6 +239,8 @@ def main():
     # "_ohne": Seiten, für die schon gesucht und nichts gefunden wurde. So macht ein
     # neuer Lauf nach dem Zeitlimit dort weiter, wo der letzte aufgehört hat.
     ohne = set(alt.pop("_ohne", []) or [])
+    if os.environ.get("WIEDER", "") == "1":
+        ohne = set()  # Seiten ohne Treffer nochmals versuchen
     offen = [s for s in seiten if s["k"] not in alt and s["k"] not in ohne]
     # Aufteilen auf mehrere parallele Läufe: TEIL="2/6" bearbeitet jede sechste Seite ab der dritten
     teil = os.environ.get("TEIL", "")
@@ -276,7 +296,13 @@ def main():
         if not begriffe:
             ohne.add(s["k"])
             continue
-        for begriff in [s["t"], f'{s["t"]} {s["kap"]}']:
+        if not roh:
+            d = wiki_suche(s["t"], begriffe)
+            if d:
+                ii = commons_infos([d]).get(d)
+                if ii and gut(ii):
+                    treffer = eintrag(d, ii, s["t"], "w")
+        for begriff in ([] if treffer else [s["t"], f'{s["t"]} {s["kap"]}']):
             name, ii = commons_suche(begriff, roh, begriffe)
             if name:
                 treffer = eintrag(name, ii, s["t"], "c")
