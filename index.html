@@ -2367,6 +2367,19 @@ html[data-mode="lib"] .wrap{max-width:1300px}
   #reels .reel *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
   #reels .rakarte{background:rgba(10,12,24,.74)!important}
 }
+
+#reels .rtabs button{white-space:nowrap;padding:6px 6px!important}
+#reels .rschip{position:absolute;z-index:12;top:60px;right:10px;display:flex;align-items:center;border-radius:999px;background:rgba(255,255,255,.95);box-shadow:0 6px 18px rgba(0,0,0,.35);overflow:hidden;max-width:46vw}
+#reels .rschip button{border:0;background:none;color:#111;font:inherit;font-weight:700;font-size:.85rem;padding:6px 10px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#reels .rschip .rscx{padding:6px 10px 6px 4px;color:#666}
+@media (max-width:430px){#reels .rzu span{display:none!important}#reels .rzu{padding-left:12px!important;padding-right:12px!important}#reels .rmarke{font-size:0!important;gap:0!important}}
+/* Qeels: Suche */
+#reels .rtabs button.rlupe{font-size:1.05rem;padding:6px 8px}
+#reels .rsuchfeld{position:absolute;z-index:12;top:58px;left:50%;transform:translateX(-50%);width:min(94vw,520px);display:flex;align-items:center;gap:6px;padding:6px 6px 6px 14px;border-radius:999px;background:rgba(255,255,255,.96);box-shadow:0 10px 30px rgba(0,0,0,.4);color:#111}
+#reels .rsuchfeld input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:1rem;padding:8px 4px;color:#111;outline:none}
+#reels .rsuchfeld .rsgo{border:0;border-radius:999px;padding:9px 14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8A3FE0,#3D5AFE);cursor:pointer}
+#reels .rsuchfeld .rsx{border:0;background:none;font-size:1.1rem;cursor:pointer;color:#555;padding:6px 8px}
+#reels .rsuchfeld.klein{opacity:.92}
 </style>
 </head>
 <body>
@@ -4332,9 +4345,45 @@ function rlNaechsterArtikel(){
   for(let k=0;k<40;k++){ const w=p[Math.floor(Math.random()*p.length)], key=w.join("|"); if(!RL.seenA.has(key)){ RL.seenA.add(key); return {typ:"a", b:w[0], nr:w[1]}; } }
   RL.seenA.clear(); const w=p[Math.floor(Math.random()*p.length)]; return {typ:"a", b:w[0], nr:w[1]};
 }
+/* Qeels: Suche */
+function rlNorm(s){ return String(s||"").toLowerCase().replace(/ß/g,"ss").normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function rlSucheBauen(term){
+  const q=rlNorm(term).trim(); if(q.length<2) return null;
+  const fr=alleFragen().filter(f=>THEMA[f.t] && f.q && Array.isArray(f.a) && f.a.length===4 && rlNorm(f.q+" "+f.a[0]+" "+(f.s||"")+" "+(f.e||"")).includes(q));
+  fr.sort((a,b)=>((a.l===S.stufe)?0:1)-((b.l===S.stufe)?0:1) || Math.random()-.5);
+  const pool=new Set(rlArtPool().map(w=>w.join("|"))), art=[];
+  BUECHER.forEach(B=>{ try{ buchDaten(B.id).seiten.forEach(s=>{ if(pool.has(B.id+"|"+s.nr) && rlNorm(s.titel).includes(q)) art.push({typ:"a", b:B.id, nr:s.nr, t:rlNorm(s.titel)}); }); }catch(e){} });
+  art.sort((a,b)=>(a.t===q?0:a.t.startsWith(q)?1:2)-(b.t===q?0:b.t.startsWith(q)?1:2));
+  return {term:String(term).trim(), fragen:fr.slice(0,400).map(f=>({typ:"q", f})), artikel:art.slice(0,120), n:0};
+}
+function rlSucheNaechstes(){
+  const R=RL.suche; if(!R) return null;
+  const nimmArt = R.artikel.length && (R.n%3===0 || !R.fragen.length);
+  R.n++;
+  if(nimmArt) return R.artikel.shift();
+  return R.fragen.shift() || R.artikel.shift() || null;
+}
+function rlSucheChip(){
+  const o=$("#reels"); if(!o||!RL.suche) return; $("#rschip")?.remove();
+  const c=document.createElement("div"); c.id="rschip"; c.className="rschip";
+  c.innerHTML=`<button type="button" class="rscwort" aria-label="Suche ändern">🔍 ${esc(RL.suche.term)}</button><button type="button" class="rscx" aria-label="Suche beenden">✕</button>`;
+  o.appendChild(c); c.querySelector(".rscwort").onclick=rlSucheOeffnen;
+  c.querySelector(".rscx").onclick=()=>{ c.remove(); RL.suche=null; rlTab("mix"); };
+}
+function rlSucheOeffnen(){
+  const o=$("#reels"); if(!o) return; $("#rschip")?.remove(); if($("#rsuchfeld")){ $("#rsuchfeld input").focus(); return; }
+  const d=document.createElement("form"); d.id="rsuchfeld"; d.className="rsuchfeld"; d.setAttribute("role","search");
+  d.innerHTML=`<span aria-hidden="true">🔍</span><label class="sr-only" for="rsInput">Qeels durchsuchen</label><input id="rsInput" type="search" placeholder="Begriff suchen, z. B. Katze, Römer, Alpen" autocomplete="off" value="${esc(RL.suche?.term||"")}"><button type="submit" class="rsgo">Suchen</button><button type="button" class="rsx" aria-label="Suche schliessen">✕</button>`;
+  o.appendChild(d); const inp=d.querySelector("input"); setTimeout(()=>inp.focus(),30);
+  d.querySelector(".rsx").onclick=()=>{ d.remove(); if(RL.tab==="suche"){ RL.suche=null; rlTab("mix"); } };
+  d.onsubmit=e=>{ e.preventDefault(); const R=rlSucheBauen(inp.value); if(!R){ rlToast("Mindestens 2 Buchstaben eingeben"); return; }
+    const anz=R.fragen.length+R.artikel.length; if(!anz){ rlToast(`Nichts gefunden für «${R.term}»`); return; }
+    RL.suche=R; inp.blur(); d.remove(); rlSucheChip(); rlTab("suche"); rlToast(`${anz} Qeels zu «${R.term}»`); };
+}
 function rlNaechstes(){
   if(RL.start){ const s=RL.start; RL.start=null; RL.n++; return s; }
   const t=RL.tab; let it=null;
+  if(t==="suche"){ RL.n++; return rlSucheNaechstes(); }
   if(t==="quiz") it=rlNaechsteFrage();
   else if(t==="wissen") it=rlNaechsterArtikel();
   else it = (RL.n%3===2 && RL.n>0) ? (rlNaechsterArtikel()||rlNaechsteFrage()) : rlNaechsteFrage();
@@ -4554,6 +4603,7 @@ function rlTab(t){
   $("#rsheet")?.remove(); $("#rsheetBg")?.remove();
   RL.tab=t; RL.n=0; RL.map.clear(); RL.serie=0; rlSerie(); stopSpeak();
   document.querySelectorAll("#reels [data-rtab]").forEach(b=>b.setAttribute("aria-selected", b.dataset.rtab===t));
+  $("#rLupe")?.setAttribute("aria-selected", t==="suche");
   const f=$("#rfeed"); f.innerHTML=""; f.scrollTop=0; rlHinzu(5);
 }
 function rlTaste(e){
@@ -4581,7 +4631,7 @@ function oeffneReels(tab){
   const o=document.createElement("div"); o.id="reels"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true"); o.setAttribute("aria-label","easyplay Qeels");
   o.innerHTML=`<div class="rkopf">
       <span class="rmarke"><span class="rplay">Q</span> Qeels</span>
-      <div class="rtabs" role="tablist">${RL_TABS.map(([id,n])=>`<button type="button" role="tab" data-rtab="${id}" aria-selected="${id===(tab||RL.tab)}">${n}</button>`).join("")}</div>
+      <div class="rtabs" role="tablist">${RL_TABS.map(([id,n])=>`<button type="button" role="tab" data-rtab="${id}" aria-selected="${id===(tab||RL.tab)}">${n}</button>`).join("")}<button type="button" class="rlupe" id="rLupe" role="tab" aria-selected="false" aria-label="Qeels durchsuchen" title="Suchen">🔍</button></div>
       <span class="rserie" id="rserie" hidden></span>
       <button type="button" class="rzu" id="rZu" title="Zurück">← <span>Zurück</span></button>
     </div>
@@ -4597,7 +4647,8 @@ function oeffneReels(tab){
       setTimeout(rlAufraeumen, 350);
     }
   }),{root:o.querySelector("#rfeed"), threshold:[.6]});
-  o.querySelectorAll("[data-rtab]").forEach(b=>b.onclick=()=>rlTab(b.dataset.rtab));
+  o.querySelectorAll("[data-rtab]").forEach(b=>b.onclick=()=>{ $("#rsuchfeld")?.remove(); $("#rschip")?.remove(); RL.suche=null; rlTab(b.dataset.rtab); });
+  $("#rLupe").onclick=rlSucheOeffnen;
   $("#rZu").onclick=schliesseReels;
   $("#rHoch").onclick=()=>rlGehe(-1); $("#rRunter").onclick=()=>rlGehe(1);
   document.addEventListener("keydown", rlTaste);
