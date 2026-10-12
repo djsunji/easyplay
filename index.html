@@ -2359,6 +2359,14 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 /* Qeels: Emoji-Bilder ohne Kasten */
 #reels .rimg:has(.qemoji){background:none!important;padding:0!important;max-width:100%!important;width:100%}
 #reels .rimg .qemoji{display:block!important;text-align:center;width:auto!important;height:auto!important;max-height:none!important;font-size:clamp(3rem,13vw,4.4rem)!important;line-height:1.15;letter-spacing:.06em;white-space:normal;background:none!important;box-shadow:none!important;padding:0!important;border-radius:0!important;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+
+/* Qeels: Tempo und Speicher auf dem Handy */
+#reels .reel{content-visibility:auto;contain:layout paint style}
+#reels .reel:not(.aktiv) *,#reels .reel:not(.aktiv) *::before,#reels .reel:not(.aktiv) *::after{animation-play-state:paused!important}
+@media (pointer:coarse),(max-width:760px){
+  #reels .reel *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  #reels .rakarte{background:rgba(10,12,24,.74)!important}
+}
 </style>
 </head>
 <body>
@@ -4021,7 +4029,7 @@ function renderHome(){
     <section class="hero">
       <div>
         <div class="mobkids"><div class="kid girl">${KID_GIRL}</div><img class="mobicon" src="${ICON_SRC}" alt=""><div class="kid boy">${KID_BOY}</div></div>
-        <h1 class="sr-only">easyplay</h1><div class="fahnen" role="group" aria-label="Sprachen (bald verfügbar)"><button class="fahne" type="button" data-lang="fr" title="Français (bald verfügbar)" aria-label="Français (bald verfügbar)"><span class="mast"></span><span class="tuch" style="--bild:url(flags/fr.svg)"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i><i style="--i:20"></i><i style="--i:21"></i><i style="--i:22"></i><i style="--i:23"></i><i style="--i:24"></i><i style="--i:25"></i><i style="--i:26"></i><i style="--i:27"></i></span></button><button class="fahne" type="button" data-lang="it" title="Italiano (bald verfügbar)" aria-label="Italiano (bald verfügbar)"><span class="mast"></span><span class="tuch" style="--bild:url(flags/it.svg)"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i><i style="--i:20"></i><i style="--i:21"></i><i style="--i:22"></i><i style="--i:23"></i><i style="--i:24"></i><i style="--i:25"></i><i style="--i:26"></i><i style="--i:27"></i></span></button><button class="fahne" type="button" data-lang="gb" title="English (bald verfügbar)" aria-label="English (bald verfügbar)"><span class="mast"></span><span class="tuch" style="--bild:url(flags/gb.svg)"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i><i style="--i:20"></i><i style="--i:21"></i><i style="--i:22"></i><i style="--i:23"></i><i style="--i:24"></i><i style="--i:25"></i><i style="--i:26"></i><i style="--i:27"></i></span></button></div>
+        <h1 class="sr-only">easyplay</h1>
         <p class="tagline">Fragen. Wissen. Weiterkommen.</p>
         <p class="catch"><span>Spiel dich schlau!</span> Entdecke spannende Themen, knacke knifflige Fragen und lerne ganz nebenbei Neues dazu. Bei easyPlay wird Wissen zum Spiel und jede Frage zu einer neuen Herausforderung!</p>
         <div class="kennzahlen kz2">
@@ -4402,10 +4410,18 @@ function rlArtikelHTML(it, idx){
     <div class="rprog"><i></i></div>
   </section>`;
 }
+function rlAufraeumen(versuch){
+  const feed=$("#rfeed"); if(!feed || !RL.offen) return; const akt=rlAktiv(); if(!akt) return;
+  const kinder=[...feed.children], pos=kinder.indexOf(akt); if(pos<12) return; const weg=pos-5;
+  const st=feed.scrollTop; if(!versuch || st!==RL.stLetzt){ RL.stLetzt=st; setTimeout(()=>rlAufraeumen(1),250); return; }
+  const h=akt.offsetHeight||feed.clientHeight, st0=feed.scrollTop; let dy=0; const snap=feed.style.scrollSnapType; feed.style.scrollSnapType="none";
+  for(let k=0;k<weg;k++){ const s=kinder[k]; try{ RL.obs && RL.obs.unobserve(s); }catch(e){} s.querySelectorAll("img").forEach(im=>{ im.removeAttribute("srcset"); im.src=""; }); RL.map.delete(+s.dataset.i); dy+=s.offsetHeight||h; s.remove(); }
+  feed.scrollTop=Math.max(0,st0-dy); requestAnimationFrame(()=>{ feed.style.scrollSnapType=snap; });
+}
 function rlHinzu(n){
   const feed=$("#rfeed"); if(!feed) return;
   for(let k=0;k<n;k++){
-    const it=rlNaechstes(); if(!it) break; const idx=RL.map.size;
+    const it=rlNaechstes(); if(!it) break; if(RL.nextIdx==null || RL.map.size===0) RL.nextIdx=RL.map.size; const idx=RL.nextIdx++;
     let html=""; try{ html = it.typ==="q" ? rlFrageHTML(it, idx) : rlArtikelHTML(it, idx); }catch(e){ console.warn(e); }
     if(!html) continue;
     RL.map.set(idx, it); feed.insertAdjacentHTML("beforeend", html);
@@ -4578,6 +4594,7 @@ function oeffneReels(tab){
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
       if(!sec.nextElementSibling || !sec.nextElementSibling.nextElementSibling || !sec.nextElementSibling.nextElementSibling.nextElementSibling) rlHinzu(4);
+      setTimeout(rlAufraeumen, 350);
     }
   }),{root:o.querySelector("#rfeed"), threshold:[.6]});
   o.querySelectorAll("[data-rtab]").forEach(b=>b.onclick=()=>rlTab(b.dataset.rtab));
