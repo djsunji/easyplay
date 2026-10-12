@@ -2347,6 +2347,15 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 .rkomm .rksend:disabled{opacity:.5}
 .rkomm .rkregel{margin:4px 18px 14px;font-size:.78rem;opacity:.7}.rkomm .rkfehler{color:#C62828;opacity:1}
 .rkomm .rkgast{justify-content:space-between;padding-bottom:16px}.rkomm .rkgast p{margin:0}
+
+/* Qeels: dezenter Scrollbalken */
+#reels .rakarte,#reels .rsinhalt{scrollbar-width:none}
+#reels .rakarte::-webkit-scrollbar,#reels .rsinhalt::-webkit-scrollbar{display:none}
+.rlbalken{position:absolute;width:3px;border-radius:3px;background:rgba(255,255,255,.18);pointer-events:none;z-index:5;transition:opacity .3s,width .2s}
+.rlbalken i{display:block;width:100%;border-radius:3px;background:rgba(255,255,255,.75);box-shadow:0 0 6px rgba(0,0,0,.35)}
+.rlbalken.aktiv{width:4px}
+.rlbalken.ende{opacity:.45}
+.rsheet .rlbalken{background:rgba(0,0,0,.1)}.rsheet .rlbalken i{background:color-mix(in srgb,var(--bf,#8A3FE0) 70%,#000);box-shadow:none}
 </style>
 </head>
 <body>
@@ -4423,8 +4432,22 @@ function rlAntwort(sec, it, i){
   if(ok) rlHerz(sec, sec.getBoundingClientRect().left+sec.clientWidth/2, sec.getBoundingClientRect().top+sec.clientHeight*.42);
 }
 function rlSerie(){ const s=$("#rserie"); if(!s) return; s.hidden=RL.serie<2; s.textContent=`🔥 ${RL.serie}`; }
+/* Qeels: dezenter Scrollbalken für Artikel */
+function rlBalken(sc){
+  if(!sc || sc.dataset.balken) return; const par=sc.parentElement; if(!par) return; sc.dataset.balken="1";
+  const b=document.createElement("div"); b.className="rlbalken"; b.setAttribute("aria-hidden","true"); b.innerHTML="<i></i>"; par.appendChild(b);
+  const i=b.firstChild;
+  const neu=()=>{ const h=sc.clientHeight, H=sc.scrollHeight; if(!h || H<=h+4){ b.hidden=true; return; } b.hidden=false;
+    b.style.top=(sc.offsetTop+10)+"px"; b.style.height=Math.max(20,h-20)+"px"; b.style.left=(sc.offsetLeft+sc.offsetWidth-7)+"px";
+    const spur=Math.max(20,h-20), dh=Math.max(24, spur*h/H), dy=(spur-dh)*(sc.scrollTop/Math.max(1,H-h));
+    i.style.height=dh+"px"; i.style.transform=`translateY(${dy}px)`;
+    b.classList.toggle("ende", sc.scrollTop+h>=H-4); };
+  sc.addEventListener("scroll", ()=>{ neu(); b.classList.add("aktiv"); clearTimeout(b._t); b._t=setTimeout(()=>b.classList.remove("aktiv"),900); }, {passive:true});
+  try{ const ro=new ResizeObserver(neu); ro.observe(sc); if(sc.firstElementChild) ro.observe(sc.firstElementChild); }catch(e){}
+  requestAnimationFrame(neu); setTimeout(neu,400);
+}
 function rlBinde(sec, it){
-  let tapT=0;
+  let tapT=0; sec.querySelectorAll(".rakarte").forEach(rlBalken);
   sec.addEventListener("click", e=>{
     if(e.target.closest("button")) return;
     const t=Date.now(); if(t-tapT<320){ rlLike(sec,true); rlHerz(sec,e.clientX,e.clientY); tapT=0; } else tapT=t;
@@ -4486,7 +4509,7 @@ function rlSheet(b, nr){
         ${inhalt}
       </article></div>
       <div class="rsfuss">${"speechSynthesis" in window?`<button type="button" class="rsknopf alt" id="rsVor">🔊 Vorlesen</button>`:""}<button type="button" class="rsknopf" id="rsGanz">📖 Ganze Seite in der Bibliothek</button></div>
-    </div>`);
+    </div>`); rlBalken($("#rsInhalt"));
   const sh=$("#rsheet"), bg=$("#rsheetBg");
   sh.animate([{transform:"translateY(100%)"},{transform:"translateY(0)"}],{duration:280,easing:"cubic-bezier(.2,.9,.3,1)"});
   bg.animate([{opacity:0},{opacity:1}],{duration:280});
