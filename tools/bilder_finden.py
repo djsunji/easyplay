@@ -12,7 +12,7 @@ Quellen, in dieser Reihenfolge:
 Nur freie Lizenzen (CC0, Public Domain, CC BY, CC BY-SA), Mindestgrösse, keine Karten,
 Logos, Wappen oder Diagramme (ausser bei Firmen-Seiten).
 """
-import json, os, re, sys, time, urllib.parse, urllib.request
+import json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
 
 UA = "easyplay-bilder/1.0 (https://djsunji.github.io/easyplay/; Lernseite fuer Kinder)"
 HIER = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +26,36 @@ START = time.time()
 SCHLECHT = re.compile(r"\.svg|karte|map[_ .\-]|locator|lageplan|lage_|logo|flag|flagge|wappen|coat[_ ]of[_ ]arms|signatur|signature|unterschrift|diagram|schema|chart|graph|icon|symbol|\.pdf|\.tif|\.djvu|stamp|briefmarke|\bplan\b", re.I)
 HEIKEL = re.compile(r"nude|naked|nackt|akt\b|erotic|erotik|sex|porn|breast|brust|bikini|lingerie|dessous|topless|corpse|leiche|blood|blut|gore|wound|wunde|autopsy|execution|hinrichtung|weapon|waffe|gun\b|pistol|drug|droge|cigarette|zigarette", re.I)
 FREI = re.compile(r"^(cc0|cc[- ]?by(?:[- ]sa)?(?:[- ][0-9.]+)?|public domain|pd|pd-.*|gemeinfrei|attribution|no restrictions)", re.I)
+
+
+STOPP = set("aber alle auch beim dass dem den der des die das durch eine einem einen einer eines fuer für gegen hinter im in ist mit nach oder ohne sind sowie ueber über und unter vom von vor wie zum zur zwischen schweiz schweizer allgemeines".split())
+
+
+def norm(t):
+    t = urllib.parse.unquote(str(t or "")).lower()
+    t = t.replace("ä", "a").replace("ö", "o").replace("ü", "u").replace("ß", "ss")
+    t = unicodedata.normalize("NFKD", t)
+    return "".join(c for c in t if not unicodedata.combining(c))
+
+
+def woerter(*texte):
+    aus = set()
+    for t in texte:
+        for w in re.split(r"[^a-z0-9]+", norm(t)):
+            if len(w) >= 4 and w not in STOPP:
+                aus.add(w)
+    return aus
+
+
+def passt(begriffe, *texte):
+    """Bild aus einer Suche nur nehmen, wenn ein Suchwort im Dateinamen oder Titel steckt."""
+    ziel = " ".join(norm(t) for t in texte)
+    ziel = re.sub(r"[^a-z0-9]+", " ", ziel)
+    for w in begriffe:
+        stamm = w[:max(4, min(len(w), 6))]
+        if stamm in ziel:
+            return True
+    return False
 
 
 def https_url(u):
@@ -82,14 +112,14 @@ def gut(ii, roh=False):
     return True
 
 
-def eintrag(datei, ii, alt):
+def eintrag(datei, ii, alt, quelle="w"):
     md = ii.get("extmetadata") or {}
     urheber = text(md.get("Artist", {}).get("value", "")) or "Wikimedia Commons"
     lic = text(md.get("LicenseShortName", {}).get("value", ""))
     url = ii.get("thumburl") or ii.get("url")
     if not https_url(url):
         return None
-    return [url, alt, urheber, lic, https_url(ii.get("descriptionurl", ""))]
+    return [url, alt, urheber, lic, https_url(ii.get("descriptionurl", "")), quelle]
 
 
 def commons_infos(dateien):
@@ -142,11 +172,11 @@ def wiki_hauptbilder(titel):
     return aus
 
 
-def commons_suche(begriff, roh=False):
+def commons_suche(begriff, roh=False, begriffe=None):
     # nur geprüfte Qualitätsbilder, damit für Kinder nichts Unpassendes erscheint
     filt = ' incategory:"Quality images"' + ("" if roh else " filetype:bitmap")
     j = api("commons.wikimedia.org", {"action": "query", "generator": "search", "gsrnamespace": "6",
-                                       "gsrsearch": begriff + filt, "gsrlimit": "12", "prop": "imageinfo",
+                                       "gsrsearch": begriff + filt, "gsrlimit": "20", "prop": "imageinfo",
                                        "iiprop": "url|size|mime|extmetadata", "iiurlwidth": str(BREITE),
                                        "iiextmetadatafilter": "Artist|LicenseShortName"})
     seiten = sorted(((j or {}).get("query", {}).get("pages", []) or []), key=lambda p: p.get("index", 99))
@@ -155,12 +185,14 @@ def commons_suche(begriff, roh=False):
         ii = (p.get("imageinfo") or [None])[0]
         if HEIKEL.search(name):
             continue
+        if begriffe is not None and not passt(begriffe, name):
+            continue
         if (roh or not SCHLECHT.search(name)) and gut(ii, roh):
             return name, ii
     return None, None
 
 
-def openverse(begriff):
+def openverse(begriff, begriffe=None):
     url = "https://api.openverse.org/v1/images/?" + urllib.parse.urlencode(
         {"q": begriff, "license": "cc0,pdm,by,by-sa", "mature": "false", "page_size": "10"})
     j = holen(url, versuche=2)
@@ -170,12 +202,14 @@ def openverse(begriff):
         w, h = r.get("width") or 0, r.get("height") or 0
         if w < 800 or h < 500 or not (0.45 < w / max(1, h) < 2.6):
             continue
+        if begriffe is not None and not passt(begriffe, r.get("title") or "", " ".join(t.get("name", "") for t in (r.get("tags") or []))):
+            continue
         if SCHLECHT.search(r.get("title") or "") or HEIKEL.search((r.get("title") or "") + " " + " ".join(t.get("name", "") for t in (r.get("tags") or []))):
             continue
         lic = ("CC0" if r.get("license") == "cc0" else "Public Domain" if r.get("license") == "pdm"
                else f"CC {str(r.get('license','')).upper()} {r.get('license_version','')}".strip())
         return [r.get("url"), r.get("title") or begriff, (r.get("creator") or "unbekannt")[:120], lic,
-                https_url(r.get("foreign_landing_url"))]
+                https_url(r.get("foreign_landing_url")), "o"]
     return None
 
 
@@ -238,14 +272,18 @@ def main():
             continue
         roh = bool(s.get("r"))
         treffer = None
+        begriffe = woerter(s["t"], *s.get("c", [])[:3])
+        if not begriffe:
+            ohne.add(s["k"])
+            continue
         for begriff in [s["t"], f'{s["t"]} {s["kap"]}']:
-            name, ii = commons_suche(begriff, roh)
+            name, ii = commons_suche(begriff, roh, begriffe)
             if name:
-                treffer = eintrag(name, ii, s["t"])
+                treffer = eintrag(name, ii, s["t"], "c")
                 break
             time.sleep(0.4)
         if not treffer and not roh:
-            treffer = openverse(s["t"])
+            treffer = openverse(s["t"], begriffe)
             time.sleep(1.2)
         if treffer:
             ergebnis[s["k"]] = treffer
