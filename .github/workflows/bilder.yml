@@ -13,19 +13,45 @@ concurrency:
   group: bilder
   cancel-in-progress: false
 jobs:
-  bilder:
+  suchen:
     runs-on: ubuntu-latest
-    timeout-minutes: 340
+    timeout-minutes: 200
+    strategy:
+      fail-fast: false
+      matrix:
+        teil: [0, 1, 2, 3, 4, 5, 6, 7]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Bilder suchen
+      - name: Bilder suchen (Teil ${{ matrix.teil }} von 8)
         env:
           NEU: ${{ github.event.inputs.neu || '0' }}
-          MAX_MINUTEN: "320"
+          TEIL: "${{ matrix.teil }}/8"
+          MAX_MINUTEN: "180"
         run: python3 tools/bilder_finden.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: teil-${{ matrix.teil }}
+          path: bildindex-teil-${{ matrix.teil }}.json
+          if-no-files-found: ignore
+  zusammenfuegen:
+    needs: suchen
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/download-artifact@v4
+        with:
+          path: teile
+      - name: Zusammenfügen
+        run: python3 tools/bilder_zusammen.py
       - name: Ergebnis speichern
         run: |
           git config user.name "easyplay-bilder"
@@ -33,5 +59,4 @@ jobs:
           git add bildindex.json
           git diff --cached --quiet && echo "Keine Änderungen" && exit 0
           git commit -m "Bibliothek: Bildindex aktualisiert"
-          git pull --rebase -X theirs || true
-          git push
+          for i in 1 2 3; do git pull --rebase -X theirs && git push && break; sleep 5; done

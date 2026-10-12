@@ -177,6 +177,14 @@ def main():
     # neuer Lauf nach dem Zeitlimit dort weiter, wo der letzte aufgehört hat.
     ohne = set(alt.pop("_ohne", []) or [])
     offen = [s for s in seiten if s["k"] not in alt and s["k"] not in ohne]
+    # Aufteilen auf mehrere parallele Läufe: TEIL="2/6" bearbeitet jede sechste Seite ab der dritten
+    teil = os.environ.get("TEIL", "")
+    ziel = ZIEL
+    if teil:
+        i, n = (int(x) for x in teil.split("/"))
+        offen = [s for j, s in enumerate(offen) if j % n == i]
+        ziel = os.path.join(WURZEL, f"bildindex-teil-{i}.json")
+        alt, ohne = {}, set()
     print(f"{len(seiten)} Seiten, {len(alt)} schon mit Bild, {len(ohne)} ohne Treffer, {len(offen)} offen")
     ergebnis = dict(alt)
 
@@ -184,7 +192,7 @@ def main():
         aus = dict(ergebnis)
         if ohne:
             aus["_ohne"] = sorted(ohne)
-        json.dump(aus, open(ZIEL, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        json.dump(aus, open(ziel, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
     # 1. Wikipedia-Hauptbilder
     haupt = wiki_hauptbilder([c for s in offen for c in s["c"]])
