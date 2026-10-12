@@ -257,6 +257,8 @@ def main():
             speichern()
     speichern()
     print(f"Fertig: {len(ergebnis)} von {len(seiten)} Seiten haben ein Bild")
+    # als Hinweis in GitHub sichtbar (auch über die API lesbar)
+    print(f"::notice::Bilder {teil or 'gesamt'}: {len(ergebnis)} mit Bild, {len(ohne)} ohne Treffer, {len(offen)} bearbeitet")
 
 
 if __name__ == "__main__":

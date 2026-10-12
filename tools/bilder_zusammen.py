@@ -14,4 +14,6 @@ ohne -= set(alle)
 if ohne:
     alle["_ohne"] = sorted(ohne)
 json.dump(alle, open(ziel, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-print("Seiten mit Bild:", len([k for k in alle if k != "_ohne"]), "ohne Treffer:", len(ohne))
+n_mit = len([k for k in alle if k != "_ohne"])
+print("Seiten mit Bild:", n_mit, "ohne Treffer:", len(ohne))
+print(f"::notice::Bildindex zusammen: {n_mit} Seiten mit Bild, {len(ohne)} ohne Treffer")
