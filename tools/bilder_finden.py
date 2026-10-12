@@ -47,6 +47,15 @@ def woerter(*texte):
     return aus
 
 
+def passt_streng(titel, *texte):
+    """Für Treffer aus der freien Suche: jedes Wort des Seitentitels muss als Wortanfang vorkommen."""
+    w = woerter(titel)
+    if not w:
+        return False
+    ziel = " " + re.sub(r"[^a-z0-9]+", " ", " ".join(norm(t) for t in texte))
+    return all((" " + x[:max(4, min(len(x), 6))]) in ziel for x in w)
+
+
 def passt(begriffe, *texte):
     """Bild aus einer Suche nur nehmen, wenn ein Suchwort im Dateinamen oder Titel steckt."""
     ziel = " ".join(norm(t) for t in texte)
@@ -190,7 +199,7 @@ def wiki_suche(begriff, begriffe):
     return None
 
 
-def commons_suche(begriff, roh=False, begriffe=None):
+def commons_suche(begriff, roh=False, begriffe=None, titel=None):
     # nur geprüfte Qualitätsbilder, damit für Kinder nichts Unpassendes erscheint
     filt = ' incategory:"Quality images"' + ("" if roh else " filetype:bitmap")
     j = api("commons.wikimedia.org", {"action": "query", "generator": "search", "gsrnamespace": "6",
@@ -203,7 +212,7 @@ def commons_suche(begriff, roh=False, begriffe=None):
         ii = (p.get("imageinfo") or [None])[0]
         if HEIKEL.search(name):
             continue
-        if begriffe is not None and not passt(begriffe, name):
+        if begriffe is not None and not (passt(begriffe, name) and passt_streng(titel or begriff, name)):
             continue
         if (roh or not SCHLECHT.search(name)) and gut(ii, roh):
             return name, ii
@@ -303,7 +312,7 @@ def main():
                 if ii and gut(ii):
                     treffer = eintrag(d, ii, s["t"], "w")
         for begriff in ([] if treffer else [s["t"], f'{s["t"]} {s["kap"]}']):
-            name, ii = commons_suche(begriff, roh, begriffe)
+            name, ii = commons_suche(begriff, roh, begriffe, s["t"])
             if name:
                 treffer = eintrag(name, ii, s["t"], "c")
                 break
