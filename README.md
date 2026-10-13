@@ -49,8 +49,16 @@ Hier sind alle Entwürfe für eine neue Startseite von https://djsunji.github.io
 - **K3 «Gipfel-Rennen»**: 5 Teams (Steinböcke, Adler, Team Lumi, Murmeltiere, Bären) mit je einem Berg, der sich füllt. Medaillen und Wochenpreise.
 - **K4 «Berg-Duell mit Hütten»**: Zwei Berge nebeneinander, unterwegs echte Matterhorn-Hütten (Hörnlihütte, Solvay-Biwak, Schulter, Gipfel) mit Team-Belohnungen.
 
+### Noch 5 neue (Berg + Team, je eine neue Idee)
+- **M1 «Gipfeltour Schweiz»**: Schweizer Karte mit 5 Gipfeln als Wochen-Etappen (Säntis, Pilatus, Eiger, Matterhorn, Piz Bernina). Fragen zur Region bringen doppelte Meter.
+- **M2 «Bergbahn-Rennen»**: Zwei Gondeln, Team Lumi in Pink und Team Milo in Blau, fahren an Seilen zur Gipfelstation. Dazu Turbo bei 5 richtigen Antworten am Stück.
+- **M3 «Gipfelbuch»**: Eine Team-Fahne mit Höhe und Anzahl Kinder, daneben ein Gipfelbuch mit Erfolgen der anderen. Kinder schreiben keinen freien Text, sondern setzen nur vorgegebene Stempel wie «Bravo!». So ist es sicher.
+- **M4 «Live-Arena»**: Jeden Tag um 17 Uhr ein Live-Quiz mit 10 Fragen für alle. Zwei Team-Türme steigen live.
+- **M5 «Routenwahl»**: Drei Routen passend zu den Stufen. Wanderweg (Entdecker) gibt ×1, Klettersteig (Könner) ×2, Nordwand (Profis) ×3. Alle zählen fürs Team. Wetter-Ereignis «Föhn» bringt doppelte Meter.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
+- **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.
 - **Entscheidung des Nutzers steht noch aus.** Er soll Variante oder Kombination wählen.
 
 ## Was für die Umsetzung fehlt

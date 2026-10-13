@@ -1,0 +1,78 @@
+.vsM .kopfz{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.vsM .szene{position:relative;height:380px;margin-top:12px}
+.vsM .szene svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.vsM .lab{position:absolute;transform:translate(-50%,-50%);background:#fff;color:#1B2240;border-radius:999px;padding:3px 10px;font-weight:800;font-size:.8rem;white-space:nowrap;box-shadow:0 6px 12px -6px rgba(0,0,0,.5);z-index:3}
+.vsM .lab.p{background:#E043B8;color:#fff}.vsM .lab.b{background:#3D5AFE;color:#fff}.vsM .lab.g{background:#0FA968;color:#fff}.vsM .lab.zu{background:rgba(255,255,255,.35);color:#fff}
+.vsM .fig{position:absolute;transform:translate(-50%,-88%);filter:drop-shadow(0 8px 8px rgba(0,0,0,.35));z-index:2}
+.vsM .grid{grid-template-columns:repeat(3,1fr)}
+.vsM .gross{font:800 2.4rem "Bricolage Grotesque",sans-serif;line-height:1;margin:8px 0;color:#E043B8}
+.vsM .mi{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #EEEAF9;font-weight:600;font-size:.92rem}
+.vsM .mi em{margin-left:auto;font-style:normal;color:#0FA968;font-weight:800;white-space:nowrap}
+@media (max-width:860px){.vsM .grid{grid-template-columns:1fr}.vsM .szene{height:300px}}
+@media (max-width:560px){.vsM .szene{height:240px}.vsM .fig{height:64px!important}.vsM .lab{font-size:.66rem;padding:2px 7px}}
+/* M1 Tour */
+.vsM1 .peak{position:absolute;transform:translate(-50%,-100%);text-align:center;z-index:2}
+.vsM1 .peak b{display:block;font-size:1.8rem;line-height:1;filter:drop-shadow(0 3px 3px rgba(0,0,0,.3))}
+.vsM1 .peak.zu b{filter:grayscale(1);opacity:.6}
+.vsM1 .etappen{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.vsM1 .et{padding:12px;text-align:center}
+.vsM1 .et .ic{font-size:1.8rem;display:block}
+.vsM1 .et small{display:block;color:#5D5C80}
+.vsM1 .et.ok{background:linear-gradient(160deg,#E3FAEE,#fff)}.vsM1 .et.jetzt{outline:3px solid #E043B8}.vsM1 .et.zu{opacity:.65}
+@media (max-width:860px){.vsM1 .etappen{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.vsM1 .etappen{grid-template-columns:repeat(2,1fr)}.vsM1 .peak b{font-size:1.2rem}}
+/* M2 Bergbahn */
+.vsM2 .station{position:absolute;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:6px 10px;font-weight:800;font-size:.8rem;color:#1B2240;z-index:2;box-shadow:0 6px 12px -6px rgba(0,0,0,.5)}
+.vsM2 .gondel{position:absolute;transform:translate(-50%,0);width:120px;z-index:3;text-align:center}
+.vsM2 .gondel .buegel{width:4px;height:26px;background:#1B2240;margin:0 auto}
+.vsM2 .gondel .kabine{position:relative;height:96px;border-radius:18px 18px 22px 22px;border:4px solid #fff;overflow:hidden;box-shadow:0 12px 20px -8px rgba(0,0,0,.5)}
+.vsM2 .gondel .kabine img{position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);height:120px}
+.vsM2 .gondel .kabine::before{content:"";position:absolute;inset:10px 10px 30px;border-radius:10px;background:rgba(255,255,255,.35);z-index:0}
+.vsM2 .gondel .kabine img{z-index:1}
+.vsM2 .gondel.p .kabine{background:#E043B8}.vsM2 .gondel.b .kabine{background:#3D5AFE}
+.vsM2 .gondel .lab{position:static;transform:none;display:inline-block;margin-top:6px}
+@media (max-width:560px){.vsM2 .gondel{width:76px}.vsM2 .gondel .kabine{height:62px}.vsM2 .gondel .kabine img{height:80px}.vsM2 .gondel .buegel{height:14px}}
+/* M3 Gipfelbuch */
+.vsM3 .mzwei{display:grid;grid-template-columns:1fr 1.2fr;gap:16px;margin-top:16px}.vsM3 .mzwei>*{min-width:0}
+.vsM3 .gfahne{position:relative;overflow:hidden;text-align:left}
+.vsM3 .gfahne .wimpel{display:inline-flex;align-items:center;gap:8px;background:#E043B8;color:#fff;border-radius:6px 22px 22px 6px;padding:8px 18px;font:800 1.2rem "Bricolage Grotesque",sans-serif}
+.vsM3 .gfahne img{position:absolute;right:-10px;bottom:-10px;height:230px}
+.vsM3 .gfahne .zahlen{display:grid;grid-template-columns:repeat(2,minmax(0,140px));gap:10px;margin-top:14px}
+.vsM3 .gfahne .zahlen div{background:rgba(255,255,255,.15);border-radius:14px;padding:10px}
+.vsM3 .gfahne .zahlen b{display:block;font:800 1.6rem "Bricolage Grotesque",sans-serif}
+.vsM3 .gbuch{position:relative;background:#FFFDF6;border-radius:8px 26px 26px 8px;padding:20px 22px 20px 44px;box-shadow:0 22px 40px -24px rgba(27,34,64,.6),inset 14px 0 0 #E8D9B8;background-image:repeating-linear-gradient(#FFFDF6 0 33px,#E6EEF9 33px 34px);text-align:left;color:#1B2240}
+.vsM3 .gbuch h3{margin:0 0 6px;font:800 1.5rem "Bricolage Grotesque",sans-serif}
+.vsM3 .eintrag{display:flex;gap:10px;align-items:center;min-height:34px;font-size:.95rem}
+.vsM3 .eintrag small{margin-left:auto;color:#8A87A8;white-space:nowrap}
+.vsM3 .stempel{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.vsM3 .stempel button{border:2px dashed #C9C1F0;background:#fff;border-radius:14px;padding:8px 12px;font:600 .9rem "Lexend",sans-serif;cursor:pointer}
+@media (max-width:860px){.vsM3 .mzwei{grid-template-columns:1fr}}
+/* M4 Live-Arena */
+.vsM4 .arena{display:grid;grid-template-columns:150px 1fr 150px;gap:16px;align-items:end;margin-top:14px}
+.vsM4 .turm{position:relative;height:330px;border-radius:20px;background:rgba(255,255,255,.12);overflow:visible}
+.vsM4 .turm .fill{position:absolute;left:0;right:0;bottom:0;border-radius:20px}
+.vsM4 .turm.p .fill{background:linear-gradient(0deg,#E043B8,#FF7AD9)}.vsM4 .turm.b .fill{background:linear-gradient(0deg,#3D5AFE,#8FA6FF)}
+.vsM4 .turm img{position:absolute;left:50%;transform:translate(-50%,-92%);height:110px;z-index:2}
+.vsM4 .turm .wert{position:absolute;left:0;right:0;bottom:10px;text-align:center;font:800 1.3rem "Bricolage Grotesque",sans-serif;color:#fff}
+.vsM4 .live{display:inline-flex;align-items:center;gap:8px;background:#FF3D6E;border-radius:999px;padding:4px 12px;font-weight:800;font-size:.8rem}
+.vsM4 .live i{width:8px;height:8px;border-radius:50%;background:#fff;animation:vsPuls2 1s infinite}
+@keyframes vsPuls2{50%{opacity:.2}}
+.vsM4 .frage{background:#fff;color:#1B2240;border-radius:24px;padding:20px;text-align:left;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.vsM4 .frage .q{font:800 1.35rem/1.25 "Bricolage Grotesque",sans-serif;margin:10px 0 14px}
+.vsM4 .antw{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vsM4 .antw span{border-radius:16px;padding:14px;color:#fff;font-weight:700;text-align:center}
+.vsM4 .antw span:nth-child(1){background:#3D5AFE}.vsM4 .antw span:nth-child(2){background:#E043B8}.vsM4 .antw span:nth-child(3){background:#0FA968}.vsM4 .antw span:nth-child(4){background:#F09A12}
+.vsM4 .info{display:flex;justify-content:space-between;color:#5D5C80;font-size:.85rem;margin-top:12px}
+@media (max-width:860px){.vsM4 .arena{grid-template-columns:90px 1fr 90px}.vsM4 .turm img{height:80px}}
+@media (max-width:560px){.vsM4 .arena{grid-template-columns:1fr 1fr}.vsM4 .frage{grid-column:1/-1;order:-1}.vsM4 .turm{height:180px;margin-top:70px}.vsM4 .antw{grid-template-columns:1fr}}
+/* M5 Routen */
+.vsM5 .wetter{display:flex;align-items:center;gap:12px;background:rgba(255,227,77,.18);border:1px solid rgba(255,227,77,.6);border-radius:16px;padding:10px 14px;margin-top:12px;max-width:520px}
+.vsM5 .wetter b{font-size:1.8rem}
+.vsM5 .routen{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.vsM5 .route{padding:16px;text-align:left;border-top:6px solid var(--c)}
+.vsM5 .route .kopf{display:flex;justify-content:space-between;align-items:center}
+.vsM5 .route .em{font-size:1.8rem}
+.vsM5 .route .faktor{font:800 1.4rem "Bricolage Grotesque",sans-serif;color:var(--c)}
+.vsM5 .route.an{outline:3px solid var(--c);background:linear-gradient(160deg,#fff,#F4F1FF)}
+@media (max-width:860px){.vsM5 .routen{grid-template-columns:1fr}}
+@media (max-width:560px){.vsM3 .gfahne img{height:120px;opacity:.9}.vsM3 .gfahne p{max-width:none}}
