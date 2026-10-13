@@ -12,13 +12,29 @@
 @media (prefers-color-scheme:dark){:root{--bg:#141418;--fl:#1d1d23;--tx:#e8e8ee;--mu:#9a9aa8;--li:#33333d;--ak:#7d9cff;--ok:#5cc47e;--wa:#e0a34a;--fe:#ff7a70;--zb:#202028;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--li);background:var(--fl);position:sticky;top:0;z-index:5}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 16px;border-bottom:1px solid var(--li);background:var(--fl);position:sticky;top:0;z-index:5;min-height:48px}
 header b{font-size:15px}
-nav{display:flex;gap:2px;flex-wrap:wrap}
-nav button{background:none;border:0;border-radius:6px;padding:6px 10px;color:var(--mu);font:inherit;cursor:pointer}
-nav button.an{background:var(--bg);color:var(--tx);font-weight:600}
-#status{margin-left:auto;font-size:12px;color:var(--mu);display:flex;gap:12px;flex-wrap:wrap}
-main{padding:16px;max-width:1400px;margin:0 auto}
+#status{margin-left:auto;font-size:12px;color:var(--mu);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+#rahmen{display:grid;grid-template-columns:190px minmax(0,1fr);min-height:calc(100vh - 48px)}
+nav{display:flex;flex-direction:column;gap:2px;padding:12px 8px;border-right:1px solid var(--li);background:var(--fl);position:sticky;top:48px;height:calc(100vh - 48px);overflow:auto}
+nav .gr{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin:12px 8px 4px}
+nav button{background:none;border:0;border-radius:6px;padding:7px 10px;color:var(--tx);font:inherit;cursor:pointer;text-align:left;display:flex;justify-content:space-between;gap:6px}
+nav button:hover{background:var(--bg)}
+nav button.an{background:var(--bg);font-weight:600;box-shadow:inset 3px 0 0 var(--ak)}
+nav button small{color:var(--mu);font-weight:400}
+main{padding:16px 20px;max-width:1500px;width:100%}
+@media (max-width:800px){#rahmen{grid-template-columns:1fr}nav{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--li)}nav .gr{display:none}}
+#login{min-height:100vh;display:grid;place-items:center;padding:16px}
+#login form{background:var(--fl);border:1px solid var(--li);border-radius:8px;padding:24px;width:min(360px,100%);display:grid;gap:10px}
+#login h1{font-size:18px;margin:0 0 4px}
+#login input{width:100%;padding:8px 10px}
+#login button{padding:8px}
+.abschnitt{margin-bottom:22px}
+.spalten{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:12px;align-items:start}
+.balkenzeile{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:8px;align-items:center}
+.mini{height:6px;background:var(--zb);border-radius:3px;overflow:hidden}.mini i{display:block;height:100%;background:var(--ak)}
+a.link{color:var(--ak);cursor:pointer;text-decoration:none}a.link:hover{text-decoration:underline}
+.ampel{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--mu)}.ampel.ok{background:var(--ok)}.ampel.wa{background:var(--wa)}.ampel.fe{background:var(--fe)}
 h2{font-size:16px;margin:0 0 10px}
 h3{font-size:13px;margin:18px 0 6px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}
 .raster{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
@@ -26,10 +42,11 @@ h3{font-size:13px;margin:18px 0 6px;color:var(--mu);text-transform:uppercase;let
 .zahl span{display:block;font-size:12px;color:var(--mu)}
 .zahl b{font-size:20px;font-variant-numeric:tabular-nums}
 .zahl small{color:var(--mu)}
+.kpi .zahl{min-height:84px}
 .box{background:var(--fl);border:1px solid var(--li);border-radius:6px;padding:12px;margin-bottom:12px}
 table{width:100%;border-collapse:collapse;background:var(--fl);font-variant-numeric:tabular-nums}
 th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--li);vertical-align:top}
-th{font-size:12px;color:var(--mu);font-weight:600;background:var(--zb);position:sticky;top:49px}
+th{font-size:12px;color:var(--mu);font-weight:600;background:var(--zb);position:sticky;top:48px}
 tr.wahl td{background:color-mix(in srgb,var(--ak) 12%,transparent)}
 tbody tr{cursor:default}
 tbody tr.klick{cursor:pointer}
@@ -76,20 +93,35 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 </head>
 <body>
 <script>if(window.top!==window.self){ document.documentElement.innerHTML=""; throw new Error("Rahmen nicht erlaubt"); }</script>
+<div id="login"><form id="lForm" autocomplete="on">
+  <h1>easyplay · Verwaltung</h1><p class="mu klein" style="margin:0">Bitte anmelden.</p>
+  <label class="klein mu" for="lName">Benutzername</label><input id="lName" name="username" autocomplete="username" required>
+  <label class="klein mu" for="lPw">Passwort</label><input id="lPw" name="password" type="password" autocomplete="current-password" required>
+  <button class="k p" type="submit" id="lGo">Anmelden</button><p id="lFehler" class="fe klein" style="margin:0;min-height:1em"></p>
+</form></div>
+<div id="app" hidden>
 <header>
   <b>easyplay · Verwaltung</b>
-  <nav id="tabs">
-    <button data-t="uebersicht" class="an">Übersicht</button>
-    <button data-t="statistik">Statistik</button>
-    <button data-t="fragen">Fragen</button>
-    <button data-t="bilder">Bilder</button>
-    <button data-t="benutzer">Benutzer</button>
-    <button data-t="kommentare">Kommentare</button>
-    <button data-t="zugang">Zugang</button>
-  </nav>
   <div id="status"></div>
 </header>
+<div id="rahmen">
+<nav id="tabs">
+  <div class="gr">Überblick</div>
+  <button data-t="uebersicht" class="an">Übersicht</button>
+  <button data-t="statistik">Besucher</button>
+  <div class="gr">Inhalte</div>
+  <button data-t="fragen">Fragen <small id="nFragen"></small></button>
+  <button data-t="bilder">Bilder <small id="nBilder"></small></button>
+  <div class="gr">Personen</div>
+  <button data-t="benutzer">Benutzer</button>
+  <button data-t="kommentare">Kommentare</button>
+  <div class="gr">System</div>
+  <button data-t="technik">Technik</button>
+  <button data-t="zugang">Zugang</button>
+</nav>
 <main id="inhalt"></main>
+</div>
+</div>
 <div id="aenderungen"><b id="aeText"></b><span class="mu klein">Erst mit «Speichern» landen die Änderungen auf GitHub. Danach sind sie nach etwa 1 bis 2 Minuten auf der Website.</span><span style="margin-left:auto"></span><button class="k" id="aeListe">Anzeigen</button><button class="k g" id="aeVerwerfen">Verwerfen</button><button class="k p" id="aeSpeichern">Speichern</button></div>
 <div id="meldung" role="status"></div>
 <dialog id="dlg"></dialog>
@@ -112,7 +144,7 @@ const store = {
   set(k, v, dauerhaft){ try{ (dauerhaft ? localStorage : sessionStorage).setItem(k, JSON.stringify(v)); if(!dauerhaft) localStorage.removeItem(k); }catch(e){} },
   del(k){ try{ sessionStorage.removeItem(k); localStorage.removeItem(k); }catch(e){} }
 };
-const DATEN = { fragen:null, themen:{}, bildindex:null, seiten:null, gesperrt:null };
+const DATEN = { fragen:null, themen:{}, bereiche:{}, themaBereich:{}, bildindex:null, seiten:null, gesperrt:null, repo:null };
 const AE = { fragen:new Map(), bilder:new Map(), dateien:new Map() };   // offene Änderungen
 
 /* ======================= GitHub ======================= */
@@ -187,9 +219,17 @@ async function ladeFragen(){
   try{
     const html = await fetch("index.html", {cache:"no-cache"}).then(r => r.text());
     for(const m of html.matchAll(/\{id:"([a-z0-9_]+)", name:"([^"]+)"/g)) DATEN.themen[m[1]] = m[2];
+    // Bereiche: Zeilen mit 2 Leerzeichen sind Hauptbereiche, mit 4 Leerzeichen Themen
+    const block = html.slice(html.indexOf("const BEREICHE = ["), html.indexOf("const THEMA = {}"));
+    let akt = null;
+    for(const z of block.split("\n")){ const m = z.match(/^( {2,4})\{id:"([a-z0-9_]+)", name:"([^"]+)"/); if(!m) continue;
+      if(m[1].length === 2){ akt = m[2]; DATEN.bereiche[akt] = m[3]; } else if(akt){ DATEN.themaBereich[m[2]] = akt; } }
+    for(const m of html.matchAll(/\{id:"([a-z0-9_]+)", name:"[^"]+"[^}]*?parent:"([^"]+)"/g)){
+      const p = m[2].replace("submenu:", ""); DATEN.themaBereich[m[1]] = DATEN.themaBereich[p] || (p === "geschmenu" ? DATEN.themaBereich.geschichte : p === "chmenu" ? DATEN.themaBereich.schweiz : null); }
   }catch(e){}
   return alle;
 }
+const bereichVon = t => DATEN.themaBereich[t] || (t && t.startsWith("kt_") ? DATEN.themaBereich.schweiz : t && t.startsWith("g_") ? DATEN.themaBereich.geschichte : null) || "andere";
 const themaName = t => DATEN.themen[t] || (t && t.startsWith("kt_") ? "Kanton " + t.slice(3) : t);
 async function ladeBilder(){
   if(!DATEN.bildindex) DATEN.bildindex = await fetch("bildindex.json", {cache:"no-cache"}).then(r => r.json()).catch(() => ({}));
@@ -199,9 +239,11 @@ async function ladeBilder(){
 
 /* ======================= Kopfzeile, Tabs ======================= */
 function statusZeigen(){
-  const s = sbSitzung();
-  $("#status").innerHTML = `<span>GitHub: ${ghToken() ? '<span class="ok">verbunden</span>' : '<span class="wa">kein Schlüssel</span>'}</span>`
-    + `<span>Supabase: ${!sbAn() ? '<span class="mu">nicht eingerichtet</span>' : s ? '<span class="ok">' + esc(s.mail||"angemeldet") + '</span>' : '<span class="wa">nicht angemeldet</span>'}</span>`;
+  const s = sbSitzung(), l = store.get("ep-admin-sitzung", null);
+  $("#status").innerHTML = `<span>GitHub: ${ghToken() ? '<span class="ok">verbunden</span>' : '<a class="link" id="stGh">Schlüssel fehlt</a>'}</span>`
+    + `<span>Supabase: ${!sbAn() ? '<span class="mu">nicht eingerichtet</span>' : s ? '<span class="ok">' + esc(s.mail||"angemeldet") + '</span>' : '<span class="wa">nicht angemeldet</span>'}</span>`
+    + `<span>Angemeldet: <b>${esc(l?.name || "")}</b></span><button class="k" id="stAus">Abmelden</button>`;
+  $("#stAus").onclick = abmelden; const g = $("#stGh"); if(g) g.onclick = () => zeige("zugang");
 }
 function aenderungenZeigen(){
   const n = AE.fragen.size + AE.bilder.size;
@@ -220,52 +262,143 @@ $("#tabs").onclick = e => { const b = e.target.closest("button"); if(b) zeige(b.
 addEventListener("beforeunload", e => { if(AE.fragen.size + AE.bilder.size){ e.preventDefault(); e.returnValue = ""; } });
 
 /* ======================= Übersicht ======================= */
+const kacheln = liste => `<div class="raster">${liste.map(([a,b,c,ziel]) => `<div class="zahl"${ziel ? ` style="cursor:pointer" data-ziel="${esc(ziel)}"` : ""}><span>${esc(a)}</span><b>${b}</b>${c ? ` <small>${c}</small>` : ""}</div>`).join("")}</div>`;
+// KPI: [Name, Wert (Text), Ziel (Text), Status ok|wa|fe|"", Erklärung, Ziel-Link]
+const kpiKarten = liste => `<div class="raster kpi">${liste.map(([n, w, z, st, info, ziel]) => `<div class="zahl"${ziel ? ` style="cursor:pointer" data-ziel="${esc(ziel)}"` : ""} title="${esc(info||"")}"><span><span class="ampel ${st||""}"></span>${esc(n)}</span><b>${w}</b><small style="display:block">${z ? "Ziel " + esc(z) : "&nbsp;"}</small></div>`).join("")}</div>`;
+const ampel = (wert, gut, mittel, hochBesser = true) => wert == null || isNaN(wert) ? "" : hochBesser ? (wert >= gut ? "ok" : wert >= mittel ? "wa" : "fe") : (wert <= gut ? "ok" : wert <= mittel ? "wa" : "fe");
+const pz = x => (x == null || isNaN(x)) ? "-" : (Math.round(x * 10) / 10).toLocaleString("de-CH") + " %";
+const balkenZelle = (n, max) => `<div class="balkenzeile"><span class="r">${zahl(n)}</span><div class="mini"><i style="width:${max ? Math.round(n / max * 100) : 0}%"></i></div></div>`;
+function zielBinden(){ $$("[data-ziel]").forEach(el => el.onclick = () => { const [t, f, w] = el.dataset.ziel.split(":"); if(t === "fragen"){ FF.nur = ""; FF.bereich = ""; FF.stufe = ""; FF.thema = ""; FF.suche = ""; if(f) FF[f] = w; } if(t === "bilder" && f){ FB[f] = w; FB.seite = 0; } zeige(t); }); }
 TABS.uebersicht = async () => {
-  const [fr, d] = await Promise.all([ladeFragen(), ladeBilder()]);
+  const [fr, d] = await Promise.all([ladeFragen(), ladeBilder()]); doppelteBerechnen();
   const ix = d.bildindex, seiten = d.seiten;
-  const mitBild = seiten.filter(s => ix[s.k]).length, lokal = seiten.filter(s => ix[s.k] && ix[s.k][6]).length, gross = seiten.filter(s => ix[s.k] && ix[s.k][7]).length;
+  const mitBild = seiten.filter(s => ix[s.k]).length, lokal = seiten.filter(s => ix[s.k] && ix[s.k][6]).length;
   const st = [1,2,3].map(l => fr.filter(f => +f.l === l).length);
-  const themen = new Set(fr.map(f => f.t)).size;
-  const kacheln = (liste) => `<div class="raster">${liste.map(([a,b,c]) => `<div class="zahl"><span>${esc(a)}</span><b>${b}</b>${c ? ` <small>${c}</small>` : ""}</div>`).join("")}</div>`;
-  let html = `<h2>Übersicht</h2><h3>Inhalte</h3>` + kacheln([
-    ["Fragen total", zahl(fr.length)], ["Stufe 1", zahl(st[0])], ["Stufe 2", zahl(st[1])], ["Stufe 3", zahl(st[2])],
-    ["Themen", zahl(themen)], ["Fragen mit Bild", zahl(fr.filter(f => f.img).length)],
-    ["Bibliothek: Seiten", zahl(seiten.length)], ["Seiten mit Bild", zahl(mitBild), proz(mitBild, seiten.length)],
-    ["Bilder lokal (klein)", zahl(lokal)], ["Bilder lokal (gross)", zahl(gross)]
-  ]);
+  const themenSet = new Set(fr.map(f => f.t));
+  const quali = Object.entries(PRUEF).map(([k, [t, fn]]) => [k, t, fr.filter(fn).length]);
+  const proThemaN = [...themenSet].map(t => fr.filter(f => f.t === t).length);
+  const ohneBefund = fr.filter(f => !Object.values(PRUEF).some(([, fn]) => fn(f))).length;
+  const mitE = fr.filter(f => String(f.e||"").trim()).length;
+  const balance = Math.min(...st) / Math.max(...st) * 100;
+  const kleineThemen = proThemaN.filter(n => n < 50).length;
+  const bildQ = mitBild / seiten.length * 100, lokalQ = mitBild ? lokal / mitBild * 100 : 0;
+  let html = `<h2>Übersicht</h2><p class="mu klein" style="margin-top:-6px">Stand ${datum(new Date())} · Daten der veröffentlichten Website · Ampel: grün = Ziel erreicht, orange = nahe dran, rot = handeln</p>
+  <div class="abschnitt"><h3>Kennzahlen Inhalte</h3>${kpiKarten([
+    ["Fragen total", zahl(fr.length), "wachsend", "", `${zahl(themenSet.size)} Themen`, "fragen"],
+    ["Fragen ohne Befund", pz(ohneBefund / fr.length * 100), "100 %", ampel(ohneBefund / fr.length * 100, 99, 95), "Anteil Fragen ohne ß, Striche, gleiche Antworten, fehlende Erklärung/Merksatz, Doppel", "fragen:nur:pruef"],
+    ["Fragen mit Erklärung", pz(mitE / fr.length * 100), "100 %", ampel(mitE / fr.length * 100, 99.5, 97), "", "fragen:nur:ohneE"],
+    ["Stufen-Ausgewogenheit", pz(balance), "≥ 70 %", ampel(balance, 70, 50), `kleinste / grösste Stufe: ${st.map(zahl).join(" / ")}`, ""],
+    ["Themen unter 50 Fragen", zahl(kleineThemen), "0", ampel(kleineThemen, 0, 5, false), "Themen mit zu wenig Fragen für abwechslungsreiche Tests", ""],
+    ["Bibliothek mit Bild", pz(bildQ), "≥ 90 %", ampel(bildQ, 90, 75), `${zahl(seiten.length - mitBild)} Seiten ohne Bild`, "bilder:art:ohne"],
+    ["Bilder lokal gespeichert", pz(lokalQ), "100 %", ampel(lokalQ, 99.5, 95), "Bilder, die ohne Wikipedia geladen werden (offline-fähig)", "bilder:art:fern"]
+  ])}<div id="ueKpiSb"></div><div id="ueKpiTech"></div></div>`;
+  // Fragen nach Bereich und Stufe
+  const bereiche = Object.keys(d && DATEN.bereiche).concat(["andere"]);
+  const zeilen = bereiche.map(b => { const l = fr.filter(f => bereichVon(f.t) === b); return {b, n:l.length, s:[1,2,3].map(x => l.filter(f => +f.l === x).length), bild:l.filter(f => f.img).length, ohneE:l.filter(f => !String(f.e||"").trim()).length, themen:new Set(l.map(f => f.t)).size}; }).filter(z => z.n);
+  const maxB = Math.max(...zeilen.map(z => z.n));
+  html += `<div class="spalten"><div class="abschnitt"><h3>Fragen nach Bereich und Stufe</h3><table><thead><tr><th>Bereich</th><th class="r">Themen</th><th class="r">Stufe 1</th><th class="r">Stufe 2</th><th class="r">Stufe 3</th><th style="min-width:170px">Total</th></tr></thead><tbody>
+    ${zeilen.map(z => `<tr><td><a class="link" data-ziel="fragen:bereich:${esc(z.b)}">${esc(DATEN.bereiche[z.b] || "Andere")}</a></td><td class="r">${z.themen}</td>${z.s.map(n => `<td class="r">${zahl(n)}</td>`).join("")}<td>${balkenZelle(z.n, maxB)}</td></tr>`).join("")}
+    <tr><td><b>Total</b></td><td class="r"><b>${themenSet.size}</b></td>${st.map(n => `<td class="r"><b>${zahl(n)}</b></td>`).join("")}<td class="r"><b>${zahl(fr.length)}</b></td></tr></tbody></table></div>`;
+  // Datenqualität
+  html += `<div class="abschnitt"><h3>Datenqualität der Fragen</h3><table><thead><tr><th>Prüfung</th><th class="r">Fragen</th><th class="r">Anteil</th></tr></thead><tbody>
+    ${quali.map(([k, t, n]) => `<tr><td><span class="ampel ${n === 0 ? "ok" : (k === "ohneM" || k === "lang") ? "wa" : n > 20 ? "fe" : "wa"}"></span>${n ? `<a class="link" data-ziel="fragen:nur:${k}">${esc(t)}</a>` : esc(t)}</td><td class="r">${zahl(n)}</td><td class="r mu">${proz(n, fr.length)}</td></tr>`).join("")}
+    <tr><td><span class="ampel"></span>Fragen mit Bild</td><td class="r">${zahl(fr.filter(f => f.img).length)}</td><td class="r mu">${proz(fr.filter(f => f.img).length, fr.length)}</td></tr></tbody></table></div></div>`;
+  // Themen
+  const proThema = [...themenSet].map(t => [t, fr.filter(f => f.t === t).length]).sort((a,b) => a[1] - b[1]);
+  const maxT = proThema.length ? proThema[proThema.length - 1][1] : 1;
+  const themaTab = (titel, liste) => `<div class="abschnitt"><h3>${titel}</h3><table><thead><tr><th>Thema</th><th>Bereich</th><th style="min-width:170px">Fragen</th></tr></thead><tbody>${liste.map(([t, n]) => `<tr><td><a class="link" data-ziel="fragen:thema:${esc(t)}">${esc(themaName(t))}</a></td><td class="mu klein">${esc(DATEN.bereiche[bereichVon(t)] || "")}</td><td>${balkenZelle(n, maxT)}</td></tr>`).join("")}</tbody></table></div>`;
+  html += `<div class="spalten">${themaTab("Themen mit den wenigsten Fragen", proThema.slice(0, 10))}${themaTab("Themen mit den meisten Fragen", proThema.slice(-10).reverse())}</div>`;
+  // Bibliothek
+  const buecher = [...new Set(seiten.map(s => s.b))].sort().map(b => { const l = seiten.filter(s => s.b === b); const m = l.filter(s => ix[s.k]);
+    return {b, n:l.length, m:m.length, lok:m.filter(s => ix[s.k][6]).length, gr:m.filter(s => ix[s.k][7]).length, kap:new Set(l.map(s => s.kap)).size}; });
+  const quellen = {w:"Wikipedia-Hauptbild", c:"Commons-Suche", o:"Openverse", m:"von Hand (Commons)", e:"eigenes Bild"}; const qz = {};
+  Object.entries(ix).forEach(([k, v]) => { if(k === "_ohne" || !Array.isArray(v)) return; const q = v[5] || "w"; qz[q] = (qz[q]||0) + 1; });
+  const liz = {}; Object.entries(ix).forEach(([k, v]) => { if(k === "_ohne" || !Array.isArray(v)) return; const l = String(v[3]||"?").trim(); const g = /^cc0/i.test(l) ? "CC0" : /public domain|^pd/i.test(l) ? "Public Domain" : /by-sa/i.test(l) ? "CC BY-SA" : /^cc by/i.test(l) ? "CC BY" : l; liz[g] = (liz[g]||0) + 1; });
+  html += `<div class="spalten"><div class="abschnitt"><h3>Bibliothek nach Buch</h3><table><thead><tr><th>Buch</th><th class="r">Kapitel</th><th class="r">Seiten</th><th class="r">mit Bild</th><th class="r">lokal</th><th class="r">gross</th></tr></thead><tbody>
+    ${buecher.map(x => `<tr><td><a class="link" data-ziel="bilder:buch:${esc(x.b)}">${esc(x.b)}</a></td><td class="r">${x.kap}</td><td class="r">${zahl(x.n)}</td><td class="r">${zahl(x.m)} <span class="mu">${proz(x.m, x.n)}</span></td><td class="r">${zahl(x.lok)}</td><td class="r">${zahl(x.gr)}</td></tr>`).join("")}
+    <tr><td><b>Total</b></td><td class="r"><b>${buecher.reduce((a,x)=>a+x.kap,0)}</b></td><td class="r"><b>${zahl(seiten.length)}</b></td><td class="r"><b>${zahl(mitBild)}</b> <span class="mu">${proz(mitBild, seiten.length)}</span></td><td class="r"><b>${zahl(lokal)}</b></td><td class="r"><b>${zahl(buecher.reduce((a,x)=>a+x.gr,0))}</b></td></tr></tbody></table></div>
+    <div class="abschnitt"><h3>Bildquellen und Lizenzen</h3><table><thead><tr><th>Quelle</th><th class="r">Bilder</th></tr></thead><tbody>${Object.entries(qz).sort((a,b)=>b[1]-a[1]).map(([q,n]) => `<tr><td>${esc(quellen[q] || q)}</td><td class="r">${zahl(n)}</td></tr>`).join("")}</tbody></table>
+    <table style="margin-top:8px"><thead><tr><th>Lizenz</th><th class="r">Bilder</th></tr></thead><tbody>${Object.entries(liz).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([l,n]) => `<tr><td>${esc(l)}</td><td class="r">${zahl(n)}</td></tr>`).join("")}</tbody></table></div></div>`;
   html += `<div id="ueSb"></div><div id="ueGh"></div>`;
-  $("#inhalt").innerHTML = html;
+  $("#inhalt").innerHTML = html; zielBinden();
+  $("#nFragen").textContent = zahl(fr.length); $("#nBilder").textContent = zahl(mitBild);
   // Supabase
   const sbBox = $("#ueSb");
-  if(!sbAn()) sbBox.innerHTML = `<h3>Besucher und Benutzer</h3><div class="hinweis">Supabase ist nicht eingerichtet. Besucherstatistik und Benutzerverwaltung starten, sobald Supabase in <code>config.js</code> eingetragen und <code>supabase/admin.sql</code> ausgeführt ist. Siehe «Zugang».</div>`;
-  else if(!sbSitzung()) sbBox.innerHTML = `<h3>Besucher und Benutzer</h3><div class="hinweis">Für Besucherzahlen und Benutzer unter «Zugang» bei Supabase anmelden.</div>`;
+  if(!sbAn()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis">Supabase ist nicht eingerichtet. Besucherzahlen und Benutzerverwaltung starten, sobald Supabase in <code>config.js</code> eingetragen und <code>supabase/admin.sql</code> ausgeführt ist. Anleitung unter «Zugang».</div></div>`;
+  else if(!sbSitzung()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis">Für Besucherzahlen und Benutzer unter «Zugang» bei Supabase anmelden.</div></div>`;
   else {
     try{
       const s = await rpc("admin_statistik", {p_tage:30});
       const summe = (l, ab) => (l||[]).filter(x => !ab || x.tag >= ab).reduce((a, x) => a + (+x.n||0), 0);
       const heute = new Date().toISOString().slice(0,10), vor7 = new Date(Date.now() - 6*864e5).toISOString().slice(0,10);
       const u = s.benutzer || {}, k = s.kommentare || {}, l = s.lehrer || {};
-      sbBox.innerHTML = `<h3>Besucher (anonym)</h3>` + kacheln([
+      const b7 = summe(s.besucher_tage, vor7), vor14 = new Date(Date.now() - 13*864e5).toISOString().slice(0,10);
+      const bVorwoche = (s.besucher_tage||[]).filter(x => x.tag >= vor14 && x.tag < vor7).reduce((a,x) => a + (+x.n||0), 0);
+      const trend = bVorwoche ? (b7 - bVorwoche) / bVorwoche * 100 : null;
+      const a30 = summe(s.aufrufe_tage), b30 = summe(s.besucher_tage);
+      const handy = (s.geraete||[]).reduce((a,x) => a + (x.k === "handy" ? +x.n : 0), 0), gAlle = (s.geraete||[]).reduce((a,x) => a + (+x.n), 0);
+      const reg = b30 ? (+u.neu_30 || 0) / b30 * 100 : null, aktiv = u.total ? (+u.aktiv_30 || 0) / u.total * 100 : null, best = u.total ? (u.total - (+u.unbestaetigt||0)) / u.total * 100 : null;
+      $("#ueKpiSb").innerHTML = `<h3>Kennzahlen Nutzung (30 Tage)</h3>` + kpiKarten([
+        ["Besucher 7 Tage", zahl(b7), "wachsend", trend == null ? "" : ampel(trend, 0, -15), trend == null ? "" : `Vorwoche ${zahl(bVorwoche)}`, "statistik"],
+        ["Trend zur Vorwoche", trend == null ? "-" : (trend > 0 ? "+" : "") + pz(trend), "> 0 %", trend == null ? "" : ampel(trend, 0, -15), "", "statistik"],
+        ["Seiten pro Besuch", b30 ? (Math.round(a30 / b30 * 10) / 10).toLocaleString("de-CH") : "-", "≥ 4", b30 ? ampel(a30 / b30, 4, 2) : "", "Aufrufe geteilt durch Besucher, zeigt wie intensiv genutzt wird", "statistik"],
+        ["Registrierungsrate", pz(reg), "≥ 5 %", ampel(reg, 5, 2), "neue Konten geteilt durch Besucher", "benutzer"],
+        ["Aktive Konten", pz(aktiv), "≥ 40 %", ampel(aktiv, 40, 20), "Konten mit Anmeldung in den letzten 30 Tagen", "benutzer"],
+        ["E-Mail bestätigt", pz(best), "≥ 90 %", ampel(best, 90, 75), "", "benutzer"],
+        ["Gemeldete Kommentare offen", zahl(k.gemeldet || 0), "0", ampel(+k.gemeldet || 0, 0, 3, false), "", "kommentare"],
+        ["Handy-Anteil", pz(gAlle ? handy / gAlle * 100 : null), "", "", "Anteil Aufrufe von Handys, wichtig für die Gestaltung", "statistik"]
+      ]);
+      sbBox.innerHTML = `<div class="spalten"><div class="abschnitt"><h3>Besucher (anonym)</h3>` + kacheln([
         ["Aufrufe heute", zahl(summe(s.aufrufe_tage, heute))], ["Besucher heute", zahl(summe(s.besucher_tage, heute))],
         ["Aufrufe 7 Tage", zahl(summe(s.aufrufe_tage, vor7))], ["Besucher 7 Tage", zahl(summe(s.besucher_tage, vor7))],
         ["Aufrufe 30 Tage", zahl(summe(s.aufrufe_tage))], ["Besucher 30 Tage", zahl(summe(s.besucher_tage))]
-      ]) + `<h3>Benutzer</h3>` + kacheln([
+      ]) + `</div><div class="abschnitt"><h3>Benutzer</h3>` + kacheln([
         ["Konten total", zahl(u.total)], ["Neu 7 Tage", zahl(u.neu_7)], ["Neu 30 Tage", zahl(u.neu_30)],
         ["Aktiv 7 Tage", zahl(u.aktiv_7)], ["Aktiv 30 Tage", zahl(u.aktiv_30)], ["Unbestätigt", zahl(u.unbestaetigt)],
         ["Gesperrt", zahl(u.gesperrt)], ["Lehrpersonen", zahl(u.lehrpersonen)], ["Admins", zahl(u.admins)]
-      ]) + `<h3>Aktivität</h3>` + kacheln([
+      ]) + `</div></div><div class="abschnitt"><h3>Aktivität</h3>` + kacheln([
         ["Kommentare", zahl(k.total)], ["Kommentare gemeldet", `<span class="${k.gemeldet ? "wa" : ""}">${zahl(k.gemeldet)}</span>`], ["Kommentare neu 7 Tage", zahl(k.neu_7)],
         ["Likes", zahl(s.likes)], ["Klassen", zahl(l.klassen)], ["Kinder (PIN)", zahl(l.kinder)], ["Tests", zahl(l.tests)], ["Abgaben", zahl(l.abgaben)], ["Abgaben 7 Tage", zahl(l.abgaben_7)]
-      ]);
-    }catch(e){ sbBox.innerHTML = `<h3>Besucher und Benutzer</h3><div class="hinweis fe">${esc(e.message)}</div>`; }
+      ]) + `</div>`;
+      zielBinden();
+    }catch(e){ sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis fe">${esc(e.message)}</div></div>`; }
   }
-  // GitHub
-  const ghBox = $("#ueGh");
-  try{
-    const [commits, laeufe] = await Promise.all([gh("/commits?per_page=8&sha=" + ZWEIG), gh("/actions/runs?per_page=8")]);
-    ghBox.innerHTML = `<h3>Letzte Änderungen (GitHub)</h3><table><thead><tr><th>Zeit</th><th>Änderung</th><th>Von</th></tr></thead><tbody>${commits.map(c => `<tr><td class="nowrap">${datum(c.commit.author.date)}</td><td>${esc(c.commit.message.split("\n")[0])}</td><td class="mu">${esc(c.commit.author.name)}</td></tr>`).join("")}</tbody></table>`
-      + `<h3>Automatische Abläufe</h3><table><thead><tr><th>Zeit</th><th>Ablauf</th><th>Status</th></tr></thead><tbody>${(laeufe.workflow_runs||[]).map(r => `<tr><td class="nowrap">${datum(r.created_at)}</td><td>${esc(r.name)}</td><td class="${r.conclusion==="success"?"ok":r.conclusion?"fe":"wa"}">${esc(r.conclusion || r.status)}</td></tr>`).join("")}</tbody></table>`;
-  }catch(e){ ghBox.innerHTML = `<h3>GitHub</h3><p class="mu">${esc(e.message)}</p>`; }
+  // GitHub kurz und Technik-KPIs
+  try{ const [commits, laeufe, repo] = await Promise.all([gh("/commits?per_page=6&sha=" + ZWEIG), gh("/actions/runs?per_page=50"), gh("")]);
+    const runs = laeufe.workflow_runs || [], seit = Date.now() - 7*864e5;
+    const letzte7 = runs.filter(r => new Date(r.created_at) > seit && r.conclusion), fehl = letzte7.filter(r => r.conclusion === "failure").length;
+    const deploy = runs.find(r => /pages/i.test(r.name)), groesse = repo.size / 1024;
+    $("#ueKpiTech").innerHTML = `<h3>Kennzahlen Technik</h3>` + kpiKarten([
+      ["Website-Grösse", zahl(Math.round(groesse)) + " MB", "< 800 MB", ampel(groesse, 800, 950, false), "GitHub Pages erlaubt etwa 1'000 MB", "technik"],
+      ["Abläufe fehlgeschlagen (7 Tage)", zahl(fehl) + " / " + zahl(letzte7.length), "0", ampel(fehl, 0, 2, false), "", "technik"],
+      ["Letzte Veröffentlichung", deploy ? datum(deploy.created_at) : "-", "", deploy ? (deploy.conclusion === "success" ? "ok" : deploy.conclusion ? "fe" : "wa") : "", "", "technik"]
+    ]);
+    $("#ueGh").innerHTML = `<div class="spalten"><div class="abschnitt"><h3>Letzte Änderungen</h3>${commitTabelle(commits)}</div><div class="abschnitt"><h3>Automatische Abläufe (letzter Lauf)</h3>${laufTabelle(runs)}</div></div>`;
+    zielBinden();
+  }catch(e){ $("#ueGh").innerHTML = `<div class="abschnitt"><h3>GitHub</h3><p class="mu">${esc(e.message)}</p></div>`; }
+};
+const commitTabelle = commits => `<table><thead><tr><th>Zeit</th><th>Änderung</th><th>Von</th></tr></thead><tbody>${commits.map(c => `<tr><td class="nowrap">${datum(c.commit.author.date)}</td><td>${esc(c.commit.message.split("\n")[0])}</td><td class="mu">${esc(c.commit.author.name)}</td></tr>`).join("")}</tbody></table>`;
+function laufTabelle(runs){ const neu = new Map(); runs.forEach(r => { if(!neu.has(r.name)) neu.set(r.name, r); });
+  return `<table><thead><tr><th>Ablauf</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>${[...neu.values()].map(r => { const c = r.conclusion === "success" ? "ok" : r.conclusion === "cancelled" || !r.conclusion ? "wa" : "fe";
+    return `<tr><td>${esc(r.name)}</td><td class="nowrap">${datum(r.created_at)}</td><td><span class="ampel ${c}"></span>${esc({success:"erfolgreich", failure:"fehlgeschlagen", cancelled:"abgebrochen"}[r.conclusion] || (r.status === "in_progress" ? "läuft" : r.status === "queued" ? "wartet" : r.conclusion || r.status))}</td></tr>`; }).join("")}</tbody></table>`; }
+
+/* ======================= Technik ======================= */
+TABS.technik = async () => {
+  $("#inhalt").innerHTML = `<h2>Technik</h2><div id="tInhalt"><p class="mu">Lädt …</p></div>`;
+  const [repo, commits, laeufe, rel, pages] = await Promise.all([gh(""), gh("/commits?per_page=15&sha=" + ZWEIG), gh("/actions/runs?per_page=50"), gh("/releases/tags/bilder-app").catch(() => null), gh("/pages").catch(() => null)]);
+  const mb = kb => zahl(Math.round(kb / 1024)) + " MB";
+  const app = rel ? rel.assets.reduce((a, x) => a + x.size, 0) : 0;
+  $("#tInhalt").innerHTML = `<div class="abschnitt">${kacheln([
+      ["Projektgrösse (GitHub)", mb(repo.size), "Limit Website ca. 1'000 MB"], ["Letzte Änderung", datum(repo.pushed_at)], ["Sichtbarkeit", repo.private ? "privat" : "öffentlich"],
+      ["App-Bildpaket", rel ? zahl(Math.round(app / 1048576)) + " MB" : "-", rel ? rel.assets.length + " Dateien" : ""], ["Website", pages ? (pages.status === "built" ? "online" : esc(pages.status || "?")) : "online", "djsunji.github.io/easyplay"]
+    ])}</div>
+    <div class="spalten"><div class="abschnitt"><h3>Automatische Abläufe</h3>${laufTabelle(laeufe.workflow_runs||[])}</div>
+    <div class="abschnitt"><h3>Dateien</h3><table><tbody>
+      <tr><td>Fragen-Dateien</td><td class="r">${(CFG.fragenDateien||[]).length}</td></tr>
+      <tr><td>Supabase</td><td class="r">${sbAn() ? '<span class="ok">eingerichtet</span>' : '<span class="wa">nicht eingerichtet</span>'}</td></tr>
+      <tr><td>Website-Adresse für Teilen</td><td class="r klein">${esc(CFG.teilenUrl || "-")}</td></tr>
+      <tr><td>Bilderpaket für die App</td><td class="r">${rel ? `<a class="link" href="${esc(rel.html_url)}" target="_blank" rel="noopener">Release öffnen</a>` : "-"}</td></tr></tbody></table></div></div>
+    <div class="abschnitt"><h3>Letzte 15 Änderungen</h3>${commitTabelle(commits)}</div>`;
 };
 
 /* ======================= Statistik ======================= */
@@ -286,25 +419,37 @@ TABS.statistik = async () => {
 };
 
 /* ======================= Fragen ======================= */
-const FF = { suche:"", stufe:"", thema:"", nur:"", seite:0, wahl:null };
+const FF = { suche:"", stufe:"", thema:"", nur:"", bereich:"", seite:0, wahl:null };
 TABS.fragen = async () => {
-  const fr = await ladeFragen();
+  const fr = await ladeFragen(); doppelteBerechnen();
   const themen = [...new Set(fr.map(f => f.t))].sort((a,b) => themaName(a).localeCompare(themaName(b), "de"));
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Fragen</h2>
     <input type="search" id="fSuche" placeholder="Suche in Frage, Antworten, Erklärung, Nr." value="${esc(FF.suche)}" style="min-width:260px">
     <select id="fStufe"><option value="">alle Stufen</option>${[1,2,3].map(l => `<option${FF.stufe==l?" selected":""}>${l}</option>`).join("")}</select>
     <select id="fThema"><option value="">alle Themen</option>${themen.map(t => `<option value="${esc(t)}"${FF.thema===t?" selected":""}>${esc(themaName(t))}</option>`).join("")}</select>
-    <select id="fNur"><option value="">alle</option><option value="ae"${FF.nur==="ae"?" selected":""}>nur geänderte</option><option value="bild"${FF.nur==="bild"?" selected":""}>mit Bild</option><option value="pruef"${FF.nur==="pruef"?" selected":""}>auffällig (ß, Striche, doppelte Antworten)</option></select>
+    <select id="fNur"><option value="">alle</option><option value="ae"${FF.nur==="ae"?" selected":""}>nur geänderte</option><option value="bild"${FF.nur==="bild"?" selected":""}>mit Bild</option><option value="pruef"${FF.nur==="pruef"?" selected":""}>auffällig (ß, Striche, gleiche Antworten)</option>${Object.entries(PRUEF).map(([k,[t]]) => `<option value="${k}"${FF.nur===k?" selected":""}>${esc(t)}</option>`).join("")}</select>
+    <select id="fBereich"><option value="">alle Bereiche</option>${Object.entries(DATEN.bereiche).map(([k,n]) => `<option value="${k}"${FF.bereich===k?" selected":""}>${esc(n)}</option>`).join("")}</select>
     <span class="rechts"></span><button class="k" id="fNeu">Neue Frage</button></div>
     <div class="zwei"><div id="fListe"></div><div id="fEdit"><div class="box mu">Frage in der Liste anklicken, um sie zu bearbeiten.</div></div></div>`;
-  const neu = () => { FF.suche = $("#fSuche").value.trim(); FF.stufe = $("#fStufe").value; FF.thema = $("#fThema").value; FF.nur = $("#fNur").value; FF.seite = 0; liste(); };
+  const neu = () => { FF.suche = $("#fSuche").value.trim(); FF.stufe = $("#fStufe").value; FF.thema = $("#fThema").value; FF.nur = $("#fNur").value; FF.bereich = $("#fBereich").value; FF.seite = 0; liste(); };
   let t; $("#fSuche").oninput = () => { clearTimeout(t); t = setTimeout(neu, 200); };
-  $("#fStufe").onchange = $("#fThema").onchange = $("#fNur").onchange = neu;
+  $("#fStufe").onchange = $("#fThema").onchange = $("#fNur").onchange = $("#fBereich").onchange = neu;
   $("#fNeu").onclick = () => { const max = Math.max(0, ...fr.map(f => +f.nr||0), ...[...AE.fragen.values()].map(a => +a.neu?.nr||0)); const letzte = (CFG.fragenDateien||[]).slice(-1)[0];
     fragenEdit({nr:max+1, t:FF.thema || fr[0].t, l:+FF.stufe || 1, q:"", a:["","","",""], e:"", m:"", s:"", _datei:letzte, _neu:true}); };
   liste();
   if(FF.wahl != null){ const f = aktuelleFrage(FF.wahl); if(f) fragenEdit(f); }
 };
+const PRUEF = {
+  ss:    ["«ß» statt «ss»", f => /ß/.test([f.q, ...(f.a||[]), f.e, f.m].join(" "))],
+  strich:["Gedankenstriche", f => /[–—]/.test([f.q, ...(f.a||[]), f.e, f.m].join(" "))],
+  gleich:["Gleiche Antworten", f => new Set((f.a||[]).map(x => String(x).trim().toLowerCase())).size !== 4 || (f.a||[]).some(x => !String(x).trim())],
+  ohneE: ["Ohne Erklärung", f => !String(f.e||"").trim()],
+  ohneM: ["Ohne Merksatz", f => !String(f.m||"").trim()],
+  lang:  ["Frage über 200 Zeichen", f => String(f.q||"").length > 200],
+  dopp:  ["Doppelte Fragetexte", f => DOPPELT.has(String(f.q||"").trim().toLowerCase())]
+};
+let DOPPELT = new Set();
+function doppelteBerechnen(){ const z = new Map(); for(const f of DATEN.fragen||[]){ const k = String(f.q||"").trim().toLowerCase(); z.set(k, (z.get(k)||0) + 1); } DOPPELT = new Set([...z].filter(([k,n]) => n > 1).map(([k]) => k)); }
 const auffaellig = f => /ß|[–—]/.test([f.q, ...(f.a||[]), f.e, f.m].join(" ")) || new Set((f.a||[]).map(x => String(x).trim().toLowerCase())).size !== 4 || (f.a||[]).some(x => !String(x).trim());
 function aktuelleFrage(nr){ const a = AE.fragen.get(nr); if(a) return a.loeschen ? null : a.neu; return DATEN.fragen.find(f => +f.nr === +nr) || null; }
 function gefilterteFragen(){
@@ -312,7 +457,7 @@ function gefilterteFragen(){
   const basis = DATEN.fragen.map(f => AE.fragen.has(+f.nr) ? (AE.fragen.get(+f.nr).loeschen ? {...f, _weg:true} : AE.fragen.get(+f.nr).neu) : f);
   for(const [nr, a] of AE.fragen) if(a.neu && a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr)) basis.push(a.neu);
   return basis.filter(f => (!FF.stufe || +f.l === +FF.stufe) && (!FF.thema || f.t === FF.thema)
-    && (FF.nur !== "ae" || AE.fragen.has(+f.nr)) && (FF.nur !== "bild" || f.img) && (FF.nur !== "pruef" || auffaellig(f))
+    && (FF.nur !== "ae" || AE.fragen.has(+f.nr)) && (FF.nur !== "bild" || f.img) && (FF.nur !== "pruef" || auffaellig(f)) && (!PRUEF[FF.nur] || PRUEF[FF.nur][1](f)) && (!FF.bereich || bereichVon(f.t) === FF.bereich)
     && (!q || String(f.nr) === q || [f.q, ...(f.a||[]), f.e, f.m].join(" ").toLowerCase().includes(q)));
 }
 function liste(){
@@ -557,7 +702,7 @@ TABS.zugang = async () => {
     <div class="box"><b>GitHub (Fragen und Bilder speichern)</b>
       <p class="mu klein">Änderungen werden direkt ins Projekt <code>${REPO}</code> gespeichert. Dafür braucht es einen persönlichen Schlüssel (Fine-grained token). Er bleibt nur in diesem Browser.</p>
       <div class="leiste"><input type="password" id="zGh" placeholder="github_pat_…" style="flex:1" value="${esc(ghToken())}" autocomplete="off"></div>
-      <div class="leiste"><label><input type="checkbox" id="zGhMerken"${localStorage.getItem("ep-admin-gh") ? " checked" : ""}> auf diesem Gerät merken</label><span class="rechts"></span><button class="k" id="zGhWeg">Entfernen</button><button class="k p" id="zGhOk">Speichern und prüfen</button></div>
+      <div class="leiste"><label><input type="checkbox" id="zGhMerken"${localStorage.getItem("ep-admin-gh-enc") ? " checked" : ""}> auf diesem Gerät verschlüsselt merken (mit deinem Passwort)</label><span class="rechts"></span><button class="k" id="zGhWeg">Entfernen</button><button class="k p" id="zGhOk">Speichern und prüfen</button></div>
       <p id="zGhInfo" class="klein"></p>
       <details class="klein"><summary>So erstellst du den Schlüssel</summary><ol>
         <li>github.com → Profilbild → <b>Settings</b> → <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
@@ -580,15 +725,18 @@ TABS.zugang = async () => {
     </div>
     <div class="box klein"><b>Sicherheit</b><ul>
       <li>Diese Seite ist nirgends verlinkt und für Suchmaschinen gesperrt. Die Adresse allein schützt aber nicht: Speichern geht nur mit dem GitHub-Schlüssel, Benutzer und Statistik nur mit einem Admin-Konto.</li>
-      <li>Der Schlüssel liegt nur in diesem Browser. Auf fremden Geräten «merken» nicht anhaken.</li>
+      <li>Der Schlüssel liegt nur in diesem Browser. Mit «merken» wird er mit deinem Passwort verschlüsselt gespeichert und nach der Anmeldung automatisch geladen. Auf fremden Geräten nicht anhaken.</li>
+      <li>Nach 8 Stunden wirst du automatisch abgemeldet. Nach 5 falschen Passwörtern ist die Anmeldung 5 Minuten gesperrt.</li>
       <li>Supabase prüft bei jeder Aktion serverseitig, ob du Admin bist.</li></ul></div>
   </div></div>`;
   $("#zGhOk").onclick = async () => { const t = $("#zGh").value.trim(); if(!t){ store.del("ep-admin-gh"); statusZeigen(); return; }
-    store.set("ep-admin-gh", t, $("#zGhMerken").checked);
+    store.set("ep-admin-gh", t);
+    if($("#zGhMerken").checked){ if(!SCHLUESSEL){ const pw = prompt("Zum verschlüsselten Speichern bitte dein Verwaltungs-Passwort eingeben:"); if(pw) SCHLUESSEL = await aesAusPasswort(pw); }
+      if(!(await tokenVerschluesseln(t))) melde("Nicht gespeichert: Passwort fehlt.", "fe"); } else { try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} }
     try{ const r = await gh(""); const ok = r.permissions && r.permissions.push; $("#zGhInfo").innerHTML = ok ? '<span class="ok">Verbunden, Schreibrechte vorhanden.</span>' : '<span class="fe">Verbunden, aber ohne Schreibrechte. Contents: Read and write setzen.</span>'; }
     catch(e){ $("#zGhInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; store.del("ep-admin-gh"); }
     statusZeigen(); };
-  $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
+  $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
   const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   const aus = $("#zSbAus"); if(aus) aus.onclick = () => { store.del("ep-admin-sb"); statusZeigen(); zeige("zugang"); };
   if(s && $("#zAdmin")){ try{ const ja = await rpc("ist_admin"); $("#zAdmin").innerHTML = ja ? '<span class="ok">Admin</span>' : '<span class="fe">kein Admin (siehe Einrichtung, Schritt 4)</span>'; }catch(e){ $("#zAdmin").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } }
@@ -604,9 +752,49 @@ $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disable
   catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 
+/* ======================= Anmeldung ======================= */
+// Passwörter sind nur als PBKDF2-Prüfwert (600 000 Runden) gespeichert, nie im Klartext.
+const KONTEN = { "dejan": {salt:"8feob5vLkLbgRAdD1FFkrg==", hash:"ZQT6VXj1ZoowgO2dtdROKyS9U1ISxz/SJFEZ3cW3H4Y="} };
+const ab64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function pbkdf2(pw, salt, bits){ const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
+  return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt, iterations:600000}, k, bits)); }
+let SCHLUESSEL = null;   // AES-Schlüssel aus dem Passwort, nur im Speicher, zum Verschlüsseln des GitHub-Tokens
+async function aesAusPasswort(pw){ const roh = await pbkdf2(pw, new TextEncoder().encode("easyplay-verwaltung-token"), 256); return crypto.subtle.importKey("raw", roh, "AES-GCM", false, ["encrypt","decrypt"]); }
+async function tokenVerschluesseln(t){ if(!SCHLUESSEL) return false; const iv = crypto.getRandomValues(new Uint8Array(12));
+  const c = new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM", iv}, SCHLUESSEL, new TextEncoder().encode(t)));
+  try{ localStorage.setItem("ep-admin-gh-enc", JSON.stringify({iv:b64(iv), c:b64(c)})); }catch(e){} return true; }
+async function tokenEntschluesseln(){ try{ const e = JSON.parse(localStorage.getItem("ep-admin-gh-enc") || "null"); if(!e || !SCHLUESSEL) return "";
+  return new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM", iv:ab64(e.iv)}, SCHLUESSEL, ab64(e.c))); }catch(e){ return ""; } }
+function abmelden(){ if(AE.fragen.size + AE.bilder.size && !confirm("Nicht gespeicherte Änderungen gehen verloren. Trotzdem abmelden?")) return;
+  AE.fragen.clear(); AE.bilder.clear(); store.del("ep-admin-sitzung"); try{ sessionStorage.removeItem("ep-admin-gh"); }catch(e){} SCHLUESSEL = null; location.replace(location.pathname); }
+function angemeldet(){ const l = store.get("ep-admin-sitzung", null); return l && l.bis > Date.now() && KONTEN[l.name]; }
+async function anmelden(e){
+  e.preventDefault(); const f = $("#lFehler"), btn = $("#lGo");
+  const sperre = store.get("ep-admin-sperre", {n:0, bis:0});
+  if(sperre.bis > Date.now()){ f.textContent = `Zu viele Fehlversuche. Bitte ${Math.ceil((sperre.bis - Date.now())/60000)} Minuten warten.`; return; }
+  btn.disabled = true; btn.textContent = "Prüfe …"; f.textContent = "";
+  const name = $("#lName").value.trim().toLowerCase(), pw = $("#lPw").value, k = KONTEN[name];
+  let ok = false;
+  try{ const h = await pbkdf2(pw, ab64(k ? k.salt : "AAAAAAAAAAAAAAAAAAAAAA=="), 256); ok = !!k && b64(h) === k.hash; }catch(err){}
+  if(!ok){ sperre.n++; if(sperre.n >= 5){ sperre.bis = Date.now() + 5*60000; sperre.n = 0; } store.set("ep-admin-sperre", sperre, true);
+    f.textContent = "Benutzername oder Passwort falsch."; btn.disabled = false; btn.textContent = "Anmelden"; return; }
+  store.del("ep-admin-sperre");
+  store.set("ep-admin-sitzung", {name, bis: Date.now() + 8*3600000});
+  SCHLUESSEL = await aesAusPasswort(pw);
+  const t = await tokenEntschluesseln(); if(t) store.set("ep-admin-gh", t);
+  $("#lPw").value = ""; starten();
+}
+$("#lForm").onsubmit = anmelden;
+function starten(){
+  try{ localStorage.removeItem("ep-admin-gh"); }catch(e){}   // alte, unverschlüsselte Ablage entfernen
+  $("#login").hidden = true; $("#login").style.display = "none"; $("#app").hidden = false;
+  statusZeigen(); aenderungenZeigen();
+  zeige(TABS[location.hash.slice(1)] ? location.hash.slice(1) : "uebersicht");
+  setInterval(() => { if(!angemeldet()) abmelden(); }, 60000);
+}
+
 /* ======================= Start ======================= */
-statusZeigen(); aenderungenZeigen();
-zeige(TABS[location.hash.slice(1)] ? location.hash.slice(1) : (ghToken() || sbSitzung() ? "uebersicht" : "zugang"));
+if(angemeldet()) starten(); else { $("#lName").focus(); }
 </script>
 </body>
 </html>
