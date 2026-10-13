@@ -1,0 +1,120 @@
+/* R-Runde: 10 weitere Varianten des «Ersten Vorschlags», baut auf Q.css auf */
+
+/* R1 Sticker */
+.vsR1 .ers-kacheln{padding:10px 0}
+.vsR1 .ers-k{border:5px solid #fff;box-shadow:0 14px 28px -14px rgba(27,34,64,.6);transition:transform .2s}
+.vsR1 .ers-k:nth-child(1){transform:rotate(-3deg)}.vsR1 .ers-k:nth-child(2){transform:rotate(2deg)}.vsR1 .ers-k:nth-child(3){transform:rotate(-2deg)}.vsR1 .ers-k:nth-child(4){transform:rotate(3deg)}
+.vsR1 .ers-k:hover{transform:rotate(0) scale(1.04)}
+.vsR1 .ers-karte{border-radius:6px;border:0;box-shadow:0 12px 20px -12px rgba(27,34,64,.6);position:relative}
+.vsR1 .ers-karte::before{content:"";position:absolute;left:50%;top:-10px;width:70px;height:20px;transform:translateX(-50%) rotate(-2deg);background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.06)}
+.vsR1 .ers-karte:nth-child(1){background:#FFF3B0;transform:rotate(-1.5deg)}.vsR1 .ers-karte:nth-child(2){background:#FFD6E8;transform:rotate(1deg)}.vsR1 .ers-karte:nth-child(3){background:#D6E8FF;transform:rotate(-1deg)}
+
+/* R2 Text links */
+.vsR2 .ers-zwei>*{min-width:0}
+.vsR2 .ers-zwei{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px;align-items:center;text-align:left}
+.vsR2 .vs-slogan{text-align:left;font-size:clamp(2.4rem,5vw,4.4rem)}
+.vsR2 .vs-pills,.vsR2 .ers-cta{justify-content:flex-start}
+.vsR2 .ers-intro{color:var(--mut);font-size:1.05rem;margin:0 0 14px;max-width:44ch}
+.vsR2 .ers-b{height:clamp(240px,28vw,380px)}
+@media (max-width:860px){.vsR2 .ers-zwei{grid-template-columns:1fr;text-align:center}.vsR2 .vs-slogan{text-align:center}.vsR2 .vs-pills,.vsR2 .ers-cta{justify-content:center}.vsR2 .ers-intro{margin-inline:auto}.vsR2 .ers-zwei>div:first-child{order:2}}
+
+/* R3 Dock */
+.vsR3 .ers-dock{display:inline-flex;gap:26px;padding:18px 30px;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.95);border-radius:34px;box-shadow:0 24px 50px -30px rgba(27,34,64,.6);margin:0 auto}
+.vsR3 .ers-app{display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:800;color:var(--ink);font-size:.95rem;min-width:0}
+.vsR3 .ers-app i{width:88px;height:88px;border-radius:26px;display:grid;place-items:center;font-size:2.6rem;font-style:normal;color:#fff;box-shadow:0 10px 0 rgba(0,0,0,.14),0 16px 26px -14px rgba(27,34,64,.6);transition:transform .2s}
+.vsR3 .ers-app:hover i{transform:translateY(-6px) scale(1.05)}
+.vsR3 .ers-app b{position:absolute;top:-6px;right:-6px;background:#FF3D6E;color:#fff;border-radius:999px;font-size:.72rem;padding:2px 7px}
+.vsR3 .ers-app span{position:relative}
+@media (max-width:640px){.vsR3 .ers-dock{gap:12px;padding:14px 16px}.vsR3 .ers-app i{width:64px;height:64px;font-size:1.9rem;border-radius:20px}.vsR3 .ers-app{font-size:.78rem}}
+
+/* R4 Tagesplan */
+.vsR4 .ers-plan{max-width:760px;margin:0 auto;background:rgba(255,255,255,.94);border:2px solid #fff;border-radius:28px;padding:18px 22px 20px;box-shadow:0 22px 40px -22px rgba(27,34,64,.55);text-align:left}
+.vsR4 .ers-plan .kopf{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.vsR4 .ers-plan .kopf b{font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsR4 .ers-plan .kopf small{color:var(--mut);font-weight:600}
+.vsR4 .ers-plan .vbar{margin:0 0 12px}
+.vsR4 .ers-z{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:16px;font-weight:700;color:var(--ink)}
+.vsR4 .ers-z+.ers-z{margin-top:6px}
+.vsR4 .ers-z .box{width:30px;height:30px;border-radius:9px;border:3px solid #C9C3EE;display:grid;place-items:center;flex:0 0 auto;font-size:1rem}
+.vsR4 .ers-z.ok{opacity:.65}.vsR4 .ers-z.ok .box{background:#0FA968;border-color:#0FA968;color:#fff}.vsR4 .ers-z.ok span{text-decoration:line-through}
+.vsR4 .ers-z.jetzt{background:#F4F1FF}.vsR4 .ers-z.jetzt .box{border-color:#E043B8}
+.vsR4 .ers-z small{display:block;font-weight:500;color:var(--mut)}
+.vsR4 .ers-z em{margin-left:auto;font-style:normal;font-weight:800;color:#3D5AFE;white-space:nowrap}
+
+/* R5 Wolke */
+.vsR5 .ers-wolke{position:relative;background:rgba(255,255,255,.88);border-radius:46% 54% 50% 50% / 38% 38% 62% 62%;padding:30px 40px 28px;max-width:960px;margin:6px auto 0;box-shadow:0 30px 60px -34px rgba(27,34,64,.5)}
+.vsR5 .ers-wolke::before,.vsR5 .ers-wolke::after{content:"";position:absolute;background:rgba(255,255,255,.88);border-radius:50%;z-index:-1}
+.vsR5 .ers-wolke::before{width:180px;height:180px;left:-30px;top:40%}.vsR5 .ers-wolke::after{width:220px;height:220px;right:-40px;top:30%}
+.vsR5 .ers-k{color:var(--ink);text-shadow:none;box-shadow:0 7px 0 rgba(0,0,0,.08),0 18px 30px -18px rgba(27,34,64,.4)}
+.vsR5 .k1{background:linear-gradient(135deg,#FFE1EC,#FFF0D9)}.vsR5 .k2{background:linear-gradient(135deg,#FFE6D6,#FBDDF3)}.vsR5 .k3{background:linear-gradient(135deg,#D9F6E8,#D6EEFF)}.vsR5 .k4{background:linear-gradient(135deg,#E6E0FF,#F3DEFF)}
+@media (max-width:640px){.vsR5 .ers-wolke{padding:24px 18px;border-radius:30px}.vsR5 .ers-wolke::before,.vsR5 .ers-wolke::after{display:none}}
+
+/* R6 Lernen oder Spielen */
+.vsR6 .ers-halb{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vsR6 .ers-h2{position:relative;overflow:hidden;border-radius:30px;padding:22px 24px 22px;color:#fff;text-align:left;min-height:230px;box-shadow:0 7px 0 rgba(0,0,0,.18),0 20px 34px -18px rgba(27,34,64,.6)}
+.vsR6 .ers-h2.lernen{background:linear-gradient(135deg,#3D5AFE,#8A3FE0)}.vsR6 .ers-h2.spielen{background:linear-gradient(135deg,#FF8A3D,#E043B8)}
+.vsR6 .ers-h2 h4{margin:0 0 4px;font:800 1.9rem "Bricolage Grotesque","Fredoka",sans-serif}
+.vsR6 .ers-h2 p{margin:0 0 14px;opacity:.92}
+.vsR6 .ers-h2 .ers-u{display:flex;flex-direction:column;gap:8px;max-width:60%}
+.vsR6 .ers-h2 .ers-u span{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.45);border-radius:14px;padding:10px 14px;font-weight:800}
+.vsR6 .ers-h2 img{position:absolute;right:-10px;bottom:-14px;height:210px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.3))}
+@media (max-width:760px){.vsR6 .ers-halb{grid-template-columns:1fr}.vsR6 .ers-h2 img{height:120px;right:-24px}.vsR6 .ers-h2 .ers-u{max-width:62%}}
+
+/* R7 Schultafel */
+.vsR7 .ers-tafel{max-width:860px;margin:0 auto;background:linear-gradient(135deg,#1f5c43,#2a6f52);border:12px solid #b8865b;outline:3px solid #8a6240;border-radius:14px;padding:18px 24px 20px;color:#fff;box-shadow:0 24px 40px -20px rgba(0,0,0,.6);text-align:left}
+.vsR7 .ers-tafel h4{margin:0 0 10px;font:800 1.6rem "Bricolage Grotesque","Fredoka",sans-serif;letter-spacing:.02em;border-bottom:2px dashed rgba(255,255,255,.4);padding-bottom:6px}
+.vsR7 .ers-tafel .ers-heute{gap:10px}
+.vsR7 .ers-tafel .ers-karte{background:transparent;border:2px dashed rgba(255,255,255,.5);box-shadow:none;color:#fff}
+.vsR7 .ers-tafel .ers-karte small{color:rgba(255,255,255,.8)}
+.vsR7 .ers-tafel .kreide{position:absolute;right:14px;bottom:-8px;width:60px;height:12px;background:#fff;border-radius:6px;box-shadow:70px 0 0 #ffd6e8}
+.vsR7 .ers-tafel{position:relative}
+.vsR7 .ers-k{border-radius:8px 18px 18px 8px;position:relative;padding-top:30px}
+.vsR7 .ers-k::before{content:"";position:absolute;left:0;top:0;right:0;height:16px;background:rgba(255,255,255,.35)}
+.vsR7 .ers-k::after{content:"";position:absolute;left:10px;top:0;bottom:0;width:3px;background:repeating-linear-gradient(rgba(255,255,255,.7) 0 6px,transparent 6px 14px)}
+
+/* R8 Kompakt */
+.vsR8 .ers-kopf{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;text-align:left}
+.vsR8 .ers-b{height:clamp(150px,16vw,210px);margin:0}
+.vsR8 .vs-slogan{text-align:left;font-size:clamp(2rem,3.6vw,3.2rem);margin:0 0 6px}
+.vsR8 .vs-pills,.vsR8 .ers-cta{justify-content:flex-start}
+.vsR8 .vs-pills{margin-bottom:12px}
+.vsR8 .ers-btn{padding:11px 22px;font-size:1rem}
+.vsR8 .ers-h{margin:18px 0 10px;text-align:left;font-size:1.25rem}
+.vsR8 .ers-karte{padding:10px 14px}.vsR8 .ers-karte .em{font-size:1.7rem}.vsR8 .ers-karte b{font-size:.98rem}.vsR8 .ers-karte small{font-size:.82rem}
+.vsR8 .ers-k{padding:14px 12px 12px;font-size:.98rem}.vsR8 .ers-k i{font-size:2.1rem;margin-bottom:4px}
+@media (max-width:760px){.vsR8 .ers-kopf{grid-template-columns:1fr;text-align:center}.vsR8 .ers-b{margin:0 auto}.vsR8 .vs-slogan{text-align:center}.vsR8 .vs-pills,.vsR8 .ers-cta{justify-content:center}.vsR8 .ers-h{text-align:center}}
+
+/* R9 Konsole */
+.vsR9 .ers-konsole{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;background:linear-gradient(160deg,#2B2F5C,#1B2240);border-radius:40px;padding:22px 26px;box-shadow:0 10px 0 #0b1027,0 30px 50px -28px rgba(0,0,0,.8);color:#fff;text-align:left}
+.vsR9 .ers-screen{background:#DFF5E3;border:6px solid #0b1027;border-radius:14px;padding:12px 14px;color:#143d2a;font-weight:700;box-shadow:inset 0 0 0 2px #9ed98a}
+.vsR9 .ers-screen h4{margin:0 0 6px;font:800 1.1rem ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.vsR9 .ers-screen div{display:flex;gap:8px;align-items:center;font-size:.92rem;padding:3px 0}
+.vsR9 .ers-screen .ok{opacity:.6}
+.vsR9 .ers-screen .vbar{background:#b9e7c0;margin-top:8px}.vsR9 .ers-screen .vbar i{background:#0FA968}
+.vsR9 .ers-abxy{position:relative;width:250px;height:250px;margin:0 auto}
+.vsR9 .ers-abxy span{position:absolute;width:98px;height:98px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:.72rem;color:#fff;text-align:center;line-height:1.1;box-shadow:0 7px 0 rgba(0,0,0,.35),inset 0 -4px 0 rgba(0,0,0,.15);transition:transform .1s;padding:4px}
+.vsR9 .ers-abxy span i{font-style:normal;font-size:1.9rem;line-height:1;margin-bottom:2px}
+.vsR9 .ers-abxy span:hover{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.vsR9 .ers-abxy .o{left:76px;top:0;background:#FFB347}.vsR9 .ers-abxy .r{right:0;top:76px;background:#E043B8}.vsR9 .ers-abxy .u{left:76px;bottom:0;background:#0FA968}.vsR9 .ers-abxy .l{left:0;top:76px;background:#3D5AFE}
+.vsR9 .ers-kids{display:flex;justify-content:center;align-items:flex-end;gap:0}
+.vsR9 .ers-kids img{height:200px;margin:0 -10px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.4))}
+.vsR9 .ers-konsole .ers-cta{grid-column:1/-1;margin-top:4px}
+@media (max-width:860px){.vsR9 .ers-konsole{grid-template-columns:1fr}.vsR9 .ers-kids{display:none}}
+
+/* R10 Postkarte */
+.vsR10 .ers-post{position:relative;max-width:900px;margin:10px auto 0;background:#FFFDF7;border-radius:10px;padding:22px 24px;display:grid;grid-template-columns:1fr 1.1fr;gap:22px;box-shadow:0 30px 50px -28px rgba(27,34,64,.7);transform:rotate(-1.2deg);text-align:left;color:var(--ink)}
+.vsR10 .ers-post::before{content:"";position:absolute;inset:8px;border:2px dashed #E6D9B8;border-radius:6px;pointer-events:none}
+.vsR10 .ers-post .bild{display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(#bfe3ff,#e8f5ff 55%,#9ed98a 56%,#6cc070);border-radius:8px;overflow:hidden;min-height:260px;position:relative}
+.vsR10 .ers-post .bild img{height:92%;position:relative;z-index:1}
+.vsR10 .ers-post .bild::after{content:"";position:absolute;left:0;right:0;bottom:42%;height:120px;background:linear-gradient(135deg,transparent 48%,#c9d8f2 49%) left/50% 100% no-repeat,linear-gradient(225deg,transparent 48%,#dbe6f7 49%) right/50% 100% no-repeat;opacity:.9}
+.vsR10 .ers-post .text{position:relative;padding-right:120px;border-left:2px solid #E6D9B8;padding-left:22px}
+.vsR10 .ers-post .text h4{margin:0 0 8px;font:800 1.5rem "Bricolage Grotesque","Fredoka",sans-serif}
+.vsR10 .ers-post .text p{margin:0 0 8px;color:var(--mut)}
+.vsR10 .ers-post .zeile{display:flex;align-items:center;gap:10px;font-weight:700;padding:7px 0;border-bottom:1.5px solid #EFE6CC}
+.vsR10 .ers-post .zeile span{font-size:1.4rem}.vsR10 .ers-post .zeile small{display:block;font-weight:500;color:var(--mut)}
+.vsR10 .ers-marke{position:absolute;right:16px;top:16px;width:92px;height:110px;background:#fff;border:6px dotted #fff;outline:2px solid #E6D9B8;border-radius:4px;display:grid;place-items:center;padding:6px}
+.vsR10 .ers-marke img{width:100%}
+.vsR10 .ers-stempel{position:absolute;right:70px;top:36px;width:110px;height:110px;border:3px solid rgba(60,30,140,.45);border-radius:50%;color:rgba(60,30,140,.6);font:800 .7rem ui-monospace,monospace;display:grid;place-items:center;text-align:center;transform:rotate(-12deg);letter-spacing:.06em}
+.vsR10 .ers-k{border-radius:6px;border:6px dotted #fff;outline:2px solid rgba(255,255,255,.6);box-shadow:0 14px 28px -16px rgba(27,34,64,.6);transform:rotate(1deg)}
+.vsR10 .ers-k:nth-child(even){transform:rotate(-1.5deg)}
+@media (max-width:760px){.vsR10 .ers-post{grid-template-columns:1fr;transform:none}.vsR10 .ers-post .text{padding-right:0;border-left:0;padding-left:0;padding-top:110px}.vsR10 .ers-post .bild{min-height:200px}}

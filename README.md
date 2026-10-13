@@ -90,6 +90,20 @@ Alle zehn haben den gleichen Aufbau wie der erste Vorschlag, jetzt aber auf dem 
 - **Q10 «Leicht»**: Luftig und hell: eine Leiste für «Heute für dich», weisse Kacheln mit farbigem Rand.
 - Gebaut mit `generator/gen8.py` und `generator/Q.css`. `shot.js` friert die Uhr auf 11 Uhr ein, damit der Himmel auf allen Screenshots gleich aussieht.
 
+### Noch 10 wie der «Erste Vorschlag» (R-Runde)
+Gleicher Aufbau wie die Q-Runde, je mit einer anderen Idee für die Darstellung.
+- **R1 «Sticker»**: Kacheln als leicht gedrehte Sticker mit weissem Rand, «Heute für dich» als Klebezettel in Gelb, Rosa und Blau.
+- **R2 «Text links»**: Slogan, kurzer Satz, Kennzahlen und Knöpfe links, die Bühne mit Logo und Kids rechts.
+- **R3 «Dock»**: Die Aktionen als runde App-Symbole in einer Glas-Leiste wie auf dem iPad, mit kleinen roten Zählern.
+- **R4 «Tagesplan»**: «Heute für dich» als Checkliste mit Datum, Häkchen und XP pro Aufgabe.
+- **R5 «Wolke»**: Die Bühne sitzt in einer weissen Wolke, die Kacheln sind pastellfarben mit dunkler Schrift.
+- **R6 «Lernen oder Spielen»**: Statt vier Kacheln zwei grosse Hälften: Lernen (Bibliothek, Zufall) mit Lumi, Spielen (Qeels, Duell) mit Milo.
+- **R7 «Schultafel»**: «Heute für dich» auf einer grünen Wandtafel mit Holzrahmen und Kreide, die Kacheln als Schulhefte.
+- **R8 «Kompakt»**: Alles passt ohne Scrollen auf einen Bildschirm: kleine Bühne links, Slogan rechts, darunter Heute und Kacheln.
+- **R9 «Konsole»**: Die vier Aktionen als Knöpfe einer Spielkonsole, «Heute für dich» auf dem kleinen Bildschirm, gelber Startknopf.
+- **R10 «Postkarte»**: Eine Postkarte aus den Alpen mit Lumi und Milo als Bild, «Heute für dich» als Kartentext, Briefmarke mit Logo und Poststempel. Die Kacheln sehen aus wie Briefmarken.
+- Gebaut mit `generator/gen9.py` und `generator/R.css` (baut auf `Q.css` auf).
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.
