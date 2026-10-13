@@ -35,6 +35,7 @@ In Supabase **SQL Editor → New query**. Nacheinander den Inhalt dieser drei Da
 1. `supabase/schema.sql` (Fragen, Likes, Kommentare)
 2. `supabase/lehrer.sql` (Lehrerbereich)
 3. `supabase/admin.sql` (Verwaltung und Statistik)
+4. `supabase/live.sql` (Live-Quiz um 13 und 19 Uhr: Punkte beider Teams zusammenzählen)
 
 Jede Datei darf mehrmals ausgeführt werden, es geht nichts verloren.
 
