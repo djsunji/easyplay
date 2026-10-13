@@ -22,6 +22,11 @@ ZIEL = os.path.join(WURZEL, "bildindex.json")
 BREITE = 800
 MAX_ZEIT = float(os.environ.get("MAX_MINUTEN", "300")) * 60
 START = time.time()
+# Bilder, die bei der Prüfung als unpassend aussortiert wurden, nie wieder nehmen
+try:
+    GESPERRT = set(json.load(open(os.path.join(HIER, "bilder_gesperrt.json"), encoding="utf-8")))
+except Exception:
+    GESPERRT = set()
 
 SCHLECHT = re.compile(r"\.svg|karte|map[_ .\-]|locator|lageplan|lage_|logo|flag|flagge|wappen|coat[_ ]of[_ ]arms|signatur|signature|unterschrift|diagram|schema|chart|graph|icon|symbol|\.pdf|\.tif|\.djvu|stamp|briefmarke|\bplan\b", re.I)
 HEIKEL = re.compile(r"nude|naked|nackt|akt\b|erotic|erotik|sex|porn|breast|brust|bikini|lingerie|dessous|topless|corpse|leiche|blood|blut|gore|wound|wunde|autopsy|execution|hinrichtung|weapon|waffe|gun\b|pistol|drug|droge|cigarette|zigarette", re.I)
@@ -122,6 +127,8 @@ def gut(ii, roh=False):
 
 
 def eintrag(datei, ii, alt, quelle="w"):
+    if (ii.get("thumburl") or ii.get("url")) in GESPERRT:
+        return None
     md = ii.get("extmetadata") or {}
     urheber = text(md.get("Artist", {}).get("value", "")) or "Wikimedia Commons"
     lic = text(md.get("LicenseShortName", {}).get("value", ""))
@@ -224,7 +231,7 @@ def openverse(begriff, begriffe=None):
         {"q": begriff, "license": "cc0,pdm,by,by-sa", "mature": "false", "page_size": "10"})
     j = holen(url, versuche=2)
     for r in (j or {}).get("results", []) or []:
-        if not https_url(r.get("url")):
+        if not https_url(r.get("url")) or r.get("url") in GESPERRT:
             continue
         w, h = r.get("width") or 0, r.get("height") or 0
         if w < 800 or h < 500 or not (0.45 < w / max(1, h) < 2.6):
