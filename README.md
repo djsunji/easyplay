@@ -63,6 +63,19 @@ Hier sind alle Entwürfe für eine neue Startseite von https://djsunji.github.io
 - **N4 «Team-Tierpark»**: Alle 50 richtigen Antworten zieht ein neues Tier ins Gehege des Teams. Wer am Sonntag mehr Tiere hat, gewinnt.
 - **N5 «Wissens-Liga»**: Fussball-Look; jede richtige Antwort ist ein Tor. Dazu Anzeigetafel, Tabelle mit 5 Teams, eigene Tore und Pokal am Saisonende.
 
+### Modern (10 neue Startseiten, je eine moderne App-Idee)
+- **P1 «Fokus»**: Ganz ruhig. Ein grosser runder «Weiterspielen»-Knopf mit Fortschrittsring, darunter nur kleine Links. Lumi und Milo am Rand.
+- **P2 «Für dich»**: Wie Spotify oder Netflix. Dunkle Fläche mit «Weiterspielen», Reihe «Neu für dich» mit Themen-Covern und «Beliebt in deiner Klasse».
+- **P3 «Chat mit Lumi»**: Lumi spricht das Kind in Sprechblasen an und bietet 4 Antwort-Knöpfe an. Milo meldet sich mit einer Herausforderung.
+- **P4 «Kartenstapel»**: Themen als Kartenstapel zum Wischen wie bei Tinder: links weiter, rechts spielen, Herz zum Merken.
+- **P5 «Widgets»**: Startseite aus Widgets wie auf dem iPhone: Weiterspielen, Serie, Münzen, Tagesquiz-Countdown, «Wusstest du?», Duell, Abzeichen.
+- **P6 «Wissensdorf»**: Ein Dorf, jedes Haus ist ein Bereich (Schulhaus = Tagesquiz, Bibliothek, Arena = Duell, Kiosk = Laden, Bergstation, Museum). Auf dem Handy als Liste.
+- **P7 «Sammelkarten»**: Glänzende Tierkarten der Schweiz (häufig, selten, episch). 10 richtige Antworten öffnen ein Päckli mit 3 Karten.
+- **P8 «Tagesreise»**: Sonnenbogen über den Tag mit 4 Stopps (Morgenfrage, Wusstest du?, Tagesquiz, Abend-Truhe).
+- **P9 «Quiz-Show»**: TV-Studio mit Licht, Podesten für Team Lumi und Team Milo und grossem Buzzer. Jeden Abend eine Live-Show.
+- **P10 «Thema der Woche»**: Magazin-Stil mit grossem Titelthema (Gletscher), Fakten daneben und «Auch neu».
+- Gebaut mit `generator/gen7.py` und `generator/P.css`.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.
