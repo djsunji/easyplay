@@ -5,6 +5,9 @@ on:
       rang:
         description: "Ab welchem Rang ein Bild verdächtig ist"
         default: "300"
+      nurneu:
+        description: "Nur neue, noch nicht geprüfte Bilder (1)"
+        default: "0"
 permissions:
   contents: read
 concurrency:
@@ -32,6 +35,7 @@ jobs:
         env:
           TEIL: "${{ matrix.teil }}/8"
           RANG_VERDACHT: ${{ github.event.inputs.rang || '300' }}
+          NUR_NEU: ${{ github.event.inputs.nurneu || '0' }}
         run: python3 tools/bilder_pruefen.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()

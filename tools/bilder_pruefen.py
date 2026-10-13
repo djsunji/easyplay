@@ -21,6 +21,12 @@ def haupt():
     ix = json.load(open(os.path.join(W, "bildindex.json"), encoding="utf-8"))
     ix.pop("_ohne", None)
     keys = sorted(k for k in ix if k in seiten)
+    if os.environ.get("NUR_NEU", "") == "1":   # nur Bilder prüfen, die noch nie geprüft wurden
+        try:
+            schon = set(json.load(open(os.path.join(HIER, "bilder_geprueft.json"), encoding="utf-8")))
+        except Exception:
+            schon = set()
+        keys = [k for k in keys if k not in schon]
     meine = [k for j, k in enumerate(keys) if j % n == i]
     print(f"Teil {i}/{n}: {len(meine)} Bilder")
 

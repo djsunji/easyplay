@@ -1,0 +1,10 @@
+# Hinweis: Auf GitHub Pages (Projektseite) wird robots.txt nur an der
+# Domain-Wurzel gelesen. Diese Datei schadet hier aber nicht.
+User-agent: *
+Allow: /
+Disallow: /easyplay/admin/
+Disallow: /easyplay/tools/
+Disallow: /easyplay/werkstatt/
+Disallow: /easyplay/supabase/
+
+Sitemap: https://djsunji.github.io/easyplay/sitemap.xml

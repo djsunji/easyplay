@@ -504,15 +504,15 @@ TABS.fragen = async () => {
 const PRUEF = {
   ss:    ["«ß» statt «ss»", f => /ß/.test([f.q, ...(f.a||[]), f.e, f.m].join(" "))],
   strich:["Gedankenstriche", f => /[–—]/.test([f.q, ...(f.a||[]), f.e, f.m].join(" "))],
-  gleich:["Gleiche Antworten", f => new Set((f.a||[]).map(x => String(x).trim().toLowerCase())).size !== 4 || (f.a||[]).some(x => !String(x).trim())],
+  gleich:["Gleiche Antworten", f => new Set((f.a||[]).map(x => String(x).trim())).size !== 4 || (f.a||[]).some(x => !String(x).trim())],
   ohneE: ["Ohne Erklärung", f => !String(f.e||"").trim()],
   ohneM: ["Ohne Merksatz", f => !String(f.m||"").trim()],
   lang:  ["Frage über 200 Zeichen", f => String(f.q||"").length > 200],
-  dopp:  ["Doppelte Fragetexte", f => DOPPELT.has(String(f.q||"").trim().toLowerCase())]
+  dopp:  ["Doppelte Fragen", f => !f.img && DOPPELT.has(String(f.q||"").trim().toLowerCase() + "|" + String((f.a||[])[0]||"").trim())]
 };
 let DOPPELT = new Set();
-function doppelteBerechnen(){ const z = new Map(); for(const f of DATEN.fragen||[]){ const k = String(f.q||"").trim().toLowerCase(); z.set(k, (z.get(k)||0) + 1); } DOPPELT = new Set([...z].filter(([k,n]) => n > 1).map(([k]) => k)); }
-const auffaellig = f => /ß|[–—]/.test([f.q, ...(f.a||[]), f.e, f.m].join(" ")) || new Set((f.a||[]).map(x => String(x).trim().toLowerCase())).size !== 4 || (f.a||[]).some(x => !String(x).trim());
+function doppelteBerechnen(){ const z = new Map(); for(const f of DATEN.fragen||[]){ if(f.img) continue; const k = String(f.q||"").trim().toLowerCase() + "|" + String((f.a||[])[0]||"").trim(); z.set(k, (z.get(k)||0) + 1); } DOPPELT = new Set([...z].filter(([k,n]) => n > 1).map(([k]) => k)); }
+const auffaellig = f => /ß|[–—]/.test([f.q, ...(f.a||[]), f.e, f.m].join(" ")) || new Set((f.a||[]).map(x => String(x).trim())).size !== 4 || (f.a||[]).some(x => !String(x).trim());
 function aktuelleFrage(nr){ const a = AE.fragen.get(nr); if(a) return a.loeschen ? null : a.neu; return DATEN.fragen.find(f => +f.nr === +nr) || null; }
 function gefilterteFragen(){
   const q = FF.suche.toLowerCase();
@@ -555,7 +555,7 @@ function fragenEdit(f){
     if(!neu.s) delete neu.s; return neu; };
   const pruefen = () => { const n = lesen(), p = [];
     if(!n.q) p.push("Die Frage fehlt."); if(n.a.some(x => !x)) p.push("Alle vier Antworten ausfüllen.");
-    if(new Set(n.a.map(x => x.toLowerCase())).size !== 4) p.push("Zwei Antworten sind gleich.");
+    if(new Set(n.a).size !== 4) p.push("Zwei Antworten sind gleich.");
     if(/ß/.test(JSON.stringify(n))) p.push("«ß» wird beim Übernehmen durch «ss» ersetzt.");
     if(/[–—]/.test(JSON.stringify(n))) p.push("Gedankenstriche bitte vermeiden.");
     $("#ePruef").innerHTML = p.map(x => `<span class="${/ersetzt/.test(x) ? "wa" : "fe"}">${esc(x)}</span>`).join("<br>"); return p.filter(x => !/ersetzt|vermeiden/.test(x)).length === 0; };
