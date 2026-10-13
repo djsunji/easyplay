@@ -177,6 +177,20 @@ Gleiche Vorgaben wie die T-Runde. Jetzt sind auch die vier übrigen neuen Duo-Bi
 - **U20 «Tagesgruss»**: Karte «Guten Tag!» mit Datum, drei Aufgaben und dem lachenden Duo rechts.
 - Gebaut mit `generator/gen12.py` und `generator/U.css` (baut auf Q, S und T auf). Stolperstein: Bild-Regeln wie `.u-banner img` treffen auch das Logo-Bild in `.ers-b`; deshalb immer `>img` für die Figur verwenden.
 
+### Fünf Cool-Spalten und fünf Hallo-Banner (V-Runde)
+Varianten der zwei Lieblinge aus der U-Runde. V1 bis V5 im Stil von U2 «Cool-Spalte», V6 bis V10 im Stil von U1 «Hallo-Banner». Gleiche Vorgaben wie T und U.
+- **V1 «Cool-Spalte gespiegelt»**: Das coole Duo links, rechts Slogan, Tagesliste und Knöpfe. Auf dem Handy bleibt das Logo oben, das Duo rutscht unter den Text.
+- **V2 «Cool-Spalte Podest»**: Links Slogan und Tagesliste, rechts steht das kampfbereite Duo (duo-bereit) auf einem oben gerundeten Pastellpodest.
+- **V3 «Cool-Spalte mit Kacheln»**: Die vier Aktionen als kleine Zeilen-Kacheln (2x2) in der linken Spalte, das coole Duo rechts, «Heute für dich» als drei Karten darunter.
+- **V4 «Cool-Spalte mit Sprechblase»**: Das zeigende Duo (duo-zeigen) rechts mit Blase «Wer ist bereit für ein Duell?», links Slogan und Tagesliste.
+- **V5 «Cool-Spalte auf Karte»**: Alles in einer weissen Karte, das präsentierende Duo (duo-praesentieren) ragt oben aus der Karte heraus.
+- **V6 «Hallo-Banner Pastell»**: Die Hallo-Karte in Rosa, Pfirsich und Lila statt Weiss, das winkende Duo (duo-hallo) links.
+- **V7 «Hallo-Banner gespiegelt»**: Slogan und Knöpfe links, das winkende Duo (duo-winken) rechts.
+- **V8 «Hallo-Banner mit Sprechblase»**: Blase «Hoi! Schön, dass du da bist» über dem Logo, das Duo links.
+- **V9 «Hallo-Banner mit Heute»**: Duo (duo-lachen), Slogan und die Tagesliste in einer einzigen breiten Karte, die Liste auf Pastellgrund rechts; auf dem iPad rutscht die Liste unter den Text.
+- **V10 «Hallo-Banner mit Kacheln»**: Die vier Aktionskacheln hängen unten an der Hallo-Karte (überlappen den Kartenrand), das jubelnde Duo (duo-jubel) links, «Heute für dich» darunter.
+- Gebaut mit `generator/gen13.py` und `generator/V.css`. Gemeinsame Regeln `.v-zwei` (zweispaltig) und `.v-banner` (Karte) stehen oben in V.css, die Varianten überschreiben nur Spaltenfolge, Hintergrund und Bildgrösse. Stolperstein: Eine Varianten-Regel wie `.vsV7 .v-banner{grid-template-columns:1fr auto}` hat dieselbe Spezifität wie die Handy-Regel `.vsV .v-banner{grid-template-columns:1fr}` und steht später, gewinnt also auch auf dem Handy; deshalb in jeder Variante die Spalten im Handy-Media-Query nochmals auf `1fr` setzen.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.

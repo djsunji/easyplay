@@ -1,0 +1,88 @@
+/* V-Runde: 5 Varianten der Cool-Spalte (U2) und 5 Varianten des Hallo-Banners (U1). Baut auf Q.css, S.css, T.css und U.css auf. */
+.hero.vs>div:first-child.vsV{display:block!important}
+
+/* Gemeinsam: zweispaltige Bühne, Text links oder rechts */
+.vsV .v-zwei{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;text-align:left}
+.vsV .v-zwei>*{min-width:0}
+.vsV .v-zwei>img{height:clamp(300px,38vw,480px);display:block}
+.vsV .v-zwei .ers-b{height:clamp(80px,9vw,110px);justify-content:flex-start;margin:0 0 4px}
+.vsV .v-zwei .vs-slogan{text-align:left}
+.vsV .v-zwei .vs-pills,.vsV .v-zwei .ers-cta{justify-content:flex-start}
+.vsV .v-zwei .ers-h{text-align:left}
+.vsV .v-liste{margin:0 0 18px}
+.vsV .v-liste .ers-heute{grid-template-columns:1fr;gap:8px}
+.vsV .v-liste .ers-karte{padding:10px 14px}
+@media (max-width:860px){.vsV .v-zwei{grid-template-columns:1fr;text-align:center}.vsV .v-zwei>img{height:230px;margin:0 auto}.vsV .v-zwei .ers-b{justify-content:center;margin:0 auto 4px}.vsV .v-zwei .vs-slogan{text-align:center}.vsV .v-zwei .vs-pills,.vsV .v-zwei .ers-cta{justify-content:center}.vsV .v-zwei .ers-h{text-align:center}}
+
+/* Gemeinsam: Hallo-Banner-Karte */
+.vsV .v-banner{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:end;padding:0 28px 0 10px;overflow:visible;text-align:left}
+.vsV .v-banner>*{min-width:0}
+.vsV .v-banner>img{height:clamp(240px,30vw,400px);margin-top:-40px;display:block}
+.vsV .v-banner .t-text{padding:24px 0 26px}
+.vsV .v-banner .ers-b{height:clamp(80px,9vw,110px);justify-content:flex-start;margin:0 0 4px}
+.vsV .v-banner .vs-slogan{text-align:left}
+.vsV .v-banner .vs-pills,.vsV .v-banner .ers-cta{justify-content:flex-start}
+@media (max-width:860px){.vsV .v-banner{grid-template-columns:1fr;text-align:center;padding:0 18px}.vsV .v-banner>img{height:220px;margin:0 auto}.vsV .v-banner .ers-b{justify-content:center;margin:0 auto 4px}.vsV .v-banner .vs-slogan{text-align:center}.vsV .v-banner .vs-pills,.vsV .v-banner .ers-cta{justify-content:center}}
+
+/* V1 Cool-Spalte gespiegelt: Duo links, Text rechts */
+.vsV1 .v-zwei{grid-template-columns:auto 1fr;gap:30px}
+@media (max-width:860px){.vsV1 .v-zwei>img{order:2}}
+
+/* V2 Cool-Spalte Pastell: Duo steht auf einem Pastellpodest */
+.vsV2 .v-panel{align-self:end;border-radius:44px 44px 0 0;padding:34px 34px 0;display:flex;align-items:flex-end;justify-content:center;box-shadow:inset 0 -6px 0 rgba(255,255,255,.55)}
+.vsV2 .v-panel>img{height:clamp(280px,34vw,440px);display:block}
+@media (max-width:860px){.vsV2 .v-panel{margin:0 auto;padding:22px 22px 0;width:min(100%,360px)}.vsV2 .v-panel>img{height:230px}}
+
+/* V3 Cool-Spalte mit Kacheln: die vier Aktionen in der linken Spalte, Heute darunter */
+.vsV3 .v-mini .ers-kacheln{grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0 18px}
+.vsV3 .v-mini .ers-k{display:flex;align-items:center;gap:12px;padding:12px 14px;text-align:left;font-size:1rem}
+.vsV3 .v-mini .ers-k.hell i{width:44px;height:44px;border-radius:14px;margin:0;font-size:1.35rem;flex:0 0 auto}
+@media (max-width:640px){.vsV3 .v-mini .ers-kacheln{grid-template-columns:1fr}}
+
+/* V4 Cool-Spalte mit Sprechblase: das zeigende Duo spricht */
+.vsV4 .v-fig{align-self:end;text-align:center;position:relative}
+.vsV4 .v-fig .t-bub{display:inline-block;max-width:320px;margin:0 0 16px 40px}
+.vsV4 .v-fig>img{height:clamp(280px,34vw,440px);display:block;margin:0 auto}
+@media (max-width:860px){.vsV4 .v-fig .t-bub{margin:10px auto 16px;display:block;max-width:360px}.vsV4 .v-fig>img{height:230px}}
+
+/* V5 Cool-Spalte auf Karte: beides in einer weissen Karte, Duo ragt oben heraus */
+.vsV5 .v-karte{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding:0 30px 0 30px;margin-top:60px;text-align:left;overflow:visible}
+.vsV5 .v-karte>*{min-width:0}
+.vsV5 .v-karte>div{padding:26px 0 26px}
+.vsV5 .v-karte>img{height:clamp(320px,40vw,580px);margin-top:-120px;display:block}
+.vsV5 .v-karte .ers-b{height:clamp(80px,9vw,110px);justify-content:flex-start;margin:0 0 4px}
+.vsV5 .v-karte .vs-slogan{text-align:left;font-size:clamp(2.2rem,3.6vw,3.2rem)}
+.vsV5 .v-karte .vs-pills,.vsV5 .v-karte .ers-cta{justify-content:flex-start}
+.vsV5 .v-karte .ers-h{text-align:left;margin-top:18px}
+@media (max-width:860px){.vsV5 .v-karte{grid-template-columns:1fr;text-align:center;padding:0 18px;margin-top:20px}.vsV5 .v-karte>img{height:230px;margin:0 auto 10px}.vsV5 .v-karte .ers-b{justify-content:center;margin:0 auto 4px}.vsV5 .v-karte .vs-slogan{text-align:center}.vsV5 .v-karte .vs-pills,.vsV5 .v-karte .ers-cta{justify-content:center}.vsV5 .v-karte .ers-h{text-align:center}}
+
+/* V6 Hallo-Banner Pastell */
+.vsV6 .v-banner{background:linear-gradient(135deg,#FFE1EC,#FFF0D9 55%,#E6E0FF);border:0;box-shadow:0 30px 60px -36px rgba(27,34,64,.5)}
+.vsV6 .v-banner .vs-pills span{background:rgba(255,255,255,.75)}
+
+/* V7 Hallo-Banner gespiegelt: Text links, Duo rechts */
+.vsV7 .v-banner{grid-template-columns:1fr auto;padding:0 10px 0 28px}
+@media (max-width:860px){.vsV7 .v-banner{grid-template-columns:1fr;padding:0 18px}.vsV7 .v-banner>img{order:-1}}
+
+/* V8 Hallo-Banner mit Sprechblase */
+.vsV8 .v-banner .t-bub{display:inline-block;margin:0 0 12px;max-width:380px}
+.vsV8 .v-banner .t-text{padding-top:22px}
+@media (max-width:860px){.vsV8 .v-banner .t-bub{display:block;margin:0 auto 12px;max-width:360px}}
+
+/* V9 Hallo-Banner mit Heute: Duo, Text und Tagesliste in einer Karte */
+.vsV9 .v-banner{grid-template-columns:auto 1fr auto;padding:0 18px 0 10px;gap:18px}
+.vsV9 .v-banner>img{height:clamp(240px,28vw,380px)}
+.vsV9 .v-banner .vs-slogan{font-size:clamp(2rem,3.2vw,2.6rem)}
+.vsV9 .v-heute{align-self:stretch;border-radius:24px;padding:16px;margin:18px 0;width:300px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.vsV9 .v-heute h4{margin:0 0 4px;font:800 .72rem/1 "Fredoka",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#5D5C80}
+.vsV9 .v-heute .ers-karte{padding:10px 12px;gap:10px}
+.vsV9 .v-heute .ers-karte .em{font-size:1.7rem}
+.vsV9 .v-heute .ers-karte small{display:block;font-size:.8rem}
+@media (max-width:1100px){.vsV9 .v-banner{grid-template-columns:auto 1fr}.vsV9 .v-heute{grid-column:1/-1;width:auto;margin:0 0 18px}.vsV9 .v-heute .ers-karte{display:flex}}
+@media (max-width:860px){.vsV9 .v-banner{grid-template-columns:1fr;padding:0 18px}.vsV9 .v-heute{grid-column:auto;margin:0 0 18px}}
+
+/* V10 Hallo-Banner mit Kacheln: die vier Aktionen hängen unten an der Karte */
+.vsV10 .v-banner .t-text{padding-bottom:60px}
+.vsV10 .v-ueber{margin:-40px 24px 0;position:relative;z-index:2}
+.vsV10 .v-ueber .ers-k.hell{box-shadow:0 22px 40px -26px rgba(27,34,64,.6)}
+@media (max-width:860px){.vsV10 .v-banner .t-text{padding-bottom:50px}.vsV10 .v-ueber{margin:-30px 10px 0}}
