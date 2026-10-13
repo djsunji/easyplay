@@ -9,7 +9,8 @@ for f in glob.glob(os.path.join(W, "teile", "**", "pruefung-teil-*.json"), recur
     d = json.load(open(f, encoding="utf-8")); werte.update(d["werte"]); kaputt.update(d["kaputt"])
 json.dump({"werte": werte, "kaputt": kaputt}, open(os.path.join(W, "pruefung", "ergebnis.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 bilder = {os.path.basename(p)[:-4]: p for p in glob.glob(os.path.join(W, "teile", "**", "*.jpg"), recursive=True)}
-verd = sorted((k for k in bilder if k in werte), key=lambda k: -werte[k][0])
+verd = sorted((k for k in bilder if k in werte), key=lambda k: (-werte[k][0], k))
+bogenliste = {}
 try:
     font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 13)
 except Exception:
@@ -17,11 +18,15 @@ except Exception:
 SP, ZE, B, H = 5, 6, 230, 290
 for s in range(0, len(verd), SP * ZE):
     bogen = Image.new("RGB", (SP * B, ZE * H), "white"); d = ImageDraw.Draw(bogen)
+    bogenliste[f"{s // (SP * ZE):03d}"] = verd[s:s + SP * ZE]
     for j, k in enumerate(verd[s:s + SP * ZE]):
         x, y = (j % SP) * B, (j // SP) * H
         im = Image.open(bilder[k]); bogen.paste(im, (x + 5, y + 5))
-        d.text((x + 5, y + 232), f"{k} R{werte[k][0]}", fill="gray", font=font)
+        d.rectangle([x + 5, y + 5, x + 35, y + 25], fill="black")
+        d.text((x + 9, y + 8), f"{j + 1}", fill="yellow", font=font)
+        d.text((x + 5, y + 232), f"#{j + 1}  R{werte[k][0]}", fill="gray", font=font)
         d.text((x + 5, y + 248), seiten[k]["t"][:30], fill="black", font=font)
         d.text((x + 5, y + 264), ("≈ " + werte[k][2][0])[:30], fill="darkred", font=font)
     bogen.save(os.path.join(W, "pruefung", f"bogen-{s // (SP * ZE):03d}.jpg"), quality=72)
+json.dump(bogenliste, open(os.path.join(W, "pruefung", "bogen.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
 print(f"::notice::Prüfung zusammen: {len(werte)} geprüft, {len(verd)} verdächtig, {len(kaputt)} nicht ladbar, {(len(verd)+29)//30} Bogen")
