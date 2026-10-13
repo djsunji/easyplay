@@ -2445,6 +2445,12 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 @media (prefers-reduced-motion:reduce){.mobiconwrap,.mobiconwrap .wink,.mobkids .kid,.mobkids .kid::before{animation:none!important}}
 </style>
 <style id="tablet">
+/* Slogan statt Einleitungstext */
+.hero .slogan{margin:4px 0 22px!important;max-width:none!important;line-height:1.05}
+.hero .slogan span{display:inline-block;font-family:"Bricolage Grotesque","Fredoka",system-ui,sans-serif;font-weight:800;font-size:clamp(2.6rem,6.2vw,4.6rem)!important;letter-spacing:-.02em;padding-bottom:.08em}
+@media (max-width:760px){.hero .slogan{text-align:center;margin:6px 0 16px!important}.hero .slogan span{font-size:clamp(2.3rem,10vw,3.2rem)!important}}
+@media (min-width:761px){.hero > div:first-child{display:flex;flex-direction:column;justify-content:center;align-self:center}}
+
 /* ===== iPad und Tablets ===== */
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 button,a,[role="button"],.opt,.lopt{touch-action:manipulation}
@@ -2454,7 +2460,7 @@ button,a,[role="button"],.opt,.lopt{touch-action:manipulation}
   footer.eplegal{padding-bottom:max(12px,env(safe-area-inset-bottom))}
 }
 /* Hochformat iPad (ca. 760 bis 1100 px): kleine Kennzahlen nebeneinander, Kinder und Logo gross ohne Überschneidung */
-@media (min-width:761px) and (max-width:1100px){
+@media (min-width:761px){
   .hero{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;gap:8px!important;align-items:start!important}
   .kennzahlen{flex-wrap:nowrap!important;max-width:none!important;gap:10px!important}
   .kzk{flex:1 1 0!important;min-width:0!important;padding:10px 12px!important;gap:8px!important;border-radius:18px!important}
@@ -2469,6 +2475,15 @@ button,a,[role="button"],.opt,.lopt{touch-action:manipulation}
   .heroart .kid.boy{width:180px!important;height:300px!important;right:0!important;left:auto!important;top:160px!important}
   .heroart .badge,.heroart .pschild{left:50%!important;right:auto!important;bottom:-6px!important;top:auto!important;transform:translateX(-50%) rotate(-3deg) scale(.88)!important}
   .lernleiste{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+/* Grosse Bildschirme: Kinder und Logo grösser, bleiben in ihrer Spalte */
+@media (min-width:1101px){
+  .heroart{height:520px!important}
+  .heroart .heroicon{width:270px!important;margin-left:-135px!important}
+  .heroart .kid.girl{width:240px!important;height:340px!important;top:160px!important}
+  .heroart .kid.boy{width:210px!important;height:350px!important;top:170px!important}
+  .kztext b{font-size:1.9rem!important}
+  .kzk{max-width:260px}
 }
 /* Touch-Geräte mit grossem Bildschirm: grössere Antwortflächen und Schrift im Quiz */
 @media (pointer:coarse) and (min-width:761px){
@@ -4165,8 +4180,7 @@ function renderHome(){
       <div>
         <div class="mobkids"><div class="kid girl">${KID_GIRL}</div><span class="mobiconwrap"><img class="mobicon" src="${ICON_SRC}" alt=""><img class="mobicon wink" src="${ICON_WINK}" alt="" aria-hidden="true"></span><div class="kid boy">${KID_BOY}</div></div>
         <h1 class="sr-only">easyplay</h1>
-        <p class="tagline">Fragen. Wissen. Weiterkommen.</p>
-        <p class="catch"><span>Spiel dich schlau!</span> Entdecke spannende Themen, knacke knifflige Fragen und lerne ganz nebenbei Neues dazu. Bei easyPlay wird Wissen zum Spiel und jede Frage zu einer neuen Herausforderung!</p>
+        <p class="catch slogan"><span>Spiel dich schlau!</span></p>
         <div class="kennzahlen kz2">
           <div class="kzk kzk-fragen"><span class="kzicon">❓</span><span class="kztext"><b class="zaehler" data-ziel="${allCount()}">${allCount().toLocaleString("de-CH")}</b><span>Fragen zum Knobeln</span><em class="kzchips"><i>🌱</i><i>🚀</i><i>🏅</i> in 3 Stufen</em></span><i class="kzf a">✦</i><i class="kzf b">✧</i></div>
           <div class="kzk kzk-themen"><span class="kzicon">📚</span><span class="kztext"><b class="zaehler" data-ziel="${themen}">${themen}</b><span>spannende Themen</span><em class="kzchips"><i>🌍</i><i>🔬</i><i>🇨🇭</i><i>🚲</i> in 4 Bereichen</em></span><i class="kzf a">★</i><i class="kzf b">✦</i></div>
