@@ -104,6 +104,30 @@ Gleicher Aufbau wie die Q-Runde, je mit einer anderen Idee für die Darstellung.
 - **R10 «Postkarte»**: Eine Postkarte aus den Alpen mit Lumi und Milo als Bild, «Heute für dich» als Kartentext, Briefmarke mit Logo und Poststempel. Die Kacheln sehen aus wie Briefmarken.
 - Gebaut mit `generator/gen9.py` und `generator/R.css` (baut auf `Q.css` auf).
 
+### Modern, 20 neue (S-Runde)
+Der Nutzer wollte nochmals 20 Entwürfe in modernem Design. Alle zeigen Logo, Lumi und Milo, Slogan, «Heute für dich» und die vier Aktionen, aber je in einer anderen modernen Gestaltung.
+- **S1 «Bento»**: Weisses Kachelraster mit grosser Bühne, Slogan-Kachel, Verlauf-Kachel mit Knopf, Zahlen-Kacheln und vier farbigen Aktionen.
+- **S2 «Mesh»**: Weiche, verschwommene Farbflecken hinter der Bühne, Karten aus Glas.
+- **S3 «Dunkelmodus»**: Alles in einer dunklen Fläche mit limettengrünem Knopf und hellen Akzenten.
+- **S4 «Grosse Typo»**: Riesiger Slogan links, Bühne rechts, darunter Zahlen und eine Textliste mit Pfeilen.
+- **S5 «Karussell»**: Grosse Karten zum Wischen (Weiterspielen, Serie, Tagesquiz, Fehler üben, Duell) mit Punkten.
+- **S6 «Neo-Brutal»**: Dicke schwarze Ränder, harte Schatten, Gelb, Rosa, Mint und Blau.
+- **S7 «Soft UI»**: Weiche, in die Fläche gedrückte Karten und Knöpfe mit doppelten Schatten.
+- **S8 «Split»**: Links ein Farbblock mit Slogan und Knöpfen, rechts weiss mit Bühne und «Heute für dich».
+- **S9 «Insel»**: Alles auf einer schwebenden weissen Karte, Lumi und Milo an den oberen Ecken.
+- **S10 «Dashboard»**: Fortschrittsring, Wochenbalken und Zahlen, darunter runde Aktionsknöpfe.
+- **S11 «Verlaufsrand»**: Weisse Karten mit feinem Farbverlauf als Rand, Logo im Verlaufsring.
+- **S12 «Pillen-Navigation»**: Segmentierte Pillen-Navigation (Heute, Spielen, Lernen, Freunde) mit einem ruhigen Panel.
+- **S13 «3D-Kacheln»**: Kacheln mit dicker Unterkante und Perspektive, Bodenschatten unter der Bühne.
+- **S14 «Stories und Feed»**: Runde Story-Kreise mit Lumi, Milo und Themen, darunter ein Feed mit grossen Covern.
+- **S15 «Zeitstrahl»**: Bühne links, rechts «Dein Tag» als Zeitstrahl mit Uhrzeiten und Häkchen.
+- **S16 «Themen-Wolke»**: Eine Leiste für «Heute für dich» und eine Wolke aus farbigen Themen-Pillen.
+- **S17 «Streaming»**: Grosse Hero-Karte wie bei Netflix mit «Weiterspielen» und dem Duo, darunter vier Poster.
+- **S18 «Zahlen»**: Drei grosse Zahlen-Karten (Fragen, Themen, Schweiz-Wissen) in Verlaufs-Schrift.
+- **S19 «Gruppenliste»**: Gruppierte Listen mit Symbolquadrat und Pfeil, wie in iPhone-Einstellungen.
+- **S20 «Schwebender Knopf»**: Ruhige, flache Karten und ein grosser schwebender Startknopf unten rechts.
+- Gebaut mit `generator/gen10.py` und `generator/S.css` (baut auf `Q.css` auf). Wichtig: Die Live-Seite macht den Hero-Inhalt zu einem Flex-Container; `.vsS{display:block}` verhindert, dass zentrierte Karten mit `max-width` schmal werden.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.
