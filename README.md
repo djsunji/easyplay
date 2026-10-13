@@ -56,6 +56,13 @@ Hier sind alle Entwürfe für eine neue Startseite von https://djsunji.github.io
 - **M4 «Live-Arena»**: Jeden Tag um 17 Uhr ein Live-Quiz mit 10 Fragen für alle. Zwei Team-Türme steigen live.
 - **M5 «Routenwahl»**: Drei Routen passend zu den Stufen. Wanderweg (Entdecker) gibt ×1, Klettersteig (Könner) ×2, Nordwand (Profis) ×3. Alle zählen fürs Team. Wetter-Ereignis «Föhn» bringt doppelte Meter.
 
+### Ohne Berg (Team und Belohnungen in anderen Welten)
+- **N1 «Weltraum-Mission»**: Die Raketen von Team Lumi und Team Milo fliegen von der Erde über Mond und Mars bis zu einem fernen Stern. Richtige Antworten sind Treibstoff.
+- **N2 «Schatzinsel»**: Zwei Segelschiffe fahren von Insel zu Insel. Jede Insel gibt ein Teil der Schatzkarte (6 Teile), am Ende wartet die Schatzkiste.
+- **N3 «Zugreise Schweiz»**: Zwei Züge fahren von Genf über Bern, Luzern und Zürich nach St. Gallen. Pro Halt gibt es ein «Billett» mit Bonus-Frage zur Stadt.
+- **N4 «Team-Tierpark»**: Alle 50 richtigen Antworten zieht ein neues Tier ins Gehege des Teams. Wer am Sonntag mehr Tiere hat, gewinnt.
+- **N5 «Wissens-Liga»**: Fussball-Look; jede richtige Antwort ist ein Tor. Dazu Anzeigetafel, Tabelle mit 5 Teams, eigene Tore und Pokal am Saisonende.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.
