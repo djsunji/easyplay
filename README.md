@@ -76,6 +76,20 @@ Hier sind alle Entwürfe für eine neue Startseite von https://djsunji.github.io
 - **P10 «Thema der Woche»**: Magazin-Stil mit grossem Titelthema (Gletscher), Fakten daneben und «Auch neu».
 - Gebaut mit `generator/gen7.py` und `generator/P.css`.
 
+### Angelehnt an den «Ersten Vorschlag» (Bühne, «Heute für dich», 4 Kacheln)
+Alle zehn haben den gleichen Aufbau wie der erste Vorschlag, jetzt aber auf dem originalen Alpen-Hintergrund: grosse Bühne mit Logo und Kids, Slogan, Kennzahlen, Knöpfe, «Heute für dich» und vier Aktionskacheln.
+- **Q1 «Klassisch»**: Der erste Vorschlag eins zu eins auf dem Alpen-Hintergrund.
+- **Q2 «Nebeneinander»**: Bühne links, «Heute für dich» als Karte rechts. Kacheln darunter mit Untertitel.
+- **Q3 «Glasbühne»**: Alles in einer grossen Glasfläche; «Heute für dich» als Leiste am unteren Rand. Kacheln aus Glas mit farbigem Symbol.
+- **Q4 «Ein grosser Knopf»**: Nur ein breiter «Los geht's»-Knopf mit Serie und Fortschritt drin. Kacheln als 2×2 Liste.
+- **Q5 «Kids halten die Kacheln»**: Lumi und Milo stehen links und rechts der vier Kacheln. «Heute für dich» als drei Pillen.
+- **Q6 «Heute-Ring»**: «Heute für dich» als eine breite Karte mit Fortschrittsring (5/10), Wochentagen der Serie und zwei Knöpfen. Das sitzende Duo schaut rein.
+- **Q7 «Nachtbühne»**: Bühne in einer dunklen Fläche mit Lichtkegel und Sternen, Slogan in Gelb-Pink, gelber Knopf.
+- **Q8 «Sprechblasen»**: Lumi sagt den Wusstest-du-Satz, Milo fordert heraus. Der Tipp vom ersten Vorschlag wandert so nach oben.
+- **Q9 «Türen»**: Vier hohe Kacheln wie Türen, in jeder steht ein Kind. «Heute für dich» darunter.
+- **Q10 «Leicht»**: Luftig und hell: eine Leiste für «Heute für dich», weisse Kacheln mit farbigem Rand.
+- Gebaut mit `generator/gen8.py` und `generator/Q.css`. `shot.js` friert die Uhr auf 11 Uhr ein, damit der Himmel auf allen Screenshots gleich aussieht.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.

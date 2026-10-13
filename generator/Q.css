@@ -1,0 +1,134 @@
+/* Q-Runde: 10 Varianten des «Ersten Vorschlags» (Bühne, Heute für dich, 4 Kacheln) */
+.vsQ{--ink:#1B2240;--mut:#5D5C80;--grad:linear-gradient(135deg,#3D5AFE,#8A3FE0 55%,#E043B8);text-align:center}
+.vsQ .ers-b{display:flex;align-items:flex-end;justify-content:center;max-width:1000px;margin:0 auto;height:clamp(230px,30vw,400px)}
+.vsQ .ers-logo{height:100%;width:auto;min-width:0;object-fit:contain;filter:drop-shadow(0 20px 26px rgba(60,30,140,.3));animation:vsSchweben 6s ease-in-out infinite;margin:0 -10px}
+.vsQ .ers-kid{height:80%;width:auto;min-width:0;object-fit:contain;animation:vsHuepf 2.8s ease-in-out infinite;filter:drop-shadow(0 14px 16px rgba(27,34,64,.3));position:relative;z-index:2}
+.vsQ .ers-kid.l{--r:-5deg}.vsQ .ers-kid.r{--r:5deg;animation-delay:-1.4s}
+.vsQ .vs-slogan{margin:8px 0 10px}
+.vsQ .vs-pills{margin-bottom:16px}
+.vsQ .ers-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.vsQ .ers-btn{display:inline-flex;align-items:center;gap:8px;border-radius:20px;padding:15px 30px;font-weight:800;font-size:1.15rem;color:#fff;background:var(--grad);box-shadow:0 8px 0 #2A2FA8,0 16px 30px -10px rgba(61,90,254,.6);white-space:nowrap}
+.vsQ .ers-btn.weiss{background:#fff;color:var(--ink);box-shadow:0 8px 0 #CFC8EE,0 16px 30px -12px rgba(27,34,64,.3)}
+.vsQ .ers-btn.gelb{background:#FFE34D;color:var(--ink);box-shadow:0 8px 0 #C9A200}
+.vsQ .ers-h{font:800 1.6rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink);margin:30px 0 12px;text-align:center}
+.vsQ .ers-heute{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.vsQ .ers-karte{background:rgba(255,255,255,.92);border:2px solid #fff;border-radius:22px;padding:14px 18px;display:flex;gap:14px;align-items:center;text-align:left;box-shadow:0 10px 26px -16px rgba(27,34,64,.45);color:var(--ink);min-width:0}
+.vsQ .ers-karte .em{font-size:2.1rem;line-height:1}
+.vsQ .ers-karte b{display:block;font-size:1.05rem}
+.vsQ .ers-karte small{color:var(--mut)}
+.vsQ .ers-karte.feuer{background:linear-gradient(135deg,#FFF1E2,#fff)}
+.vsQ .ers-kacheln{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.vsQ .ers-k{border-radius:24px;padding:22px 14px 18px;color:#fff;text-align:center;font-weight:700;font-size:1.05rem;box-shadow:0 7px 0 rgba(0,0,0,.18),0 18px 30px -18px rgba(27,34,64,.6);text-shadow:0 1px 2px rgba(0,0,0,.2);min-width:0}
+.vsQ .ers-k i{display:block;font-style:normal;font-size:2.8rem;line-height:1;margin-bottom:8px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.2))}
+.vsQ .ers-k b{display:block;font-weight:800}
+.vsQ .ers-k small{display:block;font-weight:500;font-size:.82rem;opacity:.92;margin-top:2px}
+.vsQ .k1{background:linear-gradient(135deg,#FF5F9E,#FFB347)}.vsQ .k2{background:linear-gradient(135deg,#FF8A3D,#E043B8)}.vsQ .k3{background:linear-gradient(135deg,#0FA968,#1E9BE0)}.vsQ .k4{background:linear-gradient(135deg,#5B3FE0,#C86BFF)}
+@media (max-width:860px){.vsQ .ers-kacheln{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.vsQ .ers-heute{grid-template-columns:1fr}.vsQ .ers-b{height:54vw}.vsQ .ers-kid{height:70%}.vsQ .ers-logo{margin:0 -16px}.vsQ .ers-btn{width:100%;justify-content:center}}
+
+/* Q2 Nebeneinander */
+.vsQ2 .ers-zwei>*{min-width:0}
+.vsQ2 .ers-zwei{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;text-align:left}
+.vsQ2 .ers-b{height:clamp(220px,24vw,330px);justify-content:flex-start;margin:0}
+.vsQ2 .vs-slogan{text-align:left}
+.vsQ2 .vs-pills,.vsQ2 .ers-cta{justify-content:flex-start}
+.vsQ2 .ers-tag{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:2px solid #fff;border-radius:28px;padding:20px 22px;box-shadow:0 22px 40px -22px rgba(27,34,64,.55)}
+.vsQ2 .ers-tag h3{margin:0 0 2px;font:800 1.5rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsQ2 .ers-tag p{margin:0 0 12px;color:var(--mut)}
+.vsQ2 .ers-tag .ers-heute{grid-template-columns:1fr;gap:10px}
+.vsQ2 .ers-tag .ers-karte{box-shadow:none;background:#F4F1FF;border:0}
+.vsQ2 .ers-tag .ers-karte.feuer{background:linear-gradient(135deg,#FFE9D4,#FFF6EC)}
+@media (max-width:860px){.vsQ2 .ers-zwei{grid-template-columns:1fr;text-align:center}.vsQ2 .ers-b{justify-content:center;margin:0 auto}.vsQ2 .vs-slogan{text-align:center}.vsQ2 .vs-pills,.vsQ2 .ers-cta{justify-content:center}}
+
+/* Q3 Glasbühne */
+.vsQ3 .ers-glas{background:rgba(255,255,255,.62);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border:2px solid rgba(255,255,255,.95);border-radius:36px;padding:22px 24px 0;box-shadow:0 30px 60px -36px rgba(27,34,64,.6)}
+.vsQ3 .ers-leiste{display:grid;grid-template-columns:repeat(3,1fr);margin:22px -24px 0;border-top:1.5px solid rgba(255,255,255,.9);background:rgba(255,255,255,.5);border-radius:0 0 34px 34px}
+.vsQ3 .ers-leiste div{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 12px;font-weight:700;color:var(--ink);border-right:1.5px solid rgba(255,255,255,.9);min-width:0}
+.vsQ3 .ers-leiste div:last-child{border:0}
+.vsQ3 .ers-leiste span{font-size:1.5rem}.vsQ3 .ers-leiste small{display:block;font-weight:500;color:var(--mut);font-size:.8rem}
+.vsQ3 .ers-k{background:rgba(255,255,255,.72);color:var(--ink);text-shadow:none;border:2px solid #fff;box-shadow:0 20px 40px -24px rgba(27,34,64,.55);backdrop-filter:blur(10px)}
+.vsQ3 .ers-k i{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;margin:0 auto 10px;font-size:2rem;color:#fff}
+.vsQ3 .k1 i{background:linear-gradient(135deg,#FF5F9E,#FFB347)}.vsQ3 .k2 i{background:linear-gradient(135deg,#FF8A3D,#E043B8)}.vsQ3 .k3 i{background:linear-gradient(135deg,#0FA968,#1E9BE0)}.vsQ3 .k4 i{background:linear-gradient(135deg,#5B3FE0,#C86BFF)}
+@media (max-width:640px){.vsQ3 .ers-leiste{grid-template-columns:1fr}.vsQ3 .ers-leiste div{border-right:0;border-bottom:1.5px solid rgba(255,255,255,.9);justify-content:flex-start}}
+
+/* Q4 Ein grosser Knopf */
+.vsQ4 .ers-gross{display:block;max-width:560px;margin:0 auto;border-radius:28px;padding:18px 26px 20px;background:var(--grad);color:#fff;text-align:left;box-shadow:0 10px 0 #2A2FA8,0 24px 40px -14px rgba(61,90,254,.6)}
+.vsQ4 .ers-gross b{font:800 1.9rem "Bricolage Grotesque","Fredoka",sans-serif;display:flex;align-items:center;gap:12px}
+.vsQ4 .ers-gross b span{width:48px;height:48px;border-radius:50%;background:#fff;color:#3D5AFE;display:grid;place-items:center;font-size:1.3rem}
+.vsQ4 .ers-gross .vbar{background:rgba(255,255,255,.3);margin:10px 0 6px}.vsQ4 .ers-gross .vbar i{background:#FFE34D}
+.vsQ4 .ers-gross small{opacity:.92;font-weight:600}
+.vsQ4 .ers-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:14px;font-weight:700;color:var(--ink)}
+.vsQ4 .ers-links span{background:rgba(255,255,255,.8);border-radius:999px;padding:7px 14px}
+.vsQ4 .ers-kacheln{grid-template-columns:repeat(2,1fr);max-width:720px;margin:0 auto}
+.vsQ4 .ers-k{display:grid;grid-template-columns:auto 1fr;column-gap:16px;align-items:center;text-align:left;padding:18px 22px;font-size:1.2rem}
+.vsQ4 .ers-k i{grid-row:1/3;margin:0;font-size:2.6rem}
+
+/* Q5 Kids halten die Kacheln */
+.vsQ5 .ers-b{height:clamp(150px,18vw,230px)}
+.vsQ5 .ers-reihe{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:end;margin-top:12px}
+.vsQ5 .ers-reihe img{height:clamp(200px,24vw,320px);filter:drop-shadow(0 14px 16px rgba(27,34,64,.3));animation:vsHuepf 3s ease-in-out infinite}
+.vsQ5 .ers-reihe img.r{animation-delay:-1.5s}
+.vsQ5 .ers-kacheln{grid-template-columns:repeat(2,1fr)}
+.vsQ5 .ers-pills2{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 0}
+.vsQ5 .ers-pills2 span{background:rgba(255,255,255,.9);border:2px solid #fff;border-radius:999px;padding:8px 16px;font-weight:700;color:var(--ink);box-shadow:0 8px 18px -12px rgba(27,34,64,.5)}
+@media (max-width:760px){.vsQ5 .ers-reihe{grid-template-columns:1fr}.vsQ5 .ers-reihe img{display:none}}
+
+/* Q6 Heute-Ring */
+.vsQ6 .ers-ring{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;background:rgba(255,255,255,.92);border:2px solid #fff;border-radius:30px;padding:20px 200px 20px 24px;box-shadow:0 22px 40px -22px rgba(27,34,64,.55);text-align:left;overflow:hidden}
+.vsQ6 .ers-kreis{--p:50;width:120px;aspect-ratio:1;border-radius:50%;background:conic-gradient(#E043B8 calc(var(--p)*1%),#EDE9FF 0);display:grid;place-items:center}
+.vsQ6 .ers-kreis div{width:88px;height:88px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;line-height:1}
+.vsQ6 .ers-kreis b{font:800 1.6rem "Bricolage Grotesque",sans-serif;color:var(--ink)}.vsQ6 .ers-kreis small{font-size:.7rem;color:var(--mut);font-weight:600}
+.vsQ6 .ers-woche{display:flex;gap:8px;margin:8px 0 10px}
+.vsQ6 .ers-woche span{width:38px;height:38px;border-radius:12px;background:#EDE9FF;display:grid;place-items:center;font-weight:800;font-size:.8rem;color:var(--mut)}
+.vsQ6 .ers-woche span.an{background:linear-gradient(135deg,#FFB347,#FF5F9E);color:#fff}
+.vsQ6 .ers-woche span.heute{outline:3px solid #3D5AFE;outline-offset:2px}
+.vsQ6 .ers-kn{display:flex;flex-direction:column;gap:8px}
+.vsQ6 .ers-kn span{background:#F4F1FF;border-radius:14px;padding:10px 16px;font-weight:700;color:var(--ink);white-space:nowrap}
+.vsQ6 .ers-duo{position:absolute;right:-6px;bottom:-26px;height:170px}
+.vsQ6 .ers-kacheln{grid-template-columns:repeat(4,1fr)}
+.vsQ6 .ers-k{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center;text-align:left;padding:14px 16px;font-size:1rem}
+.vsQ6 .ers-k i{grid-row:1/3;margin:0;font-size:2.2rem}
+@media (max-width:860px){.vsQ6 .ers-ring{grid-template-columns:auto 1fr;padding-right:24px}.vsQ6 .ers-kn{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}.vsQ6 .ers-duo{display:none}.vsQ6 .ers-kacheln{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.vsQ6 .ers-ring{grid-template-columns:1fr;justify-items:center;text-align:center}.vsQ6 .ers-woche{justify-content:center}.vsQ6 .ers-kacheln{grid-template-columns:1fr}}
+
+/* Q7 Nachtbühne */
+.vsQ7 .ers-nacht{position:relative;border-radius:36px;padding:26px 22px 28px;overflow:hidden;color:#fff;box-shadow:0 30px 60px -30px rgba(10,10,40,.9);
+ background:radial-gradient(ellipse at 50% 60%,rgba(138,63,224,.65),transparent 55%),radial-gradient(circle at 15% 20%,rgba(255,255,255,.18) 1px,transparent 2px),radial-gradient(circle at 80% 30%,rgba(255,255,255,.18) 1px,transparent 2px),radial-gradient(circle at 65% 80%,rgba(255,255,255,.15) 1px,transparent 2px),radial-gradient(circle at 30% 70%,rgba(255,255,255,.15) 1px,transparent 2px),linear-gradient(170deg,#141833,#1f1a4d 60%,#2a1d5e)}
+.vsQ7 .ers-nacht .vs-slogan{background:linear-gradient(135deg,#FFE34D,#FF8AD8);-webkit-background-clip:text;background-clip:text;filter:none}
+.vsQ7 .ers-nacht .vs-pills span{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff}.vsQ7 .ers-nacht .vs-pills b{color:#FFE34D}
+.vsQ7 .ers-nacht .ers-btn.weiss{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.5);box-shadow:none}
+.vsQ7 .ers-nacht .ers-btn{background:#FFE34D;color:var(--ink);box-shadow:0 8px 0 #C9A200}
+.vsQ7 .ers-h{margin-top:26px}
+
+/* Q8 Sprechblasen */
+.vsQ8 .ers-bw{position:relative;max-width:1000px;margin:0 auto}
+.vsQ8 .ers-bub{position:absolute;top:6%;max-width:250px;background:#fff;border-radius:20px;padding:12px 14px;font-weight:600;font-size:.92rem;color:var(--ink);text-align:left;box-shadow:0 14px 30px -16px rgba(27,34,64,.6);z-index:4;line-height:1.35}
+.vsQ8 .ers-bub.l{left:0}.vsQ8 .ers-bub.r{right:0}
+.vsQ8 .ers-bub::after{content:"";position:absolute;bottom:-10px;width:22px;height:22px;background:#fff;transform:rotate(45deg);border-radius:4px}
+.vsQ8 .ers-bub.l::after{left:40px}.vsQ8 .ers-bub.r::after{right:40px}
+.vsQ8 .ers-bub b{color:#E043B8}.vsQ8 .ers-bub.r b{color:#3D5AFE}
+.vsQ8 .ers-b{height:clamp(260px,32vw,420px);padding-top:70px}
+@media (max-width:860px){.vsQ8 .ers-bub{position:static;max-width:none;margin:0 0 8px}.vsQ8 .ers-bub::after{display:none}.vsQ8 .ers-b{padding-top:0}}
+
+/* Q9 Türen */
+.vsQ9 .ers-b{height:clamp(150px,18vw,230px)}
+.vsQ9 .ers-tueren{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+.vsQ9 .ers-tuer{position:relative;border-radius:28px;height:300px;padding:18px 14px;color:#fff;text-align:center;overflow:hidden;box-shadow:0 7px 0 rgba(0,0,0,.18),0 18px 30px -18px rgba(27,34,64,.6);font-weight:800;font-size:1.15rem;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.vsQ9 .ers-tuer small{display:block;font-weight:500;font-size:.82rem;opacity:.92}
+.vsQ9 .ers-tuer img{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);height:190px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.3));transition:transform .2s}
+.vsQ9 .ers-tuer:hover img{transform:translateX(-50%) translateY(-8px)}
+.vsQ9 .ers-tuer .paar{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);display:flex;height:190px}
+.vsQ9 .ers-tuer .paar img{position:static;transform:none;height:100%;margin:0 -16px}
+.vsQ9 .ers-tuer::before{content:"";position:absolute;left:50%;bottom:-40px;width:70%;height:90px;border-radius:50%;background:rgba(255,255,255,.25);transform:translateX(-50%)}
+@media (max-width:860px){.vsQ9 .ers-tueren{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.vsQ9 .ers-tuer{height:250px;font-size:1rem}.vsQ9 .ers-tuer img,.vsQ9 .ers-tuer .paar{height:150px}}
+
+/* Q10 Leicht */
+.vsQ10 .ers-bar{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.9);border:2px solid #fff;border-radius:22px;box-shadow:0 10px 26px -16px rgba(27,34,64,.45);max-width:900px;margin:0 auto}
+.vsQ10 .ers-bar div{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;font-weight:700;color:var(--ink);border-right:1.5px solid #EEEAF9;min-width:0}
+.vsQ10 .ers-bar div:last-child{border:0}
+.vsQ10 .ers-bar span{font-size:1.4rem}.vsQ10 .ers-bar small{display:block;font-weight:500;color:var(--mut);font-size:.78rem}
+.vsQ10 .ers-k{background:rgba(255,255,255,.92);color:var(--ink);text-shadow:none;border:2px solid #fff;border-top-width:6px;box-shadow:0 14px 28px -20px rgba(27,34,64,.5)}
+.vsQ10 .k1{border-color:#FF5F9E}.vsQ10 .k2{border-color:#E043B8}.vsQ10 .k3{border-color:#0FA968}.vsQ10 .k4{border-color:#8A3FE0}
+.vsQ10 .ers-k i{font-size:2.3rem}
+@media (max-width:640px){.vsQ10 .ers-bar{grid-template-columns:1fr}.vsQ10 .ers-bar div{border-right:0;border-bottom:1.5px solid #EEEAF9;justify-content:flex-start}}
