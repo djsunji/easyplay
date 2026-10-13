@@ -12,18 +12,27 @@ from PIL import Image
 HIER = os.path.dirname(os.path.abspath(__file__))
 W = os.path.dirname(HIER)
 UA = "easyplay-bilder/1.0 (https://djsunji.github.io/easyplay/; Lernseite fuer Kinder)"
-BREITE, HOEHE, QUAL = 480, 400, 62
+# Grössen: klein für Handys (Seite), gross für Tablets/Desktop (Seite), app für eine spätere Offline-App (Release-Paket)
+GROESSEN = {
+    "klein": (480, 400, 62, lambda k: f"bilder/{k[-2:]}/{k}.webp"),
+    "gross": (960, 800, 60, lambda k: f"bilder/gross/{k[-2:]}/{k}.webp"),
+    "app": (1600, 1200, 72, lambda k: f"app/{k[-2:]}/{k}.webp"),
+}
+FELD = {"klein": 6, "gross": 7}
 
 
-def pfad(k):
-    return f"bilder/{k[-2:]}/{k}.webp"
+def fehlt(ix, k, g):
+    if g == "app":
+        return os.environ.get("APP", "0") == "1"
+    v = ix[k]; f = FELD[g]
+    return not (len(v) > f and v[f] and os.path.exists(os.path.join(W, v[f])))
 
 
 def haupt():
     i, n = (int(x) for x in os.environ.get("TEIL", "0/1").split("/"))
     ix = json.load(open(os.path.join(W, "bildindex.json"), encoding="utf-8"))
     ix.pop("_ohne", None)
-    alle = sorted(k for k, v in ix.items() if not (len(v) > 6 and v[6] and os.path.exists(os.path.join(W, v[6]))))
+    alle = sorted(k for k in ix if any(fehlt(ix, k, g) for g in GROESSEN))
     meine = [k for j, k in enumerate(alle) if j % n == i]
     print(f"Teil {i}/{n}: {len(meine)} Bilder zu kopieren")
     ziel = os.path.join(W, "kopie", f"teil-{i}")
@@ -31,7 +40,9 @@ def haupt():
 
     def eins(k):
         url0 = ix[k][0]
-        urls = [re.sub(r"/(\d+)px-", "/500px-", url0), url0] if "/thumb/" in url0 or "px-" in url0 else [url0]
+        noetig = [g for g in GROESSEN if fehlt(ix, k, g)]
+        stufe = "1920px-" if "app" in noetig else ("960px-" if "gross" in noetig else "500px-")
+        urls = [re.sub(r"/(\d+)px-", "/" + stufe, url0), url0] if re.search(r"/\d+px-", url0) else [url0]
         err = "?"
         for v in range(6):
             url = urls[min(v // 3, len(urls) - 1)]
@@ -41,10 +52,12 @@ def haupt():
                     err = "429"; time.sleep(10 * (v + 1)); continue
                 if r.status_code != 200:
                     err = f"http {r.status_code}"; urls = urls[1:] or urls; continue
-                im = Image.open(io.BytesIO(r.content)).convert("RGB")
-                im.thumbnail((BREITE, HOEHE), Image.LANCZOS)
-                p = os.path.join(ziel, pfad(k)); os.makedirs(os.path.dirname(p), exist_ok=True)
-                im.save(p, "WEBP", quality=QUAL, method=6)
+                roh = Image.open(io.BytesIO(r.content)).convert("RGB")
+                for g in noetig:
+                    b, h, q, pf = GROESSEN[g]
+                    im = roh.copy(); im.thumbnail((b, h), Image.LANCZOS)
+                    p = os.path.join(ziel, pf(k)); os.makedirs(os.path.dirname(p), exist_ok=True)
+                    im.save(p, "WEBP", quality=q, method=6 if g == "klein" else 4)
                 return k, None
             except Exception as e:
                 err = str(e)[:60]; time.sleep(2)

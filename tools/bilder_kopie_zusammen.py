@@ -8,24 +8,29 @@ n = 0
 for kj in glob.glob(os.path.join(W, "teile", "**", "kopie.json"), recursive=True):
     basis = os.path.dirname(kj)
     for k in json.load(open(kj))["ok"]:
-        rel = f"bilder/{k[-2:]}/{k}.webp"
-        src = os.path.join(basis, rel)
-        if k not in ix or not os.path.exists(src):
+        if k not in ix:
             continue
-        os.makedirs(os.path.join(W, os.path.dirname(rel)), exist_ok=True)
-        shutil.copyfile(src, os.path.join(W, rel))
-        e = ix[k]
-        while len(e) < 6: e.append("")
-        if len(e) < 7: e.append(rel)
-        else: e[6] = rel
-        n += 1
+        for feld, rel in ((6, f"bilder/{k[-2:]}/{k}.webp"), (7, f"bilder/gross/{k[-2:]}/{k}.webp")):
+            src = os.path.join(basis, rel)
+            if not os.path.exists(src):
+                continue
+            os.makedirs(os.path.join(W, os.path.dirname(rel)), exist_ok=True)
+            shutil.copyfile(src, os.path.join(W, rel))
+            e = ix[k]
+            while len(e) <= feld: e.append("")
+            e[feld] = rel
+            n += 1
+        app = os.path.join(basis, "app", k[-2:], k + ".webp")
+        if os.path.exists(app):
+            z = os.path.join(W, "app-paket", "bilder", k[-2:]); os.makedirs(z, exist_ok=True)
+            shutil.copyfile(app, os.path.join(z, k + ".webp"))
 # Bilder von Seiten, die nicht mehr im Index sind, entfernen
-gueltig = {v[6] for k, v in ix.items() if k != "_ohne" and len(v) > 6 and v[6]}
+gueltig = {v[f] for k, v in ix.items() if k != "_ohne" for f in (6, 7) if len(v) > f and v[f]}
 weg = 0
-for p in glob.glob(os.path.join(W, "bilder", "*", "*.webp")):
+for p in glob.glob(os.path.join(W, "bilder", "*", "*.webp")) + glob.glob(os.path.join(W, "bilder", "gross", "*", "*.webp")):
     if os.path.relpath(p, W) not in gueltig:
         os.remove(p); weg += 1
 json.dump(ix, open(ziel, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 lokal = len(gueltig)
-groesse = sum(os.path.getsize(p) for p in glob.glob(os.path.join(W, "bilder", "*", "*.webp")))
+groesse = sum(os.path.getsize(p) for p in glob.glob(os.path.join(W, "bilder", "**", "*.webp"), recursive=True))
 print(f"::notice::Kopie zusammen: {n} neu, {lokal} lokal, {weg} entfernt, {groesse // 1024 // 1024} MB")

@@ -1,6 +1,10 @@
 name: Bilder lokal speichern
 on:
   workflow_dispatch:
+    inputs:
+      app:
+        description: "Auch das App-Paket mit grossen Bildern (1600 px) bauen (1)"
+        default: "0"
   workflow_run:
     workflows: ["Bilder für die Bibliothek finden"]
     types: [completed]
@@ -29,6 +33,7 @@ jobs:
       - name: Kopieren (Teil ${{ matrix.teil }} von 6)
         env:
           TEIL: "${{ matrix.teil }}/6"
+          APP: ${{ github.event.inputs.app || '0' }}
         run: python3 tools/bilder_kopieren.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
@@ -54,6 +59,28 @@ jobs:
           path: teile
       - name: Zusammenfügen
         run: python3 tools/bilder_kopie_zusammen.py
+      - name: App-Paket als Release hochladen
+        if: hashFiles('app-paket/bilder/**') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          ix = json.load(open("bildindex.json", encoding="utf-8")); ix.pop("_ohne", None)
+          liz = {k: {"titel": v[1], "urheber": v[2], "lizenz": v[3], "quelle": v[4], "datei": f"bilder/{k[-2:]}/{k}.webp"} for k, v in ix.items()}
+          json.dump(liz, open("app-paket/lizenzen.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+          PY
+          cd app-paket
+          for g in 0123456789 abcdefghi jklmnopqr stuvwxyz; do
+            dirs=$(ls bilder | grep -E "^[$g]" | sed 's#^#bilder/#' | tr '\n' ' ')
+            [ -n "$dirs" ] && zip -q -r -0 "../easyplay-bilder-$g.zip" $dirs
+          done
+          zip -q ../easyplay-bilder-lizenzen.zip lizenzen.json
+          cd ..
+          ls -la easyplay-bilder-*.zip
+          gh release view bilder-app >/dev/null 2>&1 || gh release create bilder-app --title "Bilder für die App" --notes "Grosse Bilder (bis 1600 px, WebP) der easyplay-Bibliothek für eine Offline-App. Freie Lizenzen, Urheber und Lizenz pro Bild in lizenzen.json."
+          gh release upload bilder-app easyplay-bilder-*.zip --clobber
+          rm -rf app-paket easyplay-bilder-*.zip
       - name: Speichern
         run: |
           git config user.name "easyplay-bilder"
