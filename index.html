@@ -6899,10 +6899,12 @@ async function wikiSuche(q){
 /* Bibliothek: vorab gefundene freie Bilder (bildindex.json, erstellt von tools/bilder_finden.py) */
 let BIDX=null, BIDXP=null;
 // Nur echte https-Adressen aus dem Bildindex verwenden
+// Lokal gespeichertes Bild (bilder/xx/key.webp), sonst die Originaladresse
+function lokalBild(e){ const p=e&&e[6]; return (!window.claude && typeof p==="string" && /^bilder\/[a-z0-9]{2}\/[a-z0-9]+\.webp$/.test(p)) ? p : ""; }
 function nurHttps(u){ try{ const x=new URL(String(u||"")); return x.protocol==="https:" ? x.href : ""; }catch(e){ return ""; } }
 function bildIndex(){ if(BIDX) return Promise.resolve(BIDX); if(!BIDXP) BIDXP=fetch("bildindex.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({})).then(j=>BIDX=j||{}); return BIDXP; }
 async function bildFuerSeite(s, kand, suche, roh){
-  try{ const ix=await bildIndex(); const e=s && ix[seiteKey(s)]; if(e && nurHttps(e[0])) return {src:e[0], alt:e[1]||s.titel, artist:e[2]||"", lizenz:e[3]||"", dateiUrl:nurHttps(e[4])||"", seite:nurHttps(e[4])||"", datei:""}; }catch(e){}
+  try{ const ix=await bildIndex(); const e=s && ix[seiteKey(s)]; if(e && nurHttps(e[0])) return {src:lokalBild(e)||e[0], alt:e[1]||s.titel, artist:e[2]||"", lizenz:e[3]||"", dateiUrl:nurHttps(e[4])||"", seite:nurHttps(e[4])||"", datei:""}; }catch(e){}
   return wikiBildMehrfach(kand, suche, roh);
 }
 async function wikiBildMehrfach(kandidaten, suche, roh){
