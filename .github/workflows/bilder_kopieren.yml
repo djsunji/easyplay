@@ -1,0 +1,64 @@
+name: Bilder lokal speichern
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Bilder für die Bibliothek finden"]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: bilder-kopie
+  cancel-in-progress: false
+jobs:
+  kopieren:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        teil: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet pillow requests
+      - name: Kopieren (Teil ${{ matrix.teil }} von 6)
+        env:
+          TEIL: "${{ matrix.teil }}/6"
+        run: python3 tools/bilder_kopieren.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: kopie-${{ matrix.teil }}
+          path: kopie/teil-${{ matrix.teil }}/
+          if-no-files-found: ignore
+  zusammenfuegen:
+    needs: kopieren
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: main
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          path: teile
+      - name: Zusammenfügen
+        run: python3 tools/bilder_kopie_zusammen.py
+      - name: Speichern
+        run: |
+          git config user.name "easyplay-bilder"
+          git config user.email "easyplay-bilder@users.noreply.github.com"
+          git add -A bilder bildindex.json
+          git diff --cached --quiet && echo "Keine Änderungen" && exit 0
+          git commit -m "Bibliothek: Bilder lokal gespeichert"
+          for i in 1 2 3; do git pull --rebase -X theirs && git push && break; sleep 5; done
