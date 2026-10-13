@@ -17,6 +17,7 @@ Hier sind alle Entwürfe für eine neue Startseite von https://djsunji.github.io
   - `liegen`: Lumi liegend
   - `zeigen`: Milo lehnt und zeigt
   - `duo3` bis `duo6`: beide zusammen; `duo1` und `duo2` sind angeschnitten und unbrauchbar
+  - Neu (13.10., zweite Lieferung des Nutzers): `duo-winken` (Lumi winkt, Milo Daumen hoch), `duo-hallo` (beide winken mit beiden Händen), `duo-denken` (Lumi Finger am Kinn, Milo kratzt sich am Kopf), `duo-zeigen` (beide zeigen auf den Betrachter), `duo-cool` (Rücken an Rücken, Peace-Zeichen), `duo-sitzen2` (sitzend, Kinn auf der Hand), `duo-jubel` (Sprung mit Fäusten in der Luft), `duo-bereit` (Kampfpose mit Fäusten), `duo-praesentieren` (beide zeigen mit offenen Händen nach oben, wie «Tadaa»), `duo-lachen` (Lumi lacht hinter der Hand, Milo legt den Arm um sie)
 - `generator/`: Python-Skripte und CSS, mit denen die Entwürfe gebaut wurden.
   - Sie fügen in eine Kopie von `index.html` einen Wrapper um `renderHome` ein. Dieser ersetzt nur den Inhalt von `.hero`.
   - Die Bilder liegen dabei unter `_vs/`.
@@ -127,6 +128,30 @@ Der Nutzer wollte nochmals 20 Entwürfe in modernem Design. Alle zeigen Logo, Lu
 - **S19 «Gruppenliste»**: Gruppierte Listen mit Symbolquadrat und Pfeil, wie in iPhone-Einstellungen.
 - **S20 «Schwebender Knopf»**: Ruhige, flache Karten und ein grosser schwebender Startknopf unten rechts.
 - Gebaut mit `generator/gen10.py` und `generator/S.css` (baut auf `Q.css` auf). Wichtig: Die Live-Seite macht den Hero-Inhalt zu einem Flex-Container; `.vsS{display:block}` verhindert, dass zentrierte Karten mit `max-width` schmal werden.
+
+### Modern, hell, immer mit Lumi und Milo (T-Runde, 20 Entwürfe)
+Wunsch des Nutzers: nochmals 20 moderne Entwürfe, kein Dunkelmodus, und in jedem müssen ein oder zwei Kids gross zu sehen sein.
+- **T1 «Begrüssung»**: Lumi gross links mit Sprechblase «Hoi!», rechts Slogan und Knöpfe.
+- **T2 «Duo-Karte»**: Eine weisse Karte mit Text links, rechts winken Lumi und Milo (duo-winken).
+- **T3 «Lumi liegt»**: Lumi liegt auf der Karte «Heute für dich», Milo lehnt rechts neben den Kacheln.
+- **T4 «Zwei Begleiter»**: Pastellkarten «Lernen mit Lumi» und «Spielen mit Milo».
+- **T5 «Blob-Bühne»**: Pastellfarbene Blase mit Logo, Lumi und Milo springen links und rechts heraus.
+- **T6 «Lumi zeigt»**: Lumi zeigt auf die Tagesliste mit Häkchen und XP, Milo steht bei den Kacheln.
+- **T7 «Avatare»**: Zwei grosse runde Porträts von Lumi und Milo mit je einem Knopf.
+- **T8 «Bento mit Kids»**: Bento-Raster, Lumi in der grossen Kachel, Milo in der Duell-Kachel.
+- **T9 «Karussell mit Kids»**: Karten zum Wischen, auf jeder ein Kind oder das Duo (duo-denken beim Tagesquiz).
+- **T10 «Split Pastell»**: Links Pastellblock mit Slogan und dem sitzenden Duo (duo-sitzen2), rechts «Heute für dich».
+- **T11 «Schild»**: Ein Schild «Heute für dich», darunter präsentieren Lumi und Milo es mit offenen Händen (duo-praesentieren).
+- **T12 «Pfad»**: Lumi links, Milo rechts, dazwischen vier runde Stationen auf einem gestrichelten Pfad.
+- **T13 «Cover»**: Helle Hero-Karte mit «Weiterspielen» und dem jubelnden Duo (duo-jubel), Poster mit kleinen Kinder-Avataren.
+- **T14 «Duell-Tafel»**: Lumi gegen Milo mit Anzeigetafel 8 : 9 und «Duell annehmen».
+- **T15 «Mini-Avatare»**: Jede Karte und Kachel trägt ein kleines rundes Kinderporträt («mit Lumi», «mit Milo»).
+- **T16 «Begleiter wählen»**: «Wer begleitet dich heute?» mit zwei wählbaren Karten, Lumi gewählt.
+- **T17 «Kids am Knopf»**: Ein breiter «Los geht's»-Knopf, Lumi und Milo springen links und rechts daneben.
+- **T18 «Magazin»**: Cover mit Kicker «Ausgabe Oktober», nummerierten Schlagzeilen und dem zeigenden Duo (duo-zeigen).
+- **T19 «Tag mit Kids»**: Tagesplan mit Uhrzeiten, bei jedem Punkt ein Kinder-Avatar, Lumi gross daneben.
+- **T20 «Empfehlungen»**: Vier Karten «Lumi und Milo empfehlen», auf jeder steht ein Kind obenauf.
+- Gebaut mit `generator/gen11.py` und `generator/T.css` (baut auf `Q.css` und `S.css` auf). Wichtig: `.hero.vs>div:first-child.vsT{display:block!important}` überstimmt die Flex-Regel der Live-Seite für den ersten Hero-Block.
 
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.

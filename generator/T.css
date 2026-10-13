@@ -1,0 +1,246 @@
+/* T-Runde: 20 moderne, helle Entwürfe, immer mit Lumi und/oder Milo. Baut auf Q.css und S.css auf. */
+.hero.vs>div:first-child.vsT{display:block!important}
+.vsT .t-av{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FFB347,#E043B8,#3D5AFE);flex:0 0 auto}
+.vsT .t-av span{width:100%;height:100%;border-radius:50%;background:#fff;overflow:hidden;display:block}
+.vsT .t-av img{width:100%;height:100%;object-fit:cover;object-position:top;transform:scale(1.5);transform-origin:top center}
+.vsT .t-fig{filter:drop-shadow(0 16px 16px rgba(27,34,64,.28))}
+.vsT .t-bub{position:relative;background:#fff;border-radius:22px;padding:14px 18px;font-weight:700;color:var(--ink);box-shadow:0 18px 34px -22px rgba(27,34,64,.6);text-align:left;line-height:1.35}
+.vsT .t-bub::after{content:"";position:absolute;bottom:-10px;left:36px;width:22px;height:22px;background:#fff;transform:rotate(45deg);border-radius:4px}
+.vsT .t-bub.r::after{left:auto;right:36px}
+.vsT .ers-k.hell{background:#fff;color:var(--ink);text-shadow:none;border:1px solid var(--rand);box-shadow:0 18px 34px -30px rgba(27,34,64,.5)}
+.vsT .ers-k.hell i{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin:0 auto 8px;font-size:1.7rem;color:#fff;filter:none}
+.vsT .t-pills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.vsT .t-pills span{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--rand);border-radius:999px;padding:9px 16px;font-weight:800;color:var(--ink);box-shadow:0 10px 20px -16px rgba(27,34,64,.6)}
+.vsT .t-pills small{font-weight:500;color:var(--mut)}
+
+/* T1 Begrüssung */
+.vsT1 .t-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px;align-items:end;text-align:left}
+.vsT1 .t-grid>*{min-width:0}
+.vsT1 .t-lumi{position:relative;text-align:center;padding-top:90px}
+.vsT1 .t-lumi img{height:clamp(240px,30vw,400px)}
+.vsT1 .t-lumi .t-bub{position:absolute;left:50%;top:0;transform:translateX(-30%);max-width:280px}
+.vsT1 .t-text{padding-bottom:20px}
+.vsT1 .t-text .ers-b{height:clamp(90px,10vw,130px);justify-content:flex-start;margin:0 0 6px}
+.vsT1 .t-text .vs-slogan{text-align:left}
+.vsT1 .t-text .vs-pills,.vsT1 .t-text .ers-cta{justify-content:flex-start}
+@media (max-width:860px){.vsT1 .t-grid{grid-template-columns:1fr;text-align:center}.vsT1 .t-lumi{order:2;padding-top:80px}.vsT1 .t-lumi img{height:220px}.vsT1 .t-text .ers-b{justify-content:center;margin:0 auto 6px}.vsT1 .t-text .vs-slogan{text-align:center}.vsT1 .t-text .vs-pills,.vsT1 .t-text .ers-cta{justify-content:center}}
+
+/* T2 Duo-Karte */
+.vsT2 .t-karte{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:end;padding:26px 28px 0;overflow:visible;text-align:left}
+.vsT2 .t-karte>*{min-width:0}
+.vsT2 .t-karte .ers-b{height:clamp(90px,10vw,130px);justify-content:flex-start;margin:0 0 6px}
+.vsT2 .t-karte .vs-slogan{text-align:left}
+.vsT2 .t-karte .vs-pills,.vsT2 .t-karte .ers-cta{justify-content:flex-start}
+.vsT2 .t-karte .t-text{padding-bottom:26px}
+.vsT2 .t-karte .t-duo{text-align:center;margin-top:-60px}
+.vsT2 .t-karte .t-duo img{height:clamp(260px,30vw,400px);display:block;margin:0 auto}
+@media (max-width:860px){.vsT2 .t-karte{grid-template-columns:1fr;text-align:center}.vsT2 .t-karte .ers-b{justify-content:center;margin:0 auto 6px}.vsT2 .t-karte .vs-slogan{text-align:center}.vsT2 .t-karte .vs-pills,.vsT2 .t-karte .ers-cta{justify-content:center}.vsT2 .t-karte .t-duo{margin-top:0}.vsT2 .t-karte .t-duo img{height:220px}}
+
+/* T3 Lumi liegt */
+.vsT3 .t-liegt{position:relative;max-width:900px;margin:150px auto 0;padding:96px 24px 22px;text-align:left}
+.vsT3 .t-liegt .t-fig{position:absolute;left:50%;top:-150px;transform:translateX(-50%);width:min(440px,90%)}
+.vsT3 .t-liegt h4{margin:0 0 10px;font:800 1.4rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsT3 .t-liegt .ers-karte{box-shadow:none;background:#F6F5FD;border:0}
+.vsT3 .t-milo{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.vsT3 .t-milo img{height:clamp(200px,24vw,300px)}
+@media (max-width:760px){.vsT3 .t-liegt{margin-top:110px;padding-top:50px}.vsT3 .t-liegt .t-fig{top:-110px;width:80%}.vsT3 .t-milo{grid-template-columns:1fr}.vsT3 .t-milo img{display:none}}
+
+/* T4 Zwei Begleiter */
+.vsT4 .t-zwei{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vsT4 .t-beg{position:relative;overflow:hidden;border-radius:32px;padding:24px 26px;text-align:left;min-height:250px;color:var(--ink);box-shadow:0 24px 44px -34px rgba(27,34,64,.55)}
+.vsT4 .t-beg.l{background:linear-gradient(135deg,#FFE1EC,#FFF0D9)}.vsT4 .t-beg.m{background:linear-gradient(135deg,#E2E8FF,#D9F6E8)}
+.vsT4 .t-beg small{font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsT4 .t-beg h4{margin:4px 0 12px;font:800 1.9rem "Bricolage Grotesque","Fredoka",sans-serif}
+.vsT4 .t-beg .t-u{display:flex;flex-direction:column;gap:8px;max-width:58%}
+.vsT4 .t-beg .t-u span{background:#fff;border-radius:14px;padding:11px 14px;font-weight:800;box-shadow:0 10px 20px -16px rgba(27,34,64,.6)}
+.vsT4 .t-beg img{position:absolute;right:0;bottom:-10px;height:230px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+@media (max-width:760px){.vsT4 .t-zwei{grid-template-columns:1fr}.vsT4 .t-beg img{height:160px}.vsT4 .t-beg .t-u{max-width:60%}}
+
+/* T5 Blob-Bühne */
+.vsT5 .t-blob{position:relative;max-width:980px;margin:20px auto 0;padding:34px clamp(24px,14vw,170px) 26px;background:linear-gradient(135deg,#FFE9F3,#E6ECFF 55%,#E3F8EE);border-radius:52% 48% 46% 54% / 42% 38% 62% 58%;box-shadow:0 30px 60px -36px rgba(27,34,64,.5)}
+.vsT5 .t-blob .ers-b{height:clamp(140px,16vw,210px)}
+.vsT5 .t-kid{position:absolute;height:clamp(180px,24vw,330px);z-index:3;animation:vsHuepf 3s ease-in-out infinite}
+.vsT5 .t-kid.l{left:-30px;bottom:-10px}.vsT5 .t-kid.r{right:-30px;bottom:-10px;animation-delay:-1.5s}
+.vsT5 .ers-k{color:var(--ink);text-shadow:none;box-shadow:0 7px 0 rgba(0,0,0,.06),0 18px 30px -18px rgba(27,34,64,.4)}
+.vsT5 .k1{background:#FFE1EC}.vsT5 .k2{background:#FFE6D6}.vsT5 .k3{background:#D9F6E8}.vsT5 .k4{background:#E6E0FF}
+@media (max-width:760px){.vsT5 .t-blob{border-radius:36px;padding:24px 16px}.vsT5 .t-kid{height:130px;bottom:auto;top:-30px}}
+
+/* T6 Lumi zeigt */
+.vsT6 .t-zeigt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:end;max-width:900px;margin:10px auto 0}
+.vsT6 .t-zeigt>img{height:clamp(220px,28vw,360px);margin-bottom:-10px}
+.vsT6 .t-liste{padding:18px 22px;text-align:left}
+.vsT6 .t-liste h4{margin:0 0 8px;font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsT6 .t-z{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--rand);font-weight:800;color:var(--ink)}
+.vsT6 .t-z:last-child{border:0}
+.vsT6 .t-z .box{width:28px;height:28px;border-radius:9px;border:3px solid #C9C3EE;display:grid;place-items:center;flex:0 0 auto;font-size:.9rem}
+.vsT6 .t-z.ok .box{background:#0FA968;border-color:#0FA968;color:#fff}.vsT6 .t-z.ok span{text-decoration:line-through;opacity:.6}
+.vsT6 .t-z small{display:block;font-weight:500;color:var(--mut)}
+.vsT6 .t-z em{margin-left:auto;font-style:normal;color:#3D5AFE;white-space:nowrap}
+.vsT6 .t-kach{position:relative;padding-right:150px}
+.vsT6 .t-kach>img{position:absolute;right:-10px;bottom:-16px;height:200px}
+@media (max-width:760px){.vsT6 .t-zeigt{grid-template-columns:1fr}.vsT6 .t-zeigt>img{height:160px;margin:0 auto}.vsT6 .t-kach{padding-right:0}.vsT6 .t-kach>img{display:none}}
+
+/* T7 Avatare */
+.vsT7 .t-avs{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.vsT7 .t-big{display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:800;color:var(--ink)}
+.vsT7 .t-big .t-av{width:clamp(130px,16vw,190px);height:clamp(130px,16vw,190px);padding:5px}
+.vsT7 .t-big b{font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif}
+.vsT7 .t-big small{color:var(--mut);font-weight:600}
+.vsT7 .t-big .ers-btn{padding:9px 16px;font-size:.9rem}
+.vsT7 .t-big.milo .t-av{background:linear-gradient(135deg,#3D5AFE,#1E9BE0,#8CE0C8)}
+
+/* T8 Bento mit Kids */
+.vsT8 .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:14px;margin-top:8px}
+.vsT8 .bento>*{border-radius:28px;background:#fff;border:1px solid var(--rand);box-shadow:0 20px 40px -30px rgba(27,34,64,.5);padding:18px;text-align:left;min-width:0;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:space-between}
+.vsT8 .b-lumi{grid-column:span 2;grid-row:span 2;background:linear-gradient(160deg,#FFD6E8,#FFF0D9);border:0;align-items:flex-start}
+.vsT8 .b-lumi img{position:absolute;right:0;bottom:0;height:96%}
+.vsT8 .b-lumi .vs-slogan{text-align:left;font-size:clamp(1.8rem,3.2vw,2.6rem);margin:0;max-width:55%}
+.vsT8 .b-lumi .ers-b{height:70px;justify-content:flex-start;margin:0}
+.vsT8 .b-milo{grid-column:span 2;background:linear-gradient(160deg,#DCE6FF,#D9F6E8);border:0}
+.vsT8 .b-milo img{position:absolute;right:6px;bottom:-6px;height:150px}
+.vsT8 .b-milo b{font:800 1.2rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink);max-width:60%}
+.vsT8 .b-milo .ers-btn{align-self:flex-start;padding:9px 16px;font-size:.9rem}
+.vsT8 .b-stat small{font-weight:800;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.vsT8 .b-stat .z{font:800 2.2rem/1 "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsT8 .b-stat p{margin:0;color:var(--mut);font-size:.85rem}
+.vsT8 .b-k{color:#fff;border:0;font-weight:800;font-size:1rem}
+.vsT8 .b-k i{font-style:normal;font-size:2.2rem;line-height:1}
+.vsT8 .b-k.g1{background:linear-gradient(135deg,#FF5F9E,#FFB347)}.vsT8 .b-k.g2{background:linear-gradient(135deg,#FF8A3D,#E043B8)}.vsT8 .b-k.g3{background:linear-gradient(135deg,#0FA968,#1E9BE0)}.vsT8 .b-k.g4{background:linear-gradient(135deg,#5B3FE0,#C86BFF)}
+@media (max-width:860px){.vsT8 .bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px}.vsT8 .b-lumi{grid-row:span 2}.vsT8 .b-lumi img{height:80%}}
+
+/* T9 Karussell mit Kids */
+.vsT9 .karussell{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:60px 4px 18px;scrollbar-width:none;margin-top:-40px}
+.vsT9 .karussell::-webkit-scrollbar{display:none}
+.vsT9 .kk{flex:0 0 min(340px,78%);scroll-snap-align:start;border-radius:30px;padding:20px 22px;color:var(--ink);text-align:left;min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;box-shadow:0 24px 44px -28px rgba(27,34,64,.5)}
+.vsT9 .kk small{font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsT9 .kk b{display:block;font:800 1.5rem/1.1 "Bricolage Grotesque","Fredoka",sans-serif;margin:4px 0;max-width:62%}
+.vsT9 .kk p{margin:0 0 10px;color:var(--mut);max-width:62%}
+.vsT9 .kk img{position:absolute;right:10px;bottom:0;height:200px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsT9 .kk .ers-btn{align-self:flex-start;padding:10px 18px;font-size:.95rem}
+.vsT9 .c1{background:linear-gradient(135deg,#FFE1EC,#FFF0D9)}.vsT9 .c2{background:linear-gradient(135deg,#DCE6FF,#E6E0FF)}.vsT9 .c3{background:linear-gradient(135deg,#D9F6E8,#E2F7FF)}.vsT9 .c4{background:linear-gradient(135deg,#FFF3B0,#FFE6D6)}
+
+/* T10 Split Pastell */
+.vsT10 .split{display:grid;grid-template-columns:1fr 1fr;border-radius:40px;overflow:hidden;box-shadow:0 30px 60px -36px rgba(27,34,64,.5);text-align:left;background:#fff}
+.vsT10 .split>*{min-width:0}
+.vsT10 .links{position:relative;background:linear-gradient(160deg,#E6E0FF,#FFE1EC);padding:30px 28px 0;display:flex;flex-direction:column;min-height:420px}
+.vsT10 .links .vs-slogan{text-align:left;margin:0 0 8px}
+.vsT10 .links p{margin:0;color:var(--mut);max-width:34ch}
+.vsT10 .links img{margin-top:auto;width:min(380px,100%);align-self:center;display:block}
+.vsT10 .rechts{padding:28px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.vsT10 .rechts .ers-b{height:90px;justify-content:flex-start;margin:0}
+.vsT10 .rechts .ers-heute{grid-template-columns:1fr;gap:8px}
+.vsT10 .rechts .ers-karte{box-shadow:none;background:#F6F5FD;border:0;padding:10px 14px}
+.vsT10 .rechts .ers-cta{justify-content:flex-start}
+@media (max-width:860px){.vsT10 .split{grid-template-columns:1fr}.vsT10 .links{min-height:0;text-align:center}.vsT10 .links .vs-slogan{text-align:center}.vsT10 .links p{margin-inline:auto}.vsT10 .rechts .ers-b{justify-content:center}.vsT10 .rechts .ers-cta{justify-content:center}}
+
+/* T11 Schild */
+.vsT11 .t-schild{max-width:720px;margin:0 auto;padding:18px 22px;text-align:left;position:relative}
+.vsT11 .t-schild::after{content:"";position:absolute;left:50%;bottom:-26px;width:14px;height:26px;background:#C9C3EE;transform:translateX(-50%);border-radius:0 0 6px 6px}
+.vsT11 .t-schild h4{margin:0 0 8px;font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsT11 .t-schild .ers-heute{gap:10px}
+.vsT11 .t-schild .ers-karte{box-shadow:none;background:#F6F5FD;border:0}
+.vsT11 .t-duo{display:block;margin:-6px auto -10px;width:min(380px,80%)}
+
+/* T12 Pfad */
+.vsT12 .t-pfad{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin-top:10px}
+.vsT12 .t-pfad>img{height:clamp(200px,26vw,340px)}
+.vsT12 .t-stops{position:relative;display:flex;justify-content:space-between;align-items:center;padding:30px 20px}
+.vsT12 .t-stops::before{content:"";position:absolute;left:40px;right:40px;top:50%;border-top:4px dashed #C9C3EE;z-index:0}
+.vsT12 .t-stop{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:800;color:var(--ink);font-size:.95rem}
+.vsT12 .t-stop i{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:2.2rem;color:#fff;border:5px solid #fff;box-shadow:0 14px 28px -14px rgba(27,34,64,.6)}
+@media (max-width:860px){.vsT12 .t-pfad{grid-template-columns:1fr}.vsT12 .t-pfad>img{display:none}.vsT12 .t-stops{flex-wrap:wrap;gap:16px;justify-content:center}.vsT12 .t-stops::before{display:none}}
+
+/* T13 Cover */
+.vsT13 .heroc{position:relative;border-radius:36px;overflow:hidden;min-height:340px;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;text-align:left;color:var(--ink);background:linear-gradient(120deg,#FFE6D6,#FFD6E8 50%,#E6E0FF);box-shadow:0 30px 60px -36px rgba(27,34,64,.5)}
+.vsT13 .heroc>*{position:relative;z-index:1}
+.vsT13 .heroc img{position:absolute;right:10px;bottom:0;height:100%;z-index:0;filter:drop-shadow(0 10px 20px rgba(27,34,64,.25))}
+.vsT13 .heroc small{font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.vsT13 .heroc b{display:block;font:800 clamp(1.8rem,4vw,3rem)/1.05 "Bricolage Grotesque","Fredoka",sans-serif;margin:6px 0 8px;max-width:50%}
+.vsT13 .heroc .vbar{max-width:300px;background:rgba(255,255,255,.7);margin:8px 0 14px}
+.vsT13 .heroc .ers-cta{justify-content:flex-start}
+.vsT13 .poster{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.vsT13 .poster div{position:relative;border-radius:22px;aspect-ratio:4/3;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;text-align:left;font-weight:800;box-shadow:0 18px 30px -22px rgba(27,34,64,.7)}
+.vsT13 .poster div i{font-style:normal;font-size:2rem;position:absolute;left:14px;top:12px}
+.vsT13 .poster div small{display:block;font-weight:500;opacity:.9;font-size:.8rem}
+.vsT13 .poster .t-av{position:absolute;right:10px;top:10px;width:44px;height:44px;padding:2px;background:#fff}
+@media (max-width:860px){.vsT13 .poster{grid-template-columns:repeat(2,1fr)}.vsT13 .heroc b{max-width:60%}.vsT13 .heroc img{height:75%;right:-20px}}
+@media (max-width:560px){.vsT13 .heroc{min-height:420px;justify-content:flex-start}.vsT13 .heroc img{height:45%;bottom:0;right:50%;transform:translateX(50%)}.vsT13 .heroc b{max-width:none}}
+
+/* T14 Duell-Tafel */
+.vsT14 .t-duell{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:end;max-width:960px;margin:10px auto 0}
+.vsT14 .t-duell>img{height:clamp(200px,26vw,340px)}
+.vsT14 .t-tafel{padding:20px 22px 22px;text-align:center;margin-bottom:30px}
+.vsT14 .t-tafel small{font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsT14 .t-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:10px 0 12px}
+.vsT14 .t-score b{font:800 clamp(2.4rem,5vw,4rem)/1 "Bricolage Grotesque","Fredoka",sans-serif}
+.vsT14 .t-score .l{color:#E043B8}.vsT14 .t-score .m{color:#3D5AFE}
+.vsT14 .t-score em{font-style:normal;font-weight:800;color:var(--mut);font-size:1.4rem}
+.vsT14 .t-score span{display:block;font-weight:700;color:var(--mut);font-size:.9rem}
+.vsT14 .t-tafel p{margin:0 0 12px;color:var(--mut);font-weight:600}
+@media (max-width:760px){.vsT14 .t-duell{grid-template-columns:1fr 1fr}.vsT14 .t-tafel{grid-column:1/-1;order:-1;margin:0}.vsT14 .t-duell>img{height:170px;margin:0 auto}}
+
+/* T15 Mini-Avatare */
+.vsT15 .ers-karte{position:relative;padding-right:60px}
+.vsT15 .ers-karte .t-av{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:44px;height:44px;padding:2px}
+.vsT15 .ers-k{position:relative}
+.vsT15 .ers-k .t-av{position:absolute;right:10px;top:10px;width:40px;height:40px;padding:2px;background:#fff}
+.vsT15 .ers-k small{display:block;font-weight:600;font-size:.78rem;opacity:.9;margin-top:4px}
+
+/* T16 Begleiter wählen */
+.vsT16 .t-wahl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:760px;margin:0 auto}
+.vsT16 .t-w{position:relative;border-radius:30px;padding:18px;text-align:left;min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;cursor:pointer}
+.vsT16 .t-w.an{outline:4px solid #E043B8;outline-offset:3px}
+.vsT16 .t-w img{position:absolute;right:6px;bottom:0;height:190px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsT16 .t-w b{font:800 1.5rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsT16 .t-w small{color:var(--mut);font-weight:600;max-width:55%}
+.vsT16 .t-w .hak{position:absolute;left:14px;top:14px;background:#E043B8;color:#fff;border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:800}
+.vsT16 .t-w.lumi{background:linear-gradient(135deg,#FFE1EC,#FFF0D9)}.vsT16 .t-w.milo{background:linear-gradient(135deg,#DCE6FF,#D9F6E8)}
+.vsT16 .ers-karte{border-left:5px solid #E043B8}
+.vsT16 .ers-btn{background:linear-gradient(135deg,#FF3D6E,#E043B8);box-shadow:0 8px 0 #9B1F7C}
+@media (max-width:560px){.vsT16 .t-wahl{grid-template-columns:1fr}}
+
+/* T17 Lumi auf dem Knopf */
+.vsT17 .t-knopf{position:relative;max-width:680px;margin:130px auto 20px}
+.vsT17 .t-knopf .ers-btn{display:flex;justify-content:center;width:100%;font-size:1.6rem;padding:24px 30px;border-radius:30px}
+.vsT17 .t-knopf img{position:absolute;bottom:-6px;height:clamp(150px,18vw,220px);z-index:2;animation:vsHuepf 3s ease-in-out infinite}
+.vsT17 .t-knopf img.l{left:-20px}.vsT17 .t-knopf img.r{right:-20px;animation-delay:-1.5s}
+@media (max-width:640px){.vsT17 .t-knopf{margin-top:120px}.vsT17 .t-knopf img{height:130px;bottom:60px}.vsT17 .t-knopf img.l{left:0}.vsT17 .t-knopf img.r{right:0}}
+
+/* T18 Magazin */
+.vsT18 .t-mag{display:grid;grid-template-columns:1fr .9fr;gap:20px;align-items:end;padding:26px 28px 0;overflow:visible;text-align:left}
+.vsT18 .t-mag>*{min-width:0}
+.vsT18 .t-mag .kicker{display:inline-block;background:var(--ink);color:#fff;border-radius:6px;padding:4px 10px;font-weight:800;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
+.vsT18 .t-mag .vs-slogan{text-align:left;font-size:clamp(2.6rem,5.4vw,4.6rem);margin:10px 0 14px}
+.vsT18 .t-mag .t-schlag{display:grid;gap:8px;margin-bottom:26px}
+.vsT18 .t-mag .t-schlag div{display:flex;gap:12px;align-items:center;font-weight:800;color:var(--ink);border-top:2px solid var(--ink);padding-top:8px}
+.vsT18 .t-mag .t-schlag div em{font-style:normal;font:800 1.6rem "Bricolage Grotesque","Fredoka",sans-serif;color:#E043B8;min-width:34px}
+.vsT18 .t-mag .t-schlag small{display:block;font-weight:500;color:var(--mut)}
+.vsT18 .t-mag img{height:clamp(280px,34vw,460px);display:block;margin:-80px auto 0}
+.vsT18 .t-rubriken{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.vsT18 .t-rubriken span{border:2px solid var(--ink);border-radius:999px;padding:9px 18px;font-weight:800;color:var(--ink);background:#fff}
+@media (max-width:860px){.vsT18 .t-mag{grid-template-columns:1fr}.vsT18 .t-mag img{height:240px;margin:0 auto}}
+
+/* T19 Tag mit Kids */
+.vsT19 .t-tag{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:end;max-width:960px;margin:10px auto 0}
+.vsT19 .t-tag>img{height:clamp(220px,28vw,380px)}
+.vsT19 .tl{padding:20px 22px;text-align:left}
+.vsT19 .tl h4{margin:0 0 12px;font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsT19 .tl .e{display:grid;grid-template-columns:56px auto 1fr;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rand)}
+.vsT19 .tl .e:last-child{border:0}
+.vsT19 .tl .e time{font:800 .85rem ui-monospace,monospace;color:var(--mut)}
+.vsT19 .tl .e .t-av{width:44px;height:44px;padding:2px}
+.vsT19 .tl .e b{display:block;color:var(--ink)}.vsT19 .tl .e small{color:var(--mut)}
+.vsT19 .tl .e.ok b{text-decoration:line-through;opacity:.6}
+.vsT19 .tl .e.jetzt{background:#F6F5FD;border-radius:14px;padding:8px 10px;margin:0 -10px}
+@media (max-width:760px){.vsT19 .t-tag{grid-template-columns:1fr}.vsT19 .t-tag>img{height:170px;margin:0 auto}}
+
+/* T20 Empfehlungen */
+.vsT20 .t-reihe{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:70px}
+.vsT20 .t-emp{position:relative;padding:60px 16px 16px;text-align:center}
+.vsT20 .t-emp img{position:absolute;left:50%;top:-70px;transform:translateX(-50%);height:140px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsT20 .t-emp small{font-weight:800;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsT20 .t-emp b{display:block;font:800 1.2rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink);margin:4px 0}
+.vsT20 .t-emp p{margin:0 0 10px;color:var(--mut);font-size:.9rem}
+.vsT20 .t-emp .ers-btn{padding:9px 16px;font-size:.9rem}
+@media (max-width:860px){.vsT20 .t-reihe{grid-template-columns:repeat(2,1fr);row-gap:80px}}
+@media (max-width:480px){.vsT20 .t-reihe{grid-template-columns:1fr}}
