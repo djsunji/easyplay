@@ -5,6 +5,9 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://de.wikipedia.org https://commons.wikimedia.org https://*.supabase.co wss://*.supabase.co; frame-src https://www.openstreetmap.org; media-src 'self' https: data: blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>easyplay, Fragen. Wissen. Weiterkommen.</title>
 <meta name="description" content="Spielerisch lernen: Quiz, Bibliothek und Wettbewerbe für Kinder und Jugendliche in der Schweiz">
@@ -2440,6 +2443,43 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 @keyframes fzHuepf{0%,70%,100%{transform:rotate(-3deg) translateY(0)}78%{transform:rotate(4deg) translateY(-6px)}86%{transform:rotate(-3deg) translateY(0)}}
 @keyframes fzZwinkern{0%{opacity:0}77%{opacity:1}86%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.mobiconwrap,.mobiconwrap .wink,.mobkids .kid,.mobkids .kid::before{animation:none!important}}
+</style>
+<style id="tablet">
+/* ===== iPad und Tablets ===== */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+button,a,[role="button"],.opt,.lopt{touch-action:manipulation}
+/* Ränder der Geräte (Notch, Home-Balken) in der installierten App */
+@supports (padding:max(0px)){
+  .wrap{padding-left:max(16px,env(safe-area-inset-left))!important;padding-right:max(16px,env(safe-area-inset-right))!important}
+  footer.eplegal{padding-bottom:max(12px,env(safe-area-inset-bottom))}
+}
+/* Hochformat iPad (ca. 760 bis 1100 px): Kennzahlen untereinander, Kinderbild kleiner */
+@media (min-width:761px) and (max-width:1100px){
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,.8fr)!important;gap:12px!important}
+  .kennzahlen{flex-wrap:wrap!important;max-width:none!important}
+  .kzk{flex:1 1 100%!important;justify-content:flex-start!important;text-align:left}
+  .kztext b{font-size:2.3rem!important}
+  .heroart{transform:scale(.86);transform-origin:70% 40%}
+  .heroart .badge,.pschild{transform:scale(.92) rotate(-3deg)}
+  .lernleiste{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+/* Touch-Geräte mit grossem Bildschirm: grössere Antwortflächen und Schrift im Quiz */
+@media (pointer:coarse) and (min-width:761px){
+  .ans{min-height:84px;font-size:1.18rem!important}
+  .lqtext{font-size:clamp(1.6rem,3.2vw,2.3rem)}
+  .nav .navbtn{min-height:52px}
+  .crumbs .crumb{min-height:44px;padding-inline:16px}
+  .seg{min-height:44px}
+  input,select,textarea{font-size:16px}
+}
+/* Qeels auf dem iPad: breitere Karte statt Handy-Streifen */
+@media (pointer:coarse) and (min-width:761px){
+  #reels .rfeed,#reels .rkopf{width:min(100vw,calc((100dvh - 32px) * 9 / 16),640px)!important}
+}
+/* Querformat iPad: Inhalte nicht zu breit, Quiz mittig */
+@media (min-width:1101px) and (max-width:1400px) and (pointer:coarse){
+  .wrap{max-width:1180px}
+}
 </style>
 </head>
 <body>
