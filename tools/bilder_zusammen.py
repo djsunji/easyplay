@@ -8,7 +8,12 @@ ohne = set(alle.pop("_ohne", []) or [])
 for f in sorted(glob.glob(os.path.join(W, "teile", "**", "bildindex-teil-*.json"), recursive=True)):
     d = json.load(open(f, encoding="utf-8"))
     ohne |= set(d.pop("_ohne", []) or [])
-    alle.update(d)
+    # In der Verwaltung von Hand gesetzte Bilder (e = eigenes, m = manuell gewählt) nie überschreiben
+    for k, v in d.items():
+        alt = alle.get(k)
+        if isinstance(alt, list) and len(alt) > 5 and alt[5] in ("e", "m"):
+            continue  # manuell
+        alle[k] = v
     print(f, len(d))
 ohne -= set(alle)
 # Titel ohne HTML-Reste, Seitentitel aus bildseiten.json bevorzugen

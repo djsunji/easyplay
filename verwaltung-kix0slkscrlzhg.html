@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; connect-src 'self' https://api.github.com https://*.supabase.co https://commons.wikimedia.org; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>easyplay Verwaltung</title>
+<style>
+:root{--bg:#f6f6f7;--fl:#fff;--tx:#1d1d22;--mu:#6b6b76;--li:#dcdce2;--ak:#2d5bd7;--ok:#1d7a3a;--wa:#a86400;--fe:#b3261e;--zb:#fafafb;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#141418;--fl:#1d1d23;--tx:#e8e8ee;--mu:#9a9aa8;--li:#33333d;--ak:#7d9cff;--ok:#5cc47e;--wa:#e0a34a;--fe:#ff7a70;--zb:#202028;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--li);background:var(--fl);position:sticky;top:0;z-index:5}
+header b{font-size:15px}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{background:none;border:0;border-radius:6px;padding:6px 10px;color:var(--mu);font:inherit;cursor:pointer}
+nav button.an{background:var(--bg);color:var(--tx);font-weight:600}
+#status{margin-left:auto;font-size:12px;color:var(--mu);display:flex;gap:12px;flex-wrap:wrap}
+main{padding:16px;max-width:1400px;margin:0 auto}
+h2{font-size:16px;margin:0 0 10px}
+h3{font-size:13px;margin:18px 0 6px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}
+.raster{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.zahl{background:var(--fl);border:1px solid var(--li);border-radius:6px;padding:8px 10px}
+.zahl span{display:block;font-size:12px;color:var(--mu)}
+.zahl b{font-size:20px;font-variant-numeric:tabular-nums}
+.zahl small{color:var(--mu)}
+.box{background:var(--fl);border:1px solid var(--li);border-radius:6px;padding:12px;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;background:var(--fl);font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--li);vertical-align:top}
+th{font-size:12px;color:var(--mu);font-weight:600;background:var(--zb);position:sticky;top:49px}
+tr.wahl td{background:color-mix(in srgb,var(--ak) 12%,transparent)}
+tbody tr{cursor:default}
+tbody tr.klick{cursor:pointer}
+tbody tr.klick:hover td{background:var(--zb)}
+.r{text-align:right}
+input,select,textarea,button{font:inherit;color:inherit}
+input[type=text],input[type=search],input[type=password],input[type=email],input[type=number],select,textarea{background:var(--fl);border:1px solid var(--li);border-radius:5px;padding:5px 7px}
+textarea{width:100%;min-height:60px;resize:vertical}
+button.k{background:var(--fl);border:1px solid var(--li);border-radius:5px;padding:5px 10px;cursor:pointer}
+button.k:hover{border-color:var(--mu)}
+button.p{background:var(--ak);border-color:var(--ak);color:#fff}
+button.g{color:var(--fe);border-color:color-mix(in srgb,var(--fe) 40%,var(--li))}
+button:disabled{opacity:.5;cursor:default}
+.leiste{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.leiste .rechts{margin-left:auto}
+.mu{color:var(--mu)}.ok{color:var(--ok)}.wa{color:var(--wa)}.fe{color:var(--fe)}
+.formular{display:grid;grid-template-columns:140px 1fr;gap:6px 10px;align-items:start}
+.formular label{color:var(--mu);padding-top:6px}
+.zwei{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:12px;align-items:start}
+@media (max-width:900px){.zwei{grid-template-columns:1fr}.formular{grid-template-columns:1fr}th{position:static}}
+.bilder{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.bild{background:var(--fl);border:1px solid var(--li);border-radius:6px;padding:6px;font-size:12px;display:flex;flex-direction:column;gap:4px}
+.bild img,.bild .leer{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:4px;background:var(--zb)}
+.bild .leer{display:grid;place-items:center;color:var(--mu)}
+.bild b{font-size:13px}
+.bild .ak{display:flex;gap:4px;flex-wrap:wrap;margin-top:auto}
+.bild.geaendert{outline:2px solid var(--wa)}
+.balken{display:flex;align-items:flex-end;gap:2px;height:120px;border-bottom:1px solid var(--li);padding-top:6px}
+.balken i{flex:1;background:var(--ak);min-height:1px;border-radius:2px 2px 0 0;position:relative}
+.balken i:hover{opacity:.75}
+.achse{display:flex;justify-content:space-between;font-size:11px;color:var(--mu)}
+#aenderungen{display:none;position:sticky;bottom:0;background:var(--fl);border-top:2px solid var(--wa);padding:8px 16px;gap:10px;align-items:center;flex-wrap:wrap;z-index:6}
+#aenderungen.da{display:flex}
+#meldung{position:fixed;right:16px;bottom:64px;max-width:420px;background:var(--tx);color:var(--bg);padding:8px 12px;border-radius:6px;display:none;z-index:9}
+.hinweis{border-left:3px solid var(--wa);padding:6px 10px;background:var(--fl);margin-bottom:10px}
+code{font-size:12px;background:var(--zb);padding:1px 4px;border-radius:3px}
+.seiten{display:flex;gap:6px;align-items:center;margin-top:8px}
+dialog{border:1px solid var(--li);border-radius:8px;background:var(--fl);color:var(--tx);max-width:640px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.35)}
+.klein{font-size:12px}
+.nowrap{white-space:nowrap}
+.marke{display:inline-block;padding:0 6px;border-radius:9px;font-size:11px;border:1px solid var(--li)}
+</style>
+</head>
+<body>
+<script>if(window.top!==window.self){ document.documentElement.innerHTML=""; throw new Error("Rahmen nicht erlaubt"); }</script>
+<header>
+  <b>easyplay · Verwaltung</b>
+  <nav id="tabs">
+    <button data-t="uebersicht" class="an">Übersicht</button>
+    <button data-t="statistik">Statistik</button>
+    <button data-t="fragen">Fragen</button>
+    <button data-t="bilder">Bilder</button>
+    <button data-t="benutzer">Benutzer</button>
+    <button data-t="kommentare">Kommentare</button>
+    <button data-t="zugang">Zugang</button>
+  </nav>
+  <div id="status"></div>
+</header>
+<main id="inhalt"></main>
+<div id="aenderungen"><b id="aeText"></b><span class="mu klein">Erst mit «Speichern» landen die Änderungen auf GitHub. Danach sind sie nach etwa 1 bis 2 Minuten auf der Website.</span><span style="margin-left:auto"></span><button class="k" id="aeListe">Anzeigen</button><button class="k g" id="aeVerwerfen">Verwerfen</button><button class="k p" id="aeSpeichern">Speichern</button></div>
+<div id="meldung" role="status"></div>
+<dialog id="dlg"></dialog>
+<script src="config.js"></script>
+<script>
+"use strict";
+/* ======================= Grundlagen ======================= */
+const REPO = "djsunji/easyplay", ZWEIG = "main", GH = "https://api.github.com/repos/" + REPO;
+const CFG = window.EP_CONFIG || {};
+const $ = (q, el) => (el || document).querySelector(q);
+const $$ = (q, el) => [...(el || document).querySelectorAll(q)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const zahl = n => (n == null || isNaN(n)) ? "-" : Number(n).toLocaleString("de-CH");
+const datum = d => d ? new Date(d).toLocaleString("de-CH", {day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"}) : "-";
+const tag = d => d ? new Date(d).toLocaleDateString("de-CH", {day:"2-digit", month:"2-digit", year:"numeric"}) : "-";
+const proz = (a, b) => b ? Math.round(a / b * 1000) / 10 + " %" : "-";
+function melde(t, art){ const m=$("#meldung"); m.textContent=t; m.style.background = art==="fe" ? "var(--fe)" : ""; m.style.display="block"; clearTimeout(m._t); m._t=setTimeout(()=>m.style.display="none", art==="fe"?8000:3500); }
+const store = {
+  get(k, d){ try{ const v = sessionStorage.getItem(k) ?? localStorage.getItem(k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v, dauerhaft){ try{ (dauerhaft ? localStorage : sessionStorage).setItem(k, JSON.stringify(v)); if(!dauerhaft) localStorage.removeItem(k); }catch(e){} },
+  del(k){ try{ sessionStorage.removeItem(k); localStorage.removeItem(k); }catch(e){} }
+};
+const DATEN = { fragen:null, themen:{}, bildindex:null, seiten:null, gesperrt:null };
+const AE = { fragen:new Map(), bilder:new Map(), dateien:new Map() };   // offene Änderungen
+
+/* ======================= GitHub ======================= */
+const ghToken = () => store.get("ep-admin-gh", "");
+async function gh(pfad, opt){
+  opt = opt || {};
+  const h = {Accept: opt.raw ? "application/vnd.github.raw+json" : "application/vnd.github+json", "X-GitHub-Api-Version":"2022-11-28"};
+  const t = ghToken(); if(t) h.Authorization = "Bearer " + t;
+  if(opt.body) h["Content-Type"] = "application/json";
+  const r = await fetch(pfad.startsWith("http") ? pfad : GH + pfad, {method: opt.method || "GET", headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined, cache: "no-store"});
+  if(!r.ok){ let m = r.status + ""; try{ m += " " + (await r.json()).message; }catch(e){} throw new Error("GitHub: " + m); }
+  if(r.status === 204) return null;
+  return opt.raw ? r.text() : r.json();
+}
+async function ghDateiText(pfad){ return gh("/contents/" + pfad.split("/").map(encodeURIComponent).join("/") + "?ref=" + ZWEIG, {raw:true}); }
+// Gleiches Format wie die Python-Werkzeuge: eine Frage pro Zeile, «, » und «: » als Trenner
+const pyJson = v => Array.isArray(v) ? "[" + v.map(pyJson).join(", ") + "]" : (v && typeof v === "object") ? "{" + Object.keys(v).map(k => JSON.stringify(k) + ": " + pyJson(v[k])).join(", ") + "}" : JSON.stringify(v);
+const fragenDatei = liste => "[\n" + liste.map(pyJson).join(",\n") + "\n]\n";
+const b64 = buf => { const b = new Uint8Array(buf); let s = ""; for(let i=0;i<b.length;i+=0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i+0x8000)); return btoa(s); };
+// Mehrere Dateien in einem Commit speichern. bauen(): liefert [{pfad, text}|{pfad, base64}] und wird bei einem Konflikt neu aufgerufen.
+async function ghCommit(nachricht, bauen){
+  if(!ghToken()) throw new Error("Kein GitHub-Schlüssel. Bitte unter «Zugang» eintragen.");
+  for(let versuch=0; versuch<3; versuch++){
+    const ref = await gh("/git/ref/heads/" + ZWEIG);
+    const basis = await gh("/git/commits/" + ref.object.sha);
+    const dateien = await bauen();
+    const baum = [];
+    for(const d of dateien){
+      const blob = await gh("/git/blobs", {method:"POST", body: d.base64 != null ? {content:d.base64, encoding:"base64"} : {content:d.text, encoding:"utf-8"}});
+      baum.push({path:d.pfad, mode:"100644", type:"blob", sha:blob.sha});
+    }
+    const tree = await gh("/git/trees", {method:"POST", body:{base_tree: basis.tree.sha, tree: baum}});
+    const commit = await gh("/git/commits", {method:"POST", body:{message: nachricht, tree: tree.sha, parents:[ref.object.sha]}});
+    try{ await gh("/git/refs/heads/" + ZWEIG, {method:"PATCH", body:{sha: commit.sha, force:false}}); return commit; }
+    catch(e){ if(!/422|409/.test(e.message) || versuch===2) throw e; }
+  }
+}
+
+/* ======================= Supabase ======================= */
+const SB = { url:(CFG.supabaseUrl||"").replace(/\/$/,""), key:CFG.supabaseKey||"" };
+const sbAn = () => !!(SB.url && SB.key);
+const sbSitzung = () => store.get("ep-admin-sb", null);
+async function sbLogin(mail, pw){
+  const r = await fetch(SB.url + "/auth/v1/token?grant_type=password", {method:"POST", headers:{apikey:SB.key, "Content-Type":"application/json"}, body: JSON.stringify({email:mail, password:pw})});
+  const j = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.error_description || j.msg || "Anmeldung fehlgeschlagen");
+  store.set("ep-admin-sb", {token:j.access_token, refresh:j.refresh_token, bis:Date.now() + (j.expires_in||3600)*1000, mail:j.user?.email});
+}
+async function sbToken(){
+  const s = sbSitzung(); if(!s) return null;
+  if(Date.now() < s.bis - 60000) return s.token;
+  const r = await fetch(SB.url + "/auth/v1/token?grant_type=refresh_token", {method:"POST", headers:{apikey:SB.key, "Content-Type":"application/json"}, body: JSON.stringify({refresh_token:s.refresh})});
+  if(!r.ok){ store.del("ep-admin-sb"); return null; }
+  const j = await r.json(); store.set("ep-admin-sb", {...s, token:j.access_token, refresh:j.refresh_token, bis:Date.now() + (j.expires_in||3600)*1000}); return j.access_token;
+}
+async function rpc(name, args){
+  const t = await sbToken(); if(!t) throw new Error("Nicht bei Supabase angemeldet (siehe «Zugang»).");
+  const r = await fetch(SB.url + "/rest/v1/rpc/" + name, {method:"POST", headers:{apikey:SB.key, Authorization:"Bearer " + t, "Content-Type":"application/json"}, body: JSON.stringify(args||{})});
+  const txt = await r.text(); let j = null; try{ j = txt ? JSON.parse(txt) : null; }catch(e){}
+  if(!r.ok) throw new Error((j && (j.message || j.hint)) || ("Supabase " + r.status));
+  return j;
+}
+
+/* ======================= Daten laden ======================= */
+async function ladeFragen(){
+  if(DATEN.fragen) return DATEN.fragen;
+  const teile = CFG.fragenDateien || [];
+  const res = await Promise.all(teile.map(f => fetch(f, {cache:"no-cache"}).then(r => r.ok ? r.json() : []).catch(() => [])));
+  const alle = [];
+  res.forEach((liste, i) => (liste||[]).forEach(f => alle.push({...f, _datei: teile[i]})));
+  DATEN.fragen = alle;
+  try{
+    const html = await fetch("index.html", {cache:"no-cache"}).then(r => r.text());
+    for(const m of html.matchAll(/\{id:"([a-z0-9_]+)", name:"([^"]+)"/g)) DATEN.themen[m[1]] = m[2];
+  }catch(e){}
+  return alle;
+}
+const themaName = t => DATEN.themen[t] || (t && t.startsWith("kt_") ? "Kanton " + t.slice(3) : t);
+async function ladeBilder(){
+  if(!DATEN.bildindex) DATEN.bildindex = await fetch("bildindex.json", {cache:"no-cache"}).then(r => r.json()).catch(() => ({}));
+  if(!DATEN.seiten) DATEN.seiten = await fetch("tools/bildseiten.json", {cache:"no-cache"}).then(r => r.json()).catch(() => []);
+  return DATEN;
+}
+
+/* ======================= Kopfzeile, Tabs ======================= */
+function statusZeigen(){
+  const s = sbSitzung();
+  $("#status").innerHTML = `<span>GitHub: ${ghToken() ? '<span class="ok">verbunden</span>' : '<span class="wa">kein Schlüssel</span>'}</span>`
+    + `<span>Supabase: ${!sbAn() ? '<span class="mu">nicht eingerichtet</span>' : s ? '<span class="ok">' + esc(s.mail||"angemeldet") + '</span>' : '<span class="wa">nicht angemeldet</span>'}</span>`;
+}
+function aenderungenZeigen(){
+  const n = AE.fragen.size + AE.bilder.size;
+  $("#aenderungen").classList.toggle("da", n > 0);
+  $("#aeText").textContent = n + (n === 1 ? " Änderung" : " Änderungen") + " nicht gespeichert";
+}
+let TAB = "uebersicht";
+const TABS = {};
+function zeige(t){
+  TAB = t; $$("#tabs button").forEach(b => b.classList.toggle("an", b.dataset.t === t));
+  history.replaceState(null, "", "#" + t);
+  $("#inhalt").innerHTML = '<p class="mu">Lädt …</p>';
+  Promise.resolve(TABS[t]()).catch(e => { $("#inhalt").innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; });
+}
+$("#tabs").onclick = e => { const b = e.target.closest("button"); if(b) zeige(b.dataset.t); };
+addEventListener("beforeunload", e => { if(AE.fragen.size + AE.bilder.size){ e.preventDefault(); e.returnValue = ""; } });
+
+/* ======================= Übersicht ======================= */
+TABS.uebersicht = async () => {
+  const [fr, d] = await Promise.all([ladeFragen(), ladeBilder()]);
+  const ix = d.bildindex, seiten = d.seiten;
+  const mitBild = seiten.filter(s => ix[s.k]).length, lokal = seiten.filter(s => ix[s.k] && ix[s.k][6]).length, gross = seiten.filter(s => ix[s.k] && ix[s.k][7]).length;
+  const st = [1,2,3].map(l => fr.filter(f => +f.l === l).length);
+  const themen = new Set(fr.map(f => f.t)).size;
+  const kacheln = (liste) => `<div class="raster">${liste.map(([a,b,c]) => `<div class="zahl"><span>${esc(a)}</span><b>${b}</b>${c ? ` <small>${c}</small>` : ""}</div>`).join("")}</div>`;
+  let html = `<h2>Übersicht</h2><h3>Inhalte</h3>` + kacheln([
+    ["Fragen total", zahl(fr.length)], ["Stufe 1", zahl(st[0])], ["Stufe 2", zahl(st[1])], ["Stufe 3", zahl(st[2])],
+    ["Themen", zahl(themen)], ["Fragen mit Bild", zahl(fr.filter(f => f.img).length)],
+    ["Bibliothek: Seiten", zahl(seiten.length)], ["Seiten mit Bild", zahl(mitBild), proz(mitBild, seiten.length)],
+    ["Bilder lokal (klein)", zahl(lokal)], ["Bilder lokal (gross)", zahl(gross)]
+  ]);
+  html += `<div id="ueSb"></div><div id="ueGh"></div>`;
+  $("#inhalt").innerHTML = html;
+  // Supabase
+  const sbBox = $("#ueSb");
+  if(!sbAn()) sbBox.innerHTML = `<h3>Besucher und Benutzer</h3><div class="hinweis">Supabase ist nicht eingerichtet. Besucherstatistik und Benutzerverwaltung starten, sobald Supabase in <code>config.js</code> eingetragen und <code>supabase/admin.sql</code> ausgeführt ist. Siehe «Zugang».</div>`;
+  else if(!sbSitzung()) sbBox.innerHTML = `<h3>Besucher und Benutzer</h3><div class="hinweis">Für Besucherzahlen und Benutzer unter «Zugang» bei Supabase anmelden.</div>`;
+  else {
+    try{
+      const s = await rpc("admin_statistik", {p_tage:30});
+      const summe = (l, ab) => (l||[]).filter(x => !ab || x.tag >= ab).reduce((a, x) => a + (+x.n||0), 0);
+      const heute = new Date().toISOString().slice(0,10), vor7 = new Date(Date.now() - 6*864e5).toISOString().slice(0,10);
+      const u = s.benutzer || {}, k = s.kommentare || {}, l = s.lehrer || {};
+      sbBox.innerHTML = `<h3>Besucher (anonym)</h3>` + kacheln([
+        ["Aufrufe heute", zahl(summe(s.aufrufe_tage, heute))], ["Besucher heute", zahl(summe(s.besucher_tage, heute))],
+        ["Aufrufe 7 Tage", zahl(summe(s.aufrufe_tage, vor7))], ["Besucher 7 Tage", zahl(summe(s.besucher_tage, vor7))],
+        ["Aufrufe 30 Tage", zahl(summe(s.aufrufe_tage))], ["Besucher 30 Tage", zahl(summe(s.besucher_tage))]
+      ]) + `<h3>Benutzer</h3>` + kacheln([
+        ["Konten total", zahl(u.total)], ["Neu 7 Tage", zahl(u.neu_7)], ["Neu 30 Tage", zahl(u.neu_30)],
+        ["Aktiv 7 Tage", zahl(u.aktiv_7)], ["Aktiv 30 Tage", zahl(u.aktiv_30)], ["Unbestätigt", zahl(u.unbestaetigt)],
+        ["Gesperrt", zahl(u.gesperrt)], ["Lehrpersonen", zahl(u.lehrpersonen)], ["Admins", zahl(u.admins)]
+      ]) + `<h3>Aktivität</h3>` + kacheln([
+        ["Kommentare", zahl(k.total)], ["Kommentare gemeldet", `<span class="${k.gemeldet ? "wa" : ""}">${zahl(k.gemeldet)}</span>`], ["Kommentare neu 7 Tage", zahl(k.neu_7)],
+        ["Likes", zahl(s.likes)], ["Klassen", zahl(l.klassen)], ["Kinder (PIN)", zahl(l.kinder)], ["Tests", zahl(l.tests)], ["Abgaben", zahl(l.abgaben)], ["Abgaben 7 Tage", zahl(l.abgaben_7)]
+      ]);
+    }catch(e){ sbBox.innerHTML = `<h3>Besucher und Benutzer</h3><div class="hinweis fe">${esc(e.message)}</div>`; }
+  }
+  // GitHub
+  const ghBox = $("#ueGh");
+  try{
+    const [commits, laeufe] = await Promise.all([gh("/commits?per_page=8&sha=" + ZWEIG), gh("/actions/runs?per_page=8")]);
+    ghBox.innerHTML = `<h3>Letzte Änderungen (GitHub)</h3><table><thead><tr><th>Zeit</th><th>Änderung</th><th>Von</th></tr></thead><tbody>${commits.map(c => `<tr><td class="nowrap">${datum(c.commit.author.date)}</td><td>${esc(c.commit.message.split("\n")[0])}</td><td class="mu">${esc(c.commit.author.name)}</td></tr>`).join("")}</tbody></table>`
+      + `<h3>Automatische Abläufe</h3><table><thead><tr><th>Zeit</th><th>Ablauf</th><th>Status</th></tr></thead><tbody>${(laeufe.workflow_runs||[]).map(r => `<tr><td class="nowrap">${datum(r.created_at)}</td><td>${esc(r.name)}</td><td class="${r.conclusion==="success"?"ok":r.conclusion?"fe":"wa"}">${esc(r.conclusion || r.status)}</td></tr>`).join("")}</tbody></table>`;
+  }catch(e){ ghBox.innerHTML = `<h3>GitHub</h3><p class="mu">${esc(e.message)}</p>`; }
+};
+
+/* ======================= Statistik ======================= */
+TABS.statistik = async () => {
+  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Statistik</h2><div class="hinweis">Die Besucherstatistik braucht Supabase und eine Admin-Anmeldung (siehe «Zugang»). Inhaltszahlen stehen in der Übersicht.</div>`; return; }
+  const tage = store.get("ep-admin-tage", 30);
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Statistik</h2><span class="rechts"></span><select id="stTage">${[7,30,90,365].map(t => `<option value="${t}"${t===tage?" selected":""}>letzte ${t} Tage</option>`).join("")}</select></div><div id="stInhalt"><p class="mu">Lädt …</p></div>`;
+  $("#stTage").onchange = e => { store.set("ep-admin-tage", +e.target.value, true); zeige("statistik"); };
+  const s = await rpc("admin_statistik", {p_tage: tage});
+  const reihe = (liste) => { const m = {}; (liste||[]).forEach(x => m[x.tag] = +x.n); const out = []; for(let i = tage - 1; i >= 0; i--){ const d = new Date(Date.now() - i*864e5).toISOString().slice(0,10); out.push([d, m[d]||0]); } return out; };
+  const balken = (titel, r) => { const max = Math.max(1, ...r.map(x => x[1])); const sum = r.reduce((a,x)=>a+x[1],0);
+    return `<div class="box"><div class="leiste" style="margin:0 0 4px"><b>${esc(titel)}</b><span class="rechts mu">Total ${zahl(sum)} · Ø ${zahl(Math.round(sum / r.length))}/Tag · Max ${zahl(max)}</span></div><div class="balken">${r.map(([d,n]) => `<i style="height:${n/max*100}%" title="${tag(d)}: ${zahl(n)}"></i>`).join("")}</div><div class="achse"><span>${tag(r[0][0])}</span><span>${tag(r[r.length-1][0])}</span></div></div>`; };
+  const tabelle = (titel, liste, name) => { const sum = (liste||[]).reduce((a,x)=>a+(+x.n),0);
+    return `<div class="box"><b>${esc(titel)}</b><table style="margin-top:6px"><thead><tr><th>${esc(name)}</th><th class="r">Aufrufe</th><th class="r">Anteil</th></tr></thead><tbody>${(liste||[]).slice(0,25).map(x => `<tr><td>${esc(x.k || "(direkt)")}</td><td class="r">${zahl(x.n)}</td><td class="r mu">${proz(+x.n, sum)}</td></tr>`).join("") || `<tr><td colspan="3" class="mu">noch keine Daten</td></tr>`}</tbody></table></div>`; };
+  $("#stInhalt").innerHTML = balken("Seitenaufrufe pro Tag", reihe(s.aufrufe_tage)) + balken("Besucher pro Tag", reihe(s.besucher_tage)) + balken("Neue Konten pro Tag", reihe((s.benutzer||{}).neu_tage))
+    + `<div class="zwei">${tabelle("Beliebteste Bereiche", s.bereiche, "Bereich")}<div>${tabelle("Geräte", s.geraete, "Gerät")}${tabelle("Herkunft (verweisende Websites)", s.herkunft, "Website")}</div></div>`
+    + `<p class="mu klein">Gezählt wird anonym: keine Cookies, keine IP-Adressen. «Besucher» sind über einen täglich wechselnden Prüfwert gezählt. Die Vorschau auf claude.ai wird nicht mitgezählt.</p>`;
+};
+
+/* ======================= Fragen ======================= */
+const FF = { suche:"", stufe:"", thema:"", nur:"", seite:0, wahl:null };
+TABS.fragen = async () => {
+  const fr = await ladeFragen();
+  const themen = [...new Set(fr.map(f => f.t))].sort((a,b) => themaName(a).localeCompare(themaName(b), "de"));
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Fragen</h2>
+    <input type="search" id="fSuche" placeholder="Suche in Frage, Antworten, Erklärung, Nr." value="${esc(FF.suche)}" style="min-width:260px">
+    <select id="fStufe"><option value="">alle Stufen</option>${[1,2,3].map(l => `<option${FF.stufe==l?" selected":""}>${l}</option>`).join("")}</select>
+    <select id="fThema"><option value="">alle Themen</option>${themen.map(t => `<option value="${esc(t)}"${FF.thema===t?" selected":""}>${esc(themaName(t))}</option>`).join("")}</select>
+    <select id="fNur"><option value="">alle</option><option value="ae"${FF.nur==="ae"?" selected":""}>nur geänderte</option><option value="bild"${FF.nur==="bild"?" selected":""}>mit Bild</option><option value="pruef"${FF.nur==="pruef"?" selected":""}>auffällig (ß, Striche, doppelte Antworten)</option></select>
+    <span class="rechts"></span><button class="k" id="fNeu">Neue Frage</button></div>
+    <div class="zwei"><div id="fListe"></div><div id="fEdit"><div class="box mu">Frage in der Liste anklicken, um sie zu bearbeiten.</div></div></div>`;
+  const neu = () => { FF.suche = $("#fSuche").value.trim(); FF.stufe = $("#fStufe").value; FF.thema = $("#fThema").value; FF.nur = $("#fNur").value; FF.seite = 0; liste(); };
+  let t; $("#fSuche").oninput = () => { clearTimeout(t); t = setTimeout(neu, 200); };
+  $("#fStufe").onchange = $("#fThema").onchange = $("#fNur").onchange = neu;
+  $("#fNeu").onclick = () => { const max = Math.max(0, ...fr.map(f => +f.nr||0), ...[...AE.fragen.values()].map(a => +a.neu?.nr||0)); const letzte = (CFG.fragenDateien||[]).slice(-1)[0];
+    fragenEdit({nr:max+1, t:FF.thema || fr[0].t, l:+FF.stufe || 1, q:"", a:["","","",""], e:"", m:"", s:"", _datei:letzte, _neu:true}); };
+  liste();
+  if(FF.wahl != null){ const f = aktuelleFrage(FF.wahl); if(f) fragenEdit(f); }
+};
+const auffaellig = f => /ß|[–—]/.test([f.q, ...(f.a||[]), f.e, f.m].join(" ")) || new Set((f.a||[]).map(x => String(x).trim().toLowerCase())).size !== 4 || (f.a||[]).some(x => !String(x).trim());
+function aktuelleFrage(nr){ const a = AE.fragen.get(nr); if(a) return a.loeschen ? null : a.neu; return DATEN.fragen.find(f => +f.nr === +nr) || null; }
+function gefilterteFragen(){
+  const q = FF.suche.toLowerCase();
+  const basis = DATEN.fragen.map(f => AE.fragen.has(+f.nr) ? (AE.fragen.get(+f.nr).loeschen ? {...f, _weg:true} : AE.fragen.get(+f.nr).neu) : f);
+  for(const [nr, a] of AE.fragen) if(a.neu && a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr)) basis.push(a.neu);
+  return basis.filter(f => (!FF.stufe || +f.l === +FF.stufe) && (!FF.thema || f.t === FF.thema)
+    && (FF.nur !== "ae" || AE.fragen.has(+f.nr)) && (FF.nur !== "bild" || f.img) && (FF.nur !== "pruef" || auffaellig(f))
+    && (!q || String(f.nr) === q || [f.q, ...(f.a||[]), f.e, f.m].join(" ").toLowerCase().includes(q)));
+}
+function liste(){
+  const l = gefilterteFragen(), pro = 100, seiten = Math.max(1, Math.ceil(l.length / pro)); FF.seite = Math.min(FF.seite, seiten - 1);
+  const teil = l.slice(FF.seite * pro, FF.seite * pro + pro);
+  $("#fListe").innerHTML = `<table><thead><tr><th>Nr.</th><th>St.</th><th>Thema</th><th>Frage</th><th>Richtig</th></tr></thead><tbody>${teil.map(f => `<tr class="klick${+FF.wahl === +f.nr ? " wahl" : ""}" data-nr="${+f.nr}"><td class="nowrap">${+f.nr}${AE.fragen.has(+f.nr) ? ' <span class="wa">●</span>' : ""}</td><td>${+f.l}</td><td class="klein">${esc(themaName(f.t))}</td><td${f._weg ? ' style="text-decoration:line-through"' : ""}>${esc(f.q)}${f.img ? ' <span class="marke">Bild</span>' : ""}</td><td class="klein">${esc((f.a||[])[0])}</td></tr>`).join("") || `<tr><td colspan="5" class="mu">Keine Treffer</td></tr>`}</tbody></table>
+    <div class="seiten"><button class="k" id="fZur"${FF.seite ? "" : " disabled"}>‹</button><span class="mu">${zahl(l.length)} Fragen · Seite ${FF.seite + 1} von ${seiten}</span><button class="k" id="fVor"${FF.seite < seiten - 1 ? "" : " disabled"}>›</button></div>`;
+  $("#fZur").onclick = () => { FF.seite--; liste(); }; $("#fVor").onclick = () => { FF.seite++; liste(); };
+  $$("#fListe tbody tr[data-nr]").forEach(tr => tr.onclick = () => { const f = aktuelleFrage(+tr.dataset.nr) || DATEN.fragen.find(x => +x.nr === +tr.dataset.nr); FF.wahl = +tr.dataset.nr; $$("#fListe tr.wahl").forEach(x => x.classList.remove("wahl")); tr.classList.add("wahl"); fragenEdit(f); });
+}
+function fragenEdit(f){
+  const themen = [...new Set(DATEN.fragen.map(x => x.t))].sort((a,b) => themaName(a).localeCompare(themaName(b), "de"));
+  const ae = AE.fragen.get(+f.nr);
+  $("#fEdit").innerHTML = `<div class="box"><div class="leiste"><b>Frage Nr. ${+f.nr}</b><span class="mu klein">${esc(f._datei||"")}</span>${ae ? '<span class="wa klein">geändert</span>' : ""}<span class="rechts"></span>${!f._neu ? `<button class="k g" id="eWeg">${ae && ae.loeschen ? "Löschen rückgängig" : "Löschen"}</button>` : ""}</div>
+    <div class="formular">
+      <label>Stufe</label><select id="eL">${[1,2,3].map(l => `<option${+f.l===l?" selected":""}>${l}</option>`).join("")}</select>
+      <label>Thema</label><select id="eT">${themen.map(t => `<option value="${esc(t)}"${f.t===t?" selected":""}>${esc(themaName(t))} (${esc(t)})</option>`).join("")}</select>
+      <label>Frage</label><textarea id="eQ">${esc(f.q)}</textarea>
+      <label class="ok">Richtige Antwort</label><input type="text" id="eA0" value="${esc((f.a||[])[0])}">
+      <label>Falsche Antwort 1</label><input type="text" id="eA1" value="${esc((f.a||[])[1])}">
+      <label>Falsche Antwort 2</label><input type="text" id="eA2" value="${esc((f.a||[])[2])}">
+      <label>Falsche Antwort 3</label><input type="text" id="eA3" value="${esc((f.a||[])[3])}">
+      <label>Erklärung</label><textarea id="eE">${esc(f.e)}</textarea>
+      <label>Merksatz</label><textarea id="eM" style="min-height:40px">${esc(f.m)}</textarea>
+      <label>Quelle</label><input type="text" id="eS" value="${esc(f.s)}">
+      <label>Bild (Code)</label><input type="text" id="eI" value="${esc(f.img||"")}" placeholder="leer = kein Bild">
+    </div>
+    <p id="ePruef" class="klein"></p>
+    <div class="leiste" style="margin:0"><span class="rechts"></span>${ae ? '<button class="k" id="eZurueck">Änderung verwerfen</button>' : ""}<button class="k p" id="eOk">Übernehmen</button></div></div>`;
+  const lesen = () => { const neu = {...f}; delete neu._weg;
+    neu.l = +$("#eL").value; neu.t = $("#eT").value; neu.q = $("#eQ").value.trim(); neu.a = [0,1,2,3].map(i => $("#eA"+i).value.trim());
+    neu.e = $("#eE").value.trim(); neu.m = $("#eM").value.trim(); neu.s = $("#eS").value.trim(); const img = $("#eI").value.trim(); if(img) neu.img = img; else delete neu.img;
+    if(!neu.s) delete neu.s; return neu; };
+  const pruefen = () => { const n = lesen(), p = [];
+    if(!n.q) p.push("Die Frage fehlt."); if(n.a.some(x => !x)) p.push("Alle vier Antworten ausfüllen.");
+    if(new Set(n.a.map(x => x.toLowerCase())).size !== 4) p.push("Zwei Antworten sind gleich.");
+    if(/ß/.test(JSON.stringify(n))) p.push("«ß» wird beim Übernehmen durch «ss» ersetzt.");
+    if(/[–—]/.test(JSON.stringify(n))) p.push("Gedankenstriche bitte vermeiden.");
+    $("#ePruef").innerHTML = p.map(x => `<span class="${/ersetzt/.test(x) ? "wa" : "fe"}">${esc(x)}</span>`).join("<br>"); return p.filter(x => !/ersetzt|vermeiden/.test(x)).length === 0; };
+  $$("#fEdit input,#fEdit textarea,#fEdit select").forEach(el => el.oninput = pruefen); pruefen();
+  $("#eOk").onclick = () => { if(!pruefen()) return; const n = JSON.parse(JSON.stringify(lesen()).replace(/ß/g, "ss"));
+    const orig = DATEN.fragen.find(x => +x.nr === +f.nr);
+    if(orig && JSON.stringify({...orig}) === JSON.stringify(n)) AE.fragen.delete(+f.nr); else AE.fragen.set(+f.nr, {neu:n});
+    aenderungenZeigen(); liste(); fragenEdit(n); melde("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
+  const weg = $("#eWeg"); if(weg) weg.onclick = () => { if(ae && ae.loeschen) AE.fragen.delete(+f.nr); else AE.fragen.set(+f.nr, {loeschen:true, neu:f}); aenderungenZeigen(); liste(); fragenEdit(DATEN.fragen.find(x => +x.nr === +f.nr) || f); };
+  const zur = $("#eZurueck"); if(zur) zur.onclick = () => { AE.fragen.delete(+f.nr); aenderungenZeigen(); liste(); const o = DATEN.fragen.find(x => +x.nr === +f.nr); if(o) fragenEdit(o); else $("#fEdit").innerHTML = ""; };
+}
+async function fragenSpeichern(){
+  const nachDatei = new Map();
+  for(const [nr, a] of AE.fragen){ const d = a.neu._datei; if(!nachDatei.has(d)) nachDatei.set(d, []); nachDatei.get(d).push([nr, a]); }
+  const anzahl = AE.fragen.size;
+  await ghCommit(`Verwaltung: ${anzahl} ${anzahl === 1 ? "Frage" : "Fragen"} bearbeitet`, async () => {
+    const out = [];
+    for(const [datei, liste] of nachDatei){
+      const aktuell = JSON.parse(await ghDateiText(datei));   // immer die neuste Fassung von GitHub
+      for(const [nr, a] of liste){
+        const i = aktuell.findIndex(f => +f.nr === +nr);
+        if(a.loeschen){ if(i >= 0) aktuell.splice(i, 1); continue; }
+        const sauber = {}; for(const k of ["nr","t","l","q","a","e","m","s","img"]) if(a.neu[k] !== undefined && a.neu[k] !== "") sauber[k] = a.neu[k];
+        if(i >= 0) aktuell[i] = sauber; else aktuell.push(sauber);
+      }
+      out.push({pfad: datei, text: fragenDatei(aktuell)});
+    }
+    return out;
+  });
+  AE.fragen.clear(); DATEN.fragen = null;
+}
+
+/* ======================= Bilder ======================= */
+const FB = { suche:"", buch:"", art:"mit", seite:0 };
+const FREI = /^(cc0|cc[- ]?by(?:[- ]sa)?(?:[- ][0-9.]+)?|public domain|pd|pd-.*|gemeinfrei|attribution|no restrictions)/i;
+const bildPfad = (k, gross) => gross ? `bilder/gross/${k.slice(-2)}/${k}.webp` : `bilder/${k.slice(-2)}/${k}.webp`;
+function bildEintrag(k){ const a = AE.bilder.get(k); if(a) return a.entfernen ? null : a.eintrag; return DATEN.bildindex[k] || null; }
+TABS.bilder = async () => {
+  await ladeBilder();
+  const buecher = [...new Set(DATEN.seiten.map(s => s.b))].sort();
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Bilder der Bibliothek</h2>
+    <input type="search" id="bSuche" placeholder="Seitentitel oder Kapitel" value="${esc(FB.suche)}" style="min-width:240px">
+    <select id="bBuch"><option value="">alle Bücher</option>${buecher.map(b => `<option${FB.buch===b?" selected":""}>${esc(b)}</option>`).join("")}</select>
+    <select id="bArt">${[["mit","mit Bild"],["ohne","ohne Bild"],["alle","alle Seiten"],["ae","nur geänderte"],["eigen","eigene Bilder"],["fern","noch nicht lokal"]].map(([v,t]) => `<option value="${v}"${FB.art===v?" selected":""}>${t}</option>`).join("")}</select>
+    <span class="rechts mu klein" id="bZahl"></span></div><div id="bListe"></div>`;
+  const neu = () => { FB.suche = $("#bSuche").value.trim().toLowerCase(); FB.buch = $("#bBuch").value; FB.art = $("#bArt").value; FB.seite = 0; bilderListe(); };
+  let t; $("#bSuche").oninput = () => { clearTimeout(t); t = setTimeout(neu, 200); }; $("#bBuch").onchange = $("#bArt").onchange = neu;
+  bilderListe();
+};
+function bilderListe(){
+  const l = DATEN.seiten.filter(s => { const e = bildEintrag(s.k);
+    if(FB.buch && s.b !== FB.buch) return false;
+    if(FB.suche && !(s.t + " " + s.kap).toLowerCase().includes(FB.suche)) return false;
+    if(FB.art === "mit") return !!e; if(FB.art === "ohne") return !e; if(FB.art === "ae") return AE.bilder.has(s.k);
+    if(FB.art === "eigen") return e && e[5] === "e"; if(FB.art === "fern") return e && !e[6]; return true; });
+  const pro = 60, seiten = Math.max(1, Math.ceil(l.length / pro)); FB.seite = Math.min(FB.seite, seiten - 1);
+  $("#bZahl").textContent = zahl(l.length) + " Seiten";
+  $("#bListe").innerHTML = `<div class="bilder">${l.slice(FB.seite*pro, FB.seite*pro + pro).map(s => { const e = bildEintrag(s.k), a = AE.bilder.get(s.k);
+    const src = a && a.vorschau ? a.vorschau : e ? (e[6] && !a ? e[6] : e[0]) : "";
+    return `<div class="bild${a ? " geaendert" : ""}" data-k="${esc(s.k)}">${src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : '<div class="leer">kein Bild</div>'}
+      <b>${esc(s.t)}</b><span class="mu">${esc(s.b)} · ${esc(s.kap)}</span>
+      ${e ? `<span class="mu">${esc(e[2]||"")} · ${esc(e[3]||"")}</span>` : ""}
+      <div class="ak"><button class="k" data-a="ersetzen">${e ? "Ersetzen" : "Bild setzen"}</button>${e ? '<button class="k g" data-a="entfernen">Entfernen</button>' : ""}${a ? '<button class="k" data-a="zurueck">Rückgängig</button>' : ""}</div></div>`; }).join("")}</div>
+    <div class="seiten"><button class="k" id="bZur"${FB.seite ? "" : " disabled"}>‹</button><span class="mu">Seite ${FB.seite + 1} von ${seiten}</span><button class="k" id="bVor"${FB.seite < seiten - 1 ? "" : " disabled"}>›</button></div>`;
+  $("#bZur").onclick = () => { FB.seite--; bilderListe(); }; $("#bVor").onclick = () => { FB.seite++; bilderListe(); };
+  $$("#bListe .bild").forEach(el => { const k = el.dataset.k; const s = DATEN.seiten.find(x => x.k === k);
+    el.querySelectorAll("button").forEach(b => b.onclick = () => {
+      if(b.dataset.a === "entfernen"){ AE.bilder.set(k, {entfernen:true, alt:DATEN.bildindex[k]}); aenderungenZeigen(); bilderListe(); }
+      if(b.dataset.a === "zurueck"){ AE.bilder.delete(k); aenderungenZeigen(); bilderListe(); }
+      if(b.dataset.a === "ersetzen") bildDialog(s);
+    }); });
+}
+async function commonsInfo(eingabe){
+  let datei = String(eingabe).trim();
+  const m = datei.match(/(?:File|Datei):([^?#]+)/i) || datei.match(/upload\.wikimedia\.org\/.+\/(?:\d+px-)?([^/?#]+)$/);
+  if(m) datei = decodeURIComponent(m[1]); datei = datei.replace(/_/g, " ");
+  const u = "https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", titles:"File:" + datei, prop:"imageinfo", iiprop:"url|size|mime|extmetadata", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"});
+  const j = await fetch(u).then(r => r.json());
+  const p = j?.query?.pages?.[0]; const ii = p?.imageinfo?.[0];
+  if(!ii) throw new Error("Datei auf Wikimedia Commons nicht gefunden.");
+  const md = ii.extmetadata || {}; const txt = h => { const d = new DOMParser().parseFromString(String(h||""), "text/html"); return (d.body.textContent||"").replace(/\s+/g, " ").trim().slice(0,120); };
+  return {url: ii.thumburl || ii.url, urheber: txt(md.Artist?.value) || "Wikimedia Commons", lizenz: txt(md.LicenseShortName?.value), quelle: ii.descriptionurl, breite: ii.width, hoehe: ii.height, mime: ii.mime};
+}
+function bildVerkleinern(datei, max){
+  return new Promise((ok, fehler) => { const img = new Image(); img.onload = () => { const f = Math.min(1, max[0] / img.naturalWidth, max[1] / img.naturalHeight);
+      const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * f); c.height = Math.round(img.naturalHeight * f);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); c.toBlob(b => b ? ok(b) : fehler(new Error("WebP nicht möglich")), "image/webp", max[2]); URL.revokeObjectURL(img.src); };
+    img.onerror = () => fehler(new Error("Bild kann nicht gelesen werden")); img.src = URL.createObjectURL(datei); });
+}
+function bildDialog(s){
+  const d = $("#dlg");
+  d.innerHTML = `<h2>Bild für «${esc(s.t)}»</h2>
+    <h3>Aus Wikimedia Commons</h3>
+    <div class="leiste"><input type="text" id="dCommons" placeholder="Dateiname oder Link, z. B. File:Matterhorn.jpg" style="flex:1"><button class="k" id="dPruef">Prüfen</button></div>
+    <h3>Eigenes Bild hochladen</h3>
+    <div class="leiste"><input type="file" id="dDatei" accept="image/*"></div>
+    <div class="formular"><label>Urheber</label><input type="text" id="dUrheber" value="easyplay"><label>Lizenz</label><input type="text" id="dLizenz" value="eigenes Bild"></div>
+    <p class="mu klein">Nur Bilder hochladen, an denen du die Rechte hast. Das Bild wird automatisch auf 480 und 960 Pixel verkleinert (WebP).</p>
+    <div id="dVorschau"></div>
+    <div class="leiste"><span class="rechts"></span><button class="k" id="dAbbr">Abbrechen</button><button class="k p" id="dOk" disabled>Übernehmen</button></div>`;
+  d.showModal();
+  let wahl = null;
+  const vorschau = (src, text) => { $("#dVorschau").innerHTML = `<div class="box"><img src="${esc(src)}" alt="" style="max-width:100%;max-height:260px;display:block;margin-bottom:6px" referrerpolicy="no-referrer"><span class="klein">${text}</span></div>`; };
+  $("#dAbbr").onclick = () => d.close();
+  $("#dPruef").onclick = async () => { $("#dOk").disabled = true; try{ const i = await commonsInfo($("#dCommons").value);
+      const frei = FREI.test(i.lizenz), gross = i.breite >= 600 && i.hoehe >= 400;
+      vorschau(i.url, `${esc(i.urheber)} · <b class="${frei ? "ok" : "fe"}">${esc(i.lizenz || "Lizenz unbekannt")}</b> · ${zahl(i.breite)}×${zahl(i.hoehe)} px${gross ? "" : ' <span class="wa">(klein)</span>'}${frei ? "" : '<br><span class="fe">Keine freie Lizenz, kann nicht verwendet werden.</span>'}`);
+      if(frei){ wahl = {eintrag:[i.url, s.t, i.urheber, i.lizenz, i.quelle, "m"]}; $("#dOk").disabled = false; } }
+    catch(e){ $("#dVorschau").innerHTML = `<p class="fe">${esc(e.message)}</p>`; } };
+  $("#dDatei").onchange = async e => { const f = e.target.files[0]; if(!f) return; $("#dOk").disabled = true;
+    try{ const [klein, gross] = await Promise.all([bildVerkleinern(f, [480,400,.62]), bildVerkleinern(f, [960,800,.6])]);
+      const url = URL.createObjectURL(gross); vorschau(url, `${zahl(Math.round(klein.size/1024))} KB klein · ${zahl(Math.round(gross.size/1024))} KB gross`);
+      wahl = {upload:{klein, gross}, vorschau:url}; $("#dOk").disabled = false; }catch(err){ $("#dVorschau").innerHTML = `<p class="fe">${esc(err.message)}</p>`; } };
+  $("#dOk").onclick = () => { if(!wahl) return;
+    if(wahl.upload){ const basis = (CFG.teilenUrl || "https://djsunji.github.io/easyplay/").replace(/\/?$/, "/");
+      wahl.eintrag = [basis + bildPfad(s.k, true), s.t, $("#dUrheber").value.trim() || "easyplay", $("#dLizenz").value.trim() || "eigenes Bild", "", "e", bildPfad(s.k), bildPfad(s.k, true)]; }
+    AE.bilder.set(s.k, {...wahl, alt: DATEN.bildindex[s.k] || null}); d.close(); aenderungenZeigen(); bilderListe(); melde("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
+}
+async function bilderSpeichern(){
+  const n = AE.bilder.size;
+  const uploads = [];
+  for(const [k, a] of AE.bilder) if(a.upload) uploads.push({pfad: bildPfad(k), base64: b64(await a.upload.klein.arrayBuffer())}, {pfad: bildPfad(k, true), base64: b64(await a.upload.gross.arrayBuffer())});
+  await ghCommit(`Verwaltung: ${n} ${n === 1 ? "Bild" : "Bilder"} geändert`, async () => {
+    const ix = JSON.parse(await ghDateiText("bildindex.json"));
+    let gesperrt = []; try{ gesperrt = JSON.parse(await ghDateiText("tools/bilder_gesperrt.json")); }catch(e){}
+    const ohne = new Set(ix._ohne || []);
+    for(const [k, a] of AE.bilder){
+      const vorher = ix[k];
+      if(vorher && vorher[0] && vorher[5] !== "e" && (a.entfernen || a.eintrag)) gesperrt.push(vorher[0]);
+      if(a.entfernen){ delete ix[k]; ohne.add(k); }
+      else { ix[k] = a.eintrag; ohne.delete(k); }
+    }
+    ix._ohne = [...ohne].sort();
+    return [{pfad:"bildindex.json", text: JSON.stringify(ix)}, {pfad:"tools/bilder_gesperrt.json", text: JSON.stringify([...new Set(gesperrt)].sort(), null, 0)}, ...uploads];
+  });
+  for(const [k, a] of AE.bilder){ if(a.entfernen) delete DATEN.bildindex[k]; else DATEN.bildindex[k] = a.eintrag; }
+  AE.bilder.clear();
+}
+
+/* ======================= Benutzer ======================= */
+const FU = { suche:"", rolle:"", liste:null };
+TABS.benutzer = async () => {
+  if(!sbAn()){ $("#inhalt").innerHTML = `<h2>Benutzer</h2><div class="hinweis">Supabase ist nicht eingerichtet. Ohne Online-Datenbank liegen Konten nur im Browser des jeweiligen Geräts und lassen sich nicht zentral verwalten. Anleitung unter «Zugang».</div>`; return; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = `<h2>Benutzer</h2><div class="hinweis">Bitte zuerst unter «Zugang» bei Supabase anmelden.</div>`; return; }
+  FU.liste = await rpc("admin_benutzer");
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Benutzer</h2><input type="search" id="uSuche" placeholder="Name oder E-Mail" value="${esc(FU.suche)}" style="min-width:240px">
+    <select id="uRolle"><option value="">alle Rollen</option>${["kind","lehrperson","admin","gesperrt","unbestaetigt"].map(r => `<option value="${r}"${FU.rolle===r?" selected":""}>${{kind:"Kinder",lehrperson:"Lehrpersonen",admin:"Admins",gesperrt:"Gesperrte",unbestaetigt:"Unbestätigte"}[r]}</option>`).join("")}</select>
+    <span class="rechts mu klein" id="uZahl"></span><button class="k" id="uCsv">CSV exportieren</button></div><div id="uListe"></div>`;
+  const neu = () => { FU.suche = $("#uSuche").value.trim().toLowerCase(); FU.rolle = $("#uRolle").value; benutzerListe(); };
+  $("#uSuche").oninput = neu; $("#uRolle").onchange = neu;
+  $("#uCsv").onclick = () => { const z = [["E-Mail","Vorname","Nachname","Rolle","Stufe","Registriert","Letzte Anmeldung","Bestätigt","Gesperrt bis"]].concat(gefilterteBenutzer().map(u => [u.email, u.meta?.vorname||"", u.meta?.nachname||"", u.rolle, u.meta?.stufe||"", u.erstellt, u.zuletzt||"", u.bestaetigt?"ja":"nein", u.gesperrt_bis||""]));
+    const csv = z.map(r => r.map(x => `"${String(x ?? "").replace(/"/g, '""')}"`).join(";")).join("\r\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + csv], {type:"text/csv"})); a.download = "easyplay-benutzer-" + new Date().toISOString().slice(0,10) + ".csv"; a.click(); };
+  benutzerListe();
+};
+const gesperrt = u => u.gesperrt_bis && new Date(u.gesperrt_bis) > new Date();
+function gefilterteBenutzer(){ return (FU.liste||[]).filter(u => { const name = [u.meta?.vorname, u.meta?.nachname, u.email].join(" ").toLowerCase();
+  if(FU.suche && !name.includes(FU.suche)) return false;
+  if(FU.rolle === "gesperrt") return gesperrt(u); if(FU.rolle === "unbestaetigt") return !u.bestaetigt; if(FU.rolle) return u.rolle === FU.rolle; return true; }); }
+function benutzerListe(){
+  const l = gefilterteBenutzer(); $("#uZahl").textContent = zahl(l.length) + " von " + zahl(FU.liste.length);
+  $("#uListe").innerHTML = `<table><thead><tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>St.</th><th>Registriert</th><th>Zuletzt</th><th>Status</th><th></th></tr></thead><tbody>${l.map(u => `<tr data-id="${esc(u.id)}">
+    <td>${esc([u.meta?.vorname, u.meta?.nachname].filter(Boolean).join(" ") || "-")}</td><td>${esc(u.email)} <span class="mu klein">${esc(u.anbieter !== "email" ? u.anbieter : "")}</span></td>
+    <td><select data-a="rolle">${["kind","lehrperson","admin"].map(r => `<option value="${r}"${u.rolle===r?" selected":""}>${{kind:"Kind",lehrperson:"Lehrperson",admin:"Admin"}[r]}</option>`).join("")}</select></td>
+    <td>${esc(u.meta?.stufe ?? "")}</td><td class="nowrap">${tag(u.erstellt)}</td><td class="nowrap">${u.zuletzt ? datum(u.zuletzt) : '<span class="mu">nie</span>'}</td>
+    <td class="nowrap">${gesperrt(u) ? `<span class="fe">gesperrt bis ${tag(u.gesperrt_bis)}</span>` : u.bestaetigt ? '<span class="ok">aktiv</span>' : '<span class="wa">unbestätigt</span>'}</td>
+    <td class="nowrap"><button class="k" data-a="profil">Profil</button> ${gesperrt(u) ? '<button class="k" data-a="entsperren">Entsperren</button>' : '<button class="k" data-a="sperren">Sperren</button>'} <button class="k" data-a="pw">Passwort-Mail</button> <button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || '<tr><td colspan="8" class="mu">Keine Benutzer</td></tr>'}</tbody></table>`;
+  $$("#uListe tr[data-id]").forEach(tr => { const u = FU.liste.find(x => x.id === tr.dataset.id);
+    const los = async (fn, ok) => { try{ await fn(); melde(ok); FU.liste = await rpc("admin_benutzer"); benutzerListe(); }catch(e){ melde(e.message, "fe"); } };
+    tr.querySelector('[data-a="rolle"]').onchange = e => los(() => rpc("admin_benutzer_rolle", {p_id:u.id, p_rolle:e.target.value}), "Rolle geändert.");
+    const sp = tr.querySelector('[data-a="sperren"]'); if(sp) sp.onclick = () => { const t = prompt(`${u.email} sperren für wie viele Tage? (0 = aufheben, 36500 = dauerhaft)`, "7"); if(t == null) return; los(() => rpc("admin_benutzer_sperren", {p_id:u.id, p_tage:Math.max(0, parseInt(t)||0)}), "Gesperrt."); };
+    const en = tr.querySelector('[data-a="entsperren"]'); if(en) en.onclick = () => los(() => rpc("admin_benutzer_sperren", {p_id:u.id, p_tage:0}), "Entsperrt.");
+    tr.querySelector('[data-a="pw"]').onclick = () => { if(!confirm(`Link zum Zurücksetzen des Passworts an ${u.email} senden?`)) return;
+      los(async () => { const r = await fetch(SB.url + "/auth/v1/recover", {method:"POST", headers:{apikey:SB.key, "Content-Type":"application/json"}, body: JSON.stringify({email:u.email})}); if(!r.ok) throw new Error("Versand fehlgeschlagen"); }, "E-Mail gesendet."); };
+    tr.querySelector('[data-a="profil"]').onclick = () => benutzerProfil(u, los);
+    tr.querySelector('[data-a="loeschen"]').onclick = () => { const t = prompt(`Konto ${u.email} mit allen Daten endgültig löschen?\nZum Bestätigen die E-Mail-Adresse eingeben:`); if(t == null) return;
+      if(t.trim().toLowerCase() !== String(u.email).toLowerCase()){ melde("E-Mail stimmt nicht, nichts gelöscht.", "fe"); return; } los(() => rpc("admin_benutzer_loeschen", {p_id:u.id}), "Konto gelöscht."); };
+  });
+}
+function benutzerProfil(u, los){
+  const d = $("#dlg"); const m = u.meta || {};
+  d.innerHTML = `<h2>Profil: ${esc(u.email)}</h2><div class="formular"><label>Vorname</label><input type="text" id="pV" value="${esc(m.vorname||"")}"><label>Nachname</label><input type="text" id="pN" value="${esc(m.nachname||"")}"><label>Stufe</label><select id="pS">${[1,2,3].map(l => `<option${+m.stufe===l?" selected":""}>${l}</option>`).join("")}</select>
+    <label>ID</label><code style="padding-top:6px">${esc(u.id)}</code><label>Registriert</label><span style="padding-top:6px">${datum(u.erstellt)}</span><label>Anmeldung</label><span style="padding-top:6px">${esc(u.anbieter)}</span>
+    <label>Gespeichert</label><span class="klein mu" style="padding-top:6px">Tests: ${esc(m.tests ?? 0)} · Themen mit Bestwert: ${esc(Object.keys(m.best||{}).length)} · Kanton: ${esc(m.kanton||"-")}</span></div>
+    <div class="leiste" style="margin-top:12px"><span class="rechts"></span><button class="k" id="pAbbr">Abbrechen</button><button class="k p" id="pOk">Speichern</button></div>`;
+  d.showModal(); $("#pAbbr").onclick = () => d.close();
+  $("#pOk").onclick = () => { d.close(); los(() => rpc("admin_benutzer_profil", {p_id:u.id, p_vorname:$("#pV").value.trim(), p_nachname:$("#pN").value.trim(), p_stufe:+$("#pS").value}), "Profil gespeichert."); };
+}
+
+/* ======================= Kommentare ======================= */
+TABS.kommentare = async () => {
+  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Kommentare</h2><div class="hinweis">Kommentare werden in Supabase gespeichert. Bitte Supabase einrichten und unter «Zugang» anmelden.</div>`; return; }
+  const nur = store.get("ep-admin-knur", true);
+  const l = await rpc("admin_kommentare", {p_nur_gemeldet: nur, p_anzahl: 300});
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Kommentare</h2><label><input type="checkbox" id="kNur"${nur?" checked":""}> nur gemeldete</label><span class="rechts mu klein">${zahl(l.length)} angezeigt · ab 3 Meldungen automatisch ausgeblendet</span></div>
+    <table><thead><tr><th>Zeit</th><th>Qeel</th><th>Name</th><th>Text</th><th class="r">Meldungen</th><th></th></tr></thead><tbody>${l.map(k => `<tr data-id="${+k.id}"><td class="nowrap">${datum(k.erstellt)}</td><td class="klein mu">${esc(k.qeel)}</td><td>${esc(k.name)}</td><td>${esc(k.text)}</td><td class="r ${k.gemeldet >= 3 ? "fe" : k.gemeldet ? "wa" : ""}">${+k.gemeldet}</td><td class="nowrap">${k.gemeldet ? '<button class="k" data-a="freigeben">Freigeben</button> ' : ""}<button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || '<tr><td colspan="6" class="mu">Keine Kommentare</td></tr>'}</tbody></table>`;
+  $("#kNur").onchange = e => { store.set("ep-admin-knur", e.target.checked, true); zeige("kommentare"); };
+  $$("#inhalt tr[data-id] button").forEach(b => b.onclick = async () => { try{ await rpc("admin_kommentar", {p_id: +b.closest("tr").dataset.id, p_aktion: b.dataset.a}); melde(b.dataset.a === "loeschen" ? "Gelöscht." : "Freigegeben."); zeige("kommentare"); }catch(e){ melde(e.message, "fe"); } });
+};
+
+/* ======================= Zugang ======================= */
+TABS.zugang = async () => {
+  const s = sbSitzung();
+  $("#inhalt").innerHTML = `<h2>Zugang</h2>
+  <div class="zwei"><div>
+    <div class="box"><b>GitHub (Fragen und Bilder speichern)</b>
+      <p class="mu klein">Änderungen werden direkt ins Projekt <code>${REPO}</code> gespeichert. Dafür braucht es einen persönlichen Schlüssel (Fine-grained token). Er bleibt nur in diesem Browser.</p>
+      <div class="leiste"><input type="password" id="zGh" placeholder="github_pat_…" style="flex:1" value="${esc(ghToken())}" autocomplete="off"></div>
+      <div class="leiste"><label><input type="checkbox" id="zGhMerken"${localStorage.getItem("ep-admin-gh") ? " checked" : ""}> auf diesem Gerät merken</label><span class="rechts"></span><button class="k" id="zGhWeg">Entfernen</button><button class="k p" id="zGhOk">Speichern und prüfen</button></div>
+      <p id="zGhInfo" class="klein"></p>
+      <details class="klein"><summary>So erstellst du den Schlüssel</summary><ol>
+        <li>github.com → Profilbild → <b>Settings</b> → <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+        <li>Name z. B. «easyplay Verwaltung», Ablauf z. B. 90 Tage.</li>
+        <li><b>Repository access</b>: «Only select repositories» → <code>${REPO}</code>.</li>
+        <li><b>Permissions → Repository permissions</b>: <b>Contents: Read and write</b>. Optional <b>Actions: Read</b> für die Übersicht.</li>
+        <li>Token erzeugen, kopieren und hier einfügen. Niemals weitergeben.</li></ol></details>
+    </div>
+  </div><div>
+    <div class="box"><b>Supabase (Benutzer, Statistik, Kommentare)</b>
+      ${!sbAn() ? `<p class="wa">Supabase ist in <code>config.js</code> nicht eingetragen.</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zSbAus">Abmelden</button>` :
+      `<div class="formular"><label>E-Mail</label><input type="email" id="zMail" autocomplete="username"><label>Passwort</label><input type="password" id="zPw" autocomplete="current-password"></div><div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k p" id="zSbAn">Anmelden</button></div>`}
+      <p id="zSbInfo" class="klein"></p>
+      <details class="klein"${sbAn() ? "" : " open"}><summary>Einrichtung</summary><ol>
+        <li>Supabase-Projekt anlegen und in <code>config.js</code> Project URL und den öffentlichen Schlüssel (anon) eintragen (siehe ANLEITUNG-DATENBANK.md und ANLEITUNG-LOGIN.md).</li>
+        <li>Im Supabase SQL Editor nacheinander ausführen: <code>supabase/schema.sql</code>, <code>supabase/lehrer.sql</code>, <code>supabase/admin.sql</code>.</li>
+        <li>Auf der Website mit deiner E-Mail registrieren und bestätigen.</li>
+        <li>Im SQL Editor dich als Admin eintragen:<br><code>insert into public.admins (user_id) select id from auth.users where email = 'deine@email.ch';</code></li>
+        <li>Hier anmelden. Ab dann zählt die Website anonym die Aufrufe.</li></ol></details>
+    </div>
+    <div class="box klein"><b>Sicherheit</b><ul>
+      <li>Diese Seite ist nirgends verlinkt und für Suchmaschinen gesperrt. Die Adresse allein schützt aber nicht: Speichern geht nur mit dem GitHub-Schlüssel, Benutzer und Statistik nur mit einem Admin-Konto.</li>
+      <li>Der Schlüssel liegt nur in diesem Browser. Auf fremden Geräten «merken» nicht anhaken.</li>
+      <li>Supabase prüft bei jeder Aktion serverseitig, ob du Admin bist.</li></ul></div>
+  </div></div>`;
+  $("#zGhOk").onclick = async () => { const t = $("#zGh").value.trim(); if(!t){ store.del("ep-admin-gh"); statusZeigen(); return; }
+    store.set("ep-admin-gh", t, $("#zGhMerken").checked);
+    try{ const r = await gh(""); const ok = r.permissions && r.permissions.push; $("#zGhInfo").innerHTML = ok ? '<span class="ok">Verbunden, Schreibrechte vorhanden.</span>' : '<span class="fe">Verbunden, aber ohne Schreibrechte. Contents: Read and write setzen.</span>'; }
+    catch(e){ $("#zGhInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; store.del("ep-admin-gh"); }
+    statusZeigen(); };
+  $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
+  const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
+  const aus = $("#zSbAus"); if(aus) aus.onclick = () => { store.del("ep-admin-sb"); statusZeigen(); zeige("zugang"); };
+  if(s && $("#zAdmin")){ try{ const ja = await rpc("ist_admin"); $("#zAdmin").innerHTML = ja ? '<span class="ok">Admin</span>' : '<span class="fe">kein Admin (siehe Einrichtung, Schritt 4)</span>'; }catch(e){ $("#zAdmin").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } }
+};
+
+/* ======================= Speichern ======================= */
+$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); aenderungenZeigen(); zeige(TAB); };
+$("#aeListe").onclick = () => { const d = $("#dlg");
+  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
+  d.showModal(); $("#dZu").onclick = () => d.close(); };
+$("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disabled = true; b.textContent = "Speichert …";
+  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size) await bilderSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
+  catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
+  finally{ b.disabled = false; b.textContent = "Speichern"; } };
+
+/* ======================= Start ======================= */
+statusZeigen(); aenderungenZeigen();
+zeige(TABS[location.hash.slice(1)] ? location.hash.slice(1) : (ghToken() || sbSitzung() ? "uebersicht" : "zugang"));
+</script>
+</body>
+</html>

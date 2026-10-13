@@ -5,6 +5,9 @@ on:
       app:
         description: "Auch das App-Paket mit grossen Bildern (1600 px) bauen (1)"
         default: "0"
+  push:
+    branches: [main]
+    paths: ["bildindex.json"]
   workflow_run:
     workflows: ["Bilder für die Bibliothek finden"]
     types: [completed]
