@@ -2453,14 +2453,21 @@ button,a,[role="button"],.opt,.lopt{touch-action:manipulation}
   .wrap{padding-left:max(16px,env(safe-area-inset-left))!important;padding-right:max(16px,env(safe-area-inset-right))!important}
   footer.eplegal{padding-bottom:max(12px,env(safe-area-inset-bottom))}
 }
-/* Hochformat iPad (ca. 760 bis 1100 px): Kennzahlen untereinander, Kinderbild kleiner */
+/* Hochformat iPad (ca. 760 bis 1100 px): kleine Kennzahlen nebeneinander, Kinder und Logo gross ohne Überschneidung */
 @media (min-width:761px) and (max-width:1100px){
-  .hero{grid-template-columns:minmax(0,1fr) minmax(0,.8fr)!important;gap:12px!important}
-  .kennzahlen{flex-wrap:wrap!important;max-width:none!important}
-  .kzk{flex:1 1 100%!important;justify-content:flex-start!important;text-align:left}
-  .kztext b{font-size:2.3rem!important}
-  .heroart{transform:scale(.86);transform-origin:70% 40%}
-  .heroart .badge,.pschild{transform:scale(.92) rotate(-3deg)}
+  .hero{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;gap:8px!important;align-items:start!important}
+  .kennzahlen{flex-wrap:nowrap!important;max-width:none!important;gap:10px!important}
+  .kzk{flex:1 1 0!important;min-width:0!important;padding:10px 12px!important;gap:8px!important;border-radius:18px!important}
+  .kzk .kzicon{width:38px!important;height:38px!important;font-size:1.25rem!important;border-radius:12px!important}
+  .kztext b{font-size:1.65rem!important;line-height:1.05}
+  .kztext span{font-size:.78rem!important}
+  .kzchips{display:none!important}
+  .heroart{transform:none!important;height:470px!important;margin-top:-10px}
+  .heroart .glow{right:10%!important;top:40px!important;width:340px!important;height:340px!important}
+  .heroart .heroicon{width:230px!important;height:auto!important;left:50%!important;right:auto!important;top:10px!important;margin-left:-115px!important}
+  .heroart .kid.girl{width:205px!important;height:290px!important;left:0!important;top:150px!important}
+  .heroart .kid.boy{width:180px!important;height:300px!important;right:0!important;left:auto!important;top:160px!important}
+  .heroart .badge,.heroart .pschild{left:50%!important;right:auto!important;bottom:-6px!important;top:auto!important;transform:translateX(-50%) rotate(-3deg) scale(.88)!important}
   .lernleiste{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 /* Touch-Geräte mit grossem Bildschirm: grössere Antwortflächen und Schrift im Quiz */
