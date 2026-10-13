@@ -1,0 +1,20 @@
+.vs-slogan{font:800 clamp(2.6rem,6.4vw,4.8rem)/1.02 "Bricolage Grotesque","Fredoka",sans-serif;letter-spacing:-.02em;margin:0;background:linear-gradient(135deg,#3D5AFE,#8A3FE0 55%,#E043B8);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(255,255,255,.9)) drop-shadow(0 10px 18px rgba(60,30,140,.25))}
+.vs-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.vs-pills span{background:rgba(255,255,255,.82);backdrop-filter:blur(6px);border:1px solid #fff;border-radius:999px;padding:7px 15px;font-weight:500;font-size:.95rem;color:#5D5C80;box-shadow:0 6px 16px -10px rgba(27,34,64,.5)}
+.vs-pills b{color:#1B2240}
+.vs-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.vs-ctas .big{width:auto!important;flex:0 0 auto!important}
+.vs-ctas .big.duell{background:linear-gradient(135deg,#0FA968,#1E9BE0)!important;color:#fff!important;box-shadow:0 5px 0 #0B6E6A!important}
+@keyframes vsSchweben{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes vsHuepf{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-14px) rotate(var(--r,0deg))}}
+.hero.vs{display:block!important;grid-template-columns:none!important;min-height:0!important;padding:0!important;background:none!important;box-shadow:none!important;border:0!important}
+.hero.vs::before,.hero.vs::after{display:none!important}
+@media (max-width:560px){.vs-ctas{flex-direction:column;align-items:stretch}.vs-ctas .big{width:100%!important}}
+.vcard{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid #fff;border-radius:26px;box-shadow:0 20px 40px -24px rgba(27,34,64,.55);color:#1B2240;text-align:left}
+.vh{font:800 1.35rem "Bricolage Grotesque","Fredoka",sans-serif;margin:0 0 4px;color:#1B2240}
+.vsub{color:#5D5C80;font-size:.92rem;margin:0}
+.vtag{display:inline-block;background:#1B2240;color:#fff;border-radius:999px;padding:3px 10px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.vtag.rot{background:linear-gradient(135deg,#FF3D6E,#FF8A3D)}
+.vtag.gruen{background:#0FA968}
+.vbar{height:12px;border-radius:999px;background:#E9E5FF;overflow:hidden}.vbar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#3D5AFE,#8A3FE0,#E043B8)}
+body:has(.vohneleiste) .lernleiste{display:none!important}

@@ -1,0 +1,17 @@
+.vsX{padding:6px 0 10px;width:100%}
+.vsX .oben{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.vsX .oben img.vlogo{height:clamp(100px,11vw,150px);filter:drop-shadow(0 12px 18px rgba(60,30,140,.28))}
+.vsX .vs-slogan{font-size:clamp(2.2rem,4.4vw,3.6rem);text-align:left}
+.vsX .profil{display:flex;align-items:center;gap:12px;padding:10px 16px;margin-top:8px;max-width:600px}
+.vsX .profil .lvl{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#FFB347,#FF5F9E);display:grid;place-items:center;color:#fff;font:800 1.3rem "Bricolage Grotesque",sans-serif;flex:0 0 auto}
+.vsX .profil small{color:#5D5C80;font-weight:600}
+.vsX .profil .m{font-weight:800;white-space:nowrap}
+.vsX .grid{display:grid;gap:14px;margin-top:16px}.vsX .grid>*{min-width:0}
+.vsX .vcard{padding:18px}
+.vsX .dunkel{position:relative;overflow:hidden;border-radius:30px;padding:24px 26px;color:#fff;background:linear-gradient(120deg,rgba(27,34,64,.93),rgba(61,90,254,.86) 55%,rgba(224,67,184,.82));box-shadow:0 24px 44px -24px rgba(27,34,64,.8);text-align:left}
+.vsX .dunkel .vh{color:#fff;font-size:clamp(1.5rem,2.8vw,2.2rem)}
+.vsX .dunkel p,.vsX .dunkel small{color:#fff!important;opacity:.92}
+.vsX .gelb{display:inline-block;background:#FFE34D;color:#1B2240;border-radius:16px;padding:12px 22px;font-weight:800;box-shadow:0 5px 0 #C9A200}
+.vsX .cd{display:inline-flex;gap:6px;margin:6px 0 10px}.vsX .cd span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:6px 10px;text-align:center;font-weight:800}
+.vsX .cd span small{display:block;font-weight:500;font-size:.68rem}
+@media (max-width:560px){.hero.vs .vsX .oben{grid-template-columns:1fr;text-align:center}.vsX .oben img.vlogo{margin:0 auto}.vsX .vs-slogan{text-align:center}}

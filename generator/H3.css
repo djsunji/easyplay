@@ -1,0 +1,23 @@
+.vsH3 .grid{grid-template-columns:1fr 1.4fr}
+.vsH3 .rad{text-align:center;position:relative}
+.vsH3 .radwrap{position:relative;width:min(280px,80%);aspect-ratio:1;margin:12px auto}
+.vsH3 .scheibe{position:absolute;inset:0;border-radius:50%;border:8px solid #fff;box-shadow:0 0 0 4px #8A3FE0,0 16px 30px -12px rgba(27,34,64,.6);background:conic-gradient(#3D5AFE 0 45deg,#FFB347 45deg 90deg,#E043B8 90deg 135deg,#0FA968 135deg 180deg,#8A3FE0 180deg 225deg,#FF5E7E 225deg 270deg,#1E9BE0 270deg 315deg,#FFE34D 315deg 360deg);animation:vsDreh 14s linear infinite}
+@keyframes vsDreh{to{transform:rotate(360deg)}}
+.vsH3 .scheibe i{position:absolute;left:50%;top:50%;font-style:normal;font-size:1.6rem;transform:rotate(var(--a)) translateY(-95px) rotate(calc(-1*var(--a)));margin:-14px 0 0 -14px}
+.vsH3 .zeiger{position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-size:2rem;z-index:2;filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))}
+.vsH3 .mitte{position:absolute;left:50%;top:50%;width:76px;height:76px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;display:grid;place-items:center;font:800 .95rem "Lexend",sans-serif;color:#8A3FE0;box-shadow:0 6px 14px rgba(0,0,0,.2);z-index:2}
+.vsH3 .rad img{position:absolute;left:-30px;bottom:-14px;height:170px}
+.vsH3 .album .seiten{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.vsH3 .sticker{aspect-ratio:3/4;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2rem;background:linear-gradient(160deg,#fff,#F4F1FF);border:2px solid #E3DDFB;position:relative;box-shadow:0 6px 12px -8px rgba(27,34,64,.5)}
+.vsH3 .sticker small{font-size:.66rem;font-weight:700;color:#5D5C80;margin-top:4px}
+.vsH3 .sticker.gold{background:linear-gradient(160deg,#FFF4C2,#FFD45E);border-color:#F0B400}
+.vsH3 .sticker.zu{background:repeating-linear-gradient(45deg,#EEEAF9 0 8px,#F6F4FC 8px 16px);font-size:1.4rem;color:#B8B2D6}
+.vsH3 .sticker.neu::after{content:"NEU";position:absolute;top:-8px;right:-6px;background:#FF3D6E;color:#fff;font-size:.6rem;font-weight:800;border-radius:6px;padding:1px 6px}
+.vsH3 .albumkopf{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.vsH3 .reihe{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.vsH3 .shop{display:flex;align-items:center;gap:12px}
+.vsH3 .shop .ic{font-size:2rem}.vsH3 .shop b{display:block}.vsH3 .shop em{font-style:normal;margin-left:auto;font-weight:800;background:#FFF4C2;border-radius:999px;padding:4px 10px;white-space:nowrap}
+@media (max-width:860px){.vsH3 .grid{grid-template-columns:1fr}.vsH3 .reihe{grid-template-columns:1fr}}
+@media (max-width:560px){.vsH3 .album .seiten{grid-template-columns:repeat(4,1fr)}.vsH3 .rad img{height:120px;left:-10px}}
+.vsH3 .rad img{left:auto;right:-14px;bottom:-10px;height:150px}
+.vsH3 .rad .vsub{padding-right:90px;text-align:left}

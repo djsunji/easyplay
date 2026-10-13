@@ -1,0 +1,21 @@
+.vsD{text-align:center;padding:4px 0 10px}
+.vsD .kopf{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.vsD .kopf img{height:clamp(110px,13vw,170px);filter:drop-shadow(0 12px 18px rgba(60,30,140,.28));animation:vsSchweben 6s ease-in-out infinite}
+.vsD .kopf .vs-slogan{font-size:clamp(2.2rem,4.6vw,3.8rem);text-align:left}
+.vsD .xp{max-width:520px;margin:12px auto 0;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.88);border-radius:999px;padding:8px 16px 8px 8px;box-shadow:0 10px 24px -16px rgba(27,34,64,.6)}
+.vsD .xp .lvl{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:800 1.1rem "Bricolage Grotesque",sans-serif;color:#fff;background:linear-gradient(135deg,#FFB347,#FF5F9E)}
+.vsD .xp .vbar{flex:1}.vsD .xp small{color:#5D5C80;font-weight:600;white-space:nowrap}
+.vsD .pfad{position:relative;height:380px;max-width:1100px;margin:16px auto 0}
+.vsD .pfad svg{position:absolute;inset:0;width:100%;height:100%}
+.vsD .st{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;cursor:pointer;font:700 .95rem "Lexend",sans-serif;color:#1B2240}
+.vsD .st .kreis{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:2.6rem;color:#fff;background:var(--c);box-shadow:0 8px 0 var(--s),0 18px 26px -12px rgba(27,34,64,.55);border:5px solid #fff}
+.vsD .st span.n{background:rgba(255,255,255,.92);border-radius:999px;padding:4px 12px;box-shadow:0 6px 14px -10px rgba(27,34,64,.6)}
+.vsD .st.fertig .kreis::after{content:"✓";position:absolute;top:-4px;right:-4px;width:30px;height:30px;border-radius:50%;background:#0FA968;color:#fff;font-size:1rem;display:grid;place-items:center;border:3px solid #fff}
+.vsD .st .kreis{position:relative}
+.vsD .st.jetzt .kreis{width:120px;height:120px;font-size:3.2rem;animation:vsPuls 1.6s ease-in-out infinite}
+@keyframes vsPuls{0%,100%{box-shadow:0 8px 0 var(--s),0 0 0 0 rgba(224,67,184,.5)}50%{box-shadow:0 8px 0 var(--s),0 0 0 16px rgba(224,67,184,0)}}
+.vsD .st.zu .kreis{filter:grayscale(.85);opacity:.75}
+.vsD .figur{position:absolute;height:190px;transform:translate(-50%,-100%);filter:drop-shadow(0 10px 10px rgba(27,34,64,.3));animation:vsHuepf 2.4s ease-in-out infinite;z-index:2}
+.vsD .sprech{position:absolute;transform:translate(-10%,-100%);background:#fff;border-radius:16px;padding:8px 14px;font-weight:600;box-shadow:0 10px 20px -12px rgba(27,34,64,.6);white-space:nowrap;z-index:3}
+@media (max-width:760px){.vsD .pfad{height:auto;display:flex;flex-direction:column;gap:22px;padding:10px 0}.vsD .pfad svg,.vsD .figur,.vsD .sprech{display:none}.vsD .st{position:static;transform:none;flex-direction:row;gap:14px;align-self:center}.vsD .st:nth-of-type(odd){margin-left:-90px}.vsD .st:nth-of-type(even){margin-left:90px}.vsD .st .kreis{width:78px;height:78px;font-size:2.1rem}.vsD .st.jetzt .kreis{width:96px;height:96px}.vsD .kopf .vs-slogan{text-align:center}}
+.vsD .pfad,.vsD .xp,.vsD .kopf{width:100%}.vsD .xp{width:min(520px,100%)}.vsD{width:100%}

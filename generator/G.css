@@ -1,0 +1,35 @@
+.vsG{padding:6px 0 10px}
+.vsG .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(150px,auto);gap:14px}
+.vsG .t{position:relative;overflow:hidden;padding:18px}
+.vsG .gross{grid-column:span 2;grid-row:span 2;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.55)}
+.vsG .gross .vlogo{height:200px;filter:drop-shadow(0 14px 20px rgba(60,30,140,.3));animation:vsSchweben 6s ease-in-out infinite;position:relative;z-index:1}
+.vsG .gross .vs-slogan{font-size:clamp(2.2rem,3.6vw,3.3rem);margin:4px 0 12px;position:relative;z-index:1}
+.vsG .gross .k1,.vsG .gross .k2{position:absolute;bottom:-8px;height:200px;opacity:.98}
+.vsG .gross .k1{left:-12px}.vsG .gross .k2{right:-12px}
+.vsG .gross .vs-ctas{position:relative;z-index:1}
+.vsG .serie{background:linear-gradient(150deg,#FFF1E2,#fff)}
+.vsG .ringw{display:flex;align-items:center;gap:14px;margin-top:8px}
+.vsG .ring{width:84px;height:84px;border-radius:50%;background:conic-gradient(#FF8A3D 0 43%,#FFE3CC 43% 100%);display:grid;place-items:center}
+.vsG .ring b{width:66px;height:66px;border-radius:50%;background:#fff;display:grid;place-items:center;font:800 1.5rem "Bricolage Grotesque",sans-serif}
+.vsG .tage{display:flex;gap:5px;margin-top:10px}.vsG .tage i{flex:1;height:8px;border-radius:4px;background:#FFE3CC}.vsG .tage i.an{background:#FF8A3D}
+.vsG .quizt{background:linear-gradient(150deg,#3D5AFE,#8A3FE0);color:#fff;border-color:transparent}
+.vsG .quizt .vh,.vsG .quizt .vsub{color:#fff}
+.vsG .uhr{font:800 1.9rem "Bricolage Grotesque",sans-serif;margin:8px 0;letter-spacing:.02em}
+.vsG .knopfmini{display:inline-block;background:#fff;color:#3D5AFE;border-radius:999px;padding:8px 16px;font-weight:700}
+.vsG .rang ol{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.vsG .rang li{display:flex;align-items:center;gap:10px;background:#F4F1FF;border-radius:12px;padding:6px 10px;font-weight:600}
+.vsG .rang li em{font-style:normal;margin-left:auto;color:#5D5C80;font-size:.85rem}
+.vsG .rang li.du{background:linear-gradient(90deg,#FFE9F6,#F4F1FF);outline:2px solid #E043B8}
+.vsG .wusst{grid-column:span 2;background:linear-gradient(150deg,#E8FFF4,#fff);padding-right:42%}
+.vsG .wusst img{position:absolute;right:-10px;bottom:-14px;width:46%}
+.vsG .duell{background:linear-gradient(150deg,#0FA968,#1E9BE0);color:#fff}
+.vsG .duell .vh,.vsG .duell .vsub{color:#fff}
+.vsG .duell img{position:absolute;right:-8px;bottom:-8px;height:120px}
+.vsG .abz .reihe{display:flex;gap:8px;margin-top:10px;font-size:1.9rem}
+.vsG .abz .reihe span{width:48px;height:48px;border-radius:14px;background:#F4F1FF;display:grid;place-items:center}
+.vsG .abz .reihe span.zu{filter:grayscale(1);opacity:.4}
+@media (max-width:1000px){.vsG .bento{grid-template-columns:repeat(2,1fr)}.vsG .wusst{grid-column:span 2}}
+@media (max-width:560px){.vsG .bento{grid-template-columns:1fr}.vsG .gross,.vsG .wusst{grid-column:span 1}.vsG .gross{grid-row:auto;padding-bottom:150px}.vsG .gross .vlogo{height:150px}.vsG .gross .k1,.vsG .gross .k2{height:150px}}
+.vsG{width:100%}
+.vsG .abz .reihe span{width:40px;height:40px;font-size:1.5rem}.vsG .abz .reihe{gap:6px}
+.vsG .duell .vh{max-width:70%}

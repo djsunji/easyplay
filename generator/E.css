@@ -1,0 +1,28 @@
+.vsE{display:grid;grid-template-columns:1fr 1.15fr;gap:28px;align-items:center;padding:6px 0 10px}
+.hero.vs>.vsE{display:grid!important}
+.vsE .vlinks{text-align:left}
+.vsE .vlinks img.vlogo{width:min(220px,60%);filter:drop-shadow(0 14px 20px rgba(60,30,140,.28))}
+.vsE .vs-slogan{font-size:clamp(2.3rem,4.4vw,3.8rem);margin:0 0 10px}
+.vsE .vs-pills{justify-content:flex-start}
+.vsE .quiz{position:relative;padding:22px;max-width:560px}
+.vsE .quizkopf{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.vsE .zeit{display:flex;align-items:center;gap:8px;font-weight:700;color:#E043B8}
+.vsE .frage{font:800 1.45rem/1.25 "Bricolage Grotesque","Fredoka",sans-serif;margin:8px 0 16px}
+.vsE .antw{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vsE .antw button{border:0;border-radius:18px;padding:16px 12px;font:600 1.02rem "Lexend",sans-serif;color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.2);transition:transform .1s}
+.vsE .antw button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.vsE .antw button:nth-child(1){background:#3D5AFE}.vsE .antw button:nth-child(2){background:#E043B8}.vsE .antw button:nth-child(3){background:#0FA968}.vsE .antw button:nth-child(4){background:#F09A12}
+.vsE .antw button.richtig{background:#0FA968!important;outline:4px solid #B9F5D8}.vsE .antw button.falsch{opacity:.35}
+.vsE .quizfuss{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:#5D5C80;font-size:.9rem}
+.vsE .punkte{font-weight:800;color:#1B2240}
+.vsE .zeigen{position:absolute;right:-110px;bottom:-30px;height:300px;z-index:2;filter:drop-shadow(0 12px 14px rgba(27,34,64,.3))}
+.vsE .jubel{position:absolute;left:-70px;top:-120px;height:150px;z-index:2;transform:rotate(-8deg)}
+.vsE .weiter{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.vsE .weiter span{background:rgba(255,255,255,.88);border-radius:14px;padding:10px 14px;font-weight:600;box-shadow:0 8px 18px -14px rgba(27,34,64,.6)}
+.vsE .konf{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.vsE .konf i{position:absolute;font-style:normal;font-size:1.6rem;animation:vsKonf 1.2s ease-out forwards}
+@keyframes vsKonf{from{transform:translate(0,0) scale(.4);opacity:1}to{transform:translate(var(--x),var(--y)) scale(1.2) rotate(200deg);opacity:0}}
+@media (max-width:1100px){.vsE .zeigen{right:-40px;height:230px}}
+@media (max-width:860px){.hero.vs>.vsE{grid-template-columns:1fr!important}.vsE .vlinks{text-align:center}.vsE .vs-pills{justify-content:center}.vsE .quiz{margin:60px auto 0}.vsE .zeigen{display:none}.vsE .jubel{left:auto;right:-6px;top:-96px;height:120px}}
+@media (max-width:560px){.vsE .antw{grid-template-columns:1fr}.vsE .frage{font-size:1.2rem}}
+.vsE .quiz{padding-right:60px}.vsE .zeigen{right:-120px;height:280px}.vsE .vlinks,.vsE .quiz{width:100%}

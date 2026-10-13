@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de-CH"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vorschlag Startseite</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1B2240;--soft:#5D5C80;--v:#8A3FE0;--b:#3D5AFE;--grad:linear-gradient(135deg,#3D5AFE,#8A3FE0 55%,#E043B8)}
+*{box-sizing:border-box}
+body{margin:0;font:400 16px/1.5 "Lexend",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#CFE0FF 0%,#E9E4FF 45%,#FFF6EC 100%);min-height:100vh;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 20px 60px}
+/* Kopf */
+.kopf{display:flex;align-items:center;gap:12px}
+.kopf img{height:46px;width:auto}
+.kopf .rechts{margin-left:auto;display:flex;gap:10px}
+.knopf{border:0;border-radius:999px;padding:11px 20px;font:600 15px "Lexend",system-ui,sans-serif;color:#fff;background:var(--grad);box-shadow:0 6px 16px -6px rgba(61,90,254,.6);cursor:pointer}
+.knopf.weiss{background:#fff;color:var(--ink);box-shadow:0 4px 12px -6px rgba(27,34,64,.3)}
+.knopf.qeels{background:linear-gradient(135deg,#FF8A3D,#E043B8)}
+/* Bühne */
+.buehne{position:relative;text-align:center;padding:10px 0 8px}
+.buehne::before{content:"";position:absolute;left:50%;top:40px;width:min(760px,90vw);height:min(520px,70vw);transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,255,255,.9),rgba(255,255,255,0));z-index:0}
+.buehne .logo{position:relative;z-index:1;width:min(640px,92vw);height:auto;filter:drop-shadow(0 22px 30px rgba(60,30,140,.28));animation:schweben 6s ease-in-out infinite}
+@keyframes schweben{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.slogan{position:relative;z-index:1;margin:-6px 0 6px;font:800 clamp(2.4rem,6vw,4.2rem)/1.05 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chips{position:relative;z-index:1;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 20px}
+.chips span{background:rgba(255,255,255,.75);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.9);border-radius:999px;padding:6px 14px;font-weight:500;font-size:14px;color:var(--soft)}
+.chips b{color:var(--ink)}
+.cta{position:relative;z-index:1;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta .gross{font-size:20px;padding:16px 34px;border-radius:20px;box-shadow:0 8px 0 #2A2FA8,0 16px 30px -10px rgba(61,90,254,.6)}
+.cta .gross.zwei{background:#fff;color:var(--ink);box-shadow:0 8px 0 #CFC8EE,0 16px 30px -12px rgba(27,34,64,.3)}
+/* Abschnitte */
+h2{font:800 26px "Bricolage Grotesque",sans-serif;margin:42px 0 14px;text-align:center}
+.heute{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.karte{background:#fff;border-radius:22px;padding:16px 18px;display:flex;gap:14px;align-items:center;box-shadow:0 10px 26px -16px rgba(27,34,64,.45)}
+.karte .em{font-size:34px}
+.karte b{display:block;font-size:17px}
+.karte small{color:var(--soft)}
+.karte.feuer{background:linear-gradient(135deg,#FFF1E2,#fff)}
+.kacheln{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kachel{border:0;border-radius:24px;padding:22px 16px 18px;color:#fff;text-align:center;font:600 17px "Lexend",system-ui,sans-serif;cursor:pointer;box-shadow:0 7px 0 rgba(0,0,0,.18),0 18px 30px -18px rgba(27,34,64,.6)}
+.kachel .em{display:block;font-size:46px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.2))}
+.k1{background:linear-gradient(135deg,#FF5F9E,#FFB347)}.k2{background:linear-gradient(135deg,#FF8A3D,#E043B8)}.k3{background:linear-gradient(135deg,#0FA968,#1E9BE0)}.k4{background:linear-gradient(135deg,#5B3FE0,#C86BFF)}
+.stufe{display:flex;justify-content:center;gap:6px;background:#fff;border-radius:999px;padding:6px;width:max-content;margin:0 auto 18px;box-shadow:0 8px 20px -14px rgba(27,34,64,.5)}
+.stufe button{border:0;border-radius:999px;padding:10px 20px;font:600 15px "Lexend",system-ui,sans-serif;background:none;color:var(--soft);cursor:pointer}
+.stufe button.an{background:var(--grad);color:#fff}
+.bereiche{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.bereich{position:relative;overflow:hidden;border-radius:26px;padding:20px;min-height:170px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end}
+.bereich .em{position:absolute;right:12px;top:10px;font-size:64px;opacity:.95}
+.bereich b{font:800 21px "Bricolage Grotesque",sans-serif}
+.bereich small{opacity:.9}
+.b1{background:linear-gradient(135deg,#3D5AFE,#6E8BFF)}.b2{background:linear-gradient(135deg,#17A35A,#4CD08A)}.b3{background:linear-gradient(135deg,#E0352B,#FF7A5C)}.b4{background:linear-gradient(135deg,#F09A12,#FFC94A)}
+.kinderecke{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px}
+.kinderecke img{height:150px;width:auto}
+.kinderecke p{background:#fff;border-radius:18px;padding:10px 16px;box-shadow:0 8px 20px -14px rgba(27,34,64,.5);max-width:420px;text-align:center;margin:0 0 40px}
+@media (max-width:900px){.kacheln,.bereiche{grid-template-columns:repeat(2,1fr)}}@media (max-width:640px){.heute{grid-template-columns:1fr}}
+@media (max-width:560px){.kopf img{height:34px}.kopf .rechts .knopf{padding:9px 12px;font-size:13px}.cta .gross{width:100%}.kinderecke img{height:100px}}
+</style></head><body><div class="wrap">
+<div class="kopf"><img src="wordmark.webp" alt="easyplay"><div class="rechts"><button class="knopf">👤 Anmelden</button><button class="knopf qeels">Qeels</button><button class="knopf weiss">☰ Menü</button></div></div>
+
+<section class="buehne">
+  <img class="logo" src="kinder.webp" alt="easyplay mit Lumi und Milo">
+  <div class="slogan">Spiel dich schlau!</div>
+  <div class="chips"><span><b>95'761</b> Fragen</span><span><b>75</b> Themen</span><span><b>3</b> Stufen</span><span>🇨🇭 mit Schweiz-Wissen</span></div>
+  <div class="cta"><button class="knopf gross">▶ Los geht's</button><button class="knopf gross zwei">📅 Tagesquiz</button></div>
+</section>
+
+<h2>Heute für dich</h2>
+<div class="heute">
+  <div class="karte feuer"><span class="em">🔥</span><span><b>3 Tage Serie</b><small>Noch 5 Fragen für heute</small></span></div>
+  <div class="karte"><span class="em">📅</span><span><b>Tagesquiz</b><small>5 neue Fragen, jeden Tag</small></span></div>
+  <div class="karte"><span class="em">🎯</span><span><b>Fehler üben (12)</b><small>Falsche Fragen nochmals</small></span></div>
+</div>
+
+<h2>Was willst du machen?</h2>
+<div class="kacheln">
+  <button class="kachel k1"><span class="em">📖</span>Bibliothek</button>
+  <button class="kachel k2"><span class="em">📱</span>Qeels</button>
+  <button class="kachel k3"><span class="em">⚔️</span>Wettbewerb & Duell</button>
+  <button class="kachel k4"><span class="em">🎲</span>Zufällige Fragen</button>
+</div>
+
+<h2>Bereiche</h2>
+<div class="stufe"><button class="an">🌱 Entdecker</button><button>🚀 Könner</button><button>🏅 Profis</button></div>
+<div class="bereiche">
+  <div class="bereich b1"><span class="em">🌍</span><b>Welt & Geschichte</b><small>18'564 Fragen</small></div>
+  <div class="bereich b2"><span class="em">🔬</span><b>Natur & Wissen</b><small>16'491 Fragen</small></div>
+  <div class="bereich b3"><span class="em">🇨🇭</span><b>Schweiz, Geld & Leben</b><small>1'369 Fragen</small></div>
+  <div class="bereich b4"><span class="em">🚲</span><b>Alltag & Kultur</b><small>1'853 Fragen</small></div>
+</div>
+
+<div class="kinderecke"><img src="maedchen.webp" alt=""><p>💡 <b>Lumi:</b> Wusstest du? Der Gotthard-Basistunnel ist mit 57 km der längste Eisenbahntunnel der Welt.</p><img src="junge.webp" alt=""></div>
+</div></body></html>

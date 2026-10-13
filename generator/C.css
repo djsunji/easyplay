@@ -1,0 +1,19 @@
+.vsC{text-align:center;padding:4px 0 8px}
+.vsC .kopfzeile{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.vsC .vlogo{height:clamp(150px,20vw,230px);filter:drop-shadow(0 14px 20px rgba(60,30,140,.28));animation:vsSchweben 6s ease-in-out infinite}
+.vsC .vs-slogan{text-align:left}
+.vsC .vs-pills{margin:10px 0 0}
+.vsC .vkacheln{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:96px}
+.vsC .vkachel{position:relative;border:0;border-radius:26px;padding:84px 14px 18px;color:#fff;font:700 1.12rem "Lexend","Fredoka",sans-serif;cursor:pointer;box-shadow:0 7px 0 rgba(0,0,0,.18),0 18px 30px -18px rgba(27,34,64,.6);text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.vsC .vkachel small{display:block;font-weight:400;font-size:.85rem;opacity:.92;margin-top:2px}
+.vsC .vkachel img{position:absolute;left:50%;bottom:58px;height:170px;transform:translateX(-50%);filter:drop-shadow(0 10px 10px rgba(0,0,0,.25));transition:transform .2s}
+.vsC .vkachel:hover img{transform:translateX(-50%) translateY(-8px) scale(1.04)}
+.vsC .k1{background:linear-gradient(135deg,#E043B8,#FF5E7E 50%,#FF8A3D)}.vsC .k2{background:linear-gradient(135deg,#5B3FE0,#C86BFF)}.vsC .k3{background:linear-gradient(135deg,#0FA968,#1E9BE0)}.vsC .k4{background:linear-gradient(135deg,#F09A12,#FFC94A);color:#4a2a00;text-shadow:none}
+@media (max-width:860px){.vsC .vkacheln{grid-template-columns:repeat(2,1fr);row-gap:90px}.vsC .vs-slogan{text-align:center}}
+@media (max-width:560px){.vsC .vkachel{padding-top:70px;font-size:1rem}.vsC .vkachel img{height:130px;bottom:56px}.vsC .vlogo{height:130px}}
+.vsC .vkachel .paar{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);display:flex;gap:0;height:170px}
+.vsC .vkachel .paar img{position:static;transform:none;height:100%;margin:0 -14px}
+@media (max-width:560px){.vsC .vkachel .paar{height:130px;bottom:56px}}
+.vsC .vkachel{padding-top:96px}
+.vsC .vkachel img,.vsC .vkachel .paar{bottom:auto;top:-86px}
+@media (max-width:560px){.vsC .vkachel{padding-top:66px}.vsC .vkachel img,.vsC .vkachel .paar{top:-70px;bottom:auto}.vsC .vkacheln{margin-top:80px;row-gap:84px}}

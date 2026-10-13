@@ -1,0 +1,45 @@
+.vsH{padding:6px 0 10px}
+.vsH .oben{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.hero.vs>.vsH .oben{display:grid}
+.vsH .oben img.vlogo{height:clamp(110px,12vw,160px);filter:drop-shadow(0 12px 18px rgba(60,30,140,.28))}
+.vsH .vs-slogan{font-size:clamp(2.2rem,4.4vw,3.6rem);text-align:left}
+.vsH .profil{display:flex;align-items:center;gap:12px;padding:10px 16px;margin-top:8px;max-width:560px}
+.vsH .profil .lvl{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#FFB347,#FF5F9E);display:grid;place-items:center;color:#fff;font:800 1.3rem "Bricolage Grotesque",sans-serif;flex:0 0 auto}
+.vsH .profil .vbar{flex:1}.vsH .profil small{color:#5D5C80;font-weight:600}
+.vsH .profil .muenzen{font-weight:800;white-space:nowrap}
+.vsH .event{position:relative;margin-top:18px;border-radius:30px;overflow:hidden;padding:26px 28px;min-height:250px;color:#fff;background:linear-gradient(120deg,rgba(27,34,64,.92),rgba(61,90,254,.85) 55%,rgba(224,67,184,.8));box-shadow:0 24px 44px -24px rgba(27,34,64,.8);text-align:left}
+.vsH .event .vh{color:#fff;font-size:clamp(1.6rem,3vw,2.4rem)}
+.vsH .event p{max-width:52%;opacity:.92;margin:6px 0 14px}
+.vsH .countdown{display:flex;gap:8px;margin-bottom:16px}
+.vsH .countdown span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:14px;padding:8px 12px;text-align:center;min-width:62px}
+.vsH .countdown b{display:block;font:800 1.5rem "Bricolage Grotesque",sans-serif}
+.vsH .countdown small{font-size:.7rem;opacity:.85}
+.vsH .event .ziel{max-width:52%}
+.vsH .event .ziel .vbar{background:rgba(255,255,255,.2)}
+.vsH .event .ziel .vbar i{background:linear-gradient(90deg,#FFE34D,#FF8A3D)}
+.vsH .event img{position:absolute;right:20px;bottom:-10px;height:290px;filter:drop-shadow(0 12px 16px rgba(0,0,0,.35))}
+.vsH .event .knopf{display:inline-block;margin-top:14px;background:#FFE34D;color:#1B2240;border-radius:16px;padding:12px 22px;font-weight:800;box-shadow:0 5px 0 #C9A200}
+.vsH .reihe3{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:14px;margin-top:14px}
+.vsH .reihe3 .vcard{padding:18px}
+.vsH .truhe{text-align:center}
+.vsH .truhe .t{font-size:4rem;line-height:1;margin:6px 0;animation:vsWackel 2s ease-in-out infinite;display:inline-block}
+@keyframes vsWackel{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-10deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
+.vsH .begleiter .wahl{display:flex;gap:8px;margin-top:10px}
+.vsH .begleiter .wahl span{position:relative;flex:1;aspect-ratio:3/4;border-radius:16px;background:#F4F1FF;display:grid;place-items:end center;overflow:hidden}
+.vsH .begleiter .wahl span img{height:94%}
+.vsH .begleiter .wahl span.an{outline:3px solid #8A3FE0;background:#EFE6FF}
+.vsH .begleiter .wahl span.zu img{filter:grayscale(1) brightness(1.1);opacity:.45}
+.vsH .begleiter .wahl span.zu::after{content:"🔒";position:absolute;top:6px;right:6px;font-size:1rem}
+.vsH .klasse ol{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.vsH .klasse li{display:flex;gap:8px;align-items:center;font-weight:600;background:#F4F1FF;border-radius:12px;padding:6px 10px}
+.vsH .klasse li em{margin-left:auto;font-style:normal;color:#5D5C80;font-size:.85rem}
+@media (max-width:860px){.vsH .reihe3{grid-template-columns:1fr 1fr}.vsH .begleiter{grid-column:span 2;order:-1}.vsH .event p,.vsH .event .ziel{max-width:60%}.vsH .event img{height:230px}}
+@media (max-width:560px){.hero.vs>.vsH .oben{grid-template-columns:1fr;text-align:center}.vsH .oben img.vlogo{margin:0 auto}.vsH .vs-slogan{text-align:center}.vsH .reihe3{grid-template-columns:1fr}.vsH .begleiter{grid-column:auto}.vsH .event{padding:22px 18px 200px}.vsH .event p,.vsH .event .ziel{max-width:none}.vsH .event img{height:200px;right:50%;transform:translateX(50%)}}
+.vsH{width:100%}
+.vsH .reihe3>*{min-width:0}
+.vsH .begleiter .wahl span img{max-width:100%;object-fit:contain}
+.vsH .event p,.vsH .event small{color:#fff!important}
+.vsH .event img.e1,.vsH .event img.e2{height:250px;right:auto}
+.vsH .event img.e1{right:170px}.vsH .event img.e2{right:10px}
+@media (max-width:860px){.vsH .event img.e1{display:none}.vsH .event img.e2{height:220px}}
+@media (max-width:560px){.vsH .event img.e2{right:50%;transform:translateX(50%);height:190px}}

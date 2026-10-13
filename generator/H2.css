@@ -1,0 +1,16 @@
+.vsH2 .berg{display:grid;grid-template-columns:1fr 1.1fr;gap:20px;align-items:center;min-height:330px}
+.vsH2 .gipfel{position:relative;height:330px}
+.vsH2 .gipfel svg{position:absolute;inset:0;width:100%;height:100%}
+.vsH2 .flag{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;font-weight:700;font-size:.8rem;color:#fff}
+.vsH2 .flag b{font-size:1.5rem;line-height:1}
+.vsH2 .flag.zu{opacity:.55}
+.vsH2 .kletter{position:absolute;height:120px;transform:translate(-50%,-92%);filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))}
+.vsH2 .hoehe{font:800 2.6rem "Bricolage Grotesque",sans-serif;line-height:1}
+.vsH2 .hoehe small{font-size:1rem;font-weight:600}
+.vsH2 .grid{grid-template-columns:repeat(3,1fr)}
+.vsH2 .mission{display:flex;gap:12px;align-items:center}
+.vsH2 .mission .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.7rem;background:#F4F1FF;flex:0 0 auto}
+.vsH2 .mission .vbar{margin-top:6px}
+.vsH2 .mission.ok .ic{background:#DDF8EA}
+.vsH2 .mission em{font-style:normal;font-weight:800;color:#0FA968}
+@media (max-width:860px){.vsH2 .berg{grid-template-columns:1fr}.vsH2 .grid{grid-template-columns:1fr}}

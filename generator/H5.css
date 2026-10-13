@@ -1,0 +1,29 @@
+.vsH5 .pass{padding:22px 24px}
+.vsH5 .passkopf{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.vsH5 .spur{display:flex;gap:12px;overflow-x:auto;padding:18px 4px 10px;scrollbar-width:none;position:relative}
+.vsH5 .stufe{flex:0 0 108px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.vsH5 .belohnung{width:100px;height:108px;border-radius:18px;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2rem;position:relative;overflow:hidden}
+.vsH5 .belohnung small{font-size:.68rem;font-weight:700;margin-top:4px;text-align:center;line-height:1.1}
+.vsH5 .belohnung img{height:78px}
+.vsH5 .stufe.ok .belohnung{background:rgba(15,169,104,.35);border-color:#6FE3AE}
+.vsH5 .stufe.ok .belohnung::after{content:"✓";position:absolute;top:4px;right:6px;font-size:.9rem;font-weight:800;color:#B9F5D8}
+.vsH5 .stufe.jetzt .belohnung{background:linear-gradient(160deg,#FFE34D,#FFB347);border-color:#fff;color:#1B2240;box-shadow:0 0 0 4px rgba(255,227,77,.4),0 10px 20px -8px rgba(0,0,0,.5);animation:vsSchweben 2.4s ease-in-out infinite}
+.vsH5 .stufe.zu .belohnung{opacity:.55}
+.vsH5 .stufe.zu .belohnung::after{content:"🔒";position:absolute;top:4px;right:6px;font-size:.8rem}
+.vsH5 .stufe .nr{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.vsH5 .stufe.ok .nr{background:#0FA968}.vsH5 .stufe.jetzt .nr{background:#FFE34D;color:#1B2240}
+.vsH5 .linie{height:8px;border-radius:4px;background:rgba(255,255,255,.2);margin:-24px 0 18px;position:relative;z-index:-1}
+.vsH5 .grid{grid-template-columns:1.2fr 1fr}
+.vsH5 .aufgaben ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px}
+.vsH5 .aufgaben li{display:flex;align-items:center;gap:12px;background:#F4F1FF;border-radius:16px;padding:10px 14px;font-weight:600}
+.vsH5 .aufgaben li .box{width:26px;height:26px;border-radius:8px;border:3px solid #C9C1F0;flex:0 0 auto;display:grid;place-items:center;font-size:.9rem;color:#fff}
+.vsH5 .aufgaben li.ok{background:#E3FAEE}.vsH5 .aufgaben li.ok .box{background:#0FA968;border-color:#0FA968}
+.vsH5 .aufgaben li.ok span{text-decoration:line-through;color:#5D5C80}
+.vsH5 .aufgaben li em{margin-left:auto;font-style:normal;font-weight:800;color:#8A3FE0;white-space:nowrap}
+.vsH5 .zimmer{position:relative;overflow:hidden;text-align:center;background:linear-gradient(180deg,#EAF2FF,#fff)}
+.vsH5 .zimmer .boden{position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(180deg,#E9D8C4,#D9BFA2)}
+.vsH5 .zimmer .figuren{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:0;height:220px;margin-top:6px}
+.vsH5 .zimmer .figuren img{height:200px;margin:0 -18px}
+.vsH5 .zimmer .deko{position:absolute;font-size:2rem}
+@media (max-width:860px){.vsH5 .grid{grid-template-columns:1fr}}
+.vsH5 .zimmer .figuren{z-index:1}
