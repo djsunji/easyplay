@@ -2,7 +2,7 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data: blob:; connect-src 'self' https://api.github.com https://*.supabase.co https://commons.wikimedia.org; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data: blob:; connect-src 'self' https://api.github.com https://*.supabase.co https://commons.wikimedia.org https://de.wikipedia.org https://api.openverse.org https://www.googleapis.com; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -141,6 +141,33 @@ button.k.p{background:var(--grad);border-color:transparent}
 #login .punkte i{position:absolute;border-radius:50%;background:rgba(255,255,255,.12);animation:schweben 9s ease-in-out infinite}
 @keyframes schweben{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @media (prefers-reduced-motion:reduce){#login .wrap>img,#login .punkte i{animation:none}}
+
+/* Bilder wechseln */
+nav button.unter{padding-left:22px;font-size:13px}
+.bw{max-width:980px;margin:0 auto;text-align:center}
+.bw-kopf{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin-bottom:10px}
+.bw-titel h2{font-size:30px;margin:0}
+.bw-bild{display:grid;place-items:center;background:var(--fl);border:1px solid var(--li);border-radius:16px;padding:10px;min-height:220px}
+.bw-bild img{max-width:100%;max-height:min(340px,38vh);border-radius:10px;object-fit:contain}
+.bw-bild .leer{color:var(--mu);font-size:18px}
+.bw-info{margin:6px 0 10px}
+.bw-aktion{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+.bw-aktion .k{padding:8px 16px;font-size:15px}
+.bw-aktion small{opacity:.75;font-size:11px}
+.bw h3{justify-content:center}
+.bw-vs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:8px}
+@media (max-width:900px){.bw-vs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.bw-karte.hoch{align-items:center;justify-content:center;border-style:dashed;text-align:center;min-height:150px}
+.bw-karte.hoch .gross{font-size:30px}
+.bw-karte{position:relative;background:var(--fl);border:2px solid var(--li);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:4px;cursor:pointer;font:inherit;color:inherit;text-align:left;transition:border-color .15s,transform .15s}
+.bw-karte:hover{border-color:var(--v);transform:translateY(-2px)}
+.bw-karte img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:var(--zb)}
+.bw-karte b{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bw-karte small{font-size:11px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bw-karte .nr{position:absolute;left:10px;top:10px;background:var(--grad);color:#fff;font-weight:700;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+.bw-upload{margin:16px 0 4px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+.bw-upload label.k{cursor:pointer;padding:8px 16px}
+.bw-leer{text-align:center;padding:40px}.bw-leer img{width:120px;height:auto}
 </style>
 </head>
 <body>
@@ -165,6 +192,7 @@ button.k.p{background:var(--grad);border-color:transparent}
   <div class="gr">Inhalte</div>
   <button data-t="fragen">Fragen <small id="nFragen"></small></button>
   <button data-t="bilder">Bilder <small id="nBilder"></small></button>
+  <button data-t="bildwechsel" class="unter">↳ Bilder wechseln</button>
   <div class="gr">Personen</div>
   <button data-t="benutzer">Benutzer</button>
   <button data-t="kommentare">Kommentare</button>
@@ -301,7 +329,7 @@ function statusZeigen(){
   $("#stAus").onclick = abmelden; const g = $("#stGh"); if(g) g.onclick = () => zeige("zugang");
 }
 function aenderungenZeigen(){
-  const n = AE.fragen.size + AE.bilder.size;
+  const n = AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0);
   $("#aenderungen").classList.toggle("da", n > 0);
   $("#aeText").textContent = n + (n === 1 ? " Änderung" : " Änderungen") + " nicht gespeichert";
 }
@@ -314,7 +342,7 @@ function zeige(t){
   Promise.resolve(TABS[t]()).catch(e => { $("#inhalt").innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; });
 }
 $("#tabs").onclick = e => { const b = e.target.closest("button"); if(b) zeige(b.dataset.t); };
-addEventListener("beforeunload", e => { if(AE.fragen.size + AE.bilder.size){ e.preventDefault(); e.returnValue = ""; } });
+addEventListener("beforeunload", e => { if(AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0)){ e.preventDefault(); e.returnValue = ""; } });
 
 /* ======================= Übersicht ======================= */
 const kacheln = liste => `<div class="raster">${liste.map(([a,b,c,ziel]) => `<div class="zahl"${ziel ? ` style="cursor:pointer" data-ziel="${esc(ziel)}"` : ""}><span>${esc(a)}</span><b>${b}</b>${c ? ` <small>${c}</small>` : ""}</div>`).join("")}</div>`;
@@ -675,10 +703,10 @@ function bildDialog(s){
     AE.bilder.set(s.k, {...wahl, alt: DATEN.bildindex[s.k] || null}); d.close(); aenderungenZeigen(); bilderListe(); melde("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
 }
 async function bilderSpeichern(){
-  const n = AE.bilder.size;
+  const n = AE.bilder.size, nf = AE.freigabe ? AE.freigabe.size : 0;
   const uploads = [];
   for(const [k, a] of AE.bilder) if(a.upload) uploads.push({pfad: bildPfad(k), base64: b64(await a.upload.klein.arrayBuffer())}, {pfad: bildPfad(k, true), base64: b64(await a.upload.gross.arrayBuffer())});
-  await ghCommit(`Verwaltung: ${n} ${n === 1 ? "Bild" : "Bilder"} geändert`, async () => {
+  await ghCommit(`Verwaltung: ${n} ${n === 1 ? "Bild" : "Bilder"} geändert${nf ? `, ${nf} geprüft` : ""}`, async () => {
     const ix = JSON.parse(await ghDateiText("bildindex.json"));
     let gesperrt = []; try{ gesperrt = JSON.parse(await ghDateiText("tools/bilder_gesperrt.json")); }catch(e){}
     const ohne = new Set(ix._ohne || []);
@@ -689,11 +717,150 @@ async function bilderSpeichern(){
       else { ix[k] = a.eintrag; ohne.delete(k); }
     }
     ix._ohne = [...ohne].sort();
-    return [{pfad:"bildindex.json", text: JSON.stringify(ix)}, {pfad:"tools/bilder_gesperrt.json", text: JSON.stringify([...new Set(gesperrt)].sort(), null, 0)}, ...uploads];
+    let frei = []; try{ frei = JSON.parse(await ghDateiText("tools/bilder_freigegeben.json")); }catch(e){}
+    const freiNeu = new Set(frei); for(const k of (AE.freigabe || [])) freiNeu.add(k); for(const k of AE.bilder.keys()) freiNeu.add(k);
+    return [{pfad:"tools/bilder_freigegeben.json", text: JSON.stringify([...freiNeu].sort())}, {pfad:"bildindex.json", text: JSON.stringify(ix)}, {pfad:"tools/bilder_gesperrt.json", text: JSON.stringify([...new Set(gesperrt)].sort(), null, 0)}, ...uploads];
   });
-  for(const [k, a] of AE.bilder){ if(a.entfernen) delete DATEN.bildindex[k]; else DATEN.bildindex[k] = a.eintrag; }
-  AE.bilder.clear();
+  for(const [k, a] of AE.bilder){ if(a.entfernen) delete DATEN.bildindex[k]; else DATEN.bildindex[k] = a.eintrag; if(FREIGEGEBEN) FREIGEGEBEN.add(k); }
+  if(AE.freigabe && FREIGEGEBEN) for(const k of AE.freigabe) FREIGEGEBEN.add(k);
+  AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear();
 }
+
+/* ======================= Bilder wechseln (eine Seite nach der anderen prüfen) ======================= */
+const BW = { buch:"", filter:"offen", i:0, liste:[], vorschlag:[], vs:0, suche:"", laedt:false };
+AE.freigabe = AE.freigabe || new Set();
+let FREIGEGEBEN = null;
+async function ladeFreigegeben(){ if(FREIGEGEBEN) return FREIGEGEBEN; FREIGEGEBEN = new Set(await fetch(B + "tools/bilder_freigegeben.json", {cache:"no-cache"}).then(r => r.ok ? r.json() : []).catch(() => [])); return FREIGEGEBEN; }
+const istGeprueft = k => AE.freigabe.has(k) || AE.bilder.has(k) || (FREIGEGEBEN && FREIGEGEBEN.has(k));
+function bwListe(){
+  BW.liste = DATEN.seiten.filter(s => (!BW.buch || s.b === BW.buch)
+    && (BW.filter === "alle" || (BW.filter === "offen" && !istGeprueft(s.k)) || (BW.filter === "mit" && bildEintrag(s.k) && !istGeprueft(s.k)) || (BW.filter === "ohne" && !bildEintrag(s.k)) || (BW.filter === "geprueft" && istGeprueft(s.k))));
+  BW.i = Math.min(BW.i, Math.max(0, BW.liste.length - 1));
+}
+TABS.bildwechsel = async () => {
+  await ladeBilder(); await ladeFreigegeben();
+  const buecher = [...new Set(DATEN.seiten.map(s => s.b))].sort();
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Bilder wechseln</h2>
+    <select id="bwBuch"><option value="">alle Bücher</option>${buecher.map(b => `<option${BW.buch===b?" selected":""}>${esc(b)}</option>`).join("")}</select>
+    <select id="bwFilter">${[["offen","noch nicht geprüft"],["mit","mit Bild, ungeprüft"],["ohne","ohne Bild"],["geprueft","schon geprüft"],["alle","alle Seiten"]].map(([v,t]) => `<option value="${v}"${BW.filter===v?" selected":""}>${t}</option>`).join("")}</select>
+    <input type="search" id="bwSprung" placeholder="Seite suchen und hinspringen" style="min-width:220px">
+    <span class="rechts mu klein" id="bwStand"></span></div><div id="bwBox"></div>`;
+  $("#bwBuch").onchange = () => { BW.buch = $("#bwBuch").value; BW.i = 0; bwListe(); bwZeigen(); };
+  $("#bwFilter").onchange = () => { BW.filter = $("#bwFilter").value; BW.i = 0; bwListe(); bwZeigen(); };
+  $("#bwSprung").onkeydown = e => { if(e.key !== "Enter") return; const q = e.target.value.trim().toLowerCase(); if(!q) return;
+    let j = BW.liste.findIndex(s => s.t.toLowerCase().startsWith(q)); if(j < 0) j = BW.liste.findIndex(s => s.t.toLowerCase().includes(q));
+    if(j < 0){ BW.filter = "alle"; $("#bwFilter").value = "alle"; bwListe(); j = BW.liste.findIndex(s => s.t.toLowerCase().includes(q)); }
+    if(j >= 0){ BW.i = j; bwZeigen(); } else melde("Keine Seite gefunden.", "fe"); };
+  bwListe(); bwZeigen();
+};
+function bwStand(){ const g = DATEN.seiten.filter(s => istGeprueft(s.k)).length; $("#bwStand").textContent = `${zahl(BW.liste.length ? BW.i + 1 : 0)} von ${zahl(BW.liste.length)} · geprüft ${zahl(g)} von ${zahl(DATEN.seiten.length)} (${proz(g, DATEN.seiten.length)})`; }
+function bwZeigen(){
+  bwStand();
+  const s = BW.liste[BW.i], box = $("#bwBox");
+  if(!s){ box.innerHTML = `<div class="bw-leer"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><h3>Alles erledigt!</h3><p class="mu">In dieser Auswahl gibt es keine Seiten mehr.</p></div>`; return; }
+  const e = bildEintrag(s.k), a = AE.bilder.get(s.k);
+  const src = a && a.vorschau ? a.vorschau : e ? (e[6] && !a ? B + (e[7] || e[6]) : e[0]) : "";
+  const status = a ? (a.entfernen ? '<span class="wa">wird entfernt</span>' : '<span class="wa">neues Bild gewählt</span>') : AE.freigabe.has(s.k) ? '<span class="ok">als gut markiert</span>' : (FREIGEGEBEN && FREIGEGEBEN.has(s.k)) ? '<span class="ok">schon geprüft</span>' : '<span class="mu">ungeprüft</span>';
+  BW.suche = BW.suche && BW.sucheFuer === s.k ? BW.suche : s.t;
+  box.innerHTML = `<div class="bw">
+    <div class="bw-kopf"><button class="k" id="bwZur" ${BW.i ? "" : "disabled"} title="Zurück (Pfeil links)">‹ Zurück</button>
+      <div class="bw-titel"><h2>${esc(s.t)}</h2><span class="mu klein">${esc(s.b)} · ${esc(s.kap)} · ${status}</span></div>
+      <button class="k" id="bwVor" ${BW.i < BW.liste.length - 1 ? "" : "disabled"} title="Weiter (Pfeil rechts)">Weiter ›</button></div>
+    <div class="bw-bild">${src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer">` : '<div class="leer">kein Bild</div>'}</div>
+    <p class="mu klein bw-info">${e ? `${esc(e[2] || "")} · ${esc(e[3] || "")}${e[4] ? ` · <a class="link" href="${esc(e[4])}" target="_blank" rel="noopener noreferrer">Quelle</a>` : ""}` : "&nbsp;"}</p>
+    <div class="bw-aktion"><button class="k p" id="bwGut" ${e ? "" : "disabled"}>✓ Bild passt <small>(Enter)</small></button>${e ? '<button class="k g" id="bwWeg">Kein Bild <small>(Entf)</small></button>' : ""}${a || AE.freigabe.has(s.k) ? '<button class="k" id="bwReset">Rückgängig</button>' : ""}</div>
+    <h3>Vorschläge <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· Taste 1 bis 4 wählt</span></h3>
+    <div class="leiste" style="justify-content:center"><input type="search" id="bwSuche" value="${esc(BW.suche)}" style="min-width:280px"><button class="k" id="bwSuchen">Suchen</button><button class="k" id="bwMehr">Andere Vorschläge</button></div>
+    <div class="bw-vs" id="bwVs"><p class="mu">Suche Bilder …</p></div>
+    <input type="file" id="bwDatei" accept="image/*" hidden>
+    <p class="mu klein" style="margin-top:10px">Eigene Bilder werden auf 480 und 960 Pixel verkleinert. Vorschläge von Google und Openverse: Lizenz selbst prüfen.</p>
+  </div>`;
+  $("#bwZur").onclick = () => bwGehe(-1); $("#bwVor").onclick = () => bwGehe(1);
+  const gut = $("#bwGut"); if(gut) gut.onclick = () => { AE.freigabe.add(s.k); aenderungenZeigen(); bwWeiter(); };
+  const weg = $("#bwWeg"); if(weg) weg.onclick = () => { AE.bilder.set(s.k, {entfernen:true, alt:DATEN.bildindex[s.k]}); AE.freigabe.delete(s.k); aenderungenZeigen(); bwWeiter(); };
+  const rs = $("#bwReset"); if(rs) rs.onclick = () => { AE.bilder.delete(s.k); AE.freigabe.delete(s.k); aenderungenZeigen(); bwZeigen(); };
+  $("#bwSuchen").onclick = () => { BW.suche = $("#bwSuche").value.trim() || s.t; BW.sucheFuer = s.k; BW.vs = 0; bwVorschlaege(s, true); };
+  $("#bwSuche").onkeydown = ev => { if(ev.key === "Enter"){ ev.stopPropagation(); $("#bwSuchen").click(); } };
+  $("#bwMehr").onclick = () => { BW.vs += 4; bwVorschlaegeZeigen(s); };
+  $("#bwDatei").onchange = async ev => { const f = ev.target.files[0]; if(!f) return;
+    try{ const [klein, gross] = await Promise.all([bildVerkleinern(f, [480,400,.62]), bildVerkleinern(f, [960,800,.6])]);
+      const basis = (CFG.teilenUrl || "https://djsunji.github.io/easyplay/").replace(/\/?$/, "/");
+      AE.bilder.set(s.k, {upload:{klein, gross}, vorschau:URL.createObjectURL(gross), alt:DATEN.bildindex[s.k] || null,
+        eintrag:[basis + bildPfad(s.k, true), s.t, "easyplay", "eigenes Bild", "", "e", bildPfad(s.k), bildPfad(s.k, true)]});
+      AE.freigabe.delete(s.k); aenderungenZeigen(); bwZeigen(); melde("Eigenes Bild übernommen."); }catch(err){ melde(err.message, "fe"); } };
+  bwVorschlaege(s, false);
+  // Bilder der nächsten Seite schon vorladen
+  const n = BW.liste[BW.i + 1]; if(n && !BW.cache?.[n.k]) setTimeout(() => sucheVorschlaege(n.t).then(r => { BW.cache = BW.cache || {}; BW.cache[n.k + "|" + n.t] = r; }).catch(() => {}), 400);
+}
+function bwGehe(d){ BW.i = Math.max(0, Math.min(BW.liste.length - 1, BW.i + d)); BW.suche = ""; bwZeigen(); }
+function bwWeiter(){ if(BW.filter === "offen" || BW.filter === "mit" || BW.filter === "ohne"){ const k = BW.liste[BW.i] && BW.liste[BW.i].k; bwListe(); const j = BW.liste.findIndex(x => x.k === k); if(j >= 0) BW.i = j + 1; } else BW.i++; BW.i = Math.min(BW.i, Math.max(0, BW.liste.length - 1)); BW.suche = ""; bwZeigen(); }
+async function bwVorschlaege(s, neu){
+  const key = s.k + "|" + BW.suche; BW.cache = BW.cache || {};
+  if(neu || !BW.cache[key]){ $("#bwVs").innerHTML = '<p class="mu">Suche Bilder …</p>'; try{ BW.cache[key] = await sucheVorschlaege(BW.suche); }catch(e){ BW.cache[key] = []; } }
+  if(BW.liste[BW.i] !== s) return;
+  BW.vorschlag = BW.cache[key]; bwVorschlaegeZeigen(s);
+}
+function bwVorschlaegeZeigen(s){
+  const l = BW.vorschlag || []; if(!l.length){ $("#bwVs").innerHTML = '<p class="mu" style="grid-column:1/5">Keine Vorschläge gefunden. Anderen Suchbegriff versuchen oder eigenes Bild hochladen.</p><button class="bw-karte hoch" id="bwHoch"><span class="gross">⬆</span><b>Eigenes Bild</b><small>hochladen</small></button>'; $("#bwHoch").onclick = () => $("#bwDatei").click(); return; }
+  if(BW.vs >= l.length) BW.vs = 0;
+  const teil = l.slice(BW.vs, BW.vs + 4);
+  $("#bwVs").innerHTML = teil.map((v, j) => `<button class="bw-karte" data-j="${j}" title="${esc(v.titel)}"><span class="nr">${j + 1}</span><img src="${esc(v.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"><b>${esc(v.quelleName)}</b><small>${esc(v.lizenz || "Lizenz prüfen")} · ${esc(v.urheber || "")}</small></button>`).join("")
+    + `<button class="bw-karte hoch" id="bwHoch"><span class="gross">⬆</span><b>Eigenes Bild</b><small>hochladen</small></button>`
+    + `<p class="mu klein" style="grid-column:1/-1;text-align:center;margin:4px 0 0">${zahl(l.length)} Treffer, Vorschläge ${BW.vs + 1} bis ${Math.min(l.length, BW.vs + 4)}</p>`;
+  $$("#bwVs .bw-karte[data-j]").forEach(b => b.onclick = () => bwWaehle(s, teil[+b.dataset.j]));
+  $("#bwHoch").onclick = () => $("#bwDatei").click();
+}
+function bwWaehle(s, v){
+  AE.bilder.set(s.k, {eintrag:[v.url, s.t, v.urheber || "", v.lizenz || "Lizenz prüfen", v.quelle || "", v.code], vorschau:v.url, alt:DATEN.bildindex[s.k] || null});
+  AE.freigabe.delete(s.k); aenderungenZeigen(); melde("Neues Bild gewählt."); bwWeiter();
+}
+/* Vorschläge: Wikipedia-Artikel, Wikimedia Commons, Openverse und (wenn eingerichtet) Google */
+async function sucheVorschlaege(q){
+  const txt = h => { const d = new DOMParser().parseFromString(String(h||""), "text/html"); return (d.body.textContent||"").replace(/\s+/g, " ").trim().slice(0,100); };
+  const aus = [], urls = new Set();
+  const dazu = v => { if(!v || !v.url || urls.has(v.url)) return; urls.add(v.url); aus.push(v); };
+  const jobs = [];
+  // 1. Wikipedia: Hauptbilder passender Artikel, Lizenzen von Commons
+  jobs.push((async () => {
+    const j = await fetch("https://de.wikipedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", generator:"search", gsrsearch:q, gsrlimit:"8", gsrnamespace:"0", prop:"pageimages", piprop:"name"})).then(r => r.json());
+    const seiten = (j?.query?.pages || []).sort((a,b) => a.index - b.index).filter(p => p.pageimage);
+    if(!seiten.length) return [];
+    const ii = await fetch("https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", titles:seiten.map(p => "File:" + p.pageimage).join("|"), prop:"imageinfo", iiprop:"url|extmetadata|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"})).then(r => r.json());
+    const info = {}; (ii?.query?.pages || []).forEach(p => { if(p.imageinfo) info[p.title.replace(/^File:/, "").replace(/ /g, "_")] = p.imageinfo[0]; });
+    return seiten.map(p => { const i = info[p.pageimage]; if(!i || !/jpeg|png|webp/.test(i.mime||"")) return null;
+      return {url:i.thumburl || i.url, thumb:(i.thumburl || i.url), titel:p.title, quelleName:"Wikipedia: " + p.title, urheber:txt(i.extmetadata?.Artist?.value), lizenz:txt(i.extmetadata?.LicenseShortName?.value), quelle:i.descriptionurl, code:"m"}; }).filter(Boolean);
+  })());
+  // 2. Commons-Suche
+  jobs.push((async () => {
+    const j = await fetch("https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", generator:"search", gsrsearch:q + " filetype:bitmap", gsrnamespace:"6", gsrlimit:"12", prop:"imageinfo", iiprop:"url|extmetadata|size|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"})).then(r => r.json());
+    return (j?.query?.pages || []).sort((a,b) => a.index - b.index).map(p => { const i = (p.imageinfo||[])[0]; if(!i || !/jpeg|png|webp/.test(i.mime||"") || i.width < 500) return null;
+      return {url:i.thumburl || i.url, thumb:i.thumburl || i.url, titel:p.title.replace(/^File:/, ""), quelleName:"Commons", urheber:txt(i.extmetadata?.Artist?.value), lizenz:txt(i.extmetadata?.LicenseShortName?.value), quelle:i.descriptionurl, code:"m"}; }).filter(Boolean);
+  })());
+  // 3. Openverse
+  jobs.push((async () => {
+    const j = await fetch("https://api.openverse.org/v1/images/?" + new URLSearchParams({q, page_size:"12", mature:"false"})).then(r => r.json());
+    return (j?.results || []).filter(r => r.url && /^https:/.test(r.url)).map(r => ({url:r.url, thumb:r.thumbnail || r.url, titel:r.title || q, quelleName:"Openverse" + (r.source ? ": " + r.source : ""), urheber:txt(r.creator), lizenz:(r.license === "cc0" ? "CC0" : r.license === "pdm" ? "Public Domain" : ("CC " + String(r.license||"").toUpperCase() + " " + (r.license_version||"")).trim()), quelle:r.foreign_landing_url || "", code:"o"}));
+  })());
+  // 4. Google (nur wenn unter «Zugang» eingerichtet)
+  const g = store.get("ep-admin-google", null);
+  if(g && g.key && g.cx) jobs.push((async () => {
+    const j = await fetch("https://www.googleapis.com/customsearch/v1?" + new URLSearchParams({key:g.key, cx:g.cx, q, searchType:"image", num:"10", safe:"active", imgSize:"large"})).then(r => r.json());
+    return (j?.items || []).filter(i => /^https:/.test(i.link)).map(i => ({url:i.link, thumb:i.image?.thumbnailLink || i.link, titel:i.title, quelleName:"Google: " + (i.displayLink || ""), urheber:i.displayLink || "", lizenz:"Lizenz prüfen", quelle:i.image?.contextLink || "", code:"g"}));
+  })());
+  const erg = await Promise.allSettled(jobs);
+  // abwechselnd mischen, damit unter den ersten 4 verschiedene Quellen sind
+  const listen = erg.map(r => r.status === "fulfilled" ? r.value : []);
+  for(let i = 0; i < 20; i++) listen.forEach(l => dazu(l[i]));
+  return aus;
+}
+document.addEventListener("keydown", e => {
+  if(TAB !== "bildwechsel" || /input|textarea|select/i.test((e.target && e.target.tagName) || "") || $("#dlg").open) return;
+  if(e.key === "ArrowRight"){ e.preventDefault(); bwGehe(1); }
+  else if(e.key === "ArrowLeft"){ e.preventDefault(); bwGehe(-1); }
+  else if(e.key === "Enter"){ const b = $("#bwGut"); if(b && !b.disabled){ e.preventDefault(); b.click(); } }
+  else if(e.key === "Delete" || e.key === "Backspace"){ const b = $("#bwWeg"); if(b){ e.preventDefault(); b.click(); } }
+  else if(/^[1-4]$/.test(e.key)){ const b = $$("#bwVs .bw-karte[data-j]")[+e.key - 1]; if(b){ e.preventDefault(); b.click(); } }
+});
 
 /* ======================= Benutzer ======================= */
 const FU = { suche:"", rolle:"", liste:null };
@@ -785,6 +952,10 @@ TABS.zugang = async () => {
         <li>Im SQL Editor dich als Admin eintragen:<br><code>insert into public.admins (user_id) select id from auth.users where email = 'deine@email.ch';</code></li>
         <li>Hier anmelden. Ab dann zählt die Website anonym die Aufrufe.</li></ol></details>
     </div>
+    <div class="box"><b>Google-Bildersuche (optional)</b>
+      <p class="mu klein">Für zusätzliche Vorschläge unter «Bilder wechseln». Braucht einen API-Schlüssel und eine Suchmaschinen-ID (Programmable Search Engine mit «Bildersuche» und «Das gesamte Web durchsuchen»). Bis 100 Suchen pro Tag gratis. Google-Bilder haben oft keine freie Lizenz.</p>
+      <div class="formular"><label>API-Schlüssel</label><input type="password" id="zGk" value="${esc((store.get("ep-admin-google", {}) || {}).key || "")}" autocomplete="off"><label>Suchmaschinen-ID (cx)</label><input type="text" id="zGcx" value="${esc((store.get("ep-admin-google", {}) || {}).cx || "")}"></div>
+      <div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k" id="zGweg">Entfernen</button><button class="k p" id="zGok">Speichern</button></div></div>
     <div class="box klein"><b>Sicherheit</b><ul>
       <li>Diese Seite ist nirgends verlinkt und für Suchmaschinen gesperrt. Die Adresse allein schützt aber nicht: Speichern geht nur mit dem GitHub-Schlüssel, Benutzer und Statistik nur mit einem Admin-Konto.</li>
       <li>Der Schlüssel liegt nur in diesem Browser. Mit «merken» wird er mit deinem Passwort verschlüsselt gespeichert und nach der Anmeldung automatisch geladen. Auf fremden Geräten nicht anhaken.</li>
@@ -798,6 +969,8 @@ TABS.zugang = async () => {
     try{ const r = await gh(""); const ok = r.permissions && r.permissions.push; $("#zGhInfo").innerHTML = ok ? '<span class="ok">Verbunden, Schreibrechte vorhanden.</span>' : '<span class="fe">Verbunden, aber ohne Schreibrechte. Contents: Read and write setzen.</span>'; }
     catch(e){ $("#zGhInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; store.del("ep-admin-gh"); }
     statusZeigen(); };
+  $("#zGok").onclick = () => { const key = $("#zGk").value.trim(), cx = $("#zGcx").value.trim(); if(key && cx){ store.set("ep-admin-google", {key, cx}, true); melde("Google-Suche gespeichert."); } else melde("Schlüssel und ID ausfüllen.", "fe"); };
+  $("#zGweg").onclick = () => { store.del("ep-admin-google"); $("#zGk").value = ""; $("#zGcx").value = ""; melde("Google-Suche entfernt."); };
   $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
   const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   const aus = $("#zSbAus"); if(aus) aus.onclick = () => { store.del("ep-admin-sb"); statusZeigen(); zeige("zugang"); };
@@ -805,12 +978,12 @@ TABS.zugang = async () => {
 };
 
 /* ======================= Speichern ======================= */
-$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); aenderungenZeigen(); zeige(TAB); };
+$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); aenderungenZeigen(); zeige(TAB); };
 $("#aeListe").onclick = () => { const d = $("#dlg");
-  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
+  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
   d.showModal(); $("#dZu").onclick = () => d.close(); };
 $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disabled = true; b.textContent = "Speichert …";
-  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size) await bilderSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
+  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
   catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 
