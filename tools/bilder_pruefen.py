@@ -36,16 +36,18 @@ def haupt():
 
 
     def laden(k):
-        url = klein(ix[k][0])
-        for v in range(4):
+        urls = [klein(ix[k][0]), ix[k][0]]
+        err = "unbekannt"
+        for v in range(6):
+            url = urls[0] if v < 3 else urls[1]
             try:
                 r = ses.get(url, timeout=30)
                 if r.status_code == 429:
-                    time.sleep(5 * (v + 1)); continue
-                if r.status_code != 200 and url != ix[k][0]:
-                    url = ix[k][0]; continue
+                    err = "http 429"; time.sleep(10 * (v + 1)); continue
                 if r.status_code != 200:
-                    return k, None, f"http {r.status_code}"
+                    err = f"http {r.status_code}"
+                    if v < 3: v = 3
+                    urls[0] = urls[1]; continue
                 im = Image.open(io.BytesIO(r.content)).convert("RGB")
                 im.thumbnail((336, 336))
                 return k, im, None
@@ -66,7 +68,7 @@ def haupt():
 
     aus, kaputt = {}, {}
     os.makedirs(os.path.join(W, "pruefung", f"teil-{i}"), exist_ok=True)
-    with cf.ThreadPoolExecutor(8) as ex:
+    with cf.ThreadPoolExecutor(3) as ex:
         stapel = []
         def auswerten(stapel):
             ks = [k for k, _ in stapel]
@@ -93,7 +95,7 @@ def haupt():
 
     json.dump({"werte": aus, "kaputt": kaputt}, open(os.path.join(W, f"pruefung-teil-{i}.json"), "w", encoding="utf-8"), ensure_ascii=False)
     v = sum(1 for x in aus.values() if x[0] >= RANG_VERDACHT)
-    print(f"::notice::Prüfung {i}/{n}: {len(aus)} geprüft, {v} verdächtig, {len(kaputt)} nicht ladbar")
+    import collections; print(f"::notice::Prüfung {i}/{n}: {len(aus)} geprüft, {v} verdächtig, {len(kaputt)} nicht ladbar {collections.Counter(kaputt.values()).most_common(4)}")
 
 
 if __name__ == "__main__":
