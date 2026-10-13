@@ -29,4 +29,5 @@ for s in range(0, len(verd), SP * ZE):
         d.text((x + 5, y + 264), ("≈ " + werte[k][2][0])[:30], fill="darkred", font=font)
     bogen.save(os.path.join(W, "pruefung", f"bogen-{s // (SP * ZE):03d}.jpg"), quality=72)
 json.dump(bogenliste, open(os.path.join(W, "pruefung", "bogen.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
+json.dump({"werte": werte, "kaputt": kaputt, "bogen": bogenliste}, open(os.path.join(W, "pruefung", "ergebnis.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print(f"::notice::Prüfung zusammen: {len(werte)} geprüft, {len(verd)} verdächtig, {len(kaputt)} nicht ladbar, {(len(verd)+29)//30} Bogen")
