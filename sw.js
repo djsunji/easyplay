@@ -14,6 +14,7 @@ const HUELLE = [
   "config.js",
   "lehrer.js",
   "hardcore.js",
+  "lernen.js",
   "bibidx.js",
   "wordmark.webp",
   "img/fragezeichen.webp",

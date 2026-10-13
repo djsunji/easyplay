@@ -7,6 +7,23 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>easyplay, Fragen. Wissen. Weiterkommen.</title>
+<meta name="description" content="Spielerisch lernen: Quiz, Bibliothek und Wettbewerbe für Kinder und Jugendliche in der Schweiz">
+<meta name="theme-color" content="#8A3FE0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="img/app-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="easyplay">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="easyplay">
+<meta property="og:title" content="easyplay, Fragen. Wissen. Weiterkommen.">
+<meta property="og:description" content="Spielerisch lernen: Quiz, Bibliothek und Wettbewerbe für Kinder und Jugendliche in der Schweiz">
+<meta property="og:url" content="https://djsunji.github.io/easyplay/">
+<meta property="og:image" content="https://djsunji.github.io/easyplay/img/vorschau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_CH">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://djsunji.github.io/easyplay/img/vorschau.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Fredoka:wght@500;600;700&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
@@ -2482,13 +2499,6 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 
 <script src="config.js"></script>
 <script src="bibidx.js"></script>
-<script src="daten-01.js"></script>
-<script src="daten-02.js"></script>
-<script src="daten-03.js"></script>
-<script src="daten-04.js"></script>
-<script src="daten-05.js"></script>
-<script src="daten-06.js"></script>
-<script src="daten-07.js"></script>
 <script src="daten-08.js"></script>
 <script src="daten-09.js"></script>
 <script src="daten-10.js"></script>
@@ -3205,22 +3215,22 @@ FRAGEN.push(...FRAGEN_GEO);
 /* Profi-Fragen Spinnentiere und Insekten: Vogelspinne, Pfeilschwanzkrebs, Blattschneiderameise, Termite, Stabheuschrecke, Wandelndes Blatt, Nashornkäfer, Totenkopfschwärmer (Nr. 12470 bis 12869) */
 /* Profi-Fragen Tiere: Polarfuchs, Moschusochse, Präriehund, Capybara, Ameisenbär, Faultier, Gürteltier, Fennek, Serval, Ozelot (Nr. 9870 bis 10369) */
 /* FRAGEN_TIERE_PROFI: ausgelagert nach daten-fragen-1.js */
-FRAGEN.push(...FRAGEN_TIERE_PROFI);
+if(typeof FRAGEN_TIERE_PROFI!=="undefined") FRAGEN.push(...FRAGEN_TIERE_PROFI);
 /* Fächer Teil 3: Fremdsprachen, Politik, Kunst, Musik, Sport, Unterhaltung, Allgemeinwissen (Nr. 20912 bis 22830) */
 /* FRAGEN_FAECHER3: ausgelagert nach daten-fragen-2.js */
-FRAGEN.push(...FRAGEN_FAECHER3);
+if(typeof FRAGEN_FAECHER3!=="undefined") FRAGEN.push(...FRAGEN_FAECHER3);
 /* ENDE-NEUE-FRAGEN */
 /* Fächer Teil 2: Physik, Chemie, Mathe, Technik, Wirtschaft, Internet, Sprache, Fremdsprachen (Nr. 18940 bis 20911) */
 /* FRAGEN_FAECHER2: ausgelagert nach daten-fragen-2.js */
-FRAGEN.push(...FRAGEN_FAECHER2);
+if(typeof FRAGEN_FAECHER2!=="undefined") FRAGEN.push(...FRAGEN_FAECHER2);
 /* ENDE-NEUE-FRAGEN */
 /* Fächer Teil 1: Geografie, Weltall, Körper, Natur, Erde, Schweiz, Physik (Nr. 17022 bis 18939) */
 /* FRAGEN_FAECHER1: ausgelagert nach daten-fragen-2.js */
-FRAGEN.push(...FRAGEN_FAECHER1);
+if(typeof FRAGEN_FAECHER1!=="undefined") FRAGEN.push(...FRAGEN_FAECHER1);
 /* ENDE-NEUE-FRAGEN */
 /* Geschichte: 42 Themenblöcke Entdecker bis Profis (Nr. 12870 bis 17021) */
 /* FRAGEN_GESCHICHTE: ausgelagert nach daten-fragen-1.js */
-FRAGEN.push(...FRAGEN_GESCHICHTE);
+if(typeof FRAGEN_GESCHICHTE!=="undefined") FRAGEN.push(...FRAGEN_GESCHICHTE);
 /* ENDE-NEUE-FRAGEN */
 const LOGO = `<svg viewBox="0 0 64 64" aria-hidden="true">
   <rect x="3" y="3" width="58" height="58" rx="19" fill="var(--welt)"/>
@@ -5436,6 +5446,27 @@ Antworte NUR mit einem JSON-Array: [{"q": string, "a": [string,string,string,str
 /* ---------- Eigene Fragen-Datenbank (nur ausserhalb von claude.ai) ---------- */
 // Lädt die Fragen aus Supabase (wenn in config.js eingetragen) oder aus fragen.json.
 // Klappt beides nicht, bleiben die in dieser Datei eingebauten Fragen aktiv.
+// Eingebaute Ersatz-Fragen nur laden, wenn die Fragen-Dateien fehlen (spart beim Start rund 5 MB)
+async function ersatzFragenLaden(){
+  for(let i=1;i<=7;i++) await new Promise(ok=>{ const sc=document.createElement("script"); sc.src=`daten-0${i}.js`; sc.onload=sc.onerror=ok; document.head.appendChild(sc); });
+  for(const n of ["FRAGEN_TIERE_PROFI","FRAGEN_FAECHER3","FRAGEN_FAECHER2","FRAGEN_FAECHER1","FRAGEN_GESCHICHTE"]) if(window[n]) FRAGEN.push(...window[n]);
+  try{ render(); }catch(e){}
+}
+async function ladeTexte1(){
+  const cfg = window.EP_CONFIG || {};
+  try{ const tres=await Promise.all((cfg.texteDateien||["texte-1.json","texte-2.json"]).map(f=>fetch(f,{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null))); const tj=Object.assign({},...tres.filter(Boolean)); if(Object.keys(tj).length){ if(tj && typeof tj==="object"){ const t={}, bi={}; for(const [k,v] of Object.entries(tj)){ if(typeof v==="string") t[k]=v; else if(v && typeof v.text==="string"){ t[k]=v.text; if(v.bilder||v.bild) bi[k]=v.bilder||String(v.bild); if(v.teile) (S.teile[k]=v.teile); } } S.texte=t; S.bilder=bi; ftMischen(); if(S.screen.startsWith("lib")) render(); } } }catch(e){}
+}
+// Bibliothekstexte (rund 17 MB) erst laden, wenn Bibliothek oder Qeels geöffnet werden, sonst nach einer Weile im Hintergrund
+let TEXTE_P=null;
+function texteLaden(){ if(!TEXTE_P) TEXTE_P=Promise.all([ladeTexte1(), ladeTexteDatei()]).catch(()=>{}).then(()=>{ try{ RL.aPool=null; }catch(e){} }); return TEXTE_P; }
+function texteBeiBedarf(){
+  if(window.claude){ texteLaden(); return; }
+  const pruefe=()=>{ if(TEXTE_P) return clearInterval(t); const sc=String((typeof S!=="undefined"&&S.screen)||"");
+    if(document.documentElement.dataset.mode==="lib" || /^lib|suche|werkstatt/.test(sc) || document.getElementById("reels") || location.hash.includes("qeel=")) texteLaden(); };
+  const t=setInterval(pruefe, 600); pruefe();
+  const sparen=navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType||""));
+  if(!sparen) setTimeout(()=>(window.requestIdleCallback||(f=>f()))(()=>texteLaden()), 12000);
+}
 async function ladeFragenDB(){
   if(window.claude) return;
   const cfg = window.EP_CONFIG || {};
@@ -5462,8 +5493,8 @@ async function ladeFragenDB(){
   }catch(e){ console.warn("Fragen-Datenbank nicht erreichbar, nutze eingebaute Fragen:", e); rows = null; }
   const ok = (rows||[]).filter(f=>f && f.t && f.q && Array.isArray(f.a) && f.a.length===4 && f.l>=1 && f.l<=3);
   for(let i=0;i<ok.length;i++) ok[i]=frageOhneStrich(ok[i]);
+  if(!ok.length && !window.claude){ try{ await ersatzFragenLaden(); }catch(e){} }
   if(ok.length){ FRAGEN.length = 0; FRAGEN.push(...ok); const da=new Set(ok.map(f=>f.img).filter(Boolean)); FRAGEN.push(...LOGOFRAGEN.filter(f=>!da.has(f.img))); render(); }
-  try{ const tres=await Promise.all((cfg.texteDateien||["texte-1.json","texte-2.json"]).map(f=>fetch(f,{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null))); const tj=Object.assign({},...tres.filter(Boolean)); if(Object.keys(tj).length){ if(tj && typeof tj==="object"){ const t={}, bi={}; for(const [k,v] of Object.entries(tj)){ if(typeof v==="string") t[k]=v; else if(v && typeof v.text==="string"){ t[k]=v.text; if(v.bilder||v.bild) bi[k]=v.bilder||String(v.bild); if(v.teile) (S.teile[k]=v.teile); } } S.texte=t; S.bilder=bi; ftMischen(); if(S.screen.startsWith("lib")) render(); } } }catch(e){}
 }
 
 
@@ -7799,7 +7830,7 @@ if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash);
 addEventListener("hashchange",()=>{ if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash); if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash); });
 himmelAktualisieren();
 setInterval(himmelAktualisieren, 60000);
-ladeFragenDB(); ladeTexteDatei();
+ladeFragenDB(); texteBeiBedarf();
 
 (async()=>{
   if(!window.claude || !window.claude.use) return;
@@ -7837,6 +7868,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
   if(bu && sz){ const dk=sz.querySelector(".sdeko .spines"); if(dk){ const ph=document.createElement("div"); ph.className="buecher buecher-deko"; ph.setAttribute("aria-hidden","true"); ph.appendChild(dk.cloneNode(true)); bu.replaceWith(ph); } const reg=document.createElement("section"); reg.className="regal"; reg.innerHTML='<h2 class="regaltitel">📚 Wähle ein Buch</h2>'; reg.appendChild(bu); sz.before(reg); } }catch(e){ console.warn(e); } return r; }; })();</script>
 <script src="lehrer.js"></script>
 <script src="hardcore.js"></script>
+<script src="lernen.js"></script>
 <script>/*__epScrollPause*/(function(){let t=0;addEventListener('scroll',function(){if(!t)document.body.classList.add('scrollt');clearTimeout(t);t=setTimeout(function(){document.body.classList.remove('scrollt');t=0;},180);},{passive:true});document.addEventListener('visibilitychange',function(){document.body.classList.toggle('scrollt',document.hidden);});})();</script>
 <script>
 /* Anonyme Besucherstatistik (nur mit Supabase): zählt Seitenbereiche, Gerätetyp und Herkunftsseite. Keine Cookies, keine IP-Speicherung. */
@@ -7846,13 +7878,19 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
   const herkunft=()=>{ try{ const r=document.referrer?new URL(document.referrer).hostname:""; return r && r!==location.hostname ? r.replace(/^www\./,"") : ""; }catch(e){ return ""; } };
   const pruefen=()=>{ try{
     const sp=typeof lkSupa==="function" && lkSupa(); if(!sp) return;
-    const b=(document.documentElement.dataset.mode==="lib" ? "bibliothek" : (window.S&&S.screen)||"start");
+    const b=(document.documentElement.dataset.mode==="lib" ? "bibliothek" : (typeof S!=="undefined"&&S.screen)||"start");
     if(b===letzte || document.hidden) return; letzte=b;
     fetch(`${sp.u}/rest/v1/rpc/aufruf_zaehlen`,{method:"POST",headers:sp.h,keepalive:true,body:JSON.stringify({p_bereich:String(b).slice(0,30), p_geraet:geraet(), p_herkunft:erst?herkunft():""})}).catch(()=>{});
     erst=false;
   }catch(e){} };
   setTimeout(pruefen, 1500); setInterval(pruefen, 2000);
 })();
+</script>
+<script>
+/* Service Worker: schnelle Wiederholungsbesuche und Offline-Nutzung */
+if("serviceWorker" in navigator && !window.claude && (location.protocol==="https:" || location.hostname==="localhost" || location.hostname==="127.0.0.1")){
+  addEventListener("load", ()=>navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{}));
+}
 </script>
 </body>
 </html>
