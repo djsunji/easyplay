@@ -1,0 +1,225 @@
+/* U-Runde: 20 weitere helle, moderne Entwürfe mit Lumi und Milo. Baut auf Q.css, S.css und T.css auf. */
+.hero.vs>div:first-child.vsU{display:block!important}
+.vsU .u-pastell1{background:linear-gradient(135deg,#FFE1EC,#FFF0D9)}.vsU .u-pastell2{background:linear-gradient(135deg,#DCE6FF,#D9F6E8)}.vsU .u-pastell3{background:linear-gradient(135deg,#E6E0FF,#FFE1EC)}.vsU .u-pastell4{background:linear-gradient(135deg,#FFF3B0,#FFE6D6)}
+
+/* U1 Hallo-Banner */
+.vsU1 .u-banner{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:end;padding:0 28px 0 10px;overflow:visible;text-align:left}
+.vsU1 .u-banner>*{min-width:0}
+.vsU1 .u-banner>img{height:clamp(240px,30vw,400px);margin-top:-40px;display:block}
+.vsU1 .u-banner .t-text{padding:24px 0 26px}
+.vsU1 .u-banner .ers-b{height:clamp(80px,9vw,110px);justify-content:flex-start;margin:0 0 4px}
+.vsU1 .u-banner .vs-slogan{text-align:left}
+.vsU1 .u-banner .vs-pills,.vsU1 .u-banner .ers-cta{justify-content:flex-start}
+@media (max-width:860px){.vsU1 .u-banner{grid-template-columns:1fr;text-align:center;padding:0 18px}.vsU1 .u-banner>img{height:220px;margin:0 auto}.vsU1 .u-banner .ers-b{justify-content:center;margin:0 auto 4px}.vsU1 .u-banner .vs-slogan{text-align:center}.vsU1 .u-banner .vs-pills,.vsU1 .u-banner .ers-cta{justify-content:center}}
+
+/* U2 Cool-Spalte */
+.vsU2 .u-zwei{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;text-align:left}
+.vsU2 .u-zwei>*{min-width:0}
+.vsU2 .u-zwei>img{height:clamp(300px,38vw,480px);display:block}
+.vsU2 .u-zwei .ers-b{height:clamp(80px,9vw,110px);justify-content:flex-start;margin:0 0 4px}
+.vsU2 .u-zwei .vs-slogan{text-align:left}
+.vsU2 .u-zwei .vs-pills,.vsU2 .u-zwei .ers-cta{justify-content:flex-start}
+.vsU2 .u-liste{display:grid;gap:8px;margin:14px 0 18px}
+.vsU2 .u-liste .ers-karte{padding:10px 14px}
+@media (max-width:860px){.vsU2 .u-zwei{grid-template-columns:1fr;text-align:center}.vsU2 .u-zwei>img{height:230px;margin:0 auto}.vsU2 .u-zwei .ers-b{justify-content:center;margin:0 auto 4px}.vsU2 .u-zwei .vs-slogan{text-align:center}.vsU2 .u-zwei .vs-pills,.vsU2 .u-zwei .ers-cta{justify-content:center}}
+
+/* U3 Bereit */
+.vsU3 .u-bereit{position:relative;border-radius:36px;padding:28px 24px 0;text-align:center;overflow:hidden;background:linear-gradient(160deg,#FFE6D6,#FFD6E8 50%,#E6E0FF);box-shadow:0 30px 60px -36px rgba(27,34,64,.5)}
+.vsU3 .u-bereit h2{margin:0 0 6px;font:800 clamp(1.8rem,4vw,3rem)/1.05 "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU3 .u-bereit p{margin:0 0 14px;color:var(--mut);font-weight:600}
+.vsU3 .u-bereit img{display:block;height:clamp(220px,30vw,380px);margin:14px auto 0}
+.vsU3 .u-bereit .u-gegner{position:absolute;right:24px;top:24px;background:#fff;border-radius:18px;padding:10px 14px;text-align:left;box-shadow:0 14px 28px -18px rgba(27,34,64,.6);font-weight:800;color:var(--ink);display:flex;align-items:center;gap:10px}
+.vsU3 .u-bereit .u-gegner small{display:block;font-weight:500;color:var(--mut)}
+@media (max-width:640px){.vsU3 .u-bereit .u-gegner{position:static;margin:0 auto 10px;width:max-content}.vsU3 .u-bereit img{height:200px}}
+
+/* U4 Lachen und Fakt */
+.vsU4 .u-fakt{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;max-width:960px;margin:14px auto 0}
+.vsU4 .u-fakt>img{height:clamp(220px,28vw,360px)}
+.vsU4 .u-zitat{padding:22px 26px;text-align:left;position:relative}
+.vsU4 .u-zitat small{font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#E043B8}
+.vsU4 .u-zitat p{margin:6px 0 12px;font:800 clamp(1.2rem,2.2vw,1.6rem)/1.3 "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU4 .u-zitat .ers-btn{padding:10px 18px;font-size:.95rem}
+@media (max-width:760px){.vsU4 .u-fakt{grid-template-columns:1fr}.vsU4 .u-fakt>img{height:180px;margin:0 auto}}
+
+/* U5 Polaroids */
+.vsU5 .u-wand{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:16px}
+.vsU5 .u-pol{position:relative;background:#fff;padding:12px 12px 14px;width:230px;box-shadow:0 20px 40px -24px rgba(27,34,64,.6);text-align:center;border-radius:4px}
+.vsU5 .u-pol:nth-child(1){transform:rotate(-4deg)}.vsU5 .u-pol:nth-child(2){transform:rotate(2deg) translateY(10px)}.vsU5 .u-pol:nth-child(3){transform:rotate(-1.5deg)}
+.vsU5 .u-pol::before{content:"";position:absolute;left:50%;top:-12px;width:80px;height:24px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,227,77,.75)}
+.vsU5 .u-pol .bild{height:180px;border-radius:3px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.vsU5 .u-pol .bild img{height:170px}
+.vsU5 .u-pol b{display:block;margin-top:10px;font:800 1.05rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU5 .u-pol small{color:var(--mut)}
+.vsU5 .u-pol .ers-btn{margin-top:8px;padding:8px 14px;font-size:.85rem}
+
+/* U6 Gruppenchat */
+.vsU6 .u-chat{max-width:760px;margin:10px auto 0;padding:18px 20px;display:flex;flex-direction:column;gap:10px;text-align:left}
+.vsU6 .u-msg{display:flex;align-items:flex-end;gap:10px;max-width:85%}
+.vsU6 .u-msg.r{align-self:flex-end;flex-direction:row-reverse}
+.vsU6 .u-msg .t-av{width:44px;height:44px;padding:2px}
+.vsU6 .u-msg div{background:#F1EEFF;border-radius:20px;padding:11px 15px;font-weight:600;color:var(--ink);border-bottom-left-radius:6px;line-height:1.35}
+.vsU6 .u-msg.r div{background:#E2E8FF;border-bottom-left-radius:20px;border-bottom-right-radius:6px}
+.vsU6 .u-antw{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.vsU6 .u-antw span{background:#fff;border:2px solid #E6E3F6;border-radius:999px;padding:9px 16px;font-weight:800;color:var(--ink)}
+.vsU6 .u-antw span:first-child{border-color:#E043B8}
+.vsU6 .u-kids{display:flex;justify-content:center;gap:0;margin-top:-10px}
+.vsU6 .u-kids img{height:clamp(150px,18vw,230px);margin:0 -10px}
+
+/* U7 Spielerkarte */
+.vsU7 .u-karten{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:820px;margin:10px auto 0}
+.vsU7 .u-sk{position:relative;border-radius:28px;padding:20px;text-align:left;overflow:hidden;min-height:230px;color:var(--ink);box-shadow:0 24px 44px -34px rgba(27,34,64,.55)}
+.vsU7 .u-sk img{position:absolute;right:-6px;bottom:0;height:210px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsU7 .u-sk small{font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsU7 .u-sk b{display:block;font:800 1.7rem "Bricolage Grotesque","Fredoka",sans-serif;margin:2px 0 6px}
+.vsU7 .u-sk .vbar{max-width:55%;background:rgba(255,255,255,.7)}
+.vsU7 .u-sk p{margin:6px 0 0;font-weight:700;font-size:.9rem;max-width:55%}
+.vsU7 .u-sk .abz{display:flex;gap:4px;font-size:1.4rem;margin-top:8px}
+@media (max-width:640px){.vsU7 .u-karten{grid-template-columns:1fr}}
+
+/* U8 Drei grosse Heute-Kacheln */
+.vsU8 .u-drei{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.vsU8 .u-hk{position:relative;border-radius:30px;padding:20px;min-height:230px;text-align:left;overflow:hidden;color:var(--ink);display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 24px 44px -34px rgba(27,34,64,.55)}
+.vsU8 .u-hk img{position:absolute;right:-10px;top:-6px;height:170px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsU8 .u-hk .em{font-size:2rem}
+.vsU8 .u-hk b{display:block;font:800 1.4rem "Bricolage Grotesque","Fredoka",sans-serif;margin:4px 0 2px}
+.vsU8 .u-hk small{color:var(--mut);font-weight:600}
+.vsU8 .u-hk .ers-btn{align-self:flex-start;margin-top:10px;padding:9px 16px;font-size:.9rem}
+@media (max-width:860px){.vsU8 .u-drei{grid-template-columns:1fr}.vsU8 .u-hk{min-height:170px}.vsU8 .u-hk img{height:150px}}
+
+/* U9 Zwei Spalten gleich */
+.vsU9 .u-spalten{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:10px auto 0}
+.vsU9 .u-sp{border-radius:30px;padding:20px;text-align:center;box-shadow:0 24px 44px -34px rgba(27,34,64,.55)}
+.vsU9 .u-sp img{height:200px;display:block;margin:-50px auto 6px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsU9 .u-sp b{display:block;font:800 1.5rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU9 .u-sp small{color:var(--mut);font-weight:600}
+.vsU9 .u-sp .u-akt{display:grid;gap:8px;margin-top:12px}
+.vsU9 .u-sp .u-akt span{background:#fff;border-radius:14px;padding:11px 14px;font-weight:800;color:var(--ink);box-shadow:0 10px 20px -16px rgba(27,34,64,.6);text-align:left}
+@media (max-width:640px){.vsU9 .u-spalten{grid-template-columns:1fr;row-gap:60px}}
+
+/* U10 Grosses Duo */
+.vsU10 .u-hero{position:relative;border-radius:40px;padding:28px 24px 0;text-align:center;overflow:hidden;background:linear-gradient(160deg,#E6E0FF,#FFE1EC 55%,#FFF0D9);box-shadow:0 30px 60px -36px rgba(27,34,64,.5)}
+.vsU10 .u-hero .vs-slogan{font-size:clamp(2.6rem,6vw,5rem)}
+.vsU10 .u-hero>img{display:block;height:clamp(240px,34vw,440px);margin:10px auto 0}
+.vsU10 .u-ueber{margin-top:-50px;position:relative;z-index:2;padding:0 20px}
+.vsU10 .u-ueber .ers-karte{box-shadow:0 20px 40px -24px rgba(27,34,64,.6)}
+@media (max-width:640px){.vsU10 .u-ueber{margin-top:-20px;padding:0}}
+
+/* U11 Kreis-Bühne */
+.vsU11 .u-kreis{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;text-align:left}
+.vsU11 .u-kreis>*{min-width:0}
+.vsU11 .u-rund{width:clamp(260px,32vw,420px);aspect-ratio:1;border-radius:50%;background:linear-gradient(160deg,#FFE1EC,#DCE6FF);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;box-shadow:inset 0 -20px 40px rgba(255,255,255,.6),0 30px 60px -36px rgba(27,34,64,.5)}
+.vsU11 .u-rund img{height:92%;margin-bottom:-4px}
+.vsU11 .u-l .vs-slogan{text-align:left}
+.vsU11 .u-l .vs-pills,.vsU11 .u-l .ers-cta{justify-content:flex-start}
+.vsU11 .u-r{display:grid;gap:10px}
+.vsU11 .u-r .ers-karte{padding:10px 14px}
+@media (max-width:860px){.vsU11 .u-kreis{grid-template-columns:1fr;text-align:center}.vsU11 .u-rund{margin:0 auto}.vsU11 .u-l .vs-slogan{text-align:center}.vsU11 .u-l .vs-pills,.vsU11 .u-l .ers-cta{justify-content:center}}
+
+/* U12 Zickzack */
+.vsU12 .u-zz{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;max-width:960px;margin:10px auto 0;text-align:left}
+.vsU12 .u-zz.um{grid-template-columns:1fr auto}
+.vsU12 .u-zz>img{height:clamp(200px,24vw,320px)}
+.vsU12 .u-zz .mcard{padding:18px 22px}
+.vsU12 .u-zz h4{margin:0 0 8px;font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU12 .u-zz .ers-heute{grid-template-columns:1fr;gap:8px}
+.vsU12 .u-zz .ers-karte{box-shadow:none;background:#F6F5FD;border:0;padding:10px 14px}
+.vsU12 .u-zz .ers-kacheln{grid-template-columns:repeat(2,1fr)}
+@media (max-width:760px){.vsU12 .u-zz,.vsU12 .u-zz.um{grid-template-columns:1fr}.vsU12 .u-zz>img{height:160px;margin:0 auto}}
+
+/* U13 App-Vorschau */
+.vsU13 .u-app{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;max-width:960px;margin:10px auto 0}
+.vsU13 .u-app>img{height:clamp(220px,28vw,380px)}
+.vsU13 .u-app>img.l{justify-self:end}.vsU13 .u-app>img.r{justify-self:start}
+.vsU13 .u-phone{width:300px;border-radius:40px;border:10px solid #1B2240;background:#fff;padding:22px 14px 16px;box-shadow:0 30px 60px -30px rgba(27,34,64,.7);text-align:left;position:relative}
+.vsU13 .u-phone::before{content:"";position:absolute;left:50%;top:8px;width:90px;height:8px;border-radius:999px;background:#1B2240;transform:translateX(-50%)}
+.vsU13 .u-phone h4{margin:6px 0 10px;font:800 1.1rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU13 .u-phone .z{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:14px;background:#F6F5FD;margin-bottom:8px;font-weight:800;color:var(--ink);font-size:.9rem}
+.vsU13 .u-phone .z small{display:block;font-weight:500;color:var(--mut);font-size:.78rem}
+.vsU13 .u-phone .ers-btn{display:flex;justify-content:center;margin-top:4px;padding:11px;font-size:.95rem}
+@media (max-width:760px){.vsU13 .u-app{grid-template-columns:1fr}.vsU13 .u-app>img{display:none}.vsU13 .u-phone{margin:0 auto;max-width:100%}}
+
+/* U14 Truhe */
+.vsU14 .u-truhe{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;max-width:960px;margin:14px auto 0;text-align:left}
+.vsU14 .u-truhe>img{height:clamp(220px,28vw,360px)}
+.vsU14 .u-tk{padding:20px 24px}
+.vsU14 .u-tk h4{margin:0 0 4px;font:800 1.5rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink);display:flex;align-items:center;gap:10px}
+.vsU14 .u-tk h4 span{font-size:2.2rem}
+.vsU14 .u-tk p{margin:0 0 12px;color:var(--mut);font-weight:600}
+.vsU14 .u-stufen{display:flex;gap:8px;align-items:center;margin:8px 0 14px;flex-wrap:wrap}
+.vsU14 .u-stufen span{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 12px;font-weight:800;font-size:.85rem;background:#EDE9FF;color:var(--mut)}
+.vsU14 .u-stufen span.ok{background:#DDF6EA;color:#08794A}.vsU14 .u-stufen span.jetzt{background:#E043B8;color:#fff}
+.vsU14 .u-stufen i{font-style:normal;color:#C9C3EE}
+@media (max-width:760px){.vsU14 .u-truhe{grid-template-columns:1fr}.vsU14 .u-truhe>img{height:180px;margin:0 auto}}
+
+/* U15 Wochenkalender */
+.vsU15 .u-woche{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:end;max-width:960px;margin:10px auto 0}
+.vsU15 .u-woche>img{height:clamp(220px,28vw,360px)}
+.vsU15 .u-kal{padding:18px 22px;text-align:left}
+.vsU15 .u-kal h4{margin:0 0 12px;font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU15 .u-tage{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.vsU15 .u-tage div{border-radius:16px;padding:10px 4px;text-align:center;font-weight:800;color:var(--mut);background:#F6F5FD;font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:6px}
+.vsU15 .u-tage div .t-av{width:38px;height:38px;padding:2px}
+.vsU15 .u-tage div.ok{background:#FFE1EC;color:var(--ink)}
+.vsU15 .u-tage div.heute{outline:3px solid #3D5AFE;outline-offset:2px;color:var(--ink);background:#fff}
+.vsU15 .u-tage div i{font-style:normal;font-size:1.3rem}
+.vsU15 .u-kal p{margin:12px 0 0;color:var(--mut);font-weight:600}
+@media (max-width:760px){.vsU15 .u-woche{grid-template-columns:1fr}.vsU15 .u-woche>img{height:170px;margin:0 auto}.vsU15 .u-tage{gap:4px}.vsU15 .u-tage div .t-av{display:none}}
+
+/* U16 Karten-Fächer */
+.vsU16 .u-faecher{display:grid;grid-template-columns:auto 1fr auto;gap:0;align-items:end;max-width:1000px;margin:10px auto 0}
+.vsU16 .u-faecher>img{height:clamp(200px,26vw,340px);position:relative;z-index:2}
+.vsU16 .u-fan{position:relative;height:300px}
+.vsU16 .u-fc{position:absolute;left:50%;top:50%;width:200px;height:240px;border-radius:22px;padding:18px;text-align:left;color:var(--ink);box-shadow:0 26px 40px -22px rgba(27,34,64,.6);display:flex;flex-direction:column;justify-content:space-between}
+.vsU16 .u-fc .em{font-size:2.4rem}
+.vsU16 .u-fc b{display:block;font:800 1.3rem "Bricolage Grotesque","Fredoka",sans-serif}
+.vsU16 .u-fc small{color:var(--mut);font-weight:600}
+.vsU16 .u-fc.a{transform:translate(-50%,-50%) rotate(-10deg) translate(-215px,14px)}
+.vsU16 .u-fc.b{transform:translate(-50%,-50%) translateY(-10px);z-index:2}
+.vsU16 .u-fc.c{transform:translate(-50%,-50%) rotate(10deg) translate(215px,14px)}
+@media (max-width:860px){.vsU16 .u-faecher{grid-template-columns:1fr}.vsU16 .u-faecher>img{display:none}.vsU16 .u-fan{height:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.vsU16 .u-fc{position:static;transform:none!important;width:auto;height:auto;padding:12px;min-height:150px}.vsU16 .u-fc .em{font-size:1.8rem}.vsU16 .u-fc b{font-size:1rem}.vsU16 .u-fc small{font-size:.78rem}}
+@media (max-width:480px){.vsU16 .u-fan{grid-template-columns:1fr}}
+
+/* U17 Milo begrüsst */
+.vsU17 .t-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:end;text-align:left}
+.vsU17 .t-grid>*{min-width:0}
+.vsU17 .u-milo{position:relative;text-align:center;padding-top:90px}
+.vsU17 .u-milo img{height:clamp(240px,30vw,400px)}
+.vsU17 .u-milo .t-bub{position:absolute;right:10%;top:0;max-width:280px}
+.vsU17 .t-text{padding-bottom:20px}
+.vsU17 .t-text .ers-b{height:clamp(90px,10vw,130px);justify-content:flex-start;margin:0 0 6px}
+.vsU17 .t-text .vs-slogan{text-align:left}
+.vsU17 .t-text .vs-pills,.vsU17 .t-text .ers-cta{justify-content:flex-start}
+@media (max-width:860px){.vsU17 .t-grid{grid-template-columns:1fr;text-align:center}.vsU17 .u-milo{padding-top:120px}.vsU17 .u-milo img{height:220px}.vsU17 .u-milo .t-bub{right:auto;left:50%;transform:translateX(-50%)}.vsU17 .t-text .ers-b{justify-content:center;margin:0 auto 6px}.vsU17 .t-text .vs-slogan{text-align:center}.vsU17 .t-text .vs-pills,.vsU17 .t-text .ers-cta{justify-content:center}}
+
+/* U18 Grosse Zahl */
+.vsU18 .u-zahl{display:flex;justify-content:center;align-items:flex-end;gap:0;margin-top:6px}
+.vsU18 .u-zahl b{position:relative;z-index:1;font:800 clamp(7rem,22vw,16rem)/.85 "Bricolage Grotesque","Fredoka",sans-serif;letter-spacing:-.06em;background:linear-gradient(135deg,#3D5AFE,#8A3FE0 55%,#E043B8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vsU18 .u-zahl img{height:clamp(150px,18vw,240px);margin-left:4px;position:relative;z-index:2}
+.vsU18 .u-zahl .u-txt{text-align:left;margin-left:14px;max-width:220px;padding-bottom:16px}
+.vsU18 .u-zahl .u-txt b{font:800 1.5rem/1.1 "Bricolage Grotesque","Fredoka",sans-serif;background:none;-webkit-text-fill-color:var(--ink);color:var(--ink);letter-spacing:0;display:block}
+.vsU18 .u-zahl .u-txt small{color:var(--mut);font-weight:600}
+@media (max-width:640px){.vsU18 .u-zahl{flex-wrap:wrap}.vsU18 .u-zahl .u-txt{text-align:center;margin:0;max-width:none;flex-basis:100%}}
+
+/* U19 Team-Banner */
+.vsU19 .u-teams{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:960px;margin:10px auto 0}
+.vsU19 .u-team{position:relative;border-radius:30px;padding:22px;min-height:200px;text-align:left;overflow:hidden;color:var(--ink);display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 24px 44px -34px rgba(27,34,64,.55)}
+.vsU19 .u-team img{position:absolute;right:0;bottom:0;height:200px;filter:drop-shadow(0 10px 10px rgba(27,34,64,.25))}
+.vsU19 .u-team small{font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsU19 .u-team b{display:block;font:800 1.7rem "Bricolage Grotesque","Fredoka",sans-serif;margin:2px 0 4px}
+.vsU19 .u-team p{margin:0 0 10px;font-weight:600;color:var(--mut);max-width:55%}
+.vsU19 .u-team .ers-btn{align-self:flex-start;padding:10px 18px;font-size:.95rem}
+.vsU19 .u-team.milo .ers-btn{background:linear-gradient(135deg,#3D5AFE,#1E9BE0);box-shadow:0 8px 0 #1F3BB0}
+.vsU19 .u-team.lumi .ers-btn{background:linear-gradient(135deg,#FF3D6E,#E043B8);box-shadow:0 8px 0 #9B1F7C}
+@media (max-width:640px){.vsU19 .u-teams{grid-template-columns:1fr}.vsU19 .u-team img{height:150px}}
+
+/* U20 Tagesgruss */
+.vsU20 .u-gruss{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;max-width:900px;margin:10px auto 0;padding:24px 0 0 26px;overflow:hidden;text-align:left}
+.vsU20 .u-gruss>*{min-width:0}
+.vsU20 .u-gruss small.dat{font-weight:800;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.vsU20 .u-gruss h2{margin:4px 0 6px;font:800 clamp(1.8rem,4vw,2.8rem)/1.05 "Bricolage Grotesque","Fredoka",sans-serif;color:var(--ink)}
+.vsU20 .u-gruss p{margin:0 0 14px;color:var(--mut);font-weight:600}
+.vsU20 .u-gruss .ers-heute{grid-template-columns:1fr;gap:8px;max-width:420px}
+.vsU20 .u-gruss .ers-karte{box-shadow:none;background:#F6F5FD;border:0;padding:10px 14px}
+.vsU20 .u-gruss .ers-cta{justify-content:flex-start;margin:14px 0 24px}
+.vsU20 .u-gruss img{height:clamp(240px,30vw,400px);display:block;margin-right:10px}
+@media (max-width:760px){.vsU20 .u-gruss{grid-template-columns:1fr;padding:22px 18px 0;text-align:center}.vsU20 .u-gruss .ers-heute{margin:0 auto}.vsU20 .u-gruss .ers-cta{justify-content:center}.vsU20 .u-gruss img{height:200px;margin:0 auto}}

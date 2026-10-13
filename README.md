@@ -153,6 +153,30 @@ Wunsch des Nutzers: nochmals 20 moderne Entwürfe, kein Dunkelmodus, und in jede
 - **T20 «Empfehlungen»**: Vier Karten «Lumi und Milo empfehlen», auf jeder steht ein Kind obenauf.
 - Gebaut mit `generator/gen11.py` und `generator/T.css` (baut auf `Q.css` und `S.css` auf). Wichtig: `.hero.vs>div:first-child.vsT{display:block!important}` überstimmt die Flex-Regel der Live-Seite für den ersten Hero-Block.
 
+### Nochmals 20, hell, immer mit Lumi und Milo (U-Runde)
+Gleiche Vorgaben wie die T-Runde. Jetzt sind auch die vier übrigen neuen Duo-Bilder im Einsatz.
+- **U1 «Hallo-Banner»**: Weisse Karte, links winken Lumi und Milo mit beiden Händen (duo-hallo), rechts Slogan und Knöpfe.
+- **U2 «Cool-Spalte»**: Links Slogan und die Tagesliste, rechts das coole Duo Rücken an Rücken (duo-cool).
+- **U3 «Bereit»**: Pastell-Hero «Bereit für dein Duell?» mit dem kampfbereiten Duo (duo-bereit) und dem wartenden Gegner.
+- **U4 «Lachen und Fakt»**: Das lachende Duo (duo-lachen) neben einer «Wusstest du?»-Karte mit Frage dazu.
+- **U5 «Polaroids»**: Drei Polaroid-Fotos mit Klebeband: Lumi (Serie), Duo (Tagesquiz), Milo (Fehler üben).
+- **U6 «Gruppenchat»**: Lumi und Milo schreiben im Chat, vier Antwort-Pillen, die beiden stehen darunter.
+- **U7 «Spielerkarte»**: Zwei Spielerkarten: Lumi Level 7 mit XP und Abzeichen, Milo Level 8 mit Duell-Knopf.
+- **U8 «Drei Heute-Kacheln»**: Serie, Tagesquiz und Fehler üben als drei grosse Pastellkacheln, je mit Kind.
+- **U9 «Zwei Spalten»**: Spalte Lumi (Lernen) und Spalte Milo (Spielen), Figur oben, drei Aktionen darunter.
+- **U10 «Grosses Duo»**: Pastell-Hero mit Slogan und dem jubelnden Duo gross darunter, «Heute»-Karten ragen über den Rand.
+- **U11 «Kreis-Bühne»**: Grosser Pastellkreis mit dem coolen Duo in der Mitte, Slogan links, «Heute» rechts.
+- **U12 «Zickzack»**: Lumi links neben «Heute für dich», Milo rechts neben den Kacheln.
+- **U13 «App-Vorschau»**: Ein Handy-Rahmen mit der Tagesliste, Lumi und Milo zeigen darauf.
+- **U14 «Truhe»**: Abend-Truhe mit vier Stopps (Morgenfrage, Tagesquiz, Fehler üben, Truhe), das Duo bereit daneben.
+- **U15 «Wochenkalender»**: Mo bis So mit Kinder-Avataren auf geschafften Tagen, Lumi gross daneben.
+- **U16 «Karten-Fächer»**: Drei gefächerte Karten, Lumi und Milo halten sie links und rechts.
+- **U17 «Milo begrüsst»**: Gegenstück zu T1: Milo gross rechts mit Sprechblase «Yo! Lust auf ein Duell?».
+- **U18 «Grosse Zahl»**: Riesige «5» (Fragen bis zur Serie), Milo lehnt daran.
+- **U19 «Team-Banner»**: Team Lumi (214 Kinder) und Team Milo (198 Kinder) als Pastellbanner mit Beitreten-Knopf.
+- **U20 «Tagesgruss»**: Karte «Guten Tag!» mit Datum, drei Aufgaben und dem lachenden Duo rechts.
+- Gebaut mit `generator/gen12.py` und `generator/U.css` (baut auf Q, S und T auf). Stolperstein: Bild-Regeln wie `.u-banner img` treffen auch das Logo-Bild in `.ers-b`; deshalb immer `>img` für die Figur verwenden.
+
 ## Empfehlung und offene Entscheidung
 - **Empfehlung:** K1 als Startseite, ergänzt um die Hütten aus K4. Für Klassen zusätzlich die Seilschaft aus K2.
 - **Nach den M-Vorschlägen:** M5 (Routenwahl) passt besonders gut, weil sie die bestehenden 3 Stufen nutzt. Sie lässt sich gut mit K1 oder M1 kombinieren.
