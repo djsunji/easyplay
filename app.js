@@ -314,6 +314,9 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap-gruss{display:flex;flex-direction:column;gap:2px;padding:0 4px;margin-bottom:-46px;position:relative;z-index:0}
 .ap-gruss b{font:800 30px/1.05 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
 .ap-gruss span{font:600 15px "Lexend",system-ui,sans-serif;color:#fff}
+.ap-gruss .ap-logo{position:absolute;right:0;top:-2px;height:46px;width:auto;filter:drop-shadow(0 4px 8px rgba(40,30,120,.3))}
+@media (min-width:700px){.ap-gruss .ap-logo{height:72px}}
+@media (max-height:720px) and (max-width:699px){.ap-gruss .ap-logo{height:38px}}
 @media (min-width:700px){.ap-gruss{margin-bottom:-70px}.ap-gruss b{font-size:44px}.ap-gruss span{font-size:18px}}
 @media (max-height:720px) and (max-width:699px){.ap-gruss b{font-size:24px}.ap-gruss span{font-size:13px}.ap-gruss{margin-bottom:-40px}}
 
@@ -447,7 +450,7 @@ function heuteHTML(){
   const wp = wo && wo.thema ? Math.min(100, Math.round(wo.r / wo.ziel * 100)) : 0;
   const tageRest = wo && wo.ende ? Math.max(0, Math.ceil((wo.ende - Date.now()) / 864e5)) : 0;
   return `<div class="ap ap-heute">
-    <div class="ap-gruss auf"><b>Hoi${n ? " " + h(n) : ""}!</b><span>Schön, dass du da bist.</span></div>
+    <div class="ap-gruss auf"><b>Hoi${n ? " " + h(n) : ""}!</b><span>Schön, dass du da bist.</span><img class="ap-logo" src="img/logo.webp" alt="easyplay"></div>
     <section class="apf f-held ap-held"><div class="apht">
       <h1>Spiel dich schlau!</h1>
       <span class="apzahlen">${zahl(anz)} Fragen · ${themen} Themen</span>

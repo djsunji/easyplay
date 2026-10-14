@@ -237,6 +237,7 @@ body:has(.hero.ep) .eplernleiste,body:has(.hero.ep) .eplvkarte{display:none!impo
 .ep-banner>*{min-width:0}
 .ep-banner .ept{padding:26px 0 28px;text-align:left}.ep-banner .ept>*{margin-left:0!important;margin-right:auto!important;text-align:left!important}.ep-banner>img{width:auto!important;max-width:none}
 .ep-banner .eplogo{height:clamp(80px,9vw,110px);display:block;margin-bottom:4px;filter:drop-shadow(0 12px 18px rgba(60,30,140,.28))}
+@media (max-width:1100px),(pointer:coarse) and (max-width:1400px){.ep-banner .eplogo{content:url(img/logo.webp);height:auto;width:min(380px,90%)}}
 .ep-banner .epslogan{font:800 clamp(2.3rem,5vw,4rem)/1.02 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;letter-spacing:-.02em;margin:0 0 10px;background:var(--ep-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ep-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .ep-pills span{background:rgba(255,255,255,.75);border:1px solid #fff;border-radius:999px;padding:6px 14px;font-weight:500;font-size:.92rem;color:#5D5C80}
