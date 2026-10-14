@@ -329,8 +329,8 @@ body.dark .ep-w .epmini{background:#FFE34D;color:#1B2240}
 .ep-woche .epziel{max-width:55%}
 .ep-woche .epziel .epvbar{height:12px;border-radius:999px;background:rgba(255,255,255,.2);overflow:hidden}.ep-woche .epziel .epvbar i{display:block;height:100%;background:linear-gradient(90deg,#FFE34D,#FF8A3D);border-radius:inherit}
 .ep-woche .epziel small{display:block;margin-top:4px}
-.ep-woche .epkids{position:absolute;right:10px;bottom:-12px;display:flex;align-items:flex-end}
-.ep-woche .epkids img{height:250px;filter:drop-shadow(0 12px 16px rgba(0,0,0,.35))}
+.ep-woche .epkids{position:absolute;right:24px;bottom:8px;display:flex;align-items:flex-end}
+.ep-woche .epkids img{height:270px;filter:drop-shadow(0 12px 16px rgba(0,0,0,.35))}
 .ep-woche .epkids img+img{margin-left:-30px}
 .ep-woche .ep-btn{margin-top:14px}
 .ep-woche.epfertig{background:linear-gradient(120deg,#0B6E6A,#0FA968 60%,#4CD08A)}
@@ -477,7 +477,7 @@ function wocheHTML(){
     <div class="epcdz"><span><b>${tage}</b><small>Tage</small></span><span><b>${std}</b><small>Std</small></span><span><b>${min}</b><small>Min</small></span></div>
     <div class="epziel"><div class="epvbar"><i style="width:${p}%"></i></div><small>${d.r} von ${d.ziel} richtig · ${d.n} beantwortet</small></div>
     <button type="button" class="ep-btn gelb" data-a="woche">${d.fertig ? "Trotzdem weiterspielen →" : "Mitmachen →"}</button>
-    <div class="epkids"><img src="${KIDS}j5.webp" alt=""><img src="${KIDS}m5.webp" alt=""></div></section>`;
+    <div class="epkids"><img src="${KIDS}duo-jubel.webp" alt=""></div></section>`;
 }
 function startseiteHTML(){
   const n = name(), themen = Object.keys(THEMA).filter(id => !THEMA[id].menu).length;
