@@ -23,7 +23,8 @@ const OHNE_LEISTE = ["quiz","done","duellplay","duelllobby","duellannahme","chec
 function tabVon(sc){
   if(sc === "home") return tab;
   if(["profil","register","login","historie","spieler","lehrer","lcode","suche","meinetests","testergebnis","bibliothek","werkstatt"].includes(sc)) return "profil";
-  if(sc === "chat") return "heute";
+  if(sc === "chat" || sc === "epwoche") return "heute";
+  if(sc === "livequiz") return "duell";
   if(["duell","duellsplit","duellende","duellresultat","spielmodi","board","live"].includes(sc)) return "duell";
   return "themen";
 }
@@ -90,6 +91,8 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 /* Grundbausteine */
 .ap{display:flex;flex-direction:column;gap:12px;color:#fff;text-align:left;overflow:auto;overscroll-behavior:contain;padding:2px 2px 4px;box-sizing:border-box;scrollbar-width:none}
 .ap::-webkit-scrollbar{display:none}
+.ap>*{flex-shrink:0}
+.ap>.ap-held,.ap>.ap-ber,.ap>.ap-bereit{flex-shrink:1}
 .ap button{font-family:inherit}
 .ap .auf{text-shadow:0 2px 3px rgba(27,34,64,.5),0 2px 14px rgba(27,34,64,.45)}
 .ap .pille{display:inline-flex;align-items:center;align-self:flex-start;min-height:30px;padding:0 12px;border-radius:15px;background:rgba(27,34,64,.55);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff}
@@ -166,12 +169,14 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap-ber .apwm{position:absolute;right:-18px;bottom:-22px;width:120px;height:120px;display:grid;place-items:center;font-size:96px;opacity:.16;transform:rotate(-12deg);pointer-events:none;filter:grayscale(1) brightness(3)}
 .ap-ber .apwm svg,.ap-ber .apwm img{width:110px;height:110px}
 .ap-ber .apb-kopf{flex:1;position:relative;border:0;background:none;padding:14px;color:#fff;text-align:left;cursor:pointer;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr auto auto;column-gap:10px;row-gap:3px;min-height:0}
-.ap-ber .apem{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);display:grid;place-items:center;font-size:26px}
-.ap-ber .apem svg,.ap-ber .apem img{width:28px;height:28px}
+.ap-ber .apem{width:68px;height:68px;border-radius:20px;background:rgba(255,255,255,.95);box-shadow:0 8px 16px -8px rgba(0,0,0,.4);display:grid;place-items:center;font-size:44px}
+.ap-ber .apem svg,.ap-ber .apem img{width:46px;height:46px}
 .ap-ber .apn{justify-self:end;align-self:start;white-space:nowrap;font:700 11px "Lexend",system-ui,sans-serif;padding:5px 9px;border-radius:10px;background:rgba(0,0,0,.2)}
 .ap-ber .apb-kopf b{grid-column:1/3;grid-row:3;font:700 18px/1.1 "Fredoka",system-ui,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.25)}
 .ap-ber .apb-kopf small{grid-column:1/3;grid-row:4;font:400 12px/1.3 "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.92);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ap-ber .apb-liste,.ap-ber .apb-alle{display:none}
+.ap-ber .apn i{font-style:normal;display:none}
+.ap-ber .apb-kopf b,.ap-ber .apb-kopf small{min-width:0;overflow-wrap:anywhere}
 .ap-unten{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 
 /* Duell */
@@ -223,7 +228,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   .ap-woche{padding:10px 14px}.ap-woche b{font-size:16px}
   .ap .ap-titel h2{font-size:24px}
   .ap-stufen button{min-height:44px}.ap-info{display:none}
-  .ap-ber{min-height:200px}.ap-ber .apem{width:38px;height:38px}.ap-ber .apb-kopf small{display:none}
+  .ap-ber{min-height:200px}.ap-ber .apem{width:54px;height:54px;font-size:34px}.ap-ber .apem svg,.ap-ber .apem img{width:36px;height:36px}.ap-ber .apb-kopf small{display:none}
   .ap-bereit{min-height:200px;padding:14px}.ap-bereit p{display:none}
   .ap .apzeile{padding:8px 12px}.ap-zwei button{min-height:60px;padding:10px 12px;flex-direction:row;align-items:center}
   .ap-konto{min-height:140px;padding:16px}.ap-liste>*{min-height:40px}
@@ -242,7 +247,9 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   .ap-liste>*{min-height:52px;font-size:16px}
   /* Bereich-Karten mit Themen */
   .ap-ber{gap:14px}
-  .ap-ber .apb-kopf{flex:none;min-height:118px;padding:16px 18px;grid-template-rows:auto auto auto}
+  .ap-ber .apn i{display:inline}
+  .ap-ber .apb-kopf{flex:none;min-height:150px;padding:16px 18px;grid-template-rows:auto auto auto}
+  .ap-ber .apem{width:80px;height:80px;border-radius:24px;font-size:52px}.ap-ber .apem svg,.ap-ber .apem img{width:56px;height:56px}
   .ap-ber .apb-kopf b{grid-row:2;font-size:22px;margin-top:8px}
   .ap-ber .apb-kopf small{grid-row:3;font-size:13px;-webkit-line-clamp:1}
   .ap-ber .apwm{width:160px;height:160px;font-size:130px;right:-24px;bottom:-30px}
@@ -273,7 +280,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   .ap-heute .ap-woche{grid-column:1}.ap-heute .ap-fakt{grid-column:2;display:flex!important}.ap-heute .ap-weiter{grid-column:3;display:flex}
   .ap-heute .ap-woche .aptx{height:100%}
   .ap-themen .ap-ber{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .ap-ber .apb-kopf{min-height:148px}
+  .ap-ber .apb-kopf{min-height:178px}
   .ap-ber .apb-liste{flex-direction:column;flex-wrap:nowrap;gap:6px}
   .ap-ber .apc{width:100%;min-height:40px}
   .ap-ber .apc .apcn{flex:1}
@@ -296,10 +303,114 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   .ap-profil .ap-liste{grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start}
 }
 
+/* Begrüssung oben auf Heute */
+.ap-gruss{display:flex;flex-direction:column;gap:2px;padding:0 4px;margin-bottom:-46px;position:relative;z-index:0}
+.ap-gruss b{font:800 30px/1.05 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
+.ap-gruss span{font:600 15px "Lexend",system-ui,sans-serif;color:#fff}
+@media (min-width:700px){.ap-gruss{margin-bottom:-70px}.ap-gruss b{font-size:44px}.ap-gruss span{font-size:18px}}
+@media (max-height:720px) and (max-width:699px){.ap-gruss b{font-size:24px}.ap-gruss span{font-size:13px}.ap-gruss{margin-bottom:-40px}}
+
+/* Unterseiten: Kopfzeile mit Zurück, ohne Brotkrumen */
+body.ep-app .crumbs{display:none!important}
+.ap-kz{display:flex;align-items:center;gap:12px;margin:0 0 14px;min-height:48px}
+.ap-kz h1{margin:0;flex:1;min-width:0;font:800 24px/1.1 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 3px rgba(27,34,64,.5),0 2px 14px rgba(27,34,64,.45)}
+.ap-zbtn{display:inline-flex;align-items:center;gap:6px;height:48px;padding:0 16px 0 12px;border:1px solid rgba(255,255,255,.18);border-radius:24px;background:rgba(27,34,64,.7);color:#fff;font:700 15px "Lexend",system-ui,sans-serif;cursor:pointer;flex:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 20px -12px rgba(27,34,64,.7)}
+@media (min-width:700px){.ap-kz h1{font-size:32px}}
+/* Deko auf Unterseiten weg, damit nichts abgeschnitten wird */
+body.ep-app .gaeste,body.ep-app .libgast,body.ep-app .bereichgaeste,body.ep-app .libbuchani{display:none!important}
+body.ep-app .libhero{padding:14px 16px!important;min-height:0!important}
+body.ep-app .libhero h1{display:none}
+body.ep-app .libhero p{margin:0!important;font-size:.95rem!important}
+/* Bibliothek: Bücher kleiner, drei pro Reihe (Handy), fünf (iPad) */
+body.ep-app .regal{padding:0 4px!important}
+body.ep-app .regal .buecher{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px 10px!important;padding:4px 6px 0!important;justify-items:stretch}
+body.ep-app .regal .buch{width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:2/3}
+body.ep-app .regal .buch .bemo2{font-size:2.1rem!important}
+body.ep-app .regal .buch .btitel{font-size:.95rem!important}
+body.ep-app .regal .buch .bunter{font-size:.62rem!important;line-height:1.2}
+body.ep-app .regal .buch .blogo{font-size:.58rem!important;bottom:8px!important}
+@media (min-width:700px){body.ep-app .regal .buch .bemo2{font-size:2.8rem!important}body.ep-app .regal .buch .btitel{font-size:1.15rem!important}body.ep-app .regal .buch .bunter{font-size:.75rem!important}}
+body.ep-app .sbrett{display:none!important}
+@media (min-width:700px){body.ep-app .regal .buecher{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media (min-width:1000px) and (orientation:landscape){body.ep-app .regal .buecher{grid-template-columns:repeat(9,minmax(0,1fr))!important}}
+/* Wettbewerb, Duell & Hardcore: kompakte Karten */
+body.ep-app .smwrap .pagehead{display:none!important}
+body.ep-app .smgitter{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+body.ep-app .smkarte{display:grid!important;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center;text-align:left!important;min-height:0!important;padding:16px 18px!important}
+body.ep-app .smkarte .smemo{grid-row:1/3;font-size:34px!important;margin:0!important}
+body.ep-app .smkarte b{margin:0!important}
+@media (min-width:700px){body.ep-app .smgitter{grid-template-columns:repeat(3,minmax(0,1fr))!important}body.ep-app .smkarte{grid-template-columns:1fr;grid-template-rows:auto;text-align:center!important;justify-items:center;padding:26px 18px!important}body.ep-app .smkarte .smemo{grid-row:auto;font-size:44px!important}}
+/* Rangliste: Umschalter als Leiste über der Tab-Leiste, Season mit Symbol */
+body.ep-app.ep-s-board{padding-bottom:calc(170px + env(safe-area-inset-bottom))}
+body.ep-app.ep-s-board .rlmodus{position:fixed!important;z-index:59;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom));margin:0!important;width:max-content!important;max-width:calc(100vw - 24px)!important;padding:5px!important;gap:4px!important;border-radius:20px;background:rgba(27,34,64,.88);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 14px 30px -14px rgba(27,34,64,.7)}
+body.ep-app.ep-s-board .rlmodus .seg{display:inline-flex!important;align-items:center;gap:6px;border:0!important;border-radius:16px!important;background:none!important;color:rgba(255,255,255,.8)!important;font:600 14px "Lexend",system-ui,sans-serif!important;padding:9px 14px!important;box-shadow:none!important;min-height:42px}
+body.ep-app.ep-s-board .rlmodus .seg[aria-pressed="true"]{background:linear-gradient(135deg,#3D5AFE,#8A3FE0 60%,#E043B8)!important;color:#fff!important}
+@media (min-width:1000px) and (orientation:landscape){body.ep-app.ep-s-board{padding-bottom:90px}body.ep-app.ep-s-board .rlmodus{bottom:16px;left:calc(50% + 70px)}}
+body.ep-app .rlpokal{display:none!important}
+body.ep-app .rlintro{font-size:.9rem!important;margin-top:0!important}
+body.ep-app .seasonband{display:grid!important;grid-template-columns:auto 1fr;gap:12px;align-items:center;text-align:left}
+body.ep-app .seasonband .stier{width:52px;height:52px;border-radius:16px;display:grid!important;place-items:center;background:linear-gradient(135deg,#FFB020,#E8621A);color:#fff;font-size:0!important;flex:none}
+body.ep-app .seasonband .sbtext{min-width:0}
+body.ep-app .seasonband .sbinfo{flex-wrap:wrap}
+body.ep-app .seasonband #zurSeason{grid-column:1/-1;justify-self:start}
+body.ep-app .stimeline{max-width:100%;overflow:hidden}
+/* Tagesquiz-Chat: feste Höhe, Nachrichten scrollen innen, Kids sichtbar */
+body.ep-app .ep-chat{display:flex;flex-direction:column;max-width:760px;margin:0 auto}
+body.ep-app .ep-chatkopf{flex:none;margin-bottom:10px!important}
+body.ep-app .ep-chatbox{flex:1 1 0;min-height:120px!important;overflow-y:auto;overscroll-behavior:contain}
+body.ep-app .ep-chatantw{flex:none}
+body.ep-app .ep-chatantw button{padding:8px 13px!important;font-size:.85rem!important}
+body.ep-app .ep-chatkids{flex:none;height:96px;margin:6px 0 0!important;overflow:visible}
+body.ep-app .ep-chatkids img{height:96px!important}
+@media (min-width:700px){body.ep-app .ep-chatkids,body.ep-app .ep-chatkids img{height:150px!important}}
+/* Team-Auswahl: passt aufs Handy */
+@media (max-width:699px){
+  body.ep-app .ep-modal{padding:10px;align-items:center}
+  body.ep-app .ep-box{padding:20px 14px 16px;max-height:calc(100dvh - 20px);overflow:auto;border-radius:24px}
+  body.ep-app .ep-box h2{font-size:1.3rem;padding:0 30px}
+  body.ep-app .ep-box .ep-mut{font-size:.85rem;margin:6px 0 0}
+  body.ep-app .ep-teamgrid{grid-template-columns:1fr 1fr!important;gap:10px}
+  body.ep-app .ep-team{min-height:200px!important;padding:12px!important;border-radius:20px;justify-content:flex-start}
+  body.ep-app .ep-team img{height:110px!important;right:-6px}
+  body.ep-app .ep-team p{display:none}
+  body.ep-app .ep-team b{font-size:1.1rem}
+  body.ep-app .ep-team small{font-size:.6rem}
+  body.ep-app .ep-team .ep-btn{position:absolute;left:10px;bottom:10px;padding:8px 12px;font-size:.85rem;z-index:2}
+}
+/* Live-Quiz und andere Seiten: Abstand unten für die Leiste */
+body.ep-app.ep-s-livequiz{padding-bottom:40px}
+/* Thema der Woche */
+.ap-seite{display:flex;flex-direction:column;gap:14px;color:#fff;max-width:760px;margin:0 auto}
+.ap-seite .apf{border:0;border-radius:22px;color:#fff;box-shadow:0 16px 30px -18px rgba(27,34,64,.75);text-align:left;cursor:pointer;position:relative;overflow:hidden;font-family:inherit}
+.ap-seite .f-teal{background:linear-gradient(140deg,#0A6575,#0E9384)}.ap-seite .f-blau{background:linear-gradient(140deg,#2E4BEA,#5B6CFF)}.ap-seite .f-lila{background:linear-gradient(140deg,#5B21B6,#8A3FE0)}
+.ap-seite .aplbl{font:700 12px "Lexend",system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.ap-wk{display:flex;flex-direction:column;gap:6px;padding:16px 18px;cursor:default}
+.ap-wk b{font:800 26px/1.1 "Bricolage Grotesque","Fredoka",system-ui,sans-serif}
+.ap-wk .apbar{height:8px;border-radius:4px;background:rgba(255,255,255,.25);overflow:hidden}.ap-wk .apbar i{display:block;height:100%;background:#FFE34D}
+.ap-wk .apsub{font:400 13px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.9)}
+.ap-lesen{background:rgba(27,34,64,.62);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:22px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.ap-lkopf{display:flex;gap:12px;align-items:flex-start}
+.ap-lic{width:52px;height:52px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:30px;flex:none}
+.ap-lic svg,.ap-lic img{width:34px;height:34px}
+.ap-lesen h2{margin:2px 0 2px;font:800 22px "Bricolage Grotesque","Fredoka",system-ui,sans-serif}
+.ap-lesen p{margin:0;font:400 14px/1.4 "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.9)}
+.ap-lesen ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font:500 15px/1.4 "Lexend",system-ui,sans-serif}
+.ap-mehr{align-self:flex-start;display:inline-flex;align-items:center;gap:4px;border:0;border-radius:12px;padding:9px 14px;background:rgba(255,255,255,.16);color:#FFE34D;font:700 14px "Lexend",system-ui,sans-serif;cursor:pointer}
+.ap-wahl{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ap-wahl .apf{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px;min-height:120px}
+.ap-wahl .apf:disabled{opacity:.55;cursor:default}
+.ap-wahl .aptx{display:flex;flex-direction:column;gap:2px}
+.ap-wahl b{font:700 20px "Fredoka",system-ui,sans-serif}.ap-wahl small{font:400 12.5px/1.3 "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.88)}
+.ap-wahl .apico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.2)}
+
 /* Qeels: Stories, Symbole, grösserer Zurück-Knopf */
 body.ep-app #reels:has(.rstories) .rinhalt{padding-top:176px;padding-bottom:130px}
-body.ep-app #rZu{min-width:52px;height:52px;padding:0 14px!important;border-radius:26px;background:rgba(255,255,255,.24);font-size:0;justify-content:center}
-body.ep-app #rZu svg{width:28px;height:28px}
+body.ep-app #rZu{height:50px;padding:0 18px 0 14px!important;gap:6px;border-radius:25px;background:rgba(255,255,255,.95)!important;color:#1B2240!important;font:700 15px "Lexend",system-ui,sans-serif!important;justify-content:center;box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
+body.ep-app #rZu svg{width:24px;height:24px}
+body.ep-app #rZu .apzt{display:inline!important;font-size:15px!important}
+body.ep-app .rstories .epalle{background:#fff}
+body.ep-app .rstories .epalle b{background:linear-gradient(135deg,#3D5AFE,#8A3FE0)!important;color:#fff}
+body.ep-app .rstories [data-alle][aria-selected="true"] .epalle{box-shadow:0 0 0 3px #FFE34D}
 body.ep-app .rrail .rbi{display:grid;place-items:center;background:rgba(255,255,255,.18);border-radius:50%;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
 body.ep-app .rrail .rbi svg{width:26px;height:26px;color:#fff}
 body.ep-app .rrail .rlike[aria-pressed="true"] .rbi{background:rgba(255,61,110,.25)}
@@ -329,11 +440,11 @@ function heuteHTML(){
   const wp = wo && wo.thema ? Math.min(100, Math.round(wo.r / wo.ziel * 100)) : 0;
   const tageRest = wo && wo.ende ? Math.max(0, Math.ceil((wo.ende - Date.now()) / 864e5)) : 0;
   return `<div class="ap ap-heute">
+    <div class="ap-gruss auf"><b>Hoi${n ? " " + h(n) : ""}!</b><span>Schön, dass du da bist.</span></div>
     <section class="apf f-held ap-held"><div class="apht">
-      <span class="aphoi">Hoi${n ? " " + h(n) : ""}! Schön, bist du da.</span>
       <h1>Spiel dich schlau!</h1>
       <span class="apzahlen">${zahl(anz)} Fragen · ${themen} Themen</span>
-      <button type="button" class="ap-weissbtn" data-x="zufall">${SV(I.play, 18)} Los geht's</button></div>
+      <button type="button" class="ap-weissbtn" data-x="themen">${SV(I.play, 18)} Los geht's</button></div>
       <img src="${KIDS}duo-jubel.webp" alt="Lumi und Milo jubeln"></section>
     <div class="ap-kopf"><span class="aplbl pille">Dein Tag · ${erledigt} von 3</span><span class="ap-chips"><span class="glas">${SV(I.flamme, 16)}${s.n || 0}</span><span class="glas">${SV(I.stern, 16)}Lv ${lv ? lv.level : 1}</span></span></div>
     <div class="ap-tag">
@@ -341,8 +452,8 @@ function heuteHTML(){
       <button type="button" class="apf f-pink${li && li.st === "ok" ? " ok" : ""}" data-x="live"><span class="apico">${SV(I.live, 20)}</span><b>Live ${li ? li.zeit : ""}</b><small>${liveTxt}</small></button>
       <button type="button" class="apf f-orange${nf ? "" : " ok"}" data-x="fehler"${nf ? "" : " disabled"}><span class="apico">${SV(I.ziel, 20)}</span><b>Fehler üben</b><small>${nf ? nf + " offen" : "Alles geübt"}</small></button>
     </div>
-    ${wo && wo.thema ? `<button type="button" class="apf f-teal ap-woche" data-x="woche"><span class="aptx"><small>Wochen-Challenge</small><b>${wo.fertig ? "Geschafft: " : "Thema der Woche: "}${h(wo.thema.name)}</b><span class="apbar"><i style="width:${wp}%"></i></span><span class="apz">${wo.r} von ${wo.ziel} richtig · noch ${tageRest} ${tageRest === 1 ? "Tag" : "Tage"}</span></span>${SV(I.pfeil, 22)}</button>` : ""}
-    ${fk ? `<button type="button" class="apf f-navy ap-fakt" data-x="fakt" data-t="${h(fk.t)}">${SV(I.birne, 22)}<span class="aptx"><span class="aplbl">Wusstest du?</span><p>${h(fk.text)}</p><em>Frage dazu spielen</em></span></button>` : ""}
+    ${wo && wo.thema ? `<button type="button" class="apf f-teal ap-woche" data-x="wochebild"><span class="aptx"><small>Wochen-Challenge</small><b>${wo.fertig ? "Geschafft: " : "Thema der Woche: "}${h(wo.thema.name)}</b><span class="apbar"><i style="width:${wp}%"></i></span><span class="apz">${wo.r} von ${wo.ziel} richtig · noch ${tageRest} ${tageRest === 1 ? "Tag" : "Tage"}</span></span>${SV(I.pfeil, 22)}</button>` : ""}
+    ${fk ? `<button type="button" class="apf f-navy ap-fakt" data-x="faktlib" data-t="${h(fk.t)}">${SV(I.birne, 22)}<span class="aptx"><span class="aplbl">Wusstest du?</span><p>${h(fk.text)}</p><em>In der Bibliothek lesen</em></span></button>` : ""}
     <button type="button" class="apf f-lila apzeile ap-weiter" data-x="${zl ? "weiter" : "zufall"}"><span class="aptx"><span class="aplbl">${zl ? "Weiterspielen" : "Überrasch dich"}</span><b style="font-size:22px">${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Da weitermachen, wo du warst" : "Fragen aus allen Themen"}</small></span><span class="apico">${SV(I.play, 20)}</span></button>
   </div>`;
 }
@@ -359,7 +470,7 @@ function themenHTML(){
       const th = b.themen.filter(t => { try{ return t.menu || [1,2,3].some(l => countThema(t.id, l)); }catch(e){ return true; } });
       const chips = th.map(t => { let n = 0, ic = ""; try{ n = countThema(t.id, S.stufe); }catch(e){} try{ ic = themaIcon(t); }catch(e){}
         return `<button type="button" class="apc${n ? "" : " leer"}" data-tt="${h(t.id)}" data-bb="${b.id}"><span class="apci" aria-hidden="true">${ic}</span><span class="apcn">${h(t.name)}</span><small>${n ? zahl(n) : "0"}</small></button>`; }).join("");
-      return `<div class="apb" style="--c:var(${b.c})"><span class="apwm" aria-hidden="true">${em}</span><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)} Fragen</span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>
+      return `<div class="apb" style="--c:var(${b.c})"><span class="apwm" aria-hidden="true">${em}</span><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)}<i> Fragen</i></span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>
         <div class="apb-liste">${chips}</div><button type="button" class="apb-alle" data-b="${b.id}">Alle ${th.length} Themen ${SV(I.pfeil, 16)}</button></div>`; }).join("")}</div>
     <div class="ap-unten">
       <button type="button" class="apf f-lila apzeile" data-x="${zl ? "weiter" : "zufall"}"><span class="apico">${SV(zl ? I.play : I.wuerfel, 20)}</span><span class="aptx"><b>${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Weiterspielen" : "Überrasch dich"}</small></span></button>
@@ -443,6 +554,11 @@ function binden(wurzel){
     if(a === "board"){ S.boardStufe = S.stufe; go("board"); }
     else if(a === "season"){ try{ S.boardModus = "season"; S.boardSeason = aktuelleSeason().id; }catch(err){} go("board"); }
     else if(a === "lib"){ setLibModus(true); scrollTo(0, 0); }
+    else if(a === "themen"){ setTab("themen"); go("home"); }
+    else if(a === "wochebild") go("epwoche");
+    else if(a === "faktlib") libThemaOeffnen(b.dataset.t);
+    else if(a === "wochetest"){ const w = (() => { try{ return ES.woche(); }catch(err){ return null; } })(); if(w && w.thema){ S.thema = THEMA[w.thema.id] || w.thema; try{ startQuiz(w.thema.id, "test"); }catch(err){ go("mode"); } } }
+    else if(a === "wochelesen"){ const w = (() => { try{ return ES.woche(); }catch(err){ return null; } })(); if(w && w.thema) libThemaOeffnen(w.thema.id); }
     else if(a === "login") go("login");
     else if(a === "register") go("register");
     else if(a === "meinprofil") go("profil");
@@ -477,7 +593,12 @@ function leiste(){
 const RAIL = [["like", I.herz], ["komm", I.sprechblase], ["teilen", I.teilen], ["vorlesen", I.laut], ["erkl", I.birne], ["qart", I.buch], ["lesen", I.buch], ["dazu", I.pad]];
 function reelsSchmuck(){
   if(!an()) return; const o = document.getElementById("reels"); if(!o) return;
-  const zu = document.getElementById("rZu"); if(zu && !zu.querySelector("svg")) zu.innerHTML = SV(I.zurueck, 28) + '<span class="sr-only">Zurück</span>';
+  const zu = document.getElementById("rZu"); if(zu && !zu.querySelector("svg")) zu.innerHTML = SV(I.zurueck, 24) + '<span class="apzt">Zurück</span>';
+  const st = o.querySelector(".rstories");
+  if(st && !st.querySelector("[data-alle]")){ const b = document.createElement("button"); b.type = "button"; b.dataset.alle = "1"; b.title = "Alles";
+    b.innerHTML = `<span class="epring epalle"><b>${SV(I.themen, 24)}</b></span><span>Alles</span>`;
+    b.onclick = () => { try{ rlTab(RL_TABS[0][0]); }catch(e){} st.querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b)); };
+    st.prepend(b); }
   o.querySelectorAll(".rrail .rbtn").forEach(b => { const bi = b.querySelector(".rbi"); if(!bi || bi.querySelector("svg")) return;
     const r = RAIL.find(([k]) => b.dataset[k] !== undefined); if(r) bi.innerHTML = SV(r[1], 26); });
 }
@@ -490,6 +611,72 @@ if(typeof vorReels === "function"){
       if(o && !reelsBeob){ reelsBeob = new MutationObserver(() => { reelsBeob.disconnect(); try{ reelsSchmuck(); }finally{ reelsBeob.observe(o, {childList:true, subtree:true}); } }); reelsBeob.observe(o, {childList:true, subtree:true}); } }catch(e){ console.warn("app.js", e); }
     return r;
   };
+}
+
+/* ---------- Bibliothek zu einem Thema öffnen ---------- */
+function libThemaOeffnen(id){
+  if(!id || !THEMA[id]){ setLibModus(true); return; }
+  try{ LIB.thema = id; LIB.buch = (THEMA[id].bereich && THEMA[id].bereich.id) || LIB.buch; }catch(e){}
+  S.libModus = true; document.documentElement.dataset.mode = "lib"; go("libthema");
+}
+
+/* ---------- Thema der Woche: zuerst lesen, dann Training oder Test ---------- */
+function wocheHTML(){
+  const ES = E(); let w = null; try{ w = ES.woche(); }catch(e){}
+  if(!w || !w.thema) return `<div class="ap-seite"><p class="auf">Diese Woche gibt es kein Thema.</p></div>`;
+  const t = THEMA[w.thema.id] || w.thema;
+  let merk = []; try{ merk = [...new Set(libMerkliste(t.id).map(f => f.m).filter(Boolean))].slice(0, 5); }catch(e){}
+  let ic = ""; try{ ic = themaIcon(t); }catch(e){}
+  const p = Math.min(100, Math.round(w.r / w.ziel * 100)), rest = Math.max(0, Math.ceil((w.ende - Date.now()) / 864e5));
+  let testOk = true; try{ testOk = pool(t.id).length >= TEST_MIN; }catch(e){}
+  return `<div class="ap-seite ap-woche-seite">
+    <section class="apf f-teal ap-wk"><small class="aplbl">Wochen-Challenge</small><b>${h(t.name)}</b>
+      <span class="apbar"><i style="width:${p}%"></i></span><span class="apsub">${w.r} von ${w.ziel} richtig · noch ${rest} ${rest === 1 ? "Tag" : "Tage"} · ${(window.WOCHE_XP || 150)} XP extra</span></section>
+    <article class="ap-lesen"><div class="ap-lkopf"><span class="ap-lic" aria-hidden="true">${ic}</span><div><small class="aplbl">Aus der Bibliothek</small><h2>${h(t.name)}</h2>${t.text ? `<p>${h(t.text)}</p>` : ""}</div></div>
+      ${merk.length ? `<ul>${merk.map(m => `<li>${h(m)}</li>`).join("")}</ul>` : ""}
+      <button type="button" class="ap-mehr" data-x="wochelesen">Ganzen Text lesen ${SV(I.pfeil, 16)}</button></article>
+    <div class="ap-wahl">
+      <button type="button" class="apf f-blau" data-x="woche"><span class="apico">${SV(I.play, 22)}</span><span class="aptx"><b>Training</b><small>In deinem Tempo, mit Erklärungen</small></span></button>
+      <button type="button" class="apf f-lila" data-x="wochetest"${testOk ? "" : " disabled"}><span class="apico">${SV(I.stern, 22)}</span><span class="aptx"><b>Test</b><small>Gewertet, mit Punkten für die Rangliste</small></span></button>
+    </div>
+  </div>`;
+}
+
+/* ---------- Kopfzeile mit Zurück auf allen Unterseiten ---------- */
+const TITEL = {chat:"Tagesquiz", livequiz:"Live-Quiz", spielmodi:"Wettbewerb & Duell", board:"Rangliste", lib:"Bibliothek", profil:"Mein Profil", register:"Registrieren", login:"Anmelden", duell:"Duell", epwoche:"Thema der Woche", hardcoreinfo:"Hardcore", live:"Wettbewerb", lehrer:"Lehrerbereich"};
+function zurueck(){
+  const cr = document.querySelector("#app .crumbs");
+  if(cr && Array.isArray(S._crumbs) && S._crumbs.length){ try{ S._crumbs[S._crumbs.length - 1](); return; }catch(e){} }
+  const t = tabVon(S.screen); if(HOME_TABS.includes(t)) setTab(t);
+  if(S.libModus){ S.libModus = false; document.documentElement.dataset.mode = "spiel"; }
+  go("home");
+}
+function kopfzeile(){
+  const app = document.getElementById("app"); if(!app) return;
+  app.querySelectorAll(":scope > .ap-kz").forEach(e => e.remove());
+  if(S.screen === "home" && !S.libModus) return;
+  if(["quiz","done","duellplay","check","checkdone","liveplay","livehost"].includes(S.screen)) return;
+  const cur = app.querySelector(".crumbs .crumb.cur");
+  const titel = (cur && cur.textContent.trim()) || TITEL[S.screen] || "";
+  const d = document.createElement("div"); d.className = "ap-kz";
+  d.innerHTML = `<button type="button" class="ap-zbtn" aria-label="Zurück">${SV(I.zurueck, 24)}<span>Zurück</span></button><h1 class="auf">${h(titel)}</h1>`;
+  d.querySelector("button").onclick = zurueck;
+  app.prepend(d);
+}
+/* Rangliste: Season mit Symbol, Umschalter als Leiste unten */
+function schmuckSeiten(){
+  const app = document.getElementById("app"); if(!app) return;
+  app.querySelectorAll(".seasonband .stier").forEach(e => { if(!e.dataset.ap){ e.dataset.ap = "1"; e.innerHTML = SV(I.pokal, 30); } });
+  app.querySelectorAll(".rlmodus .seg").forEach(b => { if(b.dataset.ap) return; b.dataset.ap = "1";
+    const m = b.dataset.bm || (b.textContent.includes("Hardcore") ? "hc" : ""); const ic = m === "gesamt" ? I.pokal : m === "season" ? I.kal : I.flamme;
+    const txt = b.textContent.replace(/^[^A-Za-zÄÖÜäöü]+/, "").trim(); b.innerHTML = SV(ic, 20) + `<span>${h(txt)}</span>`; });
+}
+/* Chat und andere feste Seiten auf die Bildschirmhöhe einpassen */
+function seitenEinpassen(){
+  const quer = QUER.matches, tabs = document.getElementById("epTabs");
+  const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null;
+  const ende = tr ? tr.top - 10 : innerHeight - 16;
+  const c = document.querySelector("#app .ep-chat"); if(c){ const top = c.getBoundingClientRect().top + scrollY; c.style.height = Math.max(320, Math.floor(ende - top)) + "px"; }
 }
 
 /* ---------- Einhängen ---------- */
@@ -507,18 +694,27 @@ window.renderHome = function(){
 };
 const vorRender = window.render;
 window.render = function(){
+  if(S.screen === "epwoche"){
+    try{ renderNav(); }catch(e){}
+    const app = document.getElementById("app"); if(app){ app.innerHTML = wocheHTML(); binden(app); }
+    document.body.classList.toggle("ep-app", an()); document.body.classList.remove("ep-home", "ep-ohne"); leiste(); kopfzeile(); try{ scrollTo({top:0}); }catch(e){}
+    return;
+  }
   const r = vorRender.apply(this, arguments);
   try{
     document.body.classList.toggle("ep-app", an());
     document.body.classList.toggle("ep-home", an() && S.screen === "home" && !S.libModus);
     document.body.classList.toggle("ep-ohne", an() && OHNE_LEISTE.includes(S.screen));
+    [...document.body.classList].filter(k => k.startsWith("ep-s-")).forEach(k => document.body.classList.remove(k));
+    if(an()) document.body.classList.add("ep-s-" + (S.libModus && S.screen === "lib" ? "lib" : S.screen));
     leiste();
+    if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); }
   }catch(e){ console.warn("app.js", e); }
   return r;
 };
 const neu = () => { try{ render(); }catch(e){} };
 try{ MQ.addEventListener("change", neu); QUER.addEventListener("change", neu); }catch(e){}
-addEventListener("resize", () => { if(an() && S.screen === "home") requestAnimationFrame(einpassen); });
+addEventListener("resize", () => { if(an() && S.screen === "home") requestAnimationFrame(einpassen); if(an()) requestAnimationFrame(seitenEinpassen); });
 
 window.EP_APP = { an, tab: () => tab, setTab };
 try{ if(an()) render(); }catch(e){}
