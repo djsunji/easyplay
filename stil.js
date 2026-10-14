@@ -486,16 +486,29 @@ css.textContent = `
 .ep-testk .ep-btn.weiss{background:rgba(255,255,255,.18)!important;color:#fff!important;border:1px solid rgba(255,255,255,.35)!important;box-shadow:none!important}
 .ep-testk img{z-index:1}
 /* Tacho */
-.ep-w.ep-tacho{align-items:center;justify-content:flex-start!important;gap:0;padding-bottom:12px!important}
-.ep-tacho>small{align-self:flex-start}
-.eptc-svg{width:100%;max-width:230px;height:auto;touch-action:none;margin-top:2px;overflow:visible}
-.eptc-svg path[data-stufe]{transition:stroke-width .2s,opacity .2s}
-.eptc-svg path[data-stufe]:hover{opacity:.8}
-.eptc-svg path[data-stufe]:focus{outline:none;stroke-width:22}
-.eptc-nadel{transform-box:view-box;transform-origin:100px 98px;transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
-.eptc-name{display:flex;flex-direction:column;align-items:center;margin-top:-2px}
-.eptc-name b{font:800 1.2rem "Bricolage Grotesque",sans-serif;color:var(--tc)}
-.eptc-name small{font-size:.78rem;color:var(--ep-mut,#5D5C80)}
+.ep-w.ep-tacho{align-items:stretch;justify-content:flex-start!important;gap:4px;padding:14px 14px 14px!important;border:0!important;color:#fff!important;
+  background:radial-gradient(120% 90% at 50% 100%,color-mix(in srgb,var(--tc) 35%,transparent),transparent 65%),radial-gradient(circle at 2px 2px,rgba(255,255,255,.08) 1.5px,transparent 0) 0 0/16px 16px,linear-gradient(160deg,#232A63,#11152F)!important;
+  box-shadow:0 8px 0 #0A0D22,0 24px 40px -22px color-mix(in srgb,var(--tc) 70%,#000)!important;transition:box-shadow .5s,background .5s}
+.ep-tacho>small{color:rgba(255,255,255,.75)!important;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem!important;font-weight:800}
+.eptc-feld{position:relative;width:100%;max-width:280px;margin:2px auto 0;aspect-ratio:240/140}
+.eptc-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;touch-action:none;cursor:grab}
+.eptc-svg:active{cursor:grabbing}
+.eptc-bogen,.eptc-glow{transition:stroke-dashoffset .6s cubic-bezier(.25,1,.35,1)}
+.eptc-nadel{transform-box:view-box;transform-origin:120px 122px;transition:transform .7s cubic-bezier(.3,1.45,.45,1);filter:drop-shadow(0 0 6px var(--tc))}
+.eptc-hub{transition:fill .4s}
+.eptc-k{position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;border:0;padding:0;cursor:pointer;display:grid;place-items:center;
+  background:#0F1330;box-shadow:0 0 0 2px rgba(255,255,255,.18),0 6px 12px -4px rgba(0,0,0,.6);transition:transform .35s cubic-bezier(.3,1.6,.5,1),box-shadow .35s,background .35s;z-index:2}
+.eptc-k span{font-size:1.05rem;line-height:1;filter:grayscale(.5) opacity(.75);transition:filter .3s}
+.eptc-k:hover{transform:translate(-50%,-50%) scale(1.12)}
+.eptc-k.an{transform:translate(-50%,-50%) scale(1.3);background:var(--kc);box-shadow:0 0 0 3px #fff,0 0 22px 4px var(--kc)}
+.eptc-k.an span{filter:none}
+.eptc-k:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.eptc-name{display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:2px}
+.eptc-name b{font:800 1.35rem/1.1 "Bricolage Grotesque",sans-serif;color:#fff;text-shadow:0 0 18px var(--tc)}
+.eptc-name small{font-size:.76rem;color:rgba(255,255,255,.78);text-transform:none!important;letter-spacing:0!important;white-space:nowrap}
+.eptc-name.neu{animation:tcNeu .45s cubic-bezier(.3,1.5,.5,1)}
+@keyframes tcNeu{from{transform:translateY(6px) scale(.94);opacity:.2}}
+@media (prefers-reduced-motion:reduce){.eptc-nadel,.eptc-bogen,.eptc-glow,.eptc-k{transition:none}.eptc-name.neu{animation:none}}
 /* Qeels wie Instagram */
 .ep-w.ep-qk{border:0!important;color:#fff!important;justify-content:space-between!important;gap:8px;
   background:radial-gradient(120% 120% at 0% 100%,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%)!important;box-shadow:0 18px 30px -18px #962FBF!important}

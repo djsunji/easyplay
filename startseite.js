@@ -490,22 +490,33 @@ function testKarte(){
     <span class="eptk-knoepfe"><button type="button" class="ep-btn gelb klein" data-a="test" data-t="${h(t.id)}">▶ Test starten</button><button type="button" class="ep-btn weiss klein" data-a="testneu">🎲 Anderes Thema</button></span>
     <img src="${KIDS}spring1.webp" alt=""></div>`;
 }
-const TACHO = [{id:1, n:"Entdecker", c:"#17A35A"}, {id:2, n:"Könner", c:"#3D5AFE"}, {id:3, n:"Profis", c:"#E0A100"}, {id:4, n:"Alle", c:"#E043B8"}];
+const TACHO = [{id:1, n:"Entdecker", c:"#2BD67B", ic:"🌱"}, {id:2, n:"Könner", c:"#4D7CFF", ic:"🚀"}, {id:3, n:"Profis", c:"#FFC23A", ic:"🏅"}, {id:4, n:"Alle Stufen", c:"#FF5FD2", ic:"🌍"}];
+const TC = {cx:120, cy:122, r:92};
+const tcWinkel = st => 180 - (st - .5) * 45;               // Grad, 180 = links, 0 = rechts
+const tcPunkt = (grad, r) => [TC.cx + r * Math.cos(grad * Math.PI / 180), TC.cy - r * Math.sin(grad * Math.PI / 180)];
+function tachoText(st){ const t = TACHO[st - 1]; let n = 0; try{ n = st === 4 ? allCount() : allCountL(st); }catch(e){}
+  return {name:t.n, sub:st === 4 ? "aus allen Stufen" : ((STUFEN.find(x => x.id === st) || {}).alter || ""), n:zahl(n) + " Fragen"}; }
 function tacho(){
-  const st = [1, 2, 3, 4].includes(S.stufe) ? S.stufe : 1, R = 80, cx = 100, cy = 98;
-  const pt = (w, r) => [cx + r * Math.cos(Math.PI - w), cy - r * Math.sin(Math.PI - w)];
-  const bogen = (a0, a1) => { const [x0, y0] = pt(a0, R), [x1, y1] = pt(a1, R); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
-  const seg = Math.PI / 4, gap = .05;
-  const winkel = (st - .5) * seg; const nadel = -90 + winkel * 180 / Math.PI;
-  const akt = TACHO[st - 1];
-  return `<div class="ep-w ep-tacho" style="--tc:${akt.c}"><small>🎚️ Deine Stufe</small>
-    <svg viewBox="0 0 200 112" class="eptc-svg" role="radiogroup" aria-label="Stufe wählen">
-      ${TACHO.map((x, i) => `<path d="${bogen(i * seg + gap, (i + 1) * seg - gap)}" stroke="${x.c}" stroke-width="${x.id === st ? 22 : 16}" stroke-linecap="round" fill="none" opacity="${x.id === st ? 1 : .35}" data-stufe="${x.id}" role="radio" aria-checked="${x.id === st}" aria-label="${x.n}" tabindex="0" style="cursor:pointer"/>`).join("")}
-      ${TACHO.map((x, i) => { const [lx, ly] = pt((i + .5) * seg, R - 30); return `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="800" fill="${x.id === st ? x.c : "#8B8AA8"}" data-stufe="${x.id}" style="cursor:pointer;font-family:Lexend,sans-serif">${x.id === 4 ? "Alle" : x.id}</text>`; }).join("")}
-      <g class="eptc-nadel" style="transform:rotate(${nadel.toFixed(1)}deg)"><path d="M${cx - 4} ${cy} L${cx} ${cy - 58} L${cx + 4} ${cy} Z" fill="#1B2240"/></g>
-      <circle cx="${cx}" cy="${cy}" r="9" fill="#1B2240"/><circle cx="${cx}" cy="${cy}" r="4" fill="${akt.c}"/>
-    </svg>
-    <div class="eptc-name"><b>${h(akt.n === "Alle" ? "Alle Stufen" : akt.n)}</b><small>${st === 4 ? "Fragen aus allen Stufen" : h((STUFEN.find(x => x.id === st) || {}).alter || "")}</small></div></div>`;
+  const st = [1, 2, 3, 4].includes(S.stufe) ? S.stufe : 1, akt = TACHO[st - 1], tx = tachoText(st);
+  const [ax, ay] = tcPunkt(180, TC.r), [bx, by] = tcPunkt(0, TC.r);
+  const ticks = []; for(let i = 0; i <= 24; i++){ const g = 180 - i * 7.5, gross = i % 6 === 0; const [x1, y1] = tcPunkt(g, TC.r + 16), [x2, y2] = tcPunkt(g, TC.r + (gross ? 25 : 21)); ticks.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(255,255,255,${gross ? .55 : .25})" stroke-width="${gross ? 2 : 1.2}" stroke-linecap="round"/>`); }
+  const knoepfe = TACHO.map(x => { const [px, py] = tcPunkt(tcWinkel(x.id), TC.r); return `<button type="button" class="eptc-k${x.id === st ? " an" : ""}" data-stufe="${x.id}" style="left:${(px / 240 * 100).toFixed(2)}%;top:${(py / 140 * 100).toFixed(2)}%;--kc:${x.c}" aria-pressed="${x.id === st}" aria-label="${h(x.n)}"><span>${x.ic}</span></button>`; }).join("");
+  return `<div class="ep-w ep-tacho" style="--tc:${akt.c}"><small>Deine Stufe</small>
+    <div class="eptc-feld">
+      <svg viewBox="0 0 240 140" class="eptc-svg" aria-hidden="true">
+        <defs><linearGradient id="tcGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2BD67B"/><stop offset=".36" stop-color="#4D7CFF"/><stop offset=".68" stop-color="#FFC23A"/><stop offset="1" stop-color="#FF5FD2"/></linearGradient>
+          <linearGradient id="tcNadel" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="1" style="stop-color:var(--tc)"/></linearGradient>
+          <filter id="tcGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+        ${ticks.join("")}
+        <path d="M${ax} ${ay} A${TC.r} ${TC.r} 0 0 1 ${bx} ${by}" stroke="rgba(255,255,255,.1)" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <path class="eptc-glow" d="M${ax} ${ay} A${TC.r} ${TC.r} 0 0 1 ${bx} ${by}" stroke="url(#tcGrad)" stroke-width="14" fill="none" stroke-linecap="round" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="${100 - st * 25}" filter="url(#tcGlow)" opacity=".7"/>
+        <path class="eptc-bogen" d="M${ax} ${ay} A${TC.r} ${TC.r} 0 0 1 ${bx} ${by}" stroke="url(#tcGrad)" stroke-width="14" fill="none" stroke-linecap="round" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="${100 - st * 25}"/>
+        <g class="eptc-nadel" style="transform:rotate(${(180 - tcWinkel(st)).toFixed(1)}deg)"><path d="M${TC.cx - 66} ${TC.cy} L${TC.cx - 2} ${TC.cy - 5} L${TC.cx + 12} ${TC.cy} L${TC.cx - 2} ${TC.cy + 5} Z" fill="url(#tcNadel)"/></g>
+        <circle cx="${TC.cx}" cy="${TC.cy}" r="13" fill="#0F1330" stroke="rgba(255,255,255,.35)" stroke-width="2"/><circle class="eptc-hub" cx="${TC.cx}" cy="${TC.cy}" r="5.5" style="fill:var(--tc)"/>
+      </svg>
+      ${knoepfe}
+    </div>
+    <div class="eptc-name"><b>${h(tx.name)}</b><small>${h(tx.sub)} · ${h(tx.n)}</small></div></div>`;
 }
 function qeelsKarte(){
   const l = themenListe().map(id => THEMA[id]).filter(Boolean); const rnd = zufall("qk-" + heute()); const w = [];
@@ -514,15 +525,41 @@ function qeelsKarte(){
     <span class="epqk-st">${w.map(t => `<span><i>${typeof themaIcon === "function" ? themaIcon(t) : "📚"}</i></span>`).join("")}</span>
     <span class="epqk-tx">Wissen in 30 Sekunden ▶</span></button>`;
 }
-function stufeSetzen(n){ if(![1, 2, 3, 4].includes(n) || n === S.stufe) return; S.stufe = n; try{ store.set("ep-stufe", n); }catch(e){ LS.set("ep-stufe", n); } render(); }
+function stufeSetzen(n){
+  if(![1, 2, 3, 4].includes(n)) return; const alt = S.stufe; S.stufe = n; try{ store.set("ep-stufe", n); }catch(e){ LS.set("ep-stufe", n); }
+  tachoZeigen(n);
+  if(alt === n) return;
+  // Rest der Startseite ohne Neuaufbau nachführen
+  try{ document.querySelectorAll("#app .level[data-s]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.s === n));
+    const lb = document.querySelector("#bereiche small"); if(lb) lb.textContent = `${allCountL(n)} Fragen für ${stufeObj().name} · ${allCount()} insgesamt`;
+    document.querySelectorAll("#app .bereiche .bereich[data-b]").forEach(b => { const be = BEREICHE.find(x => x.id === b.dataset.b), p = b.querySelector(".count-pill"); if(be && p) p.textContent = countBereich(be, n) + " Fragen"; });
+  }catch(e){ console.warn("startseite.js", e); }
+}
+function tachoZeigen(st){
+  const k = document.querySelector("#app .ep-tacho"); if(!k) return; const akt = TACHO[st - 1], tx = tachoText(st);
+  k.style.setProperty("--tc", akt.c);
+  const n = k.querySelector(".eptc-nadel"); if(n){ n.style.transition = ""; n.style.transform = `rotate(${(180 - tcWinkel(st)).toFixed(1)}deg)`; }
+  k.querySelectorAll(".eptc-bogen,.eptc-glow").forEach(p => p.setAttribute("stroke-dashoffset", 100 - st * 25));
+  k.querySelectorAll(".eptc-k").forEach(b => { const an = +b.dataset.stufe === st; b.classList.toggle("an", an); b.setAttribute("aria-pressed", an); });
+  const nm = k.querySelector(".eptc-name"); if(nm){ nm.classList.remove("neu"); void nm.offsetWidth; nm.classList.add("neu"); nm.innerHTML = `<b>${h(tx.name)}</b><small>${h(tx.sub)} · ${h(tx.n)}</small>`; }
+}
 function tachoBinden(){
-  const svg = document.querySelector("#app .eptc-svg"); if(!svg) return;
-  svg.querySelectorAll("[data-stufe]").forEach(x => { x.addEventListener("click", e => { e.stopPropagation(); stufeSetzen(+x.dataset.stufe); }); x.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); stufeSetzen(+x.dataset.stufe); } }); });
-  const ausWinkel = e => { const r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 200 - 100, y = 98 - (e.clientY - r.top) / r.height * 112; let w = Math.atan2(Math.max(0, y), x); w = Math.PI - w; return Math.min(4, Math.max(1, Math.floor(w / (Math.PI / 4)) + 1)); };
-  let zieht = false; const nadel = svg.querySelector(".eptc-nadel");
-  svg.addEventListener("pointerdown", e => { zieht = true; try{ svg.setPointerCapture(e.pointerId); }catch(err){} });
-  svg.addEventListener("pointermove", e => { if(!zieht || !nadel) return; const r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 200 - 100, y = 98 - (e.clientY - r.top) / r.height * 112; const w = Math.PI - Math.atan2(Math.max(0, y), x); nadel.style.transform = `rotate(${(-90 + w * 180 / Math.PI).toFixed(1)}deg)`; });
-  svg.addEventListener("pointerup", e => { if(!zieht) return; zieht = false; stufeSetzen(ausWinkel(e)); if(nadel) nadel.style.transform = ""; });
+  const k = document.querySelector("#app .ep-tacho"); if(!k) return; const feld = k.querySelector(".eptc-feld"), svg = k.querySelector(".eptc-svg"), nadel = k.querySelector(".eptc-nadel");
+  let zeiger = false;
+  k.querySelectorAll(".eptc-k").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); if(zeiger){ zeiger = false; return; } stufeSetzen(+b.dataset.stufe); }));
+  document.querySelectorAll("#app .level[data-s]").forEach(b => b.onclick = () => stufeSetzen(+b.dataset.s));
+  const grad = e => { const r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 240 - TC.cx, y = TC.cy - (e.clientY - r.top) / r.height * 140; return Math.atan2(Math.max(0, y), x) * 180 / Math.PI; };
+  const stufeAus = g => Math.min(4, Math.max(1, Math.floor((180 - g) / 45) + 1));
+  let zieht = false, bewegt = false, x0 = 0, y0 = 0;
+  feld.style.touchAction = "none";
+  feld.addEventListener("pointerdown", e => { if(e.button > 0) return; zieht = true; bewegt = false; x0 = e.clientX; y0 = e.clientY; try{ feld.setPointerCapture(e.pointerId); }catch(err){} });
+  feld.addEventListener("pointermove", e => { if(!zieht) return; if(Math.hypot(e.clientX - x0, e.clientY - y0) > 4) bewegt = true; if(!bewegt) return;
+    const g = grad(e); nadel.style.transition = "none"; nadel.style.transform = `rotate(${(180 - g).toFixed(1)}deg)`;
+    const st = stufeAus(g); k.style.setProperty("--tc", TACHO[st - 1].c); k.querySelectorAll(".eptc-k").forEach(b => b.classList.toggle("an", +b.dataset.stufe === st)); });
+  feld.addEventListener("pointerup", e => { if(!zieht) return; zieht = false; zeiger = true; setTimeout(() => { zeiger = false; }, 50);
+    const kn = !bewegt && e.target.closest && e.target.closest(".eptc-k");
+    stufeSetzen(kn ? +kn.dataset.stufe : stufeAus(grad(e))); });
+  feld.addEventListener("pointercancel", () => { zieht = false; tachoZeigen(S.stufe); });
 }
 function widgets(){
   const s = serie(), lv = level(), tq = tagesquiz(), ab = abzeichenZahl(), zl = LS.get(K.zuletzt, null), fk = fakt(), nf = fehlerAnzahl(), nl = liveNaechster();
