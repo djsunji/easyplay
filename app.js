@@ -159,9 +159,9 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap .ap-weiter{display:none}
 
 /* Themen */
-.ap-stufen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px}
+.ap-stufen{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px}
 .ap-stufen button{min-height:52px;border:0;border-radius:16px;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff}
-.ap-stufen button b{font:600 16px "Fredoka",system-ui,sans-serif}
+.ap-stufen button b{white-space:nowrap;font:600 clamp(13px,3.6vw,16px) "Fredoka",system-ui,sans-serif}
 .ap-stufen button small{font:400 11px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.8)}
 .ap-stufen button[aria-pressed="true"]{background:linear-gradient(135deg,#3D5AFE,#8A3FE0 60%,#E043B8);box-shadow:0 6px 16px -8px rgba(61,90,254,.8)}
 .ap-stufen button[aria-pressed="true"] small{color:#fff}
@@ -455,7 +455,7 @@ function heuteHTML(){
       <h1>Spiel dich schlau!</h1>
       <span class="apzahlen">${zahl(anz)} Fragen · ${themen} Themen</span>
       <button type="button" class="ap-weissbtn" data-x="themen">${SV(I.play, 18)} Los geht's</button></div>
-      <img src="${KIDS}duo-jubel.webp" alt="Lumi und Milo jubeln"></section>
+      <img src="${KIDS}duo-jubel.webp" alt="Lumi und Milo jubeln"><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span></section>
     <div class="ap-kopf"><span class="aplbl pille">Dein Tag · ${erledigt} von 3</span><span class="ap-chips"><span class="glas">${SV(I.flamme, 16)}${s.n || 0}</span><span class="glas">${SV(I.stern, 16)}Lv ${lv ? lv.level : 1}</span></span></div>
     <div class="ap-tag">
       <button type="button" class="apf f-blau${tq ? " ok" : ""}" data-x="chat"><span class="apico">${SV(I.kal, 20)}</span><b>Tagesquiz</b><small>${tq ? `Erledigt: ${tq.r} von ${tq.n}` : "5 neue Fragen"}</small></button>
@@ -474,7 +474,7 @@ function themenHTML(){
   const so = (typeof stufeObj === "function" ? stufeObj() : {name:""});
   return `<div class="ap ap-themen">
     <div class="ap-titel"><h2 class="auf">Themen</h2></div>
-    <div class="glas ap-stufen" role="group" aria-label="Deine Stufe">${STUFEN.map(s => `<button type="button" data-s="${s.id}" aria-pressed="${S.stufe === s.id}"><b>${h(s.name)}</b><small>${h(s.alter)}</small></button>`).join("")}</div>
+    <div class="glas ap-stufen" role="group" aria-label="Deine Stufe">${[...STUFEN, STUFE_ALLE].map(s => `<button type="button" data-s="${s.id}" aria-pressed="${S.stufe === s.id}"><b>${h(s.name)}</b><small>${h(s.alter)}</small></button>`).join("")}</div>
     <p class="ap-info pille">${h(so.name)}: ${zahl(anz)} Fragen, ${h(SCH[S.stufe] || "")}</p>
     <div class="ap-ber">${BEREICHE.map(b => { let c = 0; try{ c = countBereich(b, S.stufe); }catch(e){} let em = ""; try{ em = ico(b.emo); }catch(e){}
       const th = b.themen.filter(t => { try{ return t.menu || [1,2,3].some(l => countThema(t.id, l)); }catch(e){ return true; } });
@@ -493,7 +493,7 @@ function duellHTML(){
   const ES = E(), t = ES.team ? ES.team() : null, li = liveInfo();
   let se = null, p = null; try{ se = aktuelleSeason(); p = seasonPhase(se); }catch(e){}
   const seTxt = !p ? "" : p.mult > 1 ? `${h(p.text || "")} Noch ${p.rest} ${p.rest === 1 ? "Tag" : "Tage"}.` : `In ${p.bisBonus} ${p.bisBonus === 1 ? "Tag" : "Tagen"} Bonuswochen mit doppelten Punkten`;
-  const liveTxt = !li ? "Heute keines mehr, morgen um 13 Uhr" : li.st === "jetzt" ? "Läuft jetzt, mitspielen!" : `${(ES.LIVE && ES.LIVE.fragen) || 20} Fragen, alle gleichzeitig`;
+  const liveTxt = !li ? "Heute keines mehr, morgen um 8 Uhr" : li.st === "jetzt" ? "Läuft jetzt, mitspielen!" : `${(ES.LIVE && ES.LIVE.fragen) || 20} Fragen, alle gleichzeitig`;
   return `<div class="ap ap-duell">
     <div class="ap-titel"><h2 class="auf">Duell</h2></div>
     <section class="apf ap-bereit"><h2>Bereit für dein Duell?</h2><p>Wähle dein Team, dann tritt gegen Freunde, Familie oder deine Klasse an.</p>
@@ -567,7 +567,8 @@ function binden(wurzel){
     else if(a === "themen"){ setTab("themen"); go("home"); }
     else if(a === "wochebild") go("epwoche");
     else if(a === "faktlib") libThemaOeffnen(b.dataset.t);
-    else if(a === "wochetest"){ const w = (() => { try{ return ES.woche(); }catch(err){ return null; } })(); if(w && w.thema){ S.thema = THEMA[w.thema.id] || w.thema; try{ startQuiz(w.thema.id, "test"); }catch(err){ go("mode"); } } }
+    else if(a === "wochetest"){ const w = (() => { try{ return ES.woche(); }catch(err){ return null; } })(); if(w && w.thema){ S.thema = THEMA[w.thema.id] || w.thema; if(!S.profil){ S.after = "mode"; go("register"); return; } try{ startQuiz(w.thema.id, "test"); }catch(err){ go("mode"); } } }
+    else if(a === "heim") go("home");
     else if(a === "wochelesen"){ const w = (() => { try{ return ES.woche(); }catch(err){ return null; } })(); if(w && w.thema) libThemaOeffnen(w.thema.id); }
     else if(a === "login") go("login");
     else if(a === "register") go("register");
@@ -630,24 +631,44 @@ function libThemaOeffnen(id){
   S.libModus = true; document.documentElement.dataset.mode = "lib"; go("libthema");
 }
 
-/* ---------- Thema der Woche: zuerst lesen, dann Training oder Test ---------- */
+/* ---------- Namensschilder Lumi und Milo im Startbanner ---------- */
+function namenSetzen(){
+  const held = document.querySelector("#app .ap-held"); if(!held) return; const img = held.querySelector(":scope > img"); if(!img) return;
+  const go2 = () => { const hr = held.getBoundingClientRect(), ir = img.getBoundingClientRect(); if(!ir.width || !img.naturalWidth) return;
+    const asp = img.naturalWidth / img.naturalHeight, w = Math.min(ir.width, ir.height * asp), hgt = w / asp, links = ir.right - w - hr.left, oben = ir.bottom - hgt - hr.top;
+    const l = held.querySelector(".epname.eplumi"), m = held.querySelector(".epname.epmilo");
+    if(l){ l.style.left = Math.round(links + w * .02) + "px"; l.style.top = Math.round(oben + hgt * .50) + "px"; l.style.right = "auto"; }
+    if(m){ m.style.left = Math.round(links + w * .60) + "px"; m.style.top = Math.round(oben + hgt * .40) + "px"; m.style.right = "auto"; } };
+  if(img.complete) go2(); else img.addEventListener("load", go2, {once:true});
+}
+addEventListener("resize", () => { try{ namenSetzen(); }catch(e){} });
+
+/* ---------- Thema der Woche: Box mit dem Wichtigsten, dann Training oder Test ---------- */
 function wocheHTML(){
   const ES = E(); let w = null; try{ w = ES.woche(); }catch(e){}
   if(!w || !w.thema) return `<div class="ap-seite"><p class="auf">Diese Woche gibt es kein Thema.</p></div>`;
   const t = THEMA[w.thema.id] || w.thema;
-  let merk = []; try{ merk = [...new Set(libMerkliste(t.id).map(f => f.m).filter(Boolean))].slice(0, 5); }catch(e){}
+  let merk = []; try{ merk = [...new Set(libMerkliste(t.id).map(f => f.m).filter(Boolean))].slice(0, 6); }catch(e){}
   let ic = ""; try{ ic = themaIcon(t); }catch(e){}
-  const p = Math.min(100, Math.round(w.r / w.ziel * 100)), rest = Math.max(0, Math.ceil((w.ende - Date.now()) / 864e5));
+  const p = Math.min(100, Math.round(w.r / w.ziel * 100)), rest = Math.max(0, w.ende - Date.now());
+  const tage = Math.floor(rest / 864e5), std = Math.floor(rest % 864e5 / 36e5), min = Math.floor(rest % 36e5 / 6e4);
   let testOk = true; try{ testOk = pool(t.id).length >= TEST_MIN; }catch(e){}
-  return `<div class="ap-seite ap-woche-seite">
-    <section class="apf f-teal ap-wk"><small class="aplbl">Wochen-Challenge</small><b>${h(t.name)}</b>
-      <span class="apbar"><i style="width:${p}%"></i></span><span class="apsub">${w.r} von ${w.ziel} richtig · noch ${rest} ${rest === 1 ? "Tag" : "Tage"} · ${(window.WOCHE_XP || 150)} XP extra</span></section>
-    <article class="ap-lesen"><div class="ap-lkopf"><span class="ap-lic" aria-hidden="true">${ic}</span><div><small class="aplbl">Aus der Bibliothek</small><h2>${h(t.name)}</h2>${t.text ? `<p>${h(t.text)}</p>` : ""}</div></div>
-      ${merk.length ? `<ul>${merk.map(m => `<li>${h(m)}</li>`).join("")}</ul>` : ""}
-      <button type="button" class="ap-mehr" data-x="wochelesen">Ganzen Text lesen ${SV(I.pfeil, 16)}</button></article>
-    <div class="ap-wahl">
-      <button type="button" class="apf f-blau" data-x="woche"><span class="apico">${SV(I.play, 22)}</span><span class="aptx"><b>Training</b><small>In deinem Tempo, mit Erklärungen</small></span></button>
-      <button type="button" class="apf f-lila" data-x="wochetest"${testOk ? "" : " disabled"}><span class="apico">${SV(I.stern, 22)}</span><span class="aptx"><b>Test</b><small>Gewertet, mit Punkten für die Rangliste</small></span></button>
+  let abz = null; try{ abz = (JSON.parse(localStorage.getItem("ep-wochenabzeichen") || "[]")).find(x => x.w === w.w); }catch(e){}
+  const bonus = ES.WOCHE_TEST_XP || 100, xp = window.WOCHE_XP || 150;
+  return `<div class="ap-seite wk2">
+    <button type="button" class="wk2-zurueck" data-x="heim">← Startseite</button>
+    <section class="wk2-held"><span class="wk2-tag">Wochen-Challenge · ${h(String(w.w).replace("-W", ", Woche "))}</span>
+      <div class="wk2-titel"><span class="wk2-ic" aria-hidden="true">${ic}</span><div><small>Thema der Woche</small><h1>${h(t.name)}</h1></div></div>
+      <div class="wk2-cd"><span><b>${tage}</b><small>Tage</small></span><span><b>${std}</b><small>Std</small></span><span><b>${min}</b><small>Min</small></span></div>
+      <div class="wk2-ziel"><span class="wk2-bar"><i style="width:${p}%"></i></span><small>${w.r} von ${w.ziel} richtig · ${w.fertig ? "Challenge geschafft! 🎉" : `${xp} XP extra bei ${w.ziel} richtigen`}</small></div>
+      <img class="wk2-kids" src="img/kids/duo-jubel.webp" alt=""></section>
+    <article class="wk2-box"><div class="wk2-bkopf"><span class="wk2-buch" aria-hidden="true">📖</span><div><small>Das Wichtigste aus der Bibliothek</small><h2>${h(t.name)}</h2>${t.text ? `<p>${h(t.text)}</p>` : ""}</div></div>
+      ${merk.length ? `<ul>${merk.map(m => `<li>${h(m)}</li>`).join("")}</ul>` : `<p>Lies den Text in der Bibliothek, dann bist du bereit.</p>`}
+      <button type="button" class="wk2-mehr" data-x="wochelesen">Ganzen Text lesen →</button></article>
+    <div class="wk2-wahl">
+      <button type="button" class="wk2-k wk2-train" data-x="wochetrain"><span class="wk2-kic">🏋️</span><b>Trainieren</b><small>In deinem Tempo, mit Erklärungen. Jede richtige Antwort zählt für die Wochen-Challenge.</small><span class="wk2-los">Training starten ▶</span></button>
+      <button type="button" class="wk2-k wk2-test" data-x="wochetest"${testOk ? "" : " disabled"}><span class="wk2-kic">🏆</span><b>Test absolvieren</b><small>Gewertet mit Punkten für die Rangliste. Wochen-Bonus: +${bonus} XP und das Wochen-Abzeichen ab der Hälfte richtig.</small>
+        ${abz ? `<span class="wk2-abz">🏅 Abzeichen geholt: ${abz.r} von ${abz.n}</span>` : `<span class="wk2-abz">🏅 Wochen-Abzeichen offen</span>`}<span class="wk2-los">${S.profil ? "Test starten ▶" : "Registrieren und starten ▶"}</span></button>
     </div>
   </div>`;
 }
@@ -665,7 +686,7 @@ function kopfzeile(){
   const app = document.getElementById("app"); if(!app) return;
   app.querySelectorAll(":scope > .ap-kz").forEach(e => e.remove());
   if(S.screen === "home" && !S.libModus) return;
-  if(["quiz","done","duellplay","check","checkdone","liveplay","livehost"].includes(S.screen)) return;
+  if(["quiz","done","duellplay","check","checkdone","liveplay","livehost","chat"].includes(S.screen)) return;
   const cur = app.querySelector(".crumbs .crumb.cur");
   const titel = (cur && cur.textContent.trim()) || TITEL[S.screen] || "";
   const d = document.createElement("div"); d.className = "ap-kz";
@@ -698,7 +719,7 @@ window.renderHome = function(){
     const app = document.getElementById("app"); if(!app) return r;
     app.innerHTML = tab === "themen" ? themenHTML() : tab === "duell" ? duellHTML() : tab === "profil" ? profilHTML() : heuteHTML();
     binden(app);
-    requestAnimationFrame(einpassen);
+    requestAnimationFrame(() => { einpassen(); namenSetzen(); });
   }catch(e){ console.warn("app.js", e); }
   return r;
 };

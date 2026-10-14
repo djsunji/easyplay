@@ -1,6 +1,6 @@
 /* easyplay: neue Startseite und Spielideen
    Banner mit weichen Farbflecken (Mesh), Widgets, «Dein Tag» als Zeitstrahl, Duell «Bereit» mit Teamwahl,
-   Gruppenchat fürs Tagesquiz, Wochen-Challenge, Stories bei den Qeels, Live-Quiz um 13 und 19 Uhr,
+   Gruppenchat fürs Tagesquiz, Wochen-Challenge, Stories bei den Qeels, Live-Quiz alle 4 Stunden,
    Lumi liegt im Profil. Muster wie lernen.js: bestehende Funktionen werden umhüllt. */
 (function(){
 "use strict";
@@ -25,7 +25,7 @@ const tagesquiz = () => (LS.get("ep-tagesquiz", {})[heute()] || null);
 const fehlerAnzahl = () => Object.keys(LS.get("ep-fehler", {})).length;
 const level = () => { try{ return window.EP_LEVEL.stand(); }catch(e){ return null; } };
 const xpGeben = (n) => { try{ return window.EP_LEVEL.gib(n); }catch(e){ return 0; } };
-const abzeichenZahl = () => { let a = 0, b = 0; try{ const l = window.EP_LERNEN.abzeichen(); a += l.filter(x => x.hat).length; b += l.length; }catch(e){} try{ window.EP_LEVEL.familien().forEach(f => { a += f.stufe; b += f.grenzen.length; }); }catch(e){} return {hat:a, alle:b}; };
+const abzeichenZahl = () => { let a = 0, b = 0; try{ const l = window.EP_LERNEN.abzeichen(); a += l.filter(x => x.hat).length; b += l.length; }catch(e){} try{ window.EP_LEVEL.familien().forEach(f => { a += f.stufe; b += f.grenzen.length; }); }catch(e){} a += LS.get("ep-wochenabzeichen", []).length; return {hat:a, alle:b}; };
 const name = () => (S.profil && S.profil.name) || "";
 
 /* ---------- Team ---------- */
@@ -44,10 +44,10 @@ function teamWahl(danach, titel){
   el.querySelectorAll("[data-team]").forEach(b => b.onclick = () => { LS.set(K.team, b.dataset.team); zu(); try{ if(typeof danach === "function") danach(TEAMS[b.dataset.team]); }catch(e){} });
 }
 
-/* ---------- Live-Quiz: 13 und 19 Uhr, jeden Tag ein anderes Thema ---------- */
-const LIVE = { slots:[13, 19], fragen:20, sek:25, pause:5, vor:120 };   // vor: Lobby öffnet 2 Minuten vorher
+/* ---------- Live-Quiz: alle 4 Stunden (8, 12, 16, 20 Uhr), jedes Mal ein anderes Thema ---------- */
+const LIVE = { slots:[8, 12, 16, 20], fragen:20, sek:25, pause:5, vor:120 };   // vor: Lobby öffnet 2 Minuten vorher
 LIVE.dauer = LIVE.fragen * (LIVE.sek + LIVE.pause);
-function liveThema(d){ const l = themenListe(); if(!l.length) return null; return THEMA[l[(tagNr(d) * 7 + 3) % l.length]]; }
+function liveThema(d){ const l = themenListe(); if(!l.length) return null; return THEMA[l[(tagNr(d) * 7 + Math.floor(d.getHours() / 4) * 5 + 3) % l.length]]; }
 function liveSlots(){
   const jetzt = new Date(), aus = [];
   for(const tagOffset of [0, 1]) for(const st of LIVE.slots){
@@ -86,6 +86,9 @@ async function liveStand(sl){
     const res = await fetch(sp.u + "/rest/v1/rpc/live_stand", {method:"POST", headers:sp.h, body:JSON.stringify({p_key:sl.key})});
     if(res.ok) return await res.json(); }catch(e){} return null;
 }
+function lqUhr(ms){ ms = Math.max(0, ms); const s = Math.floor(ms / 1000), z = n => String(n).padStart(2, "0");
+  return `<span><b>${z(Math.floor(s / 3600))}</b><small>Std</small></span><i>:</i><span><b>${z(Math.floor(s % 3600 / 60))}</b><small>Min</small></span><i>:</i><span><b>${z(s % 60)}</b><small>Sek</small></span>`; }
+function liveAnsage(sl){ try{ const u = new SpeechSynthesisUtterance(`Achtung, Achtung! Um ${sl.std} Uhr startet das Live-Quiz. Das Thema ist ${sl.thema ? sl.thema.name : "gemischt"}. Mach mit und hol Punkte für dein Team!`); u.lang = "de-CH"; const v = speechSynthesis.getVoices().find(x => /^de/.test(x.lang)); if(v) u.voice = v; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
 function liveOeffnen(){ if(!team()){ teamWahl(() => go("livequiz"), "Live-Quiz: Für welches Team spielst du?"); return; } go("livequiz"); }
 function liveStop(){ if(LQ && LQ.timer){ clearInterval(LQ.timer); } LQ = null; }
 function renderLiveQuiz(){
@@ -96,26 +99,40 @@ function renderLiveQuiz(){
   const heuteGespielt = Object.keys(gespielt).filter(k => k.startsWith(heute())).map(k => gespielt[k]);
   if(st !== "jetzt"){
     liveStop();
-    app.innerHTML = `<div class="ep-live"><div class="ep-livekopf ep-dunkel">
-        <div><span class="ep-tag rot">⚡ Live-Quiz · jeden Tag um 13 und 19 Uhr</span><h1>${h(sl.thema ? sl.thema.name : "Gemischt")}</h1>
-          <p>${LIVE.fragen} Fragen für alle gleichzeitig. Jede richtige Antwort zählt für dein Team. Morgen gibt es ein neues Thema.</p>
-          <div class="ep-cd" id="lqCountdown">Start in <b>${dauerText(sl.start - Date.now())}</b> · ${String(sl.std).padStart(2,"0")}:00 Uhr</div>
-          <p class="ep-teamzeile">Du spielst für <b style="color:${t.farbe}">${t.emo} ${h(t.name)}</b> <button type="button" class="ep-link" id="lqTeam">Team wechseln</button></p>
-          <div class="ep-row"><button type="button" class="ep-btn" id="lqZurueck">Zur Startseite</button></div></div>
-        <div class="ep-arena"><div class="ep-turm eplumi"><img src="${KIDS}m5.webp" alt=""><span>Team Lumi</span></div><div class="ep-vs">VS</div><div class="ep-turm epmilo"><img src="${KIDS}j5.webp" alt=""><span>Team Milo</span></div></div></div>
-      ${heuteGespielt.length ? `<div class="ep-card"><h2>Heute schon gespielt</h2>${heuteGespielt.map(g => `<p>⚡ ${g.std}:00 Uhr: <b>${g.r} von ${g.n} richtig</b> · ${zahl(g.pts)} Punkte für ${h(TEAMS[g.team] ? TEAMS[g.team].name : "dein Team")}${g.stand ? ` · Stand: Team Lumi ${zahl(g.stand.lumi)} / Team Milo ${zahl(g.stand.milo)}` : ""}</p>`).join("")}</div>` : ""}
-      <div class="ep-card"><h2>So funktioniert es</h2><ul class="ep-liste"><li>Um 13:00 und um 19:00 Uhr startet das Quiz für alle gleichzeitig. Die Lobby öffnet 2 Minuten vorher.</li><li>${LIVE.fragen} Fragen, je ${LIVE.sek} Sekunden Zeit. Schnelle richtige Antworten geben mehr Punkte.</li><li>Alle Punkte gehen an dein Team. Wer verpasst, kann am Abend oder morgen wieder mitmachen.</li></ul></div></div>`;
+    const andere = Object.values(TEAMS).find(x => x.id !== t.id);
+    const plan = liveSlots().filter(x => liveStatus(x) !== "vorbei").slice(0, 4);
+    const tic = sl.thema ? (typeof themaIcon === "function" ? themaIcon(sl.thema) : h(sl.thema.emo || "⚡")) : "⚡";
+    app.innerHTML = `<div class="ep-live lq">
+      <button type="button" class="lq-zurueck" id="lqZurueck">← Zurück</button>
+      <section class="lq-held">
+        <div class="lq-ansage"><span class="lq-mega" aria-hidden="true">📣</span><div><small>Ansage von Milo</small><p>Achtung, Achtung! Um <b>${slotLabel(sl)} Uhr</b> geht es los. Das Thema ist <b>${h(sl.thema ? sl.thema.name : "Gemischt")}</b>!</p></div><button type="button" class="lq-vorlesen" id="lqSag" aria-label="Ansage vorlesen">🔊</button></div>
+        <span class="lq-tag"><i></i> Live-Quiz · alle 4 Stunden</span>
+        <div class="lq-thema"><span class="lq-ic" aria-hidden="true">${tic}</span><div><small>Thema um ${slotLabel(sl)} Uhr</small><h1>${h(sl.thema ? sl.thema.name : "Gemischt")}</h1></div></div>
+        <div class="lq-cd" id="lqCountdown">${lqUhr(sl.start - Date.now())}</div>
+        <p class="lq-info">${LIVE.fragen} Fragen, je ${LIVE.sek} Sekunden. Schnelle richtige Antworten geben mehr Punkte, Serien geben Bonus. 🔥</p>
+        <img class="lq-kids" src="${KIDS}duo-jubel.webp" alt="">
+      </section>
+      <section class="lq-teams">
+        ${[TEAMS.lumi, TEAMS.milo].map(x => `<div class="lq-team lq${x.id}${x.id === t.id ? " dein" : ""}"><img src="${KIDS}${x.id === "lumi" ? "m5" : "j5"}.webp" alt=""><div><b>${x.emo} ${h(x.name)}</b><small>${h(x.text)}</small>${x.id === t.id ? `<span class="lq-dein">👑 Dein Team</span>` : ""}</div></div>`).join(`<div class="lq-vs">VS</div>`)}
+      </section>
+      <div class="lq-wechsel">Du spielst für <b style="color:${t.farbe}">${t.emo} ${h(t.name)}</b> <button type="button" class="ep-link" id="lqTeam">Zu ${h(andere.name)} wechseln</button></div>
+      <section class="lq-plan"><h2>Die nächsten Live-Quiz</h2><div>${plan.map(x => `<span class="${x.key === sl.key ? "an" : ""}"><b>${heute(x.start) === heute() ? "" : "Morgen "}${slotLabel(x)}</b><small>${h(x.thema ? x.thema.name : "Gemischt")}</small></span>`).join("")}</div></section>
+      ${heuteGespielt.length ? `<section class="lq-karte"><h2>Heute schon gespielt</h2>${heuteGespielt.map(g => `<p>⚡ ${String(g.std).padStart(2, "0")}:00 Uhr: <b>${g.r} von ${g.n} richtig</b> · ${zahl(g.pts)} Punkte für ${h(TEAMS[g.team] ? TEAMS[g.team].name : "dein Team")}</p>`).join("")}</section>` : ""}
+      <section class="lq-regeln"><div><span>⏱</span><b>${LIVE.sek} Sekunden</b><small>pro Frage, alle gleichzeitig</small></div><div><span>🔥</span><b>Serien-Bonus</b><small>ab 2 richtigen am Stück</small></div><div><span>🏆</span><b>Für dein Team</b><small>alle Punkte zählen für ${h(t.name)}</small></div></section>
+    </div>`;
     app.querySelector("#lqZurueck").onclick = () => go("home");
-    app.querySelector("#lqTeam").onclick = () => teamWahl(() => render());
-    LQ = {timer:setInterval(() => { const el = document.getElementById("lqCountdown"); if(!el || S.screen !== "livequiz"){ liveStop(); return; } const s2 = liveNaechster(); if(s2 && liveStatus(s2) === "jetzt"){ render(); return; } el.innerHTML = `Start in <b>${dauerText(sl.start - Date.now())}</b> · ${String(sl.std).padStart(2,"0")}:00 Uhr`; }, 1000)};
+    app.querySelector("#lqTeam").onclick = () => { LS.set(K.team, andere.id); render(); };
+    app.querySelector("#lqSag").onclick = () => liveAnsage(sl);
+    LQ = {timer:setInterval(() => { const el = document.getElementById("lqCountdown"); if(!el || S.screen !== "livequiz"){ liveStop(); return; } const s2 = liveNaechster(); if(s2 && liveStatus(s2) === "jetzt"){ render(); return; } el.innerHTML = lqUhr(sl.start - Date.now()); }, 1000)};
     return;
   }
   // Läuft oder Lobby
   if(!LQ || LQ.key !== sl.key){ liveStop(); LQ = {key:sl.key, sl, fragen:liveFragen(sl), antworten:{}, pts:0, r:0, timer:null, fertig:false, stand:null}; liveStand(sl).then(s => { if(LQ && LQ.key === sl.key && s) LQ.stand = s; }); }
-  app.innerHTML = `<div class="ep-live"><div class="ep-dunkel ep-liverun"><div class="ep-livezeile"><span class="ep-livepunkt"><i></i> LIVE</span><b>${h(sl.thema ? sl.thema.name : "Gemischt")}</b><span id="lqUhr" class="ep-uhr"></span></div>
+  app.innerHTML = `<div class="ep-live lq"><button type="button" class="lq-zurueck" id="lqRaus">← Zurück</button><div class="ep-dunkel ep-liverun"><div class="ep-livezeile"><span class="ep-livepunkt"><i></i> LIVE</span><b>${h(sl.thema ? sl.thema.name : "Gemischt")}</b><span id="lqUhr" class="ep-uhr"></span></div>
       <div class="ep-arena epklein"><div class="ep-turm eplumi"><div class="ep-fill" id="lqFillLumi"></div><img src="${KIDS}m5.webp" alt=""><span id="lqLumi">Team Lumi</span></div>
         <div class="ep-frage" id="lqFrage"></div>
         <div class="ep-turm epmilo"><div class="ep-fill" id="lqFillMilo"></div><img src="${KIDS}j5.webp" alt=""><span id="lqMilo">Team Milo</span></div></div></div></div>`;
+  app.querySelector("#lqRaus").onclick = () => { liveStop(); go("home"); };
   const tick = () => {
     if(S.screen !== "livequiz"){ liveStop(); return; }
     const jetzt = Date.now(), start = sl.start.getTime(), pro = (LIVE.sek + LIVE.pause) * 1000;
@@ -135,20 +152,21 @@ function renderLiveQuiz(){
     const a = LQ.antworten[i];
     if(box.dataset.i !== String(i)){
       box.dataset.i = String(i); delete box.dataset.lobby;
-      box.innerHTML = `<div class="ep-balken"><i id="lqBalken"></i></div><div class="ep-q">${h(f.q)}</div><div class="ep-antw">${f.opts.map((o, k) => `<button type="button" data-k="${k}">${h(o.txt)}</button>`).join("")}</div><p class="ep-punkte" id="lqPts">⭐ ${zahl(LQ.pts)} Punkte · ${LQ.r} richtig</p>`;
+      box.innerHTML = `<div class="ep-balken"><i id="lqBalken"></i></div><small class="lq-fnr">Frage ${i + 1} · ${h(sl.thema ? sl.thema.name : "Gemischt")}</small><div class="ep-q">${h(f.q)}</div><div class="ep-antw">${f.opts.map((o, k) => `<button type="button" data-k="${k}">${h(o.txt)}</button>`).join("")}</div><p class="ep-punkte" id="lqPts">⭐ ${zahl(LQ.pts)} Punkte · ${LQ.r} richtig</p>`;
       box.querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
         if(LQ.antworten[i] != null) return; const k = +b.dataset.k, dt = (Date.now() - start) - i * pro; if(dt > LIVE.sek * 1000) return;
-        const ok = !!f.opts[k].ok; const p = ok ? 50 + Math.round(50 * Math.max(0, 1 - dt / (LIVE.sek * 1000))) : 0;
-        LQ.antworten[i] = {k, ok, p}; LQ.pts += p; if(ok) LQ.r++;
+        const ok = !!f.opts[k].ok; LQ.serie = ok ? (LQ.serie || 0) + 1 : 0; const bonus = ok && LQ.serie >= 2 ? Math.min(50, (LQ.serie - 1) * 10) : 0;
+        const p = ok ? 50 + Math.round(50 * Math.max(0, 1 - dt / (LIVE.sek * 1000))) + bonus : 0;
+        LQ.antworten[i] = {k, ok, p, bonus}; LQ.pts += p; if(ok) LQ.r++;
         box.querySelectorAll("[data-k]").forEach(x => x.classList.toggle("epgewaehlt", +x.dataset.k === k));
-        document.getElementById("lqPts").textContent = `⭐ ${zahl(LQ.pts)} Punkte · ${LQ.r} richtig`;
+        document.getElementById("lqPts").textContent = `⭐ ${zahl(LQ.pts)} Punkte · ${LQ.r} richtig${LQ.serie >= 2 ? ` · 🔥 ${LQ.serie}er-Serie` : ""}`;
         if(ok){ xpGeben(10); try{ if(typeof fxAnswer === "function") fxAnswer(k, true); }catch(e){} }
       });
     }
     const bal = document.getElementById("lqBalken"); if(bal) bal.style.width = Math.max(0, Math.min(100, rest / (LIVE.sek * 10))) + "%";
     if(aufloesung && !box.dataset.aufgeloest){ box.dataset.aufgeloest = "1";
       box.querySelectorAll("[data-k]").forEach(x => { const k = +x.dataset.k; x.disabled = true; x.classList.toggle("eprichtig", !!f.opts[k].ok); x.classList.toggle("epfalsch", !f.opts[k].ok); });
-      const r = document.createElement("p"); r.className = "ep-aufl"; r.innerHTML = a ? (a.ok ? `✅ Richtig! +${a.p} Punkte` : `❌ Leider falsch.`) : `⏱ Keine Antwort.`; if(f.e) r.innerHTML += ` <small>${h(String(f.e).slice(0, 160))}</small>`; box.appendChild(r); }
+      const r = document.createElement("p"); r.className = "ep-aufl"; r.innerHTML = a ? (a.ok ? `✅ Richtig! +${a.p} Punkte${a.bonus ? ` (🔥 +${a.bonus} Serien-Bonus)` : ""}` : `❌ Leider falsch.`) : `⏱ Keine Antwort.`; if(f.e) r.innerHTML += ` <small>${h(String(f.e).slice(0, 160))}</small>`; box.appendChild(r); }
     if(!aufloesung) delete box.dataset.aufgeloest;
   };
   tick(); LQ.timer = setInterval(tick, 250);
@@ -183,6 +201,18 @@ function wocheZaehlen(f, ok){
   const neu = {w:d.w, t:d.t, n:d.n + 1, r:d.r + (ok ? 1 : 0), fertig:d.fertig};
   if(!neu.fertig && neu.r >= WOCHE_ZIEL){ neu.fertig = true; const b = xpGeben(WOCHE_XP); setTimeout(() => meldung("🏔️", `Wochen-Challenge geschafft! +${b} XP`, `${WOCHE_ZIEL} richtige Antworten zu «${d.thema.name}»`), 400); }
   LS.set(K.woche, neu);
+}
+const WOCHE_TEST_XP = 100;
+function wocheBonus(){
+  const Q = S.quiz; if(S.screen !== "done" || !Q || Q.mode !== "test" || Q._wocheGeprueft) return; Q._wocheGeprueft = true;
+  const d = woche(); if(!d.thema || !S.thema || S.thema.id !== d.thema.id) return;
+  const n = (Q.list || []).length, r = Q.score || 0; if(!n) return;
+  const liste = LS.get("ep-wochenabzeichen", []), hat = liste.some(x => x.w === d.w);
+  let text = "";
+  if(r / n >= .5 && !hat){ liste.push({w:d.w, t:d.thema.id, name:d.thema.name, r, n, z:Date.now()}); LS.set("ep-wochenabzeichen", liste); const b = xpGeben(WOCHE_TEST_XP); text = `🏅 Neues Wochen-Abzeichen «${d.thema.name}» und +${b} XP Bonus!`; setTimeout(() => meldung("🏅", `Wochen-Abzeichen: ${d.thema.name}`, `+${b} XP Bonus für den Test zum Thema der Woche`), 300); }
+  else if(r / n >= .5){ const b = xpGeben(Math.round(WOCHE_TEST_XP / 4)); text = `Thema der Woche: +${b} XP Bonus. Dein Abzeichen hast du schon.`; }
+  else { const b = xpGeben(20); text = `Thema der Woche: +${b} XP. Mit der Hälfte richtig gibt es das Wochen-Abzeichen.`; }
+  const kopf = document.querySelector("#app .done h1"); if(kopf && text){ const p = document.createElement("p"); p.className = "ep-wochebonus"; p.textContent = text; kopf.after(p); }
 }
 function wocheStarten(){ const d = woche(); if(!d.thema) return; const l = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f.t === d.thema.id && Array.isArray(f.a) && f.a.length === 4); if(!l.length) return; startListe(l, "Wochen-Challenge: " + d.thema.name); }
 
@@ -436,7 +466,7 @@ document.head.appendChild(css);
 /* ---------- Startseite ---------- */
 function slotLabel(sl){ return `${String(sl.std).padStart(2,"0")}:00`; }
 function zeitstrahl(){
-  const tq = tagesquiz(), nf = fehlerAnzahl(), s = serie(), slots = liveSlots().filter(sl => heute(sl.start) === heute());
+  const tq = tagesquiz(), nf = fehlerAnzahl(), s = serie(), slots = liveSlots().filter(sl => heute(sl.start) === heute() && liveStatus(sl) !== "vorbei").slice(0, 2);
   const e = [];
   e.push({t:"jetzt", st:tq ? "st-ok" : "st-jetzt", b:"Tagesquiz", s:tq ? `Erledigt: ${tq.r} von ${tq.n} richtig` : "5 neue Fragen, jeden Tag", a:"chat", btn:tq ? "" : "▶ Spielen"});
   slots.forEach(sl => { const st = liveStatus(sl); e.push({t:slotLabel(sl), st:"st-" + st, b:"Live-Quiz: " + (sl.thema ? sl.thema.name : "Gemischt"), s:st === "ok" ? `Gespielt: ${LS.get(K.live, {})[sl.key].r} von ${LIVE.fragen} richtig` : st === "jetzt" ? "Läuft gerade!" : st === "vorbei" ? "Verpasst, am Abend oder morgen wieder" : LIVE.fragen + " Fragen, alle gleichzeitig", a:"live", btn:st === "jetzt" ? "⚡ Mitspielen" : ""}); });
@@ -444,21 +474,71 @@ function zeitstrahl(){
   e.push({t:"", st:s.aktiv ? "st-ok" : "st-offen", b:"Serie halten", s:s.aktiv ? `Heute geschafft, ${s.n} ${s.n === 1 ? "Tag" : "Tage"} am Stück` : `Noch ${Math.max(0, 5 - s.heute)} Fragen, dann sind es ${s.n + 1} ${s.n + 1 === 1 ? "Tag" : "Tage"}`, a:"zufall", btn:""});
   return `<div class="ep-w epl eptl"><h4>📋 Dein Tag</h4>${e.map(x => `<div class="epe ${x.st}"><time>${x.t}</time><i></i><div><b>${h(x.b)}</b><small>${h(x.s)}</small>${x.btn ? `<br><button type="button" class="ep-btn klein" data-a="${x.a}">${x.btn}</button>` : ""}</div></div>`).join("")}</div>`;
 }
+function testThema(neu){
+  let id = null; try{ id = sessionStorage.getItem("ep-testthema"); }catch(e){}
+  const ok = x => x && THEMA[x] && (() => { try{ return pool(x).length >= TEST_MIN; }catch(e){ return false; } })();
+  if(neu || !ok(id)){ const l = themenListe().filter(ok); if(!l.length) return null; let n = l[Math.floor(Math.random() * l.length)]; if(l.length > 1) while(n === id) n = l[Math.floor(Math.random() * l.length)]; id = n; try{ sessionStorage.setItem("ep-testthema", id); }catch(e){} }
+  return THEMA[id];
+}
+function testKarte(){
+  const t = testThema(); if(!t) return "";
+  let bp = 0; try{ bp = myBest(t.id) || 0; }catch(e){}
+  const ic = typeof themaIcon === "function" ? themaIcon(t) : h(t.emo || "🏆");
+  return `<div class="ep-w epm dunkel ep-testk"><small>🏆 Gewerteter Test · zufälliges Thema</small>
+    <div class="eptk-thema"><span class="eptk-ic" aria-hidden="true">${ic}</span><b class="epgross">${h(t.name)}</b></div>
+    <span class="epzufalltext">${Math.min(TEST_LEN, (() => { try{ return pool(t.id).length; }catch(e){ return TEST_LEN; } })())} Fragen · 30 Minuten · Punkte für die Rangliste${bp ? ` · dein Bestwert ${bp}` : ""}</span>
+    <span class="eptk-knoepfe"><button type="button" class="ep-btn gelb klein" data-a="test" data-t="${h(t.id)}">▶ Test starten</button><button type="button" class="ep-btn weiss klein" data-a="testneu">🎲 Anderes Thema</button></span>
+    <img src="${KIDS}spring1.webp" alt=""></div>`;
+}
+const TACHO = [{id:1, n:"Entdecker", c:"#17A35A"}, {id:2, n:"Könner", c:"#3D5AFE"}, {id:3, n:"Profis", c:"#E0A100"}, {id:4, n:"Alle", c:"#E043B8"}];
+function tacho(){
+  const st = [1, 2, 3, 4].includes(S.stufe) ? S.stufe : 1, R = 80, cx = 100, cy = 98;
+  const pt = (w, r) => [cx + r * Math.cos(Math.PI - w), cy - r * Math.sin(Math.PI - w)];
+  const bogen = (a0, a1) => { const [x0, y0] = pt(a0, R), [x1, y1] = pt(a1, R); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+  const seg = Math.PI / 4, gap = .05;
+  const winkel = (st - .5) * seg; const nadel = -90 + winkel * 180 / Math.PI;
+  const akt = TACHO[st - 1];
+  return `<div class="ep-w ep-tacho" style="--tc:${akt.c}"><small>🎚️ Deine Stufe</small>
+    <svg viewBox="0 0 200 112" class="eptc-svg" role="radiogroup" aria-label="Stufe wählen">
+      ${TACHO.map((x, i) => `<path d="${bogen(i * seg + gap, (i + 1) * seg - gap)}" stroke="${x.c}" stroke-width="${x.id === st ? 22 : 16}" stroke-linecap="round" fill="none" opacity="${x.id === st ? 1 : .35}" data-stufe="${x.id}" role="radio" aria-checked="${x.id === st}" aria-label="${x.n}" tabindex="0" style="cursor:pointer"/>`).join("")}
+      ${TACHO.map((x, i) => { const [lx, ly] = pt((i + .5) * seg, R - 30); return `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="800" fill="${x.id === st ? x.c : "#8B8AA8"}" data-stufe="${x.id}" style="cursor:pointer;font-family:Lexend,sans-serif">${x.id === 4 ? "Alle" : x.id}</text>`; }).join("")}
+      <g class="eptc-nadel" style="transform:rotate(${nadel.toFixed(1)}deg)"><path d="M${cx - 4} ${cy} L${cx} ${cy - 58} L${cx + 4} ${cy} Z" fill="#1B2240"/></g>
+      <circle cx="${cx}" cy="${cy}" r="9" fill="#1B2240"/><circle cx="${cx}" cy="${cy}" r="4" fill="${akt.c}"/>
+    </svg>
+    <div class="eptc-name"><b>${h(akt.n === "Alle" ? "Alle Stufen" : akt.n)}</b><small>${st === 4 ? "Fragen aus allen Stufen" : h((STUFEN.find(x => x.id === st) || {}).alter || "")}</small></div></div>`;
+}
+function qeelsKarte(){
+  const l = themenListe().map(id => THEMA[id]).filter(Boolean); const rnd = zufall("qk-" + heute()); const w = [];
+  for(let i = 0; i < 4 && l.length; i++) w.push(l.splice(Math.floor(rnd() * l.length), 1)[0]);
+  return `<button type="button" class="ep-w ep-qk" data-a="qeels"><span class="epqk-kopf"><span class="epqk-logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5.5"/><path d="M10 8.5v7l5.5-3.5z" fill="#fff"/></svg></span><b>Qeels</b></span>
+    <span class="epqk-st">${w.map(t => `<span><i>${typeof themaIcon === "function" ? themaIcon(t) : "📚"}</i></span>`).join("")}</span>
+    <span class="epqk-tx">Wissen in 30 Sekunden ▶</span></button>`;
+}
+function stufeSetzen(n){ if(![1, 2, 3, 4].includes(n) || n === S.stufe) return; S.stufe = n; try{ store.set("ep-stufe", n); }catch(e){ LS.set("ep-stufe", n); } render(); }
+function tachoBinden(){
+  const svg = document.querySelector("#app .eptc-svg"); if(!svg) return;
+  svg.querySelectorAll("[data-stufe]").forEach(x => { x.addEventListener("click", e => { e.stopPropagation(); stufeSetzen(+x.dataset.stufe); }); x.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); stufeSetzen(+x.dataset.stufe); } }); });
+  const ausWinkel = e => { const r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 200 - 100, y = 98 - (e.clientY - r.top) / r.height * 112; let w = Math.atan2(Math.max(0, y), x); w = Math.PI - w; return Math.min(4, Math.max(1, Math.floor(w / (Math.PI / 4)) + 1)); };
+  let zieht = false; const nadel = svg.querySelector(".eptc-nadel");
+  svg.addEventListener("pointerdown", e => { zieht = true; try{ svg.setPointerCapture(e.pointerId); }catch(err){} });
+  svg.addEventListener("pointermove", e => { if(!zieht || !nadel) return; const r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 200 - 100, y = 98 - (e.clientY - r.top) / r.height * 112; const w = Math.PI - Math.atan2(Math.max(0, y), x); nadel.style.transform = `rotate(${(-90 + w * 180 / Math.PI).toFixed(1)}deg)`; });
+  svg.addEventListener("pointerup", e => { if(!zieht) return; zieht = false; stufeSetzen(ausWinkel(e)); if(nadel) nadel.style.transform = ""; });
+}
 function widgets(){
   const s = serie(), lv = level(), tq = tagesquiz(), ab = abzeichenZahl(), zl = LS.get(K.zuletzt, null), fk = fakt(), nf = fehlerAnzahl(), nl = liveNaechster();
   const mitternacht = new Date(); mitternacht.setHours(24, 0, 0, 0);
   const wt = []; for(let i = 6; i >= 0; i--){ wt.push((LS.get("ep-lerntage", {})[heute(Date.now() - i * 864e5)] || 0) >= 5); }
   return `<div class="ep-wg">
     ${zeitstrahl()}
-    <button type="button" class="ep-w epm dunkel" data-a="${zl ? "weiter" : "zufall"}"><small>${zl ? "Weiterspielen" : "Los geht's"}</small><b class="epgross">${h(zl ? zl.name : "Zufällige Fragen")}</b>${zl ? "" : `<span class="epzufalltext">Gemischte Fragen aus allen Themen deiner Stufe. Jedes Mal etwas Neues!</span>`}<span class="epmini">▶ ${zl ? "Weiter" : "Spielen"}</span><img src="${KIDS}spring1.webp" alt=""></button>
+    ${testKarte()}
     <button type="button" class="ep-w orange" data-a="zufall"><small>Serie</small><div class="epzahl">${s.n} 🔥</div><div class="eptage">${wt.map(x => `<i class="${x ? "an" : ""}"></i>`).join("")}</div></button>
     <button type="button" class="ep-w" data-a="profil" style="--c:${lv ? lv.titel.farbe : "#8A3FE0"}"><small>Level</small>${lv ? `<span class="epring" style="--p:${Math.round(lv.anteil * 100)}"><b>${lv.level}</b></span><div class="epzahl k">${lv.titel.emo} ${h(lv.titel.name)}</div><span style="font-weight:700;font-size:.85rem;color:var(--ep-mut)">+${zahl(lv.heute)} XP heute</span>` : `<div class="epzahl k">Level 1</div>`}</button>
     <button type="button" class="ep-w epm ${nl && liveStatus(nl) === "jetzt" ? "rot" : "lila"}" data-a="live"><small>⚡ Live-Quiz ${nl ? "· " + slotLabel(nl) + " Uhr" : ""}</small><div class="epcd">${nl ? (liveStatus(nl) === "jetzt" ? `<b>LÄUFT JETZT</b><span>${h(nl.thema ? nl.thema.name : "")}</span>` : `<b id="epLiveCd">${dauerText(nl.start - Date.now())}</b><span>bis zum Start · ${h(nl.thema ? nl.thema.name : "")}</span>`) : ""}</div><span class="epmini">${nl && liveStatus(nl) === "jetzt" ? "Mitspielen ⚡" : "Team wählen"}</span></button>
-    <button type="button" class="ep-w" data-a="chat"><small>Tagesquiz</small>${tq ? `<div class="epzahl k">✅ ${tq.r}/${tq.n}</div><span style="font-weight:700;font-size:.85rem;color:var(--ep-mut)">Neu in ${dauerText(mitternacht - Date.now()).slice(0, -3)} h</span>` : `<div class="epzahl k">📅 5 Fragen</div><span class="epmini">Jetzt spielen</span>`}</button>
+    ${tacho()}
     <button type="button" class="ep-w" data-a="profil"><small>Abzeichen</small><div class="epabz">🏅🦊⭐</div><span style="font-weight:800">${ab.hat} von ${ab.alle}</span></button>
-    <button type="button" class="ep-w epm" data-a="${fk ? "fakt" : "zufall"}" data-t="${fk ? h(fk.t) : ""}"><small>💡 Wusstest du?</small><p class="epfakt">${fk ? h(fk.text) : "Jede richtige Antwort bringt dich weiter."}</p><span style="font-weight:800;color:#3D5AFE">${fk ? "Frage dazu spielen →" : "Los →"}</span></button>
+    <button type="button" class="ep-w epm" data-a="${fk ? "fakt" : "zufall"}" data-t="${fk ? h(fk.t) : ""}"><small>💡 Wusstest du?</small><p class="epfakt">${fk ? h(fk.text) : "Jede richtige Antwort bringt dich weiter."}</p><span style="font-weight:800;color:#3D5AFE">${fk ? "📖 Mehr dazu in der Bibliothek →" : "Los →"}</span></button>
     <button type="button" class="ep-w ${nf ? "gruen" : ""}" data-a="fehler"${nf ? "" : " disabled"}><small>Fehler üben</small><div class="epzahl">${nf ? nf + " 🎯" : "0 🎯"}</div><span style="font-weight:700;font-size:.85rem">${nf ? "Nochmals versuchen" : "Alles geübt"}</span></button>
-    <button type="button" class="ep-w" data-a="qeels"><small>Qeels</small><div class="epzahl k">🅠 Stories</div><span style="font-weight:700;font-size:.85rem;color:var(--ep-mut)">Wissen in 30 Sekunden</span></button>
+    ${qeelsKarte()}
   </div>`;
 }
 function bereit(){
@@ -466,7 +546,7 @@ function bereit(){
   return `<section class="ep-bereit"><div class="epgegner"><span class="epav"><img src="${KIDS}${t ? (t.id === "lumi" ? "j1.webp" : "m1.webp") : "j1.webp"}" alt=""></span><div>${t ? `${t.emo} ${h(t.name)}` : "Noch kein Team"}<small>${t ? "Dein Team · " : ""}${nl ? "Nächstes Live-Quiz " + slotLabel(nl) : "Team wählen"}</small></div></div>
     <h2>Bereit für dein Duell?</h2><p>Lumi und Milo sind aufgewärmt. Wähle dein Team, dann tritt gegen Freunde, Familie oder deine Klasse an.</p>
     <div class="ep-row"><button type="button" class="ep-btn" data-a="duell">⚔️ Duell starten</button><button type="button" class="ep-btn weiss" data-a="spielmodi">🎮 Wettbewerb &amp; Hardcore</button></div>
-    <img src="${KIDS}duo-bereit.webp" alt=""></section>`;
+    <div class="epduo epbereit-duo"><span class="epglow eplumi"></span><span class="epglow epmilo"></span><img src="${KIDS}duo-bereit.webp" alt=""><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span></div></section>`;
 }
 function wocheHTML(){
   const d = woche(); if(!d.thema) return "";
@@ -486,13 +566,13 @@ function startseiteHTML(){
   return `<div class="ep-banner"><div class="ept"><img class="eplogo" src="${typeof ICON_SRC !== "undefined" ? ICON_SRC : "img/fragezeichen.webp"}" alt="easyplay">
       <h1 class="epslogan">${n ? "Hoi " + h(n) + "! " : ""}Spiel dich schlau!</h1>
       <div class="ep-pills"><span><b>${zahl(anz)}</b> Fragen</span><span><b>${themen}</b> Themen</span><span><b>3</b> Stufen</span><span>🇨🇭 mit Schweiz-Wissen</span></div>
-      <div class="ep-cta"><button type="button" class="ep-btn" data-a="zufall">▶ Los geht's</button><button type="button" class="ep-btn weiss" data-a="chat">📅 Tagesquiz</button></div></div>
-    <img src="${KIDS}duo-winken.webp" alt=""></div>
+      <div class="ep-cta"><button type="button" class="ep-btn" data-a="themen">▶ Los geht's</button><button type="button" class="ep-btn weiss" data-a="chat">📅 Tagesquiz</button><button type="button" class="ep-btn weiss" data-a="zufall">🎲 Zufällige Fragen</button></div></div>
+    <div class="epduo"><img src="${KIDS}duo-winken.webp" alt=""><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span></div></div>
     ${widgets()}
     ${bereit()}`;
 }
 function aktion(a, el){
-  if(a === "zufall"){ const b = document.getElementById("zufall"); if(b){ b.click(); return; } try{ startListe((typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f.l === S.stufe && Array.isArray(f.a) && f.a.length === 4), "Zufällige Fragen"); }catch(e){} }
+  if(a === "zufall"){ const b = document.getElementById("zufall"); if(b){ b.click(); return; } try{ startListe((typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => (S.stufe === 4 || f.l === S.stufe) && Array.isArray(f.a) && f.a.length === 4), "Zufällige Fragen"); }catch(e){} }
   else if(a === "chat") go("chat");
   else if(a === "tagesquiz"){ try{ window.EP_LERNEN_TQ(); }catch(e){ go("chat"); } }
   else if(a === "fehler"){ try{ const l = window.EP_LERNEN.fehlerListe(); if(l.length) startListe(l, "Fehler üben"); }catch(e){} }
@@ -501,9 +581,13 @@ function aktion(a, el){
   else if(a === "spielmodi") go("spielmodi");
   else if(a === "profil"){ if(S.profil) go("profil"); else go("register"); }
   else if(a === "qeels"){ try{ oeffneReels(); }catch(e){} }
-  else if(a === "woche") wocheStarten();
+  else if(a === "woche") go("epwoche");
+  else if(a === "wochetrain") wocheStarten();
+  else if(a === "themen"){ const z = document.getElementById("bereiche") || document.querySelector("#app .bereiche"); if(z) z.scrollIntoView({behavior:ruhig() ? "auto" : "smooth", block:"start"}); }
+  else if(a === "test"){ const t = THEMA[el && el.dataset.t]; if(!t) return; S.thema = t; if(!S.profil){ S.after = "mode"; go("register"); } else { try{ startQuiz(t.id, "test"); }catch(e){ go("mode"); } } }
+  else if(a === "testneu"){ testThema(true); render(); }
   else if(a === "weiter"){ const z = LS.get(K.zuletzt, null); if(z && THEMA[z.t]){ const l = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f.t === z.t && Array.isArray(f.a) && f.a.length === 4); if(l.length){ startListe(l, THEMA[z.t].name); return; } } aktion("zufall"); }
-  else if(a === "fakt"){ const t = el && el.dataset.t; if(t && THEMA[t]){ const l = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f.t === t && Array.isArray(f.a) && f.a.length === 4); if(l.length){ startListe(l, THEMA[t].name); return; } } aktion("zufall"); }
+  else if(a === "fakt"){ const t = el && el.dataset.t; if(t && THEMA[t]){ try{ LIB.thema = t; LIB.buch = (THEMA[t].bereich && THEMA[t].bereich.id) || LIB.buch; }catch(e){} S.libModus = true; document.documentElement.dataset.mode = "lib"; go("libthema"); return; } aktion("zufall"); }
 }
 function binden(wurzel){ (wurzel || document).querySelectorAll("[data-a]").forEach(b => { if(b.dataset.gebunden) return; b.dataset.gebunden = "1"; b.addEventListener("click", e => { e.stopPropagation(); aktion(b.dataset.a, b); }); }); }
 let cdTimer = null;
@@ -515,7 +599,7 @@ window.renderHome = function(){
     hero.classList.add("ep"); hero.innerHTML = startseiteHTML(); ["lernleiste","lvKarte"].forEach(id => { const x = document.getElementById(id); if(x) x.remove(); });
     const ber = document.querySelector("#app .bereiche"); const w = wocheHTML();
     if(w){ const tmp = document.createElement("div"); tmp.innerHTML = w; (ber || hero).insertAdjacentElement(ber ? "afterend" : "afterend", tmp.firstElementChild); }
-    binden(document.getElementById("app"));
+    binden(document.getElementById("app")); tachoBinden();
     if(cdTimer) clearInterval(cdTimer);
     cdTimer = setInterval(() => { const el = document.getElementById("epLiveCd"); if(!el || S.screen !== "home"){ clearInterval(cdTimer); cdTimer = null; return; } const nl = liveNaechster(); if(!nl) return; if(liveStatus(nl) === "jetzt"){ render(); return; } el.textContent = dauerText(nl.start - Date.now()); }, 1000);
   }catch(e){ console.warn("startseite.js", e); }
@@ -525,37 +609,35 @@ window.renderHome = function(){
 /* ---------- Gruppenchat (Tagesquiz) ---------- */
 function renderChat(){
   const app = document.getElementById("app"); if(!app) return;
-  const s = serie(), tq = tagesquiz(), nf = fehlerAnzahl(), n = name(), t = team(), nl = liveNaechster();
-  const av = k => `<span class="epav"><span><img src="${KIDS}${k}" alt=""></span></span>`;
+  const s = serie(), tq = tagesquiz(), nf = fehlerAnzahl(), n = name(), nl = liveNaechster();
+  const av = k => `<span class="c2-av"><img src="${KIDS}${k}" alt=""></span>`;
   const msgs = [
-    ["l", `Hoi${n ? " " + h(n) : ""}! 👋 ${s.n ? `Du hast <b>${s.n} ${s.n === 1 ? "Tag" : "Tage"} Serie</b>. ${s.aktiv ? "Heute hast du schon gelernt, stark!" : `Heute noch ${Math.max(0, 5 - s.heute)} Fragen, dann sind es ${s.n + 1}!`}` : "Heute ist ein guter Tag, um deine Serie zu starten: 5 Fragen reichen."}`],
-    ["r", t ? `Ich bin in ${t.id === "milo" ? "deinem" : "dem anderen"} Team. 😎 ${nl ? `Um ${slotLabel(nl)} Uhr ist Live-Quiz zum Thema «${h(nl.thema ? nl.thema.name : "Gemischt")}». Bist du dabei?` : "Spielst du ein Duell gegen mich?"}` : `Hast du schon ein Team? 😎 Team Lumi oder Team Milo, ich zähle auf dich!`],
-    ["l", tq ? `Das Tagesquiz hast du heute schon gelöst: <b>${tq.r} von ${tq.n}</b> richtig. Morgen gibt es 5 neue Fragen.` : `Oder zuerst das <b>Tagesquiz</b>? 5 neue Fragen warten auf dich.`]
+    ["l", `Hoi${n ? " " + h(n) : ""}! 👋 ${s.n ? `<b>${s.n} ${s.n === 1 ? "Tag" : "Tage"} Serie</b>, weiter so!` : "Starte heute deine Serie: 5 Fragen reichen."}`],
+    ["r", nl ? `⚡ Live-Quiz um <b>${slotLabel(nl)}</b>: «${h(nl.thema ? nl.thema.name : "Gemischt")}». Bist du dabei?` : `Lust auf einen <b>Teamkampf</b> gegen mich? 😎`],
+    ["l", tq ? `Tagesquiz geschafft: <b>${tq.r} von ${tq.n}</b> richtig! 🎉` : `Zuerst das <b>Tagesquiz</b>? 5 neue Fragen warten.`]
   ];
-  if(nf) msgs.push(["r", `Und ${nf} Fragen hattest du zuletzt falsch. Üben wir die nochmals?`]);
-  app.innerHTML = `<div class="ep-chat"><div class="ep-chatkopf"><span class="epavs"><span><img src="${KIDS}m1.webp" alt=""></span><span><img src="${KIDS}j1.webp" alt=""></span></span><div>Lumi und Milo<small>Gruppenchat · ${s.n ? s.n + " Tage Serie" : "Heute starten"}</small></div></div>
-    <div class="ep-chatbox" id="epChatBox"></div>
-    <div class="ep-chatantw" id="epChatAntw" hidden>
-      <button type="button" class="ephaupt" data-c="tq">📅 ${tq ? "Tagesquiz wiederholen" : "Tagesquiz starten"}</button>
-      <button type="button" data-c="duell">⚔️ Gegen Milo</button>
-      ${nl ? `<button type="button" data-c="live">⚡ Live-Quiz ${slotLabel(nl)}</button>` : ""}
-      <button type="button" data-c="fehler"${nf ? "" : " disabled"}>🎯 Fehler üben</button>
-      <button type="button" data-c="zufall">🎲 Überrasch mich</button>
-      <button type="button" data-c="home">🏠 Startseite</button></div>
-    <div class="ep-chatkids"><img src="${KIDS}m3.webp" alt=""><img src="${KIDS}j3.webp" alt=""></div></div>`;
-  const box = document.getElementById("epChatBox"), antw = document.getElementById("epChatAntw");
+  app.innerHTML = `<div class="ep-chat2">
+    <div class="c2-kopf"><button type="button" class="c2-home" data-c="home">← Startseite</button>
+      <div class="c2-wer"><span class="c2-avs"><img src="${KIDS}m1.webp" alt=""><img src="${KIDS}j1.webp" alt=""></span><div><b>Lumi und Milo</b><small>Gruppenchat · ${s.n ? s.n + " Tage Serie" : "heute starten"}</small></div></div></div>
+    <div class="c2-mitte">
+      <div class="c2-box" id="epChatBox">${msgs.map(([w, t]) => `<div class="c2-msg ${w === "r" ? "r" : ""} c2-wart">${av(w === "r" ? "j1.webp" : "m1.webp")}<div class="c2-bl"><span class="c2-tx">${t}</span><span class="c2-tipp">•••</span></div></div>`).join("")}</div>
+      <img class="c2-kids" src="${KIDS}duo-jubel.webp" alt="">
+    </div>
+    <div class="c2-opts">
+      <button type="button" class="c2-o c2-haupt" data-c="tq"><span class="c2-ic">📅</span><span><b>${tq ? "Tagesquiz wiederholen" : "Tagesquiz starten"}</b><small>${tq ? `Heute ${tq.r} von ${tq.n} richtig` : "5 neue Fragen, jeden Tag"}</small></span><span class="c2-pf">▶</span></button>
+      <button type="button" class="c2-o c2-blau" data-c="duell"><span class="c2-ic">⚔️</span><span><b>Teamkampf</b><small>Duell gegen Freunde</small></span></button>
+      <button type="button" class="c2-o c2-rot" data-c="live"><span class="c2-ic">⚡</span><span><b>Live-Quiz</b><small>${nl ? `${slotLabel(nl)} Uhr · ${h(nl.thema ? nl.thema.name : "Gemischt")}` : "alle 4 Stunden"}</small></span></button>
+      <button type="button" class="c2-o c2-gruen" data-c="fehler"${nf ? "" : " disabled"}><span class="c2-ic">🎯</span><span><b>Fehler üben</b><small>${nf ? `${nf} Fragen nochmals` : "Alles geübt"}</small></span></button>
+      <button type="button" class="c2-o c2-orange" data-c="zufall"><span class="c2-ic">🎲</span><span><b>Überrasch mich</b><small>Zufällige Fragen</small></span></button>
+    </div></div>`;
+  const reihe = [...app.querySelectorAll(".c2-msg")];
   let i = 0;
-  const naechste = () => {
-    if(S.screen !== "chat") return;
-    if(i >= msgs.length){ antw.hidden = false; return; }
-    const [wer, txt] = msgs[i++];
-    const el = document.createElement("div"); el.className = "ep-msg" + (wer === "r" ? " r" : ""); el.innerHTML = `${av(wer === "r" ? "j1.webp" : "m1.webp")}<div class="ept eptippt">•••</div>`; box.appendChild(el);
-    setTimeout(() => { const d = el.querySelector(".ept"); d.classList.remove("eptippt"); d.innerHTML = txt; setTimeout(naechste, ruhig() ? 50 : 500); }, ruhig() ? 50 : 650);
-  };
+  const naechste = () => { if(S.screen !== "chat" || i >= reihe.length) return; const m = reihe[i++]; m.classList.remove("c2-wart"); m.classList.add("c2-tippt");
+    setTimeout(() => { m.classList.remove("c2-tippt"); setTimeout(naechste, ruhig() ? 30 : 350); }, ruhig() ? 30 : 600); };
   naechste();
-  antw.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c;
-    if(c === "tq"){ const l = document.getElementById("lernleiste"); try{ if(tq){ startListe(window.EP_LERNEN.tagesFragen(), "Tagesquiz (Wiederholung)"); if(S.quiz) S.quiz.list = S.quiz.list.slice(0, 5); } else { startListe(window.EP_LERNEN.tagesFragen(), "Tagesquiz vom " + new Date().toLocaleDateString("de-CH")); if(S.quiz){ S.quiz.tagesquiz = heute(); S.quiz.list = S.quiz.list.slice(0, 5); } } }catch(e){ go("home"); } }
-    else if(c === "duell") teamWahl(() => go("duell"), "Duell: Für welches Team spielst du?");
+  app.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c;
+    if(c === "tq"){ try{ if(tq){ startListe(window.EP_LERNEN.tagesFragen(), "Tagesquiz (Wiederholung)"); if(S.quiz) S.quiz.list = S.quiz.list.slice(0, 5); } else { startListe(window.EP_LERNEN.tagesFragen(), "Tagesquiz vom " + new Date().toLocaleDateString("de-CH")); if(S.quiz){ S.quiz.tagesquiz = heute(); S.quiz.list = S.quiz.list.slice(0, 5); } } }catch(e){ go("home"); } }
+    else if(c === "duell") teamWahl(() => go("duell"), "Teamkampf: Für welches Team spielst du?");
     else if(c === "live") liveOeffnen();
     else if(c === "fehler") aktion("fehler");
     else if(c === "zufall") aktion("zufall");
@@ -570,6 +652,7 @@ window.render = function(){
   try{ if(LQ && S.screen !== "livequiz") liveStop(); }catch(e){}
   const r = vorRender.apply(this, arguments);
   try{ document.body.classList.toggle("ep-liegt", S.screen === "profil"); }catch(e){}
+  try{ wocheBonus(); }catch(e){ console.warn("startseite.js", e); }
   return r;
 };
 
@@ -596,5 +679,5 @@ if(typeof vorReels === "function"){
   };
 }
 
-window.EP_START = { team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
+window.EP_START = { WOCHE_TEST_XP, team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
 })();

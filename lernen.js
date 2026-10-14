@@ -53,7 +53,7 @@ function serie(){
 function zufall(seed){ let x = 0; for(const c of seed) x = (x * 31 + c.charCodeAt(0)) >>> 0; return () => { x ^= x << 13; x >>>= 0; x ^= x >> 17; x ^= x << 5; x >>>= 0; return x / 4294967296; }; }
 function tagesFragen(){
   const st = S.stufe || 1, rnd = zufall("easyplay-" + heute() + "-" + st);
-  const pool = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f && +f.l === +st && THEMA[f.t] && !f.img && Array.isArray(f.a) && f.a.length === 4);
+  const pool = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f && (+st === 4 || +f.l === +st) && THEMA[f.t] && !f.img && Array.isArray(f.a) && f.a.length === 4);
   const raus = [], themen = new Set();
   for(let k = 0; k < 400 && raus.length < 5 && pool.length; k++){ const f = pool[Math.floor(rnd() * pool.length)]; if(!themen.has(f.t) && !raus.includes(f)){ raus.push(f); themen.add(f.t); } }
   return raus;
