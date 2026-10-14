@@ -130,14 +130,42 @@ body.dark .ap-held h1{background:linear-gradient(135deg,#A9B8FF,#D9AEFF 55%,#FFA
 .ap-stufen button[aria-pressed="true"] small{color:#fff}
 .ap-info{margin:-4px 6px 0;font:500 12px "Lexend",system-ui,sans-serif;color:var(--ep-mut)}
 .ap-ber{flex:1 1 0;min-height:260px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:10px}
-.ap-ber button{position:relative;border:0;border-radius:24px;padding:14px;color:#fff;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;background:var(--c);background-image:linear-gradient(160deg,rgba(255,255,255,.12),rgba(0,0,0,.18));background-color:var(--c);box-shadow:0 6px 0 rgba(0,0,0,.16),0 18px 30px -18px rgba(27,34,64,.6);overflow:hidden;min-height:0}
+.ap-ber .apb{display:flex;min-height:0;border-radius:24px}
+.ap-ber .apb-liste,.ap-ber .apb-alle{display:none}
+.ap-ber .apb-kopf{flex:1;position:relative;border:0;border-radius:24px;padding:14px;color:#fff;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;background:var(--c);background-image:linear-gradient(160deg,rgba(255,255,255,.12),rgba(0,0,0,.18));background-color:var(--c);box-shadow:0 6px 0 rgba(0,0,0,.16),0 18px 30px -18px rgba(27,34,64,.6);overflow:hidden;min-height:0}
 .ap-ber .apem{position:absolute;top:12px;left:12px;width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:26px}
 .ap-ber .apem svg,.ap-ber .apem img{width:30px;height:30px}
-.ap-ber .apn{position:absolute;top:14px;right:12px;font:600 11px "Lexend",system-ui,sans-serif;padding:4px 8px;border-radius:10px;background:rgba(0,0,0,.18)}
+.ap-ber .apn{position:absolute;top:14px;right:12px;white-space:nowrap;font:600 11px "Lexend",system-ui,sans-serif;padding:4px 8px;border-radius:10px;background:rgba(0,0,0,.18)}
 .ap-ber b{font:700 18px/1.1 "Fredoka",system-ui,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.25)}
 .ap-ber small{font:400 12px/1.3 "Lexend",system-ui,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.25)}
 .ap-unten{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 
+/* Bereich-Karten mit Themen (iPad) */
+@media (min-width:700px){
+  .ap-ber{gap:14px}
+  .ap-ber .apb{flex-direction:column;overflow:hidden;background:var(--ap-card);border:1px solid var(--ap-rand);box-shadow:var(--ap-schatten)}
+  .ap-ber .apb-kopf{flex:none;min-height:118px;border-radius:24px 24px 0 0;box-shadow:none;padding:16px 18px;justify-content:flex-end}
+  .ap-ber .apb-kopf .apem{top:14px;left:16px;width:44px;height:44px;border-radius:14px}
+  .ap-ber .apb-kopf .apn{top:16px;right:16px}
+  .ap-ber .apb-kopf b{font-size:22px}
+  .ap-ber .apb-kopf small{font-size:13px;opacity:.95;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+  .ap-ber .apb-liste{position:relative;flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:14px 14px 4px}
+  .ap-ber .apc{display:inline-flex;align-items:center;gap:7px;max-width:100%;min-height:40px;box-sizing:border-box;padding:6px 12px 6px 8px;border-radius:14px;border:0;cursor:pointer;background:color-mix(in srgb,var(--c) 11%,transparent);color:var(--ep-ink);text-align:left}
+  .ap-ber .apc:hover,.ap-ber .apc:focus-visible{background:color-mix(in srgb,var(--c) 20%,transparent)}
+  .ap-ber .apc .apci{width:26px;height:26px;display:grid;place-items:center;font-size:18px;flex:none}
+  .ap-ber .apc .apci svg,.ap-ber .apc .apci img{width:22px;height:22px}
+  .ap-ber .apc .apcn{font:600 14.5px/1.15 "Fredoka",system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ap-ber .apc small{font:500 11.5px "Lexend",system-ui,sans-serif;color:var(--ep-mut);white-space:nowrap}
+  .ap-ber .apc.leer{opacity:.55}
+  .ap-ber .apc[hidden]{display:none}
+  .ap-ber .apb-kopf{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto auto;align-content:end;column-gap:10px;row-gap:4px}
+  .ap-ber .apb-kopf .apem,.ap-ber .apb-kopf .apn{position:static}
+  .ap-ber .apb-kopf .apn{justify-self:end;align-self:start}
+  .ap-ber .apb-kopf b,.ap-ber .apb-kopf small{grid-column:1/3}
+  .ap-ber .apb-kopf b{margin-top:6px}
+  .ap-ber .apb-alle{display:flex;align-items:center;gap:4px;align-self:flex-start;margin:6px 14px 14px;padding:8px 4px;border:0;background:none;cursor:pointer;font:600 14px "Lexend",system-ui,sans-serif;color:color-mix(in srgb,var(--c) 75%,#1B2240)}
+  body.dark .ap-ber .apb-alle{color:color-mix(in srgb,var(--c) 55%,#fff)}
+}
 /* Duell */
 .ap-bereit{position:relative;flex:1 1 0;min-height:250px;border-radius:28px;padding:18px;box-sizing:border-box;overflow:hidden;background:linear-gradient(150deg,#FFE6D6 0%,#FFD6E8 50%,#E6E0FF 100%);border:1px solid #fff;box-shadow:0 22px 44px -28px rgba(27,34,64,.6);display:flex;flex-direction:column;gap:8px;color:#1B2240}
 body.dark .ap-bereit{background:linear-gradient(150deg,#3A2A55,#2A2550 60%,#22305E);color:#EEF1FF;border-color:rgba(255,255,255,.08)}
@@ -192,6 +220,10 @@ body.dark .ap-bereit{background:linear-gradient(150deg,#3A2A55,#2A2550 60%,#2230
   .ap-heute .ap-woche{grid-column:1}.ap-heute .ap-fakt{grid-column:2;display:flex!important}.ap-heute .ap-weiter{grid-column:3}
   .ap-heute .ap-woche .aptx{height:100%}
   .ap-themen .ap-ber{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .ap-ber .apb-liste{flex-direction:column;flex-wrap:nowrap;gap:6px}
+  .ap-ber .apb-kopf{min-height:148px}
+  .ap-ber .apc{width:100%;min-height:38px}
+  .ap-ber .apc .apcn{flex:1}
   .ap-themen .ap-unten{grid-template-columns:repeat(3,minmax(0,1fr))}
   .ap-duell{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr) auto;gap:16px}
   .ap-duell .ap-bereit{grid-column:1/3;min-height:0}
@@ -252,7 +284,11 @@ function themenHTML(){
     <div class="apk ap-stufen" role="group" aria-label="Deine Stufe">${STUFEN.map(s => `<button type="button" data-s="${s.id}" aria-pressed="${S.stufe === s.id}"><b>${h(s.name)}</b><small>${h(s.alter)}</small></button>`).join("")}</div>
     <p class="ap-info">${h(so.name)}: ${zahl(anz)} Fragen, ${h(SCH[S.stufe] || "")}</p>
     <div class="ap-ber">${BEREICHE.map(b => { let c = 0; try{ c = countBereich(b, S.stufe); }catch(e){} let em = ""; try{ em = ico(b.emo); }catch(e){}
-      return `<button type="button" data-b="${b.id}" style="--c:var(${b.c})"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)}</span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>`; }).join("")}</div>
+      const th = b.themen.filter(t => { try{ return t.menu || [1,2,3].some(l => countThema(t.id, l)); }catch(e){ return true; } });
+      const chips = th.map(t => { let n = 0, ic = ""; try{ n = countThema(t.id, S.stufe); }catch(e){} try{ ic = themaIcon(t); }catch(e){}
+        return `<button type="button" class="apc${n ? "" : " leer"}" data-tt="${h(t.id)}" data-bb="${b.id}"><span class="apci" aria-hidden="true">${ic}</span><span class="apcn">${h(t.name)}</span><small>${n ? zahl(n) : ""}</small></button>`; }).join("");
+      return `<div class="apb" style="--c:var(${b.c})"><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)} Fragen</span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>
+        <div class="apb-liste">${chips}</div><button type="button" class="apb-alle" data-b="${b.id}">Alle ${th.length} Themen ${SV(I.pfeil, 16)}</button></div>`; }).join("")}</div>
     <div class="ap-unten">
       <button type="button" class="apk apzeile" data-x="${zl ? "weiter" : "zufall"}"><span class="apico ic-blau">${SV(zl ? I.play : I.wuerfel, 20)}</span><span class="aptx"><b>${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Weiterspielen" : "Überrasch dich"}</small></span></button>
       <button type="button" class="apk apzeile" data-x="lib"><span class="apico ic-gold">${SV(I.buch, 20)}</span><span class="aptx"><b>Bibliothek</b><small>Lesen und entdecken</small></span></button>
@@ -291,6 +327,8 @@ function einpassen(){
   ap.style.height = Math.max(300, Math.floor(ende - top)) + "px";
   ap.classList.remove("ap-eng");
   if(ap.scrollHeight > ap.clientHeight + 2) ap.classList.add("ap-eng");
+  ap.querySelectorAll(".apb-liste").forEach(l => { const k = [...l.children]; k.forEach(c => c.hidden = false);
+    const max = l.clientHeight - 4; k.forEach(c => { if(c.offsetTop + c.offsetHeight > max) c.hidden = true; }); });
 }
 
 /* ---------- Aktionen ---------- */
@@ -302,6 +340,8 @@ function binden(wurzel){
     else if(a === "lib"){ setLibModus(true); scrollTo(0, 0); }
     else if(ES.aktion) ES.aktion(a, b); }));
   wurzel.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { S.stufe = +b.dataset.s; try{ store.set("ep-stufe", S.stufe); }catch(e){} render(); });
+  wurzel.querySelectorAll("[data-tt]").forEach(b => b.onclick = () => { const t = THEMA[b.dataset.tt]; if(!t) return; S.bereich = BEREICHE.find(x => x.id === b.dataset.bb); S.thema = t;
+    if(t.menu === "submenu"){ S.menu = t.id; go("submenu"); } else if(t.menu) go(t.menu); else if(t.id === "beruf") go("berufmenu"); else go("mode"); });
   wurzel.querySelectorAll("[data-b]").forEach(b => b.onclick = () => { S.bereich = BEREICHE.find(x => x.id === b.dataset.b); go("bereich"); });
   wurzel.querySelectorAll("[data-team]").forEach(b => b.onclick = () => { try{ localStorage.setItem((ES.K && ES.K.team) || "ep-team", JSON.stringify(b.dataset.team)); }catch(e){} render(); });
 }
