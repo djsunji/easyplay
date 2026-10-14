@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-14-9";
+const VERSION = "ep-2026-10-14-10";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -25,7 +25,7 @@ const HUELLE = [
   "bibidx.js",
   "wordmark.webp",
   "img/fragezeichen.webp",
-  "img/app-192.png",
+  "img/app-192.png", "img/favicon-48.png", "img/apple-touch-icon.png",
   "manifest.webmanifest",
   "impressum.html",
   "datenschutz.html",
