@@ -415,14 +415,15 @@ body.dark .ep-w .epmini{background:#FFE34D;color:#1B2240}
 @media (max-width:560px){.ep-liegt .pagehead{padding-right:0;padding-bottom:130px;min-height:0}.ep-liegt .pagehead::after{width:210px;height:130px;top:auto;bottom:0;right:50%;transform:translateX(50%)}}
 @media (max-width:560px){.segs:not(.rlsegs):not(.btabs){flex-wrap:wrap!important;overflow:visible!important}.segs:not(.rlsegs) .seg{white-space:normal!important}}
 /* Qeels: Stories */
-.rstories{position:absolute;z-index:5;top:64px;left:50%;transform:translateX(-50%);width:min(100vw,calc(100dvh * 9 / 16));display:flex;gap:10px;overflow-x:auto;padding:6px 12px 10px;scrollbar-width:none;pointer-events:auto;-webkit-overflow-scrolling:touch}
+.rstories{position:absolute;z-index:5;top:64px;left:50%;transform:translateX(-50%);width:min(100vw,calc(100dvh * 9 / 16));display:flex;gap:8px;overflow-x:auto;overflow-y:visible;padding:6px 12px 8px;scroll-snap-type:x proximity;scroll-padding-left:12px;box-sizing:border-box;scrollbar-width:none;pointer-events:auto;-webkit-overflow-scrolling:touch}
 .rstories::-webkit-scrollbar{display:none}
-.rstories button{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;cursor:pointer;color:#fff;font:700 .7rem "Lexend",system-ui,sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.6);width:64px}
-.rstories .epring{width:54px;height:54px;border-radius:50%;padding:3px;background:conic-gradient(#FF8A3D,#E043B8,#8A3FE0,#3D5AFE,#0FA968,#FF8A3D);position:relative}
-.rstories .epring b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#1B2240;border:2px solid #000;font-size:1.4rem}
+.rstories button{flex:0 0 auto;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:9px;background:none;border:0;cursor:pointer;color:#fff;font:700 .7rem "Lexend",system-ui,sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.6);width:64px}
+.rstories .epring{width:50px;height:50px;flex:none;box-sizing:border-box;border-radius:50%;padding:3px;background:conic-gradient(#FF8A3D,#E043B8,#8A3FE0,#3D5AFE,#0FA968,#FF8A3D);position:relative}
+.rstories .epring b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#fff;border:2px solid #1B2240;font-size:1.5rem;box-sizing:border-box}
+.rstories .epring b svg,.rstories .epring b img{width:26px;height:26px}
 .rstories button.epgesehen .ring{background:rgba(255,255,255,.35)}
-.rstories .epring.epneu::after{content:"NEU";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:#FF3D6E;color:#fff;font-size:.5rem;font-weight:800;border-radius:6px;padding:1px 5px;border:2px solid #000}
-.rstories button span{max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rstories .epring.epneu::after{content:"NEU";position:absolute;z-index:2;left:50%;bottom:-8px;transform:translateX(-50%);background:#FF3D6E;color:#fff;font-size:.55rem;font-weight:800;line-height:1.3;border-radius:7px;padding:1px 6px;border:2px solid #1B2240;white-space:nowrap}
+.rstories button>span:last-child{font-size:.62rem;line-height:1.08;max-width:72px;overflow:hidden;white-space:normal;hyphens:auto;-webkit-hyphens:auto;word-break:break-word;text-align:center;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 @media (min-width:761px){.rstories{top:80px;width:min(100vw,calc((100dvh - 32px) * 9 / 16),480px)}}
 /* Wordmark auf iPad und iPhone weg */
 @media (max-width:1100px),(pointer:coarse) and (max-width:1400px){.topbar .wmimg{display:none!important}.topbar .eplogo{flex:0 0 auto!important;width:auto!important}.topbar .eplogoimg{display:inline-block!important;height:44px!important;width:auto!important}}
@@ -581,7 +582,7 @@ if(typeof vorReels === "function"){
       const nimm = (l, n) => { const o = [...l], aus = []; while(o.length && aus.length < n) aus.push(o.splice(Math.floor(rnd() * o.length), 1)[0]); return aus; };
       const liste = [...nimm(neu, 4).map(t => ({t, k:"neu"})), ...nimm(alt, 3).map(t => ({t, k:""})), ...nimm(gesehen, 3).map(t => ({t, k:"gesehen"}))];
       const d = document.createElement("div"); d.className = "rstories"; d.setAttribute("role", "tablist"); d.setAttribute("aria-label", "Themen");
-      d.innerHTML = liste.map(({t, k}) => `<button type="button" class="${k === "gesehen" ? "epgesehen" : ""}" data-st="${h(t.id)}" title="${h(t.name)}"><span class="epring ${k === "neu" ? "epneu" : ""}"><b>${t.emo && t.emo.length <= 3 ? h(t.emo) : "📚"}</b></span><span>${h(t.name)}</span></button>`).join("");
+      d.innerHTML = liste.map(({t, k}) => `<button type="button" class="${k === "gesehen" ? "epgesehen" : ""}" data-st="${h(t.id)}" title="${h(t.name)}"><span class="epring ${k === "neu" ? "epneu" : ""}"><b>${typeof themaIcon === "function" ? themaIcon(t) : (t.emo && t.emo.length <= 3 ? h(t.emo) : "📚")}</b></span><span>${h(t.name)}</span></button>`).join("");
       o.appendChild(d);
       d.querySelectorAll("[data-st]").forEach(b => b.onclick = () => { const t = THEMA[b.dataset.st]; if(!t) return;
         const fr = alleFragen().filter(f => f.t === t.id && f.q && Array.isArray(f.a) && f.a.length === 4); for(let i = fr.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [fr[i], fr[j]] = [fr[j], fr[i]]; }
