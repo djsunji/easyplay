@@ -592,5 +592,5 @@ if(typeof vorReels === "function"){
   };
 }
 
-window.EP_START = { team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS };
+window.EP_START = { team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
 })();
