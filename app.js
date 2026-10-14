@@ -124,13 +124,15 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 
 /* Heute */
 .ap-held{position:relative;flex:1 1 0;min-height:180px;margin-top:58px;border-radius:28px;padding:18px;box-sizing:border-box;display:flex;box-shadow:0 22px 44px -24px rgba(61,42,184,.75);cursor:default}
+.ap .ap-held{overflow:visible}
+.ap-held::after{border-radius:28px}
 .ap-held::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(60% 70% at 15% 10%,rgba(255,255,255,.28),transparent 60%),radial-gradient(50% 60% at 95% 100%,rgba(255,227,77,.35),transparent 60%);pointer-events:none}
 .ap-held .apht{position:relative;z-index:2;width:56%;display:flex;flex-direction:column;gap:8px}
 .ap-held .aphoi{font:500 14px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.9)}
 .ap-held h1{margin:0;font:800 clamp(30px,8.2vw,66px)/1 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;letter-spacing:-.02em;color:#fff;text-shadow:0 3px 0 rgba(27,34,64,.18)}
 .ap-held .apzahlen{font:500 13px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.88)}
 .ap-held .ap-weissbtn{margin-top:auto;align-self:flex-start}
-.ap-held>img{position:absolute;right:-8px;bottom:0;height:calc(100% + 56px);max-width:50%;object-fit:contain;object-position:bottom right;z-index:1;filter:drop-shadow(0 14px 16px rgba(27,34,64,.35))}
+.ap-held>img{position:absolute;right:-6px;bottom:0;height:calc(100% + 56px);max-width:62%;object-fit:contain;object-position:bottom right;z-index:1;filter:drop-shadow(0 14px 16px rgba(27,34,64,.35))}
 .ap-kopf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px}
 .ap-chips{display:flex;gap:6px}
 .ap-chips span{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 11px;border-radius:15px;font:600 13px "Fredoka",system-ui,sans-serif}
@@ -178,6 +180,10 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap-ber .apn i{font-style:normal;display:none}
 .ap-ber .apb-kopf b,.ap-ber .apb-kopf small{min-width:0;overflow-wrap:anywhere}
 .ap-unten{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ap-unten>*{grid-column:1/-1}
+@media (min-width:700px){.ap-unten>*{grid-column:auto}}
+@media (max-width:699px){.ap-held>img{max-width:54%}}
+.ap-unten small{line-height:1.3}
 
 /* Duell */
 .ap-bereit{position:relative;flex:1 1 0;min-height:240px;border-radius:28px;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;cursor:default;background:linear-gradient(150deg,#F0466E 0%,#E043B8 50%,#8A3FE0 100%)!important}
@@ -270,10 +276,11 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   #epTabs{left:16px;top:16px;bottom:16px;right:auto;width:108px;height:auto;max-width:none;margin:0;grid-template-columns:none;grid-template-rows:repeat(4,72px) 1fr;align-content:start;padding:16px 10px;border-radius:30px}
   #epTabs button{font-size:12px;border-radius:22px}
   #epTabs button[data-tab="profil"]{align-self:end;height:88px}
-  .ap-heute{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1.9fr) auto minmax(0,1fr);gap:16px}
-  .ap-heute .ap-held{grid-column:1/3;grid-row:1/2;min-height:0}
+  .ap-heute{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto minmax(0,1.9fr) minmax(0,1fr);gap:16px}
+  .ap-heute .ap-gruss{grid-column:1/-1;grid-row:1;margin-bottom:-40px}
+  .ap-heute .ap-held{grid-column:1/3;grid-row:2;min-height:0;margin-top:40px}
   .ap-heute .ap-kopf{display:none}
-  .ap-heute .ap-tag{grid-column:3;grid-row:1;grid-template-columns:1fr;grid-auto-rows:1fr;margin-top:80px}
+  .ap-heute .ap-tag{grid-column:3;grid-row:2;grid-template-columns:1fr;grid-auto-rows:1fr;margin-top:40px}
   .ap-heute .ap-tag button{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;row-gap:2px;align-content:center;min-height:0}
   .ap-heute .ap-tag button .apico{grid-row:1/3}
   .ap-heute .ap-woche,.ap-heute .ap-fakt,.ap-heute .ap-weiter{grid-row:3;height:100%;align-items:flex-start}
@@ -454,7 +461,7 @@ function heuteHTML(){
     </div>
     ${wo && wo.thema ? `<button type="button" class="apf f-teal ap-woche" data-x="wochebild"><span class="aptx"><small>Wochen-Challenge</small><b>${wo.fertig ? "Geschafft: " : "Thema der Woche: "}${h(wo.thema.name)}</b><span class="apbar"><i style="width:${wp}%"></i></span><span class="apz">${wo.r} von ${wo.ziel} richtig · noch ${tageRest} ${tageRest === 1 ? "Tag" : "Tage"}</span></span>${SV(I.pfeil, 22)}</button>` : ""}
     ${fk ? `<button type="button" class="apf f-navy ap-fakt" data-x="faktlib" data-t="${h(fk.t)}">${SV(I.birne, 22)}<span class="aptx"><span class="aplbl">Wusstest du?</span><p>${h(fk.text)}</p><em>In der Bibliothek lesen</em></span></button>` : ""}
-    <button type="button" class="apf f-lila apzeile ap-weiter" data-x="${zl ? "weiter" : "zufall"}"><span class="aptx"><span class="aplbl">${zl ? "Weiterspielen" : "Überrasch dich"}</span><b style="font-size:22px">${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Da weitermachen, wo du warst" : "Fragen aus allen Themen"}</small></span><span class="apico">${SV(I.play, 20)}</span></button>
+    <button type="button" class="apf f-lila apzeile ap-weiter" data-x="${zl ? "weiter" : "zufall"}"><span class="aptx"><span class="aplbl">${zl ? "Weiterspielen" : "Überrasch dich"}</span><b style="font-size:22px">${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Da weitermachen, wo du warst" : "Gemischte Fragen aus allen Themen deiner Stufe. Jedes Mal etwas Neues!"}</small></span><span class="apico">${SV(I.play, 20)}</span></button>
   </div>`;
 }
 function themenHTML(){
@@ -473,9 +480,9 @@ function themenHTML(){
       return `<div class="apb" style="--c:var(${b.c})"><span class="apwm" aria-hidden="true">${em}</span><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)}<i> Fragen</i></span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>
         <div class="apb-liste">${chips}</div><button type="button" class="apb-alle" data-b="${b.id}">Alle ${th.length} Themen ${SV(I.pfeil, 16)}</button></div>`; }).join("")}</div>
     <div class="ap-unten">
-      <button type="button" class="apf f-lila apzeile" data-x="${zl ? "weiter" : "zufall"}"><span class="apico">${SV(zl ? I.play : I.wuerfel, 20)}</span><span class="aptx"><b>${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Weiterspielen" : "Überrasch dich"}</small></span></button>
+      <button type="button" class="apf f-lila apzeile" data-x="${zl ? "weiter" : "zufall"}"><span class="apico">${SV(zl ? I.play : I.wuerfel, 20)}</span><span class="aptx"><b>${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Da weitermachen, wo du warst" : "Gemischte Fragen aus allen Themen deiner Stufe. Jedes Mal etwas Neues!"}</small></span></button>
       <button type="button" class="apf f-gold apzeile" data-x="lib"><span class="apico">${SV(I.buch, 20)}</span><span class="aptx"><b>Bibliothek</b><small>Lesen und entdecken</small></span></button>
-      ${zl ? `<button type="button" class="apf f-blau apzeile ap-weiter" data-x="zufall"><span class="apico">${SV(I.wuerfel, 20)}</span><span class="aptx"><b>Zufällige Fragen</b><small>Überrasch dich</small></span></button>` : ""}
+      ${zl ? `<button type="button" class="apf f-blau apzeile ap-weiter" data-x="zufall"><span class="apico">${SV(I.wuerfel, 20)}</span><span class="aptx"><b>Zufällige Fragen</b><small>Gemischte Fragen aus allen Themen deiner Stufe. Jedes Mal etwas Neues!</small></span></button>` : ""}
     </div>
   </div>`;
 }
