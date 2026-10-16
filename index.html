@@ -4015,13 +4015,24 @@ const isDark = () => (matchMedia("(prefers-color-scheme: dark)").matches && docu
 function applyDark(){ document.body.classList.toggle("dark", isDark()); }
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", ()=>render());
 
-function pool(themaId){ const all=[...FRAGEN, ...S.extra]; if(themaId==="alle") return all; if(themaId==="geschichte") return GESCH_IDS.flatMap(x=>pool(x)); if(THEMA[themaId]?.kids) return THEMA[themaId].kids.flatMap(k=>pool(k)); if(themaId==="bilder") return all.filter(f=>f.img); if(themaId==="kt_alle") return all.filter(f=>String(f.t).startsWith("kt_")); return all.filter(f=>f.t===themaId); }
+/* Fragen nach Thema indexieren (einmal, bis sich die Fragen ändern): macht Startseite, Themen und Bibliothek viel schneller */
+const POOLIDX = { n:-1, map:null, all:null, counts:null };
+function poolIdx(){
+  const n = FRAGEN.length * 1000003 + S.extra.length;
+  if(POOLIDX.n !== n || !POOLIDX.map){
+    const m = new Map(), all = [...FRAGEN, ...S.extra], bilder = [], kt = [];
+    for(const f of all){ let a = m.get(f.t); if(!a){ a = []; m.set(f.t, a); } a.push(f); if(f.img) bilder.push(f); if(String(f.t).startsWith("kt_")) kt.push(f); }
+    POOLIDX.map = m; POOLIDX.all = all; POOLIDX.bilder = bilder; POOLIDX.kt = kt; POOLIDX.n = n; POOLIDX.counts = new Map();
+  }
+  return POOLIDX;
+}
+function pool(themaId){ const P = poolIdx(); if(themaId==="alle") return P.all; if(themaId==="geschichte") return GESCH_IDS.flatMap(x=>pool(x)); if(THEMA[themaId]?.kids) return THEMA[themaId].kids.flatMap(k=>pool(k)); if(themaId==="bilder") return P.bilder; if(themaId==="kt_alle") return P.kt; return P.map.get(themaId) || []; }
 function allCount(){ return FRAGEN.length + S.extra.length; }
 const byL = (arr,l) => (l && l!==4) ? arr.filter(f=>f.l===l) : arr;
-function countThema(id,l){ if(id==="geschichte") return GESCH_IDS.reduce((n,x)=>n+byL(pool(x),l).length,0); return byL(pool(id),l).length; }
-function countIds(ids,l){ return ids.reduce((n,x)=>n+byL(pool(x),l).length,0); }
+function countThema(id,l){ const P = poolIdx(), k = id + "|" + (l||0); if(P.counts.has(k)) return P.counts.get(k); const n = id==="geschichte" ? GESCH_IDS.reduce((n,x)=>n+byL(pool(x),l).length,0) : byL(pool(id),l).length; P.counts.set(k, n); return n; }
+function countIds(ids,l){ return ids.reduce((n,x)=>n+countThema(x,l),0); }
 function countBereich(b,l){ return b.themen.reduce((n,t)=>n+countThema(t.id,l),0); }
-function allCountL(l){ return byL([...FRAGEN, ...S.extra],l).length; }
+function allCountL(l){ const P = poolIdx(), k = "*|" + (l||0); if(P.counts.has(k)) return P.counts.get(k); const n = byL(P.all,l).length; P.counts.set(k, n); return n; }
 const STUFE_ALLE = {id:4, name:"Alle Stufen", alter:"alle Fragen"};
 function stufeObj(id){ const k=id??S.stufe; if(k===4) return STUFE_ALLE; return STUFEN.find(s=>s.id===k) || STUFEN[0]; }
 const STUFE_EMO = {1:ico("sprout"),2:ico("rocket"),3:ico("medal"),4:ico("globe")};
@@ -5561,7 +5572,13 @@ async function ladeFragenDB(){
   const ok = (rows||[]).filter(f=>f && f.t && f.q && Array.isArray(f.a) && f.a.length===4 && f.l>=1 && f.l<=3);
   for(let i=0;i<ok.length;i++) ok[i]=frageOhneStrich(ok[i]);
   if(!ok.length && !window.claude){ try{ await ersatzFragenLaden(); }catch(e){} }
-  if(ok.length){ FRAGEN.length = 0; FRAGEN.push(...ok); const da=new Set(ok.map(f=>f.img).filter(Boolean)); FRAGEN.push(...LOGOFRAGEN.filter(f=>!da.has(f.img))); render(); }
+  if(ok.length){ FRAGEN.length = 0; FRAGEN.push(...ok); const da=new Set(ok.map(f=>f.img).filter(Boolean)); FRAGEN.push(...LOGOFRAGEN.filter(f=>!da.has(f.img))); render(); buecherVorwaermen(); }
+}
+/* Bibliothek im Leerlauf vorbereiten, damit das erste Öffnen sofort geht */
+function buecherVorwaermen(){
+  const liste = (typeof BUECHER !== "undefined" ? BUECHER : []).map(b=>b.id); let i = 0;
+  const schritt = (dl) => { while(i < liste.length && (!dl || dl.timeRemaining() > 8)){ try{ buchDaten(liste[i]); }catch(e){} i++; } if(i < liste.length) (window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>50}),200)))(schritt, {timeout:3000}); };
+  (window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>50}),1500)))(schritt, {timeout:5000});
 }
 
 

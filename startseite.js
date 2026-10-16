@@ -462,6 +462,13 @@ body.dark .ep-w .epmini{background:#FFE34D;color:#1B2240}
 .rstories .epring.epneu::after{content:"NEU";position:absolute;z-index:2;left:50%;bottom:-8px;transform:translateX(-50%);background:#FF3D6E;color:#fff;font-size:.55rem;font-weight:800;line-height:1.3;border-radius:7px;padding:1px 6px;border:2px solid #1B2240;white-space:nowrap}
 .rstories button>span:last-child{font-size:.62rem;line-height:1.08;max-width:72px;overflow:hidden;white-space:normal;hyphens:auto;-webkit-hyphens:auto;word-break:break-word;text-align:center;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 @media (min-width:761px){.rstories{top:80px;width:min(100vw,calc((100dvh - 32px) * 9 / 16),480px)}}
+/* Profil-Code */
+.ep-code{display:grid;grid-template-columns:auto auto auto;align-items:center;gap:6px 12px;max-width:1100px;margin:-10px auto 18px;background:rgba(255,255,255,.92);border-radius:20px;padding:12px 18px;color:#1B2240;box-shadow:0 16px 30px -20px rgba(27,34,64,.5)}
+.ep-code .ep-codelbl{font-weight:700;color:#5D5C80;font-size:.9rem}
+.ep-code b{font:800 1.5rem "Bricolage Grotesque",sans-serif;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.ep-code small{grid-column:1/-1;color:#5D5C80;font-size:.82rem}
+.ep-codekopie{border:0;border-radius:999px;background:linear-gradient(135deg,#3D5AFE,#8A3FE0);color:#fff;font:700 .85rem Lexend,system-ui,sans-serif;padding:7px 14px;cursor:pointer;justify-self:start}
+body.ep-app .ep-code{margin:0 0 12px}
 /* Erwachsenenmodus */
 body.ep-erw .epduo,body.ep-erw .epname,body.ep-erw .epglow,body.ep-erw .epkids,body.ep-erw .ep-chatkids,body.ep-erw .st-kids,body.ep-erw .st-libkids,body.ep-erw .lq-kids,body.ep-erw .c2-kids,body.ep-erw .ep-w img,body.ep-erw .ep-team img,body.ep-erw .ep-turm img,body.ep-erw .ep-liegt .pagehead::after,body.ep-erw .xpflug,body.ep-erw .konf,body.ep-erw .lvup .konf,body.ep-erw .ap-held>img,body.ep-erw .ap-bereit>img,body.ep-erw .ap-konto>img,body.ep-erw .ap-top img,body.ep-erw .wk2-kids,body.ep-erw .epbereit-duo,body.ep-erw .lq-team img,body.ep-erw .ep-testk img,body.ep-erw .c2-avs,body.ep-erw .c2-av,body.ep-erw .ep-msg .epav,body.ep-erw #epTabs .tabav,body.ep-erw .ap-chatkids,body.ep-erw .hs-kid{display:none!important}
 body.ep-erw .ep-liegt .pagehead{padding-right:0!important;min-height:0!important}
@@ -711,6 +718,33 @@ function renderChat(){
     else if(c === "zufall") aktion("zufall");
     else go("home"); });
 }
+
+
+/* ---------- Profil-Code: 8 Ziffern, automatisch pro Profil. Für die spätere Elternansicht. ---------- */
+function profilCode(){
+  if(!S.profil) return "";
+  if(!/^\d{8}$/.test(String(S.profil.code || ""))){
+    let c = ""; try{ const a = new Uint32Array(2); crypto.getRandomValues(a); c = String(10000000 + (a[0] % 90000000)); }catch(e){ c = String(10000000 + Math.floor(Math.random() * 90000000)); }
+    S.profil = {...S.profil, code:c}; try{ store.set("ep-profil", S.profil); }catch(e){}
+  }
+  return String(S.profil.code);
+}
+const vorProfilCode = window.renderProfil;
+if(typeof vorProfilCode === "function"){
+  window.renderProfil = function(){
+    const r = vorProfilCode.apply(this, arguments);
+    try{ const app = document.getElementById("app"); if(S.screen === "profil" && app && S.profil && !document.getElementById("epCode")){
+      const code = profilCode(), kopf = app.querySelector(".pagehead");
+      const d = document.createElement("div"); d.id = "epCode"; d.className = "ep-code";
+      d.innerHTML = `<span class="ep-codelbl">🔑 Profil-Code</span><b>${code.slice(0, 4)} ${code.slice(4)}</b><button type="button" class="ep-codekopie">Kopieren</button><small>Mit diesem Code können deine Eltern später deinen Lernfortschritt ansehen.</small>`;
+      d.querySelector("button").onclick = async () => { try{ await navigator.clipboard.writeText(code); d.querySelector("button").textContent = "✅ Kopiert"; }catch(e){} };
+      (kopf || app).after(d);
+      const lz = document.getElementById("lzProfil"); if(lz) lz.remove();
+    } }catch(e){ console.warn("startseite.js code", e); }
+    return r;
+  };
+}
+window.EP_PROFILCODE = profilCode;
 
 /* ---------- Menü: Erwachsenenmodus ---------- */
 const vorNav = window.renderNav;

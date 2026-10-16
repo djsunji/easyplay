@@ -661,7 +661,7 @@ function profilHTML(){
   return `<div class="ap ap-profil">
     <div class="ap-titel"><h2 class="auf">Profil</h2></div>
     <section class="apf f-held ap-konto">${p
-      ? `<div class="apkn"><span class="apav">${av}</span><b class="apgross">${h(p.name || "")}</b><p>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="meinprofil">Mein Profil</button></div>`
+      ? `<div class="apkn"><span class="apav">${av}</span><b class="apgross">${h(p.name || "")}</b><p>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</p><p>🔑 Code ${(() => { try{ const c = window.EP_PROFILCODE(); return c.slice(0, 4) + " " + c.slice(4); }catch(e){ return ""; } })()}</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="meinprofil">Mein Profil</button></div>`
       : `<div class="apkn"><b class="apgross">Melde dich an</b><p>Dann bleiben deine Punkte, deine Serie und deine Abzeichen gespeichert.</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="login">Anmelden</button><button type="button" class="ap-gelbbtn" data-x="register">Registrieren</button></div>`}
       <img src="${KIDS}m3.webp" alt=""></section>
     <div class="ap-stats">

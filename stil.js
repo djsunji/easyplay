@@ -599,3 +599,45 @@ body.ep-app .wk2-zurueck{display:none}
 `;
 document.head.appendChild(css);
 })();
+
+/* ================= Qeels: Teilen über das System-Menü, lange Texte kleiner ================= */
+(function(){
+"use strict";
+if(typeof window.rlTeilen === "function" && typeof window.qeelLink === "function"){
+  const vor = window.rlTeilen;
+  window.rlTeilen = function(it){
+    const coarse = matchMedia("(pointer: coarse)").matches;
+    if(navigator.share && coarse){
+      let link = "", text = ""; try{ link = qeelLink(it); text = it.share || "easyplay Qeel"; }catch(e){}
+      if(link){ navigator.share({title:"easyplay", text, url:link}).catch(e => { if(e && e.name !== "AbortError") vor.call(this, it); }); return; }
+    }
+    return vor.apply(this, arguments);
+  };
+}
+const css = document.createElement("style"); css.id = "ep-qeels3-css";
+css.textContent = `
+#reels .rfrage{overflow-wrap:anywhere}
+#reels .rfrage.lang{font-size:clamp(1.05rem,3.6vh,1.5rem)!important;line-height:1.2}
+#reels .rfrage.sehrlang{font-size:clamp(.95rem,3vh,1.25rem)!important;line-height:1.2}
+#reels .ropt.lang{font-size:.86rem!important;min-height:42px!important;padding:6px 10px!important}
+#reels .ropt.sehrlang{font-size:.78rem!important;min-height:38px!important;padding:5px 9px!important;line-height:1.2}
+#reels .rinhalt{padding-right:84px!important;box-sizing:border-box}
+#reels .rinhalt>*{max-width:100%}
+@media (max-width:420px){#reels .rinhalt{padding-right:78px!important}}
+`;
+document.head.appendChild(css);
+function messen(){ const o = document.getElementById("reels"); if(!o) return;
+  o.querySelectorAll(".rfrage").forEach(f => { const n = (f.textContent || "").length; f.classList.toggle("sehrlang", n > 140); f.classList.toggle("lang", n > 80 && n <= 140); });
+  o.querySelectorAll(".ropts").forEach(g => { const max = Math.max(0, ...[...g.querySelectorAll(".ropt")].map(x => (x.textContent || "").length)); g.querySelectorAll(".ropt").forEach(x => { x.classList.toggle("sehrlang", max > 60); x.classList.toggle("lang", max > 34 && max <= 60); }); });
+  // Wenn ein Qeel trotzdem höher ist als der Bildschirm, Schrift nochmals verkleinern
+  o.querySelectorAll(".rinhalt").forEach(c => { const sek = c.closest("section") || c.parentElement; if(!sek) return; let k = 0;
+    while(k < 3 && c.scrollHeight > c.clientHeight + 4){ k++; c.style.fontSize = (100 - k * 8) + "%"; const f = c.querySelector(".rfrage"); if(f) f.style.fontSize = (1.3 - k * .15) + "rem"; } });
+}
+const vor = window.oeffneReels;
+if(typeof vor === "function"){
+  let beob = null;
+  window.oeffneReels = function(){ const r = vor.apply(this, arguments);
+    try{ const o = document.getElementById("reels"); messen(); if(o && !beob){ beob = new MutationObserver(() => { beob.disconnect(); try{ messen(); }finally{ beob.observe(o, {childList:true, subtree:true}); } }); beob.observe(o, {childList:true, subtree:true}); } }catch(e){}
+    return r; };
+}
+})();
