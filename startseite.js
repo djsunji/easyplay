@@ -635,6 +635,11 @@ function startseiteHTML(){
 function aktion(a, el){
   if(a === "zufall"){ const b = document.getElementById("zufall"); if(b){ b.click(); return; } try{ startListe((typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => (S.stufe === 4 || f.l === S.stufe) && Array.isArray(f.a) && f.a.length === 4), "Zufällige Fragen"); }catch(e){} }
   else if(a === "chat") go("chat");
+  else if(a === "mix"){ // Alles gemischt: aus jedem Bereich gleich viele Fragen der gewählten Stufe
+    try{ const alle = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => (S.stufe === 4 || f.l === S.stufe) && Array.isArray(f.a) && f.a.length === 4 && THEMA[f.t]);
+      const je = Math.ceil(25 / BEREICHE.length), raus = [];
+      BEREICHE.forEach(b => { const p = alle.filter(f => THEMA[f.t].bereich && THEMA[f.t].bereich.id === b.id); for(let k = 0; k < je && p.length; k++) raus.push(p.splice(Math.floor(Math.random() * p.length), 1)[0]); });
+      if(raus.length) startListe(raus, "Alles gemischt"); else aktion("zufall"); }catch(e){ aktion("zufall"); } }
   else if(a === "lib"){ try{ setLibModus(true); scrollTo(0, 0); }catch(e){} }
   else if(a === "erw"){ erwachsenSetzen(!erwachsen()); }
   else if(a === "tagesquiz"){ try{ window.EP_LERNEN_TQ(); }catch(e){ go("chat"); } }

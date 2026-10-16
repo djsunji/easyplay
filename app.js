@@ -339,6 +339,94 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap-sw{position:relative;flex:none;width:50px;height:30px;border-radius:15px;background:rgba(255,255,255,.3);transition:background .25s}
 .ap-sw i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:12px;background:#fff;transition:left .25s}
 .ap-ersch[aria-pressed="true"] .ap-sw{background:#12B76A}.ap-ersch[aria-pressed="true"] .ap-sw i{left:23px}
+
+/* ---------- Bereich-Seite: Stufen passen, Themen als wischbare Seiten ---------- */
+body.ep-app .st-kopf .sbtns button{font-size:.72rem!important;padding:4px 2px!important;min-height:36px;white-space:normal!important;line-height:1.05;letter-spacing:0}
+body.ep-app .st-kopf .bhead h1{font-size:clamp(1.3rem,5.4vw,1.8rem)!important}
+body.ep-app .ap-tp{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:12px;margin:0 -2px;padding:0 2px 4px;overscroll-behavior-x:contain}
+body.ep-app .ap-tp::-webkit-scrollbar{display:none}
+body.ep-app .ap-tp .ap-tpage{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start}
+body.ep-app .ap-tp .thema{min-height:0!important;padding:12px 12px 10px!important;border-radius:20px!important;display:grid!important;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:10px;row-gap:2px;align-items:center;text-align:left}
+body.ep-app .ap-tp .thema .emo{width:44px!important;height:44px!important;font-size:1.6rem!important;border-radius:14px!important;grid-row:1/3;margin:0!important;transform:none!important}
+body.ep-app .ap-tp .thema .emo svg,body.ep-app .ap-tp .thema .emo img{width:26px;height:26px}
+body.ep-app .ap-tp .thema>span:not(.emo){display:contents}
+body.ep-app .ap-tp .thema b{font-size:.98rem!important;line-height:1.15!important;white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+body.ep-app .ap-tp .thema span.t{display:none!important}
+body.ep-app .ap-tp .thema span.n{margin:0!important;font-size:.7rem!important;padding:2px 8px!important;justify-self:start;background:rgba(15,20,48,.3)!important}
+body.ep-app .ap-tp .thema .step{display:none}
+body.ep-app .ap-tp .thema::before{display:none}
+body.ep-app .ap-tpunkte{display:flex;justify-content:center;gap:5px;height:14px;align-items:center;margin:4px 0 0}
+body.ep-app .ap-tpunkte i{width:6px;height:6px;border-radius:3px;background:rgba(27,34,64,.35);transition:width .25s,background .25s}
+body.ep-app .ap-tpunkte i.an{width:18px;background:#1B2240}
+body.ep-app.ep-s-bereich,body.ep-app.ep-s-submenu{overflow:hidden}
+@media (min-width:700px){body.ep-app .ap-tp .ap-tpage{grid-template-columns:repeat(3,minmax(0,1fr))}body.ep-app .ap-tp .thema b{font-size:1.1rem!important}}
+
+/* ---------- Quiz: alles auf einem Bildschirm ---------- */
+body.ep-app.ep-s-quiz .wrap{padding-top:calc(8px + env(safe-area-inset-top))!important}
+body.ep-app.ep-s-quiz .eplegal{display:none}
+body.ep-app.ep-s-quiz .qtop{margin:0 0 8px;gap:8px}
+body.ep-app.ep-s-quiz .qtop .count{font-size:.82rem;background:rgba(27,34,64,.62);color:#fff;border-radius:999px;padding:4px 12px;font-weight:700;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+body.ep-app.ep-s-quiz .qtop .timer{background:rgba(27,34,64,.62);color:#fff;border-radius:999px;padding:4px 12px;font-weight:700}
+body.ep-app.ep-s-quiz .qtop .bar{height:8px;border-radius:4px;background:rgba(255,255,255,.55);flex:1 1 100%;order:-1}
+body.ep-app.ep-s-quiz .qnav{display:grid;grid-template-columns:48px 48px 1fr 48px auto;gap:6px;margin:0 0 10px;background:rgba(27,34,64,.62);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:5px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+body.ep-app.ep-s-quiz .qnbtn{min-height:40px!important;border:0!important;border-radius:999px!important;background:transparent!important;color:#fff!important;font:700 .9rem "Lexend",system-ui,sans-serif!important;padding:0 6px!important;box-shadow:none!important;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
+body.ep-app.ep-s-quiz .qnbtn .tlab{display:none}
+body.ep-app.ep-s-quiz .qnbtn.mark.on{background:rgba(255,227,77,.25)!important}
+body.ep-app.ep-s-quiz .qnbtn#qGrid{background:rgba(255,255,255,.12)!important}
+body.ep-app.ep-s-quiz .qnbtn.abgabe{background:linear-gradient(135deg,#FFE15A,#FFC23A)!important;color:#1B2240!important;padding:0 14px!important}
+body.ep-app.ep-s-quiz .qnbtn:disabled{opacity:.35}
+body.ep-app.ep-s-quiz .qgrid{margin-bottom:10px}
+body.ep-app.ep-s-quiz .card{padding:14px 14px 12px!important;border-radius:24px!important}
+body.ep-app.ep-s-quiz .tabs{margin-bottom:10px;gap:6px}
+body.ep-app.ep-s-quiz .tabbtn{min-height:42px;font-size:.92rem;border-width:2px;border-radius:12px}
+body.ep-app.ep-s-quiz .speakrow{display:flex;justify-content:flex-end;margin:0 0 4px}
+body.ep-app.ep-s-quiz .speak{min-height:34px;padding:4px 10px;font-size:.8rem;border-width:1.5px;border-radius:999px}
+body.ep-app.ep-s-quiz .modebadge{font-size:.78rem;margin-bottom:6px}
+body.ep-app.ep-s-quiz .question{font-size:clamp(1.05rem,4.6vw,1.35rem)!important;margin:0 0 12px;text-align:center}
+body.ep-app.ep-s-quiz .qimg{max-height:120px;margin-bottom:8px}
+body.ep-app.ep-s-quiz .qimg svg,body.ep-app.ep-s-quiz .qimg img{max-height:120px;width:auto}
+body.ep-app.ep-s-quiz .answers{gap:8px}
+body.ep-app.ep-s-quiz .ans{min-height:50px!important;padding:8px 12px!important;font-size:.98rem!important;border-radius:14px!important;border-width:0!important;box-shadow:0 4px 0 rgba(0,0,0,.18)!important;color:#fff!important;gap:10px}
+body.ep-app.ep-s-quiz .ans:nth-child(1){background:linear-gradient(135deg,#5B7CFF,#3D5AFE)!important}
+body.ep-app.ep-s-quiz .ans:nth-child(2){background:linear-gradient(135deg,#FF6FB5,#E043B8)!important}
+body.ep-app.ep-s-quiz .ans:nth-child(3){background:linear-gradient(135deg,#2FD1A7,#12A57F)!important}
+body.ep-app.ep-s-quiz .ans:nth-child(4){background:linear-gradient(135deg,#FFB347,#FF8A1A)!important}
+body.ep-app.ep-s-quiz .ans .key{background:rgba(255,255,255,.25)!important;color:#fff!important;border:0!important;width:30px;height:30px;min-width:30px;border-radius:9px;font-size:.9rem}
+body.ep-app.ep-s-quiz .ans.right{box-shadow:0 0 0 3px #12B76A,0 4px 0 rgba(0,0,0,.18)!important}
+body.ep-app.ep-s-quiz .ans.wrong{opacity:.45}
+body.ep-app.ep-s-quiz .ans:disabled:not(.right):not(.wrong){opacity:.45}
+body.ep-app.ep-s-quiz .tasthinweis,body.ep-app.ep-s-quiz .qnr{display:none!important}
+body.ep-app.ep-s-quiz .feedback{margin-top:10px;padding:10px 12px;border-radius:16px}
+body.ep-app.ep-s-quiz .feedback p{margin:0 0 6px;font-size:.95rem}
+body.ep-app.ep-s-quiz .feedback .pdetail{font-size:.78rem}
+body.ep-app.ep-s-quiz .feedback .row{gap:8px}
+body.ep-app.ep-s-quiz .feedback .big{min-height:44px;padding:8px 14px;font-size:.92rem;border-radius:12px;flex:1}
+body.ep-app.ep-s-quiz .explain{padding:0}
+body.ep-app.ep-s-quiz .explain .pic{display:none}
+body.ep-app.ep-s-quiz .explain p{font-size:.95rem;margin:6px 0}
+body.ep-app.ep-s-quiz .explain .merke{font-size:.92rem;padding:8px 12px}
+body.ep-app.ep-s-quiz .explain .big{min-height:44px;font-size:.92rem}
+@media (max-height:720px){body.ep-app.ep-s-quiz .question{font-size:1rem!important;margin-bottom:8px}body.ep-app.ep-s-quiz .ans{min-height:44px!important;font-size:.9rem!important}}
+
+/* ---------- Zusammenfassung: kompakt ---------- */
+body.ep-app.ep-s-done .done{padding:14px 12px!important}
+body.ep-app.ep-s-done .done h1{font-size:1.5rem!important;margin:4px 0}
+body.ep-app.ep-s-done .stars{font-size:2rem;margin:2px 0}
+body.ep-app.ep-s-done .done>p{font-size:.9rem;margin:4px 0}
+body.ep-app.ep-s-done .pbilanz{gap:6px;font-size:.8rem}
+body.ep-app.ep-s-done .done .row{gap:8px;margin:10px 0}
+body.ep-app.ep-s-done .done .row .big{min-height:44px;padding:8px 12px;font-size:.9rem;flex:1 1 auto;border-radius:12px}
+body.ep-app.ep-s-done .summary{margin-top:10px}
+body.ep-app.ep-s-done .summary h2{font-size:1.05rem;margin:0 0 6px}
+body.ep-app.ep-s-done .sumline .pill{font-size:.85rem;padding:4px 10px}
+body.ep-app.ep-s-done .review{margin-top:8px;gap:6px}
+body.ep-app.ep-s-done .review[hidden]{display:none}
+body.ep-app.ep-s-done .rev{padding:8px 10px;border-radius:12px;font-size:.85rem;gap:2px}
+body.ep-app.ep-s-done .rev p,body.ep-app.ep-s-done .rev .revex{display:none}
+body.ep-app.ep-s-done .rev .revhead b{font-weight:600}
+body.ep-app.ep-s-done .ap-revbtn{width:100%;min-height:44px;border:2px solid var(--line);border-radius:12px;background:var(--surface);font:700 .92rem "Lexend",system-ui,sans-serif;color:var(--ink);margin-top:8px}
+body.ep-app.ep-s-done .more{display:none}
+
 /* Begrüssung oben auf Heute */
 .ap-gruss{display:flex;flex-direction:column;gap:2px;padding:0 4px;margin-bottom:-46px;position:relative;z-index:0}
 .ap-gruss b{font:800 30px/1.05 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
@@ -514,9 +602,9 @@ function themenHTML(){
       return `<div class="apb" style="--c:var(${b.c})"><span class="apwm" aria-hidden="true">${em}</span><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)}<i> Fragen</i></span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>
         <div class="apb-liste">${chips}</div><button type="button" class="apb-alle" data-b="${b.id}">Alle ${th.length} Themen ${SV(I.pfeil, 16)}</button></div>`; }).join("")}</div>
     <div class="ap-unten">
-      <button type="button" class="apf f-lila apzeile" data-x="${zl ? "weiter" : "zufall"}"><span class="apico">${SV(zl ? I.play : I.wuerfel, 20)}</span><span class="aptx"><b>${h(zl ? zl.name : "Zufällige Fragen")}</b><small>${zl ? "Da weitermachen, wo du warst" : "Gemischte Fragen aus allen Themen deiner Stufe. Jedes Mal etwas Neues!"}</small></span></button>
+      <button type="button" class="apf f-lila apzeile" data-x="mix"><span class="apico">${SV(I.wuerfel, 20)}</span><span class="aptx"><b>Alles gemischt</b><small>Fragen aus jedem Bereich, passend zu ${h(so.name)}</small></span></button>
       <button type="button" class="apf f-gold apzeile" data-x="lib"><span class="apico">${SV(I.buch, 20)}</span><span class="aptx"><b>Bibliothek</b><small>Lesen und entdecken</small></span></button>
-      ${zl ? `<button type="button" class="apf f-blau apzeile ap-weiter" data-x="zufall"><span class="apico">${SV(I.wuerfel, 20)}</span><span class="aptx"><b>Zufällige Fragen</b><small>Gemischte Fragen aus allen Themen deiner Stufe. Jedes Mal etwas Neues!</small></span></button>` : ""}
+      ${zl ? `<button type="button" class="apf f-blau apzeile ap-weiter" data-x="weiter"><span class="apico">${SV(I.play, 20)}</span><span class="aptx"><b>${h(zl.name)}</b><small>Da weitermachen, wo du warst</small></span></button>` : ""}
     </div>
   </div>`;
 }
@@ -745,6 +833,30 @@ function schmuckSeiten(){
     const m = b.dataset.bm || (b.textContent.includes("Hardcore") ? "hc" : ""); const ic = m === "gesamt" ? I.pokal : m === "season" ? I.kal : I.flamme;
     const txt = b.textContent.replace(/^[^A-Za-zÄÖÜäöü]+/, "").trim(); b.innerHTML = SV(ic, 20) + `<span>${h(txt)}</span>`; });
 }
+/* Bereich-Seite: Themen in wischbare Seiten packen, so viele wie auf den Bildschirm passen */
+function themenSeiten(){
+  const app = document.getElementById("app"); const th = app && app.querySelector(":scope > .themen"); if(!th || th.dataset.ap) return;
+  th.dataset.ap = "1";
+  const kacheln = [...th.querySelectorAll(":scope > .thema")]; if(!kacheln.length) return;
+  const quer = QUER.matches, tabs = document.getElementById("epTabs"); const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null;
+  const ende = tr ? tr.top - 10 : innerHeight - 16;
+  const wrap = document.createElement("div"); wrap.className = "ap-tp"; th.before(wrap); th.remove();
+  const spalten = innerWidth >= 700 ? 3 : 2;
+  const probe = document.createElement("div"); probe.className = "ap-tpage"; wrap.appendChild(probe); probe.appendChild(kacheln[0]);
+  const top = wrap.getBoundingClientRect().top + scrollY, hoehe = Math.max(140, ende - top - 22), kh = kacheln[0].getBoundingClientRect().height + 10;
+  const zeilen = Math.max(2, Math.floor(hoehe / kh)), proSeite = zeilen * spalten;
+  wrap.innerHTML = "";
+  for(let i = 0; i < kacheln.length; i += proSeite){ const pg = document.createElement("div"); pg.className = "ap-tpage"; kacheln.slice(i, i + proSeite).forEach(k => pg.appendChild(k)); wrap.appendChild(pg); }
+  const n = wrap.children.length;
+  if(n > 1){ const pk = document.createElement("div"); pk.className = "ap-tpunkte"; pk.innerHTML = Array.from({length:n}, (x, i) => `<i${i ? "" : ' class="an"'}></i>`).join(""); wrap.after(pk);
+    wrap.addEventListener("scroll", () => { const i = Math.round(wrap.scrollLeft / Math.max(1, wrap.clientWidth + 12)); [...pk.children].forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true}); }
+}
+function doneKompakt(){
+  const app = document.getElementById("app"); const rv = app && app.querySelector(".done .review"); if(!rv || rv.dataset.ap) return;
+  rv.dataset.ap = "1"; rv.hidden = true;
+  const b = document.createElement("button"); b.type = "button"; b.className = "ap-revbtn"; b.textContent = "Alle Antworten ansehen";
+  rv.before(b); b.onclick = () => { rv.hidden = !rv.hidden; b.textContent = rv.hidden ? "Alle Antworten ansehen" : "Antworten ausblenden"; };
+}
 /* Chat und andere feste Seiten auf die Bildschirmhöhe einpassen */
 function seitenEinpassen(){
   const quer = QUER.matches, tabs = document.getElementById("epTabs");
@@ -782,7 +894,7 @@ window.render = function(){
     [...document.body.classList].filter(k => k.startsWith("ep-s-")).forEach(k => document.body.classList.remove(k));
     if(an()) document.body.classList.add("ep-s-" + (S.libModus && S.screen === "lib" ? "lib" : S.screen));
     leiste();
-    if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); }
+    if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); }
   }catch(e){ console.warn("app.js", e); }
   return r;
 };
