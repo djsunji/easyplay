@@ -67,6 +67,34 @@ css.textContent = `
 .du2-kid.an.lumi span{background:linear-gradient(135deg,#FF7AD9,#E043B8)}.du2-kid.an.milo span{background:linear-gradient(135deg,#6F86FF,#3D5AFE)}
 @media (max-width:860px){.du2-modi{grid-template-columns:1fr}.du2-m{flex-direction:row;text-align:left;padding:14px 16px;gap:12px;align-items:center}.du2-m .ic{width:50px;height:50px;font-size:1.5rem;flex:none}.du2-m .tx{flex:1;min-width:0;align-items:flex-start;gap:2px}.du2-m b{font-size:1.12rem}.du2-m small{font-size:.82rem}.du2-m .los{margin:0;padding:8px 12px;font-size:.85rem;flex:none}.du2-m .tag{position:absolute;left:auto;right:12px;top:8px;font-size:.58rem;padding:2px 7px}.du2-m.online{padding-top:22px}
   .du2-team{flex-direction:row;justify-content:space-between;padding:10px 14px}.du2-kid img{height:74px}.du2-kid span{font-size:.8rem;padding:3px 10px}}
+/* iPad hochkant: grössere Kinder, kompakter Kopf */
+@media (min-width:700px) and (max-width:999px){
+  body.ep-app .dukopf.st-kopf{padding:14px 18px!important;min-height:0}
+  body.ep-app .dukopf.st-kopf .dusw{width:56px;height:56px;font-size:1.9rem;margin:0 12px 0 0;vertical-align:middle}
+  body.ep-app .dukopf.st-kopf h1{display:inline;vertical-align:middle;font-size:1.8rem}
+  body.ep-app .du2-team{justify-content:center;gap:28px;padding:14px}
+  body.ep-app .du2-team .lbl{position:absolute;left:18px;top:14px}
+  body.ep-app .du2-team{position:relative}
+  body.ep-app .du2-kids{gap:28px}
+  body.ep-app .du2-kid img{height:120px}
+  body.ep-app .du2-kid span{font-size:.95rem;padding:4px 16px}
+  body.ep-app .du2-m{padding:16px 18px}body.ep-app .du2-m b{font-size:1.25rem}body.ep-app .du2-m small{font-size:.92rem}
+}
+/* iPad quer: Team links, Modi rechts, alles auf einem Schirm */
+@media (min-width:1000px) and (orientation:landscape){
+  body.ep-app .dukopf{display:none}
+  body.ep-app .du2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:14px;align-items:start}
+  body.ep-app .du2 .du2-team{flex-direction:column;justify-content:center;padding:18px;min-height:300px;align-self:stretch}
+  body.ep-app .du2 .du2-kid img{height:150px}
+  body.ep-app .du2 .du2-modi{grid-template-columns:1fr;gap:10px}
+  body.ep-app .du2 .du2-m{flex-direction:row;text-align:left;padding:12px 16px;gap:12px;align-items:center}
+  body.ep-app .du2 .du2-m .ic{width:48px;height:48px;font-size:1.4rem;flex:none}
+  body.ep-app .du2 .du2-m .tx{flex:1;min-width:0;align-items:flex-start;gap:2px}
+  body.ep-app .du2 .du2-m b{font-size:1.1rem}.du2-m small{font-size:.82rem}
+  body.ep-app .du2 .du2-m .los{margin:0;padding:8px 14px;font-size:.88rem;flex:none}
+  body.ep-app .du2 .du2-m .tag{position:absolute;left:auto;right:12px;top:6px;font-size:.58rem;padding:2px 7px}
+  body.ep-app .du2 .du2-ein,body.ep-app .du2 .du2-fehler{grid-column:1/-1}
+}
 /* App-Tab Duell: Bereit-Karte mit Teamfarbe und leuchtendem Kind */
 .ap-bereit .apkids{position:absolute;right:0;bottom:0;height:min(84%,420px);max-width:60%;display:flex;align-items:flex-end;z-index:1}
 .ap-bereit .apkids img{height:100%;width:auto;max-width:52%;object-fit:contain;filter:grayscale(.2) brightness(.95);transition:filter .35s,transform .35s,opacity .35s;margin:0 -6px}

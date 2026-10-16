@@ -307,7 +307,9 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   .ap-profil .ap-titel{grid-column:1/-1}
   .ap-profil .ap-konto{grid-column:1/3}
   .ap-profil .ap-stats{grid-column:3;grid-template-columns:1fr;grid-auto-rows:1fr}
-  .ap-profil .ap-liste{grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start}
+  .ap-profil .ap-liste{grid-column:1/3;grid-row:3;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+  .ap-profil .ap-ersch{grid-column:3;grid-row:3;align-self:stretch;height:100%}
+  .ap-profil .ap-liste>*{min-height:44px}
 }
 
 /* Held-Karussell: 5 Karten, alle 10 s weiter, wischen möglich */
@@ -333,6 +335,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap-tagswipe::-webkit-scrollbar{display:none}
 .ap-tagswipe>button{scroll-snap-align:start}
 @media (min-width:700px){.ap-tagswipe{grid-auto-columns:calc((100% - 30px) / 4)}}
+@media (min-width:1000px) and (orientation:landscape){.ap-heute .ap-tagswipe{grid-template-columns:1fr!important;grid-auto-flow:row;grid-auto-columns:auto;grid-auto-rows:1fr;overflow:visible;gap:8px}.ap-heute .ap-tagswipe button{padding:8px 14px;min-width:0}.ap-heute .ap-tagswipe button .apico{width:38px;height:38px}.ap-heute .ap-tagswipe button b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.ap-heute .ap-tagswipe button small{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}}
 .ap-ersch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;width:100%;box-sizing:border-box;cursor:pointer}
 .ap-ersch .aptx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .ap-ersch b{font:600 15px "Fredoka",system-ui,sans-serif}.ap-ersch small{font:400 12px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.85)}
@@ -359,7 +362,7 @@ body.ep-app .ap-tpunkte{display:flex;justify-content:center;gap:5px;height:14px;
 body.ep-app .ap-tpunkte i{width:6px;height:6px;border-radius:3px;background:rgba(27,34,64,.35);transition:width .25s,background .25s}
 body.ep-app .ap-tpunkte i.an{width:18px;background:#1B2240}
 body.ep-app.ep-s-bereich,body.ep-app.ep-s-submenu{overflow:hidden}
-@media (min-width:700px){body.ep-app .ap-tp .ap-tpage{grid-template-columns:repeat(3,minmax(0,1fr))}body.ep-app .ap-tp .thema b{font-size:1.1rem!important}}
+@media (min-width:700px){body.ep-app .ap-tp .ap-tpage{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}body.ep-app .ap-tp .thema{padding:18px 16px 16px!important;grid-template-columns:56px 1fr;column-gap:14px!important}body.ep-app .ap-tp .thema .emo{width:56px!important;height:56px!important;font-size:2rem!important}body.ep-app .ap-tp .thema b{font-size:1.15rem!important}body.ep-app .ap-tp .thema span.n{font-size:.8rem!important;padding:3px 10px!important}}
 
 /* ---------- Quiz: alles auf einem Bildschirm ---------- */
 body.ep-app.ep-s-quiz .wrap{padding-top:calc(8px + env(safe-area-inset-top))!important}
@@ -407,6 +410,20 @@ body.ep-app.ep-s-quiz .explain p{font-size:.95rem;margin:6px 0}
 body.ep-app.ep-s-quiz .explain .merke{font-size:.92rem;padding:8px 12px}
 body.ep-app.ep-s-quiz .explain .big{min-height:44px;font-size:.92rem}
 @media (max-height:720px){body.ep-app.ep-s-quiz .question{font-size:1rem!important;margin-bottom:8px}body.ep-app.ep-s-quiz .ans{min-height:44px!important;font-size:.9rem!important}}
+/* iPad: Quiz grösser und mittig */
+@media (min-width:700px){
+  body.ep-app.ep-s-quiz .qtop,body.ep-app.ep-s-quiz .qnav,body.ep-app.ep-s-quiz .card,body.ep-app.ep-s-quiz .qgrid{max-width:860px;margin-left:auto!important;margin-right:auto!important}
+  body.ep-app.ep-s-quiz .qtop{margin-bottom:10px!important}body.ep-app.ep-s-quiz .qnav{margin-bottom:14px!important}
+  body.ep-app.ep-s-quiz .card{padding:22px 24px 20px!important;border-radius:30px!important}
+  body.ep-app.ep-s-quiz .question{font-size:1.55rem!important;margin:6px 0 18px;line-height:1.3}
+  body.ep-app.ep-s-quiz .qimg,body.ep-app.ep-s-quiz .qimg svg,body.ep-app.ep-s-quiz .qimg img{max-height:220px}
+  body.ep-app.ep-s-quiz .answers{gap:12px}
+  body.ep-app.ep-s-quiz .ans{min-height:64px!important;font-size:1.15rem!important;padding:12px 18px!important;border-radius:18px!important}
+  body.ep-app.ep-s-quiz .ans .key{width:36px;height:36px;min-width:36px;font-size:1rem}
+  body.ep-app.ep-s-quiz .tabbtn{min-height:48px;font-size:1rem}
+  body.ep-app.ep-s-quiz .feedback p,body.ep-app.ep-s-quiz .explain p{font-size:1.05rem}
+}
+@media (min-width:1000px) and (orientation:landscape){body.ep-app.ep-ohne{padding-left:0}}
 
 /* ---------- Zusammenfassung: kompakt ---------- */
 body.ep-app.ep-s-done .done{padding:14px 12px!important}
@@ -426,6 +443,19 @@ body.ep-app.ep-s-done .rev p,body.ep-app.ep-s-done .rev .revex{display:none}
 body.ep-app.ep-s-done .rev .revhead b{font-weight:600}
 body.ep-app.ep-s-done .ap-revbtn{width:100%;min-height:44px;border:2px solid var(--line);border-radius:12px;background:var(--surface);font:700 .92rem "Lexend",system-ui,sans-serif;color:var(--ink);margin-top:8px}
 body.ep-app.ep-s-done .more{display:none}
+@media (min-width:700px){
+  body.ep-app.ep-s-done .done{max-width:760px;margin:6vh auto 0!important;padding:26px 28px 22px!important;border-radius:30px!important}
+  body.ep-app.ep-s-done .done h1{font-size:2rem!important;margin:6px 0 10px}
+  body.ep-app.ep-s-done .stars{font-size:2.6rem}
+  body.ep-app.ep-s-done .done>p{font-size:1.05rem}
+  body.ep-app.ep-s-done .pbilanz{font-size:.95rem;gap:10px}
+  body.ep-app.ep-s-done .done .row{gap:12px;margin:16px 0}
+  body.ep-app.ep-s-done .done .row .big{min-height:54px;font-size:1.05rem;border-radius:16px}
+  body.ep-app.ep-s-done .summary h2{font-size:1.2rem}
+  body.ep-app.ep-s-done .sumline .pill{font-size:1rem;padding:6px 14px}
+  body.ep-app.ep-s-done .ap-revbtn{min-height:50px;font-size:1rem}
+  body.ep-app.ep-s-done .rev{font-size:.95rem;padding:10px 14px}
+}
 
 
 /* ---------- Bibliothek auf dem Handy: Suche und Bücher auf einem Bildschirm ---------- */
@@ -482,7 +512,7 @@ body.ep-app .regal .buch .blogo{font-size:.58rem!important;bottom:8px!important}
 @media (min-width:700px){body.ep-app .regal .buch .bemo2{font-size:2.8rem!important}body.ep-app .regal .buch .btitel{font-size:1.15rem!important}body.ep-app .regal .buch .bunter{font-size:.75rem!important}}
 body.ep-app .sbrett{display:none!important}
 @media (min-width:700px){body.ep-app .regal .buecher{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
-@media (min-width:1000px) and (orientation:landscape){body.ep-app .regal .buecher{grid-template-columns:repeat(9,minmax(0,1fr))!important}}
+@media (min-width:1000px) and (orientation:landscape){body.ep-app.ep-s-lib .regal .buecher{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:12px 14px!important}body.ep-app.ep-s-lib .regal .buch{aspect-ratio:1/1!important}body.ep-app.ep-s-lib .ap-libkids{display:none}body.ep-app.ep-s-lib .regal .regaltitel{display:none}body.ep-app.ep-s-lib .libhome-suche input{min-height:44px}body.ep-app.ep-s-lib .buch .bemo2{font-size:2.2rem!important}body.ep-app.ep-s-lib .buch .btitel{font-size:1rem!important}}
 /* Wettbewerb, Duell & Hardcore: kompakte Karten */
 body.ep-app .smwrap .pagehead{display:none!important}
 body.ep-app .smgitter{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
