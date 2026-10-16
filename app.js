@@ -64,7 +64,7 @@ const I = {
   teilen: '<path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>',
   laut: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>'
 };
-const TAB_NAME = {heute:"Heute", themen:"Themen", duell:"Duell", qeels:"Qeels", profil:"Profil"};
+const TAB_NAME = {heute:"Hauptmenü", themen:"Themen", duell:"Duell", qeels:"Qeels", profil:"Profil"};
 
 /* ---------- Gestaltung ---------- */
 const css = document.createElement("style");
@@ -92,7 +92,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 .ap{display:flex;flex-direction:column;gap:12px;color:#fff;text-align:left;overflow:auto;overscroll-behavior:contain;padding:2px 2px 4px;box-sizing:border-box;scrollbar-width:none}
 .ap::-webkit-scrollbar{display:none}
 .ap>*{flex-shrink:0}
-.ap>.ap-held,.ap>.ap-ber,.ap>.ap-bereit{flex-shrink:1}
+.ap>.ap-held,.ap>.ap-karu,.ap>.ap-ber,.ap>.ap-bereit{flex-shrink:1}
 .ap button{font-family:inherit}
 .ap .auf{text-shadow:0 2px 3px rgba(27,34,64,.5),0 2px 14px rgba(27,34,64,.45)}
 .ap .pille{display:inline-flex;align-items:center;align-self:flex-start;min-height:30px;padding:0 12px;border-radius:15px;background:rgba(27,34,64,.55);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff}
@@ -229,7 +229,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 /* Kleine Handys (z. B. iPhone SE) */
 @media (max-height:720px) and (max-width:699px){
   .ap{gap:8px}
-  .ap-held{min-height:150px;padding:14px;margin-top:46px}.ap-held .aphoi{display:none}.ap-held>img{height:calc(100% + 44px)}
+  .ap-karu{min-height:150px;margin-top:46px}.ap-held{min-height:150px;padding:14px}.ap-held.hs-start .aphoi{display:none}.ap-held>img{height:calc(100% + 44px)}
   .ap-tag button{min-height:92px;padding:10px;gap:4px}.ap-tag button .apico{width:32px;height:32px}
   .ap-woche{padding:10px 14px}.ap-woche b{font-size:16px}
   .ap .ap-titel h2{font-size:24px}
@@ -243,7 +243,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
 @media (min-width:700px){
   .ap{gap:16px}
   .ap .ap-titel h2{font-size:38px}
-  .ap-held{padding:30px;margin-top:80px}.ap-held .aphoi{font-size:16px}.ap-held .apzahlen{font-size:15px}.ap-held>img{height:calc(100% + 80px)}
+  .ap-karu{margin-top:80px}.ap-held{padding:30px}.ap-held .aphoi{font-size:16px}.ap-held .apzahlen{font-size:15px}.ap-held>img{height:calc(100% + 80px)}
   .ap-tag button{min-height:150px;padding:18px}.ap-tag button b{font-size:19px}.ap-tag button small{font-size:14px}.ap-tag button .apico{width:48px;height:48px}
   .ap-bereit{padding:30px}.ap-bereit p{font-size:15px}
   .ap-konto{padding:28px;min-height:230px}.ap-konto b.apgross{font-size:32px}.ap-konto p{font-size:15px}
@@ -278,7 +278,7 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   #epTabs button[data-tab="profil"]{align-self:end;height:88px}
   .ap-heute{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto minmax(0,1.9fr) minmax(0,1fr);gap:16px}
   .ap-heute .ap-gruss{grid-column:1/-1;grid-row:1;margin-bottom:-40px}
-  .ap-heute .ap-held{grid-column:1/3;grid-row:2;min-height:0;margin-top:40px}
+  .ap-heute .ap-karu{grid-column:1/3;grid-row:2;min-height:0;margin-top:40px}
   .ap-heute .ap-kopf{display:none}
   .ap-heute .ap-tag{grid-column:3;grid-row:2;grid-template-columns:1fr;grid-auto-rows:1fr;margin-top:40px}
   .ap-heute .ap-tag button{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;row-gap:2px;align-content:center;min-height:0}
@@ -310,6 +310,35 @@ body:has(#reels:not([hidden])) #epTabs,body:has(.ep-modal) #epTabs{display:none}
   .ap-profil .ap-liste{grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start}
 }
 
+/* Held-Karussell: 5 Karten, alle 10 s weiter, wischen möglich */
+.ap-karu{position:relative;flex:1 1 0;min-height:180px;margin-top:58px;display:flex;flex-direction:column;min-width:0}
+.ap-karu-spur{flex:1 1 0;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;gap:12px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.ap-karu-spur::-webkit-scrollbar{display:none}
+.ap-karu-spur>.ap-held{flex:0 0 100%;scroll-snap-align:start;margin-top:0;min-height:0;height:100%;overflow:visible}
+.ap-karu-punkte{display:flex;justify-content:center;gap:5px;height:14px;align-items:center;margin-top:2px}
+.ap-karu-punkte i{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.45);transition:width .25s,background .25s}
+.ap-karu-punkte i.an{width:18px;background:#fff}
+.ap-held2 .apht{width:66%;gap:5px}
+.ap-held2 .aphoi{display:flex;align-items:center;gap:6px;font-weight:700}
+.ap-held2 .aph-ic{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;background:#fff;color:#1B2240;font-size:16px;line-height:0}
+.ap-held2 .aph-klein{font-size:clamp(20px,5.4vw,36px)!important;line-height:1.08!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ap-held2 .aph-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35}
+.ap-held2>img{height:calc(100% + 30px);max-width:32%}
+.ap-held.hs-lib1,.ap-held.hs-lib2{background:linear-gradient(140deg,#8A3B0C,#D97A1A)!important}
+.ap-held.hs-tq{background:linear-gradient(140deg,#2E4BEA,#5B6CFF)!important}
+.ap-held.hs-live{background:linear-gradient(140deg,#B0216F,#E043B8)!important}
+.ap-held.hs-duell{background:linear-gradient(140deg,#0A6575,#0E9384)!important}
+/* Kachel-Reihe: 6 Kacheln, 3 sichtbar, wischen */
+.ap-tagswipe{display:grid;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:calc((100% - 20px) / 3);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px;overscroll-behavior-x:contain}
+.ap-tagswipe::-webkit-scrollbar{display:none}
+.ap-tagswipe>button{scroll-snap-align:start}
+@media (min-width:700px){.ap-tagswipe{grid-auto-columns:calc((100% - 30px) / 4)}}
+.ap-ersch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;width:100%;box-sizing:border-box;cursor:pointer}
+.ap-ersch .aptx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.ap-ersch b{font:600 15px "Fredoka",system-ui,sans-serif}.ap-ersch small{font:400 12px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.85)}
+.ap-sw{position:relative;flex:none;width:50px;height:30px;border-radius:15px;background:rgba(255,255,255,.3);transition:background .25s}
+.ap-sw i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:12px;background:#fff;transition:left .25s}
+.ap-ersch[aria-pressed="true"] .ap-sw{background:#12B76A}.ap-ersch[aria-pressed="true"] .ap-sw i{left:23px}
 /* Begrüssung oben auf Heute */
 .ap-gruss{display:flex;flex-direction:column;gap:2px;padding:0 4px;margin-bottom:-46px;position:relative;z-index:0}
 .ap-gruss b{font:800 30px/1.05 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
@@ -448,16 +477,18 @@ function heuteHTML(){
   const erledigt = (tq ? 1 : 0) + (li && li.st === "ok" ? 1 : 0) + (nf ? 0 : 1);
   const liveTxt = !li ? "Heute vorbei" : li.st === "jetzt" ? "<b>Läuft jetzt!</b>" : `${h(li.thema)}, in <span id="epLiveCd">${ES.dauerText ? ES.dauerText(li.rest) : ""}</span>`;
   const wp = wo && wo.thema ? Math.min(100, Math.round(wo.r / wo.ziel * 100)) : 0;
+  let slides = [{cls:"hs-start"}]; try{ slides = ES.heldSlides(); }catch(e){}
   const tageRest = wo && wo.ende ? Math.max(0, Math.ceil((wo.ende - Date.now()) / 864e5)) : 0;
   return `<div class="ap ap-heute">
     <div class="ap-gruss auf"><b>Hoi${n ? " " + h(n) : ""}!</b><span>Schön, dass du da bist.</span><img class="ap-logo" src="img/logo.webp" alt="easyplay"></div>
-    <section class="apf f-held ap-held"><div class="apht">
-      <h1>Spiel dich schlau!</h1>
-      <span class="apzahlen">${zahl(anz)} Fragen · ${themen} Themen</span>
-      <button type="button" class="ap-weissbtn" data-x="themen">${SV(I.play, 18)} Los geht's</button></div>
-      <img src="${KIDS}duo-jubel.webp" alt="Lumi und Milo jubeln"><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span></section>
+    <div class="ap-karu" id="apKaru"><div class="ap-karu-spur">${slides.map((sl, i) => `<section class="apf f-held ap-held ${sl.cls}${i ? " ap-held2" : ""}" data-i="${i}">${i ? `<div class="apht"><span class="aphoi">${sl.ic ? `<span class="aph-ic" aria-hidden="true">${sl.ic}</span>` : ""}${h(sl.lbl)}</span><h1 class="aph-klein">${h(sl.titel)}</h1><span class="apzahlen aph-text">${h(sl.text)}</span><button type="button" class="ap-weissbtn" data-x="${sl.a}"${sl.t ? ` data-t="${h(sl.t)}"` : ""}>${h(sl.btn)}</button></div><img class="hs-kid" src="${KIDS}${i % 2 ? "leni.webp" : "ben.webp"}" alt="">`
+      : `<div class="apht"><h1>Spiel dich schlau!</h1><span class="apzahlen">${zahl(anz)} Fragen · ${themen} Themen</span><button type="button" class="ap-weissbtn" data-x="themen">${SV(I.play, 18)} Los geht's</button></div><img src="${KIDS}duo-jubel.webp" alt="Lumi und Milo jubeln"><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span>`}</section>`).join("")}</div>
+      <div class="ap-karu-punkte" aria-hidden="true">${slides.map((x, i) => `<i${i ? "" : ' class="an"'}></i>`).join("")}</div></div>
     <div class="ap-kopf"><span class="aplbl pille">Dein Tag · ${erledigt} von 3</span><span class="ap-chips"><span class="glas">${SV(I.flamme, 16)}${s.n || 0}</span><span class="glas">${SV(I.stern, 16)}Lv ${lv ? lv.level : 1}</span></span></div>
-    <div class="ap-tag">
+    <div class="ap-tag ap-tagswipe" id="apTag">
+      <button type="button" class="apf f-lila" data-x="zufall"><span class="apico">${SV(I.wuerfel, 20)}</span><b>Zufällige Fragen</b><small>Aus allen Themen</small></button>
+      <button type="button" class="apf f-gold" data-x="lib"><span class="apico">${SV(I.buch, 20)}</span><b>Bibliothek</b><small>Lesen und entdecken</small></button>
+      <button type="button" class="apf f-navy" data-x="profil"><span class="apico">${SV(I.stern, 20)}</span><b>Mein Level</b><small>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : "Level 1"}</small></button>
       <button type="button" class="apf f-blau${tq ? " ok" : ""}" data-x="chat"><span class="apico">${SV(I.kal, 20)}</span><b>Tagesquiz</b><small>${tq ? `Erledigt: ${tq.r} von ${tq.n}` : "5 neue Fragen"}</small></button>
       <button type="button" class="apf f-pink${li && li.st === "ok" ? " ok" : ""}" data-x="live"><span class="apico">${SV(I.live, 20)}</span><b>Live ${li ? li.zeit : ""}</b><small>${liveTxt}</small></button>
       <button type="button" class="apf f-orange${nf ? "" : " ok"}" data-x="fehler"${nf ? "" : " disabled"}><span class="apico">${SV(I.ziel, 20)}</span><b>Fehler üben</b><small>${nf ? nf + " offen" : "Alles geübt"}</small></button>
@@ -527,11 +558,11 @@ function profilHTML(){
       <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b><span>${h(lv && lv.titel ? lv.titel.name : "Neuling")}</span></div>
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}</b><span>von ${ab.alle}</span></div>
     </div>
+    <button type="button" class="apf f-navy ap-ersch" data-x="erw" aria-pressed="${!!(ES.erwachsen && ES.erwachsen())}"><span class="aptx"><b>Erwachsenenmodus</b><small>Ohne Lumi, Milo, Leni und Ben, ohne Konfetti</small></span><span class="ap-sw"><i></i></span></button>
     <nav class="glas ap-liste" aria-label="Mehr">
       ${zeile('data-x="board"', I.pokal, "Rangliste")}
       ${zeile('data-x="lib"', I.buch, "Bibliothek")}
       ${zeile('data-m="set"', I.pinsel, "Hintergrund")}
-      ${zeile('data-lm="lehrer"', I.hut, "Lehrerbereich")}
       ${zeile('data-lm="lcode"', I.code, "Test mit Code")}
       ${zeile('data-m="suche"', I.lupe, "Test erstellen")}
       ${S.canEdit ? zeile('data-m="werkstatt"', I.werkzeug, "Fragen-Werkstatt") : ""}
@@ -631,6 +662,18 @@ function libThemaOeffnen(id){
   S.libModus = true; document.documentElement.dataset.mode = "lib"; go("libthema");
 }
 
+/* ---------- Held-Karussell: alle 10 Sekunden weiter, Wischen erlaubt ---------- */
+let karuTimer = null;
+function karussell(){
+  const k = document.getElementById("apKaru"); if(karuTimer){ clearInterval(karuTimer); karuTimer = null; } if(!k) return;
+  const spur = k.querySelector(".ap-karu-spur"), punkte = [...k.querySelectorAll(".ap-karu-punkte i")], n = spur.children.length;
+  const pos = () => Math.round(spur.scrollLeft / Math.max(1, spur.clientWidth + 12));
+  const zeige = (i, sanft) => { spur.scrollTo({left:i * (spur.clientWidth + 12), behavior:sanft ? "smooth" : "auto"}); };
+  spur.addEventListener("scroll", () => { const i = pos(); punkte.forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true});
+  let ruhe = 0; spur.addEventListener("pointerdown", () => { ruhe = Date.now() + 15000; }, {passive:true}); spur.addEventListener("touchstart", () => { ruhe = Date.now() + 15000; }, {passive:true});
+  karuTimer = setInterval(() => { if(S.screen !== "home" || !document.getElementById("apKaru")){ clearInterval(karuTimer); karuTimer = null; return; } if(Date.now() < ruhe || document.hidden) return; zeige((pos() + 1) % n, !matchMedia("(prefers-reduced-motion: reduce)").matches); }, 10000);
+}
+
 /* ---------- Namensschilder Lumi und Milo im Startbanner ---------- */
 function namenSetzen(){
   const held = document.querySelector("#app .ap-held"); if(!held) return; const img = held.querySelector(":scope > img"); if(!img) return;
@@ -719,7 +762,7 @@ window.renderHome = function(){
     const app = document.getElementById("app"); if(!app) return r;
     app.innerHTML = tab === "themen" ? themenHTML() : tab === "duell" ? duellHTML() : tab === "profil" ? profilHTML() : heuteHTML();
     binden(app);
-    requestAnimationFrame(() => { einpassen(); namenSetzen(); });
+    requestAnimationFrame(() => { einpassen(); namenSetzen(); karussell(); });
   }catch(e){ console.warn("app.js", e); }
   return r;
 };

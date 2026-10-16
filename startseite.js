@@ -10,7 +10,11 @@ const LS = {
   get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
-const K = { team:"ep-team", woche:"ep-woche", live:"ep-live", zuletzt:"ep-zuletzt", chatgesehen:"ep-chat-tag" };
+const K = { team:"ep-team", woche:"ep-woche", live:"ep-live", zuletzt:"ep-zuletzt", chatgesehen:"ep-chat-tag", erw:"ep-erwachsen" };
+/* Erwachsenenmodus: keine Kids, kein Konfetti, keine Leuchteffekte */
+const erwachsen = () => !!LS.get(K.erw, false);
+function erwachsenSetzen(an){ LS.set(K.erw, !!an); document.body.classList.toggle("ep-erw", !!an); try{ render(); }catch(e){} }
+try{ document.body.classList.toggle("ep-erw", erwachsen()); }catch(e){}
 const KIDS = "img/kids/";
 const heute = (d) => { const x = d ? new Date(d) : new Date(); return x.getFullYear() + "-" + String(x.getMonth()+1).padStart(2,"0") + "-" + String(x.getDate()).padStart(2,"0"); };
 const h = s => { try{ return esc(s); }catch(e){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); } };
@@ -458,6 +462,13 @@ body.dark .ep-w .epmini{background:#FFE34D;color:#1B2240}
 .rstories .epring.epneu::after{content:"NEU";position:absolute;z-index:2;left:50%;bottom:-8px;transform:translateX(-50%);background:#FF3D6E;color:#fff;font-size:.55rem;font-weight:800;line-height:1.3;border-radius:7px;padding:1px 6px;border:2px solid #1B2240;white-space:nowrap}
 .rstories button>span:last-child{font-size:.62rem;line-height:1.08;max-width:72px;overflow:hidden;white-space:normal;hyphens:auto;-webkit-hyphens:auto;word-break:break-word;text-align:center;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 @media (min-width:761px){.rstories{top:80px;width:min(100vw,calc((100dvh - 32px) * 9 / 16),480px)}}
+/* Erwachsenenmodus */
+body.ep-erw .epduo,body.ep-erw .epname,body.ep-erw .epglow,body.ep-erw .epkids,body.ep-erw .ep-chatkids,body.ep-erw .st-kids,body.ep-erw .st-libkids,body.ep-erw .lq-kids,body.ep-erw .c2-kids,body.ep-erw .ep-w img,body.ep-erw .ep-team img,body.ep-erw .ep-turm img,body.ep-erw .ep-liegt .pagehead::after,body.ep-erw .xpflug,body.ep-erw .konf,body.ep-erw .lvup .konf,body.ep-erw .ap-held>img,body.ep-erw .ap-bereit>img,body.ep-erw .ap-konto>img,body.ep-erw .ap-top img,body.ep-erw .wk2-kids,body.ep-erw .epbereit-duo,body.ep-erw .lq-team img,body.ep-erw .ep-testk img,body.ep-erw .c2-avs,body.ep-erw .c2-av,body.ep-erw .ep-msg .epav,body.ep-erw #epTabs .tabav,body.ep-erw .ap-chatkids,body.ep-erw .hs-kid{display:none!important}
+body.ep-erw .ep-liegt .pagehead{padding-right:0!important;min-height:0!important}
+body.ep-erw .ep-banner::before{opacity:.35}
+body.ep-erw .ep-bereit h2{text-shadow:none}
+body.ep-erw .lq-held::after,body.ep-erw .lq-ansage,body.ep-erw .lq-vs,body.ep-erw .epglow,body.ep-erw .lvring,body.ep-erw .eptc-nadel{animation:none!important}
+body.ep-erw .fxlob,body.ep-erw .fxkonf,body.ep-erw .konfetti,body.ep-erw .lob,body.ep-erw .flug,body.ep-erw #fxlayer,body.ep-erw .fx{display:none!important}
 /* Wordmark auf iPad und iPhone weg */
 @media (max-width:1100px),(pointer:coarse) and (max-width:1400px){.topbar .wmimg{display:none!important}.topbar .eplogo{flex:0 0 auto!important;width:auto!important}.topbar .eplogoimg{display:inline-block!important;height:44px!important;width:auto!important}}
 `;
@@ -597,13 +608,26 @@ function wocheHTML(){
     <button type="button" class="ep-btn gelb" data-a="woche">${d.fertig ? "Trotzdem weiterspielen →" : "Mitmachen →"}</button>
     <div class="epkids"><img src="${KIDS}duo-jubel.webp" alt=""></div></section>`;
 }
+function heldSlides(){
+  const rnd = zufall("held-" + heute()), l = themenListe().map(id => THEMA[id]).filter(t => t && t.text);
+  const nimm = () => l.length ? l.splice(Math.floor(rnd() * l.length), 1)[0] : null;
+  const a1 = nimm(), a2 = nimm(), nl = liveNaechster(), tq = tagesquiz();
+  const art = (t, cls) => t ? {cls, lbl:"Aus der Bibliothek", titel:t.name, text:t.text, btn:"📖 Lesen", a:"fakt", t:t.id, ic:(() => { try{ return themaIcon(t); }catch(e){ return "📖"; } })()} : null;
+  return [
+    {cls:"hs-start", lbl:"", titel:"Spiel dich schlau!", text:"", btn:"▶ Los geht's", a:"themen"},
+    art(a1, "hs-lib1"), art(a2, "hs-lib2"),
+    {cls:"hs-tq", lbl:"Jeden Tag neu", titel:tq ? "Tagesquiz erledigt" : "Tagesquiz", text:tq ? `Heute ${tq.r} von ${tq.n} richtig. Morgen gibt es 5 neue Fragen.` : "5 Fragen, für alle gleich. Hol dir deine Serie.", btn:"📅 Spielen", a:"chat", ic:"📅"},
+    nl ? {cls:"hs-live", lbl:"Live-Quiz " + slotLabel(nl) + " Uhr", titel:nl.thema ? nl.thema.name : "Live-Quiz", text:liveStatus(nl) === "jetzt" ? "Läuft jetzt! Spiel für dein Team." : "20 Fragen, alle gleichzeitig. Jede Antwort zählt für dein Team.", btn:"⚡ Mitspielen", a:"live", ic:"⚡"}
+       : {cls:"hs-duell", lbl:"Duell", titel:"Wer weiss mehr?", text:"Tritt gegen Freunde, Familie oder online an.", btn:"⚔️ Duell", a:"duell", ic:"⚔️"}
+  ].filter(Boolean);
+}
 function startseiteHTML(){
   const n = name(), themen = Object.keys(THEMA).filter(id => !THEMA[id].menu).length;
   let anz = 0; try{ anz = allCount(); }catch(e){}
   return `<div class="ep-banner"><div class="ept"><img class="eplogo" src="${typeof ICON_SRC !== "undefined" ? ICON_SRC : "img/fragezeichen.webp"}" alt="easyplay">
       <h1 class="epslogan">${n ? "Hoi " + h(n) + "! " : ""}Spiel dich schlau!</h1>
       <div class="ep-pills"><span><b>${zahl(anz)}</b> Fragen</span><span><b>${themen}</b> Themen</span><span><b>3</b> Stufen</span><span>🇨🇭 mit Schweiz-Wissen</span></div>
-      <div class="ep-cta"><button type="button" class="ep-btn" data-a="themen">▶ Los geht's</button><button type="button" class="ep-btn weiss" data-a="chat">📅 Tagesquiz</button><button type="button" class="ep-btn weiss" data-a="zufall">🎲 Zufällige Fragen</button></div></div>
+      <div class="ep-cta"><button type="button" class="ep-btn" data-a="themen">▶ Los geht's</button><button type="button" class="ep-btn weiss" data-a="lib">📖 Bibliothek</button><button type="button" class="ep-btn weiss" data-a="zufall">🎲 Zufällige Fragen</button></div></div>
     <div class="epduo"><img src="${KIDS}duo-winken.webp" alt=""><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span></div></div>
     ${widgets()}
     ${bereit()}`;
@@ -611,6 +635,8 @@ function startseiteHTML(){
 function aktion(a, el){
   if(a === "zufall"){ const b = document.getElementById("zufall"); if(b){ b.click(); return; } try{ startListe((typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => (S.stufe === 4 || f.l === S.stufe) && Array.isArray(f.a) && f.a.length === 4), "Zufällige Fragen"); }catch(e){} }
   else if(a === "chat") go("chat");
+  else if(a === "lib"){ try{ setLibModus(true); scrollTo(0, 0); }catch(e){} }
+  else if(a === "erw"){ erwachsenSetzen(!erwachsen()); }
   else if(a === "tagesquiz"){ try{ window.EP_LERNEN_TQ(); }catch(e){ go("chat"); } }
   else if(a === "fehler"){ try{ const l = window.EP_LERNEN.fehlerListe(); if(l.length) startListe(l, "Fehler üben"); }catch(e){} }
   else if(a === "live") liveOeffnen();
@@ -681,6 +707,19 @@ function renderChat(){
     else go("home"); });
 }
 
+/* ---------- Menü: Erwachsenenmodus ---------- */
+const vorNav = window.renderNav;
+if(typeof vorNav === "function"){
+  window.renderNav = function(){
+    const r = vorNav.apply(this, arguments);
+    try{ const m = document.getElementById("hauptmenue"); if(m && !m.querySelector("[data-erw]")){
+      const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitem"); b.dataset.erw = "1";
+      b.innerHTML = (erwachsen() ? "🧒 Kindermodus einschalten" : "🧑 Erwachsenenmodus"); b.onclick = () => erwachsenSetzen(!erwachsen());
+      const set = m.querySelector('[data-m="set"]'); if(set) set.after(b); else m.appendChild(b); } }catch(e){}
+    return r;
+  };
+}
+
 /* ---------- Bildschirme einhängen ---------- */
 const vorRender = window.render;
 window.render = function(){
@@ -716,5 +755,5 @@ if(typeof vorReels === "function"){
   };
 }
 
-window.EP_START = { WOCHE_TEST_XP, team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
+window.EP_START = { WOCHE_TEST_XP, erwachsen, erwachsenSetzen, heldSlides, team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
 })();
