@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-16-5";
+const VERSION = "ep-2026-10-16-6";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -17,7 +17,7 @@ const HUELLE = [
   "lernen.js",
   "level.js",
   "startseite.js",
-  "app.js", "stil.js", "duell2.js", "img/logo.webp", "img/kids/leni.webp", "img/kids/ben.webp",
+  "app.js", "stil.js", "duell2.js", "img/logo.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
   "img/kids/duo-jubel.webp",
   "img/kids/duo-winken.webp",
   "img/kids/duo-bereit.webp",

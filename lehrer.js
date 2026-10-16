@@ -1221,7 +1221,7 @@ function seiteCode(){
   const K=LZ.kid||(LZ.kid={});
   setze(`${lc([START], "Test mit Code")}
     <div class="lwait lz-codebox">
-      <div class="lz-gross" aria-hidden="true">🔢</div>
+      <img class="lz-kidbild" src="img/kids/lb-karten.webp" alt="">
       <h2>Test mit Code starten</h2>
       <p>Gib den Test-Code und deinen PIN ein. Beides bekommst du von deiner Lehrperson.</p>
       <form id="lzCodeForm" class="lz-codeform" autocomplete="off">
@@ -1297,7 +1297,7 @@ function seiteFertig(){
   const E=K.ergebnis, T=K.test;
   const lob = T.fragen.some(istOffen) ? "Test abgegeben! 🎉" : E.note>=5.5?"Wow, hervorragend! 🌟":E.note>=5?"Sehr gut gemacht! 💪":E.note>=4?"Gut gemacht, genügend! 👍":"Nicht aufgeben, beim nächsten Mal klappt es besser! 🍀";
   setze(`<div class="card done pop lz-fertig">
-    <p class="lz-gross" aria-hidden="true">${E.note>=4?"🎉":"🌱"}</p>
+    <img class="lz-kidbild" src="img/kids/${T.fragen.some(istOffen) ? "lb-daumen" : E.note>=4 ? "lb-jubel" : "lb-zeigen"}.webp" alt="">
     <h1>${h(lob)}</h1>
     ${T.fragen.some(istOffen) ? `<div class="lz-notebox"><span>Punkte bisher</span><b>${E.punkte}</b></div>` : `<div class="lz-notebox ${noteKlasse(E.note)}"><span>Note</span><b>${fmtNote(E.note)}</b></div>`}
     <p>${E.punkte} von ${E.max} Punkten · Zeit ${h(zeit(E.dauer))} · ${h(T.titel)}</p>
@@ -1684,6 +1684,9 @@ body.lz-admin,body.ep-app.lz-admin{padding:0!important}
 .lza .lwait{color:var(--lza-mu)}
 .lza .lz-kb{border:1px solid var(--lza-li)!important;border-radius:6px!important;box-shadow:none!important;padding:6px 10px!important;background:var(--lza-fl)!important;display:flex;gap:8px;align-items:center}
 .lza .lz-erstellen{position:sticky;bottom:0;background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:10px!important;box-shadow:0 -4px 12px rgba(40,20,90,.06)!important;padding:10px 14px!important;z-index:3}
+.lz-kidbild{height:150px;width:auto;display:block;margin:0 auto 6px;filter:drop-shadow(0 10px 16px rgba(40,30,120,.25))}
+body.ep-erw .lz-kidbild{display:none}
+@media (max-width:520px){.lz-kidbild{height:110px}}
 /* Kinder: offene Frage */
 .lz-offenlbl{display:block;font-weight:700;margin:6px 0 6px}
 .lz-offen{width:100%;box-sizing:border-box;min-height:110px;font:500 1.05rem/1.5 "Lexend",system-ui,sans-serif!important;font-style:normal!important;color:var(--ink,#1B2240)!important;text-align:left!important;padding:12px 14px;border-radius:16px;resize:vertical}

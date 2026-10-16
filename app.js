@@ -482,7 +482,7 @@ body.ep-app.ep-s-lib .buch .bemo2{font-size:1.9rem!important}
 body.ep-app.ep-s-lib .buch .btitel{font-size:.88rem!important}
 body.ep-app.ep-s-lib .buch .bunter{font-size:.58rem!important;line-height:1.2}
 body.ep-app.ep-s-lib .buch .btop{font-size:.55rem;bottom:6px;left:6%;right:6%}
-body.ep-app.ep-s-lib .ap-libkids{display:flex;justify-content:center;align-items:flex-end;gap:0;height:74px;margin:-10px 0 -8px;position:relative;z-index:2;pointer-events:none}
+body.ep-app.ep-s-lib .ap-libkids{display:flex;justify-content:center;align-items:flex-end;gap:0;height:84px;margin:-10px 0 -8px;position:relative;z-index:2;pointer-events:none}
 body.ep-app.ep-s-lib .ap-libkids img{height:100%;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
 body.ep-app.ep-s-lib .ap-libkids img+img{margin-left:-6px}
 @media (min-width:700px){body.ep-app.ep-s-lib .regal .buecher{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:16px 14px!important}body.ep-app.ep-s-lib .buch .bemo2{font-size:2.6rem!important}body.ep-app.ep-s-lib .buch .btitel{font-size:1.1rem!important}body.ep-app.ep-s-lib .buch .bunter{font-size:.72rem!important}body.ep-app.ep-s-lib .ap-libkids{height:150px}}
@@ -630,7 +630,7 @@ function heuteHTML(){
   const tageRest = wo && wo.ende ? Math.max(0, Math.ceil((wo.ende - Date.now()) / 864e5)) : 0;
   return `<div class="ap ap-heute">
     <div class="ap-gruss auf"><b>Hoi${n ? " " + h(n) : ""}!</b><span>Schön, dass du da bist.</span><img class="ap-logo" src="img/logo.webp" alt="easyplay"></div>
-    <div class="ap-karu" id="apKaru"><div class="ap-karu-spur">${slides.map((sl, i) => `<section class="apf f-held ap-held ${sl.cls}${i ? " ap-held2" : ""}" data-i="${i}">${i ? `<div class="apht"><span class="aphoi">${sl.ic ? `<span class="aph-ic" aria-hidden="true">${sl.ic}</span>` : ""}${h(sl.lbl)}</span><h1 class="aph-klein">${h(sl.titel)}</h1><span class="apzahlen aph-text">${h(sl.text)}</span><button type="button" class="ap-weissbtn" data-x="${sl.a}"${sl.t ? ` data-t="${h(sl.t)}"` : ""}>${h(sl.btn)}</button></div><img class="hs-kid" src="${KIDS}${i % 2 ? "leni.webp" : "ben.webp"}" alt="">`
+    <div class="ap-karu" id="apKaru"><div class="ap-karu-spur">${slides.map((sl, i) => `<section class="apf f-held ap-held ${sl.cls}${i ? " ap-held2" : ""}" data-i="${i}">${i ? `<div class="apht"><span class="aphoi">${sl.ic ? `<span class="aph-ic" aria-hidden="true">${sl.ic}</span>` : ""}${h(sl.lbl)}</span><h1 class="aph-klein">${h(sl.titel)}</h1><span class="apzahlen aph-text">${h(sl.text)}</span><button type="button" class="ap-weissbtn" data-x="${sl.a}"${sl.t ? ` data-t="${h(sl.t)}"` : ""}>${h(sl.btn)}</button></div><img class="hs-kid" src="${KIDS}${({"hs-lib1":"leni.webp","hs-lib2":"ben-denken.webp","hs-tq":"leni-daumen.webp","hs-live":"ben-jubel.webp","hs-duell":"leni-winken.webp"})[sl.cls] || (i % 2 ? "leni.webp" : "ben.webp")}" alt="">`
       : `<div class="apht"><h1>Spiel dich schlau!</h1><span class="apzahlen">${zahl(anz)} Fragen · ${themen} Themen</span><button type="button" class="ap-weissbtn" data-x="themen">${SV(I.play, 18)} Los geht's</button></div><img src="${KIDS}duo-jubel.webp" alt="Lumi und Milo jubeln"><span class="epname eplumi">Lumi</span><span class="epname epmilo">Milo</span>`}</section>`).join("")}</div>
       <div class="ap-karu-punkte" aria-hidden="true">${slides.map((x, i) => `<i${i ? "" : ' class="an"'}></i>`).join("")}</div></div>
     <div class="ap-kopf"><span class="aplbl pille">Dein Tag · ${erledigt} von 3</span><span class="ap-chips"><span class="glas">${SV(I.flamme, 16)}${s.n || 0}</span><span class="glas">${SV(I.stern, 16)}Lv ${lv ? lv.level : 1}</span></span></div>
@@ -914,7 +914,7 @@ function themenSeiten(){
 }
 function libKompakt(){
   const app = document.getElementById("app"); const reg = app && app.querySelector(".regal"); if(!reg || app.querySelector(".ap-libkids")) return;
-  const d = document.createElement("div"); d.className = "ap-libkids"; d.innerHTML = `<img src="${KIDS}leni.webp" alt=""><img src="${KIDS}ben.webp" alt="">`; reg.before(d);
+  const d = document.createElement("div"); d.className = "ap-libkids"; d.innerHTML = `<img src="${KIDS}lb-sitzen.webp" alt="">`; reg.before(d);
   const bk = app.querySelector(".ap-kz"); if(bk) bk.querySelector("h1").textContent = "Bibliothek";
 }
 function doneKompakt(){
