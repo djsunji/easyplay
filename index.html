@@ -5631,7 +5631,7 @@ async function ladeFragenDB(){
   const ok = (rows||[]).filter(f=>f && f.t && f.q && Array.isArray(f.a) && f.a.length===4 && f.l>=1 && f.l<=3);
   for(let i=0;i<ok.length;i++) ok[i]=frageOhneStrich(ok[i]);
   if(!ok.length && !window.claude){ try{ await ersatzFragenLaden(); }catch(e){} }
-  if(ok.length){ FRAGEN.length = 0; FRAGEN.push(...ok); const da=new Set(ok.map(f=>f.img).filter(Boolean)); FRAGEN.push(...LOGOFRAGEN.filter(f=>!da.has(f.img))); render(); buecherVorwaermen(); }
+  if(ok.length){ FRAGEN.length = 0; for(let i=0;i<ok.length;i++) FRAGEN.push(ok[i]); const da=new Set(ok.map(f=>f.img).filter(Boolean)); FRAGEN.push(...LOGOFRAGEN.filter(f=>!da.has(f.img))); render(); buecherVorwaermen(); }
 }
 /* Bibliothek im Leerlauf vorbereiten, damit das erste Öffnen sofort geht */
 function buecherVorwaermen(){
