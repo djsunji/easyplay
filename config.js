@@ -6,5 +6,5 @@ window.EP_CONFIG = {
   supabaseUrl: "",   // z. B. "https://abcdefgh.supabase.co"
   supabaseKey: "",   // öffentlicher Schlüssel (anon / publishable)
   teilenUrl: "https://djsunji.github.io/easyplay/",   // Adresse für geteilte Qeels-Links
-  fragenDateien: ["fragen-1.json", "fragen-2.json", "fragen-3.json", "fragen-4.json", "fragen-5.json", "fragen-6.json", "fragen-7.json", "fragen-8.json", "fragen-9.json", "fragen-10.json", "fragen-11.json", "fragen-12.json", "fragen-13.json", "fragen-14.json"]
+  fragenDateien: ["fragen-1.json", "fragen-2.json", "fragen-3.json", "fragen-4.json", "fragen-5.json", "fragen-6.json", "fragen-7.json", "fragen-8.json", "fragen-9.json", "fragen-10.json", "fragen-11.json", "fragen-12.json", "fragen-13.json", "fragen-14.json", "fragen-15.json"]
 };
