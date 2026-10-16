@@ -80,3 +80,12 @@ python3 einbau_lehrer.py --kopieren   # lehrer.js, lehrer.sql und diese Anleitun
 ```
 
 `lehrer.js` hängt sich zur Laufzeit an `go()`/`render()`, das Menü, die Startseite und das Profil. Neue Seiten: `lehrer`, `lklasse`, `lkind`, `ltestneu`, `ltest` (Lehrperson) sowie `lcode`, `lspiel`, `lfertig` (Kinder).
+
+## Neu im Oktober 2026
+
+- **Eigene Adresse:** Der Lehrerbereich öffnet sich unter `…/lehrer/` (oder `index.html#lehrer`) in schlichter Verwaltungs-Ansicht, ohne Figuren und Effekte. Links: Übersicht, Kinder, Neuer Test, Fragendatenbank, Bibliothek, Fehlermeldungen.
+- **Eigene Fragen:** Beim Erstellen eines Tests kannst du Fragen selbst schreiben, mit vier Antworten oder als offene Frage. Jede Frage aus der Datenbank kannst du bearbeiten (Fragetext ändern) und als offene Frage stellen. Mit «Ohne Auswahlantworten» wird der ganze Test offen.
+- **Offene Fragen korrigieren:** Nach der Abgabe erscheint in den Resultaten «korrigieren». Du siehst die Antwort des Kindes und die Musterlösung und vergibst Punkte (auch halbe). Die Note wird neu berechnet.
+- **Prüfung als PDF:** Nach dem Erstellen wird automatisch eine schlichte Prüfung als PDF gespeichert (Kopf mit Name, Klasse, Datum, Punkten und Note, ohne Logo). Prüfung und Lösungsblatt lassen sich jederzeit nochmals herunterladen.
+- **Kinder:** Übersicht aller Kinder mit Ø Note, letzter Note, Trend und dem Thema mit den meisten Fehlern; Kinder direkt erfassen.
+- **Fragendatenbank und Bibliothek:** nur lesen. Bei jedem Eintrag gibt es «Fehler melden». Mit Supabase (`supabase/lehrer2.sql`) landen die Meldungen in der Verwaltung unter «Fehlermeldungen», sonst sendest du sie per E-Mail.

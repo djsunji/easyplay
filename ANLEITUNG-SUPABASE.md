@@ -30,13 +30,14 @@ Supabase ist für ein Projekt dieser Grösse kostenlos (Free Plan).
 4. **Niemals** den `service_role`- oder `secret`-Schlüssel eintragen. Er würde allen alles erlauben.
 
 ## 3. Datenbank vorbereiten
-In Supabase **SQL Editor → New query**. Nacheinander den Inhalt dieser drei Dateien hineinkopieren und jeweils **Run** drücken:
+In Supabase **SQL Editor → New query**. Nacheinander den Inhalt dieser Dateien hineinkopieren und jeweils **Run** drücken:
 
 1. `supabase/schema.sql` (Fragen, Likes, Kommentare)
 2. `supabase/lehrer.sql` (Lehrerbereich)
 3. `supabase/admin.sql` (Verwaltung und Statistik)
 4. `supabase/live.sql` (Live-Quiz)
 5. `supabase/duell.sql` (Online-Duell mit zufälligem Gegner)
+6. `supabase/lehrer2.sql` (Lehrerbereich: offene Fragen korrigieren, Fehlermeldungen an die Verwaltung)
 
 Jede Datei darf mehrmals ausgeführt werden, es geht nichts verloren.
 

@@ -12,7 +12,8 @@ if(typeof go!=="function" || typeof render!=="function" || typeof S==="undefined
   console.warn("lehrer.js: easyplay-Grundlage nicht gefunden, Lehrerbereich ausgeschaltet.");
   return;
 }
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
+const TITEL0 = document.title;
 const JSPDF_URL = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 const LS_DATEN = "ep-lehrer-daten";
 const LS_ROLLE = "ep-lehrer-rolle";
@@ -130,10 +131,11 @@ const pinHash = (code,pin) => hashHex(`easyplay|${normCode(code)}|${normPin(pin)
 const datum = d => { try{ return new Date(d).toLocaleDateString("de-CH"); }catch(e){ return ""; } };
 const zeit = ms => typeof fmtZeit==="function" ? fmtZeit(ms) : `${Math.round((ms||0)/1000)} s`;
 const plain = o => JSON.parse(JSON.stringify(o));
+const fragenFuerKind = f => f.art==="offen" ? ({q:f.q, art:"offen", p:f.p||1, z:f.z||3, nr:f.nr||0, t:f.t||"", l:f.l||0}) : ({q:f.q, o:f.o, nr:f.nr, t:f.t, l:f.l});
 function alleFr(){ try{ if(typeof alleFragen==="function") return alleFragen(); }catch(e){} return typeof FRAGEN!=="undefined" ? FRAGEN : []; }
 function fNr(f){ try{ if(typeof frageNr==="function") return frageNr(f)||0; }catch(e){} return +f.nr||0; }
-function fKey(f){ try{ if(typeof qid==="function") return qid(f); }catch(e){} let x=2166136261; for(const c of String(f.q)){ x^=c.charCodeAt(0); x=Math.imul(x,16777619); } return (x>>>0).toString(36); }
-const themaName = id => (typeof THEMA!=="undefined" && THEMA[id]?.name) || (String(id).startsWith("kt_") ? "Kanton "+String(id).slice(3) : String(id||""));
+function fKey(f){ if(f && f.eigen && f.id) return f.id; try{ if(typeof qid==="function") return qid(f); }catch(e){} let x=2166136261; for(const c of String(f.q)){ x^=c.charCodeAt(0); x=Math.imul(x,16777619); } return (x>>>0).toString(36); }
+const themaName = id => id==="eigen" ? "Eigene Fragen" : (typeof THEMA!=="undefined" && THEMA[id]?.name) || (String(id).startsWith("kt_") ? "Kanton "+String(id).slice(3) : String(id||""));
 function testBasis(){
   try{ if(window.claude && typeof ARTIFACT_URL!=="undefined" && ARTIFACT_URL) return ARTIFACT_URL; }catch(e){}
   if(/^https?:/.test(location.protocol)) return location.href.split("#")[0];
@@ -145,9 +147,24 @@ const testLink = code => `${testBasis()}#test=${code}`;
 function note(p, max){ if(!max) return 1; const n = 5*p/max + 1; return Math.min(6, Math.max(1, Math.round(n*2)/2)); }
 const fmtNote = n => (n==null || isNaN(n)) ? "-" : (Math.round(n*10)/10).toFixed(1).replace(/\.0$/,"");
 const noteKlasse = n => n==null ? "" : n>=5 ? "gut" : n>=4 ? "ok" : "tief";
-function bewerte(fragen, antworten){
-  let p=0; fragen.forEach((f,i)=>{ if(antworten[i]!=null && +antworten[i]===+f.r) p++; });
-  return {punkte:p, max:fragen.length, note:note(p, fragen.length), loesung:fragen.map(f=>({r:+f.r, e:f.e||""}))};
+/* Fragearten: "mc" (vier Antworten, eine richtig) und "offen" (Textantwort, von der Lehrperson korrigiert, f.p Punkte) */
+const istOffen = f => !!f && f.art==="offen";
+const fPunkte = f => istOffen(f) ? Math.max(1, Math.min(20, +f.p||1)) : 1;
+const maxPunkte = fragen => (fragen||[]).reduce((s,f)=>s+fPunkte(f), 0);
+function bewerte(fragen, antworten, korrektur){
+  let p=0, offen=0; const k=korrektur||{};
+  fragen.forEach((f,i)=>{
+    if(istOffen(f)){ const kp=k[i]; if(kp!=null && kp!=="") p+=Math.max(0, Math.min(fPunkte(f), +kp||0)); else if(antworten[i]!=null && String(antworten[i]).trim()!=="") offen++; }
+    else if(antworten[i]!=null && +antworten[i]===+f.r) p++;
+  });
+  const max=maxPunkte(fragen);
+  return {punkte:p, max, note:note(p, max), offen, loesung:fragen.map(f=>istOffen(f)?({offen:true, m:f.m||"", e:f.e||"", p:fPunkte(f)}):({r:+f.r, e:f.e||""}))};
+}
+/* Antworten säubern: Zahl 0 bis 3 bei Auswahlfragen, Text bei offenen Fragen */
+function antwortenSaeubern(fragen, antworten){
+  return fragen.map((f,i)=>{ const v=(antworten||[])[i];
+    if(istOffen(f)) return (v==null || typeof v==="object") ? null : String(v).slice(0,2000);
+    return (v===0||v===1||v===2||v===3) ? v : null; });
 }
 function toast(text, art){
   let el=$q("#lzToast"); if(!el){ el=document.createElement("div"); el.id="lzToast"; el.setAttribute("role","status"); el.setAttribute("aria-live","polite"); document.body.appendChild(el); }
@@ -211,7 +228,7 @@ function lokalSpeicher(){
       const d=lese(); const t=d.tests.find(x=>x.code===normCode(code)); if(!t) return {fehler:"code"};
       const k=d.klassen.find(x=>x.id===t.klasseId); const s=(k?.schueler||[]).find(x=>x.pin===normPin(pin)); if(!s) return {fehler:"pin"};
       if(t.aktiv===false) return {fehler:"geschlossen"};
-      return {test:{code:t.code, titel:t.titel, schuljahr:t.schuljahr, fragen:t.fragen.map(f=>({q:f.q, o:f.o, nr:f.nr, t:f.t, l:f.l}))}, kind:{id:s.id, name:s.name},
+      return {test:{code:t.code, titel:t.titel, schuljahr:t.schuljahr, fragen:t.fragen.map(f=>fragenFuerKind(f))}, kind:{id:s.id, name:s.name},
               schon:d.abgaben.some(a=>a.code===t.code && a.sid===s.id)};
     },
     async kidAbgeben(code, pin, antworten, dauer){
@@ -219,11 +236,13 @@ function lokalSpeicher(){
       const k=d.klassen.find(x=>x.id===t.klasseId); const s=(k?.schueler||[]).find(x=>x.pin===normPin(pin)); if(!s) return {fehler:"pin"};
       if(t.aktiv===false) return {fehler:"geschlossen"};
       if(d.abgaben.some(a=>a.code===t.code && a.sid===s.id)) return {fehler:"schon"};
-      const ant=t.fragen.map((f,i)=>{ const v=antworten[i]; return (v===0||v===1||v===2||v===3) ? v : null; });
+      const ant=antwortenSaeubern(t.fragen, antworten);
       const r=bewerte(t.fragen, ant);
-      d.abgaben.push({id:neueId(), code:t.code, sid:s.id, name:s.name, antworten:ant, punkte:r.punkte, max:r.max, note:r.note, dauer:Math.max(0,Math.min(86400000,dauer|0)), datum:new Date().toISOString()});
+      d.abgaben.push({id:neueId(), code:t.code, sid:s.id, name:s.name, antworten:ant, korrektur:{}, punkte:r.punkte, max:r.max, note:r.note, dauer:Math.max(0,Math.min(86400000,dauer|0)), datum:new Date().toISOString()});
       schreibe(d); return r;
-    }
+    },
+    async abgabeKorrigieren(a, korrektur){ const d=lese(); const x=d.abgaben.find(y=>y.id===a.id); if(!x) return; const t=d.tests.find(y=>y.code===x.code); x.korrektur=korrektur||{};
+      if(t){ const r=bewerte(t.fragen, antwortenSaeubern(t.fragen, x.antworten), x.korrektur); x.punkte=r.punkte; x.max=r.max; x.note=r.note; } schreibe(d); }
   };
 }
 
@@ -260,9 +279,11 @@ function supaSpeicher(){
     async codeFrei(code){ const r=chk(await sb().from("lehrer_tests").select("code").eq("code",code)); return !r.length; },
     async testSpeichern(t){ chk(await sb().from("lehrer_tests").upsert({code:t.code, lehrer:lid(), klasse_id:t.klasseId, titel:t.titel, schuljahr:t.schuljahr||"", lp21:t.lp21||[], fragen:t.fragen, info:t.info||{}, aktiv:t.aktiv!==false})); return t; },
     async testLoeschen(code){ chk(await sb().from("lehrer_tests").delete().eq("code",code)); },
-    async abgaben(){ return chk(await sb().from("lehrer_abgaben").select("id,test_code,schueler_id,name,antworten,punkte,max,note,dauer_ms,abgegeben").order("abgegeben"))
-      .map(a=>({id:a.id, code:a.test_code, sid:a.schueler_id, name:a.name, antworten:a.antworten||[], punkte:a.punkte, max:a.max, note:+a.note, dauer:a.dauer_ms, datum:a.abgegeben})); },
+    async abgaben(){ return chk(await sb().from("lehrer_abgaben").select("id,test_code,schueler_id,name,antworten,korrektur,punkte,max,note,dauer_ms,abgegeben").order("abgegeben"))
+      .map(a=>({id:a.id, code:a.test_code, sid:a.schueler_id, name:a.name, antworten:a.antworten||[], korrektur:a.korrektur||{}, punkte:a.punkte, max:a.max, note:+a.note, dauer:a.dauer_ms, datum:a.abgegeben})); },
     async abgabeLoeschen(a){ chk(await sb().from("lehrer_abgaben").delete().eq("id",a.id)); },
+    async abgabeKorrigieren(a, korrektur){ const t=LZ.daten?.tests.find(x=>x.code===a.code); const r=t ? bewerte(t.fragen, antwortenSaeubern(t.fragen, a.antworten), korrektur) : null;
+      chk(await sb().from("lehrer_abgaben").update({korrektur:korrektur||{}, ...(r?{punkte:r.punkte, max:r.max, note:r.note}:{})}).eq("id",a.id)); },
     async kidLaden(code, pin){ const r=await sb().rpc("test_laden",{test_code:normCode(code), pin:normPin(pin)}); if(r.error) throw new Error(r.error.message); return r.data||{fehler:"code"}; },
     async kidAbgeben(code, pin, antworten, dauer){ const r=await sb().rpc("abgabe_einreichen",{test_code:normCode(code), pin:normPin(pin), antworten, dauer_ms:Math.max(0,dauer|0)}); if(r.error) throw new Error(r.error.message);
       const d=r.data||{fehler:"daten"}; if(d.note!=null) d.note=+d.note; return d; }
@@ -324,15 +345,17 @@ function claudeSpeicher(db, user){
       return out.sort((a,b)=>String(a.datum).localeCompare(String(b.datum)));
     },
     async abgabeLoeschen(a){ const ref=db.doc(`abgaben/${a._konto}/tests/${a.code}`); const s=await ref.get(); if(!s.exists) return; const d=plain(s.data()); delete d.eintraege[a.sid]; await ref.set(d); },
+    async abgabeKorrigieren(a, korrektur){ const ref=db.doc(`abgaben/${a._konto}/tests/${a.code}`); const s=await ref.get(); if(!s.exists) return; const d=plain(s.data()); const e=d.eintraege?.[a.sid]; if(!e) return;
+      const t=LZ.daten?.tests.find(x=>x.code===a.code); e.korrektur=korrektur||{}; if(t){ const r=bewerte(t.fragen, antwortenSaeubern(t.fragen, e.antworten), e.korrektur); e.punkte=r.punkte; e.max=r.max; e.note=r.note; } await ref.set(d); },
     async kidLaden(code, pin){
       const r=await kidFinden(code, pin); if(r.fehler) return r;
-      return {test:{code:r.t.code||normCode(code), titel:r.t.titel, schuljahr:r.t.schuljahr, fragen:r.t.fragen.map(f=>({q:f.q, o:f.o, nr:f.nr, t:f.t, l:f.l}))}, kind:{id:r.s.sid, name:r.s.name}, schon:r.schon};
+      return {test:{code:r.t.code||normCode(code), titel:r.t.titel, schuljahr:r.t.schuljahr, fragen:r.t.fragen.map(f=>fragenFuerKind(f))}, kind:{id:r.s.sid, name:r.s.name}, schon:r.schon};
     },
     async kidAbgeben(code, pin, antworten, dauer){
       const r=await kidFinden(code, pin); if(r.fehler) return r; if(r.schon) return {fehler:"schon"};
-      const ant=r.t.fragen.map((f,i)=>{ const v=antworten[i]; return (v===0||v===1||v===2||v===3) ? v : null; });
+      const ant=antwortenSaeubern(r.t.fragen, antworten);
       const b=bewerte(r.t.fragen, ant);
-      const eintrag={name:r.s.name, antworten:ant, punkte:b.punkte, max:b.max, note:b.note, dauer:Math.max(0,Math.min(86400000,dauer|0)), datum:new Date().toISOString()};
+      const eintrag={name:r.s.name, antworten:ant, korrektur:{}, punkte:b.punkte, max:b.max, note:b.note, dauer:Math.max(0,Math.min(86400000,dauer|0)), datum:new Date().toISOString()};
       if(r.vorh.exists) await r.ref.update({eintraege:{[r.s.sid]:eintrag}}); else await r.ref.set({lehrer:r.t.lehrer, code:normCode(code), eintraege:{[r.s.sid]:eintrag}});
       const kopf=db.doc(`abgaben/${uid}`); const ks=await kopf.get();
       if(ks.exists) await kopf.update({codes:{[normCode(code)]:true}, zuletzt:eintrag.datum}); else await kopf.set({codes:{[normCode(code)]:true}, zuletzt:eintrag.datum});
@@ -347,17 +370,18 @@ function claudeSpeicher(db, user){
 function abgabenPruefen(list, tests){
   const nachCode={}; (tests||[]).forEach(t=>nachCode[t.code]=t);
   return (list||[]).filter(a=>a && nachCode[a.code]).map(a=>{
-    const t=nachCode[a.code], ant=Array.isArray(a.antworten)?a.antworten.slice(0,t.fragen.length).map(x=>x==null?null:+x):[];
-    const b=bewerte(t.fragen, ant);
-    return {...a, id:String(a.id), code:String(a.code), sid:String(a.sid), name:String(a.name||"").slice(0,60), antworten:ant,
-      punkte:b.punkte, max:b.max, note:b.note, dauer:Math.max(0,Math.min(+a.dauer||0, 864e5)), datum:String(a.datum||"").slice(0,40)};
+    const t=nachCode[a.code], ant=antwortenSaeubern(t.fragen, Array.isArray(a.antworten)?a.antworten:[]);
+    const kor=(a.korrektur && typeof a.korrektur==="object") ? a.korrektur : {};
+    const b=bewerte(t.fragen, ant, kor);
+    return {...a, id:String(a.id), code:String(a.code), sid:String(a.sid), name:String(a.name||"").slice(0,60), antworten:ant, korrektur:kor,
+      punkte:b.punkte, max:b.max, note:b.note, offen:b.offen, dauer:Math.max(0,Math.min(+a.dauer||0, 864e5)), datum:String(a.datum||"").slice(0,40)};
   });
 }
 function abgabenEindeutig(list){ const seen=new Set(); return [...list].sort((a,b)=>String(a.datum).localeCompare(String(b.datum))).filter(a=>{ const k=a.code+"|"+a.sid; if(seen.has(k)) return false; seen.add(k); return true; }); }
 function fehlerAnalyse(tests, abgaben, sid){
   const tm={}; tests.forEach(t=>tm[t.code]=t); const map=new Map();
   abgaben.filter(a=>!sid || a.sid===sid).forEach(a=>{ const t=tm[a.code]; if(!t) return;
-    t.fragen.forEach((f,i)=>{ const key=f.nr ? "n"+f.nr : f.q; let st=map.get(key); if(!st){ st={f, n:0, falsch:0, wahl:{}, tests:new Set()}; map.set(key,st); }
+    t.fragen.forEach((f,i)=>{ if(istOffen(f)) return; const key=f.nr ? "n"+f.nr : f.q; let st=map.get(key); if(!st){ st={f, n:0, falsch:0, wahl:{}, tests:new Set()}; map.set(key,st); }
       st.n++; st.tests.add(t.titel); const x=a.antworten?.[i];
       if(x==null || +x!==+f.r){ st.falsch++; const txt = x==null ? "(keine Antwort)" : (f.o[x] ?? "?"); st.wahl[txt]=(st.wahl[txt]||0)+1; if(sid) st.dein=txt; } });
   });
@@ -366,7 +390,7 @@ function fehlerAnalyse(tests, abgaben, sid){
 }
 function themenQuote(tests, abgaben, sid){
   const tm={}; tests.forEach(t=>tm[t.code]=t); const m={};
-  abgaben.filter(a=>!sid || a.sid===sid).forEach(a=>{ const t=tm[a.code]; if(!t) return; t.fragen.forEach((f,i)=>{ const k=f.t||"?"; m[k]=m[k]||{t:k,n:0,falsch:0}; m[k].n++; const x=a.antworten?.[i]; if(x==null || +x!==+f.r) m[k].falsch++; }); });
+  abgaben.filter(a=>!sid || a.sid===sid).forEach(a=>{ const t=tm[a.code]; if(!t) return; t.fragen.forEach((f,i)=>{ if(istOffen(f)) return; const k=f.t||"?"; m[k]=m[k]||{t:k,n:0,falsch:0}; m[k].n++; const x=a.antworten?.[i]; if(x==null || +x!==+f.r) m[k].falsch++; }); });
   return Object.values(m).map(x=>({...x, quote:x.n?x.falsch/x.n:0})).sort((a,b)=>b.quote-a.quote || b.n-a.n);
 }
 function wochenStart(d){ const x=new Date(d); x.setHours(12,0,0,0); const wd=(x.getDay()+6)%7; x.setDate(x.getDate()-wd); return x.toISOString().slice(0,10); }
@@ -422,74 +446,63 @@ async function pdfSpeichern(doc, name){
   return "gespeichert";
 }
 const FARBE = {blau:[61,90,254], lila:[138,63,224], tinte:[27,34,64], grau:[90,99,133], linie:[205,212,235], gruen:[23,140,78], hell:[243,246,255], gold:[242,180,0]};
+/* Prüfung als PDF: schlicht wie eine normale Schulprüfung, schwarz-weiss, ohne Logo und ohne Schmuck */
 async function pdfTest(t, klasse, loesung){
   const jsPDF=await ladeJsPDF();
   const doc=new jsPDF({unit:"mm", format:"a4", compress:true});
-  const W=210, H=297, M=16, BR=W-2*M; let y=0;
-  const art = loesung ? "Lösungsblatt" : "Arbeitsblatt";
-  doc.setProperties({title:pdfText(`${t.titel}, ${art}`), subject:"easyplay", creator:"easyplay"});
-  const farbe = c => { doc.setTextColor(...c); };
-  const kopfKlein = () => { doc.setFillColor(...FARBE.blau); doc.rect(0,0,W,6,"F"); doc.setFillColor(...FARBE.lila); doc.rect(W*0.62,0,W*0.38,6,"F");
-    doc.setFont("helvetica","bold"); doc.setFontSize(9); farbe(FARBE.grau); doc.text(pdfText(`${t.titel} · ${art}`), M, 13); y=20; };
-  // Kopf
-  doc.setFillColor(...FARBE.blau); doc.rect(0,0,W,26,"F"); doc.setFillColor(...FARBE.lila); doc.rect(W*0.62,0,W*0.38,26,"F");
-  doc.setFont("helvetica","bold"); doc.setFontSize(22); farbe([255,255,255]); doc.text("easyplay", M, 16);
-  doc.setFontSize(12); doc.setFont("helvetica","normal"); doc.text(pdfText(art), W-M, 16, {align:"right"});
-  y=38; doc.setFont("helvetica","bold"); doc.setFontSize(17); farbe(FARBE.tinte);
-  doc.splitTextToSize(pdfText(t.titel), BR).forEach(z=>{ doc.text(z, M, y); y+=7.5; });
-  doc.setFont("helvetica","normal"); doc.setFontSize(10); farbe(FARBE.grau);
-  const infos=[klasse?.name ? "Klasse: "+klasse.name : "", t.schuljahr ? sjName(t.schuljahr) : "", "Datum: "+new Date().toLocaleDateString("de-CH"), "Test-Code: "+t.code].filter(Boolean).join("   ·   ");
-  doc.splitTextToSize(pdfText(infos), BR).forEach(z=>{ doc.text(z, M, y); y+=5; });
-  if(t.lp21?.length){ doc.setFontSize(8.5); doc.splitTextToSize(pdfText("Lehrplan 21: "+t.lp21.map(lpLabel).join("; ")), BR).forEach(z=>{ doc.text(z, M, y); y+=4.2; }); }
-  y+=3;
-  if(!loesung){
-    doc.setDrawColor(...FARBE.linie); doc.setFillColor(...FARBE.hell); doc.roundedRect(M, y, BR, 22, 3, 3, "FD");
-    doc.setFont("helvetica","bold"); doc.setFontSize(11); farbe(FARBE.tinte);
-    doc.text("Name:", M+5, y+9); doc.setDrawColor(...FARBE.grau); doc.setLineWidth(0.3); doc.line(M+19, y+9.5, M+BR*0.58, y+9.5);
-    doc.text("Punkte:", M+BR*0.62, y+9); doc.line(M+BR*0.62+16, y+9.5, M+BR*0.62+30, y+9.5); doc.setFont("helvetica","normal"); doc.text(`/ ${t.fragen.length}`, M+BR*0.62+32, y+9);
-    doc.setFont("helvetica","bold"); doc.text("Note:", M+BR*0.62+46, y+9); doc.line(M+BR*0.62+58, y+9.5, M+BR-4, y+9.5);
-    doc.setFont("helvetica","normal"); doc.setFontSize(9); farbe(FARBE.grau);
-    doc.text(pdfText("Kreuze bei jeder Frage genau eine Antwort an. Es ist immer nur eine Antwort richtig."), M+5, y+17);
-    y+=30;
-  } else {
-    doc.setFont("helvetica","normal"); doc.setFontSize(9.5); farbe(FARBE.grau);
-    doc.text(pdfText(`Richtige Antworten sind grün markiert. Note = 5 × Punkte / ${t.fragen.length} + 1, auf halbe Noten gerundet.`), M, y+2); y+=9;
-  }
-  const BUCH="abcd"; const tx=M+11, tw=BR-11;
+  const W=210, H=297, M=20, BR=W-2*M, PKT=22; let y=0;
+  const schwarz=()=>doc.setTextColor(0,0,0), grau=()=>doc.setTextColor(90,90,90);
+  doc.setProperties({title:pdfText(t.titel+(loesung?" (Lösungen)":""))});
+  const maxP=maxPunkte(t.fragen), hatMc=t.fragen.some(f=>!istOffen(f)), hatOffen=t.fragen.some(istOffen);
+  const linie=(x1,yy,x2)=>{ doc.setDrawColor(0); doc.setLineWidth(0.25); doc.line(x1,yy,x2,yy); };
+  // Kopf: Name, Klasse, Datum, Punkte, Note
+  y=18; doc.setDrawColor(0); doc.setLineWidth(0.3); doc.rect(M, y, BR, 20);
+  doc.line(M, y+10, M+BR, y+10); doc.line(M+BR*0.62, y, M+BR*0.62, y+20);
+  doc.setFont("helvetica","normal"); doc.setFontSize(10); schwarz();
+  doc.text("Name:", M+2.5, y+6.5); doc.text("Datum:", M+BR*0.62+2.5, y+6.5);
+  doc.text(pdfText("Klasse:"+(klasse?.name?"  "+klasse.name:"")), M+2.5, y+16.5);
+  doc.text("Punkte:", M+BR*0.62+2.5, y+16.5); doc.text(`/ ${maxP}`, M+BR*0.62+24, y+16.5); doc.text("Note:", M+BR*0.62+40, y+16.5);
+  if(loesung){ doc.setFont("helvetica","bold"); doc.text(pdfText("Lösungen"), M+BR*0.62-3, y+6.5, {align:"right"}); doc.setFont("helvetica","normal"); }
+  y+=31;
+  doc.setFont("helvetica","bold"); doc.setFontSize(15); schwarz();
+  doc.splitTextToSize(pdfText(t.titel), BR).forEach(z=>{ doc.text(z, M, y); y+=6.8; });
+  doc.setFont("helvetica","normal"); doc.setFontSize(9.5); grau();
+  const hinw=[hatMc?"Kreuze bei Auswahlfragen genau eine Antwort an.":"", hatOffen?"Beantworte offene Fragen in ganzen Sätzen.":"", `Total ${maxP} ${maxP===1?"Punkt":"Punkte"}.`].filter(Boolean).join(" ");
+  doc.splitTextToSize(pdfText(hinw), BR).forEach(z=>{ doc.text(z, M, y); y+=4.6; });
+  y+=4; linie(M, y-2, M+BR); y+=5;
+  const tx=M+8, tw=BR-8-PKT;
   t.fragen.forEach((f,i)=>{
-    doc.setFont("helvetica","bold"); doc.setFontSize(11);
+    const offen=istOffen(f), p=fPunkte(f);
+    doc.setFont("helvetica","normal"); doc.setFontSize(11);
     const qz=doc.splitTextToSize(pdfText(f.q), tw);
-    doc.setFontSize(10.5);
-    // Breite immer fett messen, damit die markierte Lösung nicht in die zweite Spalte ragt
-    doc.setFont("helvetica","bold");
-    const kurz=f.o.every(o=>doc.getTextWidth(pdfText(o))<(tw/2-18));
-    const oz=f.o.map((o,j)=>{ doc.setFont("helvetica", loesung && j===+f.r ? "bold" : "normal"); return doc.splitTextToSize(pdfText(o), kurz ? tw/2-16 : tw-12); });
-    doc.setFont("helvetica","normal");
-    let ez=[]; if(loesung && f.e){ doc.setFontSize(9); ez=doc.splitTextToSize(pdfText("Erklärung: "+f.e), tw); }
-    const optH = kurz ? Math.max(oz[0].length,oz[1].length)*5+Math.max(oz[2].length,oz[3].length)*5+4 : oz.reduce((s,z)=>s+z.length*5+1.6,0);
-    const hoehe = qz.length*5.4 + 3 + optH + (ez.length ? ez.length*4.3+3 : 0) + 6;
-    if(y+hoehe > H-16){ doc.addPage(); kopfKlein(); }
-    // Nummer
-    doc.setFillColor(...(loesung?FARBE.gruen:FARBE.blau)); doc.circle(M+4, y-1.4, 3.6, "F");
-    doc.setFont("helvetica","bold"); doc.setFontSize(9.5); farbe([255,255,255]); doc.text(String(i+1), M+4, y, {align:"center"});
-    doc.setFontSize(11); farbe(FARBE.tinte); qz.forEach(z=>{ doc.text(z, tx, y); y+=5.4; }); y+=1.5;
-    doc.setFont("helvetica","normal"); doc.setFontSize(10.5);
-    const box=(bx,by,ok)=>{ doc.setLineWidth(0.35); doc.setDrawColor(...(ok?FARBE.gruen:FARBE.grau));
-      if(ok){ doc.setFillColor(...FARBE.gruen); doc.roundedRect(bx,by-3.4,4,4,0.6,0.6,"FD"); doc.setDrawColor(255,255,255); doc.setLineWidth(0.6); doc.line(bx+0.8,by-1.4,bx+1.7,by-0.4); doc.line(bx+1.7,by-0.4,bx+3.3,by-2.7); }
-      else doc.roundedRect(bx,by-3.4,4,4,0.6,0.6,"S"); };
-    const opt=(j,ox,oy,breite)=>{ const ok=loesung && j===+f.r; box(ox,oy,ok);
-      doc.setFont("helvetica", ok?"bold":"normal"); farbe(ok?FARBE.gruen:FARBE.tinte); doc.text(BUCH[j]+")", ox+6, oy);
-      let yy=oy; oz[j].forEach(z=>{ doc.text(z, ox+12, yy); yy+=5; }); return yy; };
-    if(kurz){
-      const c2=tx+tw/2; let y1=opt(0,tx,y,tw/2); let y2=opt(1,c2,y,tw/2); y=Math.max(y1,y2)+1.5;
-      y1=opt(2,tx,y,tw/2); y2=opt(3,c2,y,tw/2); y=Math.max(y1,y2);
-    } else { f.o.forEach((o,j)=>{ y=opt(j,tx,y,tw)+1.6; }); }
-    if(ez.length){ y+=1.5; doc.setFont("helvetica","italic"); doc.setFontSize(9); farbe(FARBE.grau); ez.forEach(z=>{ doc.text(z, tx, y); y+=4.3; }); }
-    y+=4; doc.setDrawColor(...FARBE.linie); doc.setLineWidth(0.2); doc.line(tx, y-2.5, M+BR, y-2.5); y+=3;
+    let oz=[], kurz=false, mz=[];
+    if(!offen){ doc.setFontSize(10.5); kurz=f.o.every(o=>doc.getTextWidth(pdfText(o))<(tw/2-14)); oz=f.o.map(o=>doc.splitTextToSize(pdfText(o), kurz ? tw/2-12 : tw-10)); }
+    else if(loesung && f.m){ doc.setFontSize(10.5); mz=doc.splitTextToSize(pdfText(f.m), tw); }
+    const zeilen=Math.max(1, f.z||3);
+    const optH = offen ? (loesung && mz.length ? mz.length*5.2+4 : zeilen*8.5+2) : kurz ? Math.max(oz[0].length,oz[1].length)*5+Math.max(oz[2].length,oz[3].length)*5+5 : oz.reduce((x,z)=>x+z.length*5+2,0);
+    const hoehe=qz.length*5.4+3+optH+7;
+    if(y+hoehe > H-18){ doc.addPage(); y=20; }
+    doc.setFont("helvetica","bold"); doc.setFontSize(11); schwarz(); doc.text(`${i+1}.`, M, y);
+    doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.text(`___ / ${String(p).replace(".",",")} P.`, M+BR, y, {align:"right"});
+    doc.setFontSize(11); qz.forEach(z=>{ doc.text(z, tx, y); y+=5.4; }); y+=2;
+    if(offen){
+      if(loesung && mz.length){ doc.setFont("helvetica","italic"); doc.setFontSize(10.5); mz.forEach(z=>{ doc.text(z, tx, y+1); y+=5.2; }); y+=4; }
+      else if(loesung){ doc.setFont("helvetica","italic"); doc.setFontSize(10); grau(); doc.text("(Antwort frei)", tx, y+1); y+=7; schwarz(); }
+      else { for(let z=0;z<zeilen;z++){ y+=8.5; linie(tx, y-2, M+BR-PKT+12); } y+=2; }
+    } else {
+      doc.setFontSize(10.5);
+      const opt=(j,ox,oy)=>{ const ok=loesung && j===+f.r; doc.setDrawColor(0); doc.setLineWidth(0.3); doc.rect(ox, oy-3.3, 3.6, 3.6);
+        if(ok){ doc.setLineWidth(0.5); doc.line(ox+0.4, oy-2.9, ox+3.2, oy-0.1); doc.line(ox+3.2, oy-2.9, ox+0.4, oy-0.1); }
+        doc.setFont("helvetica", ok?"bold":"normal"); schwarz(); doc.text("abcd"[j]+")", ox+5.5, oy);
+        let yy=oy; oz[j].forEach(z=>{ doc.text(z, ox+11, yy); yy+=5; }); return yy; };
+      if(kurz){ const c2=tx+tw/2; let y1=opt(0,tx,y), y2=opt(1,c2,y); y=Math.max(y1,y2)+1.5; y1=opt(2,tx,y); y2=opt(3,c2,y); y=Math.max(y1,y2); }
+      else f.o.forEach((o,j)=>{ y=opt(j,tx,y)+2; });
+    }
+    y+=6;
   });
   const n=doc.getNumberOfPages();
-  for(let p=1;p<=n;p++){ doc.setPage(p); doc.setFont("helvetica","normal"); doc.setFontSize(8.5); farbe(FARBE.grau);
-    doc.text(pdfText(`easyplay · ${t.titel} · Code ${t.code}`), M, H-8); doc.text(`Seite ${p} von ${n}`, W-M, H-8, {align:"right"}); }
+  for(let pg=1;pg<=n;pg++){ doc.setPage(pg); doc.setFont("helvetica","normal"); doc.setFontSize(8.5); grau();
+    doc.text(pdfText(t.titel), M, H-10); doc.text(`Seite ${pg} von ${n}`, W-M, H-10, {align:"right"}); }
   return doc;
 }
 async function pdfPins(k){
@@ -514,7 +527,26 @@ async function pdfPins(k){
 const LZ = { daten:null, lid:null, laedt:false, fehler:"", klasseId:null, testCode:null, kindId:null, neu:null, kid:null, offen:{} };
 const app = () => $q("#app");
 function rerender(){ if(SEITEN[S.screen]) render(); }
-function setze(html){ const a=app(); if(a) a.innerHTML=html; bindLc(); }
+/* Lehrerbereich im Stil der Verwaltung: Kopfzeile, Navigation links, Inhalt rechts, ohne Figuren und Effekte */
+const ADMIN_SEITEN = new Set(["lehrer","lklasse","lkind","ltestneu","ltest","lkinder","lfragen","lbib","lbibseite","lmeld"]);
+const NAV_L = [["lehrer","Übersicht","Klassen und Tests"],["lkinder","Kinder","Leistung und Verlauf"],["ltestneu","Neuer Test","Fragen wählen oder selbst schreiben"],["lfragen","Fragendatenbank","alle Fragen lesen"],["lbib","Bibliothek","alle Artikel lesen"],["lmeld","Fehlermeldungen","gemeldete Fehler"]];
+const NAV_AKTIV = {lklasse:"lehrer", ltest:"lehrer", lkind:"lkinder", lbibseite:"lbib"};
+function shell(html){
+  const akt = NAV_AKTIV[S.screen] || S.screen;
+  const ich = S.profil ? (S.profil.name || S.profil.email || "") : "";
+  const sp = SP ? (SP.art==="supabase" ? "Supabase" : SP.art==="claude" ? "claude.ai" : "dieses Gerät") : "";
+  const nm = meldungenLokal().filter(m=>!m.gesendet).length;
+  return `<div class="lza">
+    <header class="lza-kopf"><button type="button" class="lza-marke" data-lnav="lehrer"><img src="img/fragezeichen.webp" alt="" width="30" height="28"><b>Lehrerbereich</b></button>
+      <span class="lza-status">${sp?`<span>Speicher: ${h(sp)}</span>`:""}${ich?`<span>${h(ich)}</span>`:""}<button type="button" class="lza-k" data-lnav="home">Zur App</button></span></header>
+    <div class="lza-rahmen">
+      <nav class="lza-nav" aria-label="Lehrerbereich">${NAV_L.map(([id,n,u])=>`<button type="button" data-lnav="${id}" class="${id===akt?"an":""}" ${id===akt?'aria-current="page"':""}><span>${n}${id==="lmeld"&&nm?` <i class="lza-zahl">${nm}</i>`:""}</span><small>${u}</small></button>`).join("")}</nav>
+      <main class="lza-inhalt">${html}</main>
+    </div></div>`;
+}
+function bindShell(){ $a("[data-lnav]").forEach(b=>b.onclick=()=>{ const z=b.dataset.lnav; if(z==="ltestneu"){ if(!LZ.neu) LZ.neu=null; } if(z==="home"){ document.body.classList.remove("lz-admin"); go("home"); return; } go(z); scrollTo(0,0); }); }
+const EMO_VORN = /(<(?:button|h2|h3|summary)(?:\s[^>]*)?>|<span class="bname">)\s*(?:[\p{Extended_Pictographic}\u2190-\u21FF\u2600-\u27BF][\uFE0F\u200D]*\s*)+(?=[A-Za-zÄÖÜäöü«0-9])/gu;
+function setze(html){ const a=app(); if(!a) return; if(ADMIN_SEITEN.has(S.screen)){ a.innerHTML=shell(String(html).replace(EMO_VORN,"$1")); bindShell(); } else a.innerHTML=html; bindLc(); }
 function lc(pfad, aktuell){ // eigene Brotkrumen
   LZ._lc=pfad.map(p=>p[1]);
   return `<nav class="crumbs" aria-label="Verlauf">${pfad.map((p,i)=>`<button type="button" class="crumb" data-lc="${i}">${i===0?"🏠 ":""}${h(p[0])}</button><span class="sep" aria-hidden="true">›</span>`).join("")}<span class="crumb cur" aria-current="page">${h(aktuell)}</span></nav>`;
@@ -553,8 +585,9 @@ function seiteAnmelden(){
       ${claudeOhneKonto ? "" : `<button class="big" id="lzIn" type="button">🔑 Anmelden</button><button class="big alt" id="lzReg" type="button">✨ Konto erstellen</button>`}
       <p class="help">Bist du ein Kind und hast einen Test-Code bekommen? <button type="button" class="lz-link" id="lzZumCode">Hier geht es zum Test.</button></p>
     </div>`);
-  $q("#lzIn") && ($q("#lzIn").onclick=()=>go("login"));
-  $q("#lzReg") && ($q("#lzReg").onclick=()=>go("register"));
+  const merk=()=>{ try{ sessionStorage.setItem("ep-lz-nach-login","1"); }catch(e){} };
+  $q("#lzIn") && ($q("#lzIn").onclick=()=>{ merk(); go("login"); });
+  $q("#lzReg") && ($q("#lzReg").onclick=()=>{ merk(); go("register"); });
   $q("#lzZumCode").onclick=()=>{ LZ.kid=null; go("lcode"); };
 }
 function seiteRolle(){
@@ -769,7 +802,7 @@ function themaLabel(v){ if(!v) return "Gemischt"; if(v.startsWith("b:")) return 
 function neuStart(){
   const kid = LZ.neuKlasse && klasseVon(LZ.neuKlasse) ? LZ.neuKlasse : LZ.daten.klassen[0]?.id || "";
   const k=klasseVon(kid);
-  LZ.neu={titel:"", klasseId:kid, schuljahr:k?.schuljahr||"h6", thema:"", stufe:0, unter:"", anzahl:10, modus:"zufall", sel:[], fmap:new Map(), suche:"", lp21:[], lpAuto:true, fach:""};
+  LZ.neu={titel:"", klasseId:kid, schuljahr:k?.schuljahr||"h6", thema:"", stufe:0, unter:"", anzahl:10, modus:"zufall", sel:[], fmap:new Map(), suche:"", lp21:[], lpAuto:true, fach:"", edit:{}, alleOffen:false, bearb:null, entwurf:{art:"mc", q:"", a:["","","",""], m:"", p:2, z:4}};
   LZ.neuKlasse=null; lpAuto();
 }
 function zyklusNeu(){ const n=LZ.neu; const s=sjObj(n.schuljahr); return s ? s.zyklus : (klasseVon(n.klasseId)?.zyklus||2); }
@@ -777,6 +810,67 @@ function lpAuto(){ const n=LZ.neu; if(!n.lpAuto) return; n.lp21=lp21Vorschlag(th
 function poolNeu(ohneUnter){
   const n=LZ.neu; const ids=themaIds(n.thema); const set=ids?new Set(ids):null; const u=ohneUnter?"":n.unter.trim().toLowerCase();
   return alleFr().filter(f=>f && typeof THEMA!=="undefined" && THEMA[f.t] && !f.img && Array.isArray(f.a) && f.a.length===4 && (!n.stufe || f.l===n.stufe) && (!set || set.has(f.t)) && (!u || String(f.s||"").toLowerCase().includes(u)));
+}
+/* Frage so, wie sie im Test steht: Fragetext und Art (Auswahl oder offen) können geändert sein */
+function alsTestFrage(n, f, mischenJa){
+  const k=fKey(f), ed=n.edit[k]||{};
+  const q=String(ed.q!=null ? ed.q : f.q).trim().slice(0,600);
+  const offen = f.eigen ? f.art==="offen" : !!(n.alleOffen || ed.offen);
+  const basis={q, e:f.e||"", nr:f.eigen?0:fNr(f), t:f.eigen?"eigen":f.t, l:f.eigen?0:f.l, s:f.s||"", ...(f.eigen?{eigen:true}:{})};
+  if(offen) return {...basis, art:"offen", m:String(ed.m!=null ? ed.m : (f.eigen ? f.m : f.a[0])||"").slice(0,1000), p:Math.max(1,Math.min(20,+(ed.p||f.p||1))), z:Math.max(1,Math.min(15,+(ed.z||f.z||3)))};
+  const a=f.a; if(!mischenJa) return {...basis, o:a, r:0};
+  const o=mischen(a.map((x,i)=>({x, ok:i===0}))); return {...basis, o:o.map(y=>y.x), r:o.findIndex(y=>y.ok)};
+}
+function selItemHTML(n, f){
+  const k=fKey(f), tf=alsTestFrage(n,f), offen=istOffen(tf), ed=n.edit[k]||{};
+  const meta=`${f.eigen?"Eigene Frage":h(themaName(f.t))+" · Stufe "+f.l} · ${offen?`offen, ${tf.p} ${tf.p===1?"Punkt":"Punkte"}`:"Auswahl"}`;
+  if(n.bearb===k) return `<li class="lza-bearb"><div class="lz-form">
+      <label for="lzEdQ">Fragetext</label><textarea id="lzEdQ" class="sel" rows="2" maxlength="600">${h(tf.q)}</textarea>
+      ${f.eigen?"":`<label class="lz-schalter"><input type="checkbox" id="lzEdOffen" ${offen?"checked":""} ${n.alleOffen?"disabled":""}><span>Als offene Frage (ohne Auswahlantworten)</span></label>`}
+      ${offen?`<label for="lzEdM">Musterlösung (für dich und das Lösungsblatt)</label><textarea id="lzEdM" class="sel" rows="2" maxlength="1000">${h(tf.m)}</textarea>
+        <div class="lz-zwei"><div><label for="lzEdP">Punkte</label><input id="lzEdP" class="sel" type="number" min="1" max="20" value="${tf.p}"></div><div><label for="lzEdZ">Schreiblinien im PDF</label><input id="lzEdZ" class="sel" type="number" min="1" max="15" value="${tf.z}"></div></div>`
+        :`<p class="help">Antworten: ${f.a.map((a,i)=>i===0?`<b>${h(a)}</b>`:h(a)).join(" · ")}</p>`}
+      <div class="row lz-links"><button type="button" class="big small" id="lzEdOk">Übernehmen</button><button type="button" class="big alt small" id="lzEdAb">Abbrechen</button>${ed.q!=null&&!f.eigen?`<button type="button" class="big alt small" id="lzEdOrig">Originaltext</button>`:""}</div></div></li>`;
+  return `<li><span><b>${h(tf.q)}</b><small>${meta}${offen?(tf.m?` · Lösung: ${h(tf.m)}`:""):` · richtig: ${h(f.a[0])}`}${ed.q!=null?" · Text geändert":""}</small></span>
+    <span class="lza-selakt"><button type="button" class="lz-mini" data-ed="${h(k)}" title="Bearbeiten" aria-label="Frage bearbeiten">✏️</button><button type="button" class="lz-mini" data-rm="${h(k)}" aria-label="Frage entfernen">✕</button></span></li>`;
+}
+function selBinden(n, neu){
+  $a("[data-ed]").forEach(b=>b.onclick=()=>neu(()=>{ n.bearb=b.dataset.ed; }));
+  const ok=$q("#lzEdOk"); if(!ok) return; const k=n.bearb; const f=n.fmap.get(k);
+  ok.onclick=()=>neu(()=>{ const q=$q("#lzEdQ").value.trim(); if(!q) return;
+    if(f && f.eigen){ f.q=q; const m=$q("#lzEdM"); if(m){ f.m=m.value.trim(); f.p=+$q("#lzEdP").value||1; f.z=+$q("#lzEdZ").value||3; } }
+    else { const ed=n.edit[k]=n.edit[k]||{}; if(f && q!==f.q) ed.q=q; else delete ed.q; const o=$q("#lzEdOffen"); if(o) ed.offen=o.checked;
+      const m=$q("#lzEdM"); if(m){ ed.m=m.value.trim(); ed.p=+$q("#lzEdP").value||1; ed.z=+$q("#lzEdZ").value||3; } }
+    n.bearb=null; });
+  $q("#lzEdAb").onclick=()=>neu(()=>{ n.bearb=null; });
+  const og=$q("#lzEdOrig"); og && (og.onclick=()=>neu(()=>{ if(n.edit[k]) delete n.edit[k].q; n.bearb=null; }));
+  const off=$q("#lzEdOffen"); off && (off.onchange=()=>neu(()=>{ const ed=n.edit[k]=n.edit[k]||{}; ed.offen=off.checked; const q=$q("#lzEdQ").value.trim(); if(f && q && q!==f.q) ed.q=q; }));
+}
+function entwurfHTML(n){
+  const E=n.entwurf;
+  return `<p class="help">Schreib deine eigene Frage, mit vier Antworten zur Auswahl oder als offene Frage, bei der die Kinder selbst schreiben. Offene Fragen korrigierst du nach der Abgabe.</p>
+    <div class="segs" role="group" aria-label="Fragenart"><button type="button" class="seg" data-ea="mc" aria-pressed="${E.art==="mc"}">Mit Auswahl (A bis D)</button><button type="button" class="seg" data-ea="offen" aria-pressed="${E.art==="offen"}">Offene Frage</button></div>
+    <div class="lz-form"><label for="lzEQ">Fragetext</label><textarea id="lzEQ" class="sel" rows="2" maxlength="600" placeholder="z. B. Nenne zwei Gründe, warum die Schweiz vier Landessprachen hat.">${h(E.q)}</textarea>
+    ${E.art==="mc" ? `<div class="lz-zwei"><div><label for="lzEA0">Richtige Antwort</label><input id="lzEA0" class="sel" maxlength="200" value="${h(E.a[0])}"></div><div><label for="lzEA1">Falsche Antwort 1</label><input id="lzEA1" class="sel" maxlength="200" value="${h(E.a[1])}"></div></div>
+      <div class="lz-zwei"><div><label for="lzEA2">Falsche Antwort 2</label><input id="lzEA2" class="sel" maxlength="200" value="${h(E.a[2])}"></div><div><label for="lzEA3">Falsche Antwort 3</label><input id="lzEA3" class="sel" maxlength="200" value="${h(E.a[3])}"></div></div>`
+      : `<label for="lzEM">Musterlösung (erscheint nur auf dem Lösungsblatt)</label><textarea id="lzEM" class="sel" rows="2" maxlength="1000">${h(E.m)}</textarea>
+      <div class="lz-zwei"><div><label for="lzEP">Punkte</label><input id="lzEP" class="sel" type="number" min="1" max="20" value="${E.p}"></div><div><label for="lzEZ">Schreiblinien im PDF</label><input id="lzEZ" class="sel" type="number" min="1" max="15" value="${E.z}"></div></div>`}
+    <p class="err" id="lzEErr2" aria-live="polite"></p>
+    <div class="row lz-links"><button type="button" class="big" id="lzEAdd">Frage hinzufügen</button></div></div>`;
+}
+function entwurfBinden(n, neu){
+  const E=n.entwurf, $v=id=>$q(id)?.value ?? "";
+  const lesen=()=>{ E.q=$v("#lzEQ"); if(E.art==="mc") [0,1,2,3].forEach(i=>E.a[i]=$v("#lzEA"+i)); else { E.m=$v("#lzEM"); E.p=Math.max(1,Math.min(20,+$v("#lzEP")||1)); E.z=Math.max(1,Math.min(15,+$v("#lzEZ")||3)); } };
+  $a("#lzEQ,#lzEA0,#lzEA1,#lzEA2,#lzEA3,#lzEM,#lzEP,#lzEZ").forEach(x=>x.oninput=lesen);
+  $a("[data-ea]").forEach(b=>b.onclick=()=>neu(()=>{ lesen(); E.art=b.dataset.ea; }));
+  $q("#lzEAdd").onclick=()=>{ lesen(); const err=$q("#lzEErr2"); const q=E.q.trim();
+    if(q.length<3){ err.textContent="Bitte einen Fragetext schreiben."; return; }
+    if(E.art==="mc" && E.a.some(a=>!a.trim())){ err.textContent="Bitte alle vier Antworten ausfüllen."; return; }
+    if(E.art==="mc" && new Set(E.a.map(a=>a.trim().toLowerCase())).size<4){ err.textContent="Die vier Antworten müssen verschieden sein."; return; }
+    if(n.sel.length>=MAX_FRAGEN){ err.textContent=`Höchstens ${MAX_FRAGEN} Fragen pro Test.`; return; }
+    const f={eigen:true, id:"e"+neueId(), art:E.art, q, a:E.art==="mc"?E.a.map(a=>a.trim()):[], m:E.m.trim(), p:E.p, z:E.z, e:""};
+    neu(()=>{ n.fmap.set(f.id,f); n.sel.push(f.id); n.entwurf={art:E.art, q:"", a:["","","",""], m:"", p:E.p, z:E.z}; });
+    toast("Eigene Frage hinzugefügt.","ok"); };
 }
 function seiteTestNeu(){
   if(!bereitFuerLehrer("Neuer Test")) return;
@@ -814,13 +908,16 @@ function seiteTestNeu(){
           <p class="help">${liste.length<pool.length?`Die ersten ${liste.length} von ${pool.length.toLocaleString("de-CH")} Fragen. Grenze mit Thema, Stufe, Unterthema oder Suchwort ein.`:`${liste.length} Fragen`}</p>
           <div class="suchliste lz-auswahl">${liste.map(f=>{ const id=fKey(f); return `<label class="sq ${selSet.has(id)?"on":""}"><input type="checkbox" data-fq="${h(id)}" ${selSet.has(id)?"checked":""}><span><b>${h(f.q)}</b><small>Nr. ${fNr(f)} · ${h(themaName(f.t))} · Stufe ${f.l}${f.s?` · ${h(f.s)}`:""} · ✅ ${h(f.a[0])}</small></span></label>`; }).join("") || `<p class="empty">Keine Fragen gefunden.</p>`}</div>`}
     </div></section>
-    <section class="statcard lz-sek"><h2>3. Ausgewählte Fragen <span class="lz-zahl">${sel.length}</span></h2>
-      ${sel.length ? `<ol class="lz-sel">${sel.map(f=>`<li><span><b>${h(f.q)}</b><small>${h(themaName(f.t))} · Stufe ${f.l} · ✅ ${h(f.a[0])}</small></span><button type="button" class="lz-mini" data-rm="${h(fKey(f))}" aria-label="Frage entfernen">✕</button></li>`).join("")}</ol>
+    <section class="statcard lz-sek"><h2>3. Eigene Frage schreiben</h2>${entwurfHTML(n)}</section>
+    <section class="statcard lz-sek"><h2>4. Fragen im Test <span class="lz-zahl">${sel.length}</span></h2>
+      <label class="lz-schalter"><input type="checkbox" id="lzAlleOffen" ${n.alleOffen?"checked":""}><span>Ohne Auswahlantworten: alle Fragen als offene Fragen (die Kinder schreiben die Antwort selbst)</span></label>
+      ${sel.length ? `<ol class="lz-sel lza-sel">${sel.map(f=>selItemHTML(n,f)).join("")}</ol>
+        <p class="help">Total ${sel.reduce((x,f)=>x+fPunkte(alsTestFrage(n,f)),0)} Punkte. Mit «Bearbeiten» änderst du den Fragetext, die Musterlösung und die Punkte.</p>
         <div class="row lz-links"><button class="big alt small" id="lzLeeren" type="button">Alle entfernen</button></div>`
-        : `<p class="empty">${n.modus==="zufall"?"Noch keine Fragen gezogen. Tippe auf «Fragen ziehen».":"Hake oben die gewünschten Fragen an."}</p>`}
+        : `<p class="empty">Noch keine Fragen. Ziehe Fragen aus der Datenbank, wähle sie selbst aus oder schreibe eigene Fragen.</p>`}
       ${sel.length>MAX_FRAGEN?`<p class="err">Höchstens ${MAX_FRAGEN} Fragen pro Test.</p>`:""}
     </section>
-    <section class="statcard lz-sek"><h2>4. Lehrplan 21</h2>
+    <section class="statcard lz-sek"><h2>5. Lehrplan 21</h2>
       <p class="help">Vorschlag aus dem Thema (Zyklus ${zyklusNeu()}): ${vorschlag.length?vorschlag.map(c=>`<b>${h(c)}</b>`).join(", "):"kein Vorschlag"}${n.lpAuto?"":` <button type="button" class="lz-link" id="lzLpAuto">übernehmen</button>`}</p>
       <div class="lz-chips">${n.lp21.map(c=>`<button type="button" class="lz-chip" data-lprm="${h(c)}" aria-label="${h(lpLabel(c))} entfernen">${h(lpLabel(c))} <span aria-hidden="true">✕</span></button>`).join("") || `<span class="help">Noch kein Lehrplanbezug gewählt.</span>`}</div>
       <div class="lz-form"><label for="lzFach">Fachbereich</label><select id="lzFach" class="sel">${LP21.map(x=>`<option value="${x.f}" ${x.f===fb.f?"selected":""}>${h(x.f)} ${h(x.n)} (Zyklus ${x.z.join(", ")})</option>`).join("")}</select>
@@ -841,12 +938,15 @@ function seiteTestNeu(){
   $q("#lzZiehen") && ($q("#lzZiehen").onclick=()=>neu(()=>{ const a=Math.max(1,Math.min(MAX_FRAGEN,parseInt($q("#lzNAnz").value,10)||10)); n.anzahl=a;
     // möglichst verschiedene Fragen (gleicher Fragetext nur einmal)
     const gesehen=new Set(); const z=mischen(pool).filter(f=>{ const k=f.q.trim().toLowerCase(); if(gesehen.has(k)) return false; gesehen.add(k); return true; }).slice(0,a);
-    n.fmap=new Map(z.map(f=>[fKey(f),f])); n.sel=z.map(fKey); }));
+    const eig=n.sel.filter(k=>n.fmap.get(k)?.eigen); const em=eig.map(k=>[k,n.fmap.get(k)]);
+    n.fmap=new Map([...em, ...z.map(f=>[fKey(f),f])]); n.sel=[...eig, ...z.map(fKey)].slice(0,MAX_FRAGEN); }));
   if($q("#lzNSuche")){ const inp=$q("#lzNSuche"); let tm; inp.oninput=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ merke(); n.suche=inp.value; const pos=inp.selectionStart, y=scrollY; render(); scrollTo(0,y); const x=$q("#lzNSuche"); if(x){ x.focus(); try{ x.setSelectionRange(pos,pos); }catch(e){} } },300); }; }
   $a("[data-fq]").forEach(c=>c.onchange=()=>neu(()=>{ const f=liste.find(x=>fKey(x)===c.dataset.fq); if(!f) return;
     if(c.checked){ if(!n.sel.includes(c.dataset.fq)){ n.sel.push(c.dataset.fq); n.fmap.set(c.dataset.fq,f); } } else n.sel=n.sel.filter(x=>x!==c.dataset.fq); }));
   $a("[data-rm]").forEach(b=>b.onclick=()=>neu(()=>{ n.sel=n.sel.filter(x=>x!==b.dataset.rm); }));
-  $q("#lzLeeren") && ($q("#lzLeeren").onclick=()=>neu(()=>{ n.sel=[]; }));
+  $q("#lzLeeren") && ($q("#lzLeeren").onclick=()=>neu(()=>{ n.sel=[]; n.edit={}; }));
+  $q("#lzAlleOffen").onchange=e=>neu(()=>{ n.alleOffen=e.target.checked; });
+  entwurfBinden(n, neu); selBinden(n, neu);
   $q("#lzLpAuto") && ($q("#lzLpAuto").onclick=()=>neu(()=>{ n.lpAuto=true; lpAuto(); }));
   $a("[data-lprm]").forEach(b=>b.onclick=()=>neu(()=>{ n.lpAuto=false; n.lp21=n.lp21.filter(x=>x!==b.dataset.lprm); }));
   $q("#lzFach").onchange=e=>neu(()=>{ n.fach=e.target.value; });
@@ -861,8 +961,9 @@ function seiteTestNeu(){
       const titel=(n.titel.trim() || themaLabel(n.thema)+"-Test").slice(0,80);
       const t={code, klasseId:k.id, titel, schuljahr:n.schuljahr, lp21:[...n.lp21], aktiv:true, erstellt:new Date().toISOString(),
         info:{thema:n.thema, stufe:n.stufe, zyklus:zyklusNeu(), klasse:k.name},
-        fragen:sel.map(f=>{ const o=mischen(f.a.map((x,i)=>({x, ok:i===0}))); return {q:f.q, o:o.map(y=>y.x), r:o.findIndex(y=>y.ok), e:f.e||"", nr:fNr(f), t:f.t, l:f.l, s:f.s||""}; })};
-      await SP.testSpeichern(t, k); LZ.daten.tests.unshift(t); LZ.neu=null; LZ.testCode=code; toast(`Test erstellt. Code: ${code}`,"ok"); go("ltest");
+        fragen:sel.map(f=>alsTestFrage(n,f,true))};
+      await SP.testSpeichern(t, k); LZ.daten.tests.unshift(t); LZ.neu=null; LZ.testCode=code; toast(`Test erstellt. Code: ${code}. Die Prüfung als PDF wird erstellt.`,"ok"); go("ltest");
+      try{ const d=await pdfTest(t, k, false); await pdfSpeichern(d, `Pruefung-${slug(t.titel)}.pdf`); }catch(e){ console.warn(e); }
     }catch(e){ err.textContent=fehlerText(e); b.disabled=false; }
   };
 }
@@ -876,12 +977,21 @@ function bindTeilenL(){
   if(typeof bindTeilen==="function"){ bindTeilen(); return; }
   $a("[data-copy]").forEach(b=>b.onclick=async()=>{ const m=b.closest(".sharebox")?.querySelector(".copymsg"); try{ await navigator.clipboard.writeText(b.dataset.copy); if(m) m.textContent="✅ Link kopiert!"; }catch(e){ if(m) m.textContent="Bitte den Link markieren und kopieren."; } });
 }
+function korrPanel(t, a){
+  const kor=a.korrektur||{};
+  return `<tr class="lza-korr"><td colspan="6"><div class="lza-korbox"><b>Offene Fragen von ${h(a.name)} korrigieren</b>
+    ${t.fragen.map((f,i)=>istOffen(f)?`<div class="lza-korf"><p><span class="lza-mu">Frage ${i+1}:</span> ${h(f.q)}</p>
+      <p class="lza-korant">${a.antworten?.[i]!=null && String(a.antworten[i]).trim() ? h(a.antworten[i]) : `<span class="lza-mu">keine Antwort</span>`}</p>
+      ${f.m?`<p class="lza-mu">Musterlösung: ${h(f.m)}</p>`:""}
+      <label>Punkte <input type="number" min="0" max="${fPunkte(f)}" step="0.5" data-kp="${i}" value="${kor[i]!=null?h(kor[i]):""}"> von ${fPunkte(f)}</label></div>`:"").join("")}
+    <div class="lza-leiste"><button type="button" class="lza-k p" id="lzaKorSave">Korrektur speichern</button><button type="button" class="lza-k" id="lzaKorZu">Schliessen</button></div></div></td></tr>`;
+}
 function seiteTest(){
   if(!bereitFuerLehrer("Test")) return;
   const t=LZ.daten.tests.find(x=>x.code===LZ.testCode); if(!t){ go("lehrer"); return; }
   const k=klasseVon(t.klasseId); const kids=k?.schueler||[]; const ab=abgabenVon(t.code);
   const s=schnitt(ab.map(a=>a.note)), sp=schnitt(ab.map(a=>a.punkte)), sz=schnitt(ab.map(a=>a.dauer||0));
-  const link=testLink(t.code);
+  const link=testLink(t.code); const hatOffen=t.fragen.some(istOffen);
   const zeilen=[...kids.map(kid=>({kid, a:ab.find(a=>a.sid===kid.id)})), ...ab.filter(a=>!kids.some(x=>x.id===a.sid)).map(a=>({kid:{id:a.sid, name:a.name+" (entfernt)"}, a}))]
     .sort((x,y)=>(y.a?1:0)-(x.a?1:0) || (y.a?.note||0)-(x.a?.note||0) || x.kid.name.localeCompare(y.kid.name,"de"));
   setze(`${lc([START,LB,...(k?[[k.name,()=>{ LZ.klasseId=k.id; go("lklasse"); }]]:[])], t.titel)}
@@ -895,16 +1005,16 @@ function seiteTest(){
         ${teilenHTML(link, `easyplay-Test «${t.titel}», Code ${t.code}`)}
         <label class="lz-schalter"><input type="checkbox" id="lzAktiv" ${t.aktiv!==false?"checked":""}><span>Test ist offen (Kinder können ihn lösen)</span></label>
       </section>
-      <section class="statcard"><h2>🖨️ Arbeitsblatt</h2>
-        <p class="help">Für die Arbeit auf Papier: Arbeitsblatt mit Kopf (Klasse, Datum, Name) und Ankreuzfeldern, Lösungsblatt mit richtigen Antworten und Erklärungen.</p>
-        <div class="row lz-links"><button class="big" id="lzPdfA" type="button">📄 Arbeitsblatt (PDF)</button><button class="big alt" id="lzPdfL" type="button">✅ Lösungsblatt (PDF)</button></div>
+      <section class="statcard"><h2>🖨️ Prüfung auf Papier</h2>
+        <p class="help">Schlichte Prüfung wie in der Schule: Kopf mit Name, Klasse, Datum, Punkten und Note, Ankreuzfelder und Schreiblinien. Das Lösungsblatt zeigt die richtigen Antworten und Musterlösungen.</p>
+        <div class="row lz-links"><button class="big" id="lzPdfA" type="button">📄 Prüfung (PDF)</button><button class="big alt" id="lzPdfL" type="button">✅ Lösungsblatt (PDF)</button></div>
         <p class="status" id="lzPdfSt" aria-live="polite"></p>
       </section>
     </div>
     <section class="statcard lz-sek"><h2>📊 Resultate <span class="lz-zahl">${ab.length}/${kids.length}</span></h2>
-      ${ab.length?`<div class="lz-kpis"><div><b>${fmtNote(s)}</b><span>Ø Note</span></div><div><b>${sp!=null?(Math.round(sp*10)/10).toLocaleString("de-CH"):"-"}/${t.fragen.length}</b><span>Ø Punkte</span></div><div><b>${h(zeit(sz))}</b><span>Ø Zeit</span></div><div><b>${ab.filter(a=>a.note>=4).length}/${ab.length}</b><span>genügend</span></div></div>`:""}
+      ${ab.length?`<div class="lz-kpis"><div><b>${fmtNote(s)}</b><span>Ø Note</span></div><div><b>${sp!=null?(Math.round(sp*10)/10).toLocaleString("de-CH"):"-"}/${maxPunkte(t.fragen)}</b><span>Ø Punkte</span></div><div><b>${h(zeit(sz))}</b><span>Ø Zeit</span></div><div><b>${ab.filter(a=>a.note>=4).length}/${ab.length}</b><span>genügend</span></div></div>`:""}
       ${zeilen.length?`<div class="lz-tabwrap"><table class="lz-tab lz-liste"><thead><tr><th scope="col">Kind</th><th scope="col">Punkte</th><th scope="col">Note</th><th scope="col">Zeit</th><th scope="col">Abgabe</th><th scope="col"><span class="sr-only">Aktion</span></th></tr></thead><tbody>
-        ${zeilen.map(({kid,a})=>a?`<tr><th scope="row"><button type="button" class="lz-th" data-kind="${h(kid.id)}">${h(kid.name)}</button></th><td>${h(a.punkte)}/${h(a.max)}</td><td class="lz-n ${noteKlasse(a.note)}">${fmtNote(a.note)}</td><td>${h(zeit(a.dauer))}</td><td>${datum(a.datum)}</td><td><button type="button" class="lz-mini" data-abdel="${h(a.id)}" title="Abgabe löschen, damit das Kind nochmals lösen kann" aria-label="Abgabe von ${h(kid.name)} löschen">↩️</button></td></tr>`
+        ${zeilen.map(({kid,a})=>a?`<tr><th scope="row"><button type="button" class="lz-th" data-kind="${h(kid.id)}">${h(kid.name)}</button></th><td>${h(a.punkte)}/${h(a.max)}</td><td class="lz-n ${a.offen?"":noteKlasse(a.note)}">${a.offen?`<span class="lza-mu" title="vorläufig, offene Fragen noch nicht korrigiert">(${fmtNote(a.note)})</span>`:fmtNote(a.note)}</td><td>${h(zeit(a.dauer))}</td><td>${datum(a.datum)}</td><td class="nowrap">${hatOffen?`<button type="button" class="lz-mini lza-korbtn ${a.offen?"offen":""}" data-kor="${h(a.id)}">${a.offen?`✎ ${a.offen} korrigieren`:"✎ korrigiert"}</button>`:""}<button type="button" class="lz-mini" data-abdel="${h(a.id)}" title="Abgabe löschen, damit das Kind nochmals lösen kann" aria-label="Abgabe von ${h(kid.name)} löschen">↩️</button></td></tr>${LZ.kor===a.id?korrPanel(t,a):""}`
           :`<tr><th scope="row">${h(kid.name)}</th><td colspan="5" class="lz-offen">noch nicht abgegeben · PIN ${h(kid.pin||"")}</td></tr>`).join("")}
       </tbody></table></div>`:`<p class="empty">Diese Klasse hat noch keine Kinder.</p>`}
     </section>
@@ -913,21 +1023,196 @@ function seiteTest(){
       ${fehlerListe(fehlerAnalyse([t], ab), 50)}
     </section>
     <details class="bibthema lz-sek"><summary><span class="bname">👀 Fragen in diesem Test</span><span class="bn">${t.fragen.length}</span></summary>
-      <ol class="lz-sel lz-vorschau">${t.fragen.map(f=>`<li><span><b>${h(f.q)}</b><small>${f.o.map((o,j)=>`${"abcd"[j]}) ${j===+f.r?`<b class="lz-richtig">${h(o)}</b>`:h(o)}`).join(" · ")}</small></span></li>`).join("")}</ol></details>
+      <ol class="lz-sel lz-vorschau">${t.fragen.map(f=>`<li><span><b>${h(f.q)}</b><small>${istOffen(f)?`Offene Frage, ${fPunkte(f)} ${fPunkte(f)===1?"Punkt":"Punkte"}${f.m?` · Musterlösung: <b class="lz-richtig">${h(f.m)}</b>`:""}`:f.o.map((o,j)=>`${"abcd"[j]}) ${j===+f.r?`<b class="lz-richtig">${h(o)}</b>`:h(o)}`).join(" · ")}</small></span></li>`).join("")}</ol></details>
     <div class="row"><button class="big alt small" id="lzTReload" type="button">🔄 Resultate aktualisieren</button><button class="big alt small lz-gefahr" id="lzTDel" type="button">🗑️ Test löschen</button></div>`);
   bindTeilenL();
   $a("[data-kind]").forEach(b=>b.onclick=()=>{ LZ.kindId=b.dataset.kind; go("lkind"); });
   $q("#lzAktiv").onchange=async e=>{ const neu={...t, aktiv:e.target.checked}; try{ await SP.testSpeichern(neu, k); t.aktiv=neu.aktiv; toast(t.aktiv?"Test ist offen.":"Test ist geschlossen.","ok"); rerender(); }catch(x){ e.target.checked=!e.target.checked; toast(fehlerText(x),"bad"); } };
   const pdf=async(loes)=>{ const st=$q("#lzPdfSt"); st.textContent="PDF wird erstellt …"; $a("#lzPdfA,#lzPdfL").forEach(b=>b.disabled=true);
-    try{ const d=await pdfTest(t, k, loes); const r=await pdfSpeichern(d, `${loes?"Loesungsblatt":"Arbeitsblatt"}-${slug(t.titel)}-${t.code}.pdf`); st.textContent = r==="gespeichert" ? "✅ PDF erstellt." : r==="abgebrochen" ? "Download abgebrochen." : "Bitte kurz warten und nochmals versuchen."; }
+    try{ const d=await pdfTest(t, k, loes); const r=await pdfSpeichern(d, `${loes?"Loesungen":"Pruefung"}-${slug(t.titel)}.pdf`); st.textContent = r==="gespeichert" ? "✅ PDF erstellt." : r==="abgebrochen" ? "Download abgebrochen." : "Bitte kurz warten und nochmals versuchen."; }
     catch(e){ st.textContent=fehlerText(e); } $a("#lzPdfA,#lzPdfL").forEach(b=>b.disabled=false); };
   $q("#lzPdfA").onclick=()=>pdf(false); $q("#lzPdfL").onclick=()=>pdf(true);
+  $a("[data-kor]").forEach(b=>b.onclick=()=>{ LZ.kor = LZ.kor===b.dataset.kor ? null : b.dataset.kor; const y=scrollY; rerender(); scrollTo(0,y); });
+  const ks=$q("#lzaKorSave"); if(ks){ const a=ab.find(x=>x.id===LZ.kor);
+    $q("#lzaKorZu").onclick=()=>{ LZ.kor=null; const y=scrollY; rerender(); scrollTo(0,y); };
+    ks.onclick=async()=>{ const kor={}; $a("[data-kp]").forEach(inp=>{ if(inp.value!=="") kor[inp.dataset.kp]=Math.max(0,Math.min(+inp.max||1,+inp.value||0)); });
+      ks.disabled=true; try{ await (SP.abgabeKorrigieren ? SP.abgabeKorrigieren(a, kor) : Promise.reject(new Error("Korrigieren ist hier nicht möglich.")));
+        const r=bewerte(t.fragen, antwortenSaeubern(t.fragen, a.antworten), kor); Object.assign(a, {korrektur:kor, punkte:r.punkte, max:r.max, note:r.note, offen:r.offen});
+        const g=LZ.daten.abgaben.find(x=>x.id===a.id); if(g) Object.assign(g, a); toast(`Korrektur gespeichert: Note ${fmtNote(r.note)}.`,"ok"); LZ.kor=null; const y=scrollY; rerender(); scrollTo(0,y); }
+      catch(e){ ks.disabled=false; toast(fehlerText(e),"bad"); } }; }
   $a("[data-abdel]").forEach(b=>b.onclick=async()=>{ const a=ab.find(x=>x.id===b.dataset.abdel); if(!a || !confirm(`Abgabe von ${a.name} löschen? Danach kann das Kind den Test nochmals lösen.`)) return;
     try{ await SP.abgabeLoeschen(a); LZ.daten.abgaben=LZ.daten.abgaben.filter(x=>x.id!==a.id); toast("Abgabe gelöscht.","ok"); rerender(); }catch(e){ toast(fehlerText(e),"bad"); } });
   $q("#lzTReload").onclick=()=>neuLaden();
   $q("#lzTDel").onclick=async()=>{ if(!confirm(`Test «${t.titel}» und alle Resultate löschen?`)) return;
     try{ await SP.testLoeschen(t.code); LZ.daten.tests=LZ.daten.tests.filter(x=>x.code!==t.code); LZ.daten.abgaben=LZ.daten.abgaben.filter(x=>x.code!==t.code); toast("Test gelöscht.","ok"); go("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); } };
 }
+
+/* ================= 6b. Lehrerbereich: Kinder, Fragendatenbank, Bibliothek, Fehlermeldungen ================= */
+const LS_MELD = "ep-fehlermeldungen";
+const MELD_GRUND = ["Antwort ist falsch","Mehrere Antworten richtig","Frage ist unklar","Tipp- oder Rechtschreibfehler","Inhalt ist veraltet","Nicht kindgerecht","Anderes"];
+function meldungenLokal(){ const l=lsGet(LS_MELD,[]); return Array.isArray(l) ? l : []; }
+async function meldungSenden(m){
+  const cfg=window.EP_CONFIG||{}; let gesendet=false;
+  if(cfg.supabaseUrl && cfg.supabaseKey && !window.claude){
+    try{ let tok=null; try{ tok=AUTH?.sb ? (await AUTH.sb.auth.getSession())?.data?.session?.access_token : null; }catch(e){}
+      const r=await fetch(cfg.supabaseUrl.replace(/\/$/,"")+"/rest/v1/rpc/fehler_melden",{method:"POST",headers:{apikey:cfg.supabaseKey, Authorization:"Bearer "+(tok||cfg.supabaseKey), "Content-Type":"application/json"},
+        body:JSON.stringify({p_art:m.art, p_ref:String(m.ref||""), p_titel:String(m.titel||"").slice(0,300), p_grund:m.grund, p_text:String(m.text||"").slice(0,2000)})});
+      gesendet=r.ok; }catch(e){}
+  }
+  const l=meldungenLokal(); l.unshift({...m, id:neueId(), datum:new Date().toISOString(), gesendet}); lsSet(LS_MELD, l.slice(0,300));
+  return gesendet;
+}
+function meldenDialog(m){
+  $q("#lzaMeld")?.remove();
+  const d=document.createElement("dialog"); d.id="lzaMeld"; d.className="lza-dlg";
+  d.innerHTML=`<form method="dialog"><h2>Fehler melden</h2><p class="lza-mu">${h(m.titel||"")}</p>
+    <label for="lzaMG">Was stimmt nicht?</label><select id="lzaMG">${MELD_GRUND.map(g=>`<option>${h(g)}</option>`).join("")}</select>
+    <label for="lzaMT">Beschreibung (was wäre richtig?)</label><textarea id="lzaMT" rows="4" maxlength="2000" placeholder="z. B. Richtig wäre 1848, nicht 1291."></textarea>
+    <div class="lza-leiste"><button type="button" class="lza-k" id="lzaMA">Abbrechen</button><button type="submit" class="lza-k p" id="lzaMS">Melden</button></div></form>`;
+  document.body.appendChild(d); try{ d.showModal(); }catch(e){ d.setAttribute("open",""); }
+  d.querySelector("#lzaMA").onclick=()=>{ d.close(); d.remove(); };
+  d.querySelector("form").onsubmit=async e=>{ e.preventDefault(); const b=d.querySelector("#lzaMS"); b.disabled=true;
+    const ok=await meldungSenden({art:m.art, ref:m.ref, titel:m.titel, grund:d.querySelector("#lzaMG").value, text:d.querySelector("#lzaMT").value.trim()});
+    d.close(); d.remove(); toast(ok ? "Danke! Die Meldung ist eingegangen." : "Gespeichert. Unter «Fehlermeldungen» kannst du sie per E-Mail senden.", "ok");
+    if(ADMIN_SEITEN.has(S.screen)){ const y=scrollY; rerender(); scrollTo(0,y); } };
+}
+function seiteMeldungen(){
+  const l=meldungenLokal(), offen=l.filter(m=>!m.gesendet);
+  setze(`${lc([LB], "Fehlermeldungen")}
+    <div class="bhead"><h1>Fehlermeldungen</h1></div>
+    <p class="bdesc">Fehler, die du in der Fragendatenbank oder in der Bibliothek gemeldet hast. Mit Supabase gehen sie direkt an die Verwaltung, sonst kannst du sie hier per E-Mail senden.</p>
+    <div class="lza-leiste"><button type="button" class="lza-k p" id="lzaMail" ${offen.length?"":"disabled"}>Offene per E-Mail senden (${offen.length})</button>${l.length?`<button type="button" class="lza-k g lza-rechts" id="lzaMLeer">Liste leeren</button>`:""}</div>
+    ${l.length?`<div class="lz-tabwrap"><table class="lz-tab"><thead><tr><th>Datum</th><th>Wo</th><th>Was</th><th>Grund und Beschreibung</th><th>Status</th><th></th></tr></thead><tbody>
+      ${l.map(m=>`<tr><td class="nowrap">${datum(m.datum)}</td><td>${m.art==="frage"?`Frage Nr. ${h(m.ref)}`:`Bibliothek, ${h(m.ref)}`}</td><td>${h(m.titel)}</td><td><b>${h(m.grund)}</b>${m.text?`<br><span class="lza-mu">${h(m.text)}</span>`:""}</td><td>${m.gesendet?`<span class="lza-ok">gesendet</span>`:`<span class="lza-wa">offen</span>`}</td><td><button type="button" class="lza-k klein" data-mdel="${h(m.id)}">Löschen</button></td></tr>`).join("")}
+    </tbody></table></div>`:`<p class="empty">Noch keine Meldungen. In der Fragendatenbank und in der Bibliothek gibt es bei jedem Eintrag den Knopf «Fehler melden».</p>`}`);
+  $q("#lzaMail") && ($q("#lzaMail").onclick=()=>{
+    const txt=offen.map((m,i)=>`${i+1}. ${m.art==="frage"?"Frage Nr. "+m.ref:"Bibliothek: "+m.ref}\n   ${m.titel}\n   Grund: ${m.grund}${m.text?"\n   "+m.text:""}`).join("\n\n");
+    location.href=`mailto:dejan.ehrbar@bluewin.ch?subject=${encodeURIComponent("easyplay: "+offen.length+" Fehlermeldung"+(offen.length===1?"":"en"))}&body=${encodeURIComponent("Hallo\n\nIch habe folgende Fehler gefunden:\n\n"+txt+"\n\nFreundliche Grüsse")}`;
+    lsSet(LS_MELD, l.map(m=>({...m, gesendet:true}))); setTimeout(rerender, 400); });
+  $q("#lzaMLeer") && ($q("#lzaMLeer").onclick=()=>{ if(!confirm("Alle Meldungen aus dieser Liste löschen?")) return; lsSet(LS_MELD, []); rerender(); });
+  $a("[data-mdel]").forEach(b=>b.onclick=()=>{ lsSet(LS_MELD, meldungenLokal().filter(m=>m.id!==b.dataset.mdel)); rerender(); });
+}
+
+/* ---------- Kinder: alle Kinder aller Klassen mit Leistung ---------- */
+function seiteKinder(){
+  if(!bereitFuerLehrer("Kinder")) return;
+  const D=LZ.daten; LZ.ki=LZ.ki||{klasse:"", q:""}; const F=LZ.ki;
+  const zeilen=[]; D.klassen.filter(k=>!F.klasse || k.id===F.klasse).forEach(k=>{ const ts=testsVon(k.id); const codes=new Set(ts.map(t=>t.code));
+    (k.schueler||[]).filter(s=>!F.q || s.name.toLowerCase().includes(F.q.toLowerCase())).forEach(s=>{
+      const ab=D.abgaben.filter(a=>a.sid===s.id && codes.has(a.code)).sort((a,b)=>String(a.datum).localeCompare(String(b.datum)));
+      const sn=schnitt(ab.map(a=>a.note)), letzte=ab.length?ab[ab.length-1].note:null, vor=ab.length>1?ab[ab.length-2].note:null;
+      const th=themenQuote(ts, ab).filter(x=>x.falsch>0)[0];
+      zeilen.push({k, s, ab, ts, sn, letzte, trend: letzte!=null && vor!=null ? Math.sign(letzte-vor) : 0, th, offen:ab.filter(a=>a.offen).length}); }); });
+  setze(`${lc([LB], "Kinder")}
+    <div class="bhead"><h1>Kinder</h1></div>
+    <p class="bdesc">Alle Kinder deiner Klassen mit Durchschnitt, letzter Note und dem Thema mit den meisten Fehlern. Ein Klick auf den Namen zeigt den Verlauf.</p>
+    <div class="lza-leiste"><select id="lzaKiK"><option value="">Alle Klassen</option>${D.klassen.map(k=>`<option value="${h(k.id)}" ${k.id===F.klasse?"selected":""}>${h(k.name)}</option>`).join("")}</select>
+      <input id="lzaKiQ" type="search" placeholder="Name suchen" value="${h(F.q)}"><span class="lza-mu">${zeilen.length} ${zeilen.length===1?"Kind":"Kinder"}</span></div>
+    ${zeilen.length?`<div class="lz-tabwrap"><table class="lz-tab"><thead><tr><th>Name</th><th>Klasse</th><th>PIN</th><th class="r">Tests</th><th class="r">Ø Note</th><th class="r">Letzte</th><th>Trend</th><th>Meiste Fehler</th></tr></thead><tbody>
+      ${zeilen.map(z=>`<tr><th scope="row"><button type="button" class="lz-th" data-kind="${h(z.s.id)}">${h(z.s.name)}</button></th><td>${h(z.k.name)}</td><td class="lz-code">${h(z.s.pin)}</td><td class="r">${z.ab.length}/${z.ts.length}${z.offen?` <span class="lza-wa" title="offene Fragen noch nicht korrigiert">✎${z.offen}</span>`:""}</td>
+        <td class="r lz-n ${noteKlasse(z.sn)}">${fmtNote(z.sn)}</td><td class="r lz-n ${noteKlasse(z.letzte)}">${fmtNote(z.letzte)}</td><td>${z.trend>0?`<span class="lza-ok">▲ besser</span>`:z.trend<0?`<span class="lza-fe">▼ schlechter</span>`:`<span class="lza-mu">–</span>`}</td>
+        <td>${z.th?`${h(themaName(z.th.t))} <span class="lza-mu">(${Math.round(z.th.quote*100)} %)</span>`:`<span class="lza-mu">–</span>`}</td></tr>`).join("")}
+    </tbody></table></div>`:`<p class="empty">${D.klassen.length?"Keine Kinder gefunden.":"Noch keine Klasse. Lege unter «Übersicht» eine Klasse an."}</p>`}
+    ${D.klassen.length?`<section class="statcard lz-sek"><h2>Kinder erfassen</h2><div class="lz-form">
+      <label for="lzaKiNK">Klasse</label><select id="lzaKiNK" class="sel">${D.klassen.map(k=>`<option value="${h(k.id)}" ${k.id===(F.klasse||D.klassen[0].id)?"selected":""}>${h(k.name)}</option>`).join("")}</select>
+      <label for="lzaKiN">Vornamen oder Kürzel, eines pro Zeile</label><textarea id="lzaKiN" class="sel lz-ta" rows="4" placeholder="Lena&#10;Noah&#10;Mia S."></textarea>
+      <p class="err" id="lzaKiErr" aria-live="polite"></p>
+      <div class="row lz-links"><button class="big" id="lzaKiAdd" type="button">Hinzufügen</button></div>
+      <p class="help">Jedes Kind bekommt automatisch einen 6-stelligen PIN. Damit löst es Tests mit Code. PIN-Kärtchen zum Ausdrucken gibt es auf der Seite der Klasse.</p></div></section>`:""}
+    ${datenschutz()}`);
+  $q("#lzaKiK").onchange=e=>{ F.klasse=e.target.value; rerender(); };
+  const qi=$q("#lzaKiQ"); let tm; qi.oninput=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ F.q=qi.value; rerender(); const x=$q("#lzaKiQ"); if(x){ x.focus(); x.setSelectionRange(x.value.length,x.value.length); } },250); };
+  $a("[data-kind]").forEach(b=>b.onclick=()=>{ LZ.kindId=b.dataset.kind; go("lkind"); });
+  $q("#lzaKiAdd") && ($q("#lzaKiAdd").onclick=async()=>{
+    const k=klasseVon($q("#lzaKiNK").value); const err=$q("#lzaKiErr"); if(!k) return;
+    const roh=$q("#lzaKiN").value.split(/[\n,;]+/).map(x=>x.replace(/\s+/g," ").trim()).filter(Boolean);
+    if(!roh.length){ err.textContent="Bitte mindestens einen Vornamen oder ein Kürzel eingeben."; return; }
+    const falsch=roh.filter(n=>n.split(" ").length>2 || /@|\d{3,}/.test(n) || n.length>30);
+    if(falsch.length){ err.textContent=`Bitte nur Vorname oder Kürzel (höchstens zwei Wörter): ${falsch.slice(0,3).join(", ")}`; return; }
+    const kids=k.schueler||[]; if(kids.length+roh.length>60){ err.textContent="Höchstens 60 Kinder pro Klasse."; return; }
+    const pins=kids.map(s=>s.pin); const neue=roh.map(n=>{ const p=neuerPin(pins); pins.push(p); return {id:neueId(), name:n, pin:p}; });
+    const neu={...k, schueler:[...kids, ...neue]};
+    try{ await SP.klasseSpeichern(neu, LZ.daten.tests); Object.assign(k, neu); toast(`${neue.length} ${neue.length===1?"Kind":"Kinder"} hinzugefügt.`,"ok"); rerender(); }catch(e){ err.textContent=fehlerText(e); } });
+}
+
+/* ---------- Fragendatenbank: nur lesen, Fehler melden, in einen Test übernehmen ---------- */
+function seiteFragen(){
+  if(!bereitFuerLehrer("Fragendatenbank")) return;
+  LZ.fq=LZ.fq||{thema:"", stufe:0, q:"", seite:0}; const F=LZ.fq; const PRO=40;
+  const ids=themaIds(F.thema); const set=ids?new Set(ids):null; const q=F.q.trim().toLowerCase();
+  const nrQ=/^\d+$/.test(q) ? +q : 0;
+  const pool=alleFr().filter(f=>f && Array.isArray(f.a) && (!set || set.has(f.t)) && (!F.stufe || f.l===F.stufe) && (!q || (nrQ ? fNr(f)===nrQ : (f.q+" "+f.a.join(" ")+" "+(f.s||"")).toLowerCase().includes(q))));
+  const seiten=Math.max(1, Math.ceil(pool.length/PRO)); F.seite=Math.min(F.seite, seiten-1);
+  const liste=pool.slice(F.seite*PRO, F.seite*PRO+PRO);
+  const imTest=new Set(LZ.neu?.sel||[]);
+  const blaetter=`<div class="lza-seiten"><button type="button" class="lza-k" data-fs="${F.seite-1}" ${F.seite?"":"disabled"}>‹ Zurück</button><span>Seite ${F.seite+1} von ${seiten.toLocaleString("de-CH")}</span><button type="button" class="lza-k" data-fs="${F.seite+1}" ${F.seite<seiten-1?"":"disabled"}>Weiter ›</button></div>`;
+  setze(`${lc([LB], "Fragendatenbank")}
+    <div class="bhead"><h1>Fragendatenbank</h1></div>
+    <p class="bdesc">Alle ${alleFr().length.toLocaleString("de-CH")} Fragen zum Nachlesen. Die richtige Antwort ist fett. Findest du einen Fehler, tippe auf «Fehler melden».</p>
+    <div class="lza-leiste"><select id="lzaFT">${themaOptionen(F.thema)}</select>
+      <select id="lzaFS">${[[0,"Alle Stufen"],[1,"Entdecker (bis 9)"],[2,"Könner (10 bis 14)"],[3,"Profis (ab 15)"]].map(([v,n])=>`<option value="${v}" ${F.stufe===v?"selected":""}>${n}</option>`).join("")}</select>
+      <input id="lzaFQ" type="search" placeholder="Suchwort oder Fragenummer" value="${h(F.q)}"><span class="lza-mu">${pool.length.toLocaleString("de-CH")} Fragen</span></div>
+    ${liste.length?`${blaetter}<div class="lz-tabwrap"><table class="lz-tab lza-fragen"><thead><tr><th class="r">Nr.</th><th>Frage und Antworten</th><th>Thema</th><th>Stufe</th><th></th></tr></thead><tbody>
+      ${liste.map(f=>{ const k=fKey(f); return `<tr><td class="r lza-mu">${fNr(f)}</td><td><b>${h(f.q)}</b>${f.img?` <span class="lza-mu">(mit Bild)</span>`:""}<ul class="lza-antw">${f.a.map((a,i)=>`<li class="${i===0?"ok":""}">${h(a)}</li>`).join("")}</ul>${f.e?`<p class="lza-mu lza-erkl">${h(f.e)}</p>`:""}</td>
+        <td>${h(themaName(f.t))}${f.s?`<br><span class="lza-mu">${h(f.s)}</span>`:""}</td><td>${f.l||""}</td>
+        <td class="lza-akt"><button type="button" class="lza-k klein" data-fm="${h(k)}">Fehler melden</button>${f.img?"":`<button type="button" class="lza-k klein ${imTest.has(k)?"an":""}" data-ft="${h(k)}">${imTest.has(k)?"Im Test ✓":"In Test"}</button>`}</td></tr>`; }).join("")}
+    </tbody></table></div>${blaetter}`:`<p class="empty">Keine Fragen gefunden.</p>`}
+    ${LZ.neu?.sel?.length?`<div class="lza-fuss"><span>${LZ.neu.sel.length} ${LZ.neu.sel.length===1?"Frage":"Fragen"} für den neuen Test gewählt</span><button type="button" class="lza-k p" id="lzaZumTest">Zum neuen Test</button></div>`:""}`);
+  const neu=fn=>{ fn(); rerender(); };
+  $q("#lzaFT").onchange=e=>neu(()=>{ F.thema=e.target.value; F.seite=0; });
+  $q("#lzaFS").onchange=e=>neu(()=>{ F.stufe=+e.target.value; F.seite=0; });
+  const qi=$q("#lzaFQ"); let tm; qi.oninput=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ F.q=qi.value; F.seite=0; rerender(); const x=$q("#lzaFQ"); if(x){ x.focus(); x.setSelectionRange(x.value.length,x.value.length); } },350); };
+  $a("[data-fs]").forEach(b=>b.onclick=()=>{ F.seite=+b.dataset.fs; rerender(); scrollTo(0,0); });
+  const finde=k=>liste.find(f=>fKey(f)===k);
+  $a("[data-fm]").forEach(b=>b.onclick=()=>{ const f=finde(b.dataset.fm); if(f) meldenDialog({art:"frage", ref:fNr(f), titel:f.q}); });
+  $a("[data-ft]").forEach(b=>b.onclick=()=>{ const f=finde(b.dataset.ft); if(!f) return; if(!LZ.neu) neuStart(); const n=LZ.neu, k=b.dataset.ft;
+    if(n.sel.includes(k)) n.sel=n.sel.filter(x=>x!==k); else { if(n.sel.length>=MAX_FRAGEN){ toast(`Höchstens ${MAX_FRAGEN} Fragen pro Test.`,"bad"); return; } n.sel.push(k); n.fmap.set(k,f); n.modus="manuell"; }
+    const y=scrollY; rerender(); scrollTo(0,y); });
+  $q("#lzaZumTest") && ($q("#lzaZumTest").onclick=()=>go("ltestneu"));
+}
+
+/* ---------- Bibliothek: lesen und Fehler melden ---------- */
+function seiteBib(){
+  if(!bereitFuerLehrer("Bibliothek")) return;
+  if(typeof BUECHER==="undefined" || typeof buchDaten!=="function"){ setze(`<p class="empty">Die Bibliothek ist hier nicht verfügbar.</p>`); return; }
+  LZ.bb=LZ.bb||{buch:"", q:""}; const F=LZ.bb; const q=F.q.trim().toLowerCase();
+  let inhalt="";
+  if(q.length>=2){
+    const tr=[]; for(const B of BUECHER){ let D; try{ D=buchDaten(B.id); }catch(e){ continue; } for(const s of D.seiten){ if(String(s.titel).toLowerCase().includes(q)){ tr.push({B,s}); if(tr.length>=80) break; } } if(tr.length>=80) break; }
+    inhalt=tr.length?`<div class="lz-tabwrap"><table class="lz-tab"><thead><tr><th>Artikel</th><th>Buch</th><th>Kapitel</th><th class="r">Seite</th></tr></thead><tbody>${tr.map(({B,s})=>`<tr class="lza-klick" data-bs="${h(B.id)}|${s.nr}"><td><b>${h(s.titel)}</b></td><td>${h(B.titel)}</td><td>${h(s.kap?.titel||"")}</td><td class="r">${s.nr}</td></tr>`).join("")}</tbody></table></div>`:`<p class="empty">Kein Artikel gefunden.</p>`;
+  } else if(F.buch){
+    const B=BUECHER.find(x=>x.id===F.buch); let D=null; try{ D=buchDaten(F.buch); }catch(e){}
+    inhalt = B && D ? `<div class="lza-leiste"><button type="button" class="lza-k" id="lzaBZ">‹ Alle Bücher</button><b>${h(B.titel)}</b><span class="lza-mu">${D.seiten.length.toLocaleString("de-CH")} Seiten · ${D.kap.length} Kapitel</span></div>
+      ${D.kap.map(k=>`<details class="lza-kap"><summary><b>${h(k.titel)}</b><span class="lza-mu">${k.seiten.length} Seiten</span></summary><ul class="lza-seitenliste">${k.seiten.map(s=>`<li><button type="button" data-bs="${h(B.id)}|${s.nr}">${h(s.titel)}</button></li>`).join("")}</ul></details>`).join("")}` : "";
+  } else {
+    inhalt=`<div class="lz-tabwrap"><table class="lz-tab"><thead><tr><th>Buch</th><th>Inhalt</th><th class="r">Seiten</th></tr></thead><tbody>${BUECHER.map(B=>{ let n=0; try{ n=buchDaten(B.id).seiten.length; }catch(e){} return `<tr class="lza-klick" data-bb="${h(B.id)}"><td><b>${h(B.titel)}</b></td><td>${h(B.untertitel||"")}</td><td class="r">${n.toLocaleString("de-CH")}</td></tr>`; }).join("")}</tbody></table></div>`;
+  }
+  setze(`${lc([LB], "Bibliothek")}
+    <div class="bhead"><h1>Bibliothek</h1></div>
+    <p class="bdesc">Alle Artikel der Kinder-Bibliothek zum Lesen. Fehler kannst du auf jeder Seite melden.</p>
+    <div class="lza-leiste"><input id="lzaBQ" type="search" placeholder="Artikel suchen, z. B. Bundesrat" value="${h(F.q)}"></div>
+    ${inhalt}`);
+  const qi=$q("#lzaBQ"); let tm; qi.oninput=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ F.q=qi.value; rerender(); const x=$q("#lzaBQ"); if(x){ x.focus(); x.setSelectionRange(x.value.length,x.value.length); } },300); };
+  $a("[data-bb]").forEach(b=>b.onclick=()=>{ F.buch=b.dataset.bb; rerender(); scrollTo(0,0); });
+  $q("#lzaBZ") && ($q("#lzaBZ").onclick=()=>{ F.buch=""; rerender(); });
+  $a("[data-bs]").forEach(b=>b.onclick=()=>{ const [bid,nr]=b.dataset.bs.split("|"); LIB.buch=bid; LIB.seite=+nr; LIB.zufall=false; go("lbibseite"); scrollTo(0,0); });
+}
+function seiteBibSeite(){
+  if(!bereitFuerLehrer("Bibliothek")) return;
+  const B=BUECHER.find(x=>x.id===LIB.buch); let s=null; try{ s=buchDaten(LIB.buch).seiten.find(x=>x.nr===LIB.seite); }catch(e){}
+  if(!B||!s){ go("lbib"); return; }
+  setze(`${lc([LB,["Bibliothek",()=>{ LZ.bb={buch:"",q:""}; go("lbib"); }],[B.titel,()=>{ LZ.bb={buch:B.id,q:""}; go("lbib"); }]], s.titel)}
+    <div class="lza-leiste"><button type="button" class="lza-k" id="lzaBZur">‹ ${h(B.titel)}</button><span class="lza-mu">${h(s.kap?.titel||"")} · Seite ${s.nr}</span><button type="button" class="lza-k g lza-rechts" id="lzaBMeld">Fehler melden</button></div>
+    <div id="lzaLib" class="lza-lib"></div>`);
+  const ziel=$q("#lzaLib"), a=app();
+  if(ziel && a){ a.id="lzaHinten"; ziel.id="app"; try{ renderLibSeite(); }catch(e){ console.warn(e); } finally{ ziel.id="lzaLib"; a.id="app"; }
+    ziel.querySelectorAll(".crumbs,#zumQuiz,#nochZufall,#libQuiz,#textGen,#textSt,.eplegal").forEach(e=>e.remove());
+    const idx=ziel.querySelector("#sIdx"); if(idx) idx.onclick=()=>{ LZ.bb={buch:B.id,q:""}; go("lbib"); }; }
+  $q("#lzaBZur").onclick=()=>{ LZ.bb={buch:B.id,q:""}; go("lbib"); };
+  $q("#lzaBMeld").onclick=()=>meldenDialog({art:"bib", ref:`${B.titel} S. ${s.nr}`, titel:s.titel});
+}
+/* Links in Bibliotheksartikeln bleiben im Lehrerbereich */
+(function(){ const goAlt=window.go; window.go=function(z){ if(S.screen==="lbibseite"){ if(z==="libseite") z="lbibseite"; else if(z==="libkapitel"||z==="libbuch"||z==="lib"){ LZ.bb={buch:LIB.buch||"", q:""}; z="lbib"; } } return goAlt.call(this, z); }; })();
 
 /* ================= 7. Seiten für Kinder: Test mit Code ================= */
 const KID_FEHLER = {code:"Diesen Test-Code gibt es nicht. Schau nochmals genau hin.", pin:"Der PIN passt nicht zu diesem Test. Frag deine Lehrperson.", geschlossen:"Dieser Test ist geschlossen. Frag deine Lehrperson.",
@@ -968,32 +1253,35 @@ function seiteCode(){
 function seiteSpiel(){
   const K=LZ.kid; if(!K?.test){ go("lcode"); return; }
   if(K.ergebnis){ go("lfertig"); return; }
-  const T=K.test, n=T.fragen.length, i=Math.max(0,Math.min(n-1,K.i)), f=T.fragen[i], gew=K.antworten[i], offen=K.antworten.filter(x=>x==null).length;
+  const ja = x => x!=null && String(x).trim()!=="";
+  const T=K.test, n=T.fragen.length, i=Math.max(0,Math.min(n-1,K.i)), f=T.fragen[i], gew=K.antworten[i], offen=T.fragen.filter((_,j)=>!ja(K.antworten[j])).length;
   setze(`<div class="lz-spiel">
     <div class="lz-spielkopf"><div><b>${h(T.titel)}</b><span>👋 ${h(K.kind.name)}</span></div><span class="lz-fz">Frage ${i+1} von ${n}</span></div>
     <div class="lz-fort" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${n-offen}" aria-label="Beantwortete Fragen"><i style="width:${Math.round((n-offen)/n*100)}%"></i></div>
     <div class="card lz-frage" style="--c:var(--welt)">
       <h2 class="lz-q">${h(f.q)}</h2>
-      ${typeof speakBtn==="function" ? speakBtn(f.q+". "+f.o.map((o,j)=>"ABCD"[j]+": "+o).join(". ")) : ""}
-      <div class="lz-opts" role="radiogroup" aria-label="Antworten">${f.o.map((o,j)=>`<button type="button" class="lz-opt" role="radio" aria-checked="${gew===j}" data-o="${j}"><span class="lz-bu" aria-hidden="true">${"ABCD"[j]}</span><span>${h(o)}</span></button>`).join("")}</div>
+      ${typeof speakBtn==="function" ? speakBtn(istOffen(f) ? f.q : f.q+". "+f.o.map((o,j)=>"ABCD"[j]+": "+o).join(". ")) : ""}
+      ${istOffen(f) ? `<label class="lz-offenlbl" for="lzOffen">Deine Antwort <small>(${fPunkte(f)} ${fPunkte(f)===1?"Punkt":"Punkte"})</small></label><textarea id="lzOffen" class="sel lz-offen" rows="${Math.max(3,Math.min(8,f.z||3))}" maxlength="2000" placeholder="Schreib deine Antwort hier hin …">${h(gew??"")}</textarea>`
+      : `<div class="lz-opts" role="radiogroup" aria-label="Antworten">${f.o.map((o,j)=>`<button type="button" class="lz-opt" role="radio" aria-checked="${gew===j}" data-o="${j}"><span class="lz-bu" aria-hidden="true">${"ABCD"[j]}</span><span>${h(o)}</span></button>`).join("")}</div>`}
     </div>
     <div class="lz-nav">
       <button class="big alt" id="lzZur" type="button" ${i===0?"disabled":""}>← Zurück</button>
       ${i<n-1 ? `<button class="big" id="lzWeiter" type="button">Weiter →</button>` : `<button class="big gold" id="lzAbgeben" type="button">✅ Test abgeben</button>`}
     </div>
-    <nav class="lz-punkte" aria-label="Zu einer Frage springen">${T.fragen.map((_,j)=>`<button type="button" data-sprung="${j}" class="${K.antworten[j]!=null?"ja":""} ${j===i?"jetzt":""}" aria-label="Frage ${j+1}${K.antworten[j]!=null?", beantwortet":""}" ${j===i?'aria-current="step"':""}>${j+1}</button>`).join("")}</nav>
+    <nav class="lz-punkte" aria-label="Zu einer Frage springen">${T.fragen.map((_,j)=>`<button type="button" data-sprung="${j}" class="${ja(K.antworten[j])?"ja":""} ${j===i?"jetzt":""}" aria-label="Frage ${j+1}${ja(K.antworten[j])?", beantwortet":""}" ${j===i?'aria-current="step"':""}>${j+1}</button>`).join("")}</nav>
     ${i<n-1 && offen===0 ? `<div class="row"><button class="big gold" id="lzAbgeben2" type="button">✅ Alles beantwortet: Test abgeben</button></div>` : ""}
     <p class="lz-tipp">Die Lösungen und Erklärungen siehst du nach der Abgabe.</p>
     <p class="err" id="lzSpielErr" aria-live="polite"></p>
   </div>`);
   if(typeof bindSpeak==="function") try{ bindSpeak(); }catch(e){}
+  const ta=$q("#lzOffen"); if(ta){ ta.oninput=()=>{ K.antworten[i]=ta.value; const p=$q(`[data-sprung="${i}"]`); if(p) p.classList.toggle("ja", ja(ta.value)); }; }
   $a("[data-o]").forEach(b=>b.onclick=()=>{ K.antworten[i]=+b.dataset.o; rerender(); const nb=$q(`.lz-opt[data-o="${b.dataset.o}"]`); nb && nb.focus(); });
   const wechsel=j=>{ K.i=j; rerender(); scrollTo({top:0}); };
   $q("#lzZur").onclick=()=>wechsel(i-1);
   $q("#lzWeiter") && ($q("#lzWeiter").onclick=()=>wechsel(i+1));
   $a("[data-sprung]").forEach(b=>b.onclick=()=>wechsel(+b.dataset.sprung));
   const abgeben=async()=>{
-    const off=K.antworten.filter(x=>x==null).length;
+    const off=T.fragen.filter((_,j)=>!ja(K.antworten[j])).length;
     if(off && !confirm(`Du hast noch ${off} ${off===1?"Frage":"Fragen"} nicht beantwortet. Trotzdem abgeben?`)) return;
     $a("#lzAbgeben,#lzAbgeben2").forEach(b=>b.disabled=true); $q("#lzSpielErr").textContent="Wird abgegeben …";
     try{ const sp=await speicher(); const r=await sp.kidAbgeben(K.code, K.pin, K.antworten, Date.now()-K.start);
@@ -1007,15 +1295,19 @@ function seiteSpiel(){
 function seiteFertig(){
   const K=LZ.kid; if(!K?.ergebnis){ go("lcode"); return; }
   const E=K.ergebnis, T=K.test;
-  const lob = E.note>=5.5?"Wow, hervorragend! 🌟":E.note>=5?"Sehr gut gemacht! 💪":E.note>=4?"Gut gemacht, genügend! 👍":"Nicht aufgeben, beim nächsten Mal klappt es besser! 🍀";
+  const lob = T.fragen.some(istOffen) ? "Test abgegeben! 🎉" : E.note>=5.5?"Wow, hervorragend! 🌟":E.note>=5?"Sehr gut gemacht! 💪":E.note>=4?"Gut gemacht, genügend! 👍":"Nicht aufgeben, beim nächsten Mal klappt es besser! 🍀";
   setze(`<div class="card done pop lz-fertig">
     <p class="lz-gross" aria-hidden="true">${E.note>=4?"🎉":"🌱"}</p>
     <h1>${h(lob)}</h1>
-    <div class="lz-notebox ${noteKlasse(E.note)}"><span>Note</span><b>${fmtNote(E.note)}</b></div>
+    ${T.fragen.some(istOffen) ? `<div class="lz-notebox"><span>Punkte bisher</span><b>${E.punkte}</b></div>` : `<div class="lz-notebox ${noteKlasse(E.note)}"><span>Note</span><b>${fmtNote(E.note)}</b></div>`}
     <p>${E.punkte} von ${E.max} Punkten · Zeit ${h(zeit(E.dauer))} · ${h(T.titel)}</p>
+    ${T.fragen.some(istOffen)?`<p class="help">Die Note bekommst du, sobald deine Lehrperson die offenen Fragen korrigiert hat.</p>`:""}
     <p class="help">Dein Resultat ist bei deiner Lehrperson angekommen.</p>
     <div class="summary"><h2>Lösungen und Erklärungen</h2>
-      <div class="review">${T.fragen.map((f,i)=>{ const l=E.loesung?.[i]||{}; const d=K.antworten[i]; const ok=d!=null && d===l.r;
+      <div class="review">${T.fragen.map((f,i)=>{ const l=E.loesung?.[i]||{}; const d=K.antworten[i];
+        if(istOffen(f) || l.offen) return `<div class="rev r-offen"><div class="revhead"><span class="revnr">${i+1}</span><span aria-hidden="true">✍️</span><b>${h(f.q)}</b></div>
+          <span>${d!=null && String(d).trim() ? "Deine Antwort: "+h(d) : "Nicht beantwortet"}</span>${l.m?`<span class="ans-ok">Musterlösung: ${h(l.m)}</span>`:""}<span class="revm">Diese Frage korrigiert deine Lehrperson (${fPunkte(f)} ${fPunkte(f)===1?"Punkt":"Punkte"}).</span></div>`;
+        const ok=d!=null && d===l.r;
         return `<div class="rev ${ok?"r-ok":"r-bad"}"><div class="revhead"><span class="revnr">${i+1}</span><span aria-hidden="true">${ok?"✅":"❌"}</span><b>${h(f.q)}</b></div>
           ${ok?`<span class="ans-ok">Deine Antwort: ${h(f.o[d])}</span>`:`<span class="ans-bad">${d==null?"Nicht beantwortet":"Deine Antwort: "+h(f.o[d])}</span><span class="ans-ok">Richtig wäre: ${h(f.o[l.r]??"")}</span>`}
           ${l.e?`<span class="revm">💡 ${h(l.e)}</span>`:""}</div>`; }).join("")}</div></div>
@@ -1024,9 +1316,13 @@ function seiteFertig(){
 }
 
 /* ================= 8. Einbindung in easyplay ================= */
-const SEITEN = {lehrer:seiteLehrer, lklasse:seiteKlasse, lkind:seiteKind, ltestneu:seiteTestNeu, ltest:seiteTest, lcode:seiteCode, lspiel:seiteSpiel, lfertig:seiteFertig};
+const SEITEN = {lehrer:seiteLehrer, lklasse:seiteKlasse, lkind:seiteKind, ltestneu:seiteTestNeu, ltest:seiteTest, lcode:seiteCode, lspiel:seiteSpiel, lfertig:seiteFertig,
+  lkinder:seiteKinder, lfragen:seiteFragen, lbib:seiteBib, lbibseite:seiteBibSeite, lmeld:seiteMeldungen};
 const origRender=window.render;
 window.render=function(){
+  try{ if(S.profil && !["login","register"].includes(S.screen) && sessionStorage.getItem("ep-lz-nach-login")){ sessionStorage.removeItem("ep-lz-nach-login"); S.screen="lehrer"; } }catch(e){}
+  document.body.classList.toggle("lz-admin", ADMIN_SEITEN.has(S.screen)); hashNachfuehren();
+  try{ document.title = ADMIN_SEITEN.has(S.screen) ? "easyplay Lehrerbereich" : (document.title==="easyplay Lehrerbereich" ? TITEL0 : document.title); }catch(e){}
   if(SEITEN[S.screen]){
     try{ if(typeof applyDark==="function") applyDark(); }catch(e){}
     try{ if(S.timer){ clearInterval(S.timer); S.timer=null; } }catch(e){}
@@ -1077,7 +1373,12 @@ if(typeof window.renderProfil==="function"){
   };
 }
 // Link #test=CODE
-function pruefeHash(){ const m=String(location.hash).match(/#test=([A-Za-z0-9]{4,8})/); if(!m) return; LZ.kid={code:normCode(m[1])}; go("lcode"); }
+function pruefeHash(){ if(/^#lehrer\b/.test(location.hash)){ if(!ADMIN_SEITEN.has(S.screen)) zuSeite("lehrer"); return; }
+  const m=String(location.hash).match(/#test=([A-Za-z0-9]{4,8})/); if(!m) return; LZ.kid={code:normCode(m[1])}; go("lcode"); }
+/* Adresse #lehrer, damit der Lehrerbereich ein eigenes Lesezeichen hat und ein Neuladen dort bleibt */
+function hashNachfuehren(){ try{ const im=ADMIN_SEITEN.has(S.screen), hat=/^#lehrer\b/.test(location.hash);
+  if(im && !hat) history.replaceState(null, "", location.pathname+location.search+"#lehrer");
+  else if(!im && hat) history.replaceState(null, "", location.pathname+location.search); }catch(e){} }
 addEventListener("hashchange", pruefeHash);
 pruefeHash();
 // Wenn die Anmeldung (Supabase/lokal) wechselt, Daten neu laden
@@ -1248,6 +1549,146 @@ const css=`
   .statcard{padding:16px}
   .lz-tab th,.lz-tab td{padding:7px 8px}
 }
+/* ---------- Lehrerbereich im Stil der Verwaltung ---------- */
+body.lz-admin{background:#f5f3fb!important;--lza-fl:#fff;--lza-tx:#1d1b2e;--lza-mu:#6b6880;--lza-li:#e2def0;--lza-ak:#5b45e8;--lza-ok:#1d7a3a;--lza-wa:#a86400;--lza-fe:#b3261e;--lza-zb:#fafafb}
+body.lz-admin #himmel,body.lz-admin #alpen,body.lz-admin #flocken,body.lz-admin #pattern,body.lz-admin #eventlayer,body.lz-admin #clouds,body.lz-admin .topbar,body.lz-admin #epTabs,body.lz-admin .eplegal,body.lz-admin .ap-kz,body.lz-admin .st-kids,body.lz-admin .pkonfetti{display:none!important}
+body.lz-admin .wrap,body.lz-admin #app{max-width:none!important;width:100%!important;padding:0!important;margin:0!important}
+body.lz-admin,body.ep-app.lz-admin{padding:0!important}
+.lza{min-height:100vh;color:var(--lza-tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-align:left}
+.lza-kopf{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));background:var(--lza-fl);box-shadow:0 1px 0 var(--lza-li);position:sticky;top:0;z-index:20;min-height:48px}
+.lza-kopf::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(135deg,#8A3FE0,#3D5AFE)}
+.lza-marke{display:flex;align-items:center;gap:8px;border:0;background:none;padding:0;cursor:pointer;color:inherit;font:inherit}
+.lza-marke b{font:700 16px "Bricolage Grotesque",system-ui,sans-serif}
+.lza-status{margin-left:auto;display:flex;gap:12px;align-items:center;font-size:12px;color:var(--lza-mu);flex-wrap:wrap}
+.lza-rahmen{display:grid;grid-template-columns:200px minmax(0,1fr);min-height:calc(100vh - 48px)}
+.lza-nav{display:flex;flex-direction:column;gap:2px;padding:12px 8px;background:var(--lza-fl);border-right:1px solid var(--lza-li);position:sticky;top:48px;height:calc(100vh - 48px);overflow:auto}
+.lza-nav button{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:0;background:none;border:0;border-radius:6px;padding:7px 10px;color:var(--lza-tx);font:inherit;cursor:pointer;text-align:left}
+.lza-nav button small{color:var(--lza-mu);font-size:11px}
+.lza-nav button:hover{background:#f5f3fb}
+.lza-nav button.an{background:linear-gradient(90deg,rgba(138,63,224,.14),transparent);font-weight:600}
+.lza-nav button.an::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:3px;background:linear-gradient(#8A3FE0,#3D5AFE)}
+.lza-zahl{font-style:normal;font-size:11px;background:var(--lza-wa);color:#fff;border-radius:9px;padding:0 6px;margin-left:4px}
+.lza-inhalt{padding:16px 22px 40px;max-width:1300px;width:100%;box-sizing:border-box;min-width:0}
+@media (max-width:800px){.lza-rahmen{grid-template-columns:1fr}.lza-nav{position:static;height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--lza-li);padding:6px}.lza-nav button{flex:none}.lza-nav button small{display:none}.lza-inhalt{padding:12px 12px 32px}.lza-status span{display:none}}
+.lza .crumbs{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:0 0 6px;padding:0;background:none;border:0;box-shadow:none;font-size:12px}
+.lza .crumbs .crumb{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;color:var(--lza-ak)!important;font:inherit!important;min-height:0!important;cursor:pointer}
+.lza .crumbs .crumb.cur{color:var(--lza-mu)!important;cursor:default}
+.lza .crumbs .sep{color:var(--lza-mu)}
+.lza .bhead{display:block!important;margin:0 0 2px!important;padding:0!important;background:none!important;text-align:left!important}
+.lza .bhead .emo{display:none!important}
+.lza .bhead h1{font:800 22px "Bricolage Grotesque",system-ui,sans-serif!important;margin:0!important;color:var(--lza-tx)!important;text-shadow:none!important;letter-spacing:-.01em}
+.lza .bdesc{color:var(--lza-mu)!important;margin:0 0 14px!important;font-size:14px!important;text-align:left!important;max-width:80ch}
+.lza .statcard,.lza details.bibthema,.lza .lz-neu{background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:10px!important;box-shadow:none!important;padding:14px 16px!important;margin:0 0 14px!important;color:var(--lza-tx)!important}
+.lza .statcard h2{font:600 15px system-ui,sans-serif!important;margin:0 0 10px!important;color:var(--lza-tx)!important;display:flex;align-items:center;gap:8px}
+.lza .statcard h2::before{content:"";width:14px;height:4px;border-radius:2px;background:linear-gradient(135deg,#8A3FE0,#3D5AFE);flex:none}
+.lza .lz-zahl{background:#f0edfa;color:var(--lza-tx);border-radius:9px;padding:0 7px;font-size:12px}
+.lza .help,.lza .lza-mu{color:var(--lza-mu)!important}
+.lza .help{font-size:13px}
+.lza .empty{color:var(--lza-mu);font-style:italic;text-align:left;padding:8px 0;background:none;border:0}
+.lza .err{color:var(--lza-fe)}
+.lza .big{background:var(--lza-fl)!important;color:var(--lza-tx)!important;border:1px solid var(--lza-li)!important;border-radius:6px!important;box-shadow:none!important;padding:7px 12px!important;font:600 13.5px system-ui,sans-serif!important;min-height:0!important;width:auto!important;transform:none!important;text-shadow:none!important;cursor:pointer}
+.lza .big:hover{border-color:var(--lza-mu)!important}
+.lza .big:not(.alt){background:var(--lza-ak)!important;border-color:var(--lza-ak)!important;color:#fff!important}
+.lza .big.lz-gefahr{color:var(--lza-fe)!important;background:var(--lza-fl)!important}
+.lza .big:disabled{opacity:.45;cursor:default}
+.lza .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start!important;margin:10px 0}
+.lza .sel,.lza input[type=text],.lza input[type=search],.lza input[type=number],.lza input:not([type]),.lza select,.lza textarea{background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:5px!important;padding:6px 8px!important;font:14px system-ui,sans-serif!important;color:var(--lza-tx)!important;min-height:0!important;box-shadow:none!important;width:auto;max-width:100%}
+.lza .lz-form .sel,.lza textarea{width:100%!important;box-sizing:border-box}
+.lza .lz-form label,.lza .lz-lbl{font-size:12px;color:var(--lza-mu);font-weight:600;margin-top:6px;display:block}
+.lza .segs{display:inline-flex!important;flex-wrap:wrap;gap:0!important;background:none!important;border:1px solid var(--lza-li)!important;border-radius:6px!important;padding:0!important;overflow:hidden;margin:4px 0 8px!important;width:auto!important}
+.lza .seg{border:0!important;border-right:1px solid var(--lza-li)!important;border-radius:0!important;background:var(--lza-fl)!important;padding:6px 12px!important;box-shadow:none!important;color:var(--lza-tx)!important;font:500 13px system-ui,sans-serif!important;min-height:0!important;transform:none!important}
+.lza .seg:last-child{border-right:0!important}
+.lza .seg[aria-pressed="true"]{background:var(--lza-ak)!important;color:#fff!important}
+.lza .mtlist{display:flex;flex-direction:column;gap:0;border:1px solid var(--lza-li);border-radius:8px;overflow:hidden}
+.lza .mtitem{display:flex!important;flex-direction:column;align-items:flex-start;gap:2px;background:var(--lza-fl)!important;border:0!important;border-bottom:1px solid var(--lza-li)!important;border-radius:0!important;box-shadow:none!important;padding:8px 12px!important;text-align:left;color:var(--lza-tx)!important;transform:none!important;width:100%;cursor:pointer;font:inherit}
+.lza .mtitem:last-child{border-bottom:0!important}
+.lza .mtitem:hover{background:var(--lza-zb)!important}
+.lza .mtitem b{font-weight:600;font-size:14px}.lza .mtitem span{font-size:12px;color:var(--lza-mu)}
+.lza .lz-tabwrap{overflow-x:auto;border-radius:10px;box-shadow:0 0 0 1px var(--lza-li);background:var(--lza-fl);margin:0 0 12px}
+.lza .lz-tab{width:100%;border-collapse:collapse;background:var(--lza-fl);font-variant-numeric:tabular-nums;font-size:13.5px}
+.lza .lz-tab th,.lza .lz-tab td{text-align:left;padding:6px 9px!important;border-bottom:1px solid var(--lza-li);vertical-align:top}
+.lza .lz-tab thead th{font-size:12px;color:var(--lza-mu);font-weight:600;background:var(--lza-zb)}
+.lza .lz-tab .r{text-align:right}
+.lza .lz-th{background:none;border:0;padding:0;color:var(--lza-ak);font:inherit;font-weight:600;cursor:pointer;text-align:left}
+.lza .lz-hinweis{background:var(--lza-fl)!important;border:0!important;border-left:3px solid var(--lza-wa)!important;border-radius:0!important;padding:8px 12px!important;font-size:13px!important}
+.lza .lz-mini{background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:5px!important;padding:3px 7px!important;cursor:pointer;font-size:12px!important;margin-left:4px;box-shadow:none!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;display:inline-flex!important;align-items:center}
+.lza .lz-fehler li,.lza .lz-themen li{background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:8px!important;box-shadow:none!important}
+.lza .lz-fehler .ans-bad,.lza .lz-fehler .ans-ok{font-size:13px}
+.lza details.bibthema summary{padding:0!important;background:none!important;box-shadow:none!important;border:0!important}
+.lza .lza-korbtn.offen{border-color:var(--lza-wa);color:var(--lza-wa);font-weight:600}
+.lza .lz-sel li{background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:6px!important;box-shadow:none!important}
+.lza .lza-sel li{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.lza .lza-sel li.lza-bearb{display:block}
+.lza .lza-sel li{padding:8px 10px!important}
+.lza .lza-sel li>span:first-child{display:block;flex:1 1 auto;min-width:0;width:auto!important}
+.lza .lza-sel li>span:first-child small{color:var(--lza-mu);font-size:12px}
+.lza .lz-sel small{color:var(--lza-mu)}
+.lza .lza-selakt{display:flex;flex:none;width:auto!important}
+.lza .suchliste .sq{background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:6px!important;box-shadow:none!important}
+.lza .lz-chip{background:#f0edfa!important;border:1px solid var(--lza-li)!important;color:var(--lza-tx)!important;box-shadow:none!important;border-radius:9px!important}
+.lza .lz-codegross{font:700 30px ui-monospace,monospace!important;letter-spacing:.15em;color:var(--lza-tx)!important;background:var(--lza-zb)!important;border:1px dashed var(--lza-li)!important;box-shadow:none!important}
+.lza .lz-n.gut{color:var(--lza-ok)}.lza .lz-n.tief{color:var(--lza-fe)}
+.lza .lz-kpis>div{background:var(--lza-zb)!important;border:1px solid var(--lza-li)!important;box-shadow:none!important;border-radius:8px!important}
+.lza .lz-kpis b{color:var(--lza-tx)!important}
+.lza .lz-bar{background:var(--lza-zb)!important}.lza .lz-bar i{background:var(--lza-ak)!important}
+.lza .lz-chips.lz-mitte{justify-content:flex-start}
+.lza .lza-leiste{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.lza .lza-rechts{margin-left:auto}
+.lza .lza-k{background:var(--lza-fl);border:1px solid var(--lza-li);border-radius:5px;padding:6px 11px;cursor:pointer;font:13px system-ui,sans-serif;color:var(--lza-tx)}
+.lza .lza-k:hover{border-color:var(--lza-mu)}
+.lza .lza-k.p{background:var(--lza-ak);border-color:var(--lza-ak);color:#fff}
+.lza .lza-k.g{color:var(--lza-fe);border-color:#e9c6c3}
+.lza .lza-k.klein{padding:3px 8px;font-size:12px}
+.lza .lza-k.an{background:#e9e4ff;border-color:var(--lza-ak);color:var(--lza-ak)}
+.lza .lza-k:disabled{opacity:.45;cursor:default}
+.lza-kopf .lza-k{background:var(--lza-fl);border:1px solid var(--lza-li);border-radius:5px;padding:5px 10px;cursor:pointer;font:13px system-ui,sans-serif;color:var(--lza-tx)}
+.lza .lza-ok{color:var(--lza-ok)}.lza .lza-wa{color:var(--lza-wa)}.lza .lza-fe{color:var(--lza-fe)}
+.lza .nowrap{white-space:nowrap}
+.lza .lza-antw{margin:4px 0 0;padding-left:18px;font-size:13px;color:var(--lza-mu)}
+.lza .lza-antw li.ok{color:var(--lza-ok);font-weight:600}
+.lza .lza-erkl{font-size:12px;margin:4px 0 0}
+.lza .lza-akt{white-space:nowrap}.lza .lza-akt .lza-k{display:block;width:100%;margin:0 0 4px}
+.lza .lza-fragen td,.lza .lz-tab td{white-space:normal!important}.lza .lza-fragen td:nth-child(2){min-width:280px}.lza .lza-fragen td:nth-child(3){min-width:120px}.lza .lza-fragen td:last-child{width:110px}.lza .lz-tab td.nowrap{white-space:nowrap!important}
+.lza .lza-seiten{display:flex;gap:8px;align-items:center;margin:0 0 10px;font-size:13px;color:var(--lza-mu)}
+.lza .lza-fuss{position:sticky;bottom:0;display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--lza-fl);border-top:2px solid var(--lza-ak);padding:8px 14px;margin:0 -22px -40px}
+.lza .lza-klick{cursor:pointer}.lza .lza-klick:hover td{background:var(--lza-zb)}
+.lza .lza-kap{background:var(--lza-fl);border:1px solid var(--lza-li);border-radius:8px;margin:0 0 6px}
+.lza .lza-kap summary{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;cursor:pointer}
+.lza .lza-seitenliste{columns:3 220px;margin:0;padding:4px 12px 10px 28px;font-size:13px}
+.lza .lza-seitenliste button{background:none;border:0;padding:1px 0;color:var(--lza-ak);cursor:pointer;font:inherit;text-align:left}
+.lza .lza-lib{background:var(--lza-fl);border:1px solid var(--lza-li);border-radius:10px;padding:14px}
+.lza .lza-lib .buchseite,.lza .lza-lib .libart{box-shadow:none!important;border-radius:6px!important}
+.lza .lza-korr td{background:#fbfaff}
+.lza .lza-korbox{display:flex;flex-direction:column;gap:10px;padding:6px 0}
+.lza .lza-korf{border:1px solid var(--lza-li);border-radius:6px;padding:8px 10px;background:var(--lza-fl)}
+.lza .lza-korf p{margin:0 0 4px}
+.lza .lza-korant{background:var(--lza-zb);border-left:3px solid var(--lza-ak);padding:6px 8px;white-space:pre-wrap}
+.lza .lza-korf input{width:70px!important}
+.lza .lz-schalter{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:4px 0 10px}
+.lza-dlg{border:1px solid #e2def0;border-radius:8px;max-width:520px;width:calc(100% - 32px);font:14px system-ui,sans-serif;color:#1d1b2e}
+.lza-dlg::backdrop{background:rgba(0,0,0,.35)}
+.lza-dlg form{display:flex;flex-direction:column;gap:6px}
+.lza-dlg h2{font:700 17px "Bricolage Grotesque",system-ui,sans-serif;margin:0}
+.lza-dlg label{font-size:12px;color:#6b6880;font-weight:600;margin-top:6px}
+.lza-dlg select,.lza-dlg textarea{border:1px solid #e2def0;border-radius:5px;padding:6px 8px;font:inherit;width:100%;box-sizing:border-box}
+.lza-dlg .lza-leiste{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.lza-dlg .lza-k{background:#fff;border:1px solid #e2def0;border-radius:5px;padding:6px 12px;cursor:pointer;font:inherit}
+.lza-dlg .lza-k.p{background:#5b45e8;border-color:#5b45e8;color:#fff}
+.lza-dlg .lza-mu{color:#6b6880;margin:0}
+.lza .authbox{max-width:440px;margin:30px auto!important;background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:10px!important;box-shadow:none!important;padding:24px!important;text-align:left!important}
+.lza .authbox .authicon{display:none!important}
+.lza .authbox h1{font:800 20px "Bricolage Grotesque",system-ui,sans-serif!important;color:var(--lza-tx)!important;margin:0 0 6px!important}
+.lza .authbox p{color:var(--lza-mu)!important;font-size:14px!important}
+.lza .authbox .big{width:100%!important;margin:4px 0!important}
+.lza .lz-link{color:var(--lza-ak)!important}
+.lza .lwait{color:var(--lza-mu)}
+.lza .lz-kb{border:1px solid var(--lza-li)!important;border-radius:6px!important;box-shadow:none!important;padding:6px 10px!important;background:var(--lza-fl)!important;display:flex;gap:8px;align-items:center}
+.lza .lz-erstellen{position:sticky;bottom:0;background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:10px!important;box-shadow:0 -4px 12px rgba(40,20,90,.06)!important;padding:10px 14px!important;z-index:3}
+/* Kinder: offene Frage */
+.lz-offenlbl{display:block;font-weight:700;margin:6px 0 6px}
+.lz-offen{width:100%;box-sizing:border-box;min-height:110px;font:500 1.05rem/1.5 "Lexend",system-ui,sans-serif!important;font-style:normal!important;color:var(--ink,#1B2240)!important;text-align:left!important;padding:12px 14px;border-radius:16px;resize:vertical}
+.rev.r-offen{border-left:4px solid #8A3FE0}
+
 `;
 const st=document.createElement("style"); st.id="lehrer-css"; st.textContent=css; document.head.appendChild(st);
 

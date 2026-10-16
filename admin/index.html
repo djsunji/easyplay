@@ -196,6 +196,7 @@ nav button.unter{padding-left:22px;font-size:13px}
   <div class="gr">Personen</div>
   <button data-t="benutzer">Benutzer</button>
   <button data-t="kommentare">Kommentare</button>
+  <button data-t="fehlermeldungen">Fehlermeldungen</button>
   <div class="gr">System</div>
   <button data-t="technik">Technik</button>
   <button data-t="zugang">Zugang</button>
@@ -921,6 +922,18 @@ TABS.kommentare = async () => {
     <table><thead><tr><th>Zeit</th><th>Qeel</th><th>Name</th><th>Text</th><th class="r">Meldungen</th><th></th></tr></thead><tbody>${l.map(k => `<tr data-id="${+k.id}"><td class="nowrap">${datum(k.erstellt)}</td><td class="klein mu">${esc(k.qeel)}</td><td>${esc(k.name)}</td><td>${esc(k.text)}</td><td class="r ${k.gemeldet >= 3 ? "fe" : k.gemeldet ? "wa" : ""}">${+k.gemeldet}</td><td class="nowrap">${k.gemeldet ? '<button class="k" data-a="freigeben">Freigeben</button> ' : ""}<button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || '<tr><td colspan="6" class="mu">Keine Kommentare</td></tr>'}</tbody></table>`;
   $("#kNur").onchange = e => { store.set("ep-admin-knur", e.target.checked, true); zeige("kommentare"); };
   $$("#inhalt tr[data-id] button").forEach(b => b.onclick = async () => { try{ await rpc("admin_kommentar", {p_id: +b.closest("tr").dataset.id, p_aktion: b.dataset.a}); melde(b.dataset.a === "loeschen" ? "Gelöscht." : "Freigegeben."); zeige("kommentare"); }catch(e){ melde(e.message, "fe"); } });
+};
+
+/* ======================= Fehlermeldungen (von Lehrpersonen) ======================= */
+TABS.fehlermeldungen = async () => {
+  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Fehlermeldungen</h2><div class="hinweis">Lehrpersonen melden Fehler in Fragen und Bibliotheksartikeln. Die Meldungen werden in Supabase gespeichert (supabase/lehrer2.sql). Ohne Supabase kommen sie per E-Mail.</div>`; return; }
+  const st = store.get("ep-admin-fmst", "offen");
+  let l = []; try{ l = await rpc("admin_fehlermeldungen", {p_status: st || null}); }catch(e){ $("#inhalt").innerHTML = `<h2>Fehlermeldungen</h2><div class="hinweis">${esc(e.message)}. Bitte supabase/lehrer2.sql im SQL Editor ausführen.</div>`; return; }
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Fehlermeldungen</h2><select id="fmSt">${[["offen","offen"],["erledigt","erledigt"],["abgelehnt","abgelehnt"],["","alle"]].map(([v,n])=>`<option value="${v}"${v===st?" selected":""}>${n}</option>`).join("")}</select><span class="rechts mu klein">${zahl(l.length)} angezeigt</span></div>
+    <table><thead><tr><th>Zeit</th><th>Wo</th><th>Was</th><th>Grund</th><th>Beschreibung</th><th>Status</th><th></th></tr></thead><tbody>${l.map(m => `<tr data-id="${+m.id}"><td class="nowrap">${datum(m.erstellt)}</td><td class="nowrap">${m.art === "frage" ? "Frage Nr. " + esc(m.ref) : "Bibliothek, " + esc(m.ref)}</td><td>${esc(m.titel)}</td><td>${esc(m.grund)}</td><td>${esc(m.text)}</td><td>${esc(m.status)}</td>
+      <td class="nowrap"><button class="k" data-a="erledigt">Erledigt</button> <button class="k" data-a="abgelehnt">Ablehnen</button> <button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || `<tr><td colspan="7" class="mu">Keine Meldungen.</td></tr>`}</tbody></table>`;
+  $("#fmSt").onchange = e => { store.set("ep-admin-fmst", e.target.value, true); zeige("fehlermeldungen"); };
+  $$("#inhalt tr[data-id] button").forEach(b => b.onclick = async () => { try{ await rpc("admin_fehlermeldung_status", {p_id: +b.closest("tr").dataset.id, p_status: b.dataset.a}); melde("Gespeichert."); zeige("fehlermeldungen"); }catch(e){ melde(e.message, "fe"); } });
 };
 
 /* ======================= Zugang ======================= */
