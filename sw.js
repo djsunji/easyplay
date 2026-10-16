@@ -23,7 +23,7 @@ const HUELLE = [
   "img/kids/duo-bereit.webp",
   "img/kids/liegen.webp",
   "bibidx.js",
-  "wordmark.webp",
+  "img/logo.webp",
   "img/fragezeichen.webp",
   "img/app-192.png", "img/favicon-48.png", "img/apple-touch-icon.png",
   "manifest.webmanifest",

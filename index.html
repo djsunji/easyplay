@@ -2443,6 +2443,11 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 @keyframes fzHuepf{0%,70%,100%{transform:rotate(-3deg) translateY(0)}78%{transform:rotate(4deg) translateY(-6px)}86%{transform:rotate(-3deg) translateY(0)}}
 @keyframes fzZwinkern{0%{opacity:0}77%{opacity:1}86%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.mobiconwrap,.mobiconwrap .wink,.mobkids .kid,.mobkids .kid::before{animation:none!important}}
+<style id="lib2">
+.buch .btop{position:absolute;left:8%;right:8%;bottom:9px;font:700 .62rem/1.2 "Lexend",system-ui,sans-serif;color:#fff;background:rgba(0,0,0,.28);border-radius:999px;padding:3px 8px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.buch .blogo{display:none!important}
+.kapitel.kwichtig{background:linear-gradient(90deg,rgba(255,211,77,.18),transparent)}
+.kstern{display:inline-block;margin-left:6px;background:#FFD34D;color:#5A3E00;border-radius:999px;padding:1px 8px;font:800 .66rem "Lexend",system-ui,sans-serif;vertical-align:middle;letter-spacing:.02em}
 </style>
 <style id="tablet">
 /* Slogan statt Einleitungstext */
@@ -6075,6 +6080,8 @@ function buchDaten(bid){
   const kap=R.kap.filter(T.f).map(k=>{ const k2={...k}; k2.von=nr+1; k2.seiten=k.seiten.map(s=>{ const s2={...s, nr:++nr, kap:k2}; seiten.push(s2); return s2; }); k2.bis=nr; return k2; });
   return BUCHCACHE["~"+bid]={roh:R, kap, seiten};
 }
+/* Wichtigste Kapitel eines Buchs: die mit den meisten Seiten */
+function buchTop(id, n=3){ try{ return [...buchDaten(id).kap].sort((a,b)=>b.seiten.length-a.seiten.length).slice(0,n); }catch(e){ return []; } }
 function renderLib(){
   LIB.zufall=false;
   LIB.vonQuiz=false;
@@ -6096,7 +6103,7 @@ function renderLib(){
         <div class="sdeko"><div class="spines"><i style="height:76%;width:1.5cqw;background:#D8452F"></i><i style="height:67%;width:1.7cqw;background:#C0392B"></i><i style="height:75%;width:1.7cqw;background:#3D8BFD"></i><i style="height:78%;width:1.9cqw;background:#C0392B"></i><i style="height:96%;width:1.5cqw;background:#2F4BD8"></i><i style="height:91%;width:1.7cqw;background:#17915A"></i><i style="height:83%;width:1.7cqw;background:#2F4BD8"></i></div><span class="sd globus">🌍</span><span class="sd eule">🦉</span><span class="sd sanduhr">⏳</span><div class="spines r"><i style="height:91%;width:1.7cqw;background:#D8452F"></i><i style="height:78%;width:1.3cqw;background:#5A3E1B"></i><i style="height:88%;width:1.3cqw;background:#6B3FA0"></i><i style="height:69%;width:1.3cqw;background:#E09A12"></i><i style="height:72%;width:1.7cqw;background:#17915A"></i><i style="height:88%;width:1.5cqw;background:#D8452F"></i></div><span class="sd pflanze">🪴</span></div>
         <div class="sbrett"></div>
         <div class="buecher">${BUECHER.map((b,i)=>`<button type="button" class="buch ${b.gross?"gross":""}" data-buch="${b.id}" style="--bf:${b.farbe};--bf2:${b.farbe2};--i:${i}" aria-label="Buch ${esc(b.titel)} öffnen">
-          <span class="bcover"><span class="bemo2">${b.emo}</span><span class="btitel">${esc(b.titel)}</span><span class="bunter">${esc(b.untertitel)}</span><span class="blogo">easyplay</span></span>
+          <span class="bcover"><span class="bemo2">${b.emo}</span><span class="btitel">${esc(b.titel)}</span><span class="bunter">${esc(b.untertitel)}</span><span class="btop">★ ${esc(buchTop(b.id)[0]?.titel||"")}</span></span>
           <span class="bruecken"></span></button>`).join("")}</div>
         <div class="sbrett"></div>
         <div class="sunten"><div class="spines"><i style="height:70%;width:1.9cqw;background:#8E1B2F"></i><i style="height:74%;width:1.9cqw;background:#D8452F"></i><i style="height:77%;width:1.5cqw;background:#8E1B2F"></i><i style="height:69%;width:1.9cqw;background:#3D8BFD"></i><i style="height:75%;width:1.9cqw;background:#17915A"></i><i style="height:67%;width:1.5cqw;background:#2F4BD8"></i><i style="height:84%;width:1.3cqw;background:#3D8BFD"></i><i style="height:94%;width:1.5cqw;background:#E09A12"></i><i style="height:96%;width:1.7cqw;background:#17915A"></i><i style="height:83%;width:1.9cqw;background:#5A3E1B"></i><i style="height:88%;width:1.9cqw;background:#E09A12"></i></div><span class="sd kiste">🧸</span><div class="spines r"><i style="height:84%;width:1.5cqw;background:#8E1B2F"></i><i style="height:93%;width:1.3cqw;background:#1B6E7A"></i><i style="height:72%;width:1.5cqw;background:#E09A12"></i><i style="height:78%;width:1.7cqw;background:#E09A12"></i><i style="height:79%;width:1.7cqw;background:#5A3E1B"></i><i style="height:84%;width:1.5cqw;background:#6B3FA0"></i><i style="height:89%;width:1.3cqw;background:#8E1B2F"></i><i style="height:81%;width:1.7cqw;background:#6B3FA0"></i><i style="height:83%;width:1.5cqw;background:#1B6E7A"></i><i style="height:92%;width:1.7cqw;background:#E09A12"></i><i style="height:78%;width:1.3cqw;background:#D8452F"></i></div></div>
@@ -6730,10 +6737,11 @@ function renderLibBuch(){
     rechts=`<h2>Register A bis Z</h2><div class="abc">${Object.keys(gruppen).map(L=>`<a href="#reg-${L}">${L}</a>`).join("")}</div>
       ${Object.entries(gruppen).map(([L,l])=>`<div class="buchst" id="reg-${L}"><span class="initial">${L}</span><div class="reg">${l.map(s=>`<button type="button" class="regitem" data-sn="${s.nr}"><span>${esc(s.titel)}</span><span class="rpunkte"></span><span class="rnr">${s.nr}</span></button>`).join("")}</div></div>`).join("")}`;
   } else {
-    let letzteRub=null;
+    let letzteRub=null; const topIds=new Set(buchTop(B.id).map(k=>k.id));
     rechts=`<h2>Inhalt</h2><ol class="inhalt">${D.kap.map((k,i)=>{ let kopf="";
       if(k.rubrik && k.rubrik!==letzteRub){ letzteRub=k.rubrik; const ks=D.kap.filter(x=>x.rubrik===k.rubrik); kopf=`<li class="rubrik"><span class="rbemo">${k.rubrik.emo}</span><b>${esc(k.rubrik.name)}</b><span class="rbseiten">S. ${ks[0].von} bis ${ks[ks.length-1].bis}</span></li>`; }
-      return kopf+`<li><button type="button" class="kapitel" data-kap="${k.id}"><span class="knr">${i+1}</span><span class="kemo">${k.emo}</span><span class="kt"><b>${esc(k.titel)}</b><small>${k.seiten.length} ${k.seiten.length===1?"Seite":"Seiten"}</small></span><span class="kpunkte"></span><span class="kseite">S. ${k.von}${k.bis>k.von?" bis "+k.bis:""}</span></button></li>`; }).join("")}</ol>`;
+      const wichtig=topIds.has(k.id);
+      return kopf+`<li><button type="button" class="kapitel${wichtig?" kwichtig":""}" data-kap="${k.id}"><span class="knr">${i+1}</span><span class="kemo">${k.emo}</span><span class="kt"><b>${esc(k.titel)}${wichtig?' <span class="kstern" title="Wichtiges Kapitel">★ Wichtig</span>':""}</b><small>${k.seiten.length} ${k.seiten.length===1?"Seite":"Seiten"}</small></span><span class="kpunkte"></span><span class="kseite">S. ${k.von}${k.bis>k.von?" bis "+k.bis:""}</span></button></li>`; }).join("")}</ol>`;
   }
   $("#app").innerHTML = `${crumbs()}
     <div class="offen" style="--bf:${B.farbe};--bf2:${B.farbe2}">

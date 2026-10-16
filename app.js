@@ -427,6 +427,29 @@ body.ep-app.ep-s-done .rev .revhead b{font-weight:600}
 body.ep-app.ep-s-done .ap-revbtn{width:100%;min-height:44px;border:2px solid var(--line);border-radius:12px;background:var(--surface);font:700 .92rem "Lexend",system-ui,sans-serif;color:var(--ink);margin-top:8px}
 body.ep-app.ep-s-done .more{display:none}
 
+
+/* ---------- Bibliothek auf dem Handy: Suche und Bücher auf einem Bildschirm ---------- */
+body.ep-app.ep-s-lib{overflow:hidden}
+body.ep-app.ep-s-lib .libhero,body.ep-app.ep-s-lib .libhint,body.ep-app.ep-s-lib .eplegal,body.ep-app.ep-s-lib .libkopf .st-libkids{display:none!important}
+body.ep-app.ep-s-lib .libhome-suche{margin:0 0 10px}
+body.ep-app.ep-s-lib .libhome-suche input{min-height:46px;border-radius:16px;font-size:.95rem}
+body.ep-app.ep-s-lib .libszene{display:none!important}
+body.ep-app.ep-s-lib .regal{background:linear-gradient(180deg,#9C6A3F,#7A4F2A);border-radius:22px;padding:10px 8px 12px!important;box-shadow:0 8px 0 #4E3119,0 20px 30px -18px rgba(0,0,0,.5);margin:0!important}
+body.ep-app.ep-s-lib .regal .regaltitel{display:none}
+body.ep-app.ep-s-lib .regal .buecher{gap:10px 8px!important}
+body.ep-app.ep-s-lib .regal .buch{aspect-ratio:3/4!important;height:auto!important}
+@media (min-width:700px){body.ep-app.ep-s-lib .regal .regaltitel{display:block;color:#fff;font:800 1.05rem "Bricolage Grotesque",sans-serif;text-align:center;margin:2px 0 8px}}
+body.ep-app.ep-s-lib .regal .buch .bcover{padding:8px 6px!important}
+body.ep-app.ep-s-lib .buch .bemo2{font-size:1.9rem!important}
+body.ep-app.ep-s-lib .buch .btitel{font-size:.88rem!important}
+body.ep-app.ep-s-lib .buch .bunter{font-size:.58rem!important;line-height:1.2}
+body.ep-app.ep-s-lib .buch .btop{font-size:.55rem;bottom:6px;left:6%;right:6%}
+body.ep-app.ep-s-lib .ap-libkids{display:flex;justify-content:center;align-items:flex-end;gap:0;height:74px;margin:-10px 0 -8px;position:relative;z-index:2;pointer-events:none}
+body.ep-app.ep-s-lib .ap-libkids img{height:100%;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
+body.ep-app.ep-s-lib .ap-libkids img+img{margin-left:-6px}
+@media (min-width:700px){body.ep-app.ep-s-lib .regal .buecher{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:16px 14px!important}body.ep-app.ep-s-lib .buch .bemo2{font-size:2.6rem!important}body.ep-app.ep-s-lib .buch .btitel{font-size:1.1rem!important}body.ep-app.ep-s-lib .buch .bunter{font-size:.72rem!important}body.ep-app.ep-s-lib .ap-libkids{height:150px}}
+@media (max-height:720px) and (max-width:699px){body.ep-app.ep-s-lib .ap-libkids{display:none}body.ep-app.ep-s-lib .regal .buecher{gap:8px!important}}
+
 /* Begrüssung oben auf Heute */
 .ap-gruss{display:flex;flex-direction:column;gap:2px;padding:0 4px;margin-bottom:-46px;position:relative;z-index:0}
 .ap-gruss b{font:800 30px/1.05 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
@@ -851,6 +874,11 @@ function themenSeiten(){
   if(n > 1){ const pk = document.createElement("div"); pk.className = "ap-tpunkte"; pk.innerHTML = Array.from({length:n}, (x, i) => `<i${i ? "" : ' class="an"'}></i>`).join(""); wrap.after(pk);
     wrap.addEventListener("scroll", () => { const i = Math.round(wrap.scrollLeft / Math.max(1, wrap.clientWidth + 12)); [...pk.children].forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true}); }
 }
+function libKompakt(){
+  const app = document.getElementById("app"); const reg = app && app.querySelector(".regal"); if(!reg || app.querySelector(".ap-libkids")) return;
+  const d = document.createElement("div"); d.className = "ap-libkids"; d.innerHTML = `<img src="${KIDS}leni.webp" alt=""><img src="${KIDS}ben.webp" alt="">`; reg.before(d);
+  const bk = app.querySelector(".ap-kz"); if(bk) bk.querySelector("h1").textContent = "Bibliothek";
+}
 function doneKompakt(){
   const app = document.getElementById("app"); const rv = app && app.querySelector(".done .review"); if(!rv || rv.dataset.ap) return;
   rv.dataset.ap = "1"; rv.hidden = true;
@@ -894,7 +922,7 @@ window.render = function(){
     [...document.body.classList].filter(k => k.startsWith("ep-s-")).forEach(k => document.body.classList.remove(k));
     if(an()) document.body.classList.add("ep-s-" + (S.libModus && S.screen === "lib" ? "lib" : S.screen));
     leiste();
-    if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); }
+    if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); if(S.libModus && S.screen === "lib") libKompakt(); }
   }catch(e){ console.warn("app.js", e); }
   return r;
 };
