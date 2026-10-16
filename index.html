@@ -2037,7 +2037,7 @@ body.reelsauf{overflow:hidden}
 #reels .rtabs button{background:none;border:0;color:rgba(255,255,255,.7);font-weight:700;font-size:.95rem;padding:6px 8px;position:relative;cursor:pointer}
 #reels .rtabs button[aria-selected="true"]{color:#fff}
 #reels .rtabs button[aria-selected="true"]::after{content:"";position:absolute;left:30%;right:30%;bottom:0;height:3px;border-radius:3px;background:#fff}
-#reels .rserie{font-weight:800;font-size:.85rem;background:rgba(255,120,40,.9);padding:3px 8px;border-radius:999px}
+#reels .rserie{font-weight:800;font-size:.85rem;background:rgba(255,120,40,.9);padding:3px 8px;border-radius:999px;white-space:nowrap;flex:none}
 #reels .rzu{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border:0;color:#fff;font-weight:700;border-radius:999px;padding:7px 12px;cursor:pointer;font-size:.88rem}
 @media (max-width:420px){#reels .rzu span{display:none}#reels .rmarke{font-size:.95rem}#reels .rtabs button{font-size:.88rem;padding:6px 5px}}
 #reels .rpfeile{position:absolute;right:max(16px,calc(50% - 360px));top:50%;transform:translateY(-50%);display:none;flex-direction:column;gap:14px;z-index:4}
@@ -2045,6 +2045,21 @@ body.reelsauf{overflow:hidden}
 #reels .rpfeile button:hover{background:rgba(255,255,255,.26)}
 @media (min-width:900px){#reels .rpfeile{display:flex}}
 #reels .reel{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:linear-gradient(165deg,var(--r1),var(--r2))}
+#rlib{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;background:var(--libpaper,#FFFDF7);color:var(--libink,#3B2F1E)}
+#rlib .rlibkopf{display:flex;align-items:center;gap:10px;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));background:#1B2240;color:#fff;flex:none}
+#rlib .rlibzu{display:flex;align-items:center;gap:4px;border:0;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;font:700 .92rem "Lexend",system-ui,sans-serif;padding:8px 14px;cursor:pointer}
+#rlib .rlibtitel{font-weight:800;margin-left:auto;opacity:.9}
+#rlib .rlibapp{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:12px 12px calc(24px + env(safe-area-inset-bottom))}
+#rlib .rlibapp .wrap{padding:0}
+@media (min-width:700px){#rlib{left:50%;transform:translateX(-50%);width:min(100vw,calc((100dvh - 32px) * 9 / 16),640px);top:16px;bottom:16px;border-radius:18px;overflow:hidden}}
+#reels .rfoto{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#reels .rfoto img{width:100%;height:100%;object-fit:cover;display:block;opacity:.55;filter:saturate(.9)}
+#reels .rfoto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.15) 30%,rgba(0,0,0,.45) 60%,rgba(0,0,0,.8) 100%)}
+#reels .rfoto:empty{display:none}
+#reels .reel.mitfoto .rbg{display:none}
+#reels .ravatar.rav-ikon{font-size:1.15rem;background:rgba(255,255,255,.95);color:#1B2240}
+#reels .ravatar.rav-ikon svg,#reels .ravatar.rav-ikon .ic{width:20px;height:20px}
+#reels .rton{display:none!important}
 #reels .rbg{position:absolute;inset:0;pointer-events:none;opacity:.14}
 #reels .rbg span{position:absolute;font-size:9rem;line-height:1;filter:grayscale(.2)}
 #reels .rbg span:nth-child(1){left:-20px;top:8%;transform:rotate(-14deg)}
@@ -2397,7 +2412,8 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 #reels .rschip .rscx{padding:6px 10px 6px 4px;color:#666}
 @media (max-width:430px){#reels .rzu span{display:none!important}#reels .rzu{padding-left:12px!important;padding-right:12px!important}#reels .rmarke{font-size:0!important;gap:0!important}}
 /* Qeels: Suche */
-#reels .rtabs button.rlupe{font-size:1.05rem;padding:6px 8px}
+#reels .rtabs button.rlupe{font-size:1.05rem;padding:6px 8px;flex:none;min-width:34px}
+@media (max-width:440px){#reels .rkopf{gap:6px}#reels .rtabs{gap:0}#reels .rtabs>button[data-rtab]{padding:6px 3px!important;font-size:.85rem}#reels .rschalter{margin:0 1px;gap:4px}#reels .rschalter .rsl{font-size:.74rem}#reels .rsw{width:40px!important;height:24px!important}#reels .rsw i{width:18px!important;height:18px!important;left:9px}#reels .rsw[data-st="wissen"] i{left:19px!important}#reels .rsw[data-st="quiz"] i{left:3px!important}#reels .rserie{font-size:.78rem;padding:3px 7px}}
 #reels .rsuchfeld{position:absolute;z-index:12;top:58px;left:50%;transform:translateX(-50%);width:min(94vw,520px);display:flex;align-items:center;gap:6px;padding:6px 6px 6px 14px;border-radius:999px;background:rgba(255,255,255,.96);box-shadow:0 10px 30px rgba(0,0,0,.4);color:#111}
 #reels .rsuchfeld input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:1rem;padding:8px 4px;color:#111;outline:none}
 #reels .rsuchfeld .rsgo{border:0;border-radius:999px;padding:9px 14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8A3FE0,#3D5AFE);cursor:pointer}
@@ -4564,9 +4580,20 @@ function rlRail(id, extra){
     ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
   </aside>`;
 }
-function rlMeta(tag, text, ton, oben, kanal){
-  return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar">${rlLogo()}</span><b>@easyplay${kanal?`<span class="rkslash">/${esc(kanal)}</span>`:""}</b><span class="rchip">${tag}</span></div>
-    ${text}<p class="rton">🎵 ${ton}</p></div>`;
+function rlMeta(tag, text, ton, oben, kanal, ikon){
+  return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar ${ikon?"rav-ikon":""}">${ikon||rlLogo()}</span><b>@easyplay${kanal?`<span class="rkslash">/${esc(kanal)}</span>`:""}</b><span class="rchip">${tag}</span></div>
+    ${text}</div>`;
+}
+/* Qeels: Bild zum Thema aus dem Bildindex der Bibliothek (Stichwort der Frage, sonst Themenname) */
+let RLBILD=null;
+function rlBildIndex(){ if(RLBILD) return Promise.resolve(RLBILD); return bildIndex().then(ix=>{ const m=new Map(); for(const k in ix){ const e=ix[k]; const t=String(e[1]||"").toLowerCase().trim(); if(t && !m.has(t)) m.set(t, e); } return RLBILD=m; }); }
+async function rlThemaBild(f, th){
+  if(window.claude) return "";
+  const m=await rlBildIndex(); const norm=x=>String(x||"").toLowerCase().replace(/ß/g,"ss").trim();
+  const kand=[norm(f.s), norm(f.s).replace(/^(kanton|stadt|der|die|das)\s+/,""), norm(th?.name)].filter(x=>x.length>=4);
+  for(const k of kand){ const e=m.get(k); if(e) return lokalBild(e)||nurHttps(e[0]); }
+  for(const k of kand){ for(const [t,e] of m){ if(t.length>=4 && (t.includes(k) || k.includes(t))) return lokalBild(e)||nurHttps(e[0]); } }
+  return "";
 }
 function rlFrageHTML(it, idx){
   const f=it.f, cx=it.ctx, th=THEMA[f.t]||{name:cx?.name||"Bibliothek", bereich:{name:cx?.buch||"Bibliothek"}}, [c1,c2]=THEMA[f.t]?rlFarbe(f):[cx?.c1||"#8A3FE0",cx?.c2||"#2A1052"], id="q"+frageNr(f);
@@ -4576,6 +4603,7 @@ function rlFrageHTML(it, idx){
   it.share=`${f.q}\n${it.opts.map((o,i)=>"ABCD"[i]+") "+o.t).join("\n")}\nWeisst du es? Spiel mit auf easyplay!`;
   return `<section class="reel rq" data-i="${idx}" style="--r1:${c1};--r2:${c2}">
     <div class="rbg" aria-hidden="true"><span>${ti}</span><span>${ti}</span><span>${ti}</span></div>
+    <div class="rfoto" aria-hidden="true"></div>
     <div class="rinhalt">
       <span class="rtag">${ti} ${esc(th.name)} · ${STUFE_EMO[f.l]} ${esc(stufeObj(f.l).name)}</span>
       ${f.img?`<div class="rimg">${imgSvg(f.img)}</div>`:""}
@@ -4584,7 +4612,7 @@ function rlFrageHTML(it, idx){
       <div class="rerkl" hidden></div>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-erkl><span class="rbi">💡</span><small>Erklärung</small></button><button type="button" class="rbtn" data-qart><span class="rbi">📖</span><small>Artikel</small></button>`)}
-    ${rlMeta("Quiz", `<p class="rcap">Tippe auf die richtige Antwort! <span class="rlnr">Nr. ${frageNr(f)}</span></p>`, `${esc(th.bereich.name)} · ${esc(th.name)}`, "", rlKanal(th.bereich.name))}
+    ${rlMeta("Quiz", `<p class="rcap">Tippe auf die richtige Antwort! <span class="rlnr">Nr. ${frageNr(f)}</span></p>`, `${esc(th.bereich.name)} · ${esc(th.name)}`, "", rlKanal(th.bereich.name), th.bereich.emo?ico(th.bereich.emo):(cx?.emo||ti))}
     <div class="rprog"><i></i></div>
   </section>`;
 }
@@ -4608,7 +4636,7 @@ function rlArtikelHTML(it, idx){
       <button type="button" class="ralesen" data-lesen>📖 Ganzen Artikel lesen</button>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-lesen><span class="rbi">📖</span><small>Lesen</small></button>${rlEigene(s).length?`<button type="button" class="rbtn" data-dazu><span class="rbi">🎮</span><small>Frage dazu</small></button>`:""}`)}
-    ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`, "", rlKanal(B.titel))}
+    ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`, "", rlKanal(B.titel), B.emo)}
     <div class="rprog"><i></i></div>
   </section>`;
 }
@@ -4640,9 +4668,36 @@ function rlLike(sec, an){
   if(neu) b.querySelector(".rbi").animate([{transform:"scale(1)"},{transform:"scale(1.45)"},{transform:"scale(1)"}],{duration:380});
 }
 function rlZuArtikel(b, nr){
-  schliesseReels(); LIB.buch=b; LIB.seite=nr; LIB.zufall=false; LIB.vonQuiz=false;
+  LIB.buch=b; LIB.seite=nr; LIB.zufall=false; LIB.vonQuiz=false;
+  if($("#reels") && RL.offen){ rlLibAuf(); return; }
+  schliesseReels();
   S.libModus=true; document.documentElement.dataset.mode="lib"; go("libseite"); scrollTo(0,0);
 }
+/* Qeels: Bibliotheksseite als Fenster über den Qeels, Schliessen bringt zurück zum selben Qeel */
+function rlLibAuf(){
+  const o=$("#reels"); if(!o) return;
+  let ov=$("#rlib");
+  if(!ov){ ov=document.createElement("div"); ov.id="rlib"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-label","Bibliothek");
+    ov.innerHTML=`<div class="rlibkopf"><button type="button" class="rlibzu" id="rlibZu">✕<span> Zurück zu Qeels</span></button><span class="rlibtitel">📖 Bibliothek</span></div><div class="rlibapp" id="rlibApp"></div>`;
+    o.appendChild(ov); $("#rlibZu").onclick=rlLibZu; ov.animate([{transform:"translateY(100%)"},{transform:"translateY(0)"}],{duration:260,easing:"cubic-bezier(.2,.9,.3,1)"}); }
+  RL.libModeAlt=document.documentElement.dataset.mode; document.documentElement.dataset.mode="lib"; S.screen="libseite"; stopSpeak();
+  rlLibRender();
+}
+function rlLibRender(){
+  const app=$("#app"), ziel=$("#rlibApp"); if(!app||!ziel) return;
+  app.id="appHinten"; ziel.id="app"; try{ renderLibSeite(); }catch(e){ console.warn(e); }finally{ ziel.id="rlibApp"; app.id="app"; }
+  ziel.querySelectorAll(".crumbs,.eplegal").forEach(e=>e.remove()); ziel.scrollTop=0;
+}
+function rlLibZu(){
+  const ov=$("#rlib"); if(!ov) return; ov.remove(); stopSpeak();
+  if(RL.libModeAlt!=null) document.documentElement.dataset.mode=RL.libModeAlt; S.screen="home";
+}
+(function(){ const goAlt=window.go;
+  window.go=function(screen){
+    if($("#rlib")){ if(screen==="libseite" || screen==="libkapitel" || screen==="libbuch"){ if(screen!=="libseite"){ rlLibZu(); schliesseReels(); S.libModus=true; return goAlt.apply(this, arguments); } S.screen=screen; stopSpeak(); rlLibRender(); return; }
+      rlLibZu(); schliesseReels(); }
+    return goAlt.apply(this, arguments); };
+})();
 function rlAntwort(sec, it, i){
   if(it.done) return; it.done=true; const ok=it.opts[i].ok, f=it.f;
   sec.querySelectorAll(".ropt").forEach((b,k)=>{ b.disabled=true; if(it.opts[k].ok) b.classList.add("richtig"); else if(k===i) b.classList.add("falsch"); });
@@ -4688,6 +4743,10 @@ function rlBinde(sec, it){
     sec.insertAdjacentHTML("afterend", rlFrageHTML(neu, idx)); const ns=sec.nextElementSibling; rlBinde(ns, neu); RL.obs&&RL.obs.observe(ns);
     ns.scrollIntoView({behavior:"smooth"});
   });
+  if(it.typ==="q" && !window.claude){
+    const f=it.f, th=THEMA[f.t];
+    it.laden=()=>rlThemaBild(f, th).then(src=>{ if(!src || !sec.isConnected) return; const box=sec.querySelector(".rfoto"); if(!box) return; const img=new Image(); img.alt=""; img.onload=()=>{ box.appendChild(img); sec.classList.add("mitfoto"); img.animate([{opacity:0},{opacity:1}],{duration:500}); }; img.src=src; }).catch(()=>{});
+  }
   if(it.typ==="a" && !window.claude){
     const s=it.s, kand = s.typ==="art" ? [s.art.bild||null, s.titel] : [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel];
     const laden=()=>bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(b=>{

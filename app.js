@@ -424,6 +424,14 @@ body.ep-app.ep-s-quiz .explain .big{min-height:44px;font-size:.92rem}
   body.ep-app.ep-s-quiz .feedback p,body.ep-app.ep-s-quiz .explain p{font-size:1.05rem}
 }
 @media (min-width:1000px) and (orientation:landscape){body.ep-app.ep-ohne{padding-left:0}}
+/* Handy quer: nur hochkant erlaubt */
+#epDreh{display:none;position:fixed;inset:0;z-index:100000;background:linear-gradient(160deg,#2A1052,#8A3FE0);color:#fff;text-align:center;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px;font:600 1.05rem "Lexend",system-ui,sans-serif}
+#epDreh img{height:min(46vh,150px);animation:epDrehWipp 1.6s ease-in-out infinite}
+#epDreh b{display:block;font:800 1.5rem "Bricolage Grotesque","Fredoka",system-ui,sans-serif}
+#epDreh .epDrehIcon{font-size:2.2rem;display:inline-block;animation:epDrehRot 1.8s ease-in-out infinite}
+@keyframes epDrehRot{0%,20%{transform:rotate(0)}50%,70%{transform:rotate(90deg)}100%{transform:rotate(0)}}
+@keyframes epDrehWipp{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (orientation:landscape) and (max-height:500px) and (pointer:coarse){#epDreh{display:flex}body{overflow:hidden!important}}
 
 /* ---------- Zusammenfassung: kompakt ---------- */
 body.ep-app.ep-s-done .done{padding:14px 12px!important}
@@ -962,4 +970,11 @@ addEventListener("resize", () => { if(an() && S.screen === "home") requestAnimat
 
 window.EP_APP = { an, tab: () => tab, setTab };
 try{ if(an()) render(); }catch(e){}
+})();
+/* Hochkant-Sperre: Hinweis bei quer gehaltenem Handy, in der installierten App zusätzlich die Ausrichtung festhalten */
+(function(){
+  try{ const d=document.createElement("div"); d.id="epDreh"; d.setAttribute("aria-hidden","true");
+    d.innerHTML=`<span class="epDrehIcon">📱</span><b>Bitte dreh dein Handy</b>easyplay gibt es nur hochkant.<img src="img/kids/duo-winken.webp" alt="">`;
+    document.body.appendChild(d); }catch(e){}
+  try{ if(matchMedia("(display-mode: standalone)").matches && screen.orientation && screen.orientation.lock && matchMedia("(pointer: coarse) and (max-width: 760px)").matches) screen.orientation.lock("portrait").catch(()=>{}); }catch(e){}
 })();
