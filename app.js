@@ -22,7 +22,7 @@ const setTab = t => { tab = t; try{ sessionStorage.setItem("ep-apptab", t); }cat
 const OHNE_LEISTE = ["quiz","done","duellplay","duelllobby","duellannahme","check","checkdone","livequiz","liveplay","livehost"];
 function tabVon(sc){
   if(sc === "home") return tab;
-  if(["profil","register","login","historie","spieler","lehrer","lcode","suche","meinetests","testergebnis","bibliothek","werkstatt"].includes(sc)) return "profil";
+  if(["profil","register","login","konto","historie","spieler","lehrer","lcode","suche","meinetests","testergebnis","bibliothek","werkstatt"].includes(sc)) return "profil";
   if(sc === "chat" || sc === "epwoche") return "heute";
   if(sc === "livequiz") return "duell";
   if(["duell","duellsplit","duellende","duellresultat","spielmodi","board","live"].includes(sc)) return "duell";
@@ -866,7 +866,7 @@ function wocheHTML(){
 }
 
 /* ---------- Kopfzeile mit Zurück auf allen Unterseiten ---------- */
-const TITEL = {chat:"Tagesquiz", livequiz:"Live-Quiz", spielmodi:"Wettbewerb & Duell", board:"Rangliste", lib:"Bibliothek", profil:"Mein Profil", register:"Registrieren", login:"Anmelden", duell:"Duell", epwoche:"Thema der Woche", hardcoreinfo:"Hardcore", live:"Wettbewerb", lehrer:"Lehrerbereich"};
+const TITEL = {chat:"Tagesquiz", livequiz:"Live-Quiz", spielmodi:"Wettbewerb & Duell", board:"Rangliste", lib:"Bibliothek", profil:"Mein Profil", register:"Registrieren", login:"Anmelden", konto:"Anmelden", duell:"Duell", epwoche:"Thema der Woche", hardcoreinfo:"Hardcore", live:"Wettbewerb", lehrer:"Lehrerbereich"};
 function zurueck(){
   const cr = document.querySelector("#app .crumbs");
   if(cr && Array.isArray(S._crumbs) && S._crumbs.length){ try{ S._crumbs[S._crumbs.length - 1](); return; }catch(e){} }

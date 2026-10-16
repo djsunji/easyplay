@@ -2464,6 +2464,79 @@ html[data-mode="lib"] .wrap{max-width:1300px}
 .buch .blogo{display:none!important}
 .kapitel.kwichtig{background:linear-gradient(90deg,rgba(255,211,77,.18),transparent)}
 .kstern{display:inline-block;margin-left:6px;background:#FFD34D;color:#5A3E00;border-radius:999px;padding:1px 8px;font:800 .66rem "Lexend",system-ui,sans-serif;vertical-align:middle;letter-spacing:.02em}
+
+/* ===== Auswahl Anmelden / Registrieren und Registriermaske (Okt. 2026) ===== */
+#app .kwahl{max-width:720px;margin:10px auto 40px;display:grid;gap:18px}
+#app .kwkopf{text-align:center}
+#app .kwkopf h1{font-size:clamp(1.6rem,4.6vw,2.4rem);margin:0 0 6px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+#app .kwkopf p{margin:0;color:rgba(255,255,255,.88);font-weight:600}
+#app .kwgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,2.5vw,18px)}
+#app .kwkarte{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:6px;min-width:0;
+  padding:clamp(16px,4vw,30px) clamp(10px,3vw,22px);border:0;border-radius:28px;color:#fff;cursor:pointer;
+  box-shadow:0 22px 40px -24px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.25);transition:transform .15s}
+#app .kwkarte:hover{transform:translateY(-3px)}
+#app .kwkarte:focus-visible{outline:4px solid #FFD43B;outline-offset:3px}
+#app .kw-in{background:linear-gradient(150deg,#3D5AFE,#8A3FE0)}
+#app .kw-reg{background:linear-gradient(150deg,#FF8A3D,#E5487A)}
+#app .kwic{display:grid;place-items:center;width:clamp(56px,14vw,76px);height:clamp(56px,14vw,76px);border-radius:50%;background:rgba(255,255,255,.22);font-size:clamp(1.7rem,5vw,2.3rem);margin-bottom:4px}
+#app .kwkarte b{font-size:clamp(1.15rem,3.6vw,1.6rem);line-height:1.15}
+#app .kwkarte small{font-size:clamp(.82rem,2.6vw,1rem);opacity:.92;line-height:1.3}
+#app .kwlos{margin-top:auto;padding-top:12px}
+#app .kwlos{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;margin-top:12px;border-radius:14px;background:#fff;color:#2A2F6B;font-weight:800;font-size:clamp(.82rem,2.6vw,1rem);max-width:100%;white-space:normal}
+#app .kw-reg .kwlos{color:#B0304F}
+
+#app .regw{max-width:680px;margin:0 auto 40px}
+#app .regbox{max-width:none;margin:10px 0 0;gap:0;padding:clamp(18px,4vw,34px)}
+#app .regbox .authkopf{margin-bottom:6px}
+#app .regav{display:inline-grid;place-items:center;width:88px;height:88px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#3D5AFE,#8A3FE0);box-shadow:0 10px 20px -10px rgba(61,90,254,.7);font-size:2.6rem}
+#app .regav img,#app .regav .avimg{width:100%;height:100%;object-fit:cover}
+#app .regbox .provbtns{grid-template-columns:repeat(3,minmax(0,1fr))}
+#app .regbox .sbtn{min-width:0;padding:0 8px}
+#app .regbox .trenner{display:flex;align-items:center;gap:10px;color:var(--soft);font-weight:600;margin:14px 0 4px;text-align:center}
+#app .regbox .trenner::before,#app .regbox .trenner::after{content:"";flex:1;height:2px;background:var(--line)}
+#app .regbox .social .err:empty{display:none}
+#app .regsek{display:grid;gap:6px;padding:18px 0;border-top:2px solid var(--line)}
+#app .regsek:first-of-type{border-top:0}
+#app .regsek h3{display:flex;align-items:center;gap:10px;margin:0 0 4px;font-size:1.15rem}
+#app .regnr{display:inline-grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3D5AFE,#8A3FE0);color:#fff;font-size:.9rem;font-weight:800}
+#app .regsek label{display:block;font-weight:700;margin:6px 0 6px}
+#app .regsek .namerow{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+#app .regsek .namerow>div{min-width:0}
+#app .regsek input[type=text],#app .regsek input[type=email],#app .regsek input[type=password]{width:100%;min-height:54px;border:3px solid var(--line);border-radius:14px;padding:10px 14px;font-size:1.05rem;background:var(--bg);color:var(--ink);box-sizing:border-box}
+#app .regsek input:focus{border-color:var(--focus);outline:none}
+#app .regsek .help{margin:2px 0 0;font-size:.9rem;color:var(--soft)}
+#app .regsek .pwstark{margin-top:10px}
+#app .regmail{margin:0}
+#app .regstufen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#app .regstufen .seg{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:86px;padding:10px 6px!important;border-radius:18px;white-space:normal!important;font-size:1rem!important;line-height:1.2;text-align:center}
+#app .regstufen .seg .rsi{font-size:1.6rem;line-height:1}
+#app .regstufen .seg small{font-weight:600;opacity:.85;font-size:.85rem}
+#app .regfig{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;max-height:none;overflow:visible;padding:2px}
+#app .regfig .avbtn{min-width:0;width:100%;aspect-ratio:1;padding:0;overflow:hidden;display:grid;place-items:center}
+#app .regfig .avbtn img,#app .regfig .avbtn .avimg{width:100%;height:100%;object-fit:cover}
+#app .regkt{grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin:0}
+#app .regkt .ktbtn{min-width:0}
+#app .regchk{display:flex;gap:12px;align-items:flex-start;font-weight:500;padding:16px 0 4px;border-top:2px solid var(--line);margin:0}
+#app .regchk input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:#8A3FE0}
+#app .regbox .err{margin:10px 0 0}
+#app .regknoepfe{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+#app .regknoepfe .big{width:100%;margin:0;min-width:0;justify-content:center}
+#app .regbox .note{margin:12px 0 0;text-align:center}
+#app .regbox .authwechsel{margin-top:16px}
+#app .regbox .loginhint{margin:10px 0 0}
+@media (max-width:640px){
+  #app .regfig{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #app .regkt{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  #app .regbox .provbtns{grid-template-columns:1fr}
+  #app .regsek .namerow{grid-template-columns:1fr;gap:0}
+  #app .regstufen{gap:6px}
+  #app .regstufen .seg{min-height:78px;font-size:.88rem!important;padding:8px 4px!important}
+  #app .regstufen .seg small{font-size:.75rem}
+  #app .regkt{grid-template-columns:repeat(5,minmax(0,1fr))}
+  #app .regfig{gap:8px}
+}
 </style>
 <style id="tablet">
 /* Slogan statt Einleitungstext */
@@ -4082,11 +4155,7 @@ function renderNav(){
   const p=S.profil;
   $("#nav").innerHTML =
     (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button>`
-       : `<div class="menuwrap kontowrap"><button class="navbtn primary" id="navKonto" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="kontomenue">👤 <span class="tlab">Anmelden</span></button>
-          <div class="menu kontomenu" id="kontomenue" role="menu" hidden>
-            <button role="menuitem" type="button" id="navIn" class="kopt"><span class="ki">🔑</span><span><b>Anmelden</b><small>Ich habe schon ein Profil</small></span></button>
-            <button role="menuitem" type="button" id="navReg" class="kopt"><span class="ki">✨</span><span><b>Registrieren</b><small>Ich bin neu hier</small></span></button>
-          </div></div>`) +
+       : `<button class="navbtn primary" id="navKonto" type="button">👤 <span class="tlab">Anmelden</span></button>`) +
     
     `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><span class="rnico">Q</span> <span class="tlab">Qeels</span></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
@@ -4115,12 +4184,7 @@ function renderNav(){
   $("#navBoard") && ($("#navBoard").onclick=()=>{ if(S.libModus) setLibModus(false); S.boardStufe=S.stufe; go("board"); });
   $("#navLib") && ($("#navLib").onclick=()=>{ setLibModus(true); scrollTo(0,0); });
   $("#navSpiel") && ($("#navSpiel").onclick=()=>{ setLibModus(false); scrollTo(0,0); });
-  if($("#navKonto")){ const kb=$("#navKonto"), km=$("#kontomenue");
-    const kzu=()=>{ km.hidden=true; kb.setAttribute("aria-expanded","false"); document.removeEventListener("click",kaus,true); document.removeEventListener("keydown",ktaste); };
-    const kaus=e=>{ if(!e.target.closest(".kontowrap")) kzu(); };
-    const ktaste=e=>{ if(e.key==="Escape"){ kzu(); kb.focus(); } };
-    kb.onclick=()=>{ if(km.hidden){ km.hidden=false; kb.setAttribute("aria-expanded","true"); km.querySelector("button")?.focus(); document.addEventListener("click",kaus,true); document.addEventListener("keydown",ktaste); } else kzu(); };
-    $("#navIn").addEventListener("click",kzu); $("#navReg").addEventListener("click",kzu); }
+  $("#navKonto") && ($("#navKonto").onclick=()=>go("konto"));
   const btn=$("#navMenu"), menu=$("#hauptmenue");
   const zu=()=>{ menu.hidden=true; btn.setAttribute("aria-expanded","false"); document.removeEventListener("click",aussen,true); document.removeEventListener("keydown",taste); };
   const aussen=e=>{ if(!e.target.closest(".menuwrap")) zu(); };
@@ -4142,7 +4206,7 @@ function render(){
   if(S.timer && !(S.screen==="quiz" && S.quiz?.mode==="test")){ clearInterval(S.timer); S.timer=null; }
   renderNav();
   ({home:renderHome, bereich:renderBereich, mode:renderMode, quiz:renderQuiz, done:renderDone, berufmenu:renderBerufMenu, check:renderCheck,
-    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, duell:renderDuell, duellsplit:renderDuellSplit, duellplay:renderDuellPlay, duelllobby:renderDuellLobby, duellende:renderDuellEnde, duellannahme:renderDuellAnnahme, duellresultat:renderDuellResultat, spieler:renderSpieler, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, profil:renderProfil, board:renderBoard})[S.screen]();
+    checkdone:renderCheckDone, geschmenu:renderGeschMenu, chmenu:renderChMenu, live:renderLive, duell:renderDuell, duellsplit:renderDuellSplit, duellplay:renderDuellPlay, duelllobby:renderDuellLobby, duellende:renderDuellEnde, duellannahme:renderDuellAnnahme, duellresultat:renderDuellResultat, spieler:renderSpieler, login:renderLogin, historie:renderHistorie, lib:renderLib, libbuch:renderLibBuch, libkapitel:renderLibKapitel, libseite:renderLibSeite, libartikel:renderLibArtikel, libthema:renderLibThema, suche:renderSuche, meinetests:renderMeineTests, testergebnis:renderTestErgebnis, fremdtest:renderFremdTest, fremddone:renderFremdDone, resinfo:renderResInfo, bibliothek:renderBibliothek, werkstatt:renderWerkstatt, submenu:renderSubMenu, livehost:renderLiveHost, liveplay:renderLivePlay, register:renderRegister, konto:renderKonto, profil:renderProfil, board:renderBoard})[S.screen]();
   bindSpeak();
   bindCrumbs();
 }
@@ -5163,38 +5227,46 @@ function renderRegister(){
   const p=S.profil, edit=!!p;
   let av = p?.avatar && (AVATAR_IMG[p.avatar]||ALT_AVATAR[p.avatar]||AVATARE.includes(p.avatar)) ? (ALT_AVATAR[p.avatar]||p.avatar) : levelAvatare(S.stufe)[0];
   let kt = p?.kanton || "";
-  $("#app").innerHTML = `
-    <div class="pagehead"><div class="bigav" id="prevAv">${avatar(av)}</div><h1>${S.profilErgaenzen? "Profil vervollständigen" : edit? "Profil bearbeiten" : "Werde Teil von easyplay"}</h1></div>
-    ${!edit ? `<div class="authbox regsocial">${socialHTML().replace("oder weiter mit","Schnell registrieren mit")}<p class="authwechsel" style="margin-top:4px">Schon ein Profil? <button type="button" class="linkbtn" id="zuLogin">Hier anmelden</button></p></div>` : ""}
-    ${!edit && S.loginHinweis ? `<p class="loginhint">🔑 Auf diesem Gerät wurde noch kein Profil gefunden. Registriere dich einfach neu, es dauert nur einen Moment.</p>` : ""}
-    <div class="form">
-      <div class="namerow"><div><label for="pvor">Vorname</label>
-        <input type="text" id="pvor" maxlength="30" autocomplete="given-name" value="${esc(p?.vorname||"")}" placeholder="z. B. Lina"></div>
-        <div><label for="pnach">Nachname</label>
-        <input type="text" id="pnach" maxlength="30" autocomplete="family-name" value="${esc(p?.nachname||"")}" placeholder="z. B. Meier"></div></div>
-      <p class="help">Bitte deinen echten Namen angeben. In der Rangliste erscheinen dein Vorname und der erste Buchstabe deines Nachnamens, zum Beispiel «Lina M.».</p>
-      ${!edit ? `<div class="konto"><h3>🔐 Dein Zugang</h3>
+  const titel = S.profilErgaenzen? "Profil vervollständigen" : edit? "Profil bearbeiten" : "Registrieren";
+  $("#app").innerHTML = `${crumbs()}
+    <div class="regw">
+    <div class="authbox regbox">
+      <div class="authkopf"><span class="regav" id="prevAv">${avatar(av)}</span><h1>${titel}</h1><p>${edit? "Hier kannst du deine Angaben ändern." : "Werde Teil von easyplay! Es dauert nur einen Moment."}</p></div>
+      ${!edit ? `${socialHTML().replace("oder weiter mit","Schnell registrieren mit")}<p class="trenner regtr"><span>oder mit deiner E-Mail-Adresse</span></p>` : ""}
+      ${!edit && S.loginHinweis ? `<p class="loginhint">🔑 Auf diesem Gerät wurde noch kein Profil gefunden. Registriere dich einfach neu, es dauert nur einen Moment.</p>` : ""}
+      <section class="regsek"><h3><span class="regnr">1</span>Über dich</h3>
+        <div class="namerow"><div><label for="pvor">Vorname</label>
+          <input type="text" id="pvor" maxlength="30" autocomplete="given-name" value="${esc(p?.vorname||"")}" placeholder="z. B. Lina"></div>
+          <div><label for="pnach">Nachname</label>
+          <input type="text" id="pnach" maxlength="30" autocomplete="family-name" value="${esc(p?.nachname||"")}" placeholder="z. B. Meier"></div></div>
+        <p class="help">Bitte deinen echten Namen angeben. In der Rangliste erscheinen dein Vorname und der erste Buchstabe deines Nachnamens, zum Beispiel «Lina M.».</p>
+      </section>
+      ${!edit ? `<section class="regsek"><h3><span class="regnr">2</span>Dein Zugang</h3>
         <label for="rMail">E-Mail-Adresse</label><input id="rMail" type="email" autocomplete="email" placeholder="name@beispiel.ch">
-        <label for="rPw">Passwort</label><div class="pwfeld"><input id="rPw" type="password" autocomplete="new-password" placeholder="Mindestens 8 Zeichen"><button type="button" class="pwzeig" data-for="rPw" aria-label="Passwort anzeigen">👁️</button></div>
-        <div class="pwstark" aria-hidden="true"><i id="pwBar"></i></div><small class="help" id="pwTxt" style="margin:0">Tipp: Mischung aus Buchstaben, Zahlen und Zeichen.</small>
-        <label for="rPw2">Passwort wiederholen</label><input id="rPw2" type="password" autocomplete="new-password" placeholder="Nochmals eingeben">
-        <label class="chk"><input type="checkbox" id="rOk"><span>Ich bin einverstanden, dass meine Angaben für easyplay gespeichert werden. Bist du unter 16 Jahre alt, frag bitte zuerst deine Eltern.</span></label>
-      </div>` : (p?.email ? `<div class="konto"><h3>🔐 Dein Zugang</h3><p style="margin:0">Angemeldet mit <b>${esc(p.email)}</b></p></div>` : "")}
-      <label id="stLbl">Deine Stufe</label>
-      <div class="segs" role="group" aria-labelledby="stLbl">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}">${STUFE_EMO[s.id]} ${s.name} · ${s.alter}</button>`).join("")}</div>
-      <label id="avLbl">Wähle deine Figur</label>
-      <p class="help" style="margin:-4px 0 8px">Die Figuren passen zu deiner Stufe, wechselst du oben die Stufe, siehst du andere.</p>
-      <div class="avatars avgrid" role="group" aria-labelledby="avLbl" id="avGrid"></div>
-      <label id="ktLbl">Dein Wohnkanton <span class="ktchosen" id="ktChosen">${kt? "· "+esc(KANTONE.find(k=>k.kuerzel===kt)?.kurz||"") : ""}</span></label>
-      <div class="ktgrid" role="radiogroup" aria-labelledby="ktLbl">${KANTONE.map(k=>`<button type="button" class="ktbtn" role="radio" data-k="${k.kuerzel}" aria-checked="${k.kuerzel===kt}" aria-label="${esc(k.kurz)}" title="${esc(k.kurz)}">${wappen(k.kuerzel)}<span>${k.kuerzel}</span></button>`).join("")}</div>
-      <p class="help">Damit kannst du dich in der Rangliste mit deinem Kanton vergleichen.</p>
+        <div class="namerow"><div><label for="rPw">Passwort</label><div class="pwfeld"><input id="rPw" type="password" autocomplete="new-password" placeholder="Mindestens 8 Zeichen"><button type="button" class="pwzeig" data-for="rPw" aria-label="Passwort anzeigen">👁️</button></div></div>
+          <div><label for="rPw2">Passwort wiederholen</label><input id="rPw2" type="password" autocomplete="new-password" placeholder="Nochmals eingeben"></div></div>
+        <div class="pwstark" aria-hidden="true"><i id="pwBar"></i></div><small class="help" id="pwTxt">Tipp: Mischung aus Buchstaben, Zahlen und Zeichen.</small>
+      </section>` : (p?.email ? `<section class="regsek"><h3><span class="regnr">2</span>Dein Zugang</h3><p class="regmail">Angemeldet mit <b>${esc(p.email)}</b></p></section>` : "")}
+      <section class="regsek"><h3 id="stLbl"><span class="regnr">${!edit||p?.email?3:2}</span>Deine Stufe</h3>
+        <div class="regstufen" role="group" aria-labelledby="stLbl">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="rsi">${STUFE_EMO[s.id]}</span><b>${s.name}</b><small>${s.alter}</small></button>`).join("")}</div>
+      </section>
+      <section class="regsek"><h3 id="avLbl"><span class="regnr">${!edit||p?.email?4:3}</span>Wähle deine Figur</h3>
+        <p class="help">Die Figuren passen zu deiner Stufe. Wechselst du die Stufe, siehst du andere.</p>
+        <div class="regfig" role="group" aria-labelledby="avLbl" id="avGrid"></div>
+      </section>
+      <section class="regsek"><h3 id="ktLbl"><span class="regnr">${!edit||p?.email?5:4}</span>Dein Wohnkanton <span class="ktchosen" id="ktChosen">${kt? "· "+esc(KANTONE.find(k=>k.kuerzel===kt)?.kurz||"") : ""}</span></h3>
+        <div class="ktgrid regkt" role="radiogroup" aria-labelledby="ktLbl">${KANTONE.map(k=>`<button type="button" class="ktbtn" role="radio" data-k="${k.kuerzel}" aria-checked="${k.kuerzel===kt}" aria-label="${esc(k.kurz)}" title="${esc(k.kurz)}">${wappen(k.kuerzel)}<span>${k.kuerzel}</span></button>`).join("")}</div>
+        <p class="help">Damit kannst du dich in der Rangliste mit deinem Kanton vergleichen.</p>
+      </section>
+      ${!edit ? `<label class="chk regchk"><input type="checkbox" id="rOk"><span>Ich bin einverstanden, dass meine Angaben für easyplay gespeichert werden. Bist du unter 16 Jahre alt, frag bitte zuerst deine Eltern.</span></label>` : ""}
       <p class="err" id="err" aria-live="polite"></p>
-      <div class="row" style="justify-content:flex-start">
-        <button class="big gold" id="save" type="button">${edit? "Speichern" : "Registrieren"}</button>
+      <div class="regknoepfe">
         <button class="big alt" id="cancel" type="button">Abbrechen</button>
+        <button class="big gold" id="save" type="button">${edit? "Speichern" : "Registrieren"}</button>
       </div>
       ${S.online? "" : `<p class="note">Hinweis: In dieser Ansicht wird dein Profil nur auf diesem Gerät gespeichert.</p>`}
-    </div>`;
+      ${!edit ? `<p class="authwechsel">Schon ein Profil? <button type="button" class="linkbtn" id="zuLogin">Hier anmelden</button></p>` : ""}
+    </div></div>`;
   const zeichneAv=()=>{ const liste=levelAvatare(S.stufe); const extra = liste.includes(av) ? [] : [av];
     $("#avGrid").innerHTML=[...extra,...liste].map(a=>`<button class="avbtn" type="button" data-a="${a}" aria-label="Avatar ${a}" aria-pressed="${a===av}">${avatar(a)}</button>`).join("");
     document.querySelectorAll(".avbtn").forEach(b=>b.onclick=()=>{ av=b.dataset.a; document.querySelectorAll(".avbtn").forEach(x=>x.setAttribute("aria-pressed", x===b)); $("#prevAv").innerHTML=avatar(av); }); };
@@ -5274,12 +5346,12 @@ function renderProfil(){
       <div class="statcard"><h2>${ico("dumbbell")} Training</h2><div class="nums">
         <div class="num"><b>${st.trainRuns}</b><span>Durchläufe</span></div>
         <div class="num"><b>${st.trainFragen}</b><span>Fragen gesehen</span></div>
-        <div class="num"><b>${pct(st.trainRichtig,st.trainFragen)}</b><span>richtig beantwortet</span></div>
+        <div class="num"><b>${pct(st.trainRichtig,st.trainFragen)||"0 %"}</b><span>richtig beantwortet</span></div>
         <div class="num"><b>${fmtZeit(st.trainZeit)}</b><span>Lernzeit</span></div></div></div>
       <div class="statcard test"><h2>${ico("trophy")} Gewertete Tests</h2><div class="nums">
         <div class="num"><b>${st.testRuns}</b><span>Tests</span></div>
         <div class="num"><b>${st.testFragen}</b><span>Fragen gesehen</span></div>
-        <div class="num"><b>${pct(st.testRichtig,st.testFragen)}</b><span>richtig beantwortet</span></div>
+        <div class="num"><b>${pct(st.testRichtig,st.testFragen)||"0 %"}</b><span>richtig beantwortet</span></div>
         <div class="num"><b>${fmtZeit(st.testZeit)}</b><span>Testzeit</span></div>
         <div class="num"><b>${st.bestTest||0}</b><span>bester Test (Punkte)</span></div>
         <div class="num"><b>${total}</b><span>Ranglistenpunkte</span></div></div></div>
@@ -5404,7 +5476,9 @@ function crumbPath(){
     case "duell": cur="⚔️ Duell"; break;
     case "duellplay": case "duelllobby": case "duellende": case "duellannahme": case "duellresultat": P.push(["⚔️ Duell",()=>{ duellLeave(); go("duell"); }]); cur=S.screen==="duellplay"?"Spiel":S.screen==="duelllobby"?"Warten":S.screen==="duellannahme"?"Herausforderung":"Ergebnis"; break;
     case "spieler": P.push(["Rangliste",()=>go("board")]); cur=(S.online?S.spieler.find(x=>x.id===S.spielerId)?.name:S.profil?.name)||"Profil"; break;
-    case "login": cur="Anmelden"; break;
+    case "login": P.push(["Anmelden",()=>go("konto")]); cur="Mit Profil anmelden"; break;
+    case "konto": cur="Anmelden"; break;
+    case "register": if(S.profil){ P.push(["Mein Profil",()=>go("profil")]); cur="Profil bearbeiten"; } else { P.push(["Anmelden",()=>go("konto")]); cur="Registrieren"; } break;
     case "historie": P.push(["Mein Profil",()=>go("profil")]); cur="Historie"; break;
     case "geschmenu": B(byId("welt")); cur="Geschichte"; break;
     case "chmenu": B(byId("welt")); G(); cur="Schweizer Geschichte"; break;
@@ -7532,6 +7606,17 @@ function bindSocial(){
     catch(e){ err.textContent="Das hat nicht geklappt: "+(e.message||"unbekannter Fehler"); }
   });
 }
+function renderKonto(){
+  $("#app").innerHTML = `${crumbs()}
+    <div class="kwahl">
+      <div class="kwkopf"><h1>Willkommen bei easyplay</h1><p>Hast du schon ein Profil oder bist du neu hier?</p></div>
+      <div class="kwgrid">
+        <button type="button" class="kwkarte kw-in" id="kwIn"><span class="kwic">🔑</span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="kwlos">Zur Anmeldung</span></button>
+        <button type="button" class="kwkarte kw-reg" id="kwReg"><span class="kwic">✨</span><b>Registrieren</b><small>Ich bin neu hier</small><span class="kwlos">Profil erstellen</span></button>
+      </div>
+    </div>`;
+  $("#kwIn").onclick=()=>go("login"); $("#kwReg").onclick=()=>go("register");
+}
 function renderLogin(){
   $("#app").innerHTML = `${crumbs()}
     <div class="authbox">
@@ -8021,6 +8106,55 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="app.js"></script>
 <script src="stil.js"></script>
 <script src="duell2.js"></script>
+<script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
+(function(){
+const css=`
+/* Profilkopf: Figur nicht über die Chips legen, auf PC nur eine Figur */
+html body.ep-liegt #app .pagehead .st-kids{display:none!important}
+@media (max-width:560px){
+  html body.ep-liegt #app .pagehead.st-kopf{padding-bottom:150px!important;padding-right:20px!important}
+  html body.ep-liegt #app .pagehead.st-kopf::after{top:auto!important;bottom:8px!important;right:50%!important;transform:translateX(50%)!important;width:200px!important;height:130px!important}
+  html body.ep-liegt #app .pagehead .st-chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  html body.ep-liegt #app .pagehead .st-chips span{min-width:0}
+}
+/* Profil-Code: Beschriftung, Code und Knopf in einer Linie */
+html body .ep-code{display:flex!important;flex-wrap:wrap;align-items:center;gap:6px 14px}
+html body .ep-code b{white-space:nowrap}
+html body .ep-code .ep-codekopie{margin-left:auto}
+html body .ep-code small{flex:1 1 100%}
+html body #app .pagehead.st-kopf span[style*="--soft"]{color:rgba(255,255,255,.92)!important}
+/* Profil: Knöpfe gleich hoch */
+html body #app[data-seite="profil"] .row .big{min-height:56px}
+/* Startseite App: Gruss nicht unter das Logo */
+html body .ap-gruss b{padding-right:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+@media (min-width:700px){html body .ap-gruss b{padding-right:270px}}
+@media (max-width:699px){html body .ap-held .apzahlen{display:block;max-width:44vw;white-space:normal;line-height:1.3}}
+/* Stufenwahl im Bereichskopf: auf schmalen Geräten ohne Emoji, damit der Text Platz hat */
+@media (max-width:440px){html body.ep-app .st-kopf .sbtns button .ic{display:none}html body.ep-app .st-kopf .sbtns button{font-size:.8rem;padding:4px 4px}}
+/* Themenkacheln: lange Wörter trennen statt abschneiden */
+@media (max-width:440px){html body.ep-app .ap-tp .thema{grid-template-columns:34px 1fr;column-gap:8px!important;padding:10px 10px 9px!important}html body.ep-app .ap-tp .thema .emo{width:34px!important;height:34px!important;font-size:1.25rem!important;border-radius:11px!important}html body.ep-app .ap-tp .thema .emo svg,html body.ep-app .ap-tp .thema .emo img{width:21px;height:21px}}
+html body #app .thema b,html body #app .apb b{hyphens:auto;-webkit-hyphens:auto}
+`;
+const st=document.createElement("style"); st.id="ep-feinschliff"; st.textContent=css; document.head.appendChild(st);
+/* Text, der nicht in seine Box passt, schrittweise verkleinern (höchstens auf 70 %) */
+const SEL=["#app .thema b","#app .apb b",".ap-gruss b","h1.auf",".st-kopf .sbtns button","#app .regstufen .seg b","#app .kwkarte b","#app .bereich b","#app .level b"];
+function passt(el){ return el.scrollWidth<=el.clientWidth+1 && (getComputedStyle(el).webkitLineClamp==="none" || el.scrollHeight<=el.clientHeight+2); }
+function einpassen(){
+  document.querySelectorAll(SEL.join(",")).forEach(el=>{
+    if(!el.offsetParent && getComputedStyle(el).position!=="fixed") return;
+    el.style.removeProperty("font-size"); if(passt(el)) return;
+    const basis=parseFloat(getComputedStyle(el).fontSize)||16; let fs=basis;
+    while(!passt(el) && fs>Math.max(10,basis*0.7)){ fs-=0.5; el.style.setProperty("font-size",fs+"px","important"); }
+  });
+}
+const HALB=["#app .apb small"];
+function halbeZeilen(){ document.querySelectorAll(HALB.join(",")).forEach(el=>{ el.style.removeProperty("visibility"); const box=(el.closest(".apb")||el.parentElement).getBoundingClientRect(), r=el.getBoundingClientRect(); if(r.height>0 && ((box && r.bottom>box.bottom-2) || el.scrollHeight>el.clientHeight+3)) el.style.setProperty("visibility","hidden","important"); }); }
+let geplant=0; const plane=()=>{ if(geplant) return; geplant=requestAnimationFrame(()=>{ geplant=0; try{ einpassen(); halbeZeilen(); }catch(e){} }); };
+addEventListener("load",()=>{ const app=document.getElementById("app"); if(app) new MutationObserver(plane).observe(app,{childList:true,subtree:true}); const kopf=document.body; new MutationObserver(plane).observe(kopf,{childList:true}); plane(); });
+addEventListener("resize",plane);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(plane);
+window.EP_EINPASSEN=einpassen;
+})();</script>
 <script>/*__epScrollPause*/(function(){let t=0;addEventListener('scroll',function(){if(!t)document.body.classList.add('scrollt');clearTimeout(t);t=setTimeout(function(){document.body.classList.remove('scrollt');t=0;},180);},{passive:true});document.addEventListener('visibilitychange',function(){document.body.classList.toggle('scrollt',document.hidden);});})();</script>
 <script>
 /* Anonyme Besucherstatistik (nur mit Supabase): zählt Seitenbereiche, Gerätetyp und Herkunftsseite. Keine Cookies, keine IP-Speicherung. */
