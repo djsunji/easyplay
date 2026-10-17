@@ -1,10 +1,9 @@
 /* easyplay: Soundpaket «Musik & Töne»
-   Ein Teil der Musik und Töne entsteht im Browser (Web Audio API), der Rest liegt als MP3 in musik/ (DATEI_STUECKE, FX_DATEI).
-   Musik je Ort: Startseite sonnenschein, Quiz quiz, Duell duell, Live-Quiz live, Qeels qeels, Bibliothek bibliothek.
+   Alle Töne und Musikstücke entstehen im Browser mit der Web Audio API (keine Audiodateien, keine Bibliotheken).
 
    window.EP_SOUND
      play(name)          Effekt abspielen: klick, richtig, falsch, xp, levelup, sammeln, freischalten, truhe, fanfare, tick, wisch, fehler (+ fertig)
-     musik(name|null)    Musik wünschen: sonnenschein, quiz, duell, live, qeels, start, bibliothek, abenteuer, fest; null = keine Musik (spielt nur, wenn Musik eingeschaltet ist)
+     musik(name|null)    Musik wünschen: start, bibliothek, abenteuer, fest; null = keine Musik (spielt nur, wenn Musik eingeschaltet ist)
      an()                true, wenn Töne oder Musik eingeschaltet sind
      effekteAn(), musikAn(), lautstaerke()
      setze({effekte, musik, lautstaerke})   Einstellungen ändern (lautstaerke 0..1), wird gespeichert
@@ -140,8 +139,7 @@ const FX = {
 };
 const FX_NAMEN = [
   ["klick", "Klick", "👆"], ["richtig", "Richtig", "✅"], ["falsch", "Daneben", "🙃"], ["xp", "XP", "⭐"], ["levelup", "Level auf", "🚀"], ["sammeln", "Sammeln", "🫧"],
-  ["freischalten", "Freischalten", "🔓"], ["truhe", "Truhe", "🎁"], ["fanfare", "Fanfare", "🎺"], ["tick", "Tick", "⏱️"], ["wisch", "Wisch", "💨"], ["fehler", "Hoppla", "🤭"],
-  ["duellstart", "Duell-Start", "⚔️"], ["countdown", "Countdown", "⏳"]
+  ["freischalten", "Freischalten", "🔓"], ["truhe", "Truhe", "🎁"], ["fanfare", "Fanfare", "🎺"], ["tick", "Tick", "⏱️"], ["wisch", "Wisch", "💨"], ["fehler", "Hoppla", "🤭"]
 ];
 
 /* ---------- Musik (eigene Kompositionen) ---------- */
@@ -192,36 +190,6 @@ const STUECKE = {
     schelle:{v:0.016, raster:0.5, ab:0.5}, pauke:{v:0.14, schlaege:[0]} }
 };
 
-/* Stücke als Audiodatei (musik/*.mp3, nahtlose Schleifen, n = exakte Länge in Samples bei 44,1 kHz) */
-const DATEI_STUECKE = {
-  sonnenschein: { titel:"Sonnenschein", text:"Fröhlich, für die Startseite", emo:"🌞", farbe:"linear-gradient(135deg,#F7B32B,#F2762E)", datei:"musik/loop-startseite.mp3", n:1512000, gain:1.15 },
-  quiz: { titel:"Denkmütze", text:"Ruhig, zum Nachdenken im Quiz", emo:"🤔", farbe:"linear-gradient(135deg,#3B82F6,#2563EB)", datei:"musik/loop-quiz.mp3", n:1693440, gain:1.1 },
-  duell: { titel:"Bergduell", text:"Schnell und mutig, für Duelle", emo:"⚔️", farbe:"linear-gradient(135deg,#F05A4F,#C62F3B)", datei:"musik/loop-duell.mp3", n:1209600, gain:1.1 },
-  live: { titel:"Showtime", text:"Quizshow, für das Live-Quiz", emo:"🎤", farbe:"linear-gradient(135deg,#B05CEB,#7B3FE4)", datei:"musik/loop-livequiz.mp3", n:1365677, gain:1.1 },
-  qeels: { titel:"Chill-Beats", text:"Entspannt, für Qeels", emo:"🎧", farbe:"linear-gradient(135deg,#F0569E,#C2185B)", datei:"musik/loop-qeels.mp3", n:1924364, gain:1.2 }
-};
-Object.keys(DATEI_STUECKE).forEach(id => { STUECKE[id] = DATEI_STUECKE[id]; });
-/* Kurze Klänge als Datei; solange eine Datei noch nicht geladen ist, spielt der eingebaute Ton */
-const FX_DATEI = { richtig:"musik/fx-richtig.mp3", falsch:"musik/fx-falsch.mp3", xp:"musik/fx-muenze.mp3", levelup:"musik/fx-stufe.mp3",
-  fanfare:"musik/fx-sieg.mp3", klick:"musik/fx-tipp.mp3", duellstart:"musik/fx-duell-start.mp3", countdown:"musik/fx-countdown.mp3" };
-const FX_PUFFER = {};
-function dekodieren(ab){
-  const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
-  const c = ctx || new OAC(2, 1, 44100);
-  return new Promise((ok, err) => { try{ const pr = c.decodeAudioData(ab, ok, err); if(pr && pr.then) pr.then(ok, err); }catch(e){ err(e); } });
-}
-function dateiHolen(url){ return fetch(url).then(r => { if(!r.ok) throw new Error(url + " " + r.status); return r.arrayBuffer(); }).then(dekodieren); }
-function dateiStueck(st){
-  return dateiHolen(st.datei).then(buf => {
-    /* MP3 hat am Anfang eine kleine Encoder-Verzögerung; falls der Browser sie nicht entfernt, die Schleife dahinter legen */
-    const soll = st.n * buf.sampleRate / 44100, extra = buf.length - soll;
-    const vor = extra > 200 ? Math.min(extra, 1105 * buf.sampleRate / 44100) : 0;
-    buf._ls = vor / buf.sampleRate; buf._le = (vor + soll) / buf.sampleRate; buf._gain = st.gain || 1;
-    return buf;
-  });
-}
-function fxDateienLaden(){ Object.keys(FX_DATEI).forEach(n => { if(!FX_PUFFER[n]) FX_PUFFER[n] = dateiHolen(FX_DATEI[n]).then(b => (FX_PUFFER[n] = b)).catch(() => { delete FX_PUFFER[n]; }); }); }
-
 /* Ein Stück in einen Kontext einplanen; gibt die Länge in Sekunden zurück */
 /* plan(t, fn): fn erst kurz vor der Zeit t ausführen (spart Rechenzeit beim Rendern) */
 function stueckPlanen(c, out, name, plan){
@@ -244,14 +212,13 @@ function stueckPlanen(c, out, name, plan){
   ["shaker", "schelle"].forEach(k => { const p = st[k]; if(!p) return; for(let b = p.ab; b < laengeB - 0.001; b += p.raster) I(k, T(b), 0, 0, p.v * (b % 1 === 0 ? 0.7 : 1), 0.35); });
   return laengeB * sb;
 }
-function stueckLaenge(name){ const st = STUECKE[name]; if(st.datei) return st.n / 44100; return folge(st.akk).reduce((s, a) => s + a.d, 0) * 60 / st.bpm; }
+function stueckLaenge(name){ const st = STUECKE[name]; return folge(st.akk).reduce((s, a) => s + a.d, 0) * 60 / st.bpm; }
 
 /* Stück offline rendern, Nachklang an den Anfang falten (nahtlose Schleife), auf Zielpegel bringen */
 const PUFFER = {};
 function stueckRendern(name, sr){
   sr = sr || 24000;
   if(!STUECKE[name]) return Promise.reject(new Error("unbekannt"));
-  if(STUECKE[name].datei) return dateiStueck(STUECKE[name]);
   const laenge = stueckLaenge(name), nach = 3;
   const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
   const oc = new OAC(2, Math.ceil((laenge + nach + 0.1) * sr), sr);
@@ -306,24 +273,16 @@ function aufbauen(){
 function entsperren(){
   if(document.hidden) return;
   if(!aufbauen()) return;
-  const weiter = () => { if(!frei){ frei = true; aktuell = undefined; sync(); fxDateienLaden(); } };
+  const weiter = () => { if(!frei){ frei = true; aktuell = undefined; sync(); } };
   try{ if(ctx.state !== "running") ctx.resume().then(weiter).catch(() => {}); else weiter(); }catch(e){}
 }
 ["pointerdown", "keydown", "touchend", "click"].forEach(ev => addEventListener(ev, entsperren, {capture:true, passive:true}));
 
 function laeuft(){ return !!(ctx && frei && ctx.state === "running" && !document.hidden); }
 function spiele(name, vz, erzwingen){
-  if(!FX[name] && !FX_DATEI[name]) return 0;
+  if(!FX[name]) return 0;
   if(!erzwingen && !E.effekte) return 0;
   if(!laeuft()) return 0;
-  const b = FX_PUFFER[name];
-  if(b && b.getChannelData){
-    try{ LOG.push(name); if(LOG.length > 30) LOG.shift();
-      const s = ctx.createBufferSource(), g = ctx.createGain(); s.buffer = b; g.gain.value = 0.6; s.connect(g); g.connect(fxBus);
-      s.onended = () => { try{ s.disconnect(); g.disconnect(); }catch(e){} };
-      s.start(ctx.currentTime + 0.01 + (vz || 0)); return b.duration; }catch(e){ return 0; }
-  }
-  if(!FX[name]) return 0;
   try{ LOG.push(name); if(LOG.length > 30) LOG.shift(); return FX[name](ctx, fxBus, ctx.currentTime + 0.01 + (vz || 0)); }catch(e){ return 0; }
 }
 
@@ -343,21 +302,17 @@ function sync(){
   puffer(soll).then(buf => {
     if(nr !== ladeNr || aktuell !== soll || !ctx) return;
     const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true;
-    const g = ctx.createGain(); const t2 = ctx.currentTime; g.gain.setValueAtTime(0, t2); g.gain.linearRampToValueAtTime(buf._gain || 1, t2 + 1.2);
-    s.connect(g); g.connect(muBus);
-    if(buf._le){ s.loopStart = buf._ls; s.loopEnd = buf._le; s.start(t2 + 0.02, buf._ls); } else s.start(t2 + 0.02);
+    const g = ctx.createGain(); const t2 = ctx.currentTime; g.gain.setValueAtTime(0, t2); g.gain.linearRampToValueAtTime(1, t2 + 1.2);
+    s.connect(g); g.connect(muBus); s.start(t2 + 0.02);
     quelle = s; quelleGain = g;
   }).catch(e => console.warn("sound: Musik", e));
 }
-/* Leiser beim Vorlesen; Qeels-Overlay erkennen */
-let qeelsAuf = false;
+/* Leiser beim Vorlesen */
 setInterval(() => {
-  if(!ctx || !muDuck) return;
+  if(!ctx || !muDuck || !quelle) return;
   let spricht = false; try{ spricht = !!(window.speechSynthesis && speechSynthesis.speaking); }catch(e){}
   const z = spricht ? 0.15 : 1;
-  const q = document.body.classList.contains("reelsauf");
-  if(q !== qeelsAuf){ qeelsAuf = q; let sc = ""; try{ sc = S.screen; }catch(e){} if(sc !== "x-sound"){ const m = ortMusik(); if(m !== undefined){ wunsch = m; sync(); } } }
-  if(quelle && Math.abs(muDuck.gain.value - z) > 0.01) muDuck.gain.setTargetAtTime(z, ctx.currentTime, 0.25);
+  if(Math.abs(muDuck.gain.value - z) > 0.01) muDuck.gain.setTargetAtTime(z, ctx.currentTime, 0.25);
 }, 400);
 /* Tab im Hintergrund: alles pausieren */
 document.addEventListener("visibilitychange", () => {
@@ -367,7 +322,7 @@ document.addEventListener("visibilitychange", () => {
 addEventListener("pagehide", () => { try{ ctx && ctx.suspend(); }catch(e){} });
 
 /* ---------- Öffentliche Schnittstelle ---------- */
-let renderLaeuft = false, externerWunsch, letzterOrt = "";
+let renderLaeuft = false, externerWunsch;
 const API = {
   play(name){ if(GROSS.includes(name)){ return gross(name, 0) > 0; } return spiele(name) > 0; },
   musik(name){ name = name && STUECKE[name] ? name : null; if(renderLaeuft) externerWunsch = name; wunsch = name; sync(); },
@@ -394,7 +349,7 @@ window.EP_SOUND = API;
 
 /* ---------- Automatische Töne ---------- */
 /* Grosse Töne nicht übereinander: nacheinander einreihen */
-const GROSS = ["levelup", "fanfare", "freischalten", "truhe", "fertig", "duellstart", "countdown"];
+const GROSS = ["levelup", "fanfare", "freischalten", "truhe", "fertig"];
 let grossBis = 0;
 function gross(name, mindVz){
   const jetzt = performance.now() / 1000, vz = Math.min(4, Math.max(mindVz || 0, grossBis - jetzt));
@@ -429,22 +384,15 @@ document.addEventListener("click", e => {
 }, true);
 
 /* ---------- Musik je Ort ---------- */
-const OHNE = ["done", "checkdone", "duellende", "duellresultat", "fremddone", "testergebnis"];   // Ergebnis: Platz für die Fanfare
-const ORT_QUIZ = ["quiz", "check", "fremdtest", "hardcore"];
-const ORT_DUELL = ["duell", "duelllobby", "duellplay", "duellannahme", "duellsplit"];
-const ORT_LIVE = ["live", "livequiz", "liveplay", "livehost"];
+const OHNE = ["quiz", "done", "check", "checkdone", "duellplay", "duelllobby", "duellende", "duellresultat", "liveplay", "livehost", "fremdtest", "fremddone"];
 function ortMusik(){
   let sc = "", lib = false; try{ sc = S.screen || ""; lib = !!S.libModus; }catch(e){ return undefined; }
-  if(sc === "x-sound") return undefined;                     // dort wählt der Player
-  if(document.body.classList.contains("reelsauf")) return "qeels";
   if(OHNE.includes(sc)) return null;
-  if(ORT_QUIZ.includes(sc)) return "quiz";
-  if(ORT_DUELL.includes(sc)) return "duell";
-  if(ORT_LIVE.includes(sc)) return "live";
+  if(sc === "x-sound") return undefined;                     // dort wählt der Player
   if(sc === "x-abenteuer") return "abenteuer";
   if(sc === "x-feste") return "fest";
   if(lib || sc.startsWith("lib") || sc === "bibliothek") return "bibliothek";
-  return "sonnenschein";
+  return "start";
 }
 if(typeof window.render === "function"){
   const vorRender = window.render;
@@ -457,8 +405,6 @@ if(typeof window.render === "function"){
       try{
         let sc = ""; try{ sc = S.screen; }catch(e){}
         if(sc !== "x-sound") vorschau = null;
-        if(sc === "duellplay" && letzterOrt !== "duellplay") gross("duellstart", 0);
-        letzterOrt = sc;
         if(externerWunsch === undefined){ const m = ortMusik(); if(m !== undefined) wunsch = m; }
         sync();
       }catch(e){}
@@ -606,7 +552,7 @@ function seiteRender(box, api){
         <span class="xs-play" aria-hidden="true"></span><span class="xs-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>`; }).join("")}</div>
     <h2 class="xs-h2">Töne ausprobieren</h2>
     <div class="xs-fx">${FX_NAMEN.map(([id, t, emo]) => `<button type="button" class="xs-fxk" data-fx="${id}"><span aria-hidden="true">${emo}</span>${h(t)}</button>`).join("")}</div>
-    <p class="xs-hinweis">Alle Musik ist eigens für easyplay komponiert. Musik läuft nur, wenn du sie einschaltest.</p>
+    <p class="xs-hinweis">Alle Klänge entstehen direkt in deinem Gerät. Musik läuft nur, wenn du sie einschaltest.</p>
   </div>`;
   bedienungBinden(box.querySelector(".xs-seite"));
   const stAktuell = () => box.querySelectorAll("[data-st]").forEach(b => { const an = aktuell === b.dataset.st;

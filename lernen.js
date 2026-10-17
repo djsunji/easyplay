@@ -9,12 +9,63 @@ const LS = {
   get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
-const K = { fehler:"ep-fehler", tage:"ep-lerntage", themen:"ep-lernthemen", tq:"ep-tagesquiz", geuebt:"ep-fehler-geuebt" };
+const K = { fehler:"ep-fehler", tage:"ep-lerntage", themen:"ep-lernthemen", tq:"ep-tagesquiz", geuebt:"ep-fehler-geuebt", wdh:"ep-wiederholen" };
 const heute = (d) => { const x = d ? new Date(d) : new Date(); return x.getFullYear() + "-" + String(x.getMonth()+1).padStart(2,"0") + "-" + String(x.getDate()).padStart(2,"0"); };
 const gestern = () => heute(Date.now() - 864e5);
 const nrVon = f => { try{ return frageNr(f) || 0; }catch(e){ return +f.nr || 0; } };
 const h = s => { try{ return esc(s); }catch(e){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); } };
 const zahl = n => Number(n || 0).toLocaleString("de-CH");
+
+/* ---------- Klüger wiederholen: 5 Fächer (verteilte Wiederholung) ----------
+   Speicher ep-wiederholen: {v:1, k:{nr:{f:Fach 1-5, d:"JJJJ-MM-TT" fällig ab, z:zuerst falsch (ms), n:wie oft falsch, w:zuletzt geübt}}, gelernt:Zahl}
+   ep-fehler bleibt im alten Format {nr:{n,r,z}} bestehen, enthält aber nur noch die HEUTE fälligen Fragen
+   (startseite.js und app.js zählen diesen Schlüssel direkt). Alte ep-fehler-Daten werden beim ersten Laden übernommen. */
+const FAECHER = [1, 3, 7, 14, 30];      // Tage bis zur nächsten Wiederholung in Fach 1 bis 5
+const PRO_RUNDE = 15;
+const plusTage = (tag, n) => { const [y, m, d] = String(tag).split("-").map(Number); return heute(new Date(y, m - 1, d + n)); };
+function wdhLaden(){
+  let st = LS.get(K.wdh, null);
+  if(!st || typeof st !== "object" || !st.k || typeof st.k !== "object"){
+    // Übernahme der alten Fehlerliste: alles kommt in Fach 1 und ist sofort fällig, nichts geht verloren
+    st = {v:1, k:{}, gelernt:0}; const alt = LS.get(K.fehler, {}), t = heute();
+    if(alt && typeof alt === "object") Object.keys(alt).forEach(nr => { if(!(+nr > 0)) return; const e = alt[nr] || {};
+      st.k[nr] = {f:1, d:t, z:+e.z || Date.now(), n:Math.max(1, +e.n || 1)}; });
+    st.mig = Object.keys(st.k).length;
+    LS.set(K.wdh, st);
+  }
+  Object.keys(st.k).forEach(nr => { const e = st.k[nr];
+    if(!e || typeof e !== "object"){ delete st.k[nr]; return; }
+    e.f = Math.min(5, Math.max(1, Math.round(+e.f || 1))); if(!/^\d{4}-\d{2}-\d{2}$/.test(String(e.d || ""))) e.d = heute(); });
+  st.gelernt = Math.max(0, +st.gelernt || 0);
+  return st;
+}
+function spiegeln(st){
+  const t = heute(), m = {};
+  Object.keys(st.k).forEach(nr => { const e = st.k[nr]; if(e.d <= t) m[nr] = {n:e.n || 1, r:0, z:e.z || 0, f:e.f, d:e.d}; });
+  const neu = JSON.stringify(m);
+  try{ if(localStorage.getItem(K.fehler) !== neu) localStorage.setItem(K.fehler, neu); }catch(e){}
+  return Object.keys(m).length;
+}
+function wdhSpeichern(st){ LS.set(K.wdh, st); return spiegeln(st); }
+function wiederholung(){
+  const st = wdhLaden(), t = heute(), l = Object.values(st.k), faecher = [0, 0, 0, 0, 0];
+  l.forEach(e => faecher[e.f - 1]++);
+  const spaeter = l.filter(e => e.d > t).map(e => e.d).sort(), naechste = spaeter[0] || null;
+  return {faellig:l.filter(e => e.d <= t).length, offen:l.length, faecher, gelernt:st.gelernt, naechste,
+    naechsteAnzahl:naechste ? spaeter.filter(d => d === naechste).length : 0, intervalle:FAECHER.slice()};
+}
+function wdhEintraege(nurFaellig){
+  const st = wdhLaden(), t = heute();
+  return Object.entries(st.k).filter(([, e]) => !nurFaellig || e.d <= t)
+    .sort((a, b) => a[1].d < b[1].d ? -1 : a[1].d > b[1].d ? 1 : (a[1].z || 0) - (b[1].z || 0));   // die ältesten fälligen zuerst
+}
+function fragenZu(eintraege, max){
+  if(!eintraege.length) return [];
+  const gesucht = new Set(eintraege.map(([nr]) => +nr)), map = new Map();
+  (typeof alleFragen === "function" ? alleFragen() : FRAGEN).forEach(f => { if(!f) return; const n = nrVon(f); if(gesucht.has(n) && !map.has(n)) map.set(n, f); });
+  const raus = []; for(const [nr] of eintraege){ const f = map.get(+nr); if(f) raus.push(f); if(raus.length >= max) break; }
+  return raus;
+}
 
 /* ---------- Antworten mitschreiben ---------- */
 const vorAnswer = window.answer;
@@ -24,11 +75,14 @@ window.answer = function(i){
   try{
     if(!f || schon || !f.opts || !f.opts[i]) return r;
     const ok = !!f.opts[i].ok, nr = nrVon(f), t = heute();
-    // Fehlerliste: falsch = rein, zweimal richtig hintereinander = raus
-    if(nr){ const fl = LS.get(K.fehler, {});
-      if(!ok){ fl[nr] = {n:((fl[nr]||{}).n||0) + 1, r:0, z:Date.now()}; }
-      else if(fl[nr]){ fl[nr].r = (fl[nr].r||0) + 1; if(fl[nr].r >= 2){ delete fl[nr]; LS.set(K.geuebt, LS.get(K.geuebt, 0) + 1); } }
-      LS.set(K.fehler, fl); }
+    // Wiederholen: falsch = Fach 1 (morgen wieder). Richtig, wenn fällig = ein Fach weiter. Nach Fach 5 = gelernt.
+    if(nr){ const st = wdhLaden(), e = st.k[nr], zr = Q.__wdh || (Q.__wdh = {weiter:0, gelernt:0, nochmals:0});
+      if(!ok){ st.k[nr] = {f:1, d:plusTage(t, FAECHER[0]), z:e ? e.z : Date.now(), n:((e && e.n) || 0) + 1, w:t}; if(e) zr.nochmals++; }
+      else if(e && e.d <= t){
+        if(e.f >= 5){ delete st.k[nr]; st.gelernt++; zr.gelernt++; }
+        else { if(e.f === 1) LS.set(K.geuebt, (+LS.get(K.geuebt, 0) || 0) + 1); e.f++; e.d = plusTage(t, FAECHER[e.f - 1]); e.w = t; zr.weiter++; }
+      }
+      wdhSpeichern(st); }
     // Lerntage (für Serie und Elternansicht), nur die letzten 120 Tage behalten
     const tg = LS.get(K.tage, {}); tg[t] = (tg[t]||0) + 1;
     const keys = Object.keys(tg).sort(); while(keys.length > 120) delete tg[keys.shift()];
@@ -64,13 +118,11 @@ function tagesquizStarten(){
   startListe(l, "Tagesquiz vom " + new Date().toLocaleDateString("de-CH"));
   if(S.quiz){ S.quiz.tagesquiz = heute(); S.quiz.list = S.quiz.list.slice(0, 5); }
 }
-function fehlerListe(){
-  const fl = LS.get(K.fehler, {}); const nrs = new Set(Object.keys(fl).map(Number));
-  if(!nrs.size) return [];
-  const seen = new Set();
-  return (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => { const n = nrVon(f); if(!nrs.has(n) || seen.has(n)) return false; seen.add(n); return true; });
-}
-function fehlerUeben(){ const l = fehlerListe(); if(!l.length) return; startListe(l, "Fehler üben"); }
+// Heute fällige Fragen (höchstens 15, die ältesten zuerst). Name bleibt, startseite.js ruft fehlerListe() auf.
+function fehlerListe(){ return fragenZu(wdhEintraege(true), PRO_RUNDE); }
+// Alle offenen Fragen, auch die noch nicht fälligen (für Neugierige)
+function alleOffenenListe(){ return fragenZu(wdhEintraege(false), PRO_RUNDE); }
+function fehlerUeben(alle){ const l = alle ? alleOffenenListe() : fehlerListe(); if(!l.length) return false; startListe(l, alle ? "Alle offenen üben" : "Fehler üben"); return true; }
 
 // Abschluss eines Laufs: Tagesquiz als erledigt markieren
 const vorFlush = window.flushRun;
@@ -145,11 +197,11 @@ document.head.appendChild(css);
 
 /* ---------- Startseite: Serie, Tagesquiz, Fehler üben ---------- */
 function lernleiste(){
-  const s = serie(), tq = tagesquizErledigt(), nf = Object.keys(LS.get(K.fehler, {})).length;
+  const s = serie(), tq = tagesquizErledigt(), nf = wiederholung().faellig;
   return `<div class="lernleiste" id="lernleiste">
     <button type="button" class="lk serie${s.n ? " an" : ""}" data-l="serie"><span class="em">🔥</span><span><b>${s.n ? `${s.n} ${s.n === 1 ? "Tag" : "Tage"} Serie` : "Starte deine Serie"}</b><small>${s.aktiv ? "Heute geschafft, weiter so!" : `Heute noch ${Math.max(0, 5 - s.heute)} Fragen für die Serie`}</small></span></button>
     <button type="button" class="lk tq${tq ? "" : " neu"}" data-l="tq"><span class="em">${tq ? "✅" : "📅"}</span><span><b>Tagesquiz</b><small>${tq ? `Erledigt: ${tq.r} von ${tq.n} richtig. Morgen gibt es neue Fragen.` : "5 Fragen, jeden Tag neu"}</small></span></button>
-    <button type="button" class="lk" data-l="fehler"${nf ? "" : " disabled"}><span class="em">🎯</span><span><b>Fehler üben${nf ? ` (${zahl(nf)})` : ""}</b><small>${nf ? "Falsche Fragen nochmals versuchen" : "Noch keine Fehler gesammelt"}</small></span></button>
+    <button type="button" class="lk" data-l="fehler"${nf ? "" : " disabled"}><span class="em">🎯</span><span><b>Fehler üben${nf ? ` (${zahl(nf)})` : ""}</b><small>${nf ? "Diese Fragen wollen nochmals geübt werden" : "Heute ist nichts fällig"}</small></span></button>
   </div>`;
 }
 const vorHome = window.renderHome;
@@ -172,7 +224,7 @@ function elternDaten(){
   const tage = []; for(let i = 13; i >= 0; i--){ tage.push(tg[heute(Date.now() - i*864e5)] || 0); }
   const themen = Object.entries(th).filter(([t, e]) => e[1] >= 5).map(([t, e]) => [t, e[0], e[1]]).sort((a, b) => b[2] - a[2]).slice(0, 24);
   return {v:1, n:(S.profil && S.profil.name) || "", d:heute(), s:S.stufe || 1, l:k.laeufe, f:k.fragen, r:k.richtig, se:k.serie.n, sb:k.serie.best, tq:k.tagesquiz,
-    fe:Object.keys(LS.get(K.fehler, {})).length, ab:abzeichen().filter(a => a.hat).map(a => a.id), t:tage, th:themen};
+    fe:wiederholung().offen, ge:wiederholung().gelernt, ab:abzeichen().filter(a => a.hat).map(a => a.id), t:tage, th:themen};
 }
 const vorProfil = window.renderProfil;
 if(typeof vorProfil === "function"){
@@ -207,7 +259,7 @@ function elternAusLink(){
   const m = /#eltern=([A-Za-z0-9_-]{10,6000})/.exec(location.hash || ""); if(!m) return null;
   try{ const d = b64d(m[1]); if(!d || d.v !== 1) return null;
     const zahlS = (v, max) => Math.max(0, Math.min(+v || 0, max));
-    return {n:String(d.n || "").slice(0, 40), d:String(d.d || "").slice(0, 10), s:zahlS(d.s, 3) || 1, l:zahlS(d.l, 1e6), f:zahlS(d.f, 1e7), r:zahlS(d.r, 1e7), se:zahlS(d.se, 3650), sb:zahlS(d.sb, 3650), tq:zahlS(d.tq, 1e5), fe:zahlS(d.fe, 1e6),
+    return {n:String(d.n || "").slice(0, 40), d:String(d.d || "").slice(0, 10), s:zahlS(d.s, 3) || 1, l:zahlS(d.l, 1e6), f:zahlS(d.f, 1e7), r:zahlS(d.r, 1e7), se:zahlS(d.se, 3650), sb:zahlS(d.sb, 3650), tq:zahlS(d.tq, 1e5), fe:zahlS(d.fe, 1e6), ge:zahlS(d.ge, 1e6),
       ab:(Array.isArray(d.ab) ? d.ab : []).filter(x => ABZEICHEN.some(a => a[0] === x)).slice(0, 40), t:(Array.isArray(d.t) ? d.t : []).slice(0, 14).map(x => zahlS(x, 1e5)),
       th:(Array.isArray(d.th) ? d.th : []).slice(0, 30).map(x => [String(x[0] || "").slice(0, 40), zahlS(x[1], 1e6), zahlS(x[2], 1e6)])};
   }catch(e){ return null; }
@@ -228,7 +280,8 @@ function renderEltern(){
       <div><b>${quote} %</b><span>richtig</span></div>
       <div><b>${zahl(d.l)}</b><span>Runden gespielt</span></div>
       <div><b>${zahl(d.tq)}</b><span>Tagesquiz gelöst</span></div>
-      <div><b>${zahl(d.fe)}</b><span>Fragen zum Üben offen</span></div>
+      <div><b>${zahl(d.fe)}</b><span>Fragen zum Wiederholen</span></div>
+      ${d.ge ? `<div><b>🌟 ${zahl(d.ge)}</b><span>Fragen durch Wiederholen gelernt</span></div>` : ""}
     </div>
     <h2>Die letzten 14 Tage</h2><div class="tagesbalken">${d.t.map(n => `<i style="height:${Math.round(n / max * 100)}%" title="${n} Fragen"></i>`).join("")}</div><p class="help">Beantwortete Fragen pro Tag, rechts ist der ${h(d.d.split("-").reverse().join("."))}.</p>
     ${stark.length ? `<h2>Stärken</h2><table><tbody>${stark.map(x => `<tr><td>${h(x.name)}</td><td>${x.q} % richtig</td><td class="help">${zahl(x.n)} Fragen</td></tr>`).join("")}</tbody></table>` : ""}
@@ -241,12 +294,152 @@ function renderEltern(){
 }
 const vorRender = window.render;
 window.render = function(){
+  try{ spiegeln(wdhLaden()); }catch(e){}
   if(S.screen === "eltern" && ELTERN){ try{ renderNav(); }catch(e){} renderEltern(); return; }
-  return vorRender.apply(this, arguments);
+  const r = vorRender.apply(this, arguments);
+  requestAnimationFrame(knoepfeAnpassen);
+  return r;
 };
 function elternPruefen(){ const d = elternAusLink(); if(d){ ELTERN = d; go("eltern"); } }
 addEventListener("hashchange", elternPruefen);
 setTimeout(elternPruefen, 300);
 
-window.EP_LERNEN = { serie, abzeichen, tagesFragen, fehlerListe, elternDaten };
+/* ---------- Wiederholen: Anzeige auf der Startseite, Welt im Entdecken-Menü ---------- */
+const wannText = d => { if(!d) return ""; const t = heute(); if(d <= t) return "heute"; if(d === plusTage(t, 1)) return "morgen"; if(d === plusTage(t, 2)) return "übermorgen";
+  const [y, m, dd] = d.split("-").map(Number); const x = new Date(y, m - 1, dd);
+  return "am " + ["So","Mo","Di","Mi","Do","Fr","Sa"][x.getDay()] + " " + dd + "." + m + "."; };
+const fragenWort = n => n === 1 ? "Frage" : "Fragen";
+// «Fehler üben»-Knöpfe der Startseite (App und Computer): Text «heute fällig»; ist heute nichts fällig, aber noch etwas offen, führt der Knopf zur Übersicht
+function knoepfeAnpassen(){
+  try{
+    if(typeof S === "undefined" || S.screen !== "home") return;
+    const w = wiederholung();
+    document.querySelectorAll('#app button[data-x="fehler"], #app button[data-a="fehler"], #app button[data-c="fehler"], #lernleiste button[data-l="fehler"]').forEach(b => {
+      const lbl = b.matches("[data-a]") && b.classList.contains("ep-w") ? b.querySelector("span:last-child") : b.querySelector("small:last-of-type");
+      if(w.faellig){ delete b.dataset.wdhWelt; if(lbl && !b.matches("[data-l]")) lbl.textContent = b.matches("[data-a]") && b.classList.contains("ep-w") ? "Heute fällig" : `${w.faellig} heute fällig`; }
+      else if(w.offen){ b.disabled = false; b.dataset.wdhWelt = "1"; if(lbl) lbl.textContent = "Heute nichts fällig";
+        b.setAttribute("aria-label", `Fehler üben: heute nichts fällig, ${w.offen} ${fragenWort(w.offen)} warten auf später. Übersicht öffnen`); }
+    });
+  }catch(e){ console.warn("lernen.js", e); }
+}
+document.addEventListener("click", e => {
+  const b = e.target && e.target.closest && e.target.closest("button[data-wdh-welt]"); if(!b) return;
+  e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); go("x-wiederholen");
+}, true);
+// Tageswechsel bei offener Seite: Zahl neu berechnen
+let letzteFaellig = null;
+setInterval(() => { try{ const n = spiegeln(wdhLaden()); if(letzteFaellig != null && n !== letzteFaellig && S.screen === "home") render(); letzteFaellig = n; }catch(e){} }, 60000);
+// Nach einer Übungsrunde freundlich zusammenfassen
+document.addEventListener("ep:quizende", () => {
+  try{ const Q = S.quiz, z = Q && Q.__wdh; if(!z || !(z.weiter || z.gelernt || z.nochmals)) return;
+    const teile = [];
+    if(z.weiter) teile.push(`${z.weiter} ${fragenWort(z.weiter)} ${z.weiter === 1 ? "ist" : "sind"} ein Fach weitergewandert`);
+    if(z.gelernt) teile.push(`${z.gelernt} ${fragenWort(z.gelernt)} jetzt gelernt 🌟`);
+    if(z.nochmals && !teile.length) teile.push(`${z.nochmals === 1 ? "Diese Frage kommt" : "Diese Fragen kommen"} morgen nochmals, dann klappt es bestimmt`);
+    const txt = teile.join(", ") + (z.weiter || z.gelernt ? ". Super!" : ".");
+    setTimeout(() => { try{ window.EP_EXTRAS && window.EP_EXTRAS.meldung(txt, 3600); }catch(e){} }, 600);
+  }catch(e){}
+});
+
+const wcss = document.createElement("style"); wcss.id = "ep-wiederholen";
+wcss.textContent = `
+.wdh-kopf{background:linear-gradient(135deg,#0B6E6A,#0FA968)!important}
+.wdh-gitter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:16px}
+.wdh-karte{border-radius:26px;padding:20px 22px;color:#fff;box-shadow:0 12px 26px rgba(27,34,64,.22);min-width:0;box-sizing:border-box}
+.wdh-karte h2{margin:0 0 4px;color:#fff;font-size:1.15rem}
+.wdh-karte p{margin:6px 0 0;color:#fff;line-height:1.35}
+.wdh-heute{background:linear-gradient(135deg,#D9480F,#B83280);display:flex;flex-direction:column;gap:6px}
+.wdh-lbl{font-weight:800;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;opacity:.95}
+.wdh-zahl{font-size:3.4rem;line-height:1;font-weight:900;color:#fff;display:flex;align-items:baseline;gap:10px}
+.wdh-zahl small{font-size:1rem;font-weight:700}
+.wdh-heute small.wdh-naechst{display:block;color:#fff;opacity:.95;font-size:.9rem;margin-top:2px}
+.wdh-btn,.wdh-btn2{font:inherit;font-weight:800;border:0;border-radius:999px;cursor:pointer;min-height:48px;padding:12px 20px;transition:transform .15s}
+.wdh-btn{background:#fff;color:#B83280;margin-top:8px;align-self:flex-start;font-size:1.05rem;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.wdh-btn:hover:not(:disabled),.wdh-btn2:hover:not(:disabled){transform:translateY(-2px)}
+.wdh-btn:focus-visible,.wdh-btn2:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+.wdh-btn:disabled,.wdh-btn2:disabled{opacity:.55;cursor:default}
+.wdh-faecher{background:linear-gradient(135deg,#3D5AFE,#7B3FE0)}
+.wdh-balken{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:end;height:150px}
+.wdh-balken li{display:flex;flex-direction:column;align-items:center;height:100%;min-width:0}
+.wdh-spur{flex:1 1 auto;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.wdh-balken b{font-size:1.1rem;color:#fff;line-height:1.2}
+.wdh-balken i{flex:none;display:block;width:100%;max-width:56px;border-radius:12px 12px 6px 6px;background:rgba(255,255,255,.92);min-height:6px;margin-top:4px;transform-origin:bottom;animation:wdhWachs .6s ease-out both}
+.wdh-balken li.leer i{background:rgba(255,255,255,.3)}
+.wdh-balken span{font-size:.8rem;font-weight:800;margin-top:6px;white-space:nowrap;color:#fff}
+.wdh-balken small{font-size:.72rem;opacity:.92;white-space:nowrap;color:#fff}
+@keyframes wdhWachs{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){.wdh-balken i{animation:none}.wdh-btn,.wdh-btn2{transition:none}}
+.wdh-fuss{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:14px}
+.wdh-gelernt{background:#FFE34D;color:#1B2240;font-weight:800;border-radius:999px;padding:6px 14px}
+.wdh-unten{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+.wdh-btn2{background:rgba(15,20,48,.62);color:#fff}
+.wdh-pille{flex:1 1 320px;margin:0;background:rgba(15,20,48,.55);color:#fff;border-radius:18px;padding:10px 14px;font-size:.9rem;line-height:1.4}
+.wdh-pille summary{cursor:pointer;font-weight:800;list-style-position:inside}
+.wdh-pille summary:focus-visible{outline:3px solid #FFE34D;outline-offset:3px;border-radius:8px}
+.wdh-pille p{margin:6px 0 0}
+.wdh-kopfzeile{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.ap-held.hs-wdh{background:linear-gradient(140deg,#D9480F,#B83280)!important}
+@media (max-width:760px){
+  .wdh-gitter{grid-template-columns:1fr;gap:12px}
+  .wdh-karte{padding:14px 16px;border-radius:22px}
+  .wdh-kopf p{display:none}
+  .wdh-kopf.x-kopf{min-height:64px;padding:12px 16px;margin-bottom:12px}
+  .wdh-kopf.x-kopf img{max-height:96px}
+  .wdh-heute{gap:2px}
+  .wdh-zahl{font-size:2.4rem}
+  .wdh-heute p{margin-top:2px;font-size:.92rem}
+  .wdh-btn{width:100%;margin-top:6px}
+  .wdh-balken{height:118px;gap:6px;margin-top:6px}
+  .wdh-balken span{font-size:.74rem}
+  .wdh-balken small{font-size:.66rem}
+  .wdh-fuss{margin-top:10px}
+  .wdh-unten{margin-top:12px;gap:8px}
+  .wdh-btn2{width:100%}
+  .wdh-pille{flex-basis:100%;font-size:.82rem;padding:8px 12px}
+}
+`;
+document.head.appendChild(wcss);
+
+function wdhRender(box, api){
+  const w = wiederholung(), max = Math.max(1, ...w.faecher), runde = Math.min(PRO_RUNDE, w.faellig);
+  const tage = n => n === 1 ? "1 Tag" : n + " Tage";
+  let text;
+  if(w.faellig) text = w.faellig === 1 ? "Diese Frage will nochmals geübt werden." : "Diese Fragen wollen nochmals geübt werden.";
+  else if(w.offen) text = "Heute ist nichts fällig. Deine Fragen ruhen sich aus und kommen bald wieder.";
+  else text = w.gelernt ? "Alles gelernt! Wenn du eine Frage falsch beantwortest, kommt sie hierher." : "Noch nichts zu wiederholen. Wenn du eine Frage falsch beantwortest, kommt sie hierher.";
+  box.innerHTML = `<div class="x-kopf wdh-kopf"><span class="x-kopf-emo" aria-hidden="true">🔁</span><div><h1>Wiederholen</h1><p>Jede Frage kommt genau dann wieder, wenn es am meisten bringt.</p></div><img src="img/kids/duo-bereit.webp" alt=""></div>
+    <div class="wdh-gitter">
+      <section class="wdh-karte wdh-heute" aria-label="Heute fällig">
+        <div class="wdh-kopfzeile"><b class="wdh-zahl">${zahl(w.faellig)}<small>${fragenWort(w.faellig)}</small></b><span class="wdh-lbl">heute fällig</span></div>
+        <p>${h(text)}</p>
+        ${w.faellig ? `<button type="button" class="wdh-btn" data-w="faellig">▶ Jetzt üben${w.faellig > PRO_RUNDE ? ` (${runde} von ${zahl(w.faellig)})` : ""}</button>` : ""}
+        ${w.naechste ? `<small class="wdh-naechst">Danach: ${w.naechsteAnzahl} ${fragenWort(w.naechsteAnzahl)} ${h(wannText(w.naechste))}</small>` : ""}
+      </section>
+      <section class="wdh-karte wdh-faecher" aria-label="Deine 5 Fächer">
+        <h2>Deine 5 Fächer</h2>
+        <ol class="wdh-balken">${w.faecher.map((n, i) => `<li class="${n ? "" : "leer"}" aria-label="Fach ${i + 1}: ${n} ${fragenWort(n)}, kommen nach ${tage(FAECHER[i])} wieder"><div class="wdh-spur"><b>${n}</b><i style="height:${Math.max(4, Math.round(n / max * 72))}%"></i></div><span>Fach ${i + 1}</span><small>${tage(FAECHER[i])}</small></li>`).join("")}</ol>
+        <div class="wdh-fuss"><span class="wdh-gelernt">🌟 ${zahl(w.gelernt)} gelernt</span><small>${zahl(w.offen)} ${w.offen === 1 ? "Frage wartet" : "Fragen warten"} in den Fächern</small></div>
+      </section>
+    </div>
+    <div class="wdh-unten">
+      <button type="button" class="wdh-btn2" data-w="alle"${w.offen ? "" : " disabled"}>🔍 Alle offenen üben${w.offen ? ` (${Math.min(PRO_RUNDE, w.offen)})` : ""}</button>
+      <details class="wdh-pille"><summary>So geht's</summary><p>Eine falsche Antwort kommt in Fach 1. Weisst du sie beim Wiederholen, wandert sie ein Fach weiter und kommt später wieder: nach 1, 3, 7, 14 und 30 Tagen. Nach Fach 5 hast du sie gelernt. Klappt es einmal nicht, beginnt sie einfach wieder in Fach 1. Beim freien Üben wandert nichts.</p></details>
+    </div>`;
+  box.querySelectorAll("[data-w]").forEach(b => b.onclick = () => { api.ton("klick"); fehlerUeben(b.dataset.w === "alle"); });
+}
+try{
+  if(window.EP_EXTRAS && typeof window.EP_EXTRAS.register === "function") window.EP_EXTRAS.register({
+    id:"wiederholen", titel:"Wiederholen", text:"Fehler üben mit 5 Fächern", emo:"🔁", farbe:"linear-gradient(135deg,#D9480F,#B83280)", reihe:5,
+    hinweis(){ const n = wiederholung().faellig; return n ? n + " fällig" : ""; },
+    folie(){ const n = wiederholung().faellig; if(!n) return null;
+      return {cls:"hs-wdh", ic:"🔁", lbl:"Wiederholen", titel:`${n} ${fragenWort(n)} heute fällig`, text:n === 1 ? "Diese Frage will nochmals geübt werden." : "Diese Fragen wollen nochmals geübt werden.", btn:"🔁 Wiederholen", a:"x-wiederholen"}; },
+    render:wdhRender
+  });
+}catch(e){ console.warn("lernen.js", e); }
+try{ letzteFaellig = spiegeln(wdhLaden()); }catch(e){}
+// Die Startseite (App) wird teils nachträglich neu aufgebaut: Knöpfe danach nochmals anpassen
+try{ const app = document.getElementById("app"); if(app && window.MutationObserver){ let warte = false;
+  new MutationObserver(() => { if(warte) return; warte = true; requestAnimationFrame(() => { warte = false; knoepfeAnpassen(); }); }).observe(app, {childList:true}); } }catch(e){}
+
+window.EP_LERNEN = { serie, abzeichen, tagesFragen, fehlerListe, alleOffenenListe, fehlerUeben, wiederholung, elternDaten };
 })();

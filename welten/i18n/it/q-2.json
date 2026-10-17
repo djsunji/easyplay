@@ -1,0 +1,4314 @@
+{
+ "6273": {
+  "q": "Come si chiama il famoso monastero nel Cantone di Soletta che visitano molti pellegrini?",
+  "a": [
+   "Monastero di Mariastein",
+   "Monastero di Einsiedeln",
+   "Monastero di San Gallo",
+   "Monastero di Engelberg"
+  ],
+  "e": "Il monastero di Mariastein si trova nel Cantone di Soletta, vicino al confine con Basilea e con la Francia. Molte persone ci vanno in pellegrinaggio perché lì c'è una famosa cappella delle grazie.",
+  "m": "Il monastero di Mariastein si trova nel Cantone di Soletta."
+ },
+ "95597": {
+  "q": "Quale famoso monastero si trova nel Cantone di Svitto?",
+  "a": [
+   "Monastero di Einsiedeln",
+   "Monastero di San Gallo",
+   "Monastero di Müstair",
+   "Monastero di Engelberg"
+  ],
+  "e": "Il monastero benedettino di Einsiedeln ha più di 1'000 anni. Ogni anno ci vanno molte pellegrine e molti pellegrini.",
+  "m": "Il monastero di Einsiedeln si trova nel Cantone di Svitto."
+ },
+ "95620": {
+  "q": "Quali animali si vedono nello stemma del Cantone di Turgovia?",
+  "a": [
+   "Due leoni",
+   "Due orsi",
+   "Un'aquila",
+   "Uno stambecco"
+  ],
+  "e": "Nello stemma turgoviese due leoni gialli camminano uno sopra l'altro. Lo sfondo è diviso in obliquo in bianco e verde.",
+  "m": "Nello stemma della Turgovia ci sono due leoni."
+ },
+ "95640": {
+  "q": "Con quale Paese vicino confina il Cantone Ticino?",
+  "a": [
+   "Italia",
+   "Francia",
+   "Austria",
+   "Germania"
+  ],
+  "e": "Il Ticino si allunga verso sud come un cuneo ed è circondato dall'Italia quasi su tre lati.",
+  "m": "Il Ticino confina con l'Italia."
+ },
+ "95661": {
+  "q": "Quale famoso eroe della leggenda sarebbe nato a Bürglen, nel Cantone di Uri?",
+  "a": [
+   "Guglielmo Tell",
+   "Heidi",
+   "Winkelried",
+   "Robin Hood"
+  ],
+  "e": "Secondo la leggenda Guglielmo Tell era di Bürglen. Oggi lì c'è un museo dedicato a Tell.",
+  "m": "Secondo la leggenda Guglielmo Tell viene da Bürglen, nel Cantone di Uri."
+ },
+ "95686": {
+  "q": "Quale città svizzera è l'unica ad avere una vera metropolitana?",
+  "a": [
+   "Losanna, nel Cantone di Vaud",
+   "Berna",
+   "Lucerna",
+   "Coira"
+  ],
+  "e": "Losanna ha due linee di metropolitana, la m1 e la m2. La m2 sale lungo un pendio molto ripido.",
+  "m": "L'unica metropolitana della Svizzera è a Losanna."
+ },
+ "95702": {
+  "q": "Qual è il capoluogo del Cantone Vallese?",
+  "a": [
+   "Sion",
+   "Briga",
+   "Zermatt",
+   "Martigny"
+  ],
+  "e": "Sion, in tedesco Sitten, è il capoluogo del Vallese. Sopra il centro storico si ergono due colline con castelli.",
+  "m": "Il capoluogo del Vallese è Sion."
+ },
+ "95726": {
+  "q": "Su quale lago si trova la città di Zugo?",
+  "a": [
+   "Sul lago di Zugo",
+   "Sul lago di Thun",
+   "Sul lago di Bienne",
+   "Sul lago di Lugano"
+  ],
+  "e": "La città di Zugo si trova sulla riva nord-est del lago di Zugo. Da lì si vedono dei bei tramonti.",
+  "m": "Zugo si trova sul lago di Zugo."
+ },
+ "286": {
+  "q": "Quale pupazzo di neve viene bruciato durante il Sechseläuten di Zurigo?",
+  "a": [
+   "Il Böögg",
+   "Il Samichlaus",
+   "Lo Schmutzli",
+   "Il Grittibänz"
+  ],
+  "e": "Al Sechseläuten, in primavera, le corporazioni sfilano per Zurigo. Alla fine si accende il Böögg su una catasta di legna. Più in fretta esplode la sua testa, più bella dovrebbe essere l'estate.",
+  "m": "Al Sechseläuten brucia il Böögg."
+ },
+ "21384": {
+  "q": "Quale colore ottieni se mescoli tanto bianco al rosso?",
+  "a": [
+   "Rosa",
+   "Marrone",
+   "Arancione",
+   "Viola"
+  ],
+  "e": "Il bianco rende un colore più chiaro. Il rosso con il bianco diventa rosa.",
+  "m": "Con il bianco un colore diventa più chiaro."
+ },
+ "70061": {
+  "q": "In Svizzera, qual è il primo giorno della settimana?",
+  "a": [
+   "Lunedì",
+   "Domenica",
+   "Sabato",
+   "Martedì"
+  ],
+  "e": "In Svizzera, sul calendario, la settimana comincia con il lunedì.",
+  "m": "In Svizzera la settimana comincia di lunedì."
+ },
+ "20313": {
+  "q": "Che cosa vuoi dire spesso con un pollice in su in una chat?",
+  "a": [
+   "Mi piace",
+   "Sono arrabbiato",
+   "Sono triste",
+   "Ho paura"
+  ],
+  "e": "Un pollice in su significa di solito «bene» oppure «d'accordo». Con le emoji si possono mostrare i sentimenti.",
+  "m": "Un pollice in su spesso vuol dire che una cosa mi piace."
+ },
+ "75135": {
+  "q": "Quale chiave musicale si usa per le note basse?",
+  "a": [
+   "Chiave di basso",
+   "Chiave di violino",
+   "Chiave di discanto",
+   "Chiave di soprano"
+  ],
+  "e": "La chiave di basso si usa per gli strumenti dal suono basso come il violoncello, la tuba o la mano sinistra al pianoforte.",
+  "m": "Per le note basse si usa la chiave di basso."
+ },
+ "100687": {
+  "q": "Che cos'è la pianta del banano, anche se sembra un albero?",
+  "a": [
+   "Un'enorme pianta erbacea",
+   "Un arbusto di legno",
+   "Un cactus",
+   "Un muschio"
+  ],
+  "e": "La pianta del banano non ha un tronco di legno. Il suo falso tronco è fatto di foglie arrotolate strette, per questo è una pianta erbacea.",
+  "m": "La pianta del banano non è un vero albero."
+ },
+ "86016": {
+  "q": "Perché un palloncino lasciato all'aperto è pericoloso per gli animali?",
+  "a": [
+   "Gli animali possono mangiarne i resti",
+   "Fa troppo rumore",
+   "Attira i fulmini",
+   "Colora gli animali"
+  ],
+  "e": "I palloncini scoppiati finiscono spesso nella natura. Gli animali scambiano i resti per cibo e possono morirne.",
+  "m": "I resti dei palloncini non vanno lasciati nella natura."
+ },
+ "37849": {
+  "q": "Che cosa significa spesso una candela accesa durante una protesta?",
+  "a": [
+   "La speranza",
+   "La rabbia",
+   "La ricchezza",
+   "La paura"
+  ],
+  "e": "Una piccola fiamma illumina il buio. Per questo la candela è un segno di speranza in un futuro migliore.",
+  "m": "Una candela è un segno di speranza."
+ },
+ "37932": {
+  "q": "Di quale colore era lo sfondo della bandiera dell'Unione Sovietica?",
+  "a": [
+   "Rosso",
+   "Blu",
+   "Giallo",
+   "Verde"
+  ],
+  "e": "La bandiera dell'Unione Sovietica era tutta rossa. In alto a sinistra c'erano un martello, una falce e una stella.",
+  "m": "La bandiera dell'Unione Sovietica era rossa."
+ },
+ "36317": {
+  "q": "Che cosa fecero due artisti nel 1995 con il palazzo del Reichstag?",
+  "a": [
+   "Lo impacchettarono con della stoffa",
+   "Lo dipinsero di blu",
+   "Ci costruirono sopra una torre",
+   "Lo riempirono di palloncini"
+  ],
+  "e": "Christo e Jeanne-Claude avvolsero l'edificio in una stoffa argentata per due settimane. Milioni di persone vennero a vederlo.",
+  "m": "Nel 1995 il palazzo del Reichstag fu impacchettato con della stoffa."
+ },
+ "64595": {
+  "q": "Che cosa portano in testa molti uomini sikh?",
+  "a": [
+   "Un turbante",
+   "Una corona",
+   "Un casco",
+   "Un berretto a punta"
+  ],
+  "e": "Molti sikh portano un turbante. In lingua punjabi si chiama dastar.",
+  "m": "Molti uomini sikh portano un turbante."
+ },
+ "63477": {
+  "q": "Perché Davide si tolse l'armatura del re Saul?",
+  "a": [
+   "Non riusciva a camminarci bene.",
+   "Era fatta di carta.",
+   "Era del colore sbagliato.",
+   "Apparteneva a Golia."
+  ],
+  "e": "Saul voleva dare a Davide la sua armatura e il suo elmo. Davide non era abituato e con quella addosso riusciva a malapena a camminare.",
+  "m": "Davide combatté senza un'armatura pesante."
+ },
+ "64178": {
+  "q": "Che cosa significa il saluto arabo di commiato «Ma'a salama»?",
+  "a": [
+   "Arrivederci",
+   "Buongiorno",
+   "Grazie mille",
+   "Buon appetito"
+  ],
+  "e": "«Ma'a salama» significa letteralmente «con pace». Si dice quando ci si saluta per andare via, come «arrivederci».",
+  "m": "Ma'a salama si dice quando ci si saluta per andare via."
+ },
+ "18551": {
+  "q": "Come si chiama il lago di Costanza in inglese?",
+  "a": [
+   "Lake Constance",
+   "Lake Geneva",
+   "Lake Lucerne",
+   "Lake Zurich"
+  ],
+  "e": "In inglese il lago di Costanza si chiama «Lake Constance». Il nome viene dalla città di Costanza, che si trova sul lago.",
+  "m": "In inglese il lago di Costanza si chiama Lake Constance."
+ },
+ "22046": {
+  "q": "Quale medaglia riceve chi arriva terzo ai Giochi olimpici?",
+  "a": [
+   "Bronzo",
+   "Argento",
+   "Oro",
+   "Rame"
+  ],
+  "e": "Il terzo posto riceve una medaglia di bronzo. I posti prima ricevono medaglie più preziose.",
+  "m": "Per il terzo posto c'è il bronzo."
+ },
+ "80568": {
+  "q": "Che cosa bisogna chiudere dopo essersi seduti sulla seggiovia?",
+  "a": [
+   "La barra di sicurezza",
+   "Gli occhi",
+   "Lo zaino",
+   "La giacca"
+  ],
+  "e": "La barra di sicurezza si abbassa davanti al corpo. Protegge dal rischio di scivolare giù dal seggiolino.",
+  "m": "Sulla seggiovia si chiude la barra di sicurezza."
+ },
+ "3020": {
+  "q": "In quale continente vive originariamente la giraffa?",
+  "a": [
+   "Africa",
+   "Europa",
+   "Australia",
+   "America del Nord"
+  ],
+  "e": "Le giraffe vengono originariamente solo dall'Africa. Lì vivono nelle savane a sud del Sahara.",
+  "m": "L'Africa è la casa della giraffa."
+ },
+ "22305": {
+  "q": "Che pesce è Nemo nel film «Alla ricerca di Nemo»?",
+  "a": [
+   "Un pesce pagliaccio",
+   "Un pesce rosso",
+   "Uno squalo",
+   "Un tonno"
+  ],
+  "e": "Nemo è un pesce pagliaccio a strisce arancioni e bianche. Suo papà lo cerca in tutto il mare.",
+  "m": "Nemo è un pesce pagliaccio."
+ },
+ "83143": {
+  "q": "Che forma prende una goccia d'acqua in assenza di peso?",
+  "a": [
+   "Una sfera",
+   "Un cubo",
+   "Una stella",
+   "Un triangolo"
+  ],
+  "e": "Senza peso l'acqua si raccoglie in una sfera rotonda. Queste palline d'acqua fluttuano nella stazione spaziale.",
+  "m": "Nello spazio l'acqua forma delle sfere che fluttuano."
+ },
+ "20018": {
+  "q": "Dove lavora un impiegato di banca?",
+  "a": [
+   "In banca",
+   "In ospedale",
+   "Nella stalla",
+   "Nel bosco"
+  ],
+  "e": "Gli impiegati di banca consigliano le clienti e i clienti su tutto ciò che riguarda il denaro. Lavorano in una banca.",
+  "m": "Gli impiegati di banca lavorano in banca."
+ },
+ "88797": {
+  "q": "Che cosa si trova molto spesso nei tesori ritrovati?",
+  "a": [
+   "Monete",
+   "Telefonini",
+   "Bottiglie di plastica",
+   "Biciclette"
+  ],
+  "e": "Un tempo le persone nascondevano spesso i loro soldi in vasi sotto terra. Molti di questi tesori di monete non furono mai ripresi.",
+  "m": "Molti tesori antichi sono fatti di monete."
+ },
+ "22602": {
+  "q": "Quali colori ha la bandiera dell'Italia?",
+  "a": [
+   "Verde, bianco, rosso",
+   "Nero, rosso, oro",
+   "Blu, bianco, rosso",
+   "Rosso, giallo, rosso"
+  ],
+  "e": "La bandiera dell'Italia ha tre strisce verticali: verde, bianca e rossa.",
+  "m": "La bandiera italiana è verde, bianca e rossa."
+ },
+ "402": {
+  "q": "Che regola vale sulle strisce pedonali in Svizzera?",
+  "a": [
+   "I pedoni hanno la precedenza, ma bisogna sempre guardare prima",
+   "Le auto hanno sempre la precedenza",
+   "Lì non si può attraversare la strada",
+   "Bisogna correre"
+  ],
+  "e": "Chi alle strisce pedonali mostra chiaramente di voler attraversare ha la precedenza. Però vale sempre: aspetta che le auto si fermino e cerca lo sguardo di chi guida.",
+  "m": "Sulle strisce pedonali hai la precedenza, ma guarda prima."
+ },
+ "77169": {
+  "q": "Come si chiama la famosa torre con l'orologio a Berna?",
+  "a": [
+   "Zytglogge",
+   "Grossmünster",
+   "Kapellbrücke",
+   "Munot"
+  ],
+  "e": "L'orso è il simbolo di Berna. La Zytglogge è una torre antica di Berna con un orologio famoso.",
+  "m": "La Zytglogge è una torre dell'orologio a Berna."
+ },
+ "26516": {
+  "q": "Come si chiamava la fattoria di Pestalozzi in Argovia, dove accoglieva bambini poveri?",
+  "a": [
+   "Neuhof",
+   "Sonnenhof",
+   "Bärenhof",
+   "Rosenhof"
+  ],
+  "e": "Al Neuhof, vicino a Birr, Pestalozzi accoglieva bambini poveri. Lì lavoravano e imparavano insieme.",
+  "m": "La fattoria di Pestalozzi in Argovia si chiamava Neuhof."
+ },
+ "85398": {
+  "q": "Che cosa trattiene la griglia all'entrata del depuratore?",
+  "a": [
+   "Oggetti grossi",
+   "Sale sciolto",
+   "Batteri piccolissimi",
+   "Acqua pulita"
+  ],
+  "e": "La griglia ha sbarre molto vicine tra loro. Ferma le cose grosse come stracci, bastoncini e rami.",
+  "m": "La griglia toglie le cose grosse dall'acqua di scarico."
+ },
+ "72038": {
+  "q": "Di chi è la sede ufficiale Buckingham Palace a Londra?",
+  "a": [
+   "del re",
+   "del sindaco",
+   "del primo ministro",
+   "del vescovo"
+  ],
+  "e": "Buckingham Palace è la sede ufficiale del re britannico (nel 2026 il re Carlo III). Lì riceve ospiti e fa delle feste, ma abita nella vicina Clarence House.",
+  "m": "Buckingham Palace è la sede del re britannico."
+ },
+ "79357": {
+  "q": "Come si sente al tatto il marmo lucidato?",
+  "a": [
+   "Liscio e fresco",
+   "Ruvido e caldo",
+   "Morbido e soffice",
+   "Appiccicoso e bagnato"
+  ],
+  "e": "Il marmo lucidato ha una superficie molto liscia. Al tatto è fresco anche nelle giornate calde.",
+  "m": "Il marmo lucidato è liscio e fresco."
+ },
+ "73990": {
+  "q": "Come si mostra rispetto verso gli animali?",
+  "a": [
+   "Lasciandoli in pace",
+   "Tirandoli per la coda",
+   "Spaventandoli",
+   "Tirandogli dei sassi"
+  ],
+  "e": "Anche gli animali hanno sentimenti e possono provare dolore. Li trattiamo con gentilezza e attenzione.",
+  "m": "Gli animali si trattano con gentilezza."
+ },
+ "72555": {
+  "q": "Qual è il plurale di «le livre» (il libro) in francese?",
+  "a": [
+   "les livres",
+   "la livres",
+   "le livres",
+   "les livre"
+  ],
+  "e": "Al plurale «le» diventa «les». Al nome di solito si aggiunge una «s».",
+  "m": "Al plurale il nome francese prende di solito una «s»."
+ },
+ "20872": {
+  "q": "Che cosa significa la parola inglese «hat»?",
+  "a": [
+   "Cappello",
+   "Camicia",
+   "Pantaloni",
+   "Guanto"
+  ],
+  "e": "«Hat» significa cappello.",
+  "m": "L'inglese «hat» è il cappello."
+ },
+ "23636": {
+  "q": "Come si chiamano le studiose e gli studiosi che sanno leggere la scrittura cuneiforme?",
+  "a": [
+   "Assiriologi",
+   "Egittologi",
+   "Astronomi",
+   "Geologi"
+  ],
+  "e": "Il nome viene dagli Assiri, un popolo della Mesopotamia. Questi esperti leggono e traducono le tavolette d'argilla.",
+  "m": "Gli assiriologi sanno leggere la scrittura cuneiforme."
+ },
+ "24425": {
+  "q": "Come si chiama un ragazzo che serve un cavaliere e vuole diventare cavaliere anche lui?",
+  "a": [
+   "Scudiero",
+   "Contadino",
+   "Mercante",
+   "Prete"
+  ],
+  "e": "Lo scudiero aiutava un cavaliere e imparava da lui a combattere. Più tardi poteva diventare cavaliere anche lui.",
+  "m": "Uno scudiero serve un cavaliere e impara da lui."
+ },
+ "25664": {
+  "q": "Quale famosa nave a vapore affondò nel 1912 dopo uno scontro con un iceberg?",
+  "a": [
+   "Titanic",
+   "Santa Maria",
+   "Mayflower",
+   "Bounty"
+  ],
+  "e": "Il Titanic era al suo primo viaggio verso l'America. Morirono più di 1500 persone.",
+  "m": "Il Titanic affondò nel 1912 nell'oceano Atlantico."
+ },
+ "23237": {
+  "q": "Che cosa possono vedere oggi i visitatori a Lascaux?",
+  "a": [
+   "Una copia della grotta",
+   "La grotta vera",
+   "Solo una foto",
+   "Più niente"
+  ],
+  "e": "La grotta è stata ricostruita con precisione insieme alle sue pitture. La copia più recente si chiama Lascaux IV ed è stata aperta nel 2016.",
+  "m": "A Lascaux oggi si visita una grotta ricostruita."
+ },
+ "5024": {
+  "q": "In un negozio ti danno per sbaglio troppo resto. Che cosa fai?",
+  "a": [
+   "Lo dico alla commessa o al commesso e lo restituisco",
+   "Lo tengo e non dico niente",
+   "Compro in fretta qualcos'altro",
+   "Lo regalo a un amico"
+  ],
+  "e": "Con i soldi l'onestà è molto importante. Il denaro ricevuto in più va restituito.",
+  "m": "I soldi in più si restituiscono con onestà."
+ },
+ "51499": {
+  "q": "In quale metà della Terra si trova l'Europa, se si prende l'equatore come confine?",
+  "a": [
+   "Nell'emisfero nord",
+   "Nell'emisfero sud",
+   "Proprio sull'equatore",
+   "Al Polo Sud"
+  ],
+  "e": "L'Europa si trova tutta a nord dell'equatore. Per questo fa parte dell'emisfero nord.",
+  "m": "L'Europa si trova nell'emisfero nord."
+ },
+ "52542": {
+  "q": "Quale di questi saluti è in italiano?",
+  "a": [
+   "Buongiorno",
+   "Bonjour",
+   "Allegra",
+   "Guten Morgen"
+  ],
+  "e": "«Buongiorno» è il saluto italiano per «buona giornata». In Ticino si sente spesso questo saluto.",
+  "m": "In italiano si dice «Buongiorno»."
+ },
+ "55180": {
+  "q": "Dove puoi guardare le previsioni del tempo?",
+  "a": [
+   "Alla televisione o in un'app",
+   "In un libro di cucina",
+   "Nell'elenco telefonico",
+   "Nell'atlante della scuola"
+  ],
+  "e": "Le previsioni del tempo si trovano alla televisione, alla radio e nelle app del meteo. Così sai se ti serve una giacca.",
+  "m": "Le previsioni del tempo le trovi alla televisione o in un'app."
+ },
+ "73448": {
+  "q": "Quale ortaggio d'autunno si usa per Halloween e per la zuppa?",
+  "a": [
+   "Zucca",
+   "Asparago",
+   "Ravanello",
+   "Cetriolo"
+  ],
+  "e": "Le zucche si raccolgono in autunno. Si usano per fare la zuppa o si intagliano.",
+  "m": "La zucca è un tipico ortaggio d'autunno."
+ },
+ "80702": {
+  "q": "Un robot conosce solo pochi comandi. Che cosa succede se gli dai un comando che non conosce?",
+  "a": [
+   "Non lo capisce",
+   "Indovina che cosa intendi",
+   "Ti fa una domanda",
+   "Lo impara subito"
+  ],
+  "e": "Un robot può eseguire solo i comandi che conosce. Tutto il resto non lo capisce.",
+  "m": "Un robot esegue solo i comandi che conosce."
+ },
+ "100164": {
+  "q": "Che cosa misura spesso il pediatra durante una visita di controllo?",
+  "a": [
+   "l'altezza",
+   "il colore delle scarpe",
+   "la lunghezza dei capelli",
+   "il colore preferito"
+  ],
+  "e": "Durante i controlli il pediatra misura l'altezza e il peso. Così vede se un bambino cresce bene.",
+  "m": "Il pediatra misura quanto è alto un bambino."
+ },
+ "95229": {
+  "q": "Quale ortaggio c'è nella famosa torta del Cantone Argovia?",
+  "a": [
+   "Carote",
+   "Patate",
+   "Porri",
+   "Barbabietole rosse"
+  ],
+  "e": "La torta di carote argoviese si prepara con carote grattugiate e mandorle. È morbida e spesso decorata con piccole carote di marzapane.",
+  "m": "Torta argoviese: carote nella torta."
+ },
+ "95249": {
+  "q": "Quale lingua si parla nel Cantone di Appenzello Interno?",
+  "a": [
+   "Tedesco",
+   "Francese",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Ad Appenzello Interno si parla tedesco. Nella vita di tutti i giorni si sente il tipico dialetto appenzellese.",
+  "m": "Ad Appenzello Interno si parla tedesco, in dialetto appenzellese."
+ },
+ "95270": {
+  "q": "Che cosa portano addosso i Silvesterchläuse di Appenzello Esterno, così che li si senta da lontano?",
+  "a": [
+   "Grandi campane e sonagli",
+   "Tamburi",
+   "Trombe",
+   "Fischietti"
+  ],
+  "e": "I Chläuse portano campane e sonagli pesanti. Quando si muovono, suonano forte.",
+  "m": "I Silvesterchläuse suonano con campane e sonagli."
+ },
+ "95290": {
+  "q": "Quale importante edificio della politica svizzera si trova nella città di Berna?",
+  "a": [
+   "Il Palazzo federale",
+   "Il Prime Tower",
+   "Il Grossmünster",
+   "Il Palazzo delle Nazioni"
+  ],
+  "e": "Nel Palazzo federale di Berna lavorano il Consiglio federale e il Parlamento svizzero. Ha una grande cupola verde.",
+  "m": "Dal Palazzo federale di Berna si governa la Svizzera."
+ },
+ "95312": {
+  "q": "Con quale Paese vicino confina il Cantone di Basilea Campagna lungo il Reno?",
+  "a": [
+   "Germania",
+   "Austria",
+   "Italia",
+   "Liechtenstein"
+  ],
+  "e": "Dall'altra parte del Reno c'è la Germania. Così il Reno è una parte del confine tra Basilea Campagna e la Germania.",
+  "m": "Al di là del Reno, Basilea Campagna guarda verso la Germania."
+ },
+ "95340": {
+  "q": "Che cosa è il Cantone di Basilea Città rispetto a tutti gli altri Cantoni svizzeri?",
+  "a": [
+   "Il Cantone più piccolo per superficie",
+   "Il Cantone più grande per superficie",
+   "Il Cantone più in alto",
+   "Il Cantone più a sud"
+  ],
+  "e": "Basilea Città misura solo circa 37 chilometri quadrati. Nessun altro Cantone ha una superficie più piccola.",
+  "m": "Basilea Città è il Cantone più piccolo della Svizzera."
+ },
+ "95360": {
+  "q": "Quale lago si trova nel Cantone di Friburgo vicino alla città di Morat?",
+  "a": [
+   "Lago di Morat",
+   "Lago di Costanza",
+   "Lago di Walenstadt",
+   "Lago Maggiore"
+  ],
+  "e": "La città di Morat si trova proprio sul lago di Morat. D'estate si può fare il bagno e andare in battello.",
+  "m": "Morat si trova sul lago di Morat."
+ },
+ "95383": {
+  "q": "Che cosa si vede nello stemma del Cantone di Ginevra?",
+  "a": [
+   "Mezza aquila e una chiave",
+   "Un orso e una stella",
+   "Uno stambecco e una corona",
+   "Un leone e una spada"
+  ],
+  "e": "A sinistra c'è mezza aquila nera su fondo giallo. A destra c'è una chiave d'oro su fondo rosso.",
+  "m": "Ginevra ha un'aquila e una chiave nello stemma."
+ },
+ "95403": {
+  "q": "Quale lingua si parla nel Cantone di Glarona?",
+  "a": [
+   "Tedesco",
+   "Francese",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Nel Cantone di Glarona si parla tedesco. Nella vita di tutti i giorni le persone parlano il dialetto glaronese.",
+  "m": "A Glarona si parla tedesco."
+ },
+ "95422": {
+  "q": "Quale animale è il famoso simbolo dello stemma del Cantone dei Grigioni e vive in montagna?",
+  "a": [
+   "Lo stambecco",
+   "L'orso",
+   "L'aquila",
+   "Il leone"
+  ],
+  "e": "Lo stambecco si vede nello stemma grigionese. Si arrampica con abilità sulle rocce ripide.",
+  "m": "Lo stambecco è l'animale dello stemma dei Grigioni."
+ },
+ "95447": {
+  "q": "Che cosa si è trovato durante la costruzione dell'autostrada vicino a Porrentruy, nel Cantone Giura?",
+  "a": [
+   "Impronte di dinosauri",
+   "Un tesoro di monete d'oro",
+   "Un'antica nave vichinga",
+   "Un mammut nel ghiaccio"
+  ],
+  "e": "Costruendo l'autostrada A16 vicino a Porrentruy si sono scoperte migliaia di impronte di dinosauri. Hanno molti milioni di anni.",
+  "m": "Un tempo vicino a Porrentruy passeggiavano i dinosauri."
+ },
+ "95469": {
+  "q": "Quale festa colorata con Guggenmusik e maschere è particolarmente famosa a Lucerna?",
+  "a": [
+   "Il carnevale di Lucerna",
+   "Il Sechseläuten",
+   "L'Escalade",
+   "La festa di Unspunnen"
+  ],
+  "e": "Il carnevale di Lucerna è uno dei più grandi della Svizzera. Comincia il Giovedì grasso all'alba con un forte botto.",
+  "m": "Lucerna festeggia un carnevale rumoroso e colorato."
+ },
+ "95488": {
+  "q": "Quale lingua si parla nel Cantone di Neuchâtel?",
+  "a": [
+   "Francese",
+   "Tedesco",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Nel Cantone di Neuchâtel si parla francese. Fa parte della Romandia, la Svizzera di lingua francese.",
+  "m": "A Neuchâtel si parla francese."
+ },
+ "307": {
+  "q": "Quale eroe della leggenda di Nidvaldo avrebbe afferrato le lance dei nemici a Sempach?",
+  "a": [
+   "Arnold Winkelried",
+   "Guglielmo Tell",
+   "Nicolao della Flüe",
+   "Henri Guisan"
+  ],
+  "e": "Secondo la leggenda, nella battaglia di Sempach Winkelried aprì un varco tra le file nemiche tirando su di sé molte lance. Non è sicuro che sia esistito davvero. A Stans c'è un monumento in suo onore.",
+  "m": "Secondo la leggenda Winkelried fu l'eroe di Sempach."
+ },
+ "304": {
+  "q": "Di quale Cantone primitivo facevano parte insieme Obvaldo e Nidvaldo?",
+  "a": [
+   "Untervaldo",
+   "Uri",
+   "Svitto",
+   "Lucerna"
+  ],
+  "e": "Obvaldo e Nidvaldo formavano insieme Untervaldo, uno dei tre Cantoni primitivi. Però molto presto furono amministrati separatamente.",
+  "m": "Obvaldo e Nidvaldo formavano insieme Untervaldo."
+ },
+ "95552": {
+  "q": "Qual è il capoluogo del Cantone di San Gallo?",
+  "a": [
+   "San Gallo",
+   "Rapperswil",
+   "Wil",
+   "Buchs"
+  ],
+  "e": "Il capoluogo ha lo stesso nome del Cantone: San Gallo. Lì lavorano il governo e il parlamento cantonale.",
+  "m": "Cantone di San Gallo, capoluogo San Gallo."
+ },
+ "329": {
+  "q": "Quale grande cascata si trova vicino a Sciaffusa?",
+  "a": [
+   "Le cascate del Reno",
+   "Le cascate di Reichenbach",
+   "Le cascate del Niagara",
+   "La cascata di Staubbach"
+  ],
+  "e": "Le cascate del Reno sono tra le cascate più grandi d'Europa. Con la barca si può arrivare fino alla roccia in mezzo.",
+  "m": "Vicino a Sciaffusa ci sono le cascate del Reno."
+ },
+ "6933": {
+  "q": "Quale fiume scorre in mezzo alla città di Soletta?",
+  "a": [
+   "Aar",
+   "Reno",
+   "Limmat",
+   "Reuss"
+  ],
+  "e": "L'Aar attraversa il centro storico di Soletta ed è importante per la città. Molti ponti passano sopra il fiume.",
+  "m": "L'Aar scorre in mezzo a Soletta."
+ },
+ "95599": {
+  "q": "Com'è fatto lo stemma del Cantone di Svitto?",
+  "a": [
+   "Rosso con una piccola croce bianca in alto a sinistra",
+   "Bianco con una croce rossa in mezzo",
+   "Giallo con un toro nero",
+   "A strisce blu e bianche"
+  ],
+  "e": "Lo stemma di Svitto è tutto rosso. In alto a sinistra c'è una piccola croce bianca.",
+  "m": "Svitto: rosso con una piccola croce bianca."
+ },
+ "95621": {
+  "q": "Quale città turgoviese confina direttamente con la città tedesca di Costanza?",
+  "a": [
+   "Kreuzlingen",
+   "Frauenfeld",
+   "Weinfelden",
+   "Bischofszell"
+  ],
+  "e": "Kreuzlingen e Costanza sono cresciute fino a diventare una cosa sola. Si può passeggiare a piedi dalla Svizzera alla Germania.",
+  "m": "Kreuzlingen è la città vicina di Costanza."
+ },
+ "95645": {
+  "q": "Quale soprannome ha il Ticino per il suo clima caldo e soleggiato?",
+  "a": [
+   "Il salotto soleggiato della Svizzera",
+   "Il castello d'acqua della Svizzera",
+   "Il tetto della Svizzera",
+   "Il granaio della Svizzera"
+  ],
+  "e": "In Ticino il sole splende spesso e fa più caldo che a nord delle Alpi. Per questo lì crescono perfino le palme.",
+  "m": "Il Ticino è il salotto soleggiato della Svizzera."
+ },
+ "95662": {
+  "q": "Quale fiume scorre nella valle della Reuss, nel Cantone di Uri?",
+  "a": [
+   "La Reuss",
+   "L'Aar",
+   "Il Rodano",
+   "L'Inn"
+  ],
+  "e": "La Reuss nasce nella regione del San Gottardo e attraversa tutto il Cantone di Uri fino al lago di Uri.",
+  "m": "Nel Cantone di Uri scorre la Reuss."
+ },
+ "95683": {
+  "q": "Quali colori ha lo stemma del Cantone di Vaud?",
+  "a": [
+   "Bianco e verde",
+   "Rosso e bianco",
+   "Blu e bianco",
+   "Nero e giallo"
+  ],
+  "e": "Lo stemma vodese è bianco in alto e verde in basso. Nella parte bianca c'è scritto in oro «LIBERTÉ ET PATRIE».",
+  "m": "Il Cantone di Vaud porta il bianco e il verde."
+ },
+ "359": {
+  "q": "Quale famosa montagna si trova vicino a Zermatt, nel Vallese?",
+  "a": [
+   "Il Cervino",
+   "Il Rigi",
+   "Il Säntis",
+   "Il Pilatus"
+  ],
+  "e": "Il Cervino, per la sua forma a piramide, è una delle montagne più conosciute al mondo. Si trova sul confine con l'Italia.",
+  "m": "Vicino a Zermatt c'è il Cervino."
+ },
+ "95728": {
+  "q": "Che cosa è il Cantone di Zugo rispetto agli altri Cantoni?",
+  "a": [
+   "Uno dei Cantoni più piccoli",
+   "Il Cantone più grande",
+   "Il Cantone con più montagne sopra i 4'000 metri",
+   "L'unico Cantone sul mare"
+  ],
+  "e": "Zugo ha una superficie di soli 240 chilometri quadrati circa. Per questo è uno dei Cantoni più piccoli della Svizzera.",
+  "m": "Zugo è piccolo ma bello."
+ },
+ "95746": {
+  "q": "Quale lingua si parla nel Cantone di Zurigo?",
+  "a": [
+   "Tedesco",
+   "Francese",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Nel Cantone di Zurigo si parla svizzero tedesco, più precisamente il dialetto zurighese.",
+  "m": "A Zurigo si parla tedesco."
+ },
+ "75780": {
+  "q": "Che cosa si fa con i fili quando si intreccia?",
+  "a": [
+   "Si mettono uno sopra l'altro a turno",
+   "Si incollano insieme",
+   "Si tagliano",
+   "Si inchiodano"
+  ],
+  "e": "Quando si intreccia si incrociano più fili, uno sopra l'altro a turno. Così stanno insieme senza colla.",
+  "m": "Quando si intreccia, i fili si incrociano a turno."
+ },
+ "80660": {
+  "q": "Di che colore sono i cartelli dei sentieri escursionistici in Svizzera?",
+  "a": [
+   "Gialli",
+   "Rossi",
+   "Blu",
+   "Verdi"
+  ],
+  "e": "In Svizzera i cartelli dei sentieri escursionistici sono gialli. Si vedono bene nella natura.",
+  "m": "I cartelli dei sentieri svizzeri sono gialli."
+ },
+ "20259": {
+  "q": "A che cosa serve una password?",
+  "a": [
+   "Protegge un account",
+   "Alza il volume della musica",
+   "Ricarica la batteria",
+   "Mostra il meteo"
+  ],
+  "e": "Una password è come una chiave. Solo chi la conosce può entrare nell'account.",
+  "m": "Una password è come una chiave."
+ },
+ "21774": {
+  "q": "Che cosa protegge le orecchie quando la musica è molto forte?",
+  "a": [
+   "I tappi per le orecchie",
+   "Gli occhiali da sole",
+   "I guanti",
+   "Una sciarpa"
+  ],
+  "e": "I tappi si mettono nelle orecchie. Rendono più bassa la musica forte e proteggono l'udito.",
+  "m": "I tappi proteggono le orecchie dalla musica forte."
+ },
+ "80833": {
+  "q": "Come si chiamano i fiori gialli e pendenti del nocciolo?",
+  "a": [
+   "Amenti",
+   "Cagnolini",
+   "Campanellini",
+   "Stelline"
+  ],
+  "e": "I fiori maschili del nocciolo pendono dall'arbusto come piccole salsicce gialle. Si chiamano amenti, o anche gattini.",
+  "m": "Il nocciolo ha gli amenti gialli."
+ },
+ "91715": {
+  "q": "Dove si trova spesso una meridiana in Svizzera?",
+  "a": [
+   "Sui muri delle case e delle chiese",
+   "Nel frigorifero",
+   "Sotto terra",
+   "Nelle gallerie"
+  ],
+  "e": "Molte case e chiese antiche hanno una meridiana dipinta su un muro soleggiato. Si chiama meridiana murale.",
+  "m": "Le meridiane sono spesso sui muri soleggiati delle case."
+ },
+ "35236": {
+  "q": "Un tempo, quanti anni bisognava avere per poter votare a livello federale in Svizzera?",
+  "a": [
+   "20 anni",
+   "16 anni",
+   "14 anni",
+   "30 anni"
+  ],
+  "e": "Un tempo si poteva votare a livello federale solo a 20 anni. Oggi l'età per votare è più bassa.",
+  "m": "Un tempo si poteva votare solo a 20 anni."
+ },
+ "37846": {
+  "q": "In quale città si svolse nel 1988 la famosa «manifestazione delle candele» per la libertà di religione?",
+  "a": [
+   "Bratislava",
+   "Vienna",
+   "Berna",
+   "Parigi"
+  ],
+  "e": "Migliaia di persone stavano in una piazza di Bratislava, che allora faceva parte della Cecoslovacchia, con delle candele. La polizia le scacciò con gli idranti.",
+  "m": "La manifestazione delle candele di Bratislava fu una protesta coraggiosa contro la dittatura."
+ },
+ "38136": {
+  "q": "Come si chiama il pezzo più lungo del Muro di Berlino ancora in piedi?",
+  "a": [
+   "East Side Gallery",
+   "West End Park",
+   "Mauerplatz Mitte",
+   "Berliner Steinweg"
+  ],
+  "e": "La East Side Gallery è il pezzo di muro più lungo rimasto. Si trova nel quartiere di Friedrichshain.",
+  "m": "La East Side Gallery è il pezzo di muro più lungo ancora in piedi."
+ },
+ "36980": {
+  "q": "In quale anno fu fondata la Scuola internazionale di Ginevra?",
+  "a": [
+   "1924",
+   "1824",
+   "1974",
+   "2004"
+  ],
+  "e": "La Scuola internazionale di Ginevra fu fondata nel 1924. Era pensata per i figli degli impiegati della Società delle Nazioni.",
+  "m": "La Scuola internazionale di Ginevra esiste dal 1924."
+ },
+ "64830": {
+  "q": "Chi era un fratello di Poseidone?",
+  "a": [
+   "Zeus",
+   "Ermes",
+   "Apollo",
+   "Ares"
+  ],
+  "e": "Poseidone, Zeus e Ade erano fratelli. Si divisero il mondo tra loro.",
+  "m": "Poseidone era un fratello di Zeus."
+ },
+ "63167": {
+  "q": "Quante domeniche d'Avvento ci sono prima di Natale?",
+  "a": [
+   "Quattro",
+   "Tre",
+   "Cinque",
+   "Sei"
+  ],
+  "e": "Il periodo dell'Avvento ha quattro domeniche. La prima domenica d'Avvento cade alla fine di novembre o all'inizio di dicembre.",
+  "m": "Prima di Natale ci sono quattro domeniche d'Avvento."
+ },
+ "64268": {
+  "q": "Perché la moschea del Sultano Ahmed a Istanbul si chiama anche Moschea Blu?",
+  "a": [
+   "Per le sue piastrelle blu",
+   "Perché si trova sul mare",
+   "Perché il suo tetto è blu",
+   "Per i tappeti blu davanti alla porta"
+  ],
+  "e": "All'interno della moschea le pareti sono coperte da tante piastrelle bianche e blu. Da qui viene il nome Moschea Blu.",
+  "m": "Le piastrelle blu hanno dato il nome alla Moschea Blu."
+ },
+ "18517": {
+  "q": "Quale lingua parla la maggior parte delle persone a Ginevra?",
+  "a": [
+   "Francese",
+   "Tedesco",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Ginevra si trova nella Svizzera occidentale. Lì si parla soprattutto francese.",
+  "m": "A Ginevra si parla francese."
+ },
+ "21998": {
+  "q": "Quanti punti si hanno nel tennis dopo aver vinto il primo scambio?",
+  "a": [
+   "15",
+   "1",
+   "5",
+   "10"
+  ],
+  "e": "Nel tennis si conta in modo speciale: 15, 30, 40 e poi gioco.",
+  "m": "Nel tennis si conta 15, 30 e 40."
+ },
+ "19656": {
+  "q": "Su che cosa viaggia un treno?",
+  "a": [
+   "Sui binari",
+   "Su delle funi",
+   "Su dei pattini",
+   "Sull'acqua"
+  ],
+  "e": "Un treno rotola su due binari d'acciaio. I binari lo guidano sicuro nella direzione giusta.",
+  "m": "Un treno viaggia sui binari."
+ },
+ "2864": {
+  "q": "Quante uova depone circa una gallina in un anno?",
+  "a": [
+   "Circa 200 o 300",
+   "Solo 5",
+   "Circa 1000",
+   "Solo 20"
+  ],
+  "e": "Le galline ovaiole depongono spesso un uovo quasi ogni giorno. In tutto l'anno si arriva così a più di 200 uova.",
+  "m": "Le galline depongono tante uova all'anno."
+ },
+ "22282": {
+  "q": "Come si chiama la scimmietta di Pippi Calzelunghe?",
+  "a": [
+   "Signor Nilsson",
+   "Signor Müller",
+   "Zietto",
+   "Signor Jansson"
+  ],
+  "e": "Il signor Nilsson è una piccola scimmia e vive con Pippi a Villa Villacolle.",
+  "m": "La scimmietta di Pippi si chiama signor Nilsson."
+ },
+ "84151": {
+  "q": "Come si chiamano i razzi in più attaccati ai lati del razzo principale?",
+  "a": [
+   "Booster",
+   "Pinne",
+   "Antenne",
+   "Pannelli solari"
+  ],
+  "e": "I booster danno una spinta in più alla partenza. Quando hanno finito il carburante vengono sganciati.",
+  "m": "I booster aiutano il razzo a partire con più forza."
+ },
+ "19975": {
+  "q": "Dove si possono tenere al sicuro i propri risparmi?",
+  "a": [
+   "In banca",
+   "Sotto un sasso",
+   "Nella buca delle lettere",
+   "Nella casetta del giardino"
+  ],
+  "e": "Su un conto di risparmio in banca i soldi sono al sicuro. Non si possono perdere e non possono essere rubati.",
+  "m": "In banca i risparmi sono al sicuro."
+ },
+ "99156": {
+  "q": "Il Bee-Bot deve andare avanti dritto di 3 caselle. Quante volte si preme il tasto avanti?",
+  "a": [
+   "3 volte",
+   "1 volta",
+   "2 volte",
+   "4 volte"
+  ],
+  "e": "Ogni pressione su avanti significa una casella. Per 3 caselle si preme quindi 3 volte.",
+  "m": "Per ogni casella si preme una volta avanti."
+ },
+ "22578": {
+  "q": "Quanto fa 7 + 5?",
+  "a": [
+   "12",
+   "11",
+   "13",
+   "14"
+  ],
+  "e": "Si calcola 7 + 3 = 10 e poi 10 + 2 = 12.",
+  "m": "Sette più cinque fa dodici."
+ },
+ "227": {
+  "q": "Perché ci si lava le mani prima di mangiare?",
+  "a": [
+   "Per togliere i germi",
+   "Per avere le mani bagnate",
+   "Perché il sapone è buono",
+   "Non serve"
+  ],
+  "e": "Sulle mani si raccolgono batteri e virus. Con acqua e sapone, per circa 20 secondi, si tolgono quasi tutti. Così ci si ammala meno spesso.",
+  "m": "Lavarsi le mani significa meno germi."
+ },
+ "76968": {
+  "q": "Chi porta i regali a Natale in molte famiglie svizzere?",
+  "a": [
+   "Gesù Bambino",
+   "Il coniglio pasquale",
+   "La fatina dei denti",
+   "L'omino del sonno"
+  ],
+  "e": "L'angelo con il regalo rappresenta Gesù Bambino. In molte famiglie svizzere è lui a portare i regali.",
+  "m": "In molte famiglie svizzere i regali li porta Gesù Bambino."
+ },
+ "26710": {
+  "q": "Chi dipingeva più volentieri Albert Anker?",
+  "a": [
+   "Bambini",
+   "Cavalli",
+   "Navi",
+   "Re"
+  ],
+  "e": "Anker dipingeva spesso bambini che giocano, imparano o dormono. Questi quadri piacciono molto.",
+  "m": "Albert Anker dipingeva volentieri i bambini."
+ },
+ "19088": {
+  "q": "Quale di queste sostanze è un gas?",
+  "a": [
+   "Aria",
+   "Acqua",
+   "Legno",
+   "Burro"
+  ],
+  "e": "L'aria è un gas. È invisibile e si sparge dappertutto nella stanza.",
+  "m": "L'aria è un gas."
+ },
+ "71892": {
+  "q": "Che cosa significa la parola inglese «nose»?",
+  "a": [
+   "Naso",
+   "Gola",
+   "Ginocchio",
+   "Nuca"
+  ],
+  "e": "«Nose» significa naso. Con il naso sentiamo gli odori.",
+  "m": "Con il nose, cioè il naso, sentiamo gli odori."
+ },
+ "81304": {
+  "q": "Che cosa devi fare se arriva un temporale mentre fai il bagno?",
+  "a": [
+   "Uscire subito dall'acqua",
+   "Continuare a nuotare",
+   "Andare sott'acqua",
+   "Salire su un canotto"
+  ],
+  "e": "In acqua sei il punto più alto e l'acqua conduce l'elettricità. Per questo durante un temporale devi uscire subito.",
+  "m": "Con il temporale esci subito dall'acqua."
+ },
+ "73944": {
+  "q": "Come si chiede gentilmente se si può prendere in prestito qualcosa?",
+  "a": [
+   "«Me lo puoi prestare, per favore?»",
+   "«Dammelo!»",
+   "«Adesso è mio.»",
+   "«Lo prendo e basta.»"
+  ],
+  "e": "Con «per favore» si chiede in modo gentile. L'altra persona può poi decidere da sola.",
+  "m": "Chi dice per favore chiede in modo gentile."
+ },
+ "72614": {
+  "q": "Che cosa si canta in francese per un compleanno?",
+  "a": [
+   "Joyeux anniversaire",
+   "Joyeux Noël",
+   "Bonne année",
+   "Bonne fête nationale"
+  ],
+  "e": "«L'anniversaire» è il compleanno. La canzone di compleanno comincia con «Joyeux anniversaire».",
+  "m": "Il compleanno in francese si dice «anniversaire»."
+ },
+ "20852": {
+  "q": "Chi è «my grandfather»?",
+  "a": [
+   "mio nonno",
+   "mio zio",
+   "mio papà",
+   "mio cugino"
+  ],
+  "e": "«Grandfather» è il papà della mamma o del papà, cioè il nonno.",
+  "m": "L'inglese «grandfather» è il nonno."
+ },
+ "23690": {
+  "q": "Dove finiscono alla fine l'Eufrate e il Tigri?",
+  "a": [
+   "nel Golfo Persico",
+   "nel Mar Mediterraneo",
+   "nel Mar Rosso",
+   "nel Mar Nero"
+  ],
+  "e": "Alla fine i due fiumi si uniscono in un unico grande corso d'acqua. Questo sfocia nel mare a sud.",
+  "m": "L'Eufrate e il Tigri finiscono nel Golfo Persico."
+ },
+ "24728": {
+  "q": "Che cosa c'era a distanze regolari sulle mura della città?",
+  "a": [
+   "Torri",
+   "Mulini a vento",
+   "Alberi",
+   "Chiese"
+  ],
+  "e": "Dalle torri delle mura le guardie vedevano lontano. Così si accorgevano presto dei nemici.",
+  "m": "Sulle mura della città c'erano tante torri."
+ },
+ "26102": {
+  "q": "Quale astronauta svizzero aiutò a riparare Hubble nello spazio?",
+  "a": [
+   "Claude Nicollier",
+   "Bertrand Piccard",
+   "Jacques Piccard",
+   "Auguste Piccard"
+  ],
+  "e": "Claude Nicollier fu il primo svizzero nello spazio. Partecipò a missioni per riparare Hubble.",
+  "m": "Claude Nicollier aiutò a riparare Hubble."
+ },
+ "23436": {
+  "q": "Circa quanti anni aveva Ötzi quando morì?",
+  "a": [
+   "Circa 45 anni",
+   "Circa 10 anni",
+   "Circa 20 anni",
+   "Circa 90 anni"
+  ],
+  "e": "I ricercatori pensano che Ötzi avesse circa 45 anni. A quei tempi era già un'età piuttosto avanzata.",
+  "m": "Ötzi visse circa 45 anni."
+ },
+ "653": {
+  "q": "A che cosa serve questo?",
+  "a": [
+   "A risparmiare soldi",
+   "A spendere soldi",
+   "A dare da mangiare agli animali",
+   "A cucinare"
+  ],
+  "e": "Nel salvadanaio si raccolgono monete per un obiettivo più grande.",
+  "m": "Con il salvadanaio si risparmiano soldi."
+ },
+ "50566": {
+  "q": "Come si chiamano le barche lunghe e strette di Venezia?",
+  "a": [
+   "Gondole",
+   "Canoe",
+   "Zattere",
+   "Kayak"
+  ],
+  "e": "Le gondole sono il simbolo di Venezia. Con loro i turisti girano per la città.",
+  "m": "Le barche tipiche di Venezia si chiamano gondole."
+ },
+ "52556": {
+  "q": "Quale animale si vede nello stemma di Berna?",
+  "a": [
+   "Un orso",
+   "Un leone",
+   "Un'aquila",
+   "Uno stambecco"
+  ],
+  "e": "Nello stemma di Berna cammina un orso nero. L'orso è il simbolo della città.",
+  "m": "L'orso è l'animale dello stemma di Berna."
+ },
+ "48091": {
+  "q": "Com'è l'ombra di un albero al mattino?",
+  "a": [
+   "Punta verso ovest",
+   "Punta verso est",
+   "Punta verso sud",
+   "Non c'è nessuna ombra"
+  ],
+  "e": "Un'ombra punta sempre dalla parte opposta al sole. Per questo al mattino cade verso ovest.",
+  "m": "L'ombra punta sempre dalla parte opposta al sole."
+ },
+ "73484": {
+  "q": "Dove vanno le scatole di cartone vuote?",
+  "a": [
+   "Nella raccolta del cartone",
+   "Nella raccolta del vetro",
+   "Con le pile",
+   "Nella raccolta del PET"
+  ],
+  "e": "Il cartone viene raccolto e trasformato in cartone nuovo. Le scatole si piegano e si appiattiscono.",
+  "m": "Le scatole di cartone vuote vanno nella raccolta del cartone."
+ },
+ "85695": {
+  "q": "Come si chiama un programma con cui si può scrivere come con una persona?",
+  "a": [
+   "Chatbot",
+   "Stampante",
+   "Scanner",
+   "Router"
+  ],
+  "e": "Un chatbot risponde alle domande che si scrivono. Molti chatbot usano l'intelligenza artificiale.",
+  "m": "Un chatbot è un programma che risponde in chat."
+ },
+ "79035": {
+  "q": "Quale organo nel collo ti serve per parlare e cantare?",
+  "a": [
+   "La laringe",
+   "Lo stomaco",
+   "Il rene",
+   "Il fegato"
+  ],
+  "e": "Nella laringe ci sono le corde vocali. Quando l'aria ci passa accanto, vibrano e producono suoni.",
+  "m": "La laringe produce la nostra voce."
+ },
+ "95232": {
+  "q": "Quante stelle bianche ci sono nello stemma del Cantone Argovia?",
+  "a": [
+   "Tre",
+   "Una",
+   "Cinque",
+   "Sette"
+  ],
+  "e": "Lo stemma argoviese è diviso in due metà. A sinistra c'è un fiume bianco su fondo nero, a destra tre stelle bianche su fondo blu.",
+  "m": "Tre stelle sul blu: è l'Argovia."
+ },
+ "95252": {
+  "q": "Quale strumento, con corde che si battono con piccoli martelletti, fa parte della musica popolare appenzellese?",
+  "a": [
+   "Salterio",
+   "Tromba",
+   "Batteria",
+   "Cornamusa"
+  ],
+  "e": "Il salterio (in tedesco Hackbrett) è una cassa con molte corde che si battono con due piccoli martelletti. Fa parte della tipica musica d'archi appenzellese.",
+  "m": "Il salterio suona in ogni gruppo di musica d'archi appenzellese."
+ },
+ "332": {
+  "q": "Quale formaggio porta il nome della regione dell'Appenzello?",
+  "a": [
+   "Appenzeller",
+   "Emmentaler",
+   "Gruyère",
+   "Tilsiter"
+  ],
+  "e": "L'Appenzeller viene trattato con una salamoia segreta alle erbe, che gli dà il suo sapore saporito. La regione è conosciuta anche per tradizioni come il Silvesterchlausen.",
+  "m": "La regione dell'Appenzello è famosa per il formaggio Appenzeller."
+ },
+ "95291": {
+  "q": "Come si chiama la famosa torre con l'orologio astronomico nel centro storico di Berna?",
+  "a": [
+   "Zytglogge",
+   "Wasserturm",
+   "Käfigturm",
+   "Munot"
+  ],
+  "e": "La Zytglogge è una torre antica con un orologio astronomico. Poco prima di ogni ora si muovono delle figure buffe.",
+  "m": "Alla Zytglogge di Berna le figure ballano allo scoccare dell'ora."
+ },
+ "95313": {
+  "q": "Di che colore è il pastorale di Basilea nello stemma del Cantone di Basilea Campagna?",
+  "a": [
+   "Rosso",
+   "Nero",
+   "Blu",
+   "Verde"
+  ],
+  "e": "Nello stemma di Basilea Campagna c'è un pastorale rosso con piccole punte su fondo bianco. Il pastorale di Basilea Città invece è nero.",
+  "m": "Basilea Campagna rosso, Basilea Città nero."
+ },
+ "95339": {
+  "q": "Quale biscotto speziato al miele è una famosa specialità del Cantone di Basilea Città?",
+  "a": [
+   "Basler Läckerli",
+   "Biber appenzellese",
+   "Torta al kirsch di Zugo",
+   "Torta di noci grigionese"
+  ],
+  "e": "I Basler Läckerli sono piccoli pan di zenzero duri con miele, spezie, mandorle e scorza d'arancia candita. Si possono comprare tutto l'anno.",
+  "m": "Da Basilea vengono i Läckerli."
+ },
+ "316": {
+  "q": "Quali due lingue si parlano nel Cantone di Friburgo?",
+  "a": [
+   "Francese e tedesco",
+   "Italiano e romancio",
+   "Inglese e tedesco",
+   "Solo tedesco"
+  ],
+  "e": "Friburgo si trova sul confine tra le lingue. La maggioranza parla francese, una parte tedesco. In francese la città si chiama Fribourg, in tedesco Freiburg.",
+  "m": "Il Cantone di Friburgo è bilingue."
+ },
+ "95384": {
+  "q": "Per che cosa è famoso in tutto il mondo il Cantone di Ginevra?",
+  "a": [
+   "Per gli orologi pregiati",
+   "Per i trampolini da sci",
+   "Per le risaie",
+   "Per i vulcani"
+  ],
+  "e": "A Ginevra si fabbricano orologi da secoli. Molte famose ditte di orologi hanno lì la loro sede.",
+  "m": "Ginevra è una città di orologi."
+ },
+ "95401": {
+  "q": "Come si chiama il bel lago di montagna nel Klöntal, nel Cantone di Glarona?",
+  "a": [
+   "Klöntalersee",
+   "Oeschinensee",
+   "Lago di Cauma",
+   "Blausee"
+  ],
+  "e": "Il Klöntalersee si trova in una valle a ovest di Glarona. Le montagne si specchiano nell'acqua in modo meraviglioso.",
+  "m": "Nel Klöntal c'è il Klöntalersee."
+ },
+ "95426": {
+  "q": "Che cosa fanno i bambini in Engadina, nei Grigioni, il giorno del Chalandamarz, il 1° marzo?",
+  "a": [
+   "Girano per il paese con le campane per scacciare l'inverno",
+   "Costruiscono castelli di sabbia al lago",
+   "Cercano le uova di Pasqua nel bosco",
+   "Intagliano le zucche"
+  ],
+  "e": "Al Chalandamarz i bambini girano per il paese con campanacci e canzoni. Con il rumore si vuole scacciare l'inverno.",
+  "m": "Al Chalandamarz i bambini scacciano l'inverno con le campane."
+ },
+ "95449": {
+  "q": "Quale fiume scorre attraverso la cittadina medievale di Saint-Ursanne, nel Cantone Giura?",
+  "a": [
+   "Il Doubs",
+   "Il Reno",
+   "L'Aar",
+   "La Reuss"
+  ],
+  "e": "Il Doubs serpeggia attraverso il Cantone Giura e passa proprio accanto a Saint-Ursanne. Lì un bel ponte antico di pietra attraversa il fiume.",
+  "m": "Saint-Ursanne si trova sul Doubs."
+ },
+ "95465": {
+  "q": "Su quale lago si trova la città di Lucerna?",
+  "a": [
+   "Lago dei Quattro Cantoni",
+   "Lago di Zurigo",
+   "Lago Lemano",
+   "Lago di Costanza"
+  ],
+  "e": "La città di Lucerna si trova sul lago dei Quattro Cantoni. Da lì partono battelli verso molti luoghi intorno al lago.",
+  "m": "Lucerna si trova sul lago dei Quattro Cantoni."
+ },
+ "95491": {
+  "q": "Come si chiama l'enorme anfiteatro di roccia nel Cantone di Neuchâtel, dove si vedono spesso gli stambecchi?",
+  "a": [
+   "Creux du Van",
+   "Cascate del Reno",
+   "Gola dell'Aar",
+   "Cervino"
+  ],
+  "e": "Il Creux du Van è un'enorme conca di roccia con pareti quasi verticali. Lì vivono stambecchi e camosci.",
+  "m": "Il Creux du Van è un enorme anfiteatro di roccia."
+ },
+ "95513": {
+  "q": "Che cosa si produce alla Glasi di Hergiswil, nel Cantone di Nidvaldo?",
+  "a": [
+   "Vetro",
+   "Cioccolato",
+   "Formaggio",
+   "Orologi"
+  ],
+  "e": "Alla Glasi di Hergiswil il vetro viene soffiato a mano. Le visitatrici e i visitatori possono guardare.",
+  "m": "A Hergiswil si soffia il vetro."
+ },
+ "95537": {
+  "q": "Quale lingua si parla nel Cantone di Obvaldo?",
+  "a": [
+   "Tedesco",
+   "Francese",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "In Obvaldo si parla tedesco, nella vita di tutti i giorni il dialetto obvaldese. Il Cantone fa parte della Svizzera centrale.",
+  "m": "In Obvaldo si parla tedesco."
+ },
+ "95556": {
+  "q": "Quale fiume forma il confine tra il Cantone di San Gallo e l'Austria?",
+  "a": [
+   "Il Reno",
+   "L'Aar",
+   "Il Rodano",
+   "La Reuss"
+  ],
+  "e": "Nella valle del Reno sangallese scorre il Reno. Da una parte c'è la Svizzera, dall'altra l'Austria.",
+  "m": "Nella valle del Reno il fiume separa San Gallo dall'Austria."
+ },
+ "95578": {
+  "q": "Quale animale si vede nello stemma del Cantone di Sciaffusa?",
+  "a": [
+   "Un montone nero",
+   "Un orso",
+   "Un leone",
+   "Uno stambecco"
+  ],
+  "e": "Nello stemma di Sciaffusa salta un montone nero su fondo giallo. Il montone si addice al nome tedesco «Schaffhausen», che contiene la parola «Schaf», cioè pecora.",
+  "m": "Sciaffusa ha un montone nello stemma."
+ },
+ "9318": {
+  "q": "Per che cosa è famoso soprattutto il centro storico di Soletta?",
+  "a": [
+   "Per tante chiese e torri antiche",
+   "Per grattacieli altissimi",
+   "Per un grande porto sul mare",
+   "Per un deserto in mezzo alla città"
+  ],
+  "e": "Soletta ha un bellissimo centro storico con tante chiese, torri e fontane antiche dell'epoca barocca. Per questo molti turisti passeggiano volentieri per i vicoli stretti.",
+  "m": "Il centro storico di Soletta ha tante chiese e torri."
+ },
+ "95601": {
+  "q": "Quale dolce è una specialità di Einsiedeln, nel Cantone di Svitto?",
+  "a": [
+   "Gli Schafböcke di Einsiedeln",
+   "I Basler Läckerli",
+   "La torta di noci grigionese",
+   "La torta al kirsch di Zugo"
+  ],
+  "e": "Gli Schafböcke di Einsiedeln sono biscotti di pan di zenzero al miele. Vengono formati in stampi di legno, spesso con l'immagine di un montone.",
+  "m": "Da Einsiedeln vengono gli Schafböcke."
+ },
+ "95619": {
+  "q": "Quale Paese si trova dall'altra parte del lago di Costanza, di fronte alla Turgovia?",
+  "a": [
+   "Germania",
+   "Francia",
+   "Italia",
+   "Liechtenstein"
+  ],
+  "e": "Dall'altra parte del lago di Costanza c'è la Germania. Vicino a Kreuzlingen la Turgovia confina con la Germania anche sulla terraferma.",
+  "m": "Di fronte alla Turgovia c'è la Germania."
+ },
+ "352": {
+  "q": "Quale lingua si parla soprattutto in Ticino?",
+  "a": [
+   "Italiano",
+   "Francese",
+   "Romancio",
+   "Inglese"
+  ],
+  "e": "Il Ticino è l'unico Cantone dove l'unica lingua ufficiale è l'italiano. Insieme al Grigioni italiano forma la Svizzera italiana.",
+  "m": "In Ticino si parla italiano."
+ },
+ "298": {
+  "q": "In quale località del Cantone di Uri si trova il famoso monumento a Tell?",
+  "a": [
+   "Ad Altdorf",
+   "A Zurigo",
+   "A Ginevra",
+   "A Coira"
+  ],
+  "e": "Il monumento a Tell di Altdorf mostra Guglielmo Tell con la balestra e suo figlio Walter. Secondo la leggenda Tell colpì la mela proprio ad Altdorf.",
+  "m": "Il monumento a Tell si trova ad Altdorf."
+ },
+ "95680": {
+  "q": "Qual è il capoluogo del Cantone di Vaud?",
+  "a": [
+   "Losanna",
+   "Ginevra",
+   "Montreux",
+   "Yverdon-les-Bains"
+  ],
+  "e": "Losanna è il capoluogo del Cantone di Vaud. La città si trova su un pendio ripido sul lago Lemano.",
+  "m": "Il capoluogo del Cantone di Vaud è Losanna."
+ },
+ "95705": {
+  "q": "Quali lingue si parlano nel Cantone Vallese?",
+  "a": [
+   "Francese e tedesco",
+   "Solo italiano",
+   "Inglese e spagnolo",
+   "Solo romancio"
+  ],
+  "e": "Nel Basso Vallese si parla soprattutto francese, nell'Alto Vallese tedesco. Il Vallese è bilingue.",
+  "m": "Nel Vallese si parla francese e tedesco."
+ },
+ "95725": {
+  "q": "Quale lingua si parla nel Cantone di Zugo?",
+  "a": [
+   "Tedesco",
+   "Francese",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Nel Cantone di Zugo si parla svizzero tedesco. Per via delle tante ditte internazionali, però, si sente spesso anche l'inglese.",
+  "m": "A Zugo si parla tedesco."
+ },
+ "95748": {
+  "q": "Quale grande aeroporto si trova nel Cantone di Zurigo?",
+  "a": [
+   "L'aeroporto di Zurigo a Kloten",
+   "L'aeroporto di Ginevra",
+   "L'EuroAirport Basilea-Mulhouse",
+   "L'aeroporto di Lugano"
+  ],
+  "e": "L'aeroporto di Zurigo è il più grande della Svizzera. Si trova vicino a Kloten.",
+  "m": "Il più grande aeroporto della Svizzera si trova a Kloten."
+ },
+ "75778": {
+  "q": "Quale pane svizzero della domenica viene intrecciato con dei rotoli di pasta?",
+  "a": [
+   "La treccia",
+   "Il cornetto",
+   "Il panino al latte",
+   "Il Biberli"
+  ],
+  "e": "In Svizzera la treccia al burro si mangia spesso la domenica a colazione. La pasta viene intrecciata prima di cuocerla.",
+  "m": "La treccia della domenica si fa intrecciando la pasta."
+ },
+ "82616": {
+  "q": "Quale numero è più grande?",
+  "a": [
+   "Un milione",
+   "Centomila",
+   "Diecimila",
+   "Mille"
+  ],
+  "e": "Un milione ha sette cifre. Centomila ne ha solo sei ed è più piccolo.",
+  "m": "Un milione è più grande di centomila."
+ },
+ "20269": {
+  "q": "Perché non si dovrebbe mettere in rete una foto davanti alla propria scuola?",
+  "a": [
+   "Si vede dove sono",
+   "La foto diventa troppo piccola",
+   "La scuola si bagna",
+   "La batteria si scarica"
+  ],
+  "e": "Nella foto si riconosce il luogo. Così degli sconosciuti potrebbero scoprire dove ti trovi spesso.",
+  "m": "Nelle foto in rete non mostro dove sono."
+ },
+ "21705": {
+  "q": "Quale strumento sembra un grande violino e si appoggia per terra quando si suona?",
+  "a": [
+   "Violoncello",
+   "Flauto traverso",
+   "Tromba",
+   "Triangolo"
+  ],
+  "e": "Il violoncello è molto più grande del violino. Si suona seduti e lo si appoggia per terra con un puntale.",
+  "m": "Il violoncello è come un fratello maggiore del violino."
+ },
+ "103302": {
+  "q": "Con che cosa la drosera trattiene un insetto?",
+  "a": [
+   "Con gocce appiccicose",
+   "Con spine appuntite",
+   "Con una botola",
+   "Con lunghi viticci"
+  ],
+  "e": "Sui peli delle sue foglie ci sono gocce che attaccano come colla. Un insetto che si posa rimane incollato.",
+  "m": "La drosera cattura con gocce appiccicose."
+ },
+ "91735": {
+  "q": "Quanto durano circa un giorno e una notte insieme?",
+  "a": [
+   "24 ore",
+   "12 ore",
+   "7 giorni",
+   "60 minuti"
+  ],
+  "e": "In circa 24 ore la Terra fa un giro completo su sé stessa. Tanto durano un giorno e una notte insieme.",
+  "m": "Il giorno e la notte insieme durano circa 24 ore."
+ },
+ "33911": {
+  "q": "Chi sono la maggior parte dei pompieri nei Comuni svizzeri?",
+  "a": [
+   "Pompieri di milizia con un altro lavoro",
+   "Professionisti che spengono solo incendi",
+   "Poliziotti",
+   "Soldati"
+  ],
+  "e": "La maggior parte dei pompieri in Svizzera ha un altro lavoro. Aiutano nel corpo pompieri di milizia del loro Comune.",
+  "m": "La maggior parte dei pompieri ha anche un altro lavoro."
+ },
+ "37821": {
+  "q": "Che cosa misero le persone nei fucili dei soldati durante la Rivoluzione dei garofani?",
+  "a": [
+   "Garofani rossi",
+   "Rose rosse",
+   "Tulipani gialli",
+   "Girasoli"
+  ],
+  "e": "Una donna distribuì dei garofani ai soldati, e molti li infilarono nella canna dei loro fucili. Da qui viene il nome della rivoluzione.",
+  "m": "I garofani nei fucili sono il segno di una rivoluzione pacifica."
+ },
+ "38021": {
+  "q": "Che cosa significa «corsa agli armamenti»?",
+  "a": [
+   "Le due parti costruiscono sempre più armi",
+   "I soldati fanno una gara sportiva",
+   "I Paesi fanno a gara a costruire scuole",
+   "I cavalieri indossano le armature"
+  ],
+  "e": "Durante la Guerra fredda gli Stati Uniti e l'Unione Sovietica volevano essere più forti dell'avversario. Per questo tutte e due le parti costruivano armi sempre più numerose e potenti.",
+  "m": "Nella corsa agli armamenti gli avversari fanno a gara a costruire più armi."
+ },
+ "36169": {
+  "q": "Come si chiama il marito di una regina che non è re lui stesso?",
+  "a": [
+   "Principe consorte",
+   "Re della corona",
+   "Principe di corte",
+   "Signore del castello"
+  ],
+  "e": "Il marito di una regina che governa si chiama spesso principe consorte. La aiuta, ma non governa lui stesso.",
+  "m": "Il marito di una regina si chiama spesso principe consorte."
+ },
+ "64950": {
+  "q": "In Svizzera si può mostrare e celebrare la propria fede anche insieme ad altre persone?",
+  "a": [
+   "Sì, in linea di principio è permesso",
+   "No, solo da soli a casa",
+   "Solo in un altro Paese",
+   "Solo a Natale"
+  ],
+  "e": "La Costituzione federale permette di professare la propria fede da soli o insieme ad altri. Per questo ci sono funzioni religiose e feste religiose.",
+  "m": "La propria fede si può celebrare anche insieme ad altri."
+ },
+ "63682": {
+  "q": "Che cosa fa un coro parrocchiale?",
+  "a": [
+   "Canta in chiesa",
+   "Pulisce la chiesa",
+   "Suona le campane",
+   "Costruisce l'organo"
+  ],
+  "e": "Un coro parrocchiale è un gruppo che canta insieme in chiesa. Canta soprattutto durante le messe e nei concerti.",
+  "m": "Un coro parrocchiale canta in chiesa."
+ },
+ "64125": {
+  "q": "Quante perle ha spesso un lungo rosario di preghiera dei musulmani?",
+  "a": [
+   "99",
+   "12",
+   "50",
+   "40"
+  ],
+  "e": "Una tasbih lunga ha spesso 99 perle. In più ci sono di solito perle divisorie e una perla finale più lunga.",
+  "m": "Un lungo rosario di preghiera ha spesso 99 perle."
+ },
+ "18502": {
+  "q": "Quali animali vivono nel parco degli orsi a Berna?",
+  "a": [
+   "Orsi",
+   "Lupi",
+   "Leoni",
+   "Stambecchi"
+  ],
+  "e": "Nel parco degli orsi di Berna vivono degli orsi. L'orso è l'animale dello stemma della città di Berna.",
+  "m": "A Berna gli orsi abitano nel parco degli orsi."
+ },
+ "22027": {
+  "q": "Con quale parte si ferma una bicicletta?",
+  "a": [
+   "Con il freno",
+   "Con la catena",
+   "Con il pedale",
+   "Con il sellino"
+  ],
+  "e": "Con i freni sul manubrio si può rallentare e fermare la bicicletta.",
+  "m": "Con il freno si ferma la bicicletta."
+ },
+ "82462": {
+  "q": "Come si chiama un oggetto con diverse prese su un solo cavo?",
+  "a": [
+   "Ciabatta",
+   "Fusibile",
+   "Interruttore della luce",
+   "Lampadina"
+  ],
+  "e": "A una ciabatta si possono collegare diversi apparecchi nello stesso momento. Però non bisogna sovraccaricarla.",
+  "m": "Una ciabatta ha diverse prese."
+ },
+ "9136": {
+  "q": "Come comunicano gli scimpanzé oltre che con i versi?",
+  "a": [
+   "Con espressioni del viso e gesti",
+   "Solo con i colori",
+   "Solo con l'odore",
+   "Per niente"
+  ],
+  "e": "Gli scimpanzé usano anche il viso e i gesti per mostrare i loro sentimenti. Così gli animali del gruppo si capiscono bene tra loro.",
+  "m": "Gesti ed espressioni del viso servono per comunicare."
+ },
+ "22277": {
+  "q": "Quanto dorme la Bella addormentata nella fiaba?",
+  "a": [
+   "Cento anni",
+   "Dieci anni",
+   "Sette giorni",
+   "Un anno intero"
+  ],
+  "e": "Una saggia donna che non era stata invitata alla festa lancia una maledizione sulla principessa. Lei si punge con un fuso e dorme per cento anni.",
+  "m": "La Bella addormentata dorme cento anni."
+ },
+ "85190": {
+  "q": "Da che cosa sono nati le stelle e i pianeti?",
+  "a": [
+   "Da gas e polvere",
+   "Da acqua e legno",
+   "Da ghiaccio e cioccolato",
+   "Solo dalla luce"
+  ],
+  "e": "Nello spazio ci sono nuvole enormi di gas e polvere. Da queste si sono formati le stelle e i pianeti.",
+  "m": "Le stelle e i pianeti nascono da gas e polvere."
+ },
+ "19969": {
+  "q": "Un quaderno costa 2 franchi e una matita 1 franco. Quanto costano tutti e due insieme?",
+  "a": [
+   "3 franchi",
+   "2 franchi",
+   "4 franchi",
+   "1 franco"
+  ],
+  "e": "Si calcola 2 franchi + 1 franco. Insieme costano 3 franchi.",
+  "m": "Per il prezzo totale si sommano i prezzi."
+ },
+ "96540": {
+  "q": "Perché dimenticare è anche utile?",
+  "a": [
+   "Il cervello si libera delle cose poco importanti",
+   "Non bisogna mai più imparare",
+   "Si diventa più grandi",
+   "Non ci si stanca mai"
+  ],
+  "e": "Il cervello non può tenere ogni piccolezza. Dimenticando, resta spazio per le cose importanti.",
+  "m": "Dimenticare fa ordine tra le cose poco importanti."
+ },
+ "22607": {
+  "q": "Quante ruote ha una bicicletta?",
+  "a": [
+   "2",
+   "3",
+   "4",
+   "1"
+  ],
+  "e": "Una bicicletta ha due ruote, una davanti e una dietro. Un triciclo ne ha tre.",
+  "m": "Una bicicletta ha due ruote."
+ },
+ "76009": {
+  "q": "In quale continente si trova il Paese con questa bandiera?",
+  "a": [
+   "America del Sud",
+   "Africa",
+   "America del Nord",
+   "Asia"
+  ],
+  "e": "Questa è la bandiera del Paraguay. Il Paraguay si trova in America del Sud.",
+  "m": "Il Paraguay si trova in America del Sud."
+ },
+ "26978": {
+  "q": "In quale città si svolge lo Zibelemärit, il mercato delle cipolle?",
+  "a": [
+   "Berna",
+   "Zurigo",
+   "Lucerna",
+   "Ginevra"
+  ],
+  "e": "Lo Zibelemärit è un famoso mercato della città di Berna. Si svolge nelle piazze e nei vicoli del centro storico.",
+  "m": "Lo Zibelemärit si svolge a Berna."
+ },
+ "82431": {
+  "q": "Perché un semplice filtro di sabbia non rende l'acqua del ruscello sicura da bere?",
+  "a": [
+   "Germi piccolissimi possono passare",
+   "L'acqua diventa troppo fredda",
+   "La sabbia rende l'acqua salata",
+   "L'acqua sparisce nella sabbia"
+  ],
+  "e": "Un semplice filtro rende l'acqua più limpida. Però non riesce a trattenere con sicurezza i germi molto piccoli.",
+  "m": "L'acqua limpida non è sempre acqua potabile pulita."
+ },
+ "71951": {
+  "q": "Che cosa significa la parola inglese «scared»?",
+  "a": [
+   "impaurito",
+   "orgoglioso",
+   "coraggioso",
+   "tranquillo"
+  ],
+  "e": "«Scared» significa impaurito o spaventato. Vuol dire che si ha paura.",
+  "m": "Chi è scared ha paura."
+ },
+ "85272": {
+  "q": "In Svizzera le paludi torbose sono protette oggi?",
+  "a": [
+   "Sì, sono protette",
+   "No, si può estrarre la torba dappertutto",
+   "Solo d'inverno",
+   "Solo nelle città"
+  ],
+  "e": "Dopo una votazione popolare del 1987 le paludi torbose in Svizzera sono protette. Lì non si può più estrarre la torba.",
+  "m": "In Svizzera le paludi torbose sono protette."
+ },
+ "73987": {
+  "q": "Come si trattano con rispetto le cose degli altri?",
+  "a": [
+   "Con cura",
+   "In modo brusco",
+   "Senza attenzione",
+   "Rompendole"
+  ],
+  "e": "Le cose degli altri appartengono a qualcun altro. Le si usa con attenzione.",
+  "m": "Le cose degli altri si trattano con cura."
+ },
+ "72500": {
+  "q": "Che cos'è «la colle» in francese?",
+  "a": [
+   "la colla",
+   "la lavagna",
+   "il gesso",
+   "il temperamatite"
+  ],
+  "e": "«La colle» è la colla. Si usa per incollare la carta.",
+  "m": "«La colle» è la colla."
+ },
+ "20861": {
+  "q": "Quale parte del corpo è «ear»?",
+  "a": [
+   "Orecchio",
+   "Occhio",
+   "Capelli",
+   "Braccio"
+  ],
+  "e": "«Ear» significa orecchio. Con le orecchie sentiamo.",
+  "m": "L'inglese «ear» è l'orecchio."
+ },
+ "23567": {
+  "q": "Quale faraone fece probabilmente costruire la Sfinge di Giza?",
+  "a": [
+   "Chefren",
+   "Ramses II",
+   "Tutankhamon",
+   "Akhenaton"
+  ],
+  "e": "La maggior parte degli esperti pensa che la Sfinge sia nata all'epoca di Chefren. La sua piramide si trova lì vicino.",
+  "m": "La Sfinge risale probabilmente all'epoca del faraone Chefren."
+ },
+ "24682": {
+  "q": "Che cosa davano d'inverno gli animali nella stalla alle persone nella casa contadina?",
+  "a": [
+   "Calore",
+   "Luce",
+   "Corrente elettrica",
+   "Acqua"
+  ],
+  "e": "Gli animali emettono il calore del corpo. Poiché la stalla e le stanze erano vicine, in casa faceva più caldo.",
+  "m": "Gli animali nella stalla scaldavano la casa contadina."
+ },
+ "25360": {
+  "q": "Come si chiamavano le isole dette anche «isole delle spezie»?",
+  "a": [
+   "Molucche",
+   "Isole Canarie",
+   "Azzorre",
+   "Isole Fær Øer"
+  ],
+  "e": "Sulle Molucche, in Indonesia, crescevano i chiodi di garofano e la noce moscata. Per questo si chiamavano isole delle spezie.",
+  "m": "Le Molucche si chiamano anche isole delle spezie."
+ },
+ "23288": {
+  "q": "Con quale materiale si fanno i vasi di terracotta?",
+  "a": [
+   "Con l'argilla",
+   "Con la sabbia",
+   "Con il legno",
+   "Con la neve"
+  ],
+  "e": "L'argilla è una terra morbida e umida. Si modella facilmente.",
+  "m": "I vasi di terracotta si fanno con l'argilla."
+ },
+ "6863": {
+  "q": "Che cos'è un obiettivo di risparmio?",
+  "a": [
+   "Una somma che si vuole mettere da parte per comprare una cosa precisa",
+   "Una legge per gli adulti",
+   "Una regola della scuola",
+   "Un gioco con le monete"
+  ],
+  "e": "Un obiettivo di risparmio è la cosa per cui si mettono da parte i soldi, per esempio una bicicletta nuova. Aiuta ad avere voglia di risparmiare.",
+  "m": "Un obiettivo di risparmio dà la voglia di risparmiare."
+ },
+ "51106": {
+  "q": "Quali due mari collega il Bosforo?",
+  "a": [
+   "Mar Nero e Mar di Marmara",
+   "Mare del Nord e Mar Baltico",
+   "Mar Rosso e Mar Mediterraneo",
+   "Mare Adriatico e Mar Egeo"
+  ],
+  "e": "Il Bosforo va dal Mar Nero a nord fino al Mar di Marmara a sud.",
+  "m": "Il Bosforo collega il Mar Nero con il Mar di Marmara."
+ },
+ "52009": {
+  "q": "Da quale continente viene originariamente la palma di Fortune?",
+  "a": [
+   "Dall'Asia",
+   "Dall'Africa",
+   "Dall'America",
+   "Dall'Australia"
+  ],
+  "e": "La palma di Fortune (palma della canapa) viene originariamente dalla Cina, in Asia. Più tardi è stata piantata nei giardini del Ticino.",
+  "m": "La palma di Fortune viene dall'Asia."
+ },
+ "48021": {
+  "q": "Quale grande lago dell'Africa è attraversato dall'equatore?",
+  "a": [
+   "Lago Vittoria",
+   "Lago di Costanza",
+   "Lago Lemano",
+   "Mar Caspio"
+  ],
+  "e": "L'equatore passa nella parte nord del lago Vittoria. È il lago più grande dell'Africa.",
+  "m": "L'equatore passa attraverso il lago Vittoria."
+ },
+ "73441": {
+  "q": "Quale frutto si può sbucciare facilmente con le dita per la merenda?",
+  "a": [
+   "Mandarino",
+   "Ananas",
+   "Noce di cocco",
+   "Anguria"
+  ],
+  "e": "La buccia del mandarino si toglie facilmente con le dita. Per l'ananas, la noce di cocco e l'anguria serve un coltello o un attrezzo.",
+  "m": "Un mandarino lo puoi sbucciare senza coltello."
+ },
+ "79737": {
+  "q": "Che cosa fa bene agli occhi quando si guarda a lungo uno schermo?",
+  "a": [
+   "Fare pause e guardare lontano",
+   "Guardare molto da vicino",
+   "Stare al buio",
+   "Non sbattere mai le palpebre"
+  ],
+  "e": "Le pause e gli sguardi lontano rilassano gli occhi. Guardare lo schermo a lungo senza pause stanca gli occhi.",
+  "m": "Brevi pause fanno bene agli occhi."
+ },
+ "87878": {
+  "q": "Perché il disinfettante per le mani appena messo perde presto il suo odore forte?",
+  "a": [
+   "L'alcol evapora",
+   "La pelle lo beve",
+   "Diventa sapone",
+   "Cade per terra"
+  ],
+  "e": "L'alcol evapora molto in fretta nell'aria. Per questo le mani tornano presto asciutte.",
+  "m": "L'alcol nel disinfettante evapora in fretta."
+ },
+ "95228": {
+  "q": "Quale lago si trova nel Cantone Argovia?",
+  "a": [
+   "Lago di Hallwil",
+   "Lago di Thun",
+   "Lago di Zugo",
+   "Lago di Bienne"
+  ],
+  "e": "Il lago di Hallwil si trova nel Seetal, nel Cantone Argovia. D'estate si può fare il bagno e andare in battello.",
+  "m": "Il lago di Hallwil è il lago più grande dell'Argovia."
+ },
+ "95247": {
+  "q": "Quale lago di montagna si trova nel Cantone di Appenzello Interno, sotto l'Ebenalp?",
+  "a": [
+   "Seealpsee",
+   "Oeschinensee",
+   "Lago di Cauma",
+   "Lago di Lauerz"
+  ],
+  "e": "Il Seealpsee si trova nell'Alpstein. Ci si arriva a piedi partendo da Wasserauen.",
+  "m": "Il Seealpsee luccica nell'Alpstein."
+ },
+ "95268": {
+  "q": "Qual è il Comune più grande del Cantone di Appenzello Esterno?",
+  "a": [
+   "Herisau",
+   "Trogen",
+   "Heiden",
+   "Urnäsch"
+  ],
+  "e": "Herisau è il Comune più grande di Appenzello Esterno. Qui hanno sede anche il governo e il parlamento cantonale.",
+  "m": "Herisau è il luogo più grande di Appenzello Esterno."
+ },
+ "95293": {
+  "q": "Quale città del Cantone di Berna si trova tra il lago di Thun e il lago di Brienz?",
+  "a": [
+   "Interlaken",
+   "Thun",
+   "Spiez",
+   "Meiringen"
+  ],
+  "e": "Interlaken significa «tra i laghi». La località si trova proprio tra il lago di Thun e il lago di Brienz.",
+  "m": "Interlaken si trova tra due laghi."
+ },
+ "95314": {
+  "q": "Per quale frutto è particolarmente famoso il Cantone di Basilea Campagna?",
+  "a": [
+   "Ciliegie",
+   "Banane",
+   "Arance",
+   "Ananas"
+  ],
+  "e": "A Basilea Campagna crescono moltissimi ciliegi. In primavera fioriscono di bianco, d'estate si raccolgono le ciliegie.",
+  "m": "Basilea Campagna è una terra di ciliegie."
+ },
+ "95335": {
+  "q": "Quale grande fiume scorre in mezzo alla città di Basilea, nel Cantone di Basilea Città?",
+  "a": [
+   "Il Reno",
+   "L'Aar",
+   "La Reuss",
+   "La Limmat"
+  ],
+  "e": "Il Reno divide Basilea in due parti. D'estate molte persone nuotano nel Reno.",
+  "m": "Basilea si trova sul Reno."
+ },
+ "95357": {
+  "q": "Quale famoso formaggio viene dal Cantone di Friburgo?",
+  "a": [
+   "Le Gruyère",
+   "Emmentaler",
+   "Appenzeller",
+   "Sbrinz"
+  ],
+  "e": "Il Gruyère prende il nome dalla regione della Gruyère, nel Cantone di Friburgo. Si mangia in tutto il mondo.",
+  "m": "Il Gruyère viene dalla regione della Gruyère, nel Cantone di Friburgo."
+ },
+ "95379": {
+  "q": "Quale lingua si parla nel Cantone di Ginevra?",
+  "a": [
+   "Francese",
+   "Tedesco",
+   "Italiano",
+   "Romancio"
+  ],
+  "e": "Ginevra si trova nella Svizzera occidentale, la Romandia. Lì si parla francese.",
+  "m": "A Ginevra si parla francese."
+ },
+ "95405": {
+  "q": "Quale fiume scorre nella valle del Cantone di Glarona?",
+  "a": [
+   "La Linth",
+   "Il Rodano",
+   "Il Ticino",
+   "La Sarine"
+  ],
+  "e": "La Linth nasce nel sud del Cantone e attraversa tutta la regione di Glarona. Poi sfocia nel lago di Walenstadt.",
+  "m": "Nella regione di Glarona scorre la Linth."
+ },
+ "95423": {
+  "q": "Quale grande parco si trova nel Cantone dei Grigioni?",
+  "a": [
+   "Il Parco Nazionale Svizzero",
+   "L'Europa-Park",
+   "Il Parco nazionale di Yellowstone",
+   "Lo zoo di Zurigo"
+  ],
+  "e": "Il Parco Nazionale Svizzero in Engadina è stato fondato nel 1914. Lì animali e piante possono vivere completamente indisturbati.",
+  "m": "L'unico parco nazionale della Svizzera si trova nei Grigioni."
+ },
+ "95450": {
+  "q": "Quale formaggio, prodotto anche nel Cantone Giura, non si taglia ma si raschia con una manovella in piccole rosette?",
+  "a": [
+   "Tête de Moine",
+   "Emmentaler",
+   "Sbrinz",
+   "Appenzeller"
+  ],
+  "e": "La Tête de Moine si raschia in sottili rosette con un attrezzo chiamato girolle. Si produce nell'arco giurassiano, anche nelle Franches-Montagnes nel Cantone Giura.",
+  "m": "La Tête de Moine si raschia, non si taglia."
+ },
+ "95468": {
+  "q": "Quali colori ha lo stemma del Cantone di Lucerna?",
+  "a": [
+   "Blu e bianco",
+   "Rosso e bianco",
+   "Verde e giallo",
+   "Nero e bianco"
+  ],
+  "e": "Lo stemma lucernese è diviso in verticale: a sinistra blu, a destra bianco. È uno degli stemmi più semplici della Svizzera.",
+  "m": "Lucerna porta il blu e il bianco."
+ },
+ "95494": {
+  "q": "Come si chiama la cascata del Doubs sul confine tra il Cantone di Neuchâtel e la Francia?",
+  "a": [
+   "Saut du Doubs",
+   "Cascate del Reno",
+   "Cascata di Staubbach",
+   "Cascate di Giessbach"
+  ],
+  "e": "Al Saut du Doubs il fiume Doubs cade giù per circa 27 metri. Si può raggiungere la cascata per esempio con il battello da Les Brenets.",
+  "m": "Al Saut du Doubs il Doubs fa un salto nel vuoto."
+ },
+ "95514": {
+  "q": "Quale montagna si alza proprio sopra il paese di Stans, nel Cantone di Nidvaldo?",
+  "a": [
+   "Lo Stanserhorn",
+   "Il Cervino",
+   "Il Säntis",
+   "L'Eiger"
+  ],
+  "e": "Lo Stanserhorn si alza subito dietro Stans. Dalla cima si vedono molti laghi e montagne della Svizzera centrale.",
+  "m": "Sopra Stans troneggia lo Stanserhorn."
+ },
+ "95536": {
+  "q": "Attraverso quale passo si va da Obvaldo all'Oberland bernese?",
+  "a": [
+   "Passo del Brünig",
+   "Passo del San Gottardo",
+   "Passo del Sempione",
+   "Passo del Giulia"
+  ],
+  "e": "Il passo del Brünig collega Obvaldo con la valle di Hasli nell'Oberland bernese. Ci passano una strada e una linea ferroviaria.",
+  "m": "Attraverso il Brünig si va da Obvaldo a Berna."
+ },
+ "95555": {
+  "q": "Su quale grande lago si trova la città sangallese di Rorschach?",
+  "a": [
+   "Sul lago di Costanza",
+   "Sul lago Lemano",
+   "Sul lago di Thun",
+   "Sul lago Maggiore"
+  ],
+  "e": "Rorschach si trova sulla riva del lago di Costanza. Il Cantone di San Gallo, a nord, ha una parte di questo grande lago.",
+  "m": "Rorschach si trova sul lago di Costanza."
+ },
+ "95581": {
+  "q": "Fino a quale lago si può andare in battello sul Reno partendo da Sciaffusa?",
+  "a": [
+   "Fino al lago di Costanza",
+   "Fino al lago Lemano",
+   "Fino al lago di Zurigo",
+   "Fino al lago dei Quattro Cantoni"
+  ],
+  "e": "Da Sciaffusa i battelli risalgono il Reno passando da Stein am Rhein fino all'Untersee, una parte del lago di Costanza. Il viaggio è considerato uno dei più belli d'Europa sui fiumi.",
+  "m": "Con il battello si va da Sciaffusa al lago di Costanza."
+ },
+ "4601": {
+  "q": "Quale importante città ferroviaria fa parte del Cantone di Soletta?",
+  "a": [
+   "Olten",
+   "Zurigo",
+   "Lucerna",
+   "Ginevra"
+  ],
+  "e": "Anche Olten si trova nel Cantone di Soletta ed è conosciuta come un importante nodo ferroviario. Da lì partono treni in molte direzioni della Svizzera.",
+  "m": "Olten è un'importante città ferroviaria del Cantone di Soletta."
+ },
+ "95598": {
+  "q": "Quale coltellino tascabile famoso in tutto il mondo si fabbrica nel Cantone di Svitto?",
+  "a": [
+   "Il coltellino svizzero di Victorinox",
+   "Il coltello Laguiole",
+   "Il coltello Opinel",
+   "Il coltello di Solingen"
+  ],
+  "e": "La ditta Victorinox produce a Ibach, vicino a Svitto, coltellini tascabili rossi. Vengono venduti in tutto il mondo.",
+  "m": "Il coltellino rosso viene da Svitto."
+ },
+ "95641": {
+  "q": "Su quale grande lago si trova la città ticinese di Locarno?",
+  "a": [
+   "Sul lago Maggiore",
+   "Sul lago Lemano",
+   "Sul lago di Costanza",
+   "Sul lago di Zurigo"
+  ],
+  "e": "Locarno si trova all'estremità nord del lago Maggiore. La parte più grande di questo lago appartiene all'Italia.",
+  "m": "Locarno si trova sul lago Maggiore."
+ },
+ "95665": {
+  "q": "Da quando il Cantone di Uri fa parte della Confederazione?",
+  "a": [
+   "Dal 1291, è un Cantone fondatore",
+   "Dal 1803",
+   "Dal 1848",
+   "Dal 1979"
+  ],
+  "e": "Uri, insieme a Svitto e Untervaldo, è uno dei tre Cantoni primitivi. Il Patto federale risale al 1291.",
+  "m": "Uri c'è dal 1291 ed è un Cantone primitivo."
+ },
+ "95682": {
+  "q": "Su quale grande lago si trova la città vodese di Losanna?",
+  "a": [
+   "Sul lago Lemano",
+   "Sul lago di Costanza",
+   "Sul lago di Zurigo",
+   "Sul lago Maggiore"
+  ],
+  "e": "Losanna si trova sulla riva nord del lago Lemano. In francese si chiama «Lac Léman».",
+  "m": "Losanna si trova sul lago Lemano."
+ },
+ "95706": {
+  "q": "Che cosa si vede nello stemma del Cantone Vallese?",
+  "a": [
+   "Bianco e rosso con 13 stelle",
+   "Una testa di toro nera",
+   "Un orso su fondo giallo",
+   "Una banda blu su fondo bianco"
+  ],
+  "e": "Lo stemma vallesano è diviso in verticale in bianco e rosso. Sopra ci sono 13 stelle per le antiche decanie, cioè i distretti.",
+  "m": "Il Vallese ha 13 stelle nello stemma."
+ },
+ "95745": {
+  "q": "Quale fiume esce dal lago di Zurigo e scorre in mezzo alla città di Zurigo?",
+  "a": [
+   "La Limmat",
+   "L'Aar",
+   "Il Rodano",
+   "Il Ticino"
+  ],
+  "e": "La Limmat comincia dove il lago di Zurigo finisce e attraversa il centro storico di Zurigo.",
+  "m": "A Zurigo scorre la Limmat."
+ },
+ "21418": {
+  "q": "In quale città si trova il Museo nazionale con la più grande collezione sulla storia svizzera?",
+  "a": [
+   "Zurigo",
+   "Berna",
+   "Ginevra",
+   "Coira"
+  ],
+  "e": "Il Museo nazionale si trova vicino alla stazione centrale di Zurigo. Sembra un castello.",
+  "m": "Il Museo nazionale si trova a Zurigo."
+ },
+ "82643": {
+  "q": "Quale di questi anni ha un 29 febbraio?",
+  "a": [
+   "2028",
+   "2026",
+   "2027",
+   "2029"
+  ],
+  "e": "Il 2028 è un anno bisestile. Solo gli anni bisestili hanno un 29 febbraio.",
+  "m": "Solo gli anni bisestili hanno un 29 febbraio."
+ },
+ "20261": {
+  "q": "Perché il tuo nome non è una buona password?",
+  "a": [
+   "Gli altri possono indovinarlo",
+   "È troppo lungo",
+   "Non ha lettere",
+   "È troppo colorato"
+  ],
+  "e": "Molte persone conoscono il tuo nome. Per questo una password così si indovina facilmente.",
+  "m": "Il mio nome non è una buona password."
+ },
+ "75144": {
+  "q": "Di quale tempo parla la canzone svizzero tedesca «Es schneielet, es beielet»?",
+  "a": [
+   "Neve e freddo",
+   "Caldo e sole",
+   "Pioggia e temporali",
+   "Nebbia e vento"
+  ],
+  "e": "Questa canzone in dialetto descrive una bufera di neve d'inverno. In svizzero tedesco «schneielet» vuol dire che nevica.",
+  "m": "«Es schneielet, es beielet» è una canzone d'inverno."
+ },
+ "87692": {
+  "q": "Da quale animale prende il nome la felce lingua di cervo?",
+  "a": [
+   "Dal cervo",
+   "Dalla volpe",
+   "Dall'orso",
+   "Dall'aquila"
+  ],
+  "e": "Le sue foglie lunghe ricordano la lingua di un cervo. Da qui la felce prende il suo nome.",
+  "m": "La felce lingua di cervo prende il nome dalla lingua del cervo."
+ },
+ "127716": {
+  "q": "Con un tubo pieno d'acqua si può svuotare una piscinetta passando sopra il bordo. Dove deve stare l'estremità esterna?",
+  "a": [
+   "Più in basso dell'acqua nella piscinetta",
+   "Più in alto del bordo",
+   "Proprio sul bordo",
+   "In mezzo alla piscinetta"
+  ],
+  "e": "Così funziona un sifone. Se l'estremità esterna sta più in basso, l'acqua passa da sola sopra il bordo e va fuori.",
+  "m": "Un sifone funziona solo se l'estremità sta più in basso."
+ },
+ "34832": {
+  "q": "Chi ha dipinto il grande dipinto murale nella sala del Consiglio nazionale?",
+  "a": [
+   "Charles Giron",
+   "Albert Anker",
+   "Ferdinand Hodler",
+   "Paul Klee"
+  ],
+  "e": "Il pittore ginevrino Charles Giron ha realizzato il grande dipinto. Si trova dietro il banco della presidenza.",
+  "m": "Charles Giron dipinse il grande quadro nella sala del Consiglio nazionale."
+ },
+ "37642": {
+  "q": "Come dovrebbe essere una buona lettera dei lettori a un giornale?",
+  "a": [
+   "Breve e oggettiva",
+   "Lunghissima e arrabbiata",
+   "Piena di parolacce",
+   "Senza un'opinione"
+  ],
+  "e": "Le lettere brevi ed educate vengono pubblicate più facilmente. Nessun giornale pubblica gli insulti.",
+  "m": "Una buona lettera dei lettori è breve ed educata."
+ },
+ "37868": {
+  "q": "Che cosa successe alle ceneri di Friedrich Engels dopo la sua morte?",
+  "a": [
+   "Furono sparse in mare.",
+   "Furono messe in una piramide.",
+   "Furono mandate nello spazio.",
+   "Finirono in un museo."
+  ],
+  "e": "Engels non voleva una tomba. Le sue ceneri furono sparse in mare davanti alla costa inglese, vicino a Eastbourne.",
+  "m": "Le ceneri di Engels furono sparse in mare."
+ },
+ "44067": {
+  "q": "Perché l'acqua del lago di Costanza è importante per milioni di persone?",
+  "a": [
+   "Come acqua potabile",
+   "Per ricavarne il sale",
+   "Per fare il bagno d'inverno",
+   "Come acqua per raffreddare il ghiaccio"
+  ],
+  "e": "Dal lago di Costanza si prende molta acqua potabile. Arriva fino a lontano nella Germania del sud, per esempio a Stoccarda.",
+  "m": "Il lago di Costanza dà acqua potabile a milioni di persone."
+ },
+ "64318": {
+  "q": "In quale stagione si festeggia Hanukkah?",
+  "a": [
+   "In inverno",
+   "In primavera",
+   "In estate",
+   "In autunno"
+  ],
+  "e": "Hanukkah cade di solito a dicembre. Allora le giornate sono corte e le luci brillano in modo particolarmente bello.",
+  "m": "Hanukkah si festeggia in inverno."
+ },
+ "63160": {
+  "q": "Quante finestrelle ha di solito un calendario dell'Avvento?",
+  "a": [
+   "24",
+   "12",
+   "30",
+   "31"
+  ],
+  "e": "Si apre una finestrella ogni giorno dal 1° al 24 dicembre. In tutto fanno 24 finestrelle.",
+  "m": "Un calendario dell'Avvento ha di solito 24 finestrelle."
+ },
+ "64094": {
+  "q": "Da che cosa si riconoscono spesso nei negozi gli alimenti halal?",
+  "a": [
+   "Da un marchio halal",
+   "Da un colore rosso",
+   "Da un prezzo alto",
+   "Da una scatola rotonda"
+  ],
+  "e": "Molti prodotti halal hanno un simbolo o un marchio speciale sulla confezione. Così si vede subito che il cibo rispetta le regole.",
+  "m": "Un marchio halal sulla confezione aiuta a fare la spesa."
+ },
+ "18488": {
+  "q": "Qual è il Cantone più giovane della Svizzera?",
+  "a": [
+   "Giura",
+   "Zugo",
+   "Argovia",
+   "Ticino"
+  ],
+  "e": "Il Cantone Giura è stato fondato nel 1979. Prima il suo territorio faceva parte del Cantone di Berna.",
+  "m": "Il Giura è il Cantone più giovane della Svizzera."
+ },
+ "22071": {
+  "q": "Che cos'è un «tuffo» nel calcio?",
+  "a": [
+   "Un fallo finto",
+   "Un gol di testa",
+   "Un passaggio lungo",
+   "Un calcio d'angolo"
+  ],
+  "e": "Con un tuffo un giocatore si lascia cadere apposta, anche se nessuno gli ha fatto fallo. È scorretto e si prende un cartellino giallo.",
+  "m": "Il tuffo è un trucco scorretto."
+ },
+ "70963": {
+  "q": "Dove si usa molto spesso l'ordine alfabetico?",
+  "a": [
+   "nel dizionario",
+   "nella pentola",
+   "sulla bicicletta",
+   "in palestra"
+  ],
+  "e": "Nel dizionario tutte le parole sono messe in ordine alfabetico. Così si trovano in fretta.",
+  "m": "Nel dizionario le parole sono in ordine alfabetico."
+ },
+ "81567": {
+  "q": "Che cosa si mette sui tubi di un'impalcatura per poterci camminare sopra?",
+  "a": [
+   "Assi o piani",
+   "Cuscini",
+   "Tappeti",
+   "Giornali"
+  ],
+  "e": "Sui tubi si mettono assi robuste o piani di metallo. Lì sopra stanno gli operai.",
+  "m": "Su un'impalcatura si cammina su assi robuste."
+ },
+ "5174": {
+  "q": "Che cosa decide se da un uovo nascerà un maschio o una femmina?",
+  "a": [
+   "La temperatura nella sabbia",
+   "La grandezza dell'uovo",
+   "Il colore della sabbia",
+   "Il tempo il giorno della schiusa"
+  ],
+  "e": "Se nel nido fa caldo, nascono per lo più femmine. Se fa più fresco, nascono piuttosto maschi.",
+  "m": "La temperatura della sabbia decide se sarà maschio o femmina."
+ },
+ "22291": {
+  "q": "Che cosa rende forti Asterix e gli altri Galli?",
+  "a": [
+   "Una pozione magica",
+   "Un'erba miracolosa",
+   "Una bacchetta magica",
+   "Una pietra portafortuna"
+  ],
+  "e": "Il druido Panoramix prepara la pozione magica. Chi la beve diventa fortissimo per poco tempo.",
+  "m": "La pozione magica rende forti i Galli."
+ },
+ "85137": {
+  "q": "Come si chiama la collina che si può formare al centro dei grandi crateri da impatto?",
+  "a": [
+   "Picco centrale",
+   "Torre del cratere",
+   "Dente di mezzo",
+   "Naso di montagna"
+  ],
+  "e": "Nei grandi impatti il terreno al centro rimbalza verso l'alto. Così lì nasce una collina che si chiama picco centrale.",
+  "m": "Al centro dei grandi crateri c'è spesso un picco centrale."
+ },
+ "19973": {
+  "q": "Che cosa significa risparmiare?",
+  "a": [
+   "Tenere i soldi invece di spenderli",
+   "Spendere subito tutti i soldi",
+   "Regalare i soldi",
+   "Perdere i soldi"
+  ],
+  "e": "Chi risparmia non spende subito i suoi soldi. Li mette da parte per comprare più tardi qualcosa di più grande.",
+  "m": "Risparmiare vuol dire tenere i soldi per dopo."
+ },
+ "93294": {
+  "q": "Che cosa si fa con un tostapane?",
+  "a": [
+   "Si tosta il pane",
+   "Si raffredda il latte",
+   "Si spreme il succo",
+   "Si cuociono le uova"
+  ],
+  "e": "Nel tostapane le fette di pane si scaldano. Diventano dorate e croccanti.",
+  "m": "Il tostapane tosta il pane."
+ },
+ "22634": {
+  "q": "Che cosa mostra l'ora?",
+  "a": [
+   "Orologio",
+   "Bilancia",
+   "Termometro",
+   "Bussola"
+  ],
+  "e": "Un orologio mostra le ore e i minuti. Una bilancia invece misura il peso.",
+  "m": "L'orologio mostra l'ora."
+ },
+ "76998": {
+  "q": "Come si chiama una maschera di carnevale a Basilea?",
+  "a": [
+   "Larve",
+   "Cappuccio",
+   "Cuffia",
+   "Occhiali"
+  ],
+  "e": "Le due maschere mostrano una Larve. A Basilea si chiama così la grande maschera di carnevale.",
+  "m": "A Basilea la maschera di carnevale si chiama Larve."
+ },
+ "26237": {
+  "q": "In quale Cantone si trova il monastero di Einsiedeln?",
+  "a": [
+   "Svitto",
+   "Zurigo",
+   "Lucerna",
+   "Glarona"
+  ],
+  "e": "Einsiedeln si trova nel Cantone di Svitto. Il monastero è molto grande e conosciuto.",
+  "m": "Il monastero di Einsiedeln si trova nel Cantone di Svitto."
+ },
+ "82361": {
+  "q": "Perché un bicchiere con una bibita ghiacciata diventa bagnato fuori?",
+  "a": [
+   "L'acqua dell'aria si deposita sul vetro",
+   "Il bicchiere ha un piccolo buco",
+   "La bibita passa attraverso il vetro",
+   "Il bicchiere comincia a sciogliersi"
+  ],
+  "e": "L'aria contiene vapore acqueo invisibile. Sul bicchiere freddo diventa goccioline.",
+  "m": "Sugli oggetti freddi l'aria forma goccioline d'acqua."
+ },
+ "71935": {
+  "q": "Come si dice «sciarpa» in inglese?",
+  "a": [
+   "scarf",
+   "scar",
+   "skirt",
+   "shirt"
+  ],
+  "e": "Sciarpa in inglese si dice «scarf». Una sciarpa tiene caldo il collo.",
+  "m": "La sciarpa in inglese si chiama scarf."
+ },
+ "80313": {
+  "q": "Come si chiama una sorgente calda che spruzza ogni tanto acqua in alto nell'aria?",
+  "a": [
+   "Geyser",
+   "Vulcano",
+   "Ghiacciaio",
+   "Valanga"
+  ],
+  "e": "In un geyser l'acqua sotto terra diventa così calda che schizza in alto insieme al vapore. Ci sono geyser famosi in Islanda.",
+  "m": "Un geyser spruzza acqua calda nell'aria."
+ },
+ "73948": {
+  "q": "Come si chiama il comportamento corretto nello sport?",
+  "a": [
+   "Fair play",
+   "Fallo",
+   "Fuorigioco",
+   "Autogol"
+  ],
+  "e": "Fair play significa rispettare le regole e rispettare l'avversario.",
+  "m": "Fair play vuol dire gioco corretto."
+ },
+ "72473": {
+  "q": "Quale animale è «l'ours» in francese?",
+  "a": [
+   "l'orso",
+   "il lupo",
+   "la volpe",
+   "la lince"
+  ],
+  "e": "«L'ours» è l'orso. L'orso è l'animale dello stemma di Berna.",
+  "m": "«L'ours» è l'orso."
+ },
+ "20897": {
+  "q": "Come si dice «dicembre» in inglese?",
+  "a": [
+   "December",
+   "November",
+   "October",
+   "September"
+  ],
+  "e": "Dicembre in inglese si dice «December». A dicembre molte persone festeggiano il Natale.",
+  "m": "Dicembre in inglese si dice «December»."
+ },
+ "23811": {
+  "q": "Quanti punti ci sono al massimo uno accanto all'altro in un numero maya?",
+  "a": [
+   "4",
+   "5",
+   "9",
+   "10"
+  ],
+  "e": "Cinque punti non si scrivono, perché per il cinque c'è una lineetta. Per questo ci sono al massimo 4 punti uno accanto all'altro.",
+  "m": "Nei numeri maya ci sono al massimo quattro punti uno accanto all'altro."
+ },
+ "13388": {
+  "q": "Con che cosa si costruiva la maggior parte dei castelli?",
+  "a": [
+   "Con la pietra",
+   "Con il vetro",
+   "Con la carta",
+   "Con la paglia"
+  ],
+  "e": "I castelli si costruivano per lo più con la pietra. I muri spessi di pietra erano robusti.",
+  "m": "La maggior parte dei castelli è costruita in pietra."
+ },
+ "25431": {
+  "q": "In quale università italiana Galileo insegnò per molti anni?",
+  "a": [
+   "Padova",
+   "Oxford",
+   "Basilea",
+   "Parigi"
+  ],
+  "e": "Galileo fu professore a Padova dal 1592 al 1610. Lì fece anche le sue prime osservazioni con il cannocchiale.",
+  "m": "Galileo insegnò a lungo a Padova."
+ },
+ "23263": {
+  "q": "Che cos'è una venere preistorica?",
+  "a": [
+   "Una piccola statuetta di donna",
+   "Una grande casa",
+   "Un osso di animale",
+   "Un coltello di pietra"
+  ],
+  "e": "Le veneri preistoriche sono piccole statuette di donne del Paleolitico.",
+  "m": "Le veneri sono piccole statuette di donne della preistoria."
+ },
+ "5291": {
+  "q": "Perché è utile guardare i prezzi quando si fa la spesa con i genitori?",
+  "a": [
+   "Per imparare quanto costano le cose e comprare con attenzione",
+   "Perché lo chiede il personale del negozio",
+   "Perché i prezzi non sono mai giusti",
+   "Perché altrimenti si viene puniti"
+  ],
+  "e": "Chi guarda i prezzi impara quanto valgono le cose e può scegliere con più attenzione. Questo aiuta più tardi a gestire i propri soldi.",
+  "m": "Guardare i prezzi aiuta a imparare."
+ },
+ "50918": {
+  "q": "Dove si trova la Lapponia?",
+  "a": [
+   "Nel profondo nord dell'Europa",
+   "Nel sud dell'Italia",
+   "In Africa",
+   "In America del Sud"
+  ],
+  "e": "La Lapponia si trova nel nord della Norvegia, della Svezia e della Finlandia. Una piccola parte appartiene anche alla Russia.",
+  "m": "La Lapponia si trova nel profondo nord dell'Europa."
+ },
+ "52465": {
+  "q": "Quali due grandi fiumi nascono nelle Alpi svizzere?",
+  "a": [
+   "Reno e Rodano",
+   "Nilo e Rio delle Amazzoni",
+   "Senna e Tamigi",
+   "Elba e Oder"
+  ],
+  "e": "Il Reno e il Rodano hanno le loro sorgenti nelle Alpi svizzere, nella zona del San Gottardo.",
+  "m": "Il Reno e il Rodano nascono nelle Alpi."
+ },
+ "49136": {
+  "q": "In quale Paese vive il koala?",
+  "a": [
+   "Australia",
+   "Nuova Zelanda",
+   "Cina",
+   "Canada"
+  ],
+  "e": "I koala vivono solo nell'est e nel sud-est dell'Australia. Lì abitano nei boschi di eucalipto.",
+  "m": "Il koala vive in Australia."
+ },
+ "73521": {
+  "q": "Come si chiama il liquido giallino che rimane quando si fa il formaggio?",
+  "a": [
+   "Siero",
+   "Panna",
+   "Sciroppo",
+   "Aceto"
+  ],
+  "e": "Quando il latte si addensa, si separa in cagliata e siero. Il siero viene tolto.",
+  "m": "Quando si fa il formaggio rimane il siero."
+ },
+ "74498": {
+  "q": "Metti in ordine 4, 1, 3, 2 dal più grande al più piccolo. Quale numero è il primo?",
+  "a": [
+   "4",
+   "1",
+   "2",
+   "3"
+  ],
+  "e": "Dal più grande al più piccolo vuol dire 4, 3, 2, 1. Davanti c'è il numero più grande, il 4.",
+  "m": "Dal più grande al più piccolo, il numero più grande va davanti."
+ },
+ "102722": {
+  "q": "Come si chiama il tempo in cui all'ospedale si possono ricevere visite?",
+  "a": [
+   "Orario delle visite",
+   "Orario della ricreazione",
+   "Orario della lettura",
+   "Orario della ginnastica"
+  ],
+  "e": "Molti ospedali hanno orari delle visite fissi. Così i malati hanno anche abbastanza tempo per riposarsi.",
+  "m": "Durante l'orario delle visite possono venire famiglia e amici."
+ },
+ "95381": {
+  "q": "Con quale Paese confina il Cantone di Ginevra su quasi tutti i lati?",
+  "a": [
+   "Francia",
+   "Italia",
+   "Germania",
+   "Austria"
+  ],
+  "e": "Il Cantone di Ginevra è circondato quasi completamente dalla Francia. Solo a nord-est confina con il Cantone di Vaud.",
+  "m": "Ginevra è circondata quasi tutta dalla Francia."
+ },
+ "6989": {
+  "q": "Quali colori ha la bandiera del Cantone di Soletta?",
+  "a": [
+   "Rosso e bianco",
+   "Blu e giallo",
+   "Verde e nero",
+   "Arancione e viola"
+  ],
+  "e": "La bandiera di Soletta è divisa in rosso e bianco, come diverse altre bandiere cantonali svizzere con questi colori. La si vede su molti edifici del Cantone.",
+  "m": "La bandiera di Soletta è rossa e bianca."
+ },
+ "95747": {
+  "q": "Qual è la seconda città più grande del Cantone di Zurigo?",
+  "a": [
+   "Winterthur",
+   "Basilea",
+   "Lucerna",
+   "Zugo"
+  ],
+  "e": "Winterthur si trova a nord-est di Zurigo e ha più di 100'000 abitanti.",
+  "m": "Winterthur è la seconda città più grande del Cantone di Zurigo."
+ },
+ "75415": {
+  "q": "Con quali colori si dipinge meglio un ghiacciaio d'inverno?",
+  "a": [
+   "Blu, bianco, turchese",
+   "Rosso, arancione, giallo",
+   "Marrone, arancione, rosso",
+   "Giallo, rosso, rosa"
+  ],
+  "e": "Un ghiacciaio è freddo. Per questo vanno bene i colori freddi come il blu e il turchese.",
+  "m": "Il ghiaccio si dipinge con i colori freddi."
+ },
+ "69983": {
+  "q": "Hai una moneta da 2 franchi e tre monete da 50 centesimi. Quanti soldi sono?",
+  "a": [
+   "3 franchi e 50",
+   "2 franchi e 50",
+   "5 franchi",
+   "3 franchi"
+  ],
+  "e": "Tre monete da 50 centesimi fanno 1 franco e 50. 2 franchi + 1 franco e 50 = 3 franchi e 50.",
+  "m": "Quando si contano i soldi, è meglio cominciare dalla moneta più grande."
+ },
+ "20218": {
+  "q": "Che cosa collega Internet in tutto il mondo?",
+  "a": [
+   "Tanti computer",
+   "Tante strade",
+   "Tanti fiumi",
+   "Tante stazioni"
+  ],
+  "e": "Internet è una rete enorme. In questa rete computer, telefonini e altri apparecchi di tutto il mondo sono collegati tra loro.",
+  "m": "Internet collega i computer di tutto il mondo."
+ },
+ "21755": {
+  "q": "Delle linee verticali dividono le note in parti di uguale durata. Come si chiamano queste parti?",
+  "a": [
+   "Battute",
+   "Strofe",
+   "Pause",
+   "Ritornelli"
+  ],
+  "e": "Le linee verticali si chiamano stanghette. Tra due stanghette c'è una battuta.",
+  "m": "Le stanghette dividono la musica in battute."
+ },
+ "84081": {
+  "q": "Che cosa bisogna fare con uno pneumatico che ha il battistrada tutto consumato?",
+  "a": [
+   "Sostituirlo",
+   "Dipingerlo a colori",
+   "Gonfiarlo di più",
+   "Lavarlo con l'acqua"
+  ],
+  "e": "Senza battistrada uno pneumatico tiene pochissimo sul bagnato. Per questo bisogna sostituirlo.",
+  "m": "Gli pneumatici consumati vanno sostituiti."
+ },
+ "34657": {
+  "q": "Chi sostituisce il presidente della Confederazione quando non può esserci?",
+  "a": [
+   "La vicepresidente o il vicepresidente",
+   "Il cancelliere della Confederazione",
+   "Il presidente del Consiglio nazionale",
+   "Il membro più giovane del Consiglio federale"
+  ],
+  "e": "Per questo caso c'è la carica di vicepresidente. Allora si occupa di tutti i compiti del presidente.",
+  "m": "Il vicepresidente lo sostituisce quando il presidente della Confederazione non può esserci."
+ },
+ "37834": {
+  "q": "Che cosa fu aperto il 9 novembre 1989 a Berlino?",
+  "a": [
+   "Il Muro di Berlino",
+   "Un nuovo aeroporto",
+   "Un grande zoo",
+   "Un nuovo ponte"
+  ],
+  "e": "Il Muro aveva diviso Berlino per quasi 30 anni. Quella notte le persone dell'Est e dell'Ovest festeggiarono insieme.",
+  "m": "Il 9 novembre 1989 cadde il Muro di Berlino."
+ },
+ "37961": {
+  "q": "Quale posizione aveva la Svizzera durante la Guerra fredda?",
+  "a": [
+   "Era neutrale",
+   "Faceva parte della NATO",
+   "Faceva parte del Patto di Varsavia",
+   "Faceva parte dell'Unione Sovietica"
+  ],
+  "e": "La Svizzera non entrò in nessuna delle due alleanze militari. Rimase neutrale, anche se nell'economia era molto legata all'Occidente.",
+  "m": "Durante la Guerra fredda la Svizzera rimase neutrale."
+ },
+ "36058": {
+  "q": "In quale giorno il Liechtenstein festeggia la sua festa nazionale?",
+  "a": [
+   "Il 15 agosto",
+   "Il 1° agosto",
+   "Il 14 luglio",
+   "Il 26 ottobre"
+  ],
+  "e": "La festa nazionale è il 15 agosto. La famiglia del principe invita allora la popolazione nel giardino del castello.",
+  "m": "Il Liechtenstein festeggia la sua festa nazionale il 15 agosto."
+ },
+ "64392": {
+  "q": "In quale stagione si festeggia di solito Diwali?",
+  "a": [
+   "In autunno",
+   "In primavera",
+   "In estate",
+   "In inverno"
+  ],
+  "e": "Diwali cade di solito in ottobre o in novembre. Il giorno dipende dalla luna.",
+  "m": "Diwali si festeggia di solito in autunno."
+ },
+ "533": {
+  "q": "Chi va a trovare molti bambini in Svizzera il 6 dicembre?",
+  "a": [
+   "San Nicolao",
+   "Il coniglio pasquale",
+   "Gesù Bambino in estate",
+   "Babbo Natale a luglio"
+  ],
+  "e": "San Nicolao ricorda il santo vescovo Nicola, che secondo la tradizione aiutava i bambini e i poveri. Spesso è accompagnato dallo Schmutzli.",
+  "m": "Il 6 dicembre arriva San Nicolao."
+ },
+ "64223": {
+  "q": "Secondo il Corano, che cosa modellò Isa con l'argilla?",
+  "a": [
+   "Uccelli",
+   "Cavalli",
+   "Case",
+   "Bicchieri"
+  ],
+  "e": "Isa modellò degli uccelli con l'argilla e ci soffiò sopra. Con il permesso di Dio diventarono uccelli vivi.",
+  "m": "Con il permesso di Dio Isa modellò con l'argilla uccelli vivi."
+ },
+ "18561": {
+  "q": "Quale piatto al formaggio si mangia tutti insieme da una pentola?",
+  "a": [
+   "Fondue",
+   "Raclette",
+   "Rösti",
+   "Maccheroni dell'alpe"
+  ],
+  "e": "Per la fondue il formaggio si scioglie in una pentola. Tutti ci intingono il pane con delle forchette lunghe.",
+  "m": "La fondue si mangia tutti insieme da una pentola."
+ },
+ "22018": {
+  "q": "Quanto dura un tempo nell'hockey su ghiaccio?",
+  "a": [
+   "20 minuti",
+   "15 minuti",
+   "30 minuti",
+   "45 minuti"
+  ],
+  "e": "Ogni tempo dura 20 minuti di gioco effettivo. Quando il gioco è interrotto, il cronometro si ferma.",
+  "m": "Un tempo nell'hockey su ghiaccio dura 20 minuti."
+ },
+ "20548": {
+  "q": "Quante frasi sono queste: «Piove. Prendo l'ombrello.»?",
+  "a": [
+   "2",
+   "1",
+   "3",
+   "4"
+  ],
+  "e": "Dopo «Piove» c'è un punto, poi comincia una nuova frase. Quindi sono due frasi.",
+  "m": "Il punto mostra dove finisce una frase."
+ },
+ "85410": {
+  "q": "A che cosa serve una lavatrice?",
+  "a": [
+   "A lavare i vestiti",
+   "A lavare i piatti",
+   "A tostare il pane",
+   "Ad asciugare i capelli"
+  ],
+  "e": "La lavatrice lava i vestiti sporchi con acqua e detersivo. Dopo sono di nuovo puliti.",
+  "m": "La lavatrice lava i vestiti."
+ },
+ "4270": {
+  "q": "Come si chiama l'oggetto che il cavaliere mette sulla schiena del cavallo per sedersi?",
+  "a": [
+   "Sella",
+   "Colletto",
+   "Collare",
+   "Pettorina per cani"
+  ],
+  "e": "La sella si mette sulla schiena del cavallo, così il cavaliere sta seduto comodo e sicuro. Si fissa con una cinghia.",
+  "m": "La sella serve per cavalcare."
+ },
+ "22285": {
+  "q": "Come si chiama l'amica di Heidi che sta sulla sedia a rotelle?",
+  "a": [
+   "Clara",
+   "Anna",
+   "Lisa",
+   "Maria"
+  ],
+  "e": "Heidi conosce Clara a Francoforte. Più tardi Clara va a trovarla in montagna.",
+  "m": "Clara, l'amica di Heidi, sta sulla sedia a rotelle."
+ },
+ "83227": {
+  "q": "Come si lavano gli astronauti nella stazione spaziale?",
+  "a": [
+   "Con salviette umide",
+   "Sotto una doccia",
+   "In una vasca da bagno",
+   "In piscina"
+  ],
+  "e": "L'acqua di una doccia fluttuerebbe in giro in goccioline. Per questo si lavano con salviette umide e uno shampoo che non va risciacquato.",
+  "m": "Nella stazione spaziale ci si lava con salviette umide."
+ },
+ "20017": {
+  "q": "Come si chiamano i soldi che si prendono in prestito dalla banca?",
+  "a": [
+   "Credito",
+   "Stipendio",
+   "Paghetta",
+   "Regalo"
+  ],
+  "e": "Chi prende in prestito soldi dalla banca riceve un credito. I soldi poi vanno restituiti.",
+  "m": "Un credito va restituito."
+ },
+ "91575": {
+  "q": "Che cosa voleva costruire in realtà lo scopritore del Giardino dei ghiacciai?",
+  "a": [
+   "Una cantina per il vino",
+   "Una chiesa",
+   "Una stazione",
+   "Una scuola"
+  ],
+  "e": "Scavando per una cantina per il vino vennero alla luce le marmitte dei giganti. Invece di una cantina nacque un museo.",
+  "m": "Il Giardino dei ghiacciai fu scoperto costruendo una cantina per il vino."
+ },
+ "22628": {
+  "q": "Quale animale di terra è il più alto?",
+  "a": [
+   "Giraffa",
+   "Elefante",
+   "Cammello",
+   "Rinoceronte"
+  ],
+  "e": "La giraffa può diventare alta più di cinque metri. Con il suo collo lungo arriva alle foglie in cima agli alberi.",
+  "m": "La giraffa è l'animale più alto sulla terraferma."
+ },
+ "76669": {
+  "q": "Che cosa succede alla siepe di spine quando arriva il figlio del re?",
+  "a": [
+   "Diventa fiori",
+   "Brucia",
+   "Diventa ghiaccio",
+   "Cresce ancora di più"
+  ],
+  "e": "Il principe, le rose e i brillantini mostrano la trasformazione. Quando arriva il figlio del re, la siepe diventa di fiori bellissimi e lo lascia passare.",
+  "m": "Per il figlio del re la siepe si apre piena di fiori."
+ },
+ "26570": {
+  "q": "Come si chiama la moneta da cinque franchi nel linguaggio di tutti i giorni nella Svizzera tedesca?",
+  "a": [
+   "Fünfliber",
+   "Fünfbatzen",
+   "Fünfrappen",
+   "Fünftaler"
+  ],
+  "e": "La grande moneta da cinque franchi in dialetto svizzero tedesco si chiama Fünfliber. Sopra c'è raffigurato un pastore.",
+  "m": "La moneta da cinque franchi si chiama Fünfliber."
+ },
+ "19129": {
+  "q": "Che cosa si fa durante un esperimento?",
+  "a": [
+   "Si prova qualcosa e si osserva",
+   "Si dorme",
+   "Si disegna e basta",
+   "Si legge e basta"
+  ],
+  "e": "In un esperimento si mette alla prova un'idea. Poi si guarda bene che cosa succede.",
+  "m": "In un esperimento si prova e si osserva bene."
+ },
+ "72019": {
+  "q": "Che cosa significa «Yes, please» in italiano?",
+  "a": [
+   "Sì, per favore.",
+   "No, grazie.",
+   "Sì, grazie.",
+   "Per favore no."
+  ],
+  "e": "Con «Yes, please» si accetta qualcosa in modo gentile, per esempio una fetta di torta.",
+  "m": "Chi vuole volentieri qualcosa dice «yes, please»."
+ },
+ "83237": {
+  "q": "Su quali isole del Pacifico si vedono spesso colate di lava?",
+  "a": [
+   "Alle Hawaii",
+   "A Maiorca",
+   "In Sardegna",
+   "Alle isole Fær Øer"
+  ],
+  "e": "Le Hawaii sono fatte di vulcani che spesso emettono lava molto fluida. Questa scorre in lunghe colate fino al mare.",
+  "m": "Alle Hawaii ci sono spesso colate di lava."
+ },
+ "74000": {
+  "q": "Come si chiamano le regole che valgono per tutte le persone di un Paese?",
+  "a": [
+   "Leggi",
+   "Ricette",
+   "Poesie",
+   "Fiabe"
+  ],
+  "e": "Le leggi sono le regole di un Paese. In Svizzera le leggi le decidono i parlamenti, e a volte vota anche il popolo.",
+  "m": "Le leggi valgono per tutti nel Paese."
+ },
+ "72606": {
+  "q": "Che cos'è un «pain au chocolat»?",
+  "a": [
+   "un dolce di pasta sfoglia con cioccolato",
+   "una torta al cioccolato",
+   "una cioccolata calda",
+   "una tavoletta di cioccolato"
+  ],
+  "e": "Un «pain au chocolat» è di pasta sfoglia come un croissant. Dentro ha dei bastoncini di cioccolato.",
+  "m": "Un «pain au chocolat» è un dolce con dentro il cioccolato."
+ },
+ "20904": {
+  "q": "Come si dice «grazie» in francese?",
+  "a": [
+   "Merci",
+   "Bonjour",
+   "Oui",
+   "Salut"
+  ],
+  "e": "Quando si ringrazia, in francese si dice «merci». Anche nella Svizzera tedesca si dice spesso «merci».",
+  "m": "In francese si ringrazia con «merci»."
+ },
+ "24260": {
+  "q": "Chi diede fuoco al tempio di Artemide nel 356 avanti Cristo?",
+  "a": [
+   "Erostrato",
+   "Fidia",
+   "Mausolo",
+   "Alessandro"
+  ],
+  "e": "Erostrato appiccò il fuoco al tempio nel 356 avanti Cristo. Il grande edificio bruciò completamente.",
+  "m": "Erostrato diede fuoco al tempio di Artemide."
+ },
+ "24637": {
+  "q": "Oltre che sul grano, su che cosa si doveva spesso pagare anche la decima?",
+  "a": [
+   "Sugli animali giovani",
+   "Sui sassi",
+   "Sulla neve",
+   "Sull'acqua piovana"
+  ],
+  "e": "Anche degli animali giovani come vitelli, agnelli o maialini si doveva consegnare una parte.",
+  "m": "Anche sugli animali giovani si pagava la decima."
+ },
+ "26044": {
+  "q": "In quale anno Valentina Tereškova volò nello spazio?",
+  "a": [
+   "1963",
+   "1957",
+   "1969",
+   "1983"
+  ],
+  "e": "Il suo volo cominciò il 16 giugno 1963.",
+  "m": "La Tereškova volò nello spazio nel 1963."
+ },
+ "23233": {
+  "q": "Quale animale con le corna ramificate è dipinto a Lascaux?",
+  "a": [
+   "Il cervo",
+   "La capra",
+   "Il rinoceronte",
+   "Il lupo"
+  ],
+  "e": "A Lascaux si vede tra l'altro una fila di teste di cervo con grandi corna.",
+  "m": "I cervi hanno corna ramificate."
+ },
+ "7483": {
+  "q": "Che cosa serve soprattutto per riuscire a risparmiare per qualcosa?",
+  "a": [
+   "Pazienza",
+   "Tanti amici",
+   "Un telefonino",
+   "Una patente di guida"
+  ],
+  "e": "Risparmiare spesso richiede un po' di tempo, per questo serve pazienza e non bisogna perdere di vista l'obiettivo.",
+  "m": "Per risparmiare ci vuole pazienza."
+ },
+ "51152": {
+  "q": "In quale mare sfocia l'Elba?",
+  "a": [
+   "Mare del Nord",
+   "Mar Baltico",
+   "Mar Mediterraneo",
+   "Mar Nero"
+  ],
+  "e": "L'Elba scorre attraverso la Repubblica Ceca e la Germania verso nord-ovest. Poi sfocia nel Mare del Nord.",
+  "m": "L'Elba sfocia nel Mare del Nord."
+ },
+ "52527": {
+  "q": "Quale famoso riformatore nacque nel 1484 nel Toggenburgo?",
+  "a": [
+   "Ulrico Zwingli",
+   "Guglielmo Tell",
+   "Henri Dunant",
+   "Albert Einstein"
+  ],
+  "e": "Ulrico Zwingli nacque nell'alto Toggenburgo. Più tardi fu parroco a Zurigo.",
+  "m": "Ulrico Zwingli viene dal Toggenburgo."
+ },
+ "49585": {
+  "q": "In quale anno si svolsero a Pechino i Giochi olimpici estivi?",
+  "a": [
+   "2008",
+   "2000",
+   "2012",
+   "2016"
+  ],
+  "e": "I Giochi olimpici estivi del 2008 si svolsero a Pechino. La cerimonia d'apertura cominciò l'8.8.2008.",
+  "m": "Pechino ospitò i Giochi olimpici estivi nel 2008."
+ },
+ "73501": {
+  "q": "Dove si conserva il gelato?",
+  "a": [
+   "Nel congelatore",
+   "Nel cassetto della verdura",
+   "Nel cestino del pane",
+   "Nella dispensa"
+  ],
+  "e": "Il gelato si scioglie al caldo. Nel congelatore, a circa meno 18 gradi, resta congelato.",
+  "m": "Il gelato si conserva nel congelatore."
+ },
+ "85650": {
+  "q": "Che cosa apre una porta scorrevole automatica?",
+  "a": [
+   "Un motore",
+   "Il vento",
+   "Un elastico",
+   "Una molla nel pavimento"
+  ],
+  "e": "Un motore elettrico spinge le ante della porta di lato e poi di nuovo indietro.",
+  "m": "Un motore muove una porta automatica."
+ },
+ "80113": {
+  "q": "Con quale parte della mano molti genitori controllano in fretta se la fronte di un bambino scotta?",
+  "a": [
+   "Con il dorso della mano",
+   "Con le unghie",
+   "Solo con il pollice",
+   "Con le nocche"
+  ],
+  "e": "La pelle sul dorso della mano sente bene il calore. Per questo molti genitori appoggiano il dorso della mano sulla fronte quando un bambino sembra malato.",
+  "m": "Con il dorso della mano si sente bene il calore."
+ },
+ "6831": {
+  "q": "Come si chiama la grande chiesa che è il simbolo della città di Soletta?",
+  "a": [
+   "Cattedrale di Sant'Orso",
+   "Grossmünster",
+   "Cattedrale di Berna",
+   "Chiesa di San Pietro"
+  ],
+  "e": "La cattedrale di Sant'Orso si trova in mezzo al centro storico di Soletta e si vede bene da lontano. È la chiesa principale della città ed è stata costruita molti secoli fa.",
+  "m": "La cattedrale di Sant'Orso è il simbolo di Soletta."
+ },
+ "21449": {
+  "q": "Come si chiama il grande quadro di Picasso sulla guerra?",
+  "a": [
+   "Guernica",
+   "La ronda di notte",
+   "Le ninfee",
+   "L'Ultima Cena"
+  ],
+  "e": "Guernica è una città spagnola bombardata nel 1937. Picasso ci dipinse sopra un quadro enorme in nero, bianco e grigio.",
+  "m": "Guernica mostra la sofferenza della guerra."
+ },
+ "81601": {
+  "q": "Quanto fa 4 · 9, se sai che 5 · 9 = 45?",
+  "a": [
+   "36",
+   "40",
+   "54",
+   "35"
+  ],
+  "e": "4 · 9 è un nove in meno di 5 · 9. Quindi 45 - 9 fa 36.",
+  "m": "Quattro per nove fa trentasei."
+ },
+ "20291": {
+  "q": "Che cos'è il tempo davanti allo schermo?",
+  "a": [
+   "Il tempo passato davanti al telefonino o alla televisione",
+   "Il tempo per dormire",
+   "Il tempo per mangiare",
+   "Il tempo nel bosco"
+  ],
+  "e": "Il tempo davanti allo schermo è il tempo che si passa davanti a uno schermo. Ci sono il telefonino, il tablet, il computer e la televisione.",
+  "m": "Il tempo davanti allo schermo è il tempo passato davanti agli schermi."
+ },
+ "21747": {
+  "q": "Come si chiama quando una persona canta o suona tutta da sola?",
+  "a": [
+   "Assolo",
+   "Coro",
+   "Duetto",
+   "Canone"
+  ],
+  "e": "Assolo vuol dire da solo. In un assolo si sente una sola voce o un solo strumento.",
+  "m": "In un assolo una persona canta o suona da sola."
+ },
+ "100692": {
+  "q": "Che cosa succede al fusto del banano dopo il raccolto?",
+  "a": [
+   "Muore e crescono nuovi germogli",
+   "Rifiorisce subito",
+   "Diventa legno",
+   "Cresce fino al cielo"
+  ],
+  "e": "Ogni falso fusto dà frutti una sola volta. Poi muore e dal terreno crescono nuovi germogli.",
+  "m": "Un fusto di banano dà frutti una sola volta."
+ },
+ "95852": {
+  "q": "Perché la calamita a ferro di cavallo si chiama così?",
+  "a": [
+   "Ha la forma di un ferro di cavallo",
+   "È fatta di peli di cavallo",
+   "Tiene fermi i cavalli",
+   "È molto vecchia"
+  ],
+  "e": "La calamita a ferro di cavallo è curva come il ferro sotto lo zoccolo di un cavallo. Da qui viene il nome.",
+  "m": "La calamita a ferro di cavallo ha la forma di un ferro di cavallo."
+ },
+ "35131": {
+  "q": "In una domenica di votazione bisogna votare allo stesso modo per tutti gli oggetti?",
+  "a": [
+   "No, si decide ogni volta di nuovo",
+   "Sì, dappertutto sì",
+   "Sì, dappertutto no",
+   "Sì, come i vicini"
+  ],
+  "e": "Ogni oggetto in votazione tratta un tema diverso. Per questo si decide di nuovo per ogni domanda.",
+  "m": "Per ogni oggetto in votazione si decide di nuovo."
+ },
+ "37666": {
+  "q": "Che cosa c'è spesso nei libri di scuola delle dittature?",
+  "a": [
+   "Lodi per chi comanda",
+   "Critiche al governo",
+   "Tante opinioni diverse",
+   "Solo indovinelli"
+  ],
+  "e": "Le dittature cambiano i libri di scuola in modo che chi comanda faccia bella figura. Questa è una forma di propaganda.",
+  "m": "Nelle dittature i libri di scuola spesso lodano chi comanda."
+ },
+ "38154": {
+  "q": "Dove è appeso un enorme ritratto di Mao?",
+  "a": [
+   "Alla Porta della Pace Celeste a Pechino",
+   "Al Cremlino di Mosca",
+   "Alla torre Eiffel di Parigi",
+   "Al Palazzo federale di Berna"
+  ],
+  "e": "Sopra l'entrata dell'antica città imperiale di Pechino è appeso un grande ritratto di Mao. È una delle immagini più conosciute della Cina.",
+  "m": "Un grande ritratto di Mao è appeso alla Porta della Pace Celeste."
+ },
+ "36751": {
+  "q": "Da dove vengono i soldati dei caschi blu?",
+  "a": [
+   "Dai Paesi membri",
+   "Solo da New York",
+   "Solo dalla Svizzera",
+   "Da un esercito dell'ONU"
+  ],
+  "e": "L'ONU non ha un esercito suo. I Paesi membri mandano volontariamente soldati e poliziotti.",
+  "m": "I caschi blu vengono mandati dai Paesi membri."
+ },
+ "64925": {
+  "q": "Che cosa dice la regola d'oro?",
+  "a": [
+   "Tratta gli altri come vuoi essere trattato tu",
+   "Sii sempre il primo della fila",
+   "Non condividere mai la tua merenda",
+   "Vinci ogni gioco"
+  ],
+  "e": "La regola d'oro chiede di mettersi nei panni degli altri. Quello che desidero per me, devo darlo anche agli altri.",
+  "m": "Tratto gli altri come vorrei essere trattato io."
+ },
+ "65081": {
+  "q": "Quando tornò il re alla fossa dei leoni?",
+  "a": [
+   "Prestissimo al mattino",
+   "A mezzogiorno",
+   "La sera",
+   "Dopo una settimana"
+  ],
+  "e": "Il re si alzò alle prime luci e corse alla fossa. Chiamò Daniele.",
+  "m": "Il re corse alla fossa di buon mattino."
+ },
+ "64124": {
+  "q": "Che cos'è una tasbih?",
+  "a": [
+   "Un rosario di preghiera",
+   "Un tappeto da preghiera",
+   "Un velo",
+   "Un libro di preghiere"
+  ],
+  "e": "La tasbih è una collana di perle. I musulmani la usano per contare le parole delle preghiere.",
+  "m": "La tasbih è un rosario di preghiera."
+ },
+ "18480": {
+  "q": "Che forma ha la bandiera svizzera?",
+  "a": [
+   "Un quadrato",
+   "Un triangolo",
+   "Un cerchio",
+   "Un esagono"
+  ],
+  "e": "La bandiera svizzera è alta quanto è larga. Per questo è un quadrato.",
+  "m": "La bandiera svizzera è quadrata."
+ },
+ "74807": {
+  "q": "Quante prove ha il Controllo di sicurezza in acqua?",
+  "a": [
+   "3",
+   "2",
+   "5",
+   "7"
+  ],
+  "e": "Il Controllo di sicurezza in acqua è fatto di tre prove. Si fanno una dopo l'altra senza pausa.",
+  "m": "Il Controllo di sicurezza in acqua ha tre prove."
+ },
+ "81544": {
+  "q": "A che cosa serviva un tempo il Kapellbrücke, oltre che ad attraversare il fiume?",
+  "a": [
+   "A proteggere la città",
+   "Come mercato coperto",
+   "Come piscina",
+   "Come stazione"
+  ],
+  "e": "Il ponte faceva parte delle mura di Lucerna. Da lì si poteva difendere la città dalla parte del lago.",
+  "m": "Il Kapellbrücke un tempo proteggeva la città di Lucerna."
+ },
+ "853": {
+  "q": "Un koala beve spesso tanta acqua?",
+  "a": [
+   "No, non ha quasi bisogno di acqua",
+   "Sì, beve ogni ora",
+   "No, beve solo latte",
+   "Sì, fa il bagno ogni giorno"
+  ],
+  "e": "I koala ricavano la maggior parte dell'acqua dalle foglie di eucalipto che mangiano. Per questo devono bere solo di rado.",
+  "m": "I koala bevono raramente."
+ },
+ "22357": {
+  "q": "Di che cosa parla un giallo?",
+  "a": [
+   "Si risolve un caso",
+   "Si canta tanto",
+   "Si viaggia nello spazio",
+   "Si mostrano animali"
+  ],
+  "e": "In un giallo detective o poliziotti cercano indizi e risolvono un caso.",
+  "m": "Nel giallo si risolve un caso."
+ },
+ "86163": {
+  "q": "Che cosa tiene la Luna sulla sua orbita intorno alla Terra?",
+  "a": [
+   "L'attrazione della Terra",
+   "Una corda invisibile",
+   "Il campo magnetico",
+   "Le nuvole"
+  ],
+  "e": "La Terra attira la Luna. Per questo la Luna non vola via, ma gira intorno a noi.",
+  "m": "La gravità della Terra tiene ferma la Luna."
+ },
+ "19971": {
+  "q": "Un pane costa 4 franchi. Quanto costano 2 pani?",
+  "a": [
+   "8 franchi",
+   "6 franchi",
+   "4 franchi",
+   "10 franchi"
+  ],
+  "e": "Si calcola 2 per 4 franchi. Due pani costano 8 franchi.",
+  "m": "Due pani costano il doppio di uno."
+ },
+ "101985": {
+  "q": "In molti Comuni, come si prepara la carta straccia per la raccolta?",
+  "a": [
+   "Legata con lo spago",
+   "In un sacco di plastica",
+   "Sciolta al vento",
+   "Bagnata in un secchio"
+  ],
+  "e": "Molti Comuni raccolgono la carta in pacchi legati con lo spago. Così non vola via niente.",
+  "m": "La carta straccia si prepara in pacchi legati."
+ },
+ "22627": {
+  "q": "Qual è l'animale più grande del mondo?",
+  "a": [
+   "Balenottera azzurra",
+   "Elefante",
+   "Giraffa",
+   "Squalo bianco"
+  ],
+  "e": "La balenottera azzurra può diventare lunga circa 30 metri. È l'animale più grande che vive oggi sulla Terra.",
+  "m": "La balenottera azzurra è l'animale più grande del mondo."
+ },
+ "76022": {
+  "q": "In quale continente si trova il Paese con questa bandiera?",
+  "a": [
+   "Africa",
+   "Asia",
+   "America del Nord",
+   "America del Sud"
+  ],
+  "e": "Questa è la bandiera della Tanzania. La Tanzania si trova in Africa.",
+  "m": "La Tanzania si trova in Africa."
+ },
+ "26474": {
+  "q": "Che lavoro faceva Conrad Gessner a Zurigo?",
+  "a": [
+   "Medico della città",
+   "Sindaco",
+   "Panettiere",
+   "Fabbro"
+  ],
+  "e": "Dal 1554 Gessner fu medico della città di Zurigo. Oltre a questo studiava gli animali e le piante.",
+  "m": "Gessner era medico e naturalista."
+ },
+ "83374": {
+  "q": "Quanto pesa la cenere rispetto al legno di prima?",
+  "a": [
+   "Molto meno",
+   "Molto di più",
+   "Esattamente lo stesso",
+   "Il doppio"
+  ],
+  "e": "Quando brucia, quasi tutto il legno diventa gas. Solo un piccolo resto rimane come cenere.",
+  "m": "La cenere è molto più leggera del legno di prima."
+ },
+ "71903": {
+  "q": "Che cosa significa la parola inglese «schoolbag»?",
+  "a": [
+   "Cartella",
+   "Aula",
+   "Strada per la scuola",
+   "Libro di scuola"
+  ],
+  "e": "«Schoolbag» significa cartella. È la borsa che porti a scuola.",
+  "m": "La schoolbag è la cartella."
+ },
+ "85294": {
+  "q": "Com'è di solito la punta di una stalagmite?",
+  "a": [
+   "Piuttosto rotonda e smussata",
+   "Appuntita come un ago",
+   "Come una stella",
+   "Come un uncino"
+  ],
+  "e": "Le gocce cadono e si spargono. Per questo le stalagmiti di solito sono più spesse e più rotonde in cima rispetto alle stalattiti.",
+  "m": "Le stalagmiti di solito sono rotonde in cima."
+ },
+ "73945": {
+  "q": "Che cosa si fa con un libro preso in prestito?",
+  "a": [
+   "Lo si restituisce con cura",
+   "Lo si tiene",
+   "Lo si colora",
+   "Lo si strappa"
+  ],
+  "e": "Le cose prese in prestito appartengono a qualcun altro. Se ne ha cura e le si restituisce.",
+  "m": "Quello che si prende in prestito si restituisce con cura."
+ },
+ "72501": {
+  "q": "Come si dice «la gomma per cancellare» in francese?",
+  "a": [
+   "la gomme",
+   "la craie",
+   "le stylo",
+   "le papier"
+  ],
+  "e": "La gomma per cancellare si dice «la gomme». Con la gomma si cancellano i segni della matita.",
+  "m": "La gomma in francese si dice «la gomme»."
+ },
+ "20850": {
+  "q": "Come si dice «fratello» in inglese?",
+  "a": [
+   "brother",
+   "bother",
+   "baby",
+   "cousin"
+  ],
+  "e": "Il fratello in inglese si dice «brother».",
+  "m": "Il fratello in inglese si dice «brother»."
+ },
+ "24060": {
+  "q": "Che cosa significa la parola latina «aqua»?",
+  "a": [
+   "Acqua",
+   "Fuoco",
+   "Terra",
+   "Aria"
+  ],
+  "e": "«Aqua» vuol dire acqua. Da questa parola vengono parole come acquario o acquerello.",
+  "m": "La parola latina «aqua» significa acqua."
+ },
+ "13432": {
+  "q": "Che cosa significa il famoso motto dei benedettini «ora et labora»?",
+  "a": [
+   "Prega e lavora",
+   "Mangia e dormi",
+   "Corri e salta",
+   "Canta e balla"
+  ],
+  "e": "«Ora et labora» è latino. La frase è nata solo più tardi, ma riassume bene come dovevano vivere i monaci: pregare e lavorare.",
+  "m": "I benedettini vivono secondo il motto «prega e lavora»."
+ },
+ "25710": {
+  "q": "Quale attrazione ci fu per la prima volta a Chicago nel 1893?",
+  "a": [
+   "Una grande ruota panoramica",
+   "Delle montagne russe",
+   "Una giostra",
+   "Uno scivolo"
+  ],
+  "e": "George Ferris costruì la ruota panoramica per l'Esposizione universale. Era alta circa 80 metri.",
+  "m": "La prima grande ruota panoramica girò nel 1893 a Chicago."
+ },
+ "23488": {
+  "q": "Come si chiamava la tribù celtica che viveva nel territorio della Svizzera?",
+  "a": [
+   "Gli Elvezi",
+   "I Vichinghi",
+   "Gli Unni",
+   "Gli Aztechi"
+  ],
+  "e": "Gli Elvezi erano Celti. Vivevano nell'Altopiano dell'attuale Svizzera.",
+  "m": "Gli Elvezi erano Celti in Svizzera."
+ },
+ "4532": {
+  "q": "Desideri una cosa cara. Che cosa puoi fare di sensato?",
+  "a": [
+   "Mettere da parte un po' di soldi ogni settimana finché ne hai abbastanza",
+   "Chiedere subito soldi in prestito agli amici",
+   "Svuotare il salvadanaio di un fratello o di una sorella",
+   "Dire una bugia ai genitori così te la comprano"
+  ],
+  "e": "Se si mettono da parte regolarmente un po' di soldi, con il tempo si arriva ad averne abbastanza per il desiderio. Questo si chiama risparmiare.",
+  "m": "Risparmiare passo dopo passo per il proprio desiderio."
+ },
+ "50457": {
+  "q": "Di che cosa sono fatte molte spiagge della Costa Azzurra?",
+  "a": [
+   "Di ciottoli",
+   "Di ghiaccio",
+   "Di conchiglie",
+   "Di terra"
+  ],
+  "e": "Molte spiagge lì sono fatte di ciottoli rotondi e lisci invece che di sabbia fine. Per questo le scarpette da bagno sono pratiche.",
+  "m": "Molte spiagge della Costa Azzurra hanno i ciottoli."
+ },
+ "52599": {
+  "q": "Come si chiama la razza di mucche marroni che si vede spesso sulle montagne svizzere?",
+  "a": [
+   "Razza bruna",
+   "Razza nera",
+   "Mucca grigia",
+   "Razza blu"
+  ],
+  "e": "La razza bruna è una delle razze di mucche più diffuse in Svizzera. È robusta e ben adatta alla montagna.",
+  "m": "La razza bruna è una tipica razza svizzera di mucche."
+ },
+ "49606": {
+  "q": "Come si chiama l'enorme regione fredda nella parte asiatica della Russia?",
+  "a": [
+   "Siberia",
+   "Sahara",
+   "Patagonia",
+   "Alaska"
+  ],
+  "e": "La Siberia va dagli Urali fino all'oceano Pacifico. Lì gli inverni sono lunghissimi e freddissimi.",
+  "m": "La Siberia è un'enorme regione fredda della Russia."
+ },
+ "73444": {
+  "q": "A che cosa serve la merenda del mattino?",
+  "a": [
+   "Dà forza per imparare",
+   "Fa venire sonno",
+   "Sostituisce il lavarsi i denti",
+   "Fa venire il mal di pancia"
+  ],
+  "e": "Dopo la colazione il corpo ha di nuovo bisogno di un po' di energia durante la mattina. Con la merenda si impara meglio.",
+  "m": "La merenda ti dà forza per la mattina."
+ },
+ "82721": {
+  "q": "Come si sente chi subisce bullismo?",
+  "a": [
+   "Triste",
+   "Allegro",
+   "Orgoglioso",
+   "Annoiato"
+  ],
+  "e": "Il bullismo fa male. Chi lo subisce si sente spesso triste, solo o impaurito.",
+  "m": "Il bullismo rende le persone tristi."
+ },
+ "84930": {
+  "q": "Quale grande animale è famoso per le sue ciglia particolarmente lunghe?",
+  "a": [
+   "Il cammello",
+   "Il pesce",
+   "La tartaruga",
+   "La rana"
+  ],
+  "e": "I cammelli hanno ciglia lunghe e folte. Proteggono gli occhi dalla sabbia nel deserto.",
+  "m": "I cammelli hanno ciglia lunghe contro la sabbia."
+ },
+ "7438": {
+  "q": "Qual è il capoluogo del Cantone di Soletta?",
+  "a": [
+   "Soletta",
+   "Berna",
+   "Olten",
+   "Basilea"
+  ],
+  "e": "Soletta non è solo il nome del Cantone, ma anche il nome del capoluogo. Lì si riunisce per esempio il governo cantonale.",
+  "m": "Il capoluogo si chiama proprio come il Cantone."
+ },
+ "75721": {
+  "q": "Come si chiama un pezzo di filo di lana avvolto?",
+  "a": [
+   "Gomitolo",
+   "Grumo",
+   "Asse",
+   "Pila"
+  ],
+  "e": "La lana si compra spesso in gomitoli. Il filo è avvolto in tondo e si srotola facilmente.",
+  "m": "Un gomitolo è lana avvolta."
+ },
+ "69916": {
+  "q": "Quante monete da 10 centesimi valgono quanto un franco?",
+  "a": [
+   "10",
+   "5",
+   "100",
+   "20"
+  ],
+  "e": "1 franco sono 100 centesimi. 100 : 10 = 10 monete.",
+  "m": "Dieci monete da 10 centesimi insieme valgono un franco."
+ },
+ "20266": {
+  "q": "Che cosa fa parte dei tuoi dati personali?",
+  "a": [
+   "Il mio indirizzo",
+   "Il colore del cielo",
+   "Il nome di un fiume",
+   "Il numero pi greco"
+  ],
+  "e": "I dati personali dicono qualcosa su di te, per esempio come ti chiami o dove abiti.",
+  "m": "Il mio indirizzo fa parte dei miei dati personali."
+ },
+ "75170": {
+  "q": "In quale danza gli uomini si battono le mani sulle scarpe e sulle cosce?",
+  "a": [
+   "Schuhplattler",
+   "Balletto",
+   "Valzer",
+   "Polonaise"
+  ],
+  "e": "Lo Schuhplattler è una danza popolare della Baviera e del Tirolo. I ballerini battono le mani sulle suole delle scarpe, sulle ginocchia e sulle cosce.",
+  "m": "Nello Schuhplattler i ballerini battono su scarpe e cosce."
+ },
+ "102603": {
+  "q": "Che cosa spiega un ranger ai visitatori?",
+  "a": [
+   "Perché ci sono le regole",
+   "Come si costruisce un telefonino",
+   "Come si fa la pizza",
+   "Come si gioca a calcio"
+  ],
+  "e": "I ranger spiegano con gentilezza perché, per esempio, bisogna restare sul sentiero. Così i visitatori capiscono come proteggere la natura.",
+  "m": "Un ranger spiega le regole nella natura."
+ },
+ "99389": {
+  "q": "In quali direzioni può dondolare un animale a molla?",
+  "a": [
+   "In tutte le direzioni",
+   "Solo in avanti",
+   "Solo verso l'alto",
+   "Solo a sinistra"
+  ],
+  "e": "La molla è rotonda e si può piegare da ogni lato. Per questo l'animale a molla dondola in avanti, indietro e di lato.",
+  "m": "Un animale a molla dondola in tutte le direzioni."
+ },
+ "35013": {
+  "q": "Che cosa fa un bambino che si astiene dal voto?",
+  "a": [
+   "Non vota né sì né no",
+   "Vota due volte",
+   "Vota per tutti",
+   "Conta i voti"
+  ],
+  "e": "Chi si astiene non sceglie nessuna parte. Così dice: non voglio decidere.",
+  "m": "Chi si astiene non vota né sì né no."
+ },
+ "37695": {
+  "q": "Da quale lingua viene la parola «propaganda»?",
+  "a": [
+   "Dal latino",
+   "Dall'inglese",
+   "Dal giapponese",
+   "Dal russo"
+  ],
+  "e": "La parola viene dal latino «propagare». Significa «diffondere».",
+  "m": "Propaganda viene dalla parola latina che significa diffondere."
+ },
+ "38029": {
+  "q": "Che cosa si intende con il «telefono rosso» durante la Guerra fredda?",
+  "a": [
+   "Una linea diretta per i messaggi",
+   "Un cavo elettrico rovente",
+   "Una recinzione elettrica di confine",
+   "Una funivia oltre il confine"
+  ],
+  "e": "Il telefono rosso era un collegamento diretto tra i governi delle due superpotenze. Così potevano mandarsi messaggi in fretta.",
+  "m": "Il telefono rosso era una linea diretta per i messaggi tra le superpotenze."
+ },
+ "36972": {
+  "q": "Quale malattia trasmessa dalle zanzare combatte l'OMS soprattutto in Africa?",
+  "a": [
+   "Malaria",
+   "Raffreddore",
+   "Orecchioni",
+   "Carie"
+  ],
+  "e": "La malaria è trasmessa da certe zanzare. L'OMS aiuta con zanzariere, medicine e vaccini.",
+  "m": "La malaria è trasmessa dalle zanzare."
+ },
+ "64966": {
+  "q": "Perché in molte religioni le persone si coprono la testa quando pregano?",
+  "a": [
+   "Come segno di rispetto verso Dio",
+   "Per non avere freddo",
+   "Per pregare più in fretta",
+   "Perché è di moda"
+  ],
+  "e": "Nell'ebraismo, nell'islam e nel sikhismo coprirsi la testa per pregare è un segno di rispetto. Gli uomini cristiani invece in chiesa si tolgono il cappello.",
+  "m": "Coprirsi la testa per pregare mostra rispetto verso Dio."
+ },
+ "63571": {
+  "q": "Dove devono sedersi le persone durante la moltiplicazione dei pani?",
+  "a": [
+   "Sull'erba verde",
+   "Sulle sedie",
+   "A lunghi tavoli",
+   "Nelle barche"
+  ],
+  "e": "Gesù fa sedere le persone a gruppi sull'erba verde. Poi viene distribuito il cibo.",
+  "m": "Durante la moltiplicazione dei pani le persone siedono sull'erba."
+ },
+ "64151": {
+  "q": "Di quali doveri fa parte la zakat?",
+  "a": [
+   "Dei pilastri dell'islam",
+   "Delle regole della scuola",
+   "Delle regole della strada",
+   "Delle regole del gioco"
+  ],
+  "e": "La zakat è uno dei cinque doveri più importanti, che si chiamano pilastri dell'islam. Ne fanno parte per esempio anche la preghiera e il digiuno.",
+  "m": "La zakat è un pilastro dell'islam."
+ },
+ "18492": {
+  "q": "Che cosa si vede nello stemma del Cantone Vallese?",
+  "a": [
+   "13 stelle",
+   "3 stelle",
+   "7 stelle",
+   "26 stelle"
+  ],
+  "e": "Lo stemma vallesano è rosso e bianco e mostra 13 stelle. Rappresentano i 13 antichi distretti del Cantone, le decanie.",
+  "m": "Nello stemma vallesano brillano 13 stelle."
+ },
+ "22042": {
+  "q": "Quanto è lungo un giro della pista di atletica in uno stadio?",
+  "a": [
+   "400 metri",
+   "100 metri",
+   "200 metri",
+   "1000 metri"
+  ],
+  "e": "Un giro della pista normale misura 400 metri. Per fare 800 metri si corrono quindi due giri.",
+  "m": "Un giro di stadio è lungo 400 metri."
+ },
+ "84456": {
+  "q": "Come arriva la voce da una radiotrasmittente all'altra?",
+  "a": [
+   "Con le onde radio attraverso l'aria",
+   "Con un lungo cavo",
+   "Con un tubo dell'acqua",
+   "Con la posta"
+  ],
+  "e": "La radiotrasmittente trasforma la voce in onde radio invisibili. L'altro apparecchio le riceve e le trasforma di nuovo in suoni.",
+  "m": "Le radiotrasmittenti trasmettono con le onde radio."
+ },
+ "7899": {
+  "q": "Che cosa mostra chiaramente la tigre, se si guardano bene le sue zampe, oltre agli artigli?",
+  "a": [
+   "Cuscinetti morbidi per camminare piano",
+   "Piccole ali",
+   "Squame come un pesce",
+   "Ventose come una rana"
+  ],
+  "e": "Le zampe della tigre hanno cuscinetti morbidi, con cui può camminare quasi senza rumore nel bosco. Questo la aiuta ad avvicinarsi di nascosto alle prede.",
+  "m": "Le zampe morbide rendono silenziosa la tigre."
+ },
+ "22343": {
+  "q": "Quale ditta produce la Xbox?",
+  "a": [
+   "Microsoft",
+   "Sony",
+   "Nintendo",
+   "Apple"
+  ],
+  "e": "Microsoft ha lanciato la prima Xbox nel 2001.",
+  "m": "La Xbox è di Microsoft."
+ },
+ "81273": {
+  "q": "Quale pianeta ha più lune conosciute (situazione nel 2025)?",
+  "a": [
+   "Saturno",
+   "Giove",
+   "Terra",
+   "Marte"
+  ],
+  "e": "Nel marzo 2025 sono state confermate molte lune nuove. Saturno ora ha 274 lune conosciute.",
+  "m": "Saturno ha più lune di tutti."
+ },
+ "19943": {
+  "q": "Di che colore è la banconota svizzera da 10 franchi?",
+  "a": [
+   "Gialla",
+   "Rossa",
+   "Verde",
+   "Blu"
+  ],
+  "e": "La banconota da 10 franchi è gialla. Ogni banconota svizzera ha il suo colore.",
+  "m": "La banconota da 10 è gialla."
+ },
+ "100759": {
+  "q": "Quanti anni possono vivere i pesci rossi se sono curati bene?",
+  "a": [
+   "Più di 20 anni",
+   "Solo 1 settimana",
+   "Solo 1 mese",
+   "Solo 1 anno"
+  ],
+  "e": "I pesci rossi curati bene vivono spesso molti anni. Alcuni superano i 20 anni.",
+  "m": "Un pesce rosso può diventare molto vecchio."
+ },
+ "22613": {
+  "q": "Quale barca è spinta dal vento?",
+  "a": [
+   "Barca a vela",
+   "Motoscafo",
+   "Barca a remi",
+   "Nave a vapore"
+  ],
+  "e": "Una barca a vela prende il vento con la sua vela. Così va avanti senza motore.",
+  "m": "La barca a vela va con la forza del vento."
+ },
+ "76448": {
+  "q": "Che cosa suona chi viene in visita prima di entrare?",
+  "a": [
+   "Il campanello",
+   "La serratura",
+   "Il campanaccio",
+   "Lo stipite"
+  ],
+  "e": "La porta e la campanella insieme fanno pensare al campanello della porta. La campanella sta per il campanello.",
+  "m": "Quando arriva una visita, suona il campanello."
+ },
+ "26404": {
+  "q": "Chi convinse Calvino a restare a Ginevra?",
+  "a": [
+   "Guillaume Farel",
+   "Martin Lutero",
+   "Ulrico Zwingli",
+   "Thomas Platter"
+  ],
+  "e": "Nel 1536 Calvino voleva solo passare da Ginevra. Il predicatore Guillaume Farel lo convinse a restare e ad aiutare.",
+  "m": "Farel portò Calvino a Ginevra."
+ },
+ "84356": {
+  "q": "Con quale materiale si fondono molte campane delle chiese?",
+  "a": [
+   "Con il bronzo",
+   "Con l'alluminio",
+   "Con l'argento",
+   "Con lo stagno"
+  ],
+  "e": "Le campane di bronzo suonano particolarmente bene e a lungo. Questa lega si chiama anche bronzo da campane.",
+  "m": "Molte campane delle chiese sono di bronzo."
+ },
+ "71940": {
+  "q": "Come si dice «neve» in inglese?",
+  "a": [
+   "snow",
+   "snail",
+   "show",
+   "sneeze"
+  ],
+  "e": "Neve in inglese si dice «snow». Si pronuncia come «snou».",
+  "m": "La neve in inglese si chiama snow."
+ },
+ "18238": {
+  "q": "Come cambia di solito la temperatura quando si sale su una montagna alta?",
+  "a": [
+   "Fa più freddo",
+   "Fa più caldo",
+   "Resta uguale",
+   "Fa caldissimo"
+  ],
+  "e": "Più si sale, più l'aria diventa fredda. Per questo sulle montagne alte c'è spesso la neve.",
+  "m": "Più si sale, più fa freddo."
+ },
+ "73942": {
+  "q": "Si può prendere qualcosa che non è tuo per condividerlo?",
+  "a": [
+   "No, prima si chiede",
+   "Sì, sempre",
+   "Solo il lunedì",
+   "Solo se è piccolo"
+  ],
+  "e": "Condividere una cosa che non ci appartiene si può solo con il permesso. Altrimenti si porta via qualcosa a qualcuno.",
+  "m": "Le cose degli altri si condividono solo con il permesso."
+ },
+ "72537": {
+  "q": "Che cos'è «le chapeau» in francese?",
+  "a": [
+   "il cappello",
+   "la berretta",
+   "la sciarpa",
+   "il berretto con visiera"
+  ],
+  "e": "«Le chapeau» è il cappello. Una berretta si dice «le bonnet».",
+  "m": "«Le chapeau» è il cappello."
+ },
+ "20823": {
+  "q": "Quale numero è «seven»?",
+  "a": [
+   "7",
+   "6",
+   "9",
+   "11"
+  ],
+  "e": "«Seven» è la parola inglese per il numero 7.",
+  "m": "L'inglese «seven» è il numero sette."
+ },
+ "23926": {
+  "q": "Che cosa diede da bere Ulisse a Polifemo?",
+  "a": [
+   "Vino forte",
+   "Latte fresco",
+   "Acqua fredda",
+   "Tè caldo"
+  ],
+  "e": "Ulisse diede del vino al gigante. Polifemo ne bevve tanto e si addormentò profondamente.",
+  "m": "Con il vino Ulisse fece addormentare Polifemo."
+ },
+ "24496": {
+  "q": "Con che cosa veniva spesso annunciato un araldo?",
+  "a": [
+   "con le trombe",
+   "con un carillon",
+   "con tamburi di legno",
+   "con flauti d'osso"
+  ],
+  "e": "Prima che l'araldo parlasse, spesso suonavano dei trombettieri. Così tutti ascoltavano.",
+  "m": "Spesso le trombe annunciavano l'araldo."
+ },
+ "25873": {
+  "q": "Di chi è la mano che si vede in una delle prime radiografie?",
+  "a": [
+   "La mano di sua moglie",
+   "La mano del re",
+   "La zampa del suo cane",
+   "La mano di una scimmia"
+  ],
+  "e": "Röntgen fece una radiografia della mano di sua moglie Anna Bertha. Si vedono le sue ossa e il suo anello.",
+  "m": "Una delle prime radiografie mostra la mano della moglie di Röntgen."
+ },
+ "22866": {
+  "q": "Quanto era lungo circa un diplodoco?",
+  "a": [
+   "Circa 25 metri",
+   "Circa 5 metri",
+   "Circa 100 metri",
+   "Circa 2 metri"
+  ],
+  "e": "Un diplodoco diventava lungo circa 25 metri. È più lungo di due autobus.",
+  "m": "Un diplodoco era lungo circa 25 metri."
+ },
+ "9457": {
+  "q": "Qual è la differenza tra monete e banconote?",
+  "a": [
+   "Le monete sono di metallo e di solito valgono meno, le banconote sono di materiale speciale e servono per somme più grandi",
+   "Le monete valgono sempre più delle banconote",
+   "Le banconote non si possono spendere",
+   "Le monete esistono solo all'estero"
+  ],
+  "e": "Le monete sono fatte di metallo e di solito hanno valori più piccoli, le banconote sono di un materiale speciale e servono per somme più grandi. In Svizzera ci sono monete da 5 centesimi fino a 5 franchi.",
+  "m": "Le monete hanno un valore piccolo, le banconote un valore grande."
+ },
+ "50497": {
+  "q": "Per quanto tempo il re abitò nel castello di Neuschwanstein?",
+  "a": [
+   "Solo pochi mesi",
+   "Più di 30 anni",
+   "Tutta la vita",
+   "Circa 10 anni"
+  ],
+  "e": "In tutto il re abitò nel castello solo circa 170 giorni. Poco dopo morì.",
+  "m": "Il re abitò a Neuschwanstein solo per poco tempo."
+ },
+ "52406": {
+  "q": "In quale anno fu aperta la moderna strada del Susten?",
+  "a": [
+   "1946",
+   "1846",
+   "1996",
+   "2016"
+  ],
+  "e": "La strada del Susten fu costruita a partire dal 1938 e aperta al traffico nel 1946. Fu una delle prime strade di passo progettate apposta per le automobili.",
+  "m": "La strada del Susten è aperta dal 1946."
+ },
+ "49657": {
+  "q": "Il Kazakistan è il Paese più grande del mondo senza ...?",
+  "a": [
+   "Coste sul mare",
+   "Montagne",
+   "Fiumi",
+   "Città"
+  ],
+  "e": "Il Kazakistan non ha accesso al mare aperto. Nessun altro Paese senza coste sul mare è così grande.",
+  "m": "Il Kazakistan è il Paese più grande senza coste sul mare."
+ },
+ "73492": {
+  "q": "Quando bisogna lavarsi le mani?",
+  "a": [
+   "Prima di mangiare",
+   "Solo la domenica",
+   "Solo d'estate",
+   "Mai"
+  ],
+  "e": "Prima di mangiare ci si lava le mani, così nessun germe finisce nel cibo.",
+  "m": "Prima di mangiare ti lavi le mani."
+ },
+ "85614": {
+  "q": "Dove sono le lame di un robot tagliaerba?",
+  "a": [
+   "Sotto",
+   "Sul tetto",
+   "Dietro",
+   "Nel cavo di ricarica"
+  ],
+  "e": "Le lame si trovano sotto la scocca, vicino all'erba. Così tagliano i fili d'erba.",
+  "m": "Le lame di un robot tagliaerba sono sotto."
+ },
+ "5116": {
+  "q": "Come si chiama il distretto del Cantone di Soletta che confina con il Cantone Argovia?",
+  "a": [
+   "Gäu",
+   "Vallese",
+   "Ticino",
+   "Grigioni"
+  ],
+  "e": "Il distretto di Gäu si trova nel Cantone di Soletta, vicino al confine con il Cantone Argovia. Lì ci sono tanti campi e piccoli paesi.",
+  "m": "Il distretto di Gäu confina con l'Argovia."
+ },
+ "75720": {
+  "q": "Come si trasforma la lana sciolta in un filo lungo?",
+  "a": [
+   "La si fila",
+   "La si cuoce",
+   "La si sega",
+   "La si incolla"
+  ],
+  "e": "Quando si fila, le fibre di lana vengono tirate e attorcigliate. Così nasce un filo lungo e resistente.",
+  "m": "Filando, la lana diventa un filo."
+ },
+ "19362": {
+  "q": "Quanto fa 80 - 35?",
+  "a": [
+   "45",
+   "55",
+   "35",
+   "50"
+  ],
+  "e": "80 - 30 fa 50, e 50 - 5 fa 45.",
+  "m": "Si tolgono prima le decine e poi le unità."
+ },
+ "20263": {
+  "q": "Bisogna usare una password diversa per ogni account?",
+  "a": [
+   "Sì, è più sicuro",
+   "No, una per tutto",
+   "Solo per i giochi",
+   "Solo il lunedì"
+  ],
+  "e": "Se una password viene rubata, altrimenti tutti gli account sono in pericolo. Con password diverse il danno resta piccolo.",
+  "m": "Per ogni account uso una password diversa."
+ },
+ "75141": {
+  "q": "Come si chiama la doppia linea alla fine di un brano musicale?",
+  "a": [
+   "Doppia stanghetta finale",
+   "Stanghetta d'inizio",
+   "Stanghetta di pausa",
+   "Stanghetta di battuta"
+  ],
+  "e": "La doppia stanghetta finale è fatta di una linea sottile e una spessa. Mostra la fine del brano.",
+  "m": "La doppia stanghetta finale mostra la fine di un brano."
+ },
+ "97271": {
+  "q": "Dove cresce la parte della barbabietola da zucchero in cui c'è lo zucchero?",
+  "a": [
+   "Sotto terra",
+   "In alto sull'albero",
+   "Nel fiore",
+   "Nella spiga"
+  ],
+  "e": "La grossa radice cresce sotto terra. In alto spuntano solo le foglie verdi.",
+  "m": "La barbabietola da zucchero cresce sotto terra."
+ },
+ "91748": {
+  "q": "Con che cosa facevano luce di notte le persone dell'età della pietra?",
+  "a": [
+   "Con il fuoco",
+   "Con le lampadine",
+   "Con le pile tascabili",
+   "Con le insegne luminose"
+  ],
+  "e": "Nell'età della pietra non c'era ancora la corrente elettrica. Le persone facevano luce con un fuoco o con delle torce.",
+  "m": "Un tempo si faceva luce con il fuoco."
+ },
+ "33860": {
+  "q": "Dove vanno gli scarti della verdura come le bucce di carota?",
+  "a": [
+   "Negli scarti vegetali",
+   "Nella carta straccia",
+   "Nella raccolta del vetro",
+   "Nella raccolta del PET"
+  ],
+  "e": "Gli scarti di verdura e frutta vanno negli scarti vegetali o nel compost. Da lì nasce terra nuova.",
+  "m": "Le bucce della verdura vanno negli scarti vegetali o nel compost."
+ },
+ "37586": {
+  "q": "Che cosa devi fare se qualcuno ha un'opinione diversa dalla tua?",
+  "a": [
+   "Ascoltare e rispettare",
+   "Prenderlo in giro",
+   "Mandarlo via",
+   "Non parlargli più"
+  ],
+  "e": "La libertà d'opinione vale per tutti. Per questo si ascoltano con rispetto anche le opinioni degli altri.",
+  "m": "Le opinioni degli altri meritano rispetto."
+ },
+ "38111": {
+  "q": "Con che cosa molte persone della DDR andarono verso l'Ovest dopo la caduta del Muro?",
+  "a": [
+   "Con la Trabant",
+   "A cavallo",
+   "In nave",
+   "In elicottero"
+  ],
+  "e": "Dopo l'apertura del confine, lunghe file di Trabant andarono verso l'Ovest. Queste auto rumorose diventarono un simbolo della caduta del Muro.",
+  "m": "La Trabant diventò il simbolo della caduta del Muro."
+ },
+ "36585": {
+  "q": "Quanti anelli ci sono sulla bandiera olimpica?",
+  "a": [
+   "5",
+   "4",
+   "6",
+   "7"
+  ],
+  "e": "Sulla bandiera olimpica ci sono cinque anelli. Sono intrecciati tra loro.",
+  "m": "La bandiera olimpica ha cinque anelli."
+ },
+ "65002": {
+  "q": "Che cosa si racconta di Fratel Nicolao (Bruder Klaus) e del cibo?",
+  "a": [
+   "Che non mangiasse quasi niente",
+   "Che mangiasse solo cioccolato",
+   "Che mangiasse cinque volte al giorno",
+   "Che mangiasse solo carne"
+  ],
+  "e": "Si racconta che Fratel Nicolao visse molti anni senza mangiare. Molte persone ne erano stupite.",
+  "m": "Si dice che Fratel Nicolao vivesse senza mangiare."
+ },
+ "63696": {
+  "q": "Che cosa recitano spesso i bambini quando arriva San Nicolao?",
+  "a": [
+   "Una poesiola",
+   "Un conto",
+   "L'alfabeto al contrario",
+   "Un numero di telefono"
+  ],
+  "e": "Molti bambini imparano una breve poesia, una poesiola, e la recitano a San Nicolao. Dopo ricevono spesso un sacchettino.",
+  "m": "Per San Nicolao molti bambini imparano una poesiola."
+ },
+ "64022": {
+  "q": "Che cosa significa in italiano la parola araba «Eid»?",
+  "a": [
+   "Festa",
+   "Luna",
+   "Preghiera",
+   "Famiglia"
+  ],
+  "e": "Eid è la parola araba per festa. Per questo i nomi delle due grandi feste islamiche cominciano con Eid.",
+  "m": "La parola araba Eid significa festa."
+ }
+}

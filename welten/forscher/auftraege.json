@@ -1,0 +1,3941 @@
+{
+ "version": 1,
+ "auftraege": [
+  {
+   "id": "blaetter",
+   "kat": "natur",
+   "titel": "Blätter-Sammler",
+   "emo": "🍁",
+   "kurz": "Finde fünf ganz verschiedene Blätter.",
+   "schritte": [
+    "Such fünf Blätter, die am Boden liegen.",
+    "Vergleiche ihre Ränder: glatt, gezackt oder gewellt?",
+    "Leg sie von klein nach gross in eine Reihe.",
+    "Schau dir die Adern von einem Blatt ganz genau an."
+   ],
+   "stufe": 1,
+   "monate": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Nimm nur Blätter vom Boden und reiss keine Äste ab.",
+   "fragen": [
+    {
+     "q": "Wie heisst der grüne Farbstoff in den Blättern?",
+     "a": [
+      "Chlorophyll",
+      "Karotin",
+      "Melanin",
+      "Hämoglobin"
+     ],
+     "e": "Mit dem Chlorophyll fangen Pflanzen Sonnenlicht ein und machen daraus Nahrung."
+    },
+    {
+     "q": "Warum werden viele Blätter im Herbst gelb?",
+     "a": [
+      "Der Baum baut das grüne Chlorophyll ab, dann sieht man das Gelb",
+      "Die Sonne bleicht die Blätter",
+      "Es regnet gelben Staub",
+      "Die Blätter werden von Käfern bemalt"
+     ],
+     "e": "Das Gelb war schon die ganze Zeit im Blatt. Es wird erst sichtbar, wenn das Grün verschwindet."
+    }
+   ],
+   "thema": "natur"
+  },
+  {
+   "id": "voegel",
+   "kat": "natur",
+   "titel": "Vogel-Detektiv",
+   "emo": "🐦",
+   "kurz": "Wie viele Vögel siehst du in zehn Minuten?",
+   "schritte": [
+    "Setz dich ans Fenster, in den Garten oder in einen Park.",
+    "Sei zehn Minuten lang ganz still.",
+    "Zähle jeden Vogel, den du siehst.",
+    "Achte auf Farben, Schnabel und Gesang."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Vögel und Nester nicht stören. Tiere nur anschauen, nicht anfassen.",
+   "fragen": [
+    {
+     "q": "Welcher Vogel ist als Männchen ganz schwarz und hat einen gelben Schnabel?",
+     "a": [
+      "Die Amsel",
+      "Der Spatz",
+      "Das Rotkehlchen",
+      "Die Blaumeise"
+     ],
+     "e": "Das Amsel-Männchen ist schwarz mit gelb-orangem Schnabel. Das Weibchen ist braun."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "amsel",
+      "Amsel"
+     ],
+     [
+      "spatz",
+      "Spatz"
+     ],
+     [
+      "meise",
+      "Meise"
+     ],
+     [
+      "taube",
+      "Taube"
+     ],
+     [
+      "kraehe",
+      "Krähe"
+     ],
+     [
+      "andere",
+      "Andere"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "insekten",
+   "kat": "natur",
+   "titel": "Insekten-Safari",
+   "emo": "🐞",
+   "kurz": "Such kleine Krabbeltiere auf Blumen und Blättern.",
+   "schritte": [
+    "Schau auf Blüten, unter Blätter und an Baumrinde.",
+    "Zähle bei einem Tier die Beine, ohne es anzufassen.",
+    "Beobachte, wie es sich bewegt: krabbeln, fliegen oder hüpfen?",
+    "Lass das Tier danach in Ruhe weiterziehen."
+   ],
+   "stufe": 1,
+   "monate": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Tiere nur anschauen, nicht anfassen. Bienen und Wespen in Ruhe lassen.",
+   "fragen": [
+    {
+     "q": "Wie viele Beine hat ein Insekt?",
+     "a": [
+      "Sechs",
+      "Acht",
+      "Vier",
+      "Zehn"
+     ],
+     "e": "Alle Insekten haben sechs Beine, zum Beispiel Käfer, Bienen und Schmetterlinge."
+    },
+    {
+     "q": "Aus wie vielen Teilen besteht der Körper eines Insekts?",
+     "a": [
+      "Drei: Kopf, Brust und Hinterleib",
+      "Zwei",
+      "Vier",
+      "Fünf"
+     ],
+     "e": "Der Name kommt vom lateinischen Wort für «eingeschnitten», weil der Körper in Abschnitte geteilt ist."
+    }
+   ],
+   "thema": "tiere"
+  },
+  {
+   "id": "wolkentiere",
+   "kat": "natur",
+   "titel": "Wolken-Fantasie",
+   "emo": "☁️",
+   "kurz": "Welche Tiere und Figuren verstecken sich in den Wolken?",
+   "schritte": [
+    "Leg dich auf eine Decke oder schau aus dem Fenster.",
+    "Such eine Wolke, die wie ein Tier oder eine Figur aussieht.",
+    "Beobachte, wie sie sich langsam verändert.",
+    "Erzähl jemandem, was du gesehen hast."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Schau nie direkt in die Sonne.",
+   "fragen": [
+    {
+     "q": "Woraus bestehen Wolken?",
+     "a": [
+      "Aus winzigen Wassertröpfchen oder Eiskristallen",
+      "Aus Rauch",
+      "Aus Watte",
+      "Nur aus Staub"
+     ],
+     "e": "Wenn feuchte Luft abkühlt, bilden sich winzige Tröpfchen. Viele davon zusammen sehen wir als Wolke."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Was hast du in den Wolken entdeckt?",
+     "o": [
+      "Ein Tier",
+      "Ein Gesicht",
+      "Ein Fahrzeug",
+      "Etwas ganz anderes"
+     ]
+    },
+    "notiz": "Beschreib deine schönste Wolke."
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "steine",
+   "kat": "natur",
+   "titel": "Stein-Sammlung",
+   "emo": "🪨",
+   "kurz": "Finde fünf Steine und vergleiche sie.",
+   "schritte": [
+    "Sammle fünf kleine Steine auf einem Weg oder im Garten.",
+    "Fühl, welche glatt und welche rau sind.",
+    "Wasch sie und schau, ob die Farben leuchtender werden.",
+    "Sortiere sie nach Farbe oder Grösse."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person ans Wasser gehen.",
+   "fragen": [
+    {
+     "q": "Warum sind Steine aus einem Bach oft rund und glatt?",
+     "a": [
+      "Das Wasser rollt sie und schleift die Kanten ab",
+      "Jemand hat sie poliert",
+      "Die Sonne schmilzt die Ecken weg",
+      "Fische knabbern daran"
+     ],
+     "e": "Über viele Jahre stossen die Steine im Wasser aneinander. So werden sie rund."
+    },
+    {
+     "q": "Wie nennt man einen Forscher, der Gesteine untersucht?",
+     "a": [
+      "Geologe",
+      "Biologe",
+      "Astronom",
+      "Zoologe"
+     ],
+     "e": "Geologen erforschen Steine, Berge und den Aufbau der Erde."
+    }
+   ],
+   "thema": "erde"
+  },
+  {
+   "id": "baum",
+   "kat": "natur",
+   "titel": "Mein Baum-Freund",
+   "emo": "🌳",
+   "kurz": "Lerne einen Baum ganz genau kennen.",
+   "schritte": [
+    "Such dir einen Baum aus.",
+    "Leg eine Schnur um den Stamm und miss so seinen Umfang.",
+    "Fühl die Rinde mit den Fingern.",
+    "Schau, ob er Blätter oder Nadeln hat.",
+    "Gib deinem Baum einen Namen."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Woran kann man das Alter eines gefällten Baumes erkennen?",
+     "a": [
+      "An den Jahresringen im Stamm",
+      "An der Anzahl Blätter",
+      "An der Farbe der Rinde",
+      "An der Länge der Äste"
+     ],
+     "e": "Jedes Jahr wächst ein neuer Ring. Zählt man die Ringe, kennt man das Alter."
+    },
+    {
+     "q": "Welcher Baum hat Nadeln statt Blätter?",
+     "a": [
+      "Die Fichte",
+      "Die Buche",
+      "Die Eiche",
+      "Die Linde"
+     ],
+     "e": "Fichten, Tannen und Föhren sind Nadelbäume."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "umfang",
+      "Umfang vom Stamm",
+      "cm"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "ameisen",
+   "kat": "natur",
+   "titel": "Ameisen-Strasse",
+   "emo": "🐜",
+   "kurz": "Beobachte eine Ameisen-Strasse.",
+   "schritte": [
+    "Such eine Reihe von Ameisen auf dem Boden.",
+    "Folge der Strasse mit den Augen: Wohin führt sie?",
+    "Zähle eine Minute lang, wie viele Ameisen vorbeikommen.",
+    "Leg ein kleines Blatt neben die Strasse und schau, was passiert."
+   ],
+   "stufe": 2,
+   "monate": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Tiere nur anschauen, nicht anfassen. Manche Ameisen beissen. Ameisenhaufen nie stören.",
+   "fragen": [
+    {
+     "q": "Wie finden Ameisen den Weg zum Futter?",
+     "a": [
+      "Sie folgen Duftspuren von anderen Ameisen",
+      "Sie haben eine kleine Karte",
+      "Sie fragen die Vögel",
+      "Sie sehen sehr weit"
+     ],
+     "e": "Ameisen legen mit ihrem Körper Duftspuren. Andere Ameisen riechen sie mit ihren Fühlern."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "ameisen",
+      "Ameisen in 1 Minute"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "schnecken",
+   "kat": "natur",
+   "titel": "Schnecken-Spur",
+   "emo": "🐌",
+   "kurz": "Nach dem Regen sind die Schnecken unterwegs.",
+   "schritte": [
+    "Geh nach einem Regen in den Garten oder an einen Wegrand.",
+    "Such Schnecken mit und ohne Haus.",
+    "Schau, wie die Schnecke kriecht und eine Schleimspur macht.",
+    "Zähle, wie viele Schnecken du findest."
+   ],
+   "stufe": 1,
+   "monate": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Tiere nur anschauen, nicht anfassen. Danach Hände waschen.",
+   "fragen": [
+    {
+     "q": "Wo hat eine Weinbergschnecke ihre Augen?",
+     "a": [
+      "An den Spitzen der langen Fühler",
+      "Am Haus",
+      "Am Bauch",
+      "Sie hat keine Augen"
+     ],
+     "e": "Die Augen sitzen oben an den langen Fühlern. Mit den kurzen Fühlern tastet und riecht sie."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "mithaus",
+      "Mit Haus"
+     ],
+     [
+      "ohnehaus",
+      "Ohne Haus"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "blumen",
+   "kat": "natur",
+   "titel": "Blumen-Farben",
+   "emo": "🌼",
+   "kurz": "Welche Blütenfarbe ist am häufigsten?",
+   "schritte": [
+    "Geh auf eine Wiese, in einen Park oder Garten.",
+    "Zähle die Blüten nach Farben.",
+    "Schau, welche Farbe am meisten vorkommt.",
+    "Lass alle Blumen stehen."
+   ],
+   "stufe": 1,
+   "monate": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Keine Pilze, Beeren oder Pflanzen in den Mund nehmen.",
+   "fragen": [
+    {
+     "q": "Warum besuchen Bienen die Blüten?",
+     "a": [
+      "Sie sammeln Nektar und Pollen als Futter",
+      "Sie schlafen darin",
+      "Sie suchen Schatten",
+      "Sie verstecken sich vor dem Regen"
+     ],
+     "e": "Aus Nektar machen Bienen Honig. Pollen ist wichtiges Futter."
+    },
+    {
+     "q": "Was machen Bienen dabei für die Pflanzen?",
+     "a": [
+      "Sie tragen Pollen von Blüte zu Blüte",
+      "Sie giessen die Pflanzen",
+      "Sie schneiden welke Blätter ab",
+      "Sie vertreiben Schnecken"
+     ],
+     "e": "Das nennt man Bestäubung. Erst dann können aus vielen Blüten Früchte werden."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "gelb",
+      "Gelb"
+     ],
+     [
+      "weiss",
+      "Weiss"
+     ],
+     [
+      "rot",
+      "Rot oder Rosa"
+     ],
+     [
+      "blau",
+      "Blau oder Violett"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "moos",
+   "kat": "natur",
+   "titel": "Moos-Schwamm",
+   "emo": "🌱",
+   "kurz": "Entdecke, was Moos Besonderes kann.",
+   "schritte": [
+    "Such Moos auf einem Stein, einer Mauer oder am Waldboden.",
+    "Streich vorsichtig mit dem Finger darüber.",
+    "Drück ganz leicht: Ist es trocken oder nass?",
+    "Schau es von ganz nah an. Wie sieht es aus?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Moos nicht ausreissen. Keine Pilze, Beeren oder Pflanzen in den Mund nehmen.",
+   "fragen": [
+    {
+     "q": "Was kann Moos besonders gut?",
+     "a": [
+      "Wasser speichern wie ein Schwamm",
+      "Grosse Blüten bilden",
+      "Süsse Früchte tragen",
+      "Laut rascheln"
+     ],
+     "e": "Moos saugt Regenwasser auf und gibt es langsam wieder ab. So hilft es dem Wald."
+    }
+   ],
+   "thema": "natur"
+  },
+  {
+   "id": "spinnennetz",
+   "kat": "natur",
+   "titel": "Netz-Finder",
+   "emo": "🕸️",
+   "kurz": "Am Morgen glitzern die Spinnennetze.",
+   "schritte": [
+    "Geh am Morgen hinaus, wenn noch Tau liegt.",
+    "Such Spinnennetze in Hecken, Zäunen oder Ecken.",
+    "Zähle, wie viele Netze du findest.",
+    "Schau dir an, wie ein Netz gebaut ist."
+   ],
+   "stufe": 1,
+   "monate": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Netze nicht kaputt machen. Tiere nur anschauen, nicht anfassen.",
+   "fragen": [
+    {
+     "q": "Wie viele Beine hat eine Spinne?",
+     "a": [
+      "Acht",
+      "Sechs",
+      "Zehn",
+      "Vier"
+     ],
+     "e": "Spinnen haben acht Beine. Darum sind sie keine Insekten, sondern Spinnentiere."
+    },
+    {
+     "q": "Woraus macht die Spinne ihr Netz?",
+     "a": [
+      "Aus Spinnenseide aus ihrem eigenen Körper",
+      "Aus Grashalmen",
+      "Aus Tierhaaren",
+      "Aus Staub"
+     ],
+     "e": "Spinnenseide ist dünn, aber erstaunlich stark und dehnbar."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "netze",
+      "Netze gefunden"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "waldboden",
+   "kat": "natur",
+   "titel": "Waldboden-Detektiv",
+   "emo": "🌲",
+   "kurz": "Was liegt alles auf dem Waldboden?",
+   "schritte": [
+    "Geh mit einer erwachsenen Person in den Wald.",
+    "Such Zapfen, Eicheln, Federn und Blätter.",
+    "Zähle, was du findest.",
+    "Leg alles am Ende wieder hin."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Keine Pilze anfassen oder essen. Pilze können sehr giftig sein.",
+   "fragen": [
+    {
+     "q": "Was tust du, wenn du einen Pilz findest?",
+     "a": [
+      "Nur anschauen, nicht anfassen und nicht essen",
+      "Probieren, ob er gut schmeckt",
+      "Mitnehmen und kochen",
+      "Darauf herumspringen"
+     ],
+     "e": "Manche Pilze sind sehr giftig und sehen harmlosen Pilzen ähnlich."
+    },
+    {
+     "q": "Wo kann man in der Schweiz gesammelte Pilze prüfen lassen?",
+     "a": [
+      "Bei einer Pilzkontrolle",
+      "Beim Bäcker",
+      "Am Bahnschalter",
+      "Im Kino"
+     ],
+     "e": "In vielen Gemeinden gibt es eine amtliche Pilzkontrolle. Dort schauen Fachleute jeden Pilz an."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "zapfen",
+      "Zapfen"
+     ],
+     [
+      "eicheln",
+      "Eicheln oder Nüsse"
+     ],
+     [
+      "federn",
+      "Federn"
+     ],
+     [
+      "pilze",
+      "Pilze (nur angeschaut)"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "kastanien",
+   "kat": "jahreszeit",
+   "titel": "Kastanien-Sammler",
+   "emo": "🌰",
+   "kurz": "Im Herbst fallen die Kastanien.",
+   "schritte": [
+    "Such einen Kastanienbaum.",
+    "Sammle Kastanien vom Boden.",
+    "Zähle sie und such die grösste und die kleinste.",
+    "Bastle mit einer erwachsenen Person eine Kastanien-Figur."
+   ],
+   "stufe": 1,
+   "monate": [
+    9,
+    10
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Rosskastanien nicht essen.",
+   "fragen": [
+    {
+     "q": "Kann man die Rosskastanien vom Boden essen?",
+     "a": [
+      "Nein, sie sind für Menschen nicht essbar",
+      "Ja, roh",
+      "Ja, aber nur im Winter",
+      "Ja, mit Salz"
+     ],
+     "e": "Rosskastanien schmecken bitter und machen Bauchweh. Zum Basteln sind sie aber super."
+    },
+    {
+     "q": "Wie heissen die gebratenen Kastanien, die man im Winter an einem Stand kaufen kann?",
+     "a": [
+      "Marroni",
+      "Eicheln",
+      "Bucheckern",
+      "Rosskastanien"
+     ],
+     "e": "Marroni stammen von der Edelkastanie. Die ist mit der Rosskastanie nicht verwandt."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "kastanien",
+      "Kastanien"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "laub",
+   "kat": "jahreszeit",
+   "titel": "Laub-Regenbogen",
+   "emo": "🍂",
+   "kurz": "Wie viele Herbstfarben findest du?",
+   "schritte": [
+    "Sammle bunte Blätter vom Boden.",
+    "Sortiere sie von Grün über Gelb und Orange bis Rot und Braun.",
+    "Leg damit einen Regenbogen auf den Boden.",
+    "Zähle, wie viele Blätter jede Farbe hat."
+   ],
+   "stufe": 1,
+   "monate": [
+    10,
+    11
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Warum werfen viele Laubbäume im Herbst ihre Blätter ab?",
+     "a": [
+      "Damit sie im Winter nicht zu viel Wasser verlieren",
+      "Weil sie neue Farben möchten",
+      "Weil Tiere die Blätter wegtragen",
+      "Weil die Blätter zu schwer werden"
+     ],
+     "e": "Im Winter ist der Boden oft gefroren. Der Baum bekommt dann kaum Wasser und spart es, indem er die Blätter abwirft."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "gruen",
+      "Grün"
+     ],
+     [
+      "gelb",
+      "Gelb"
+     ],
+     [
+      "orange",
+      "Orange"
+     ],
+     [
+      "rot",
+      "Rot"
+     ],
+     [
+      "braun",
+      "Braun"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "schneespuren",
+   "kat": "jahreszeit",
+   "titel": "Spuren im Schnee",
+   "emo": "👣",
+   "kurz": "Wer ist hier durch den Schnee gelaufen?",
+   "schritte": [
+    "Zieh dich warm an und geh hinaus, wenn frischer Schnee liegt.",
+    "Such Spuren von Menschen, Hunden, Katzen und Vögeln.",
+    "Schau genau: Sieht man Krallen?",
+    "Mach selbst eine Spur und vergleiche."
+   ],
+   "stufe": 1,
+   "monate": [
+    12,
+    1,
+    2
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Zugefrorene Teiche und Seen nie betreten. Warm anziehen.",
+   "fragen": [
+    {
+     "q": "Woran erkennst du eine Katzenspur meistens?",
+     "a": [
+      "Man sieht keine Krallenabdrücke",
+      "Sie hat sechs Zehen",
+      "Sie ist viereckig",
+      "Sie ist grösser als eine Menschenspur"
+     ],
+     "e": "Katzen ziehen beim Gehen ihre Krallen ein. Bei Hundespuren sieht man die Krallen meistens."
+    },
+    {
+     "q": "Wie viele Zehenballen sieht man bei einer Hunde- oder Katzenspur meistens?",
+     "a": [
+      "Vier",
+      "Zwei",
+      "Sechs",
+      "Zehn"
+     ],
+     "e": "Vorne sieht man vier Zehenballen und dahinter einen grösseren Ballen."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "mensch",
+      "Mensch"
+     ],
+     [
+      "hund",
+      "Hund"
+     ],
+     [
+      "katze",
+      "Katze"
+     ],
+     [
+      "vogel",
+      "Vogel"
+     ],
+     [
+      "andere",
+      "Andere"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "schneeflocken",
+   "kat": "jahreszeit",
+   "titel": "Schneeflocken-Lupe",
+   "emo": "❄️",
+   "kurz": "Fang Schneeflocken und schau sie ganz genau an.",
+   "schritte": [
+    "Leg einen dunklen Stoff oder Handschuh für ein paar Minuten nach draussen.",
+    "Fang damit fallende Schneeflocken.",
+    "Schau sie schnell mit einer Lupe an.",
+    "Zähle die Arme einer Flocke."
+   ],
+   "stufe": 1,
+   "monate": [
+    12,
+    1,
+    2
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Schnee nicht essen, er kann schmutzig sein.",
+   "fragen": [
+    {
+     "q": "Wie viele Arme hat eine typische Schneeflocke?",
+     "a": [
+      "Sechs",
+      "Vier",
+      "Fünf",
+      "Acht"
+     ],
+     "e": "Wasser gefriert in einem sechseckigen Muster. Darum haben Schneesterne sechs Arme."
+    },
+    {
+     "q": "Woraus besteht Schnee?",
+     "a": [
+      "Aus kleinen Eiskristallen",
+      "Aus gefrorener Milch",
+      "Aus Wolkenwatte",
+      "Aus Salz"
+     ],
+     "e": "In der Wolke gefriert Wasserdampf zu Eiskristallen. Sie wachsen und fallen als Flocken."
+    }
+   ],
+   "thema": "erde"
+  },
+  {
+   "id": "eisbecher",
+   "kat": "jahreszeit",
+   "titel": "Eis-Experiment",
+   "emo": "🧊",
+   "kurz": "Was passiert mit Wasser in einer kalten Nacht?",
+   "schritte": [
+    "Füll einen Joghurtbecher randvoll mit Wasser.",
+    "Stell ihn an einem frostigen Abend nach draussen.",
+    "Schau am Morgen nach: Was ist passiert?",
+    "Fühl das Eis und vergleiche die Höhe mit gestern."
+   ],
+   "stufe": 2,
+   "monate": [
+    12,
+    1,
+    2
+   ],
+   "dauer": "5 Min. + 1 Nacht",
+   "ort": "draussen",
+   "sicher": "Kein Glas verwenden, Glas kann beim Gefrieren springen.",
+   "fragen": [
+    {
+     "q": "Bei wie vielen Grad Celsius gefriert reines Wasser?",
+     "a": [
+      "0 Grad",
+      "10 Grad",
+      "minus 20 Grad",
+      "100 Grad"
+     ],
+     "e": "Unter 0 Grad wird Wasser zu Eis."
+    },
+    {
+     "q": "Was passiert mit Wasser, wenn es gefriert?",
+     "a": [
+      "Es dehnt sich aus und braucht mehr Platz",
+      "Es wird kleiner",
+      "Es wird warm",
+      "Es verschwindet"
+     ],
+     "e": "Darum wölbt sich das Eis oben im Becher. Darum platzen auch gefrorene Glasflaschen."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "atemwolke",
+   "kat": "jahreszeit",
+   "titel": "Atem-Wölkchen",
+   "emo": "🌬️",
+   "kurz": "Mach im Winter deine eigene kleine Wolke.",
+   "schritte": [
+    "Geh an einem kalten Tag nach draussen.",
+    "Hauch langsam aus und schau dein Atem-Wölkchen an.",
+    "Hauch einmal lang und einmal kurz.",
+    "Probier es drinnen: Siehst du die Wolke auch dort?"
+   ],
+   "stufe": 1,
+   "monate": [
+    11,
+    12,
+    1,
+    2
+   ],
+   "dauer": "5 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Warum siehst du im Winter deinen Atem?",
+     "a": [
+      "Die warme, feuchte Atemluft kühlt ab und bildet winzige Tröpfchen",
+      "Weil du Rauch ausatmest",
+      "Weil die Luft im Winter weiss ist",
+      "Weil Schnee in deinem Mund ist"
+     ],
+     "e": "Genau so entstehen auch Wolken am Himmel: Feuchte Luft kühlt ab."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "fruehlingsboten",
+   "kat": "jahreszeit",
+   "titel": "Frühlingsboten",
+   "emo": "🌷",
+   "kurz": "Die ersten Blumen nach dem Winter.",
+   "schritte": [
+    "Geh durch einen Garten, Park oder Wald.",
+    "Such die ersten Frühlingsblumen.",
+    "Zähle, wie viele verschiedene du findest.",
+    "Schau, welche Farbe am häufigsten ist."
+   ],
+   "stufe": 1,
+   "monate": [
+    2,
+    3,
+    4
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Blumen stehen lassen. Keine Pilze, Beeren oder Pflanzen in den Mund nehmen.",
+   "fragen": [
+    {
+     "q": "Welche Blume blüht oft schon, wenn noch Schnee liegt?",
+     "a": [
+      "Das Schneeglöckchen",
+      "Die Sonnenblume",
+      "Die Rose",
+      "Die Seerose"
+     ],
+     "e": "Schneeglöckchen gehören zu den ersten Blumen im Jahr."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "schneegl",
+      "Schneeglöckchen"
+     ],
+     [
+      "krokus",
+      "Krokus"
+     ],
+     [
+      "andere",
+      "Andere Blumen"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "knospen",
+   "kat": "jahreszeit",
+   "titel": "Knospen-Detektiv",
+   "emo": "🌿",
+   "kurz": "Was versteckt sich in den Knospen?",
+   "schritte": [
+    "Such an einem Strauch oder Baum eine dicke Knospe.",
+    "Schau sie dir genau an: Farbe, Form, Grösse.",
+    "Merk dir den Zweig und schau jede Woche wieder nach.",
+    "Was kommt heraus: ein Blatt oder eine Blüte?"
+   ],
+   "stufe": 1,
+   "monate": [
+    2,
+    3,
+    4
+   ],
+   "dauer": "5 Min. pro Woche",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Was steckt in einer Knospe?",
+     "a": [
+      "Ein junges Blatt oder eine Blüte, gut verpackt",
+      "Ein kleines Ei",
+      "Ein Samen von einem anderen Baum",
+      "Nur Luft"
+     ],
+     "e": "Die Knospe wächst schon im Sommer davor und schützt das Blatt oder die Blüte über den Winter."
+    }
+   ],
+   "form": {
+    "notiz": "Was hast du jede Woche gesehen?"
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "morgenkonzert",
+   "kat": "jahreszeit",
+   "titel": "Vogel-Morgenkonzert",
+   "emo": "🎶",
+   "kurz": "Im Frühling singen die Vögel am frühen Morgen.",
+   "schritte": [
+    "Öffne am Morgen kurz das Fenster oder geh hinaus.",
+    "Hör eine Minute lang ganz still zu.",
+    "Zähle, wie viele verschiedene Vogelstimmen du hörst.",
+    "Probier, eine Melodie nachzupfeifen."
+   ],
+   "stufe": 1,
+   "monate": [
+    3,
+    4,
+    5,
+    6
+   ],
+   "dauer": "5 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Warum singen viele Vögel im Frühling so viel?",
+     "a": [
+      "Sie zeigen anderen Vögeln: Das ist mein Revier",
+      "Weil ihnen kalt ist",
+      "Weil sie Hunger haben",
+      "Weil sie müde sind"
+     ],
+     "e": "Mit dem Gesang sagt ein Vogel: Hier wohne ich. Besonders früh am Morgen ist das Konzert laut."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "stimmen",
+      "Verschiedene Stimmen"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "sommerwiese",
+   "kat": "jahreszeit",
+   "titel": "Sommer-Wiese",
+   "emo": "🌾",
+   "kurz": "Wer zirpt in der Sommerwiese?",
+   "schritte": [
+    "Setz dich am Rand einer Wiese hin.",
+    "Hör auf das Zirpen der Heuschrecken.",
+    "Such eine Heuschrecke mit den Augen.",
+    "Zähle, wie viele verschiedene Blumen du siehst."
+   ],
+   "stufe": 1,
+   "monate": [
+    6,
+    7,
+    8
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Nach hohem Gras mit einer erwachsenen Person nach Zecken absuchen. Tiere nur anschauen, nicht anfassen.",
+   "fragen": [
+    {
+     "q": "Wie machen Heuschrecken ihr Zirpen?",
+     "a": [
+      "Sie reiben Beine oder Flügel aneinander",
+      "Sie singen mit dem Mund",
+      "Sie klopfen mit dem Kopf",
+      "Sie pfeifen durch die Nase"
+     ],
+     "e": "Je nach Art reiben sie die Hinterbeine an den Flügeln oder die Flügel aneinander."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "blumen",
+      "Verschiedene Blumen"
+     ],
+     [
+      "heuschrecken",
+      "Heuschrecken gesehen"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "gluehwuermchen",
+   "kat": "jahreszeit",
+   "titel": "Glühwürmchen-Abend",
+   "emo": "✨",
+   "kurz": "An warmen Sommerabenden leuchtet es im Gras.",
+   "schritte": [
+    "Geh mit einer erwachsenen Person an einem warmen Abend hinaus.",
+    "Such einen dunklen Ort am Waldrand oder in einem Garten.",
+    "Warte, bis es ganz dunkel ist, und sei leise.",
+    "Zähle die kleinen Lichter."
+   ],
+   "stufe": 2,
+   "monate": [
+    6,
+    7
+   ],
+   "dauer": "30 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person in der Dämmerung unterwegs sein. Tiere nur anschauen, nicht anfassen.",
+   "fragen": [
+    {
+     "q": "Sind Glühwürmchen Würmer?",
+     "a": [
+      "Nein, es sind Käfer",
+      "Ja, echte Regenwürmer",
+      "Nein, es sind Schnecken",
+      "Nein, es sind Fliegen"
+     ],
+     "e": "Glühwürmchen heissen auch Leuchtkäfer. Sie können selbst leuchten."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "lichter",
+      "Leuchtende Punkte"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "herbstfruechte",
+   "kat": "jahreszeit",
+   "titel": "Herbst-Früchte",
+   "emo": "🍎",
+   "kurz": "Was wächst im Herbst an Bäumen und Sträuchern?",
+   "schritte": [
+    "Such Bäume und Sträucher mit Früchten.",
+    "Schau nach Äpfeln, Hagebutten, Eicheln und Nüssen.",
+    "Zähle, wie viele verschiedene Früchte du findest.",
+    "Beobachte, ob Tiere davon fressen."
+   ],
+   "stufe": 1,
+   "monate": [
+    9,
+    10
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Keine Beeren oder Früchte vom Wegrand essen.",
+   "fragen": [
+    {
+     "q": "Von welchem Baum stammen Eicheln?",
+     "a": [
+      "Von der Eiche",
+      "Von der Buche",
+      "Von der Tanne",
+      "Von der Birke"
+     ],
+     "e": "Eicheln sind die Früchte der Eiche. Viele Tiere fressen sie gern."
+    },
+    {
+     "q": "Welches Tier vergräbt im Herbst Nüsse und Samen als Wintervorrat?",
+     "a": [
+      "Das Eichhörnchen",
+      "Der Frosch",
+      "Die Schnecke",
+      "Die Fledermaus"
+     ],
+     "e": "Eichhörnchen verstecken viele Vorräte. Einige finden sie nie wieder, daraus wachsen neue Bäume."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "fruechte",
+      "Verschiedene Früchte"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "zugvoegel",
+   "kat": "jahreszeit",
+   "titel": "Zugvögel",
+   "emo": "🦢",
+   "kurz": "Im Herbst reisen viele Vögel in den Süden.",
+   "schritte": [
+    "Schau an einigen Tagen immer wieder in den Himmel.",
+    "Achte auf Vogelschwärme, die gemeinsam fliegen.",
+    "Schau, in welcher Form sie fliegen.",
+    "Zähle die Vögel in einem Schwarm."
+   ],
+   "stufe": 1,
+   "monate": [
+    9,
+    10,
+    11,
+    3,
+    4
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Warum fliegen viele Zugvögel im Herbst nach Süden?",
+     "a": [
+      "Weil sie dort im Winter genug Futter finden",
+      "Weil sie Ferien machen",
+      "Weil sie Schnee mögen",
+      "Weil ihre Nester zu klein sind"
+     ],
+     "e": "Im Winter finden viele Vögel bei uns zu wenig Insekten. Im Süden ist es wärmer."
+    },
+    {
+     "q": "In welcher Form fliegen Gänse oft?",
+     "a": [
+      "In einer V-Form",
+      "Im Kreis",
+      "In einem Quadrat",
+      "Im Zickzack"
+     ],
+     "e": "In der V-Form sparen die Vögel hinten Kraft, weil sie den Aufwind der vorderen nutzen."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "voegel",
+      "Vögel im Schwarm"
+     ]
+    ]
+   },
+   "thema": "tiere"
+  },
+  {
+   "id": "schatten",
+   "kat": "zuhause",
+   "titel": "Schatten-Uhr",
+   "emo": "☀️",
+   "kurz": "Wie wandert ein Schatten über den Tag?",
+   "schritte": [
+    "Steck einen Stift in ein Stück Knete und stell ihn an ein sonniges Fenster oder nach draussen.",
+    "Leg ein Blatt Papier darunter.",
+    "Zeichne am Morgen, am Mittag und am Nachmittag den Schatten nach.",
+    "Vergleiche: Wann ist er am kürzesten?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "3 x 2 Min.",
+   "ort": "zuhause",
+   "sicher": "Schau nie direkt in die Sonne.",
+   "fragen": [
+    {
+     "q": "Wann ist ein Schatten draussen am kürzesten?",
+     "a": [
+      "Um die Mittagszeit, wenn die Sonne am höchsten steht",
+      "Am frühen Morgen",
+      "Am Abend",
+      "Er ist immer gleich lang"
+     ],
+     "e": "Steht die Sonne hoch, fällt der Schatten kurz. Am Morgen und am Abend wird er lang."
+    },
+    {
+     "q": "In welche Richtung zeigt dein Schatten, wenn die Sonne im Osten steht?",
+     "a": [
+      "Nach Westen",
+      "Nach Osten",
+      "Nach oben",
+      "Zur Sonne hin"
+     ],
+     "e": "Der Schatten zeigt immer von der Sonne weg."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "messen",
+   "kat": "zuhause",
+   "titel": "Mess-Profi",
+   "emo": "📏",
+   "kurz": "Miss Dinge in deinem Zuhause.",
+   "schritte": [
+    "Hol ein Massband oder einen Meterstab.",
+    "Schätze zuerst, wie lang der Tisch ist.",
+    "Miss nach und vergleiche mit deiner Schätzung.",
+    "Miss auch deine Handspanne vom Daumen bis zum kleinen Finger."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "zuhause",
+   "fragen": [
+    {
+     "q": "Wie viele Zentimeter sind ein Meter?",
+     "a": [
+      "100",
+      "10",
+      "1000",
+      "60"
+     ],
+     "e": "1 Meter = 100 Zentimeter."
+    },
+    {
+     "q": "Wie viele Millimeter hat ein Zentimeter?",
+     "a": [
+      "10",
+      "100",
+      "2",
+      "1000"
+     ],
+     "e": "1 Zentimeter = 10 Millimeter. Auf dem Massband sind das die ganz kleinen Striche."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "tisch",
+      "Länge vom Tisch",
+      "cm"
+     ],
+     [
+      "spanne",
+      "Deine Handspanne",
+      "cm"
+     ]
+    ]
+   },
+   "thema": "mathe"
+  },
+  {
+   "id": "waegen",
+   "kat": "zuhause",
+   "titel": "Küchen-Waage",
+   "emo": "⚖️",
+   "kurz": "Was ist schwerer? Erst schätzen, dann wiegen!",
+   "schritte": [
+    "Such drei Dinge: zum Beispiel einen Apfel, ein Buch und einen Schuh.",
+    "Halte sie in den Händen und schätze, welches am schwersten ist.",
+    "Wieg sie mit einer Küchenwaage.",
+    "Hattest du recht?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Frag zuerst, ob du die Waage benutzen darfst.",
+   "fragen": [
+    {
+     "q": "Wie viele Gramm sind ein Kilogramm?",
+     "a": [
+      "1000",
+      "100",
+      "10",
+      "500"
+     ],
+     "e": "1 Kilogramm = 1000 Gramm."
+    },
+    {
+     "q": "Was ist schwerer: ein Kilo Federn oder ein Kilo Steine?",
+     "a": [
+      "Beide sind gleich schwer",
+      "Die Steine",
+      "Die Federn",
+      "Das kommt aufs Wetter an"
+     ],
+     "e": "Ein Kilo ist ein Kilo. Federn brauchen aber viel mehr Platz."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "apfel",
+      "Apfel",
+      "g"
+     ],
+     [
+      "buch",
+      "Buch",
+      "g"
+     ]
+    ]
+   },
+   "thema": "mathe"
+  },
+  {
+   "id": "schwimmen",
+   "kat": "zuhause",
+   "titel": "Schwimmt es oder sinkt es?",
+   "emo": "🛁",
+   "kurz": "Teste kleine Dinge im Wasser.",
+   "schritte": [
+    "Füll eine Schüssel mit Wasser.",
+    "Such Dinge wie Korken, Löffel, Apfel, Münze und Knete.",
+    "Rate vorher: Schwimmt es oder sinkt es?",
+    "Leg sie nacheinander ins Wasser und prüfe."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "zuhause",
+   "sicher": "Verschüttetes Wasser aufwischen, damit niemand ausrutscht.",
+   "fragen": [
+    {
+     "q": "Schwimmt ein Apfel im Wasser?",
+     "a": [
+      "Ja, er schwimmt",
+      "Nein, er sinkt sofort",
+      "Nur wenn er geschält ist",
+      "Nur in warmem Wasser"
+     ],
+     "e": "Im Apfel ist viel Luft. Darum schwimmt er."
+    },
+    {
+     "q": "Warum schwimmt ein grosses Schiff aus Stahl?",
+     "a": [
+      "Seine Form verdrängt viel Wasser und innen ist viel Luft",
+      "Stahl ist leichter als Wasser",
+      "Es hat Flügel",
+      "Das Meer ist warm"
+     ],
+     "e": "Ein Stahlklumpen würde sinken. Als hohle Schiffsform schwimmt er."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "glasregenbogen",
+   "kat": "zuhause",
+   "titel": "Regenbogen im Glas",
+   "emo": "🌈",
+   "kurz": "Zaubere einen Regenbogen mit einem Wasserglas.",
+   "schritte": [
+    "Füll ein Glas mit Wasser.",
+    "Stell es an einem sonnigen Tag an den Rand eines Tisches beim Fenster.",
+    "Leg ein weisses Blatt Papier auf den Boden darunter.",
+    "Dreh das Glas langsam, bis du Farben siehst."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Trag das Glas vorsichtig. Schau nie direkt in die Sonne.",
+   "fragen": [
+    {
+     "q": "Was braucht es für einen Regenbogen am Himmel?",
+     "a": [
+      "Sonnenlicht und Regentropfen",
+      "Nur Wind",
+      "Schnee und Dunkelheit",
+      "Nebel und Wolken ohne Sonne"
+     ],
+     "e": "Die Tropfen brechen das Sonnenlicht und zerlegen es in seine Farben."
+    },
+    {
+     "q": "Welche Farbe ist beim Regenbogen ganz aussen?",
+     "a": [
+      "Rot",
+      "Violett",
+      "Grün",
+      "Blau"
+     ],
+     "e": "Aussen ist Rot, innen Violett."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "pfeffer",
+   "kat": "zuhause",
+   "titel": "Pfeffer-Flucht",
+   "emo": "🧂",
+   "kurz": "Ein Experiment mit Wasser, Pfeffer und Spülmittel.",
+   "schritte": [
+    "Füll einen Teller mit Wasser.",
+    "Streu etwas gemahlenen Pfeffer darauf.",
+    "Tauch eine Fingerspitze in Spülmittel.",
+    "Berühr damit die Mitte des Wassers und schau, was der Pfeffer macht."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Spülmittel nicht in die Augen oder in den Mund bringen. Danach Hände waschen.",
+   "fragen": [
+    {
+     "q": "Was macht das Spülmittel mit dem Wasser?",
+     "a": [
+      "Es schwächt die Haut an der Wasseroberfläche",
+      "Es macht das Wasser heiss",
+      "Es färbt das Wasser",
+      "Es zieht den Pfeffer wie ein Magnet an"
+     ],
+     "e": "Das Wasser hat eine Art dünne Haut, die Oberflächenspannung. Das Spülmittel schwächt sie und der Pfeffer wird zum Rand gezogen."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "kresse",
+   "kat": "zuhause",
+   "titel": "Kresse-Garten",
+   "emo": "🌱",
+   "kurz": "Säe Kresse und schau ihr beim Wachsen zu.",
+   "schritte": [
+    "Leg feuchte Watte oder Küchenpapier auf einen Teller.",
+    "Streu Kressesamen darauf.",
+    "Halte die Watte jeden Tag feucht.",
+    "Miss nach einer Woche, wie hoch die Kresse ist."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "1 Woche",
+   "ort": "zuhause",
+   "fragen": [
+    {
+     "q": "Was braucht ein Samen zum Keimen?",
+     "a": [
+      "Wasser, Wärme und Luft",
+      "Nur Dunkelheit",
+      "Salz",
+      "Musik"
+     ],
+     "e": "Mit Wasser quillt der Samen auf. Wärme und Luft helfen ihm zu wachsen."
+    },
+    {
+     "q": "Wohin wachsen die Pflänzchen, wenn sie am Fenster stehen?",
+     "a": [
+      "Zum Licht hin",
+      "Vom Licht weg",
+      "Immer nach unten",
+      "Im Kreis"
+     ],
+     "e": "Pflanzen brauchen Licht und wachsen darum dem Licht entgegen."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "hoehe",
+      "Höhe nach einer Woche",
+      "mm"
+     ]
+    ]
+   },
+   "thema": "natur"
+  },
+  {
+   "id": "eiswuerfel",
+   "kat": "zuhause",
+   "titel": "Eiswürfel-Wettrennen",
+   "emo": "🧊",
+   "kurz": "Welcher Eiswürfel schmilzt am schnellsten?",
+   "schritte": [
+    "Leg drei Eiswürfel auf drei Teller.",
+    "Streu Salz auf den ersten, wickle den zweiten in ein Tuch, lass den dritten so.",
+    "Rate, welcher zuerst schmilzt.",
+    "Schau alle fünf Minuten nach."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "30 Min.",
+   "ort": "zuhause",
+   "fragen": [
+    {
+     "q": "Warum streut man im Winter Salz auf Strassen?",
+     "a": [
+      "Salzwasser gefriert erst bei tieferen Temperaturen",
+      "Salz macht den Schnee weisser",
+      "Salz wärmt die Autos",
+      "Damit es besser riecht"
+     ],
+     "e": "Mit Salz schmilzt das Eis auch bei ein paar Grad unter Null."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Welcher Eiswürfel war zuerst geschmolzen?",
+     "o": [
+      "Mit Salz",
+      "Im Tuch",
+      "Ohne alles"
+     ]
+    }
+   },
+   "thema": "chemie"
+  },
+  {
+   "id": "wasserwanderung",
+   "kat": "zuhause",
+   "titel": "Wandernde Farben",
+   "emo": "🧪",
+   "kurz": "Wasser klettert durch Papier.",
+   "schritte": [
+    "Stell drei Gläser in eine Reihe.",
+    "Füll das erste mit Wasser und gelber, das dritte mit Wasser und blauer Lebensmittelfarbe.",
+    "Leg gefaltetes Küchenpapier als Brücke von Glas zu Glas.",
+    "Schau nach einer Stunde ins mittlere Glas."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "5 Min. + 1 Std.",
+   "ort": "zuhause",
+   "sicher": "Lebensmittelfarbe macht Flecken. Leg eine Unterlage hin.",
+   "fragen": [
+    {
+     "q": "Wie nennt man es, wenn Wasser in ganz feinen Röhrchen nach oben steigt?",
+     "a": [
+      "Kapillarwirkung",
+      "Schwerkraft",
+      "Verdunstung",
+      "Magnetismus"
+     ],
+     "e": "Im Papier gibt es winzige Zwischenräume. Darin klettert das Wasser hoch."
+    },
+    {
+     "q": "Welche Farbe entsteht im mittleren Glas aus Gelb und Blau?",
+     "a": [
+      "Grün",
+      "Rot",
+      "Orange",
+      "Violett"
+     ],
+     "e": "Gelb und Blau gemischt ergibt Grün."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "thermometer",
+   "kat": "zuhause",
+   "titel": "Temperatur-Jagd",
+   "emo": "🌡️",
+   "kurz": "Wo ist es bei dir zu Hause am wärmsten?",
+   "schritte": [
+    "Nimm ein Thermometer.",
+    "Leg es für fünf Minuten in verschiedene Zimmer.",
+    "Miss auch im Kühlschrank und draussen.",
+    "Schreib die Werte auf und vergleiche."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "30 Min.",
+   "ort": "zuhause",
+   "sicher": "Nichts Heisses messen.",
+   "fragen": [
+    {
+     "q": "Bei wie vielen Grad kocht Wasser auf Meereshöhe?",
+     "a": [
+      "100 Grad Celsius",
+      "50 Grad Celsius",
+      "0 Grad Celsius",
+      "200 Grad Celsius"
+     ],
+     "e": "Auf hohen Bergen kocht Wasser schon unter 100 Grad, weil der Luftdruck tiefer ist."
+    },
+    {
+     "q": "In welcher Einheit misst man in der Schweiz die Temperatur?",
+     "a": [
+      "Grad Celsius",
+      "Kilogramm",
+      "Meter",
+      "Liter"
+     ],
+     "e": "Die Celsius-Skala ist nach Anders Celsius benannt, einem schwedischen Forscher."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "zimmer",
+      "Wohnzimmer",
+      "°C"
+     ],
+     [
+      "kuehl",
+      "Kühlschrank",
+      "°C"
+     ],
+     [
+      "draussen",
+      "Draussen",
+      "°C"
+     ]
+    ]
+   },
+   "thema": "physik"
+  },
+  {
+   "id": "papierflieger",
+   "kat": "zuhause",
+   "titel": "Papierflieger-Test",
+   "emo": "✈️",
+   "kurz": "Welcher Flieger fliegt am weitesten?",
+   "schritte": [
+    "Falte zwei verschiedene Papierflieger.",
+    "Wirf jeden dreimal vom gleichen Ort.",
+    "Miss mit deinen Schritten, wie weit er geflogen ist.",
+    "Verändere die Flügel und probier nochmals."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "zuhause",
+   "sicher": "Nie auf Menschen oder Tiere zielen.",
+   "fragen": [
+    {
+     "q": "Wem gelang 1903 der erste bekannte Motorflug mit einem Flugzeug?",
+     "a": [
+      "Den Brüdern Wright",
+      "Den Brüdern Grimm",
+      "Albert Einstein",
+      "Christoph Kolumbus"
+     ],
+     "e": "Orville und Wilbur Wright flogen am 17. Dezember 1903 in den USA."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "flieger1",
+      "Flieger 1",
+      "Schritte"
+     ],
+     [
+      "flieger2",
+      "Flieger 2",
+      "Schritte"
+     ]
+    ]
+   },
+   "thema": "technik"
+  },
+  {
+   "id": "bechertelefon",
+   "kat": "zuhause",
+   "titel": "Becher-Telefon",
+   "emo": "🥫",
+   "kurz": "Bau ein Telefon ohne Strom.",
+   "schritte": [
+    "Lass eine erwachsene Person in zwei Joghurtbecher ein kleines Loch stechen.",
+    "Zieh eine lange Schnur durch und mach innen Knoten.",
+    "Spann die Schnur straff.",
+    "Flüstere in einen Becher. Die andere Person hält den zweiten ans Ohr."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "zuhause",
+   "sicher": "Löcher nur von Erwachsenen stechen lassen.",
+   "fragen": [
+    {
+     "q": "Warum hörst du die Stimme durch die gespannte Schnur?",
+     "a": [
+      "Die Schnur leitet die Schwingungen weiter",
+      "Durch die Schnur fliesst Strom",
+      "Der Becher speichert die Stimme",
+      "Die Schnur ist hohl"
+     ],
+     "e": "Deine Stimme bringt den Becherboden zum Schwingen. Die straffe Schnur trägt das Zittern weiter."
+    },
+    {
+     "q": "Was passiert, wenn die Schnur locker hängt?",
+     "a": [
+      "Man hört fast nichts mehr",
+      "Es wird lauter",
+      "Die Stimme wird höher",
+      "Es klingt wie ein Echo"
+     ],
+     "e": "Nur eine gespannte Schnur kann die Schwingungen gut weitergeben."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "brunnen",
+   "kat": "ort",
+   "titel": "Brunnen-Zähler",
+   "emo": "⛲",
+   "kurz": "Wie viele Brunnen findest du in deinem Quartier?",
+   "schritte": [
+    "Mach mit einer erwachsenen Person einen Spaziergang.",
+    "Zähle jeden Brunnen, den du siehst.",
+    "Schau, ob ein Schild «Kein Trinkwasser» dran ist.",
+    "Merk dir den schönsten Brunnen."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "30 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person an der Strasse unterwegs sein. Nicht auf den Brunnenrand klettern.",
+   "fragen": [
+    {
+     "q": "Was bedeutet das Schild «Kein Trinkwasser» an einem Brunnen?",
+     "a": [
+      "Das Wasser solltest du nicht trinken",
+      "Hier darf man baden",
+      "Der Brunnen ist kaputt",
+      "Das Wasser ist warm"
+     ],
+     "e": "Ohne dieses Schild ist das Brunnenwasser in der Schweiz meistens Trinkwasser."
+    },
+    {
+     "q": "Welche Schweizer Stadt hat über 1200 Brunnen?",
+     "a": [
+      "Zürich",
+      "Lugano",
+      "Chur",
+      "Sitten"
+     ],
+     "e": "Zürich nennt sich Brunnenstadt. Fast alle Brunnen dort haben Trinkwasser."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "brunnen",
+      "Brunnen"
+     ],
+     [
+      "kein",
+      "Mit «Kein Trinkwasser»"
+     ]
+    ]
+   },
+   "thema": "schweiz"
+  },
+  {
+   "id": "schilder",
+   "kat": "ort",
+   "titel": "Verkehrsschilder-Jagd",
+   "emo": "🚸",
+   "kurz": "Rund, dreieckig oder viereckig?",
+   "schritte": [
+    "Geh mit einer erwachsenen Person auf dem Trottoir spazieren.",
+    "Such Verkehrsschilder.",
+    "Zähle sie nach ihrer Form.",
+    "Frag, was ein Schild bedeutet, das du nicht kennst."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person an der Strasse unterwegs sein. Bleib auf dem Trottoir.",
+   "fragen": [
+    {
+     "q": "Welche Form haben Gefahrensignale meistens?",
+     "a": [
+      "Dreieckig mit rotem Rand",
+      "Rund und blau",
+      "Achteckig",
+      "Herzförmig"
+     ],
+     "e": "Ein rotes Dreieck warnt: Pass auf, hier gibt es eine Gefahr."
+    },
+    {
+     "q": "Was bedeutet das rote achteckige Schild?",
+     "a": [
+      "Stopp: Ganz anhalten",
+      "Parkplatz",
+      "Spielstrasse",
+      "Velo erlaubt"
+     ],
+     "e": "Beim Stopp-Signal müssen Fahrzeuge immer ganz anhalten."
+    },
+    {
+     "q": "Welche Farbe haben Fussgängerstreifen in der Schweiz?",
+     "a": [
+      "Gelb",
+      "Weiss",
+      "Rot",
+      "Blau"
+     ],
+     "e": "In der Schweiz sind die Streifen gelb. In vielen anderen Ländern sind sie weiss."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "rund",
+      "Rund"
+     ],
+     [
+      "dreieck",
+      "Dreieckig"
+     ],
+     [
+      "viereck",
+      "Viereckig"
+     ]
+    ]
+   },
+   "thema": "alltag"
+  },
+  {
+   "id": "kirchturm",
+   "kat": "ort",
+   "titel": "Kirchturm-Uhr",
+   "emo": "⏰",
+   "kurz": "Hör den Glocken zu.",
+   "schritte": [
+    "Such eine Kirche mit Turmuhr.",
+    "Lies die Uhrzeit ab.",
+    "Warte auf die volle Stunde.",
+    "Zähle die Glockenschläge."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Wie oft schlägt eine Turmuhr meistens um 3 Uhr?",
+     "a": [
+      "Dreimal",
+      "Einmal",
+      "Zwölfmal",
+      "Fünfzehnmal"
+     ],
+     "e": "Zur vollen Stunde schlägt die Glocke so oft, wie es Uhr ist. Viele Uhren schlagen auch die Viertelstunden."
+    },
+    {
+     "q": "In welcher Stadt steht der berühmte Uhrturm Zytglogge?",
+     "a": [
+      "In Bern",
+      "In Genf",
+      "In Lugano",
+      "In Chur"
+     ],
+     "e": "Die Zytglogge in der Berner Altstadt hat eine astronomische Uhr und Figuren, die sich bewegen."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "schlaege",
+      "Glockenschläge"
+     ]
+    ]
+   },
+   "thema": "schweiz"
+  },
+  {
+   "id": "hausnummern",
+   "kat": "ort",
+   "titel": "Hausnummern-Detektiv",
+   "emo": "🔢",
+   "kurz": "Entdecke das Geheimnis der Hausnummern.",
+   "schritte": [
+    "Geh mit einer erwachsenen Person eine Strasse entlang.",
+    "Lies die Hausnummern auf der einen Seite.",
+    "Lies dann die Nummern auf der anderen Seite.",
+    "Was fällt dir auf?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person an der Strasse unterwegs sein.",
+   "fragen": [
+    {
+     "q": "Wie sind die Hausnummern in einer Strasse meistens verteilt?",
+     "a": [
+      "Auf einer Seite gerade, auf der anderen ungerade",
+      "Alle Häuser haben die gleiche Nummer",
+      "Es gibt nur Buchstaben",
+      "Ganz zufällig"
+     ],
+     "e": "So findet man ein Haus schneller."
+    },
+    {
+     "q": "Welche Zahl ist gerade?",
+     "a": [
+      "14",
+      "7",
+      "9",
+      "21"
+     ],
+     "e": "Gerade Zahlen kann man ohne Rest durch 2 teilen."
+    }
+   ],
+   "thema": "mathe"
+  },
+  {
+   "id": "verkehr",
+   "kat": "ort",
+   "titel": "Verkehrs-Zählung",
+   "emo": "🚗",
+   "kurz": "Was fährt bei dir vorbei?",
+   "schritte": [
+    "Such mit einer erwachsenen Person einen sicheren Platz weit weg vom Strassenrand.",
+    "Zähle fünf Minuten lang alle Fahrzeuge.",
+    "Mach für jedes Auto, Velo, Bus und Lastwagen einen Strich.",
+    "Was kam am häufigsten?"
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person an der Strasse unterwegs sein. Bleib weit weg vom Strassenrand.",
+   "fragen": [
+    {
+     "q": "Bis wann dürfen Kinder in der Schweiz mit dem Velo auf dem Trottoir fahren, wenn es keinen Radweg gibt?",
+     "a": [
+      "Bis zum 12. Geburtstag",
+      "Bis zum 6. Geburtstag",
+      "Bis zum 16. Geburtstag",
+      "Bis zum 18. Geburtstag"
+     ],
+     "e": "Wo es weder Radweg noch Radstreifen gibt, dürfen Kinder bis zum 12. Geburtstag auf dem Trottoir fahren. Fussgänger haben dort aber immer Vortritt."
+    },
+    {
+     "q": "Welche Farbe hat beim Lichtsignal das Zeichen für «Warten»?",
+     "a": [
+      "Rot",
+      "Grün",
+      "Blau",
+      "Violett"
+     ],
+     "e": "Bei Rot wartest du. Bei Grün darfst du gehen, aber schau trotzdem nach links und rechts."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "auto",
+      "Autos"
+     ],
+     [
+      "velo",
+      "Velos"
+     ],
+     [
+      "bus",
+      "Busse"
+     ],
+     [
+      "lastwagen",
+      "Lastwagen"
+     ]
+    ]
+   },
+   "thema": "alltag"
+  },
+  {
+   "id": "buchstaben",
+   "kat": "ort",
+   "titel": "Buchstaben-Jagd",
+   "emo": "🔤",
+   "kurz": "Finde alle Buchstaben von A bis Z.",
+   "schritte": [
+    "Such auf Schildern, Läden und Plakaten den Buchstaben A.",
+    "Dann B, dann C, und so weiter.",
+    "Zähle, wie weit du kommst.",
+    "Welcher Buchstabe war am schwierigsten?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person an der Strasse unterwegs sein.",
+   "fragen": [
+    {
+     "q": "Wie viele Buchstaben hat das Alphabet ohne Ä, Ö und Ü?",
+     "a": [
+      "26",
+      "24",
+      "30",
+      "20"
+     ],
+     "e": "Von A bis Z sind es 26 Buchstaben."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "buchst",
+      "Gefundene Buchstaben"
+     ]
+    ],
+    "notiz": "Welcher Buchstabe war am schwierigsten?"
+   },
+   "thema": "sprache"
+  },
+  {
+   "id": "wappen",
+   "kat": "ort",
+   "titel": "Wappen-Suche",
+   "emo": "🛡️",
+   "kurz": "Wo siehst du Wappen und Fahnen?",
+   "schritte": [
+    "Such an Gebäuden, Brunnen und Fahnen nach Wappen.",
+    "Find heraus, welches Wappen deine Gemeinde hat.",
+    "Schau, ob du auch ein Kantonswappen siehst.",
+    "Zeichne ein Wappen nach."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Wie viele Kantone hat die Schweiz?",
+     "a": [
+      "26",
+      "20",
+      "23",
+      "30"
+     ],
+     "e": "Die Schweiz hat 26 Kantone, jeder mit eigenem Wappen."
+    },
+    {
+     "q": "Welches Tier ist im Wappen des Kantons Bern?",
+     "a": [
+      "Ein Bär",
+      "Ein Stier",
+      "Ein Steinbock",
+      "Ein Adler"
+     ],
+     "e": "Der Bär ist das Wappentier von Bern."
+    },
+    {
+     "q": "Was zeigt das Wappen des Kantons Uri?",
+     "a": [
+      "Einen Stierkopf",
+      "Einen Bären",
+      "Einen Fisch",
+      "Einen Löwen"
+     ],
+     "e": "Der schwarze Stierkopf mit rotem Nasenring ist das Zeichen von Uri."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "wappen",
+      "Wappen gefunden"
+     ]
+    ]
+   },
+   "thema": "schweiz"
+  },
+  {
+   "id": "spielplatz",
+   "kat": "ort",
+   "titel": "Spielplatz-Physik",
+   "emo": "🛝",
+   "kurz": "Forschen auf dem Spielplatz.",
+   "schritte": [
+    "Geh auf einen Spielplatz.",
+    "Rutsch einmal langsam und einmal schnell. Was machst du anders?",
+    "Schaukle und zähle, wie oft du in zehn Sekunden hin und her schwingst.",
+    "Probier die Wippe mit einer anderen Person aus."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Halte Abstand zu Schaukeln, auf denen andere schaukeln.",
+   "fragen": [
+    {
+     "q": "Warum rutschst du die Rutschbahn hinunter?",
+     "a": [
+      "Wegen der Schwerkraft",
+      "Wegen des Windes",
+      "Wegen der Sonne",
+      "Wegen der Farbe"
+     ],
+     "e": "Die Erde zieht alles nach unten. Diese Kraft heisst Schwerkraft."
+    },
+    {
+     "q": "Wie kommst du auf der Schaukel höher?",
+     "a": [
+      "Im richtigen Moment Beine strecken und anziehen",
+      "Ganz still sitzen",
+      "Augen schliessen",
+      "Laut singen"
+     ],
+     "e": "So gibst du der Schaukel bei jedem Schwung ein bisschen mehr Schwung."
+    }
+   ],
+   "thema": "physik"
+  },
+  {
+   "id": "bahnhof",
+   "kat": "ort",
+   "titel": "Bahnhof-Detektiv",
+   "emo": "🚆",
+   "kurz": "Entdecke, was es am Bahnhof alles gibt.",
+   "schritte": [
+    "Geh mit einer erwachsenen Person an einen Bahnhof.",
+    "Such die grosse Bahnhofsuhr und beobachte den roten Zeiger.",
+    "Lies auf der Anzeigetafel, wohin der nächste Zug fährt.",
+    "Zähle, wie viele Gleise es gibt."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "30 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person. Bleib am Perron hinter der Sicherheitslinie.",
+   "fragen": [
+    {
+     "q": "Was ist an der Schweizer Bahnhofsuhr besonders?",
+     "a": [
+      "Der rote Sekundenzeiger bleibt kurz bei der 12 stehen",
+      "Sie hat keine Zeiger",
+      "Sie läuft rückwärts",
+      "Sie zeigt nur Sekunden"
+     ],
+     "e": "Der rote Zeiger dreht etwas schneller, wartet oben kurz und läuft dann mit der neuen Minute los."
+    },
+    {
+     "q": "Wofür stehen die Buchstaben SBB?",
+     "a": [
+      "Schweizerische Bundesbahnen",
+      "Schnelle Blaue Bahn",
+      "Schweizer Berg Bahn",
+      "Sehr Bequeme Bahn"
+     ],
+     "e": "Die SBB sind die grösste Bahngesellschaft der Schweiz."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "gleise",
+      "Gleise"
+     ]
+    ]
+   },
+   "thema": "technik"
+  },
+  {
+   "id": "recycling",
+   "kat": "ort",
+   "titel": "Recycling-Detektiv",
+   "emo": "♻️",
+   "kurz": "Wo wird bei dir gesammelt?",
+   "schritte": [
+    "Such mit einer erwachsenen Person eine Sammelstelle.",
+    "Schau, welche Behälter es gibt: Glas, Alu, PET, Papier.",
+    "Bring zusammen etwas zum Recycling.",
+    "Zähle, wie viele verschiedene Sammelbehälter es gibt."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Glasscherben nicht anfassen. Nur mit einer erwachsenen Person an der Strasse unterwegs sein.",
+   "fragen": [
+    {
+     "q": "Was gehört in die PET-Sammlung?",
+     "a": [
+      "Getränkeflaschen aus PET",
+      "Joghurtbecher",
+      "Glasflaschen",
+      "Batterien"
+     ],
+     "e": "In die PET-Sammlung gehören nur Getränkeflaschen. Andere Plastik kommt woanders hin."
+    },
+    {
+     "q": "Wohin bringst du leere Batterien?",
+     "a": [
+      "Zurück in einen Laden oder zu einer Sammelstelle",
+      "In den Kehricht",
+      "In den Kompost",
+      "In den Brunnen"
+     ],
+     "e": "Batterien enthalten Stoffe, die der Umwelt schaden. Läden nehmen sie gratis zurück."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "behaelter",
+      "Sammelbehälter"
+     ]
+    ]
+   },
+   "thema": "alltag"
+  },
+  {
+   "id": "strassennamen",
+   "kat": "ort",
+   "titel": "Strassennamen-Forscher",
+   "emo": "🪧",
+   "kurz": "Wonach sind die Strassen benannt?",
+   "schritte": [
+    "Geh mit einer erwachsenen Person durch dein Quartier.",
+    "Lies die Strassenschilder.",
+    "Ist die Strasse nach einer Person, einer Pflanze, einem Tier oder einem Ort benannt?",
+    "Zähle für jede Gruppe."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "30 Min.",
+   "ort": "draussen",
+   "sicher": "Nur mit einer erwachsenen Person an der Strasse unterwegs sein.",
+   "form": {
+    "zaehler": [
+     [
+      "person",
+      "Person"
+     ],
+     [
+      "pflanze",
+      "Pflanze"
+     ],
+     [
+      "tier",
+      "Tier"
+     ],
+     [
+      "ort",
+      "Ort"
+     ]
+    ],
+    "notiz": "Welcher Strassenname hat dir am besten gefallen?"
+   },
+   "thema": "sprache"
+  },
+  {
+   "id": "geraeusche",
+   "kat": "sinne",
+   "titel": "Geräusche-Spaziergang",
+   "emo": "👂",
+   "kurz": "Was hörst du, wenn du ganz still bist?",
+   "schritte": [
+    "Mach einen kurzen Spaziergang.",
+    "Bleib dreimal an einem sicheren Ort stehen.",
+    "Schliess eine Minute die Augen und hör zu.",
+    "Zähle die Geräusche: Natur, Menschen oder Maschinen?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Augen nur schliessen, wenn du stillstehst, und nie an der Strasse.",
+   "fragen": [
+    {
+     "q": "Was ist Schall?",
+     "a": [
+      "Schwingungen, die sich durch die Luft ausbreiten",
+      "Ein Licht",
+      "Ein Geruch",
+      "Eine Farbe"
+     ],
+     "e": "Wenn etwas schwingt, bringt es die Luft zum Schwingen. Dein Ohr fängt das auf."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "natur",
+      "Natur"
+     ],
+     [
+      "menschen",
+      "Menschen"
+     ],
+     [
+      "maschinen",
+      "Maschinen"
+     ]
+    ]
+   },
+   "thema": "physik"
+  },
+  {
+   "id": "fuehlsack",
+   "kat": "sinne",
+   "titel": "Fühl-Säckli",
+   "emo": "🖐️",
+   "kurz": "Errate Dinge nur mit den Händen.",
+   "schritte": [
+    "Eine andere Person legt fünf Dinge in einen Stoffsack.",
+    "Greif hinein, ohne zu schauen.",
+    "Fühle: weich, hart, rund, eckig?",
+    "Rate, was es ist, und nimm es heraus."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Keine spitzen oder scharfen Dinge in den Sack legen.",
+   "fragen": [
+    {
+     "q": "Mit welchem Teil der Hand fühlst du besonders fein?",
+     "a": [
+      "Mit den Fingerspitzen",
+      "Mit dem Handrücken",
+      "Mit dem Ellbogen",
+      "Mit den Fingernägeln"
+     ],
+     "e": "In den Fingerspitzen sitzen ganz viele Tastkörperchen."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "richtig",
+      "Richtig erraten"
+     ]
+    ]
+   },
+   "thema": "koerper"
+  },
+  {
+   "id": "riechen",
+   "kat": "sinne",
+   "titel": "Riech-Rätsel",
+   "emo": "👃",
+   "kurz": "Erkennst du Dinge am Geruch?",
+   "schritte": [
+    "Eine erwachsene Person stellt Dinge aus der Küche bereit, zum Beispiel Zimt, Zitrone und Kaffee.",
+    "Schliess die Augen.",
+    "Riech vorsichtig an jedem Ding.",
+    "Rate, was es ist."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Nur an Lebensmitteln riechen, nie an Putzmitteln.",
+   "fragen": [
+    {
+     "q": "Warum schmeckt Essen fade, wenn du Schnupfen hast?",
+     "a": [
+      "Weil die Nase beim Schmecken stark mithilft",
+      "Weil die Zunge schläft",
+      "Weil das Essen kalt ist",
+      "Weil die Ohren zu sind"
+     ],
+     "e": "Viel vom Geschmack riechen wir eigentlich mit der Nase."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "richtig",
+      "Richtig erraten"
+     ]
+    ]
+   },
+   "thema": "koerper"
+  },
+  {
+   "id": "farbenjagd",
+   "kat": "sinne",
+   "titel": "Farben-Jagd",
+   "emo": "🎨",
+   "kurz": "Find für jede Regenbogenfarbe ein Ding.",
+   "schritte": [
+    "Such etwas Rotes.",
+    "Dann etwas Oranges, Gelbes, Grünes und Blaues.",
+    "Zum Schluss etwas Violettes.",
+    "Leg alles in Regenbogen-Reihenfolge hin."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "15 Min.",
+   "ort": "zuhause",
+   "fragen": [
+    {
+     "q": "Welche Malfarben mischt man, um Grün zu bekommen?",
+     "a": [
+      "Blau und Gelb",
+      "Rot und Weiss",
+      "Rot und Blau",
+      "Schwarz und Weiss"
+     ],
+     "e": "Aus Blau und Gelb wird Grün. Rot und Blau ergeben Violett."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Welche Farbe war am schwierigsten zu finden?",
+     "o": [
+      "Rot",
+      "Orange",
+      "Gelb",
+      "Grün",
+      "Blau",
+      "Violett"
+     ]
+    }
+   },
+   "thema": "kunst"
+  },
+  {
+   "id": "puls",
+   "kat": "sinne",
+   "titel": "Puls-Detektiv",
+   "emo": "❤️",
+   "kurz": "Wie schnell schlägt dein Herz?",
+   "schritte": [
+    "Leg zwei Finger seitlich an deinen Hals oder innen ans Handgelenk.",
+    "Zähle 15 Sekunden lang die Schläge und rechne mal 4.",
+    "Mach 20 Hampelmänner.",
+    "Miss nochmals und vergleiche."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Wenn dir schwindlig wird, setz dich hin und ruh dich aus.",
+   "fragen": [
+    {
+     "q": "Warum schlägt dein Herz schneller, wenn du rennst?",
+     "a": [
+      "Deine Muskeln brauchen mehr Sauerstoff",
+      "Weil es kälter wird",
+      "Weil du Hunger hast",
+      "Weil das Herz müde ist"
+     ],
+     "e": "Das Blut bringt den Sauerstoff zu den Muskeln. Darum pumpt das Herz schneller."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "ruhe",
+      "In Ruhe",
+      "pro Minute"
+     ],
+     [
+      "nachher",
+      "Nach dem Hüpfen",
+      "pro Minute"
+     ]
+    ]
+   },
+   "thema": "koerper"
+  },
+  {
+   "id": "barfuss",
+   "kat": "sinne",
+   "titel": "Barfuss-Pfad",
+   "emo": "🦶",
+   "kurz": "Spür den Boden mit den Füssen.",
+   "schritte": [
+    "Such mit einer erwachsenen Person einen sauberen Ort mit Gras.",
+    "Zieh Schuhe und Socken aus.",
+    "Geh langsam über Gras, Erde, Sand oder Moos.",
+    "Wie fühlt sich jeder Boden an?"
+   ],
+   "stufe": 1,
+   "monate": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "dauer": "15 Min.",
+   "ort": "draussen",
+   "sicher": "Nur wo keine Scherben liegen. Pass auf Bienen im Klee auf.",
+   "form": {
+    "auswahl": {
+     "f": "Was hat sich am schönsten angefühlt?",
+     "o": [
+      "Gras",
+      "Erde",
+      "Sand",
+      "Moos",
+      "Steine"
+     ]
+    },
+    "notiz": "Wie hat es sich angefühlt?"
+   },
+   "thema": "koerper"
+  },
+  {
+   "id": "schmecken",
+   "kat": "sinne",
+   "titel": "Geschmacks-Test",
+   "emo": "👅",
+   "kurz": "Süss, sauer, salzig oder bitter?",
+   "schritte": [
+    "Eine erwachsene Person stellt dir kleine Proben bereit: Zucker, Zitrone, Salz.",
+    "Probier jede Probe nur ein kleines bisschen.",
+    "Trink zwischendurch einen Schluck Wasser.",
+    "Sag, welcher Geschmack es ist."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Nur mit einer erwachsenen Person und nur Lebensmittel, die du kennst und verträgst.",
+   "fragen": [
+    {
+     "q": "Wie schmeckt eine Zitrone?",
+     "a": [
+      "Sauer",
+      "Süss",
+      "Salzig",
+      "Bitter"
+     ],
+     "e": "In Zitronen steckt viel Zitronensäure."
+    },
+    {
+     "q": "Wie heisst der fünfte Grundgeschmack, den man zum Beispiel in Käse oder Tomaten schmeckt?",
+     "a": [
+      "Umami",
+      "Fruchtig",
+      "Würzig",
+      "Scharf"
+     ],
+     "e": "Umami ist ein japanisches Wort und bedeutet ungefähr «köstlich»."
+    }
+   ],
+   "thema": "koerper"
+  },
+  {
+   "id": "echo",
+   "kat": "sinne",
+   "titel": "Echo-Suche",
+   "emo": "📣",
+   "kurz": "Wo kommt deine Stimme zurück?",
+   "schritte": [
+    "Such mit einer erwachsenen Person einen Ort mit Echo, zum Beispiel unter einer Brücke oder vor einer grossen Wand.",
+    "Ruf ein kurzes Wort.",
+    "Hör, ob es zurückkommt.",
+    "Probier verschiedene Orte aus."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "draussen",
+   "sicher": "Nicht an der Strasse rufen und Rücksicht auf andere nehmen.",
+   "fragen": [
+    {
+     "q": "Was ist ein Echo?",
+     "a": [
+      "Schall, der von einer Wand zurückgeworfen wird",
+      "Ein zweiter Mensch, der antwortet",
+      "Ein Vogel, der nachmacht",
+      "Wind im Ohr"
+     ],
+     "e": "Je weiter weg die Wand ist, desto später hörst du das Echo."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Wo war das Echo am besten?",
+     "o": [
+      "Unter einer Brücke",
+      "Vor einer Wand",
+      "Im Wald",
+      "In einem Treppenhaus",
+      "Nirgends"
+     ]
+    }
+   },
+   "thema": "physik"
+  },
+  {
+   "id": "blinderfleck",
+   "kat": "sinne",
+   "titel": "Blinder Fleck",
+   "emo": "👁️",
+   "kurz": "Ein Zaubertrick mit deinem Auge.",
+   "schritte": [
+    "Mal auf ein Papier links ein Kreuz und etwa 7 cm daneben einen dicken Punkt.",
+    "Halte das Blatt vor dein Gesicht und schliess das linke Auge.",
+    "Schau mit dem rechten Auge nur auf das Kreuz.",
+    "Beweg das Blatt langsam näher. Plötzlich verschwindet der Punkt!"
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "fragen": [
+    {
+     "q": "Wie heisst die Stelle im Auge, an der man nichts sieht?",
+     "a": [
+      "Blinder Fleck",
+      "Dunkler Punkt",
+      "Augenloch",
+      "Schwarzer Kreis"
+     ],
+     "e": "Dort verlässt der Sehnerv das Auge. Das Gehirn füllt die Lücke einfach auf."
+    },
+    {
+     "q": "Wie heisst die schwarze Öffnung in der Mitte deines Auges?",
+     "a": [
+      "Pupille",
+      "Iris",
+      "Wimper",
+      "Braue"
+     ],
+     "e": "Durch die Pupille fällt das Licht ins Auge."
+    }
+   ],
+   "thema": "koerper"
+  },
+  {
+   "id": "pupille",
+   "kat": "sinne",
+   "titel": "Pupillen-Spiegel",
+   "emo": "🪞",
+   "kurz": "Beobachte deine Pupillen im Spiegel.",
+   "schritte": [
+    "Stell dich vor einen Spiegel in einem hellen Raum.",
+    "Halte die Hände zehn Sekunden über die Augen.",
+    "Nimm die Hände weg und schau sofort in den Spiegel.",
+    "Was machen deine Pupillen?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "5 Min.",
+   "ort": "zuhause",
+   "sicher": "Nie in die Sonne oder in helle Lampen schauen.",
+   "fragen": [
+    {
+     "q": "Was macht deine Pupille in hellem Licht?",
+     "a": [
+      "Sie wird kleiner",
+      "Sie wird grösser",
+      "Sie wird rot",
+      "Sie bleibt immer gleich"
+     ],
+     "e": "So schützt das Auge sich vor zu viel Licht. Im Dunkeln wird die Pupille gross."
+    }
+   ],
+   "thema": "koerper"
+  },
+  {
+   "id": "gleichgewicht",
+   "kat": "sinne",
+   "titel": "Gleichgewichts-Test",
+   "emo": "🧍",
+   "kurz": "Wie lange stehst du auf einem Bein?",
+   "schritte": [
+    "Stell dich neben einen Tisch zum Festhalten.",
+    "Steh auf einem Bein und zähle die Sekunden.",
+    "Probier es jetzt mit geschlossenen Augen.",
+    "Was war schwieriger?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "5 Min.",
+   "ort": "zuhause",
+   "sicher": "Steh neben etwas zum Festhalten und auf weichem Boden.",
+   "fragen": [
+    {
+     "q": "Wo sitzt dein Gleichgewichtsorgan?",
+     "a": [
+      "Im Innenohr",
+      "Im Fuss",
+      "In der Nase",
+      "Im Bauch"
+     ],
+     "e": "Im Innenohr gibt es kleine Bogengänge mit Flüssigkeit. Sie melden dem Gehirn jede Bewegung."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "offen",
+      "Augen offen",
+      "Sekunden"
+     ],
+     [
+      "zu",
+      "Augen zu",
+      "Sekunden"
+     ]
+    ]
+   },
+   "thema": "koerper"
+  },
+  {
+   "id": "wolkenarten",
+   "kat": "wetter",
+   "titel": "Wolken-Bestimmer",
+   "emo": "🌤️",
+   "kurz": "Welche Wolken siehst du heute?",
+   "schritte": [
+    "Schau zum Himmel.",
+    "Sind die Wolken hoch oder tief?",
+    "Sehen sie aus wie Watte, wie Federn oder wie eine graue Decke?",
+    "Wähle unten aus, welche Wolken du siehst."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "5 Min.",
+   "ort": "draussen",
+   "sicher": "Schau nie direkt in die Sonne.",
+   "fragen": [
+    {
+     "q": "Wie heissen die hohen, feinen Federwolken?",
+     "a": [
+      "Zirruswolken",
+      "Kumuluswolken",
+      "Nebelwolken",
+      "Stratuswolken"
+     ],
+     "e": "Zirruswolken sind so hoch, dass sie aus Eiskristallen bestehen."
+    },
+    {
+     "q": "Welche Wolken bringen oft Gewitter?",
+     "a": [
+      "Hohe Gewittertürme (Kumulonimbus)",
+      "Feine Federwolken",
+      "Kleine Schäfchenwolken",
+      "Nebel"
+     ],
+     "e": "Gewitterwolken können über zehn Kilometer hoch werden."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Welche Wolken siehst du?",
+     "o": [
+      "Wattewolken",
+      "Federwolken",
+      "Graue Decke",
+      "Schäfchenwolken",
+      "Keine Wolken"
+     ]
+    }
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "regenmesser",
+   "kat": "wetter",
+   "titel": "Regenmesser",
+   "emo": "🌧️",
+   "kurz": "Wie viel Regen fällt an einem Tag?",
+   "schritte": [
+    "Lass eine erwachsene Person eine PET-Flasche oben abschneiden.",
+    "Stell die Flasche draussen an einen freien Ort.",
+    "Kleb ein Lineal aussen an die Flasche.",
+    "Lies nach einem Regentag ab, wie viele Millimeter Wasser drin sind."
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "1 Tag",
+   "ort": "draussen",
+   "sicher": "Die Flasche nur von Erwachsenen aufschneiden lassen. Die Schnittkante ist scharf.",
+   "fragen": [
+    {
+     "q": "Was bedeutet 1 Millimeter Regen?",
+     "a": [
+      "Ein Liter Wasser auf einem Quadratmeter",
+      "Ein Tropfen pro Tag",
+      "Ein Eimer pro Haus",
+      "Ein Glas pro Person"
+     ],
+     "e": "Würde das Wasser nicht versickern, stünde es überall einen Millimeter hoch."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "mm",
+      "Regen",
+      "mm"
+     ]
+    ]
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "wind",
+   "kat": "wetter",
+   "titel": "Wind-Detektiv",
+   "emo": "🌬️",
+   "kurz": "Woher kommt der Wind heute?",
+   "schritte": [
+    "Bind ein leichtes Band an einen Stock.",
+    "Halte ihn draussen hoch.",
+    "Schau, in welche Richtung das Band weht.",
+    "Wie stark ist der Wind heute?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Wie heisst der kalte Wind aus Nordosten in der Schweiz?",
+     "a": [
+      "Bise",
+      "Föhn",
+      "Mistral",
+      "Monsun"
+     ],
+     "e": "Die Bise ist trocken und kalt. Im Winter fühlt sie sich besonders frisch an."
+    },
+    {
+     "q": "Wie heisst der warme, trockene Fallwind, der in der Schweiz oft über die Alpen weht?",
+     "a": [
+      "Föhn",
+      "Bise",
+      "Monsun",
+      "Passat"
+     ],
+     "e": "Wenn Föhn weht, sieht man die Berge oft besonders klar."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Wie stark war der Wind?",
+     "o": [
+      "Windstill",
+      "Leichter Wind",
+      "Starker Wind",
+      "Sturm (drinnen geblieben)"
+     ]
+    }
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "temperaturtagebuch",
+   "kat": "wetter",
+   "titel": "Temperatur-Tagebuch",
+   "emo": "📈",
+   "kurz": "Wann ist es am wärmsten?",
+   "schritte": [
+    "Such ein Thermometer draussen im Schatten.",
+    "Lies am Morgen die Temperatur ab.",
+    "Lies am Mittag und am Abend nochmals ab.",
+    "Vergleiche die drei Werte."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "3 x 2 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Wann ist es an einem sonnigen Tag meistens am wärmsten?",
+     "a": [
+      "Am Nachmittag",
+      "Kurz vor Sonnenaufgang",
+      "Um Mitternacht",
+      "Um 7 Uhr morgens"
+     ],
+     "e": "Der Boden wärmt die Luft auch nach dem Mittag noch weiter auf."
+    },
+    {
+     "q": "Wann ist es meistens am kältesten?",
+     "a": [
+      "Kurz vor Sonnenaufgang",
+      "Am Mittag",
+      "Am Nachmittag",
+      "Am frühen Abend"
+     ],
+     "e": "In der Nacht kühlt der Boden immer weiter ab, bis die Sonne wieder scheint."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "morgen",
+      "Morgen",
+      "°C"
+     ],
+     [
+      "mittag",
+      "Mittag",
+      "°C"
+     ],
+     [
+      "abend",
+      "Abend",
+      "°C"
+     ]
+    ]
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "regenbogenjagd",
+   "kat": "wetter",
+   "titel": "Regenbogen-Jäger",
+   "emo": "🌈",
+   "kurz": "Halte Ausschau nach einem Regenbogen.",
+   "schritte": [
+    "Warte auf einen Tag mit Regen und Sonne zugleich.",
+    "Stell dich so hin, dass die Sonne hinter dir ist.",
+    "Schau in Richtung der Regenwolken.",
+    "Zähle die Farben, die du erkennst."
+   ],
+   "stufe": 1,
+   "monate": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Schau nie direkt in die Sonne.",
+   "fragen": [
+    {
+     "q": "Wo muss die Sonne stehen, damit du einen Regenbogen siehst?",
+     "a": [
+      "Hinter dir",
+      "Vor dir",
+      "Unter dem Boden",
+      "Direkt auf dem Regenbogen"
+     ],
+     "e": "Das Sonnenlicht muss von hinten in die Tropfen vor dir fallen."
+    },
+    {
+     "q": "Was siehst du manchmal ausserhalb des Hauptregenbogens?",
+     "a": [
+      "Einen zweiten, blasseren Regenbogen",
+      "Einen schwarzen Bogen",
+      "Einen viereckigen Regenbogen",
+      "Sterne"
+     ],
+     "e": "Beim Nebenregenbogen ist die Reihenfolge der Farben umgekehrt."
+    }
+   ],
+   "form": {
+    "zaehler": [
+     [
+      "farben",
+      "Erkannte Farben"
+     ]
+    ]
+   },
+   "thema": "physik"
+  },
+  {
+   "id": "gewitter",
+   "kat": "wetter",
+   "titel": "Gewitter-Zähler",
+   "emo": "⚡",
+   "kurz": "Wie weit weg ist das Gewitter?",
+   "schritte": [
+    "Bleib drinnen und schau aus dem Fenster.",
+    "Wenn es blitzt, zähle die Sekunden bis zum Donner.",
+    "Teile die Zahl durch 3.",
+    "So viele Kilometer ist das Gewitter ungefähr entfernt."
+   ],
+   "stufe": 2,
+   "monate": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "sicher": "Nur von drinnen beobachten! Bei Gewitter nie draussen bleiben.",
+   "fragen": [
+    {
+     "q": "Du zählst 6 Sekunden zwischen Blitz und Donner. Wie weit ist das Gewitter ungefähr weg?",
+     "a": [
+      "2 Kilometer",
+      "6 Kilometer",
+      "18 Kilometer",
+      "200 Meter"
+     ],
+     "e": "Der Schall braucht für einen Kilometer etwa 3 Sekunden. 6 geteilt durch 3 ergibt 2."
+    },
+    {
+     "q": "Wo bist du bei Gewitter am sichersten?",
+     "a": [
+      "In einem Haus oder Auto",
+      "Unter einem einzelnen Baum",
+      "Auf einem Hügel",
+      "Im See"
+     ],
+     "e": "Häuser und Autos schützen vor dem Blitz."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "sek",
+      "Sekunden bis zum Donner",
+      "s"
+     ]
+    ]
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "nebel",
+   "kat": "wetter",
+   "titel": "Nebel-Forscher",
+   "emo": "🌫️",
+   "kurz": "Wie weit kannst du im Nebel sehen?",
+   "schritte": [
+    "Schau an einem Nebeltag aus dem Fenster.",
+    "Such das am weitesten entfernte Ding, das du noch siehst.",
+    "Schau am Mittag nochmals: Hat sich der Nebel verändert?",
+    "Fühl draussen die Luft: feucht oder trocken?"
+   ],
+   "stufe": 1,
+   "monate": [
+    10,
+    11,
+    12,
+    1,
+    2
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Bei Nebel helle Kleider tragen. Nur mit einer erwachsenen Person an der Strasse unterwegs sein.",
+   "fragen": [
+    {
+     "q": "Was ist Nebel?",
+     "a": [
+      "Eine Wolke, die ganz unten am Boden liegt",
+      "Rauch von Feuern",
+      "Staub aus der Wüste",
+      "Schnee in der Luft"
+     ],
+     "e": "Nebel besteht wie Wolken aus winzigen Wassertröpfchen."
+    },
+    {
+     "q": "Wie nennt man es, wenn man von einem Berg auf eine Nebeldecke hinunterschaut?",
+     "a": [
+      "Nebelmeer",
+      "Wolkenteich",
+      "Grauer See",
+      "Dunstberg"
+     ],
+     "e": "Im Herbst und Winter liegt oft Nebel über dem Mittelland, während es in den Bergen sonnig ist."
+    }
+   ],
+   "thema": "erde"
+  },
+  {
+   "id": "tau",
+   "kat": "wetter",
+   "titel": "Tau-Tropfen",
+   "emo": "💧",
+   "kurz": "Am Morgen glitzert das Gras.",
+   "schritte": [
+    "Geh früh am Morgen hinaus.",
+    "Fühl mit der Hand über das Gras.",
+    "Such Tropfen auf Blättern und Spinnennetzen.",
+    "Schau am Mittag nochmals: Sind die Tropfen noch da?"
+   ],
+   "stufe": 1,
+   "monate": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "dauer": "5 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Wann bildet sich Tau?",
+     "a": [
+      "Wenn die Luft nachts abkühlt und Wasserdampf zu Tropfen wird",
+      "Wenn es stark regnet",
+      "Wenn die Sonne am höchsten steht",
+      "Wenn Tiere trinken"
+     ],
+     "e": "Kalte Luft kann weniger Wasserdampf halten. Darum setzen sich Tropfen ab."
+    }
+   ],
+   "thema": "erde"
+  },
+  {
+   "id": "vorhersage",
+   "kat": "wetter",
+   "titel": "Wetter-Prophet",
+   "emo": "🔮",
+   "kurz": "Sag das Wetter selbst voraus!",
+   "schritte": [
+    "Schau am Morgen in den Himmel: Wolken, Wind, Farbe.",
+    "Überleg dir: Wie wird das Wetter am Nachmittag?",
+    "Wähle deine Vorhersage unten aus.",
+    "Prüfe am Abend, ob du recht hattest."
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "2 x 5 Min.",
+   "ort": "draussen",
+   "fragen": [
+    {
+     "q": "Wie heisst das Bundesamt, das in der Schweiz das Wetter vorhersagt?",
+     "a": [
+      "MeteoSchweiz",
+      "WetterPost",
+      "SonnenAmt",
+      "Bundeswetter"
+     ],
+     "e": "MeteoSchweiz misst das Wetter an vielen Stationen in der ganzen Schweiz."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Hat deine Vorhersage gestimmt?",
+     "o": [
+      "Ja, genau",
+      "Ein bisschen",
+      "Nein, gar nicht"
+     ]
+    },
+    "notiz": "Was hast du vorhergesagt?"
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "windrad",
+   "kat": "wetter",
+   "titel": "Windrad basteln",
+   "emo": "🌀",
+   "kurz": "Bau ein Windrad und teste den Wind.",
+   "schritte": [
+    "Nimm ein quadratisches Blatt Papier.",
+    "Schneide von jeder Ecke bis fast zur Mitte ein.",
+    "Bieg jede zweite Spitze zur Mitte.",
+    "Lass eine erwachsene Person es mit einer Stecknadel an einem Stab befestigen und puste!"
+   ],
+   "stufe": 2,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "20 Min.",
+   "ort": "zuhause",
+   "sicher": "Schere und Nadel nur mit einer erwachsenen Person benutzen.",
+   "fragen": [
+    {
+     "q": "Was macht eine Windkraftanlage aus Wind?",
+     "a": [
+      "Strom",
+      "Wasser",
+      "Wärme aus Kohle",
+      "Regen"
+     ],
+     "e": "Der Wind dreht die Rotorblätter. Ein Generator macht daraus Strom."
+    }
+   ],
+   "thema": "technik"
+  },
+  {
+   "id": "schneehoehe",
+   "kat": "wetter",
+   "titel": "Schnee-Messer",
+   "emo": "📏",
+   "kurz": "Wie hoch liegt der Schnee?",
+   "schritte": [
+    "Nimm einen Meterstab oder ein Lineal.",
+    "Steck es an drei verschiedenen Orten senkrecht in den Schnee.",
+    "Lies jedes Mal die Höhe ab.",
+    "Wo liegt am meisten Schnee? Warum wohl?"
+   ],
+   "stufe": 1,
+   "monate": [
+    12,
+    1,
+    2,
+    3
+   ],
+   "dauer": "10 Min.",
+   "ort": "draussen",
+   "sicher": "Warm anziehen und nicht auf Eisflächen gehen.",
+   "fragen": [
+    {
+     "q": "Warum knirscht Schnee bei grosser Kälte unter den Schuhen?",
+     "a": [
+      "Die Eiskristalle zerbrechen",
+      "Weil Sand darin ist",
+      "Weil Mäuse darunter sind",
+      "Weil er nass ist"
+     ],
+     "e": "Bei grosser Kälte sind die Kristalle hart und brechen hörbar."
+    }
+   ],
+   "form": {
+    "zahlen": [
+     [
+      "ort1",
+      "Ort 1",
+      "cm"
+     ],
+     [
+      "ort2",
+      "Ort 2",
+      "cm"
+     ],
+     [
+      "ort3",
+      "Ort 3",
+      "cm"
+     ]
+    ]
+   },
+   "thema": "erde"
+  },
+  {
+   "id": "tropfenrennen",
+   "kat": "wetter",
+   "titel": "Regentropfen-Rennen",
+   "emo": "🪟",
+   "kurz": "Welcher Tropfen ist zuerst unten?",
+   "schritte": [
+    "Setz dich an einem Regentag ans Fenster.",
+    "Wähle einen Tropfen oben an der Scheibe aus.",
+    "Eine andere Person wählt auch einen.",
+    "Wessen Tropfen ist zuerst unten?"
+   ],
+   "stufe": 1,
+   "monate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "dauer": "10 Min.",
+   "ort": "zuhause",
+   "fragen": [
+    {
+     "q": "Was zieht die Regentropfen nach unten?",
+     "a": [
+      "Die Schwerkraft",
+      "Der Mond",
+      "Das Licht",
+      "Der Magnetismus"
+     ],
+     "e": "Die Erde zieht alles an. Grössere Tropfen rutschen meist schneller."
+    }
+   ],
+   "form": {
+    "auswahl": {
+     "f": "Wer hat gewonnen?",
+     "o": [
+      "Ich",
+      "Die andere Person",
+      "Unentschieden"
+     ]
+    }
+   },
+   "thema": "physik"
+  }
+ ]
+}

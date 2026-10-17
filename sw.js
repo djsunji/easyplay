@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-17-16";
+const VERSION = "ep-2026-10-17-14";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -17,7 +17,7 @@ const HUELLE = [
   "lernen.js",
   "level.js",
   "startseite.js",
-  "app.js", "stil.js", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "img/logo.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
+  "app.js", "stil.js", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "hilfen.js", "mathe.js", "sprachen.js", "familie.js", "forscher.js", "eltern.js", "offline.js", "i18n.js", "img/logo.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
   "img/kids/duo-jubel.webp",
   "img/kids/duo-winken.webp",
   "img/kids/duo-bereit.webp",
@@ -36,10 +36,17 @@ const HUELLE = [
   "daten-12.js"
 ];
 
-// Dateien für den Knopf «offline verfügbar machen»
+// Dateien für den älteren Knopf «offline verfügbar machen» (Nachricht {typ:"vorladen"})
 const VORLADEN = [];
 for (let i = 1; i <= 13; i++) VORLADEN.push("fragen-" + i + ".json");
 VORLADEN.push("bildindex.json");
+
+/* Offline-Pakete (offline.js, Welt «Offline spielen"):
+   Jedes Paket hat einen eigenen Cache "epoff-<paket>", unabhängig von VERSION.
+   Diese Caches werden beim Aktivieren NICHT gelöscht (sie beginnen nicht mit "ep-").
+   Downloads der Paketverwaltung tragen den Kopf "x-ep-offline" und gehen am Service Worker vorbei. */
+const PAKET_PREFIX = "epoff-";
+const OFFLINE_KOPF = "x-ep-offline";
 
 /* ---------- Hilfsfunktionen ---------- */
 
@@ -56,12 +63,60 @@ function schluessel(url) {
   return u.href;
 }
 
-// Holt eine Ressource frisch vom Netz und legt sie im Cache ab
-async function holenUndSpeichern(cacheName, anfrage, key) {
+const MATCH = { ignoreSearch: true, ignoreVary: true };
+
+// Liste der Paket-Caches, kurz zwischengespeichert
+let paketListe = null, paketZeit = 0;
+async function paketCaches() {
+  if (!paketListe || Date.now() - paketZeit > 15000) {
+    paketListe = (await caches.keys()).filter((n) => n.startsWith(PAKET_PREFIX));
+    paketZeit = Date.now();
+  }
+  return paketListe;
+}
+
+// Sucht zuerst in den genannten Caches, danach in allen Offline-Paketen. Liefert {name, antwort} oder null.
+async function finde(key, zuerst) {
+  const namen = [...zuerst, ...(await paketCaches())];
+  for (const n of namen) {
+    if (n.startsWith(PAKET_PREFIX) && !(await caches.has(n))) continue;
+    const t = await (await caches.open(n)).match(key, MATCH);
+    if (t) return { name: n, antwort: t };
+  }
+  return null;
+}
+
+const offlineNetz = () => self.navigator && self.navigator.onLine === false;
+
+// Leere Antwort, wenn offline nichts im Speicher liegt (statt Netzwerkfehler)
+const nichtDa = () => new Response("", { status: 504, statusText: "Offline" });
+
+// Unverändert? (gleiches ETag oder Last-Modified) Dann muss nichts neu gespeichert werden
+function gleich(alt, neu) {
+  if (!alt || !neu) return false;
+  const e1 = alt.headers.get("etag"), e2 = neu.headers.get("etag");
+  if (e1 && e2) return e1 === e2;
+  const l1 = alt.headers.get("last-modified"), l2 = neu.headers.get("last-modified");
+  return !!(l1 && l2 && l1 === l2);
+}
+
+// Holt eine Ressource frisch vom Netz und legt sie im Cache ab (nur wenn sie sich geändert hat)
+async function holenUndSpeichern(cacheName, anfrage, key, alt) {
   const antwort = await fetch(anfrage);
-  if (speicherbar(antwort)) {
+  if (speicherbar(antwort) && !gleich(alt, antwort)) {
     const cache = await caches.open(cacheName);
-    await cache.put(key || anfrage, antwort.clone());
+    if (cacheName.startsWith(PAKET_PREFIX)) {
+      // Offline-Paket: gleiches Format wie offline.js (Schlüssel ohne Query, Grösse im Kopf)
+      const blob = await antwort.clone().blob();
+      const kopf = new Headers();
+      kopf.set("Content-Type", antwort.headers.get("content-type") || "application/octet-stream");
+      for (const k of ["last-modified", "etag"]) { const v = antwort.headers.get(k); if (v) kopf.set(k, v); }
+      kopf.set("x-ep-groesse", String(blob.size));
+      kopf.set("x-ep-paket", cacheName.slice(PAKET_PREFIX.length));
+      await cache.put(key || schluessel(anfrage.url || anfrage), new Response(blob, { status: 200, statusText: "OK", headers: kopf }));
+    } else {
+      await cache.put(key || anfrage, antwort.clone());
+    }
   }
   return antwort;
 }
@@ -81,6 +136,20 @@ async function bilderTrimmen() {
   }
 }
 
+// Freundliche Seite, wenn offline gar nichts gespeichert ist
+const OFFLINE_SEITE = `<!doctype html><html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>easyplay: offline</title>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+background:linear-gradient(180deg,#BFE3FF,#EAF6FF);padding:16px;box-sizing:border-box}
+.k{max-width:420px;background:linear-gradient(135deg,#5B4BF5,#9B4DE0);color:#fff;border-radius:26px;padding:28px 24px;text-align:center;
+box-shadow:0 14px 34px rgba(40,30,120,.28)}.e{font-size:56px}h1{margin:8px 0 6px;font-size:24px}p{line-height:1.5;margin:0 0 16px}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 22px;background:#fff;color:#4B32C8;cursor:pointer}
+button:focus-visible{outline:3px solid #FFD84D;outline-offset:3px}</style></head><body><main class="k">
+<div class="e" aria-hidden="true">📴</div><h1>Du bist gerade offline</h1>
+<p>Diese Seite ist noch nicht auf deinem Gerät gespeichert. Sobald du wieder Internet hast, geht es weiter.
+Tipp: In «Offline spielen» kannst du easyplay für unterwegs herunterladen.</p>
+<button type="button" onclick="location.reload()">Nochmals versuchen</button></main></body></html>`;
+
 /* ---------- Installation und Aktivierung ---------- */
 
 self.addEventListener("install", (event) => {
@@ -99,6 +168,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const namen = await caches.keys();
+    // Nur alte Versions-Caches löschen; Offline-Pakete (epoff-…) bleiben
     await Promise.all(namen
       .filter((n) => n.startsWith("ep-") && n !== CACHE_HUELLE && n !== CACHE_BILDER)
       .map((n) => caches.delete(n)));
@@ -108,46 +178,70 @@ self.addEventListener("activate", (event) => {
 
 /* ---------- Strategien ---------- */
 
-// Seiten: zuerst Netz, sonst gespeicherte index.html
+// Startseite auch im Grundpaket auffrischen, falls es geladen ist
+async function seiteSpeichern(antwort) {
+  const cache = await caches.open(CACHE_HUELLE);
+  await cache.put("./", antwort.clone());
+  if (await caches.has(PAKET_PREFIX + "grund")) {
+    const g = await caches.open(PAKET_PREFIX + "grund");
+    await g.put("./", antwort.clone());
+    await g.put("index.html", antwort.clone());
+  }
+}
+
+// Seiten: zuerst Netz, sonst gespeicherte Seite (Hülle oder Offline-Paket), sonst freundliche Offline-Seite
 async function netzZuerst(event) {
   try {
     const antwort = await fetch(event.request);
-    if (speicherbar(antwort) && new URL(event.request.url).pathname.endsWith("/")) {
-      const cache = await caches.open(CACHE_HUELLE);
-      event.waitUntil(cache.put("./", antwort.clone()));
+    const pfad = new URL(event.request.url).pathname;
+    if (speicherbar(antwort) && (pfad.endsWith("/") || pfad.endsWith("/index.html"))) {
+      event.waitUntil(seiteSpeichern(antwort.clone()).catch(() => null));
     }
     return antwort;
   } catch (e) {
-    const cache = await caches.open(CACHE_HUELLE);
-    return (await cache.match(event.request, { ignoreSearch: true }))
-      || (await cache.match("index.html"))
-      || (await cache.match("./"))
-      || new Response("Offline", { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+    const pfad = new URL(event.request.url).pathname;
+    const startseite = pfad.endsWith("/") || pfad.endsWith("/index.html");
+    const t = (await finde(event.request, [CACHE_HUELLE]))
+      || (startseite ? (await finde("./", [CACHE_HUELLE])) || (await finde("index.html", [CACHE_HUELLE])) : null);
+    if (t) return t.antwort;
+    return new Response(OFFLINE_SEITE, { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } });
   }
 }
 
-// Aus dem Cache antworten, im Hintergrund aktualisieren
+// Aus dem Cache antworten (Hülle oder Offline-Paket), im Hintergrund dort aktualisieren
 async function staleWhileRevalidate(event, key) {
-  const cache = await caches.open(CACHE_HUELLE);
-  const treffer = await cache.match(key || event.request, { ignoreSearch: true });
-  const frisch = holenUndSpeichern(CACHE_HUELLE, event.request, key);
-  if (treffer) {
-    event.waitUntil(frisch.catch(() => null));
-    return treffer;
+  const t = await finde(key || event.request, [CACHE_HUELLE]);
+  if (t) {
+    if (!offlineNetz()) event.waitUntil(holenUndSpeichern(t.name, event.request, key, t.antwort).catch(() => null));
+    return t.antwort;
   }
-  return frisch;
+  try {
+    return await holenUndSpeichern(CACHE_HUELLE, event.request, key);
+  } catch (e) {
+    return nichtDa();
+  }
 }
 
-// Bilder: zuerst Cache, sonst Netz und speichern
+// Bilder: zuerst Cache (Bilder, Hülle, Offline-Pakete), sonst Netz und speichern
 async function cacheZuerst(event) {
-  const cache = await caches.open(CACHE_BILDER);
-  const treffer = await cache.match(event.request);
-  if (treffer) return treffer;
-  const antwort = await fetch(event.request);
-  if (speicherbar(antwort)) {
-    event.waitUntil(cache.put(event.request, antwort.clone()).then(bilderTrimmen).catch(() => null));
+  const t = await finde(event.request, [CACHE_BILDER, CACHE_HUELLE]);
+  if (t) return t.antwort;
+  try {
+    const antwort = await fetch(event.request);
+    if (speicherbar(antwort)) {
+      const cache = await caches.open(CACHE_BILDER);
+      event.waitUntil(cache.put(event.request, antwort.clone()).then(bilderTrimmen).catch(() => null));
+    }
+    return antwort;
+  } catch (e) {
+    // Offline: Statt des grossen Bildes das kleine aus einem Offline-Paket nehmen
+    const klein = event.request.url.replace(/\/bilder\/gross\//, "/bilder/");
+    if (klein !== event.request.url) {
+      const k = await finde(klein, [CACHE_BILDER]);
+      if (k) return k.antwort;
+    }
+    return nichtDa();
   }
-  return antwort;
 }
 
 /* ---------- Fetch-Weiche ---------- */
@@ -157,12 +251,14 @@ self.addEventListener("fetch", (event) => {
   if (anfrage.method !== "GET") return;
 
   const url = new URL(anfrage.url);
-  // Fremde Server (Supabase, Wikipedia, Schriften, APIs) normal übers Netz
+  // Fremde Server (Supabase, Wikipedia, Schriften, APIs) normal übers Netz, nie cachen
   if (url.origin !== self.location.origin) return;
   // Admin-Bereich nie cachen
   if (url.pathname.includes("/admin/")) return;
   // Teilanfragen (z.B. Video/Audio) nicht anfassen
   if (anfrage.headers.has("range")) return;
+  // Downloads der Paketverwaltung (offline.js) direkt übers Netz
+  if (anfrage.headers.has(OFFLINE_KOPF)) return;
 
   const pfad = url.pathname;
   const datei = pfad.slice(pfad.lastIndexOf("/") + 1);
@@ -173,17 +269,17 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 2. Grosse Daten: Fragen, Texte, Bildindex, daten-*.js
+  // 2. Grosse Daten: Fragen, Texte, Bildindex, daten-*.js (zuerst Speicher, dann still aktualisieren)
   if (/^fragen-.*\.json$/.test(datei) || /^texte.*\.json$/.test(datei)
       || datei === "bildindex.json" || /^daten-.*\.js$/.test(datei)) {
     event.respondWith(staleWhileRevalidate(event, schluessel(anfrage.url)));
     return;
   }
 
-  // 3. Bilder unter bilder/ und img/
+  // 3. Bilder unter bilder/, img/ und flags/
   const basis = new URL("./", self.location.href).pathname;
   const relativ = pfad.startsWith(basis) ? pfad.slice(basis.length) : pfad;
-  if (relativ.startsWith("bilder/") || relativ.startsWith("img/")) {
+  if (relativ.startsWith("bilder/") || relativ.startsWith("img/") || relativ.startsWith("flags/")) {
     event.respondWith(cacheZuerst(event));
     return;
   }
@@ -194,11 +290,28 @@ self.addEventListener("fetch", (event) => {
 
 /* ---------- Nachrichten von der Seite ---------- */
 
-// { typ: "vorladen" }: Fragen und Bildindex für die Offline-Nutzung laden
 self.addEventListener("message", (event) => {
   const daten = event.data || {};
-  if (daten.typ !== "vorladen") return;
+  const antworten = (msg) => {
+    if (event.ports && event.ports[0]) event.ports[0].postMessage(msg);
+    else if (event.source) event.source.postMessage(msg);
+  };
 
+  // { typ: "info" }: Version und App-Hülle für die Paketverwaltung (offline.js)
+  if (daten.typ === "info") {
+    antworten({ typ: "info", version: VERSION, huelle: HUELLE, cacheHuelle: CACHE_HUELLE, cacheBilder: CACHE_BILDER });
+    return;
+  }
+
+  // { typ: "pakete" }: Paketliste neu einlesen (nach Laden oder Entfernen eines Pakets)
+  if (daten.typ === "pakete") {
+    paketListe = null;
+    antworten({ typ: "pakete-ok" });
+    return;
+  }
+
+  // { typ: "vorladen" }: Fragen und Bildindex für die Offline-Nutzung laden (älterer Weg)
+  if (daten.typ !== "vorladen") return;
   event.waitUntil((async () => {
     let ok = 0;
     await Promise.all(VORLADEN.map((pfad) =>
@@ -206,7 +319,6 @@ self.addEventListener("message", (event) => {
         .then((r) => { if (r.ok) ok++; })
         .catch(() => null)
     ));
-    // Rückmeldung an die Seite, z.B. für eine Erfolgsanzeige
-    if (event.source) event.source.postMessage({ typ: "vorladen-fertig", ok: ok, total: VORLADEN.length });
+    antworten({ typ: "vorladen-fertig", ok: ok, total: VORLADEN.length });
   })());
 });

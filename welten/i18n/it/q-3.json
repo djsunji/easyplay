@@ -1,0 +1,4281 @@
+{
+ "18565": {
+  "q": "Che cosa portano spesso i bambini per le strade la sera del 1° agosto?",
+  "a": [
+   "Lampioncini",
+   "Cestini di Pasqua",
+   "Palle di neve",
+   "Zucche"
+  ],
+  "e": "I lampioncini sono lanterne colorate di carta. Spesso sono decorati con croci svizzere.",
+  "m": "Il 1° agosto brillano i lampioncini."
+ },
+ "74883": {
+  "q": "Come si chiama una corsa alla giornata sportiva in cui ogni bambino corre solo un pezzo del percorso?",
+  "a": [
+   "Staffetta",
+   "Maratona",
+   "Sprint",
+   "Slalom"
+  ],
+  "e": "Nella staffetta più bambini corrono uno dopo l'altro. Alla fine del suo tratto, ognuno passa il testimone al compagno successivo.",
+  "m": "Nella staffetta ogni bambino corre un tratto."
+ },
+ "71077": {
+  "q": "Nella favola, chi vince la gara tra la lepre e la tartaruga?",
+  "a": [
+   "La tartaruga",
+   "La lepre",
+   "Nessuno",
+   "Tutte e due insieme"
+  ],
+  "e": "La lepre è troppo sicura di sé e fa un pisolino lungo la strada. La tartaruga va piano, ma senza fermarsi, e arriva prima.",
+  "m": "Chi va avanti con pazienza arriva al traguardo."
+ },
+ "84489": {
+  "q": "Che cosa serve per fare una videochiamata con un'app?",
+  "a": [
+   "Una connessione a Internet",
+   "Una radiotrasmittente",
+   "Una cabina telefonica",
+   "Un timbro"
+  ],
+  "e": "Immagini e suoni viaggiano attraverso Internet. Senza Internet la videochiamata non funziona.",
+  "m": "Le videochiamate hanno bisogno di Internet."
+ },
+ "7206": {
+  "q": "Quante uova depone di solito una cinciallegra in una covata?",
+  "a": [
+   "Da 8 a 12 circa",
+   "Solo 1",
+   "Circa 30",
+   "Circa 50"
+  ],
+  "e": "Una cinciallegra depone spesso da otto a dodici piccole uova bianche con puntini rossi. Per un uccellino così piccolo sono parecchie.",
+  "m": "Le cinciallegre depongono tante uova in una volta."
+ },
+ "22312": {
+  "q": "Di che colore è l'orco Shrek?",
+  "a": [
+   "Verde",
+   "Blu",
+   "Marrone",
+   "Grigio"
+  ],
+  "e": "Shrek è un grande orco verde. Vive in una palude.",
+  "m": "Shrek è un orco verde."
+ },
+ "85156": {
+  "q": "Che cosa si può a volte anche sentire quando passa un grande bolide?",
+  "a": [
+   "Un boato",
+   "Una canzone",
+   "Un cinguettio di uccelli",
+   "Uno squillo"
+  ],
+  "e": "I grandi bolidi sono più veloci del suono. A volte si sente un boato simile a un tuono.",
+  "m": "Un grande bolide può fare un boato."
+ },
+ "19946": {
+  "q": "Di che colore è la banconota svizzera da 100 franchi?",
+  "a": [
+   "Blu",
+   "Verde",
+   "Marrone",
+   "Rossa"
+  ],
+  "e": "La banconota da 100 franchi è blu. Sopra c'è raffigurata l'acqua, per esempio delle mani che raccolgono acqua.",
+  "m": "La banconota da 100 è blu."
+ },
+ "87790": {
+  "q": "Come si chiama l'era in cui vivevano i dinosauri?",
+  "a": [
+   "Era mesozoica",
+   "Età della pietra",
+   "Era glaciale",
+   "Età moderna"
+  ],
+  "e": "I dinosauri vivevano nel Mesozoico, chiamato anche era secondaria. È durato molti milioni di anni.",
+  "m": "I dinosauri vivevano nel Mesozoico."
+ },
+ "22641": {
+  "q": "La mamma di Anna ha tre figli: Lena, Tim e chi altro?",
+  "a": [
+   "Anna",
+   "Max",
+   "Lisa",
+   "Tom"
+  ],
+  "e": "La domanda parla della mamma di Anna. Quindi la terza figlia è Anna stessa.",
+  "m": "Negli indovinelli bisogna leggere con attenzione."
+ },
+ "26491": {
+  "q": "Quale pittore bernese dipinse la «Zuppa di latte di Kappel» nel 1869?",
+  "a": [
+   "Albert Anker",
+   "Ferdinand Hodler",
+   "Paul Klee",
+   "Giovanni Segantini"
+  ],
+  "e": "Albert Anker dipinse la scena dei soldati seduti in pace attorno alla pentola. Il quadro è molto famoso.",
+  "m": "Albert Anker dipinse la Zuppa di latte di Kappel."
+ },
+ "79485": {
+  "q": "Quale latticino si ottiene anche grazie ai batteri lattici?",
+  "a": [
+   "Lo yogurt",
+   "Il latte condensato",
+   "Il latte in polvere",
+   "La panna intera"
+  ],
+  "e": "Per fare lo yogurt si mettono batteri lattici nel latte tiepido. Rendono il latte acido e denso.",
+  "m": "Lo yogurt si fa con i batteri lattici."
+ },
+ "71927": {
+  "q": "Che cosa significa la parola inglese «water»?",
+  "a": [
+   "Acqua",
+   "Tempo",
+   "Vino",
+   "Ovatta"
+  ],
+  "e": "«Water» significa acqua. L'acqua è la bevanda migliore contro la sete.",
+  "m": "Water è la parola inglese per acqua."
+ },
+ "79354": {
+  "q": "Di che pietra è fatta la famosa statua del «David» di Michelangelo?",
+  "a": [
+   "Di marmo",
+   "Di granito",
+   "Di arenaria",
+   "Di cristallo di rocca"
+  ],
+  "e": "Michelangelo scolpì il «David» da un grande blocco di marmo bianco. La statua si trova a Firenze.",
+  "m": "Il «David» di Michelangelo è di marmo."
+ },
+ "73960": {
+  "q": "Un bambino ha le lacrime agli occhi e tiene la testa bassa. Come si sente probabilmente?",
+  "a": [
+   "Triste",
+   "Orgoglioso",
+   "Allegro",
+   "Annoiato"
+  ],
+  "e": "Le lacrime e la testa bassa mostrano spesso tristezza. Si può chiedere che cosa c'è che non va.",
+  "m": "Le lacrime mostrano spesso tristezza."
+ },
+ "72453": {
+  "q": "Come si dice il numero 19 in francese?",
+  "a": [
+   "dix-neuf",
+   "neuf",
+   "dix-huit",
+   "neuf-dix"
+  ],
+  "e": "Il numero 19 si dice «dix-neuf». Si scrive con un trattino.",
+  "m": "Diciannove in francese si dice «dix-neuf»."
+ },
+ "20847": {
+  "q": "Come si dice «mamma» in inglese?",
+  "a": [
+   "mother",
+   "father",
+   "brother",
+   "sister"
+  ],
+  "e": "In inglese la mamma si dice «mother», spesso si dice anche «mum».",
+  "m": "In inglese la mamma si dice «mother»."
+ },
+ "13168": {
+  "q": "Secondo la leggenda, con che cosa i Greci riuscirono a entrare nella città di Troia?",
+  "a": [
+   "Con un cavallo di legno",
+   "Con una mongolfiera",
+   "Con un ponte",
+   "Con un tunnel"
+  ],
+  "e": "Secondo la leggenda, alcuni guerrieri si nascosero dentro un grande cavallo di legno. Furono i Troiani stessi a portarlo in città.",
+  "m": "Nella leggenda un cavallo di legno aiutò i Greci a conquistare Troia."
+ },
+ "24615": {
+  "q": "Che cosa faceva spesso il signore del castello quando i suoi contadini litigavano?",
+  "a": [
+   "Faceva da giudice",
+   "Li mandava via",
+   "Costruiva loro una casa",
+   "Regalava loro dei soldi"
+  ],
+  "e": "Il signore del castello aveva spesso il diritto di decidere sulle piccole liti. Allora faceva anche da giudice.",
+  "m": "Il signore del castello era spesso anche giudice."
+ },
+ "25870": {
+  "q": "Che cosa scoprì Wilhelm Röntgen?",
+  "a": [
+   "Dei raggi invisibili",
+   "La corrente elettrica",
+   "La penicillina",
+   "La bussola"
+  ],
+  "e": "Röntgen scoprì dei raggi che attraversano il corpo. Oggi si chiamano raggi X o raggi Röntgen.",
+  "m": "Wilhelm Röntgen scoprì i raggi X."
+ },
+ "12964": {
+  "q": "Come si chiama il ghiacciaio più grande delle Alpi?",
+  "a": [
+   "Grande ghiacciaio dell'Aletsch",
+   "Ghiacciaio del Rodano",
+   "Ghiacciaio del Morteratsch",
+   "Ghiacciaio del Gorner"
+  ],
+  "e": "Il Grande ghiacciaio dell'Aletsch, in Vallese, è il ghiacciaio più grande e più lungo delle Alpi. Durante l'era glaciale però i ghiacciai erano molto più grandi.",
+  "m": "Il Grande ghiacciaio dell'Aletsch è il più grande delle Alpi."
+ },
+ "8283": {
+  "q": "Perché bisogna fare attenzione quando si prestano soldi a un amico?",
+  "a": [
+   "Forse non li si riavrà indietro",
+   "Non si possono mai prestare soldi",
+   "L'amico diventa ricco automaticamente",
+   "È vietato dalla legge"
+  ],
+  "e": "Quando si prestano soldi, può succedere di non riaverli e di litigare. Per questo bisogna pensarci bene.",
+  "m": "I soldi prestati non tornano sempre indietro."
+ },
+ "51186": {
+  "q": "Che cosa forma l'Ebro alla sua foce?",
+  "a": [
+   "Un delta",
+   "Una cascata",
+   "Un ghiacciaio",
+   "Un fiordo"
+  ],
+  "e": "L'Ebro trasporta molta sabbia e fango. Con questi materiali alla foce si è formato un grande delta.",
+  "m": "L'Ebro forma un delta alla foce."
+ },
+ "51811": {
+  "q": "Che cosa splende in primavera e in autunno attraverso il Martinsloch sulla chiesa di Elm?",
+  "a": [
+   "Il sole",
+   "Un arcobaleno",
+   "Una cometa",
+   "Un fulmine"
+  ],
+  "e": "Il Martinsloch è un buco nella roccia degli Tschingelhörner. In pochi giorni di marzo e d'autunno il sole passa proprio attraverso il buco e illumina il campanile di Elm.",
+  "m": "Due volte all'anno il sole splende attraverso il Martinsloch sulla chiesa di Elm."
+ },
+ "49191": {
+  "q": "Con quale animale è imparentato il lama?",
+  "a": [
+   "Con il cammello",
+   "Con il cavallo",
+   "Con la pecora",
+   "Con la capra"
+  ],
+  "e": "I lama fanno parte della famiglia dei cammelli. Si chiamano anche camelidi del Nuovo Mondo.",
+  "m": "Il lama è parente del cammello."
+ },
+ "73432": {
+  "q": "Che cosa si trova in cima alla piramide alimentare, cioè da mangiare meno di tutto?",
+  "a": [
+   "Dolci e snack salati",
+   "Verdura",
+   "Pane",
+   "Acqua"
+  ],
+  "e": "La punta è il gradino più piccolo. Dolciumi, patatine e bibite zuccherate si devono mangiare solo poco.",
+  "m": "I dolci stanno in cima e sono solo per ogni tanto."
+ },
+ "85627": {
+  "q": "In una lampada con sensore di movimento, che cosa succede quando non c'è più nessuno?",
+  "a": [
+   "Dopo un po' la luce si spegne",
+   "La luce diventa più forte",
+   "La luce lampeggia sempre",
+   "La luce resta sempre accesa"
+  ],
+  "e": "Dopo un certo tempo senza movimento, il sensore spegne di nuovo la luce.",
+  "m": "Senza movimento il sensore spegne la luce."
+ },
+ "87921": {
+  "q": "A che cosa serve la crosta su una ferita?",
+  "a": [
+   "Protegge la ferita",
+   "Rende la ferita più grande",
+   "Colora la pelle di blu",
+   "Raffredda il corpo"
+  ],
+  "e": "La crosta copre la ferita come un coperchio. Così entra meno sporco.",
+  "m": "La crosta protegge la ferita come un coperchio."
+ },
+ "7686": {
+  "q": "Come si chiama una delle antiche porte del centro storico di Soletta?",
+  "a": [
+   "Baseltor",
+   "Löwentor",
+   "Sonnentor",
+   "Sternentor"
+  ],
+  "e": "Il Baseltor è una delle antiche porte da cui un tempo si doveva passare per entrare nella città di Soletta. Soletta aveva una cinta muraria intera con diverse torri e porte.",
+  "m": "Il Baseltor porta nel centro storico di Soletta."
+ },
+ "75771": {
+  "q": "Come si chiama la fessura nella stoffa in cui si infila il bottone?",
+  "a": [
+   "Asola",
+   "Cruna",
+   "Cucitura",
+   "Orlo"
+  ],
+  "e": "L'asola è una fessura stretta con il bordo cucito. Il bottone ci passa giusto giusto.",
+  "m": "Il bottone va nell'asola."
+ },
+ "81640": {
+  "q": "Quante banconote da dieci servono per fare 80 franchi?",
+  "a": [
+   "8",
+   "80",
+   "10",
+   "18"
+  ],
+  "e": "Una banconota da dieci vale 10 franchi. 80 : 10 fa 8 banconote.",
+  "m": "Ottanta franchi sono otto banconote da dieci."
+ },
+ "20226": {
+  "q": "Che cosa è meglio fare se non si è sicuri che una cosa trovata su Internet sia vera?",
+  "a": [
+   "Chiedere a un adulto",
+   "Inoltrarla subito",
+   "Raccontarla a tutti",
+   "Crederci e basta"
+  ],
+  "e": "Gli adulti possono aiutare a controllare una cosa. Si può anche cercare in un libro o su un secondo sito.",
+  "m": "Se non sono sicuro, chiedo a un adulto."
+ },
+ "75128": {
+  "q": "Com'è fatta una semiminima (la nota da un quarto)?",
+  "a": [
+   "Testa nera con gambo",
+   "Testa bianca con gambo",
+   "Testa bianca senza gambo",
+   "Testa nera con bandierina"
+  ],
+  "e": "La semiminima ha una testa piena e nera e un gambo senza bandierina.",
+  "m": "La semiminima ha la testa nera e il gambo."
+ },
+ "91476": {
+  "q": "Quale pianta con peli urticanti sulle foglie cresce spesso lungo i ruscelli?",
+  "a": [
+   "L'ortica",
+   "La margheritina",
+   "Il trifoglio",
+   "La violetta"
+  ],
+  "e": "Le ortiche amano i terreni umidi e ricchi di nutrienti. I loro peli urticanti bruciano sulla pelle.",
+  "m": "Toccando l'ortica la pelle brucia facilmente."
+ },
+ "127691": {
+  "q": "Quando è particolarmente utile un serbatoio idrico a torre?",
+  "a": [
+   "Quando molte persone usano l'acqua nello stesso momento",
+   "Quando fuori nevica",
+   "Quando è buio",
+   "Quando c'è vento"
+  ],
+  "e": "Al mattino molte persone fanno la doccia alla stessa ora. Allora la riserva nella torre fornisce acqua abbastanza in fretta.",
+  "m": "La riserva della torre dell'acqua aiuta quando tutti usano l'acqua insieme."
+ },
+ "34077": {
+  "q": "Chi deve approvare il preventivo all'assemblea comunale?",
+  "a": [
+   "Gli aventi diritto di voto",
+   "I bambini",
+   "I turisti",
+   "Il Comune vicino"
+  ],
+  "e": "Il Municipio fa una proposta di preventivo. Poi gli aventi diritto di voto decidono se approvarlo.",
+  "m": "Gli aventi diritto di voto approvano il preventivo."
+ },
+ "37678": {
+  "q": "In un sistema a partito unico, che cosa rischia spesso chi fonda un nuovo partito?",
+  "a": [
+   "Una punizione",
+   "Un premio",
+   "Una festa",
+   "Una gita"
+  ],
+  "e": "Un nuovo partito farebbe concorrenza a chi è al potere. Per questo chi lo fonda viene spesso perseguitato o messo in prigione.",
+  "m": "Chi fonda un partito in un sistema a partito unico viene spesso punito."
+ },
+ "37876": {
+  "q": "Che cosa significa la parola latina «communis», da cui viene «comunismo»?",
+  "a": [
+   "comune, di tutti",
+   "ricco",
+   "forte",
+   "veloce"
+  ],
+  "e": "«Communis» in latino significa «comune», cioè di tutti. Nel comunismo molte cose dovrebbero appartenere a tutti insieme.",
+  "m": "La parola comunismo viene dalla parola latina per comune."
+ },
+ "37142": {
+  "q": "Come si chiama il trattato del 1919 dopo la Prima guerra mondiale?",
+  "a": [
+   "Trattato di Versailles",
+   "Trattato di Berna",
+   "Trattato di Vienna",
+   "Trattato di Londra"
+  ],
+  "e": "Il Trattato di Versailles fu firmato nel 1919 in Francia. Stabiliva la pace con la Germania dopo la Prima guerra mondiale.",
+  "m": "Il Trattato di Versailles seguì la Prima guerra mondiale."
+ },
+ "64429": {
+  "q": "Che cos'è il Gange per molti indù?",
+  "a": [
+   "Una dea",
+   "Un drago",
+   "Un re",
+   "Una nave"
+  ],
+  "e": "Gli indù venerano il fiume come la dea Ganga. Le portano fiori e lumini.",
+  "m": "Per gli indù il Gange è una dea."
+ },
+ "65111": {
+  "q": "Presso quale sacerdote crebbe Samuele nel santuario?",
+  "a": [
+   "Eli",
+   "Aronne",
+   "Mosè",
+   "Giona"
+  ],
+  "e": "La mamma portò Samuele dal sacerdote Eli. Lì lui aiutava nel santuario.",
+  "m": "Samuele crebbe presso il sacerdote Eli."
+ },
+ "64034": {
+  "q": "Quali animali vengono spesso sacrificati durante la Festa del sacrificio?",
+  "a": [
+   "Pecore, capre o bovini",
+   "Cani e gatti",
+   "Cavalli e asini",
+   "Galline e anatre"
+  ],
+  "e": "Per la Festa del sacrificio si macella un animale sano, di solito una pecora, una capra o un bovino. In alcuni Paesi anche un cammello.",
+  "m": "Alla Festa del sacrificio si sacrifica spesso una pecora, una capra o un bovino."
+ },
+ "18527": {
+  "q": "Quale famoso fiore alpino ha fiori bianchi e lanosi?",
+  "a": [
+   "La stella alpina",
+   "Il tulipano",
+   "La rosa",
+   "Il girasole"
+  ],
+  "e": "La stella alpina cresce in alta montagna. I suoi fiori sono coperti di sottili peli bianchi.",
+  "m": "La stella alpina è un fiore delle Alpi."
+ },
+ "74811": {
+  "q": "Che cosa bisogna fare proprio alla fine del Controllo di sicurezza in acqua?",
+  "a": [
+   "Uscire dall'acqua",
+   "Immergersi sott'acqua",
+   "Fare un tuffo di testa",
+   "Fare una virata a nuoto"
+  ],
+  "e": "Dopo i 50 metri bisogna uscire dalla vasca da soli. Anche questo fa parte del sapersi mettere in salvo.",
+  "m": "Il Controllo di sicurezza in acqua comprende anche l'uscita dall'acqua."
+ },
+ "86416": {
+  "q": "Come si dice aliscafo in inglese?",
+  "a": [
+   "Hydrofoil",
+   "Hovercraft",
+   "Speedboat",
+   "Ferry"
+  ],
+  "e": "In inglese si dice «hydrofoil». «Hydro» significa acqua, «foil» ala.",
+  "m": "In inglese l'aliscafo si chiama «hydrofoil»."
+ },
+ "684": {
+  "q": "Nei leoni, chi è di solito più grande e più pesante, il maschio o la femmina?",
+  "a": [
+   "Il maschio",
+   "La femmina",
+   "Sono grandi uguali",
+   "Dipende dal tempo che fa"
+  ],
+  "e": "I leoni maschi di solito sono più grandi e più pesanti delle leonesse. Inoltre solo i maschi hanno la criniera.",
+  "m": "I leoni maschi sono più grandi delle leonesse."
+ },
+ "22324": {
+  "q": "Come si chiama l'elenco alla fine di un film con tutte le persone che vi hanno partecipato?",
+  "a": [
+   "Titoli di coda",
+   "Titoli di testa",
+   "Sceneggiatura",
+   "Programma"
+  ],
+  "e": "Nei titoli di coda ci sono i nomi di tutte le persone che hanno aiutato a fare il film.",
+  "m": "Nei titoli di coda ci sono i nomi di chi ha fatto il film."
+ },
+ "82208": {
+  "q": "Secondo la leggenda greca, quale cacciatore del cielo fugge davanti allo Scorpione?",
+  "a": [
+   "Orione",
+   "Ercole",
+   "Perseo",
+   "Cefeo"
+  ],
+  "e": "La leggenda racconta che uno scorpione punse il cacciatore Orione. In cielo i due stanno molto lontani, per questo non si vedono quasi mai insieme.",
+  "m": "Orione e lo Scorpione stanno in cielo lontani uno dall'altro."
+ },
+ "19959": {
+  "q": "Che cosa si riceve alla cassa come prova dell'acquisto?",
+  "a": [
+   "Uno scontrino",
+   "Una lettera",
+   "Una cartolina",
+   "Una pagella"
+  ],
+  "e": "Sullo scontrino c'è scritto che cosa si è comprato e quanto si è pagato. Si chiama anche ricevuta.",
+  "m": "Lo scontrino mostra che cosa si è comprato."
+ },
+ "80900": {
+  "q": "Quanti centimetri ci sono in un metro?",
+  "a": [
+   "100",
+   "10",
+   "1000",
+   "50"
+  ],
+  "e": "Un metro è diviso in 100 parti uguali. Ogni parte è un centimetro.",
+  "m": "Un metro ha 100 centimetri."
+ },
+ "22579": {
+  "q": "Quanto fa 10 - 4?",
+  "a": [
+   "6",
+   "5",
+   "7",
+   "4"
+  ],
+  "e": "Da 10 si tolgono 4. Ne restano 6.",
+  "m": "Dieci meno quattro fa sei."
+ },
+ "77010": {
+  "q": "Quando si può vedere una cosa così nel cielo?",
+  "a": [
+   "Quando ci sono sole e pioggia insieme",
+   "Quando c'è una nebbia fitta",
+   "In una notte buia",
+   "Quando nevica forte"
+  ],
+  "e": "Un arcobaleno si forma quando splende il sole e allo stesso tempo piove.",
+  "m": "Per l'arcobaleno servono sole e pioggia."
+ },
+ "26280": {
+  "q": "Quale poeta inglese scrisse una poesia sul castello di Chillon?",
+  "a": [
+   "Lord Byron",
+   "William Shakespeare",
+   "Charles Dickens",
+   "Lewis Carroll"
+  ],
+  "e": "Lord Byron scrisse nel 1816 la poesia «Il prigioniero di Chillon». Dopo, il castello diventò molto famoso.",
+  "m": "Lord Byron rese famoso Chillon."
+ },
+ "80455": {
+  "q": "Che cos'è la schiuma?",
+  "a": [
+   "Tante piccole bolle",
+   "Una pietra morbida",
+   "Una polvere fine",
+   "Un pezzo di ghiaccio"
+  ],
+  "e": "La schiuma è fatta di tante bollicine piene d'aria. Tra le bollicine ci sono sottili pareti di liquido.",
+  "m": "La schiuma è fatta di tante piccole bolle d'aria."
+ },
+ "71876": {
+  "q": "Come si dice «mucca» in inglese?",
+  "a": [
+   "cow",
+   "cool",
+   "cub",
+   "cook"
+  ],
+  "e": "In inglese la mucca si dice «cow». Si pronuncia più o meno «càu».",
+  "m": "In inglese la mucca si dice cow."
+ },
+ "79381": {
+  "q": "Come si chiama spesso un diamante tagliato in un gioiello?",
+  "a": [
+   "Brillante",
+   "Ciottolo",
+   "Pezzo",
+   "Grumo"
+  ],
+  "e": "Un diamante con uno speciale taglio rotondo si chiama brillante. Così scintilla in modo particolare.",
+  "m": "Un diamante tagliato si chiama spesso brillante."
+ },
+ "73964": {
+  "q": "Hai finito di dipingere un disegno difficile. Quale sentimento è adatto?",
+  "a": [
+   "Orgoglio",
+   "Invidia",
+   "Disgusto",
+   "Vergogna"
+  ],
+  "e": "Quando si riesce a fare una cosa difficile, se ne è orgogliosi.",
+  "m": "Chi ce l'ha fatta è orgoglioso."
+ },
+ "72542": {
+  "q": "Che cosa significa «Je parle allemand»?",
+  "a": [
+   "Parlo tedesco.",
+   "Parlo francese.",
+   "Imparo l'inglese.",
+   "Abito in Germania."
+  ],
+  "e": "«Je parle» significa «parlo». «Allemand» è la lingua tedesca.",
+  "m": "Con «Je parle» dici quale lingua parli."
+ },
+ "20887": {
+  "q": "Come si dice «lunedì» in inglese?",
+  "a": [
+   "Monday",
+   "Sunday",
+   "Tuesday",
+   "Friday"
+  ],
+  "e": "In inglese il lunedì si dice «Monday». In inglese i giorni della settimana si scrivono sempre con la maiuscola.",
+  "m": "In inglese il lunedì si dice «Monday»."
+ },
+ "23878": {
+  "q": "Da quale città dovevano essere mandati dei giovani al Minotauro?",
+  "a": [
+   "Atene",
+   "Sparta",
+   "Troia",
+   "Tebe"
+  ],
+  "e": "Atene doveva mandare regolarmente ragazzi e ragazze a Creta. Teseo voleva mettere fine a tutto questo.",
+  "m": "Atene doveva mandare dei giovani a Creta."
+ },
+ "24976": {
+  "q": "Chi era il grande avversario di Riccardo in Terra Santa?",
+  "a": [
+   "Saladino",
+   "Barbarossa",
+   "Carlo Magno",
+   "Gengis Khan"
+  ],
+  "e": "Saladino era sultano e sovrano dell'Egitto e della Siria. Riccardo e Saladino avevano grande rispetto l'uno per l'altro.",
+  "m": "Saladino era l'avversario di Riccardo in Terra Santa."
+ },
+ "25802": {
+  "q": "In che anno arrivò la televisione a colori in Svizzera?",
+  "a": [
+   "1968",
+   "1918",
+   "1998",
+   "1938"
+  ],
+  "e": "Nel 1968 la televisione svizzera cominciò a trasmettere a colori. All'inizio c'erano solo poche trasmissioni a colori.",
+  "m": "In Svizzera la TV a colori c'è dal 1968."
+ },
+ "23330": {
+  "q": "Perché il fuoco era importante per gli uomini della preistoria?",
+  "a": [
+   "Per il calore e la luce",
+   "Per guardare la televisione",
+   "Per telefonare",
+   "Per andare in bicicletta"
+  ],
+  "e": "Il fuoco scaldava, faceva luce di notte, proteggeva dagli animali selvatici e serviva a cuocere il cibo.",
+  "m": "Il fuoco dava calore, luce e protezione."
+ },
+ "1315": {
+  "q": "La tua famiglia organizza una gita e pensa a quanti soldi ci sono a disposizione. Come si chiama un piano così?",
+  "a": [
+   "Budget",
+   "Salvadanaio",
+   "Fattura",
+   "Conto"
+  ],
+  "e": "Un budget è un piano di quanti soldi si vogliono o si possono spendere per qualcosa. Così non si spendono i soldi nel modo sbagliato.",
+  "m": "Un budget pianifica i soldi in anticipo."
+ },
+ "50743": {
+  "q": "Che cosa significa la parola «paella» in valenciano?",
+  "a": [
+   "Padella",
+   "Riso",
+   "Festa",
+   "Sole"
+  ],
+  "e": "In valenciano «paella» significa semplicemente «padella». Il piatto prende quindi il nome dalla sua padella.",
+  "m": "La parola paella significa padella."
+ },
+ "52455": {
+  "q": "Quale mestiere è famoso da tanto tempo nel Giura?",
+  "a": [
+   "Costruire orologi",
+   "Costruire navi",
+   "Coltivare riso",
+   "Fondere oro"
+  ],
+  "e": "Nel Giura, per esempio a La Chaux-de-Fonds, si costruiscono orologi da secoli.",
+  "m": "Il Giura è famoso per i suoi orologiai."
+ },
+ "50089": {
+  "q": "In quale Paese si trova l'enorme città di Lagos?",
+  "a": [
+   "Nigeria",
+   "Kenya",
+   "Marocco",
+   "Egitto"
+  ],
+  "e": "Lagos si trova in Nigeria, sulla costa dell'Africa occidentale. È una delle città più grandi dell'Africa.",
+  "m": "Lagos è una città enorme in Nigeria."
+ },
+ "73443": {
+  "q": "Quale verdura si può sgranocchiare cruda come spuntino a metà mattina?",
+  "a": [
+   "La carota",
+   "La patata",
+   "La zucca",
+   "Il porro"
+  ],
+  "e": "Le carote si possono mangiare crude e sono buone da sgranocchiare. Le patate invece si mangiano solo cotte.",
+  "m": "Le carote crude sono uno spuntino squisito."
+ },
+ "86661": {
+  "q": "Quale di questi siti è un motore di ricerca per bambini?",
+  "a": [
+   "fragFINN",
+   "Wikipedia",
+   "YouTube",
+   "Google Maps"
+  ],
+  "e": "fragFINN è un motore di ricerca per bambini. Lì si trovano solo siti controllati.",
+  "m": "fragFINN è un motore di ricerca per bambini."
+ },
+ "86923": {
+  "q": "Da dove vengono soprattutto i battiti che si sentono del cuore?",
+  "a": [
+   "Dalla chiusura delle valvole cardiache",
+   "Dallo scricchiolio delle costole",
+   "Dal respiro dei polmoni",
+   "Dal brontolio dello stomaco"
+  ],
+  "e": "Quando le valvole del cuore si chiudono, si sente un suono sordo. Anche la contrazione del muscolo del cuore contribuisce.",
+  "m": "I toni del cuore nascono soprattutto quando si chiudono le valvole cardiache."
+ },
+ "3983": {
+  "q": "Come si chiama una famosa torre antica nel centro storico di Soletta?",
+  "a": [
+   "Riedholzturm",
+   "Torre Eiffel",
+   "Torre della televisione di Berlino",
+   "Faro di Alessandria"
+  ],
+  "e": "La Riedholzturm è una delle antiche torri di difesa che un tempo facevano parte delle mura di Soletta. Si trova ancora oggi in mezzo al centro storico.",
+  "m": "La Riedholzturm faceva parte delle antiche mura."
+ },
+ "21403": {
+  "q": "Come si chiamano le storie raccontate con disegni e nuvolette?",
+  "a": [
+   "Fumetto",
+   "Romanzo",
+   "Poesia",
+   "Enciclopedia"
+  ],
+  "e": "In un fumetto tante immagini una dopo l'altra raccontano una storia. Quello che dicono i personaggi è scritto nelle nuvolette.",
+  "m": "Un fumetto racconta una storia con le immagini."
+ },
+ "70020": {
+  "q": "Qual è il numero più alto su un normale dado da gioco?",
+  "a": [
+   "6",
+   "5",
+   "10",
+   "12"
+  ],
+  "e": "Un normale dado mostra i numeri da 1 a 6.",
+  "m": "Con un dado si fa al massimo sei."
+ },
+ "20264": {
+  "q": "Dov'è il posto peggiore per tenere un foglietto con una password?",
+  "a": [
+   "Attaccato allo schermo",
+   "Nel cassetto dei genitori",
+   "In una scatolina chiusa a chiave",
+   "Nella cassaforte dei genitori"
+  ],
+  "e": "Un foglietto sullo schermo lo può leggere chiunque. Così la password non è più segreta.",
+  "m": "Non attacco la mia password allo schermo."
+ },
+ "21766": {
+  "q": "Chi ha di solito la voce più bassa (più grave)?",
+  "a": [
+   "Gli uomini adulti",
+   "I bambini piccoli",
+   "Le bambine piccole",
+   "I neonati"
+  ],
+  "e": "Gli uomini adulti hanno corde vocali più grandi. Per questo la loro voce di solito è più grave.",
+  "m": "Gli uomini adulti hanno di solito la voce più grave."
+ },
+ "93203": {
+  "q": "Quando si raccolgono la maggior parte delle albicocche in Vallese?",
+  "a": [
+   "A luglio e agosto",
+   "A gennaio e febbraio",
+   "A marzo e aprile",
+   "A novembre e dicembre"
+  ],
+  "e": "Le albicocche hanno bisogno di tanto sole estivo. La maggior parte viene raccolta a luglio e agosto.",
+  "m": "Le albicocche si raccolgono in piena estate."
+ },
+ "88923": {
+  "q": "Che cosa esce di solito dal rubinetto se lo si gira verso il lato segnato in rosso?",
+  "a": [
+   "Acqua calda",
+   "Acqua fredda",
+   "Acqua frizzante",
+   "Acqua salata"
+  ],
+  "e": "In molti rubinetti miscelatori il rosso indica l'acqua calda e il blu quella fredda. Così si sa da che parte girare.",
+  "m": "Il rosso sul rubinetto indica l'acqua calda."
+ },
+ "34328": {
+  "q": "Come si chiama la grande cattedrale della città di Soletta?",
+  "a": [
+   "Sant'Orso",
+   "San Nicolao",
+   "San Gallo",
+   "San Pietro"
+  ],
+  "e": "La cattedrale è dedicata a sant'Orso. È una chiesa splendida del Settecento.",
+  "m": "La cattedrale di Soletta si chiama Sant'Orso."
+ },
+ "37729": {
+  "q": "Da quale Paese arrivarono in Svizzera molti profughi nel 1956?",
+  "a": [
+   "Ungheria",
+   "Spagna",
+   "Svezia",
+   "Portogallo"
+  ],
+  "e": "Nel 1956 l'Unione Sovietica soffocò una rivolta in Ungheria. Molte ungheresi e molti ungheresi fuggirono e furono accolti in Svizzera.",
+  "m": "Nel 1956 molte persone fuggirono dall'Ungheria in Svizzera."
+ },
+ "38199": {
+  "q": "Per che cosa è famosa la Piana delle Giare in Laos?",
+  "a": [
+   "Per tante antiche giare di pietra",
+   "Per un grande deserto di sabbia",
+   "Per tanti vulcani",
+   "Per un grande ghiacciaio"
+  ],
+  "e": "Su questa piana ci sono centinaia di enormi giare di pietra, molto antiche. A che cosa servissero non è ancora del tutto chiaro.",
+  "m": "In Laos su una piana ci sono tante antiche giare di pietra."
+ },
+ "37231": {
+  "q": "Come mostra di solito un cane da soccorso di aver trovato una persona?",
+  "a": [
+   "Abbaia o raspa",
+   "Si addormenta",
+   "Scappa via",
+   "Mangia l'erba"
+  ],
+  "e": "Il cane impara ad abbaiare o a raspare nel punto del ritrovamento. Così i soccorritori sanno dove scavare.",
+  "m": "Un cane da soccorso abbaia quando trova qualcuno."
+ },
+ "64457": {
+  "q": "Che cosa si porta spesso come offerta durante una puja?",
+  "a": [
+   "Fiori",
+   "Sassi",
+   "Giocattoli",
+   "Monete di carta"
+  ],
+  "e": "Durante una puja si offrono agli dèi fiori, frutta o dolci. È un segno di ringraziamento.",
+  "m": "Durante la puja si offrono spesso fiori."
+ },
+ "63694": {
+  "q": "Come si chiama l'aiutante vestito di scuro che accompagna San Nicolao nella Svizzera tedesca?",
+  "a": [
+   "Schmutzli",
+   "Rübezahl",
+   "Tremotino",
+   "Pumuckl"
+  ],
+  "e": "In Svizzera lo Schmutzli accompagna San Nicolao (in tedesco Samichlaus). Porta un mantello scuro e ha spesso la faccia sporca di fuliggine.",
+  "m": "Lo Schmutzli è l'aiutante scuro di San Nicolao."
+ },
+ "64266": {
+  "q": "Che forma ha una cupola?",
+  "a": [
+   "Come una mezza sfera",
+   "Come un cubo",
+   "Come una piramide",
+   "Come un'asse piatta"
+  ],
+  "e": "Una cupola è una parte del tetto rotonda e a volta. Sembra una mezza sfera.",
+  "m": "Una cupola sembra una mezza sfera."
+ },
+ "18552": {
+  "q": "Quanti centesimi fanno un franco?",
+  "a": [
+   "100",
+   "10",
+   "50",
+   "1000"
+  ],
+  "e": "Un franco ha 100 centesimi. Due monete da cinquanta centesimi insieme fanno quindi un franco.",
+  "m": "Un franco ha 100 centesimi."
+ },
+ "22067": {
+  "q": "Che cosa significa fair play?",
+  "a": [
+   "Rispettare le regole e gli altri",
+   "Voler vincere sempre",
+   "Esultare il più forte possibile",
+   "Imbrogliare l'arbitro"
+  ],
+  "e": "Fair play significa giocare in modo onesto, rispettare le regole e rispettare l'avversario.",
+  "m": "Fair play vuol dire giocare in modo onesto e rispettoso."
+ },
+ "85490": {
+  "q": "Quali superfici dei denti bisogna lavare?",
+  "a": [
+   "Fuori, dentro e sopra",
+   "Solo i denti davanti",
+   "Solo la parte esterna",
+   "Solo le superfici per masticare"
+  ],
+  "e": "Lavandosi i denti bisogna raggiungere tutti i lati. Cioè le superfici esterne, quelle interne e quelle per masticare.",
+  "m": "Si lavano tutti i lati dei denti."
+ },
+ "5993": {
+  "q": "Quanto veloce può nuotare una foca comune in acqua?",
+  "a": [
+   "Fino a 35 chilometri all'ora",
+   "Solo 2 chilometri all'ora",
+   "Più di 100 chilometri all'ora",
+   "Non sa nuotare per niente"
+  ],
+  "e": "In acqua la foca è molto più veloce e agile che sulla terraferma. Con le sue pinne potenti arriva fino a 35 chilometri all'ora.",
+  "m": "In acqua la foca è velocissima."
+ },
+ "22338": {
+  "q": "Che cosa indica il numero PEGI sulla confezione di un gioco?",
+  "a": [
+   "L'età adatta",
+   "Il prezzo",
+   "La durata del gioco",
+   "Il numero di livelli"
+  ],
+  "e": "PEGI è una classificazione per età usata in Europa. Il numero dice da quale età un gioco è adatto.",
+  "m": "Il numero PEGI indica l'età adatta per un gioco."
+ },
+ "83211": {
+  "q": "Che cosa succede alla parte esterna della capsula quando entra nell'atmosfera?",
+  "a": [
+   "Diventa rovente",
+   "Diventa gelida",
+   "Si bagna",
+   "Resta uguale"
+  ],
+  "e": "La capsula va velocissima e urta l'aria con grande forza. Per questo fuori diventa caldissima.",
+  "m": "Al rientro la capsula diventa caldissima fuori."
+ },
+ "19953": {
+  "q": "Quanti centesimi fanno mezzo franco?",
+  "a": [
+   "50",
+   "25",
+   "10",
+   "20"
+  ],
+  "e": "Un franco intero ha 100 centesimi. La metà sono 50 centesimi.",
+  "m": "Mezzo franco sono cinquanta centesimi."
+ },
+ "100033": {
+  "q": "Quanto deve essere caldo il latte per diventare yogurt?",
+  "a": [
+   "circa 40 gradi",
+   "circa 0 gradi",
+   "circa 100 gradi",
+   "circa 10 gradi"
+  ],
+  "e": "I batteri dello yogurt lavorano meglio a circa 40 gradi. Così in qualche ora il latte diventa yogurt.",
+  "m": "Lo yogurt si forma a circa 40 gradi."
+ },
+ "22582": {
+  "q": "Come si chiama il piccolo della mucca?",
+  "a": [
+   "Vitello",
+   "Puledro",
+   "Agnello",
+   "Maialino"
+  ],
+  "e": "Il piccolo della mucca si chiama vitello. Il puledro invece è un cavallo giovane.",
+  "m": "Il piccolo della mucca si chiama vitello."
+ },
+ "76557": {
+  "q": "Quale insetto va bene con queste immagini?",
+  "a": [
+   "La pulce",
+   "La coccinella",
+   "La libellula",
+   "La farfalla"
+  ],
+  "e": "La pulce è così piccola che quasi non si vede. Vive per esempio nel pelo dei cani e sa saltare molto lontano.",
+  "m": "La pulce sa saltare molto lontano."
+ },
+ "26738": {
+  "q": "Chi è Uli nel libro di Gotthelf «Uli il servo»?",
+  "a": [
+   "Un servo di fattoria",
+   "Un re",
+   "Un maestro",
+   "Un mercante"
+  ],
+  "e": "Uli lavora come servo in una fattoria. Nel libro impara a essere diligente e risparmiatore.",
+  "m": "Nel libro Uli è un servo in una fattoria."
+ },
+ "19134": {
+  "q": "Che cosa succede a un orsetto gommoso lasciato una notte nell'acqua?",
+  "a": [
+   "Diventa più grande",
+   "Diventa più piccolo",
+   "Diventa ghiaccio",
+   "Sparisce subito"
+  ],
+  "e": "L'orsetto gommoso assorbe l'acqua. Per questo al mattino è molto più grande e più morbido.",
+  "m": "Un orsetto gommoso nell'acqua diventa più grande."
+ },
+ "71985": {
+  "q": "Che cosa significa «What is your name?» in italiano?",
+  "a": [
+   "Come ti chiami?",
+   "Dove abiti?",
+   "Quanti anni hai?",
+   "Come stai?"
+  ],
+  "e": "«Name» significa «nome», quindi si chiede il nome. Si risponde per esempio «My name is Lea».",
+  "m": "Con «What is your name?» si chiede il nome."
+ },
+ "83268": {
+  "q": "Per che cosa usano molte persone la pietra pomice in bagno?",
+  "a": [
+   "Per togliere la pelle dura dai piedi",
+   "Per lavarsi i denti",
+   "Per pettinarsi i capelli",
+   "Per tirare l'acqua del WC"
+  ],
+  "e": "La pietra pomice è ruvida come la carta vetrata. Con essa si toglie delicatamente la pelle dura dai piedi.",
+  "m": "Con la pietra pomice si toglie la pelle dura."
+ },
+ "73938": {
+  "q": "Tu hai tre mele e il tuo amico nessuna. Che cosa è gentile fare?",
+  "a": [
+   "Dargli una mela",
+   "Mangiarle tutte da solo",
+   "Nasconderle",
+   "Prenderlo in giro"
+  ],
+  "e": "Chi condivide pensa anche agli altri. Così tutti e due hanno qualcosa.",
+  "m": "Condividere rende felici tutti e due."
+ },
+ "72544": {
+  "q": "Come chiedi in francese «Quanti anni hai?»?",
+  "a": [
+   "Quel âge as-tu?",
+   "Qui es-tu?",
+   "Où es-tu?",
+   "Comment vas-tu?"
+  ],
+  "e": "«Quel âge» significa «quale età». «As-tu» significa «hai».",
+  "m": "L'età si chiede con «Quel âge as-tu?»."
+ },
+ "20865": {
+  "q": "Che cos'è «milk»?",
+  "a": [
+   "Latte",
+   "Farina",
+   "Miele",
+   "Succo"
+  ],
+  "e": "«Milk» significa latte. Le mucche svizzere danno tanto «milk».",
+  "m": "L'inglese «milk» è il latte."
+ },
+ "23943": {
+  "q": "Che cosa trasportavano spesso i Greci nelle anfore?",
+  "a": [
+   "Vino e olio d'oliva",
+   "Legna e pietre",
+   "Vestiti e scarpe",
+   "Carta e libri"
+  ],
+  "e": "Nelle anfore si trasportavano merci liquide come vino e olio d'oliva, ma anche cereali, per esempio sulle navi.",
+  "m": "Nelle anfore viaggiavano vino e olio d'oliva."
+ },
+ "25153": {
+  "q": "Perché il castello di Himeji è così famoso?",
+  "a": [
+   "È ben conservato",
+   "È nuovissimo",
+   "È fatto d'oro",
+   "Galleggia nel mare"
+  ],
+  "e": "Il castello non è mai stato distrutto, nemmeno in guerra. Per questo lo si vede quasi come ai tempi dei samurai.",
+  "m": "Il castello di Himeji è molto ben conservato."
+ },
+ "25681": {
+  "q": "Quale automobile fece costruire Henry Ford alla catena di montaggio?",
+  "a": [
+   "La Model T",
+   "Il Maggiolino",
+   "La Mini",
+   "La 2CV"
+  ],
+  "e": "La Model T fu costruita dal 1908 al 1927. Fu una delle prime automobili per tante famiglie.",
+  "m": "La Model T era l'auto di Ford fatta alla catena di montaggio."
+ },
+ "22952": {
+  "q": "Che cosa mangiavano i plesiosauri?",
+  "a": [
+   "Pesci e calamari",
+   "Erba e foglie",
+   "Frutti e noci",
+   "Radici e funghi"
+  ],
+  "e": "I plesiosauri erano predatori. Con i loro denti appuntiti tenevano ferme le prede scivolose.",
+  "m": "I plesiosauri cacciavano pesci e calamari."
+ },
+ "383": {
+  "q": "Di che colore è l'attuale banconota da 10 franchi?",
+  "a": [
+   "Gialla",
+   "Blu",
+   "Verde",
+   "Viola"
+  ],
+  "e": "Ogni banconota svizzera ha il suo colore: 10 franchi gialla, 20 rossa, 50 verde, 100 blu, 200 marrone e 1000 viola. Così si distinguono facilmente.",
+  "m": "La banconota da 10 è gialla, quella da 20 rossa, quella da 50 verde e quella da 100 blu."
+ },
+ "606": {
+  "q": "Come si chiama la capitale della Germania?",
+  "a": [
+   "Berlino",
+   "Monaco di Baviera",
+   "Amburgo",
+   "Francoforte"
+  ],
+  "e": "Berlino è la città più grande della Germania. Qui fino al 1989 c'era il Muro di Berlino.",
+  "m": "La capitale della Germania è Berlino."
+ },
+ "52168": {
+  "q": "Con quanti cantoni confina il lago di Neuchâtel?",
+  "a": [
+   "4",
+   "2",
+   "3",
+   "6"
+  ],
+  "e": "Il lago di Neuchâtel confina con i cantoni di Neuchâtel, Vaud, Friburgo e Berna.",
+  "m": "Quattro cantoni si dividono il lago di Neuchâtel."
+ },
+ "49609": {
+  "q": "Come si chiama la lunga linea ferroviaria che attraversa la Siberia?",
+  "a": [
+   "Transiberiana",
+   "Orient Express",
+   "Glacier Express",
+   "Bernina Express"
+  ],
+  "e": "La Transiberiana è lunga più di 9000 chilometri. È la linea ferroviaria più lunga del mondo.",
+  "m": "La Transiberiana attraversa la Siberia."
+ },
+ "73497": {
+  "q": "Quali punti si dimenticano spesso quando ci si lava le mani?",
+  "a": [
+   "I pollici e gli spazi tra le dita",
+   "I gomiti",
+   "Le ginocchia",
+   "Le orecchie"
+  ],
+  "e": "Pollici, punte delle dita e spazi tra le dita vengono spesso dimenticati. Bisogna strofinarli apposta.",
+  "m": "Quando ti lavi le mani, non dimenticare i pollici."
+ },
+ "79778": {
+  "q": "Come si sposta una finestra in un altro punto dello schermo?",
+  "a": [
+   "Trascinandola dalla barra del titolo",
+   "Cliccando sulla X",
+   "Premendo la barra spaziatrice",
+   "Riavviando il computer"
+  ],
+  "e": "Si clicca sulla barra del titolo, si tiene premuto il tasto del mouse e si trascina la finestra nel nuovo punto.",
+  "m": "Le finestre si spostano dalla barra del titolo."
+ },
+ "102418": {
+  "q": "Chi ha i dolori della crescita?",
+  "a": [
+   "I bambini",
+   "Gli anziani",
+   "Gli adulti",
+   "I neonati nel primo mese"
+  ],
+  "e": "I dolori della crescita capitano ai bambini. Nei neonati e nelle persone anziane non si conoscono.",
+  "m": "I dolori della crescita li hanno i bambini."
+ },
+ "319": {
+  "q": "Quale numero ha un ruolo speciale a Soletta?",
+  "a": [
+   "Il numero 11",
+   "Il numero 7",
+   "Il numero 100",
+   "Il numero 3"
+  ],
+  "e": "Soletta fu accolta come undicesimo membro nella Confederazione. Da allora l'11 compare dappertutto: ci sono 11 chiese e cappelle, 11 fontane e la cattedrale ha 11 campane. C'è perfino un orologio con solo 11 ore.",
+  "m": "Soletta ama l'11."
+ },
+ "21426": {
+  "q": "Che cosa porta all'orecchio la ragazza nel famoso quadro di Jan Vermeer?",
+  "a": [
+   "Un orecchino di perla",
+   "Una piuma",
+   "Un fiore",
+   "Una chiave"
+  ],
+  "e": "Il quadro si chiama «La ragazza con l'orecchino di perla». Jan Vermeer lo dipinse in Olanda.",
+  "m": "La ragazza di Vermeer porta un orecchino di perla."
+ },
+ "69863": {
+  "q": "Come si chiama l'arte giapponese di piegare la carta per fare figure?",
+  "a": [
+   "Origami",
+   "Mosaico",
+   "Puzzle",
+   "Collage"
+  ],
+  "e": "L'origami viene dal Giappone. Con un foglio di carta si piegano per esempio gru o barchette.",
+  "m": "L'origami è l'arte di piegare la carta."
+ },
+ "20298": {
+  "q": "Qual è un buon passatempo senza schermo?",
+  "a": [
+   "Un gioco da tavolo",
+   "Un gioco online",
+   "Un video",
+   "Una chat"
+  ],
+  "e": "Un gioco da tavolo si gioca insieme attorno al tavolo. Non ha bisogno di uno schermo.",
+  "m": "Senza schermo posso fare giochi da tavolo."
+ },
+ "21752": {
+  "q": "Quale nota dura di più, una minima (mezza nota) o una croma (un ottavo)?",
+  "a": [
+   "La minima",
+   "La croma",
+   "Durano uguale",
+   "Dipende dalla canzone"
+  ],
+  "e": "Una minima dura quanto quattro crome. Quindi suona molto più a lungo.",
+  "m": "Una minima dura più di una croma."
+ },
+ "79899": {
+  "q": "Quanto diventa alto di solito un acero campestre?",
+  "a": [
+   "circa 10 a 15 metri",
+   "circa 1 metro",
+   "circa 50 metri",
+   "circa 100 metri"
+  ],
+  "e": "L'acero campestre è un albero di media grandezza. Di solito diventa alto da 10 a 15 metri.",
+  "m": "Un acero campestre diventa alto di solito 10 a 15 metri."
+ },
+ "34078": {
+  "q": "Quando viene deciso di solito il preventivo per l'anno seguente?",
+  "a": [
+   "Verso la fine dell'anno",
+   "Il 1° agosto",
+   "A Pasqua",
+   "Durante le vacanze estive"
+  ],
+  "e": "Il preventivo vale per l'anno seguente. Per questo di solito viene deciso a novembre o a dicembre.",
+  "m": "Il preventivo si decide di solito verso fine anno."
+ },
+ "37697": {
+  "q": "Dove si vede spesso la propaganda in grande nelle dittature?",
+  "a": [
+   "Sui manifesti",
+   "Nei libri di cucina",
+   "Sul retro dei francobolli",
+   "Nelle carte meteo"
+  ],
+  "e": "Le dittature appendono grandi manifesti con slogan e immagini. Così tutte le persone vedono ogni giorno i messaggi.",
+  "m": "Le dittature diffondono spesso la propaganda sui manifesti."
+ },
+ "38191": {
+  "q": "Quale guerra si svolse dal 1950 al 1953?",
+  "a": [
+   "La guerra di Corea",
+   "La guerra del Vietnam",
+   "La guerra del Golfo",
+   "La guerra di Crimea"
+  ],
+  "e": "Nella guerra di Corea il nord combatté contro il sud della penisola. Da allora la Corea è divisa.",
+  "m": "La guerra di Corea durò dal 1950 al 1953."
+ },
+ "37447": {
+  "q": "Che cosa si incolla su una lettera perché possa essere spedita?",
+  "a": [
+   "Un francobollo",
+   "Un cerotto",
+   "Un adesivo",
+   "Una foto"
+  ],
+  "e": "Con il francobollo si paga la spedizione. Grazie all'Unione postale universale i francobolli valgono anche per le lettere all'estero.",
+  "m": "Su una lettera si incolla un francobollo."
+ },
+ "64297": {
+  "q": "A quanti anni un ragazzo ebreo legge per la prima volta dalla Torah per il suo Bar Mitzvah?",
+  "a": [
+   "A 13 anni",
+   "A 6 anni",
+   "A 10 anni",
+   "A 18 anni"
+  ],
+  "e": "A 13 anni un ragazzo festeggia il Bar Mitzvah. Da quel momento nella religione è considerato adulto e può leggere dalla Torah.",
+  "m": "A 13 anni un ragazzo ebreo festeggia il Bar Mitzvah."
+ },
+ "63640": {
+  "q": "Che cosa tengono insieme le linee scure di piombo in una vetrata di chiesa?",
+  "a": [
+   "I pezzi di vetro",
+   "Le pietre",
+   "Le cornici dei quadri",
+   "Le tende"
+  ],
+  "e": "I pezzi di vetro colorato sono uniti con strisce di piombo. Questi listelli di piombo si vedono come linee scure.",
+  "m": "Le strisce di piombo tengono insieme i pezzi di vetro."
+ },
+ "64204": {
+  "q": "Nel Corano, chi si rifiutò di salire sull'arca?",
+  "a": [
+   "Un figlio di Nuh (Noè)",
+   "Il fratello di Nuh",
+   "Un re",
+   "Un angelo"
+  ],
+  "e": "Un figlio di Nuh preferì cercare salvezza su un monte. Morì tra le onde.",
+  "m": "Un figlio di Nuh non salì sull'arca."
+ },
+ "18515": {
+  "q": "Come si chiamano i famosi biscotti speziati di Basilea?",
+  "a": [
+   "Läckerli",
+   "Biberli",
+   "Tirggel",
+   "Magenbrot"
+  ],
+  "e": "I Läckerli di Basilea sono piccoli biscotti duri al miele e alle spezie. Sono conosciuti in tutta la Svizzera.",
+  "m": "I Läckerli sono biscotti speziati di Basilea."
+ },
+ "74885": {
+  "q": "Che cosa ci si mette per proteggersi in una giornata sportiva di sole?",
+  "a": [
+   "Un cappellino",
+   "Un piumino",
+   "I guanti",
+   "Gli scarponi da sci"
+  ],
+  "e": "Un cappellino o un cappello protegge la testa dal sole. Ci vuole anche la crema solare.",
+  "m": "Nelle giornate sportive di sole un cappellino protegge dal sole."
+ },
+ "20522": {
+  "q": "Quale lettera è una vocale?",
+  "a": [
+   "E",
+   "K",
+   "M",
+   "T"
+  ],
+  "e": "Le vocali sono A, E, I, O e U. K, M e T sono consonanti.",
+  "m": "A, E, I, O e U sono vocali."
+ },
+ "79538": {
+  "q": "Che effetto ha una singola carrucola fissa appesa al soffitto?",
+  "a": [
+   "Cambia la direzione in cui si tira",
+   "Dimezza la forza",
+   "Rende il carico più leggero",
+   "Allunga la corda"
+  ],
+  "e": "Con una carrucola fissa si tira verso il basso e il carico sale verso l'alto. Però non si risparmia forza.",
+  "m": "Una carrucola fissa cambia solo la direzione in cui si tira."
+ },
+ "7043": {
+  "q": "Quanto vive di solito una farfalla adulta?",
+  "a": [
+   "Poche settimane",
+   "Diversi anni",
+   "Solo un'ora",
+   "Dieci anni"
+  ],
+  "e": "Molte farfalle vivono da adulte solo qualche settimana. Prima però passano spesso molto più tempo come uovo, bruco e crisalide.",
+  "m": "Da adulta la farfalla vive poco."
+ },
+ "22297": {
+  "q": "Come si chiamano gli spazi nei fumetti dove c'è scritto che cosa dice un personaggio?",
+  "a": [
+   "Nuvolette",
+   "Cerchi di parole",
+   "Riquadri del titolo",
+   "Scatole parlanti"
+  ],
+  "e": "Nelle nuvolette c'è scritto che cosa dice un personaggio. Una piccola punta indica chi sta parlando.",
+  "m": "Nelle nuvolette c'è quello che dicono i personaggi dei fumetti."
+ },
+ "85108": {
+  "q": "Per quanto tempo si vede di solito una stella cadente nel cielo?",
+  "a": [
+   "Circa un secondo",
+   "Un'ora intera",
+   "Un giorno intero",
+   "Circa dieci minuti"
+  ],
+  "e": "Una stella cadente sfreccia velocissima nel cielo. Di solito dopo circa un secondo è già sparita.",
+  "m": "Una stella cadente di solito dura un secondo."
+ },
+ "19986": {
+  "q": "Che cosa succede quando hai già speso tutta la paghetta?",
+  "a": [
+   "Bisogna aspettare",
+   "Paga la banca",
+   "Il negozio regala tutto",
+   "Se ne riceve subito di più"
+  ],
+  "e": "Quando la paghetta è finita, bisogna aspettare fino alla prossima volta. Per questo conviene organizzarsi bene.",
+  "m": "Se la paghetta è finita, bisogna aspettare."
+ },
+ "93285": {
+  "q": "Come si chiama un piccolo aspirapolvere senza filo che si tiene in mano?",
+  "a": [
+   "Aspirabriciole",
+   "Idropulitrice",
+   "Soffiatore per foglie",
+   "Ferro da stiro a vapore"
+  ],
+  "e": "Un aspirabriciole ha una batteria al posto del filo. Con esso si aspirano in fretta le briciole dal tavolo o in auto.",
+  "m": "Un aspirabriciole funziona a batteria."
+ },
+ "22609": {
+  "q": "Quale veicolo vola con una grande elica sul tetto?",
+  "a": [
+   "Elicottero",
+   "Aereo",
+   "Mongolfiera",
+   "Razzo"
+  ],
+  "e": "L'elicottero ha in alto un grande rotore che gira. Così può decollare in verticale e restare fermo in aria.",
+  "m": "L'elicottero vola con un rotore sul tetto."
+ },
+ "77029": {
+  "q": "Secondo queste immagini, quando ci si lavano i denti?",
+  "a": [
+   "Mattina e sera",
+   "Solo a mezzogiorno",
+   "Solo una volta alla settimana",
+   "Solo il giorno del compleanno"
+  ],
+  "e": "Il sole indica la mattina, la luna la sera. In mezzo c'è lo spazzolino.",
+  "m": "Ci laviamo i denti la mattina e la sera."
+ },
+ "26920": {
+  "q": "Come si chiama il pupazzo di neve che viene bruciato al Sechseläuten di Zurigo?",
+  "a": [
+   "Böögg",
+   "Grittibänz",
+   "San Nicolao",
+   "Waggis"
+  ],
+  "e": "Il Böögg è un grande pupazzo di neve fatto di ovatta. Sta sopra una catasta di legna e viene acceso.",
+  "m": "Il Böögg è il pupazzo di neve del Sechseläuten."
+ },
+ "19122": {
+  "q": "Che cosa succede allo zucchero nel tè caldo quando si mescola?",
+  "a": [
+   "Si scioglie",
+   "Diventa più grande",
+   "Galleggia in superficie",
+   "Diventa ghiaccio"
+  ],
+  "e": "Lo zucchero si distribuisce nel tè in particelle piccolissime. Non lo si vede più, ma lo si sente in bocca.",
+  "m": "Lo zucchero si scioglie nel tè."
+ },
+ "71867": {
+  "q": "Quale numero è «fifteen»?",
+  "a": [
+   "15",
+   "50",
+   "5",
+   "16"
+  ],
+  "e": "«Fifteen» è il numero 15, cioè quindici.",
+  "m": "Fifteen è il numero inglese quindici."
+ },
+ "84311": {
+  "q": "Che cosa, nell'atmosfera della Terra, funziona un po' come il vetro di una serra?",
+  "a": [
+   "Alcuni gas nell'aria",
+   "Le montagne",
+   "Gli oceani",
+   "I boschi"
+  ],
+  "e": "Alcuni gas nell'aria trattengono il calore, un po' come il vetro. Si chiama effetto serra.",
+  "m": "I gas nell'aria tengono calda la Terra come una serra."
+ },
+ "73980": {
+  "q": "Qualcuno ti chiede scusa. Che cosa puoi rispondere?",
+  "a": [
+   "«Va bene, grazie.»",
+   "«Non m'importa.»",
+   "«Vattene!»",
+   "«Mai e poi mai!»"
+  ],
+  "e": "Chi accetta le scuse mette fine al litigio. Dopo si può di nuovo giocare insieme.",
+  "m": "Accettare le scuse porta la pace."
+ },
+ "72506": {
+  "q": "Che cos'è «la trousse»?",
+  "a": [
+   "l'astuccio",
+   "la cartella",
+   "il righello",
+   "le forbici"
+  ],
+  "e": "«La trousse» è l'astuccio. Dentro ci sono le matite e il temperino.",
+  "m": "«La trousse» è l'astuccio."
+ },
+ "20842": {
+  "q": "Quale animale è «bird»?",
+  "a": [
+   "Uccello",
+   "Orso",
+   "Ape",
+   "Pesce"
+  ],
+  "e": "«Bird» significa uccello. Gli uccelli di solito sanno volare.",
+  "m": "L'inglese «bird» è l'uccello."
+ },
+ "23633": {
+  "q": "Che cosa si poteva fare se si sbagliava a scrivere su una tavoletta d'argilla ancora umida?",
+  "a": [
+   "Lisciare l'argilla",
+   "Dipingere la tavoletta",
+   "Buttare la tavoletta nel fuoco",
+   "Non si poteva più cambiare niente"
+  ],
+  "e": "Finché l'argilla era umida, la si poteva lisciare con il dito o con un attrezzo. Poi si scriveva di nuovo.",
+  "m": "L'argilla umida si poteva lisciare e riscrivere."
+ },
+ "25198": {
+  "q": "Quali animali di pietra sorreggono la famosa fontana dell'Alhambra?",
+  "a": [
+   "Leoni",
+   "Elefanti",
+   "Cavalli",
+   "Aquile"
+  ],
+  "e": "Nel Cortile dei Leoni c'è una fontana sorretta da dodici leoni di pietra. Dalle loro bocche esce l'acqua.",
+  "m": "Dodici leoni di pietra sorreggono la fontana dell'Alhambra."
+ },
+ "25941": {
+  "q": "Come chiamava Anne Frank il nascondiglio della sua famiglia?",
+  "a": [
+   "L'alloggio segreto",
+   "La casa sull'albero",
+   "La casetta in giardino",
+   "La casa sul tetto"
+  ],
+  "e": "Il nascondiglio si trovava nella parte posteriore di un edificio di una ditta. Anne lo chiamava «Achterhuis», in italiano «alloggio segreto». Oggi lì c'è un museo.",
+  "m": "Il nascondiglio della famiglia Frank si chiamava alloggio segreto."
+ },
+ "23503": {
+  "q": "A che cosa serviva ai druidi la loro conoscenza delle piante?",
+  "a": [
+   "A curare i malati",
+   "A costruire case",
+   "A tingere i capelli",
+   "A dare da mangiare ai cavalli"
+  ],
+  "e": "I druidi conoscevano molte piante e i loro effetti. Con esse cercavano di far guarire i malati.",
+  "m": "I druidi curavano i malati con le piante."
+ },
+ "4463": {
+  "q": "Come possono i bambini guadagnare da soli un po' di soldi?",
+  "a": [
+   "Per esempio con piccoli lavoretti come tagliare l'erba o fare da babysitter",
+   "Prelevandoli semplicemente al bancomat",
+   "Chiedendoli al Comune",
+   "Fabbricandosi da soli le monete"
+  ],
+  "e": "Con piccoli lavoretti in casa o nel vicinato i bambini possono guadagnare qualche soldo. È una bella esperienza.",
+  "m": "Piccoli lavoretti portano soldi propri."
+ },
+ "50556": {
+  "q": "In quale campionato di calcio gioca l'FC Vaduz?",
+  "a": [
+   "Nel campionato svizzero",
+   "Nel campionato tedesco",
+   "Nel campionato austriaco",
+   "Nel campionato italiano"
+  ],
+  "e": "Il Liechtenstein non ha un proprio campionato di calcio. Per questo l'FC Vaduz e altre squadre giocano in Svizzera.",
+  "m": "L'FC Vaduz gioca nel campionato svizzero."
+ },
+ "51694": {
+  "q": "Che cosa si vede nella cupola di vetro all'interno di Palazzo federale?",
+  "a": [
+   "Gli stemmi dei cantoni",
+   "Immagini di animali",
+   "Una grande carta del mondo",
+   "Le costellazioni"
+  ],
+  "e": "Nella cupola di vetro sopra la sala della cupola ci sono gli stemmi colorati dei cantoni. In mezzo c'è lo stemma svizzero.",
+  "m": "Nella cupola di vetro di Palazzo federale brillano gli stemmi dei cantoni."
+ },
+ "48403": {
+  "q": "Su quale isola si trova il monte Fuji?",
+  "a": [
+   "Honshu",
+   "Islanda",
+   "Sicilia",
+   "Madagascar"
+  ],
+  "e": "Il Giappone è formato da molte isole. Il Fuji si trova su Honshu, l'isola più grande.",
+  "m": "Il Fuji si trova sull'isola di Honshu."
+ },
+ "73449": {
+  "q": "Quando ci sono in Svizzera le ciliegie fresche dall'albero?",
+  "a": [
+   "In estate",
+   "In inverno",
+   "A novembre",
+   "A marzo"
+  ],
+  "e": "In Svizzera le ciliegie maturano a giugno e luglio. Allora si possono cogliere direttamente dall'albero.",
+  "m": "Le ciliegie ci sono in estate."
+ },
+ "86581": {
+  "q": "A che cosa serve la freccia circolare nel browser?",
+  "a": [
+   "Ricarica la pagina.",
+   "Alza il volume.",
+   "Fa girare l'immagine.",
+   "Spegne il computer."
+  ],
+  "e": "La freccia circolare si chiama «Ricarica» o «Aggiorna». La pagina viene caricata un'altra volta.",
+  "m": "Con la freccia circolare si ricarica una pagina."
+ },
+ "94308": {
+  "q": "Quale salsa asiatica ha un forte gusto umami?",
+  "a": [
+   "La salsa di soia",
+   "La salsa alla vaniglia",
+   "La salsa al cioccolato",
+   "La salsa ai lamponi"
+  ],
+  "e": "La salsa di soia si fa con i fagioli di soia e matura a lungo. Ha un gusto salato e molto umami.",
+  "m": "La salsa di soia ha il gusto umami."
+ },
+ "3761": {
+  "q": "Come si chiama la regione collinare del canton Soletta con tanti piccoli villaggi?",
+  "a": [
+   "Bucheggberg",
+   "Engadina",
+   "Emmental",
+   "Ticino"
+  ],
+  "e": "Il Bucheggberg è una zona di campagna del canton Soletta con campi, boschi e piccoli villaggi. Lì vivono molte famiglie contadine.",
+  "m": "Il Bucheggberg è una regione di campagna del canton Soletta."
+ },
+ "21476": {
+  "q": "In quale festa si dipingono spesso le uova?",
+  "a": [
+   "A Pasqua",
+   "A Natale",
+   "A San Silvestro",
+   "Il 1° agosto"
+  ],
+  "e": "A Pasqua si colorano e si dipingono le uova. Spesso si nascondono per i bambini.",
+  "m": "A Pasqua si dipingono le uova."
+ },
+ "69895": {
+  "q": "Quante ore sono mezza giornata?",
+  "a": [
+   "12",
+   "6",
+   "20",
+   "30"
+  ],
+  "e": "Un giorno intero ha 24 ore. La metà è 24 : 2 = 12 ore.",
+  "m": "Mezza giornata dura 12 ore."
+ },
+ "20288": {
+  "q": "Si può bloccare una persona in una chat?",
+  "a": [
+   "Sì, se dà fastidio",
+   "No, mai",
+   "Solo gli adulti",
+   "Solo nel fine settimana"
+  ],
+  "e": "Chi è cattivo o dà fastidio può essere bloccato. Così la persona non può più scrivere.",
+  "m": "Chi mi dà fastidio lo posso bloccare."
+ },
+ "75165": {
+  "q": "Qual è il modo migliore di respirare quando si canta?",
+  "a": [
+   "Profondamente con la pancia",
+   "In modo molto veloce e corto",
+   "Solo con il naso",
+   "Alzando le spalle"
+  ],
+  "e": "Per cantare serve tanta aria. Se si respira profondamente con la pancia, l'aria basta per le note più lunghe.",
+  "m": "Per cantare si respira profondamente con la pancia."
+ },
+ "92300": {
+  "q": "Di che colore sono i fiori del pomodoro?",
+  "a": [
+   "Gialli",
+   "Blu",
+   "Rossi",
+   "Neri"
+  ],
+  "e": "Le piante di pomodoro hanno piccoli fiori gialli. Da questi più tardi crescono i pomodori.",
+  "m": "I pomodori hanno fiori gialli."
+ },
+ "84091": {
+  "q": "Che cosa diventa caldo quando si fa un buco nel muro con il trapano?",
+  "a": [
+   "La punta del trapano",
+   "Il pennello",
+   "Il nastro adesivo",
+   "Il metro pieghevole"
+  ],
+  "e": "La punta del trapano sfrega contro il muro duro mentre gira. Per questo diventa molto calda.",
+  "m": "Quando si fora, la punta del trapano si scalda."
+ },
+ "35147": {
+  "q": "Si possono distruggere i manifesti elettorali degli altri?",
+  "a": [
+   "No, è vietato",
+   "Sì, sempre",
+   "Sì, ma solo di notte",
+   "Sì, se sono brutti"
+  ],
+  "e": "I manifesti elettorali appartengono a qualcuno. Chi li rovina commette un danneggiamento e può essere punito.",
+  "m": "I manifesti elettorali degli altri non si rovinano."
+ },
+ "37672": {
+  "q": "In un sistema a partito unico, che cosa succede di solito agli altri partiti?",
+  "a": [
+   "Sono vietati",
+   "Ricevono soldi",
+   "Governano insieme",
+   "Si danno il cambio"
+  ],
+  "e": "Il partito al potere non vuole concorrenza. Per questo vieta gli altri partiti o li lascia esistere solo per finta.",
+  "m": "Nel sistema a partito unico gli altri partiti di solito sono vietati."
+ },
+ "38088": {
+  "q": "Con quale Paese vicino confina la Repubblica federale di Germania a sud?",
+  "a": [
+   "Con la Svizzera",
+   "Con la Danimarca",
+   "Con la Polonia",
+   "Con i Paesi Bassi"
+  ],
+  "e": "La Svizzera si trova a sud della Germania. Il confine passa per esempio lungo il Reno vicino a Basilea e a Sciaffusa.",
+  "m": "La Germania è un Paese vicino della Svizzera, a nord."
+ },
+ "36201": {
+  "q": "Su quale mare si affaccia Monaco?",
+  "a": [
+   "Sul Mediterraneo",
+   "Sul Mare del Nord",
+   "Sul Mar Baltico",
+   "Sul Mar Nero"
+  ],
+  "e": "Monaco si trova sulla costa del Mediterraneo. Lì d'estate fa caldo e c'è il sole.",
+  "m": "Monaco si affaccia sul Mediterraneo."
+ },
+ "64972": {
+  "q": "Come si chiama chi guida un monastero di monaci?",
+  "a": [
+   "Abate",
+   "Vescovo",
+   "Parroco",
+   "Imperatore"
+  ],
+  "e": "Un monastero maschile come quello di Einsiedeln è guidato da un abate. I monaci lo eleggono.",
+  "m": "L'abate guida un monastero di monaci."
+ },
+ "63196": {
+  "q": "Che cosa disegna il prete sulla fronte di molte persone il Mercoledì delle Ceneri?",
+  "a": [
+   "Una croce di cenere",
+   "Una stella colorata",
+   "Un cuore di gesso",
+   "Un punto d'inchiostro"
+  ],
+  "e": "Durante la messa le persone ricevono una piccola croce di cenere. Da qui il giorno prende il nome.",
+  "m": "Il Mercoledì delle Ceneri si riceve una croce di cenere sulla fronte."
+ },
+ "63971": {
+  "q": "Come si chiama in arabo il tappeto per la preghiera?",
+  "a": [
+   "Sajjada",
+   "Salat",
+   "Sura",
+   "Sultano"
+  ],
+  "e": "Il nome arabo del tappeto per la preghiera è sajjada. La parola è legata alla prosternazione durante la preghiera.",
+  "m": "In arabo il tappeto per la preghiera si chiama sajjada."
+ },
+ "18507": {
+  "q": "Su quale lago si trova la città di Zurigo?",
+  "a": [
+   "Lago di Zurigo",
+   "Lago dei Quattro Cantoni",
+   "Lago di Thun",
+   "Lago di Bienne"
+  ],
+  "e": "La città di Zurigo si trova all'estremità inferiore del lago di Zurigo. D'estate molte persone ci fanno il bagno.",
+  "m": "Zurigo si trova sul lago di Zurigo."
+ },
+ "21976": {
+  "q": "Quanti giocatori ha in campo contemporaneamente una squadra di calcio?",
+  "a": [
+   "11",
+   "9",
+   "7",
+   "13"
+  ],
+  "e": "Nel calcio ogni squadra gioca con 11 giocatori: un portiere e dieci giocatori di movimento.",
+  "m": "Una squadra di calcio gioca con undici giocatori."
+ },
+ "81481": {
+  "q": "Quale famoso ponte rosso si trova a San Francisco?",
+  "a": [
+   "Golden Gate Bridge",
+   "Tower Bridge",
+   "Ponte di Rialto",
+   "Kapellbrücke"
+  ],
+  "e": "Il Golden Gate Bridge è un enorme ponte sospeso in America. È stato inaugurato nel 1937 ed è dipinto di rosso arancio.",
+  "m": "Il Golden Gate Bridge di San Francisco è rosso."
+ },
+ "1726": {
+  "q": "Come si chiama una nota razza svizzera di mucche con il pelo marrone?",
+  "a": [
+   "Razza Bruna",
+   "Razza Bianca",
+   "Razza Nera",
+   "Razza Rossa"
+  ],
+  "e": "La Bruna è una nota razza svizzera di mucche con il pelo marrone. Queste mucche danno tanto latte buono.",
+  "m": "La Bruna è una razza svizzera di mucche."
+ },
+ "22352": {
+  "q": "Come si chiamano i film sui cowboy del Far West?",
+  "a": [
+   "Western",
+   "Musical",
+   "Commedia",
+   "Giallo"
+  ],
+  "e": "I western di solito si svolgono tanto tempo fa in Nordamerica. Ci sono cavalli, cowboy e piccole città.",
+  "m": "Nei western i cowboy cavalcano nel Far West."
+ },
+ "86142": {
+  "q": "Perché un buco nero attira tutto così forte?",
+  "a": [
+   "Per la sua enorme forza di gravità",
+   "Per un vento forte",
+   "Per una calamita",
+   "Per il suo calore"
+  ],
+  "e": "In un buco nero c'è tantissima massa in uno spazio piccolissimo. Questo crea un'enorme forza di gravità.",
+  "m": "Un buco nero ha un'enorme forza di gravità."
+ },
+ "19966": {
+  "q": "Che cosa indica il cartellino del prezzo su un prodotto?",
+  "a": [
+   "Quanto costa",
+   "Quanto pesa",
+   "Chi l'ha fatto",
+   "Quanti anni ha"
+  ],
+  "e": "Sul cartellino del prezzo c'è scritto quanto si deve pagare per il prodotto.",
+  "m": "Il cartellino mostra il prezzo."
+ },
+ "81896": {
+  "q": "Dopo quanti giorni si vedono i primi germogli del crescione?",
+  "a": [
+   "Dopo 1 o 2 giorni",
+   "Dopo 3 settimane",
+   "Dopo 2 mesi",
+   "Dopo 1 anno"
+  ],
+  "e": "Il crescione germoglia molto in fretta. Già dopo uno o due giorni si vedono piccole punte bianche.",
+  "m": "Il crescione germoglia molto in fretta."
+ },
+ "22603": {
+  "q": "Quale Paese ha una bandiera nera, rossa e oro?",
+  "a": [
+   "Germania",
+   "Francia",
+   "Spagna",
+   "Austria"
+  ],
+  "e": "La bandiera della Germania ha tre strisce orizzontali nere, rosse e oro. La bandiera dell'Austria è rossa, bianca e rossa.",
+  "m": "La bandiera tedesca è nera, rossa e oro."
+ },
+ "77108": {
+  "q": "Che cosa si fa spesso qui prima di andare a dormire?",
+  "a": [
+   "Fare il bagno",
+   "Andare a correre",
+   "Andare a fare la spesa",
+   "Tagliare l'erba"
+  ],
+  "e": "Vasca e sapone prima del letto mostrano che prima di dormire si fa il bagno.",
+  "m": "Un bagno caldo la sera fa venire sonno."
+ },
+ "26331": {
+  "q": "In che mese si tiene di solito la Landsgemeinde di Glarona?",
+  "a": [
+   "A maggio",
+   "A dicembre",
+   "Ad agosto",
+   "A febbraio"
+  ],
+  "e": "La Landsgemeinde di Glarona si tiene di regola la prima domenica di maggio.",
+  "m": "La Landsgemeinde di Glarona è a maggio."
+ },
+ "86352": {
+  "q": "Qual è il simbolo chimico del calcio?",
+  "a": [
+   "Ca",
+   "C",
+   "Cl",
+   "Co"
+  ],
+  "e": "Il simbolo del calcio è Ca. C sta per carbonio e Cl per cloro.",
+  "m": "Il simbolo del calcio è Ca."
+ },
+ "71872": {
+  "q": "Quale numero è «nineteen»?",
+  "a": [
+   "19",
+   "9",
+   "90",
+   "17"
+  ],
+  "e": "«Nineteen» è il numero 19. Dentro c'è «nine», che vuol dire 9.",
+  "m": "Nineteen è il numero inglese diciannove."
+ },
+ "85299": {
+  "q": "Le stalagmiti possono diventare alte diversi metri?",
+  "a": [
+   "Sì, in moltissimo tempo",
+   "No, mai più alte di un dito",
+   "Sì, in un anno",
+   "Solo nei frigoriferi"
+  ],
+  "e": "Siccome crescono molto lentamente, le stalagmiti alte hanno spesso bisogno di molte migliaia di anni. Alcune sono alte diversi metri.",
+  "m": "Le stalagmiti alte sono molto antiche."
+ },
+ "74016": {
+  "q": "Qual è il contrario di coraggioso?",
+  "a": [
+   "Vigliacco",
+   "Diligente",
+   "Gentile",
+   "Allegro"
+  ],
+  "e": "È vigliacco chi per paura non osa fare la cosa giusta. Coraggioso è il contrario.",
+  "m": "Il contrario di coraggioso è vigliacco."
+ },
+ "72485": {
+  "q": "Che cos'è «le nez»?",
+  "a": [
+   "il naso",
+   "l'orecchio",
+   "l'occhio",
+   "la bocca"
+  ],
+  "e": "«Le nez» è il naso. Con il naso si sentono gli odori.",
+  "m": "«Le nez» è il naso."
+ },
+ "20909": {
+  "q": "Quale colore è il francese «rouge»?",
+  "a": [
+   "Rosso",
+   "Verde",
+   "Blu",
+   "Giallo"
+  ],
+  "e": "«Rouge» è la parola francese per rosso.",
+  "m": "Il francese «rouge» è il colore rosso."
+ },
+ "24111": {
+  "q": "Con che cosa cominciava spesso un banchetto romano?",
+  "a": [
+   "Con le uova",
+   "Con la torta",
+   "Con il gelato",
+   "Con il caffè"
+  ],
+  "e": "L'antipasto era spesso fatto di uova, olive o insalata. Alla fine c'era spesso la frutta.",
+  "m": "Un banchetto romano cominciava spesso con le uova."
+ },
+ "24663": {
+  "q": "Come si chiamava il mulino dove i contadini di un signore erano obbligati a macinare?",
+  "a": [
+   "Mulino bannale",
+   "Mulino da gioco",
+   "Macinino da caffè",
+   "Frantoio"
+  ],
+  "e": "I contadini non potevano andare in un mulino qualsiasi. Dovevano andare nel mulino del loro signore, il mulino bannale.",
+  "m": "Nel mulino bannale i contadini dovevano far macinare il grano."
+ },
+ "25574": {
+  "q": "Quale città fondò Pietro il Grande?",
+  "a": [
+   "San Pietroburgo",
+   "Mosca",
+   "Kiev",
+   "Varsavia"
+  ],
+  "e": "Pietro il Grande fece costruire la città alla foce di un fiume. Porta il nome del suo santo protettore, san Pietro.",
+  "m": "Pietro il Grande fondò San Pietroburgo."
+ },
+ "23257": {
+  "q": "Con che cosa si poteva soffiare il colore sulla parete?",
+  "a": [
+   "Con un osso cavo",
+   "Con una cannuccia di plastica",
+   "Con un imbuto di vetro",
+   "Con un tubo da giardino"
+  ],
+  "e": "Un osso cavo di uccello o uno stelo di pianta serviva come tubicino per spruzzare.",
+  "m": "Un osso cavo poteva servire da tubicino per il colore."
+ },
+ "2964": {
+  "q": "Come si chiamano in Svizzera le monete che valgono meno di un franco?",
+  "a": [
+   "Centesimi",
+   "Penny",
+   "Groschen",
+   "Pfennig"
+  ],
+  "e": "In Svizzera le monete piccole si chiamano centesimi (in tedesco Rappen). 100 centesimi fanno un franco.",
+  "m": "100 centesimi fanno un franco."
+ },
+ "51355": {
+  "q": "Quale penisola si allunga da nord nel Mar Nero?",
+  "a": [
+   "Crimea",
+   "Bretagna",
+   "Peloponneso",
+   "Jutland"
+  ],
+  "e": "La Crimea è una grande penisola nel nord del Mar Nero. Le altre penisole si trovano sull'Atlantico, sul Mediterraneo o tra il Mare del Nord e il Mar Baltico.",
+  "m": "La Crimea si allunga nel Mar Nero."
+ },
+ "51647": {
+  "q": "Con che cosa si sale da Kriens sul Pilatus?",
+  "a": [
+   "Con la cabinovia e la funivia",
+   "Con una nave",
+   "Con la metropolitana",
+   "Con un ascensore dentro la montagna"
+  ],
+  "e": "Da Kriens si sale prima con una cabinovia e poi con una funivia sul Pilatus. Dall'altra parte c'è la ferrovia a cremagliera.",
+  "m": "Da Kriens si sale sul Pilatus con gli impianti a fune."
+ },
+ "48244": {
+  "q": "Quale grande città del Canada si trova sull'oceano Pacifico?",
+  "a": [
+   "Vancouver",
+   "Toronto",
+   "Montréal",
+   "Ottawa"
+  ],
+  "e": "Vancouver si trova sulla costa ovest del Canada. Toronto, Montréal e Ottawa sono lontane, nell'est del Paese.",
+  "m": "Vancouver è una città portuale sul Pacifico."
+ },
+ "73509": {
+  "q": "Con che cosa si scola la pasta?",
+  "a": [
+   "Con lo scolapasta",
+   "Con la grattugia",
+   "Con la frusta",
+   "Con il mattarello"
+  ],
+  "e": "Nello scolapasta l'acqua calda esce dai buchi. La pasta resta dentro.",
+  "m": "La pasta si scola nello scolapasta."
+ },
+ "84687": {
+  "q": "Perché nello stop motion si mette la macchina fotografica su un treppiede?",
+  "a": [
+   "Perché stia ferma",
+   "Perché suoni più forte",
+   "Perché filmi più colorato",
+   "Perché si carichi la batteria"
+  ],
+  "e": "Se la macchina si muove tra una foto e l'altra, tutto il film traballa. Il treppiede la tiene sempre nello stesso punto.",
+  "m": "Nello stop motion il treppiede tiene ferma la macchina fotografica."
+ },
+ "81983": {
+  "q": "Quale muscolo è tra i più grandi del corpo?",
+  "a": [
+   "Il grande gluteo",
+   "Un muscolo dell'occhio",
+   "Un muscolo dell'orecchio",
+   "Un muscolo del dito"
+  ],
+  "e": "Il grande gluteo è molto grande e forte. Occhi, orecchie e dita hanno solo muscoli piccoli.",
+  "m": "Il grande gluteo è uno dei muscoli più grandi."
+ },
+ "4069": {
+  "q": "In quale parte della Svizzera si trova il canton Soletta?",
+  "a": [
+   "Nell'Altopiano",
+   "In alto nelle Alpi",
+   "Tutto a sud sul Lago Maggiore",
+   "Su un'isola nel lago Lemano"
+  ],
+  "e": "Il canton Soletta si trova nell'Altopiano svizzero, tra il Giura e le Alpi. Ha molte colline e boschi.",
+  "m": "Soletta si trova nell'Altopiano svizzero."
+ },
+ "75700": {
+  "q": "Con che cosa si fa oggi di solito la carta?",
+  "a": [
+   "Con le fibre di legno",
+   "Con la sabbia",
+   "Con il metallo",
+   "Con il vetro"
+  ],
+  "e": "Per fare la carta, le fibre di legno si mescolano con tanta acqua fino a fare una pappa. Da questa si pressano e si asciugano fogli sottili.",
+  "m": "La carta si fa di solito con le fibre di legno."
+ },
+ "69940": {
+  "q": "Qual è l'abbreviazione di decilitro?",
+  "a": [
+   "dl",
+   "dz",
+   "dk",
+   "dt"
+  ],
+  "e": "Decilitro si abbrevia dl. Litro si abbrevia l.",
+  "m": "Decilitro si scrive abbreviato dl."
+ },
+ "20239": {
+  "q": "Qual è una buona ricerca per trovare animali del bosco?",
+  "a": [
+   "animali bosco Svizzera",
+   "ciao come stai",
+   "sono stanco",
+   "cosa mangio oggi"
+  ],
+  "e": "Le buone parole di ricerca sono brevi e adatte proprio al tema. Le parole inutili si lasciano via.",
+  "m": "Parole di ricerca brevi e adatte aiutano a cercare."
+ },
+ "75094": {
+  "q": "A quale famiglia di strumenti appartiene il violino?",
+  "a": [
+   "Strumenti ad arco",
+   "Strumenti a fiato",
+   "Strumenti a percussione",
+   "Strumenti a tastiera"
+  ],
+  "e": "Il violino si suona passando un archetto sulle corde. Per questo fa parte degli strumenti ad arco.",
+  "m": "Il violino è uno strumento ad arco."
+ },
+ "97263": {
+  "q": "Che cosa si fa con i semi della colza?",
+  "a": [
+   "Olio",
+   "Farina",
+   "Zucchero",
+   "Succo"
+  ],
+  "e": "I piccoli semi di colza contengono molto grasso. Si spremono e si ottiene l'olio di colza.",
+  "m": "Dai semi di colza si spreme l'olio."
+ },
+ "101772": {
+  "q": "A che cosa servono le piume in fondo alla freccia?",
+  "a": [
+   "A far volare la freccia diritta",
+   "A rendere la freccia più pesante",
+   "A rendere la freccia bella",
+   "A frenare la freccia"
+  ],
+  "e": "Le piume tengono la freccia stabile nell'aria. Senza di loro barcollerebbe.",
+  "m": "Le piume fanno volare la freccia diritta."
+ },
+ "33825": {
+  "q": "Che cosa bisogna sempre chiudere sul casco da bici prima di partire?",
+  "a": [
+   "Il cinturino sotto il mento",
+   "La cerniera",
+   "I lacci delle scarpe",
+   "Lo zaino"
+  ],
+  "e": "Solo con il cinturino sotto il mento chiuso il casco resta sulla testa in caso di caduta.",
+  "m": "Il cinturino del casco lo chiudi sempre."
+ },
+ "37732": {
+  "q": "Perché la DDR costruì muri e recinzioni al suo confine?",
+  "a": [
+   "Perché nessuno potesse fuggire",
+   "Contro gli animali selvatici",
+   "Contro le inondazioni",
+   "Per avere più ombra"
+  ],
+  "e": "Molte persone volevano lasciare la DDR. Con muri e recinzioni il governo voleva impedire la fuga.",
+  "m": "La DDR costruì recinzioni perché i suoi cittadini non fuggissero."
+ },
+ "38125": {
+  "q": "Perché molti pezzi del Muro erano colorati su un lato?",
+  "a": [
+   "Erano stati dipinti a ovest",
+   "Erano di vetro",
+   "Erano di plastica",
+   "Erano rimasti sotto la pioggia"
+  ],
+  "e": "Dal lato di Berlino Ovest il Muro era dipinto con graffiti. Per questo molti pezzi erano colorati su un lato.",
+  "m": "Il lato ovest del Muro era dipinto a colori."
+ },
+ "36883": {
+  "q": "Chi fece nel 1796 una delle prime vaccinazioni contro il vaiolo?",
+  "a": [
+   "Edward Jenner",
+   "Albert Einstein",
+   "Henri Dunant",
+   "Isaac Newton"
+  ],
+  "e": "Il medico inglese Edward Jenner nel 1796 vaccinò un ragazzo con il vaiolo delle mucche. Dopo, il ragazzo era protetto dal vero vaiolo.",
+  "m": "Edward Jenner è considerato il padre del vaccino contro il vaiolo."
+ },
+ "65035": {
+  "q": "Dove si trovano in Svizzera tante piccole cappelle?",
+  "a": [
+   "In montagna",
+   "Negli aeroporti",
+   "Nelle fabbriche",
+   "Nelle stazioni"
+  ],
+  "e": "In montagna la gente costruiva cappelle lungo i sentieri e sugli alpeggi. Lì si poteva pregare.",
+  "m": "In montagna ci sono tante piccole cappelle."
+ },
+ "63248": {
+  "q": "Con che cosa si possono colorare le uova di blu?",
+  "a": [
+   "Con il cavolo rosso",
+   "Con le carote",
+   "Con i limoni",
+   "Con le banane"
+  ],
+  "e": "Il succo del cavolo rosso sembra viola, ma colora di blu il guscio bianco delle uova.",
+  "m": "Il cavolo rosso colora le uova di blu."
+ },
+ "63900": {
+  "q": "Secondo la tradizione, dove ricevette Maometto la prima rivelazione?",
+  "a": [
+   "In una grotta",
+   "Su una nave",
+   "In un palazzo",
+   "In un mercato"
+  ],
+  "e": "Maometto si ritirava spesso nella grotta di Hira, vicino alla Mecca. Lì, secondo la tradizione, ricevette il primo messaggio.",
+  "m": "Maometto ebbe la prima rivelazione nella grotta di Hira."
+ },
+ "18546": {
+  "q": "Quale castello si trova vicino a Montreux proprio sulla riva del lago Lemano?",
+  "a": [
+   "Castello di Chillon",
+   "Castello di Lenzburg",
+   "Castello di Thun",
+   "Castello di Kyburg"
+  ],
+  "e": "Il castello di Chillon sorge su una roccia nell'acqua. È uno dei castelli più famosi della Svizzera.",
+  "m": "Il castello di Chillon si trova sul lago Lemano."
+ },
+ "74884": {
+  "q": "Che cosa si tiene in equilibrio su un cucchiaio nella corsa con l'uovo?",
+  "a": [
+   "Un uovo",
+   "Una palla",
+   "Un bicchiere",
+   "Una piuma"
+  ],
+  "e": "Nella corsa con l'uovo si porta un uovo su un cucchiaio fino al traguardo. Se cade, bisogna rimetterlo sul cucchiaio.",
+  "m": "Nella corsa con l'uovo si porta un uovo sul cucchiaio."
+ },
+ "79605": {
+  "q": "Che vantaggio ha l'unica ruota di una carriola?",
+  "a": [
+   "È molto maneggevole",
+   "Va più veloce",
+   "È più silenziosa",
+   "Non ha bisogno di equilibrio"
+  ],
+  "e": "Con una ruota sola la carriola si gira facilmente. Così si va bene anche su sentieri stretti.",
+  "m": "Una carriola con una ruota è maneggevole."
+ },
+ "3794": {
+  "q": "Più o meno quanto può diventare grande uno scimpanzé adulto?",
+  "a": [
+   "Circa quanto una persona",
+   "Piccolo come un topo",
+   "Grande come un elefante",
+   "Grande come una giraffa"
+  ],
+  "e": "Uno scimpanzé adulto diventa alto da uno a un metro e mezzo circa. Quindi è grande più o meno come una persona piuttosto bassa.",
+  "m": "Gli scimpanzé sono grandi più o meno come una persona."
+ },
+ "22330": {
+  "q": "Di che materiale sono fatti i personaggi Wallace e Gromit?",
+  "a": [
+   "Di plastilina",
+   "Di legno",
+   "Di carta",
+   "Di stoffa"
+  ],
+  "e": "Per ogni movimento i personaggi di plastilina vengono spostati di un pochino e fotografati di nuovo.",
+  "m": "Wallace e Gromit sono personaggi di plastilina."
+ },
+ "82253": {
+  "q": "Come si chiama il piccolo ammasso di stelle nel Toro, chiamato anche le Sette Sorelle?",
+  "a": [
+   "Pleiadi",
+   "Via Lattea",
+   "Nebulosa di Orione",
+   "Cassiopea"
+  ],
+  "e": "Le Pleiadi sono un ammasso di stelle giovani nel Toro. A occhio nudo se ne vedono circa sei o sette.",
+  "m": "Le Pleiadi si chiamano anche le Sette Sorelle."
+ },
+ "19930": {
+  "q": "Come si chiamano i soldi che si ricevono indietro quando si è dato troppo?",
+  "a": [
+   "Il resto",
+   "La paghetta",
+   "La mancia",
+   "La caparra"
+  ],
+  "e": "Chi paga con una banconota grande riceve indietro la differenza. Questi soldi si chiamano resto.",
+  "m": "Il resto si riceve indietro alla cassa."
+ },
+ "82923": {
+  "q": "Quale soprannome ricevette Edison per il suo laboratorio di Menlo Park?",
+  "a": [
+   "Il mago di Menlo Park",
+   "Il re d'America",
+   "Il signore degli anelli",
+   "L'uomo nella luna"
+  ],
+  "e": "Siccome nel suo laboratorio nascevano tante invenzioni sorprendenti, lo chiamavano «il mago di Menlo Park».",
+  "m": "Edison era chiamato il mago di Menlo Park."
+ },
+ "22575": {
+  "q": "Come si chiama un solido tutto rotondo come una palla?",
+  "a": [
+   "Sfera",
+   "Cubo",
+   "Piramide",
+   "Cilindro"
+  ],
+  "e": "Una sfera è rotonda da tutte le parti. Una palla o una biglia hanno questa forma.",
+  "m": "Una palla ha la forma di una sfera."
+ },
+ "76649": {
+  "q": "Quali tre colori desidera la mamma per la sua bambina?",
+  "a": [
+   "Bianco, rosso e nero",
+   "Giallo, blu e verde",
+   "Bianco, blu e oro",
+   "Rosa, verde e marrone"
+  ],
+  "e": "La neve è bianca, il cuore rosso e il secondo cuore nero. La bambina deve essere bianca come la neve, rossa come il sangue e nera come l'ebano.",
+  "m": "Biancaneve è bianca come la neve, rossa come il sangue e nera come l'ebano."
+ },
+ "26397": {
+  "q": "Che cosa voleva ottenere Zwingli con la Riforma?",
+  "a": [
+   "Rinnovare la Chiesa",
+   "Fondare un nuovo cantone",
+   "Vietare il commercio",
+   "Costruire un castello"
+  ],
+  "e": "Riforma significa rinnovamento. Zwingli voleva che la Chiesa seguisse di nuovo la Bibbia.",
+  "m": "Riforma significa rinnovamento della Chiesa."
+ },
+ "83392": {
+  "q": "Come si tira fuori in fretta una coperta antifiamma dalla sua custodia?",
+  "a": [
+   "Si tirano i nastri",
+   "Si taglia la custodia",
+   "Si scuote la custodia",
+   "Si preme un pulsante"
+  ],
+  "e": "Dalla custodia pendono due nastri. Se li si tira con forza, la coperta esce.",
+  "m": "Per tirare fuori la coperta antifiamma si tirano i nastri."
+ },
+ "71916": {
+  "q": "Che cosa significa «Goodbye»?",
+  "a": [
+   "Arrivederci",
+   "Buongiorno",
+   "Benvenuto",
+   "Guarisci presto"
+  ],
+  "e": "«Goodbye» significa arrivederci. Si dice quando ci si saluta per andare via.",
+  "m": "Quando ci si saluta per andare via si dice Goodbye."
+ },
+ "81348": {
+  "q": "Che forma ha una grossa goccia di pioggia mentre cade?",
+  "a": [
+   "Come un panino, piatta sotto",
+   "Come una lacrima con la punta",
+   "Come un cubo",
+   "Come una stella"
+  ],
+  "e": "Durante la caduta l'aria spinge da sotto contro la goccia. Per questo diventa piatta sotto e sembra un panino.",
+  "m": "Le gocce di pioggia non hanno la forma di una lacrima."
+ },
+ "73925": {
+  "q": "Il tuo amico ha imbrogliato nel gioco e tu l'hai visto. Che cosa è giusto e onesto fare?",
+  "a": [
+   "Parlargliene con calma",
+   "Imbrogliare anche tu",
+   "Prenderlo in giro",
+   "Raccontare bugie a tutti"
+  ],
+  "e": "Chi parla con calma di un imbroglio resta onesto e corretto. Prendere in giro o imbrogliare a propria volta peggiora le cose.",
+  "m": "Delle cose ingiuste si parla con calma."
+ },
+ "72535": {
+  "q": "Che cos'è «la robe»?",
+  "a": [
+   "il vestito",
+   "la gonna",
+   "la camicetta",
+   "il cappotto"
+  ],
+  "e": "«La robe» è il vestito da donna. Un vestito è fatto di un solo pezzo, sopra e sotto.",
+  "m": "«La robe» è il vestito."
+ },
+ "20869": {
+  "q": "Che cos'è «banana»?",
+  "a": [
+   "Banana",
+   "Pera",
+   "Bacca",
+   "Fagiolo"
+  ],
+  "e": "«Banana» significa banana. La parola è uguale a quella italiana.",
+  "m": "L'inglese «banana» è la banana."
+ },
+ "23984": {
+  "q": "Come si chiama di solito il corridore della leggenda di Maratona?",
+  "a": [
+   "Fidippide",
+   "Pericle",
+   "Socrate",
+   "Leonida"
+  ],
+  "e": "Il messaggero della leggenda viene chiamato di solito Fidippide. Non è sicuro che sia davvero corso da Maratona ad Atene.",
+  "m": "Il corridore della leggenda di Maratona si chiama di solito Fidippide."
+ },
+ "25295": {
+  "q": "Quale scrittura usavano gli Inca?",
+  "a": [
+   "Nessuna scrittura con lettere",
+   "Lettere latine",
+   "Caratteri cinesi",
+   "Geroglifici egizi"
+  ],
+  "e": "Gli Inca non avevano una scrittura con lettere. Le cose importanti le registravano con cordicelle annodate.",
+  "m": "Gli Inca non avevano una scrittura con lettere."
+ },
+ "25390": {
+  "q": "Quale cibo portò James Cook sulle sue navi contro lo scorbuto?",
+  "a": [
+   "Crauti",
+   "Cioccolato",
+   "Gelato",
+   "Torta al formaggio"
+  ],
+  "e": "Cook fece caricare a bordo tanti crauti. Si conservano a lungo e contengono un po' di vitamina C.",
+  "m": "Cook portò i crauti contro lo scorbuto."
+ },
+ "12887": {
+  "q": "Come si sono formate le Alpi?",
+  "a": [
+   "La roccia è stata spinta e schiacciata insieme",
+   "Le hanno ammucchiate gli uomini",
+   "È caduta una stella",
+   "Sono cresciute dal ghiaccio"
+  ],
+  "e": "L'Africa si è spinta lentamente contro l'Europa. Così la roccia è stata schiacciata e piegata verso l'alto: sono nate le Alpi.",
+  "m": "Le Alpi sono nate perché la roccia è stata spinta e schiacciata insieme."
+ },
+ "6698": {
+  "q": "Oltre che nel salvadanaio, dove si possono tenere al sicuro i soldi risparmiati?",
+  "a": [
+   "Su un conto di risparmio in banca",
+   "Nella cartella di scuola",
+   "Sotto il cuscino in colonia",
+   "In tasca mentre si gioca"
+  ],
+  "e": "In banca, su un conto di risparmio, i soldi sono al sicuro e non si perdono facilmente. Molti bambini hanno un proprio conto di risparmio.",
+  "m": "La banca custodisce i soldi al sicuro."
+ },
+ "51382": {
+  "q": "Quali alberi fioriscono di bianco e di rosa già in inverno a Maiorca?",
+  "a": [
+   "I mandorli",
+   "Gli abeti",
+   "Le betulle",
+   "Le querce"
+  ],
+  "e": "A Maiorca i mandorli fioriscono di solito a gennaio e febbraio. Allora molti campi sono bianchi e rosa.",
+  "m": "A Maiorca i mandorli fioriscono già in inverno."
+ },
+ "52023": {
+  "q": "Come si chiama un villaggio piuttosto grande in Vallemaggia?",
+  "a": [
+   "Cevio",
+   "Sonogno",
+   "Gandria",
+   "Mesocco"
+  ],
+  "e": "Cevio si trova in mezzo alla Vallemaggia. Lì c'è il Museo di Valmaggia.",
+  "m": "Cevio è un villaggio della Vallemaggia."
+ },
+ "50323": {
+  "q": "In che anno sono state aperte le nuove chiuse più grandi del Canale di Panama?",
+  "a": [
+   "2016",
+   "1950",
+   "1970",
+   "1999"
+  ],
+  "e": "Siccome le navi diventavano sempre più grandi, si costruirono nuove chiuse. Sono entrate in funzione nel 2016.",
+  "m": "Dal 2016 il Canale di Panama ha chiuse più grandi."
+ },
+ "73487": {
+  "q": "Che cosa è meglio portare con sé quando si va a fare la spesa?",
+  "a": [
+   "Una borsa della spesa",
+   "Una pentola",
+   "Un sacco della spazzatura",
+   "Una pala"
+  ],
+  "e": "Con una propria borsa non servono sacchetti nuovi. Così si fanno meno rifiuti.",
+  "m": "Porta con te una borsa tua per fare la spesa."
+ },
+ "84614": {
+  "q": "Fotografi una persona e dietro di lei splende forte il sole. Come appare spesso la persona nella foto?",
+  "a": [
+   "Troppo scura",
+   "Troppo colorata",
+   "Troppo grande",
+   "Troppo piccola"
+  ],
+  "e": "La luce forte da dietro si chiama controluce. La macchina fotografica si regola sul sole luminoso, per questo la persona viene scura.",
+  "m": "In controluce la persona fotografata viene spesso troppo scura."
+ },
+ "103544": {
+  "q": "Che odore ha il sudore fresco?",
+  "a": [
+   "Quasi di niente",
+   "Di rose",
+   "Di fumo",
+   "Di limone"
+  ],
+  "e": "Il sudore fresco è fatto soprattutto di acqua e un po' di sale e quasi non ha odore. L'odore si forma solo più tardi sulla pelle.",
+  "m": "Il sudore fresco non ha quasi odore."
+ },
+ "7122": {
+  "q": "Come si chiama il famoso monte panoramico sopra la città di Soletta?",
+  "a": [
+   "Weissenstein",
+   "Cervino",
+   "Rigi",
+   "Pilatus"
+  ],
+  "e": "Dal Weissenstein, col bel tempo, si vedono molte vette delle Alpi e la città di Soletta piccolissima dall'alto. Si può salire con una cabinovia.",
+  "m": "Il Weissenstein è la montagna di casa di Soletta."
+ },
+ "21415": {
+  "q": "Che cosa di solito non si può fare in un museo d'arte?",
+  "a": [
+   "Toccare i quadri",
+   "Guardare i quadri",
+   "Parlare a bassa voce",
+   "Fare domande"
+  ],
+  "e": "La pelle ha grasso e sporco. Se tante persone toccano i quadri, col tempo si rovinano.",
+  "m": "Al museo si guarda con gli occhi, non con le mani."
+ },
+ "69886": {
+  "q": "La lancetta grande è sul 6, quella piccola tra il 4 e il 5. Che ore sono?",
+  "a": [
+   "Le quattro e mezza",
+   "Le tre e mezza",
+   "Le sei",
+   "Le cinque meno un quarto"
+  ],
+  "e": "Quando la lancetta grande è sul 6, è passata mezz'ora. Sono le 4 e 30, cioè le quattro e mezza.",
+  "m": "Le quattro e mezza sono 30 minuti dopo le 4."
+ },
+ "20225": {
+  "q": "È vero tutto quello che c'è scritto su Internet?",
+  "a": [
+   "No, non sempre",
+   "Sì, sempre",
+   "Solo al mattino",
+   "Solo per le immagini"
+  ],
+  "e": "Su Internet chiunque può scrivere qualcosa. Per questo ci sono anche errori e bugie.",
+  "m": "Non tutto quello che c'è su Internet è vero."
+ },
+ "21748": {
+  "q": "Come si chiama il battito regolare della musica su cui si può battere le mani?",
+  "a": [
+   "Pulsazione",
+   "Melodia",
+   "Timbro",
+   "Accordo"
+  ],
+  "e": "La pulsazione è il battito di base della musica. Va avanti regolare come il ticchettio di un orologio.",
+  "m": "La pulsazione è il battito regolare di base della musica."
+ },
+ "79870": {
+  "q": "Quando sono mature le noci?",
+  "a": [
+   "in autunno",
+   "in primavera",
+   "in inverno",
+   "all'inizio dell'estate"
+  ],
+  "e": "A settembre e ottobre il mallo verde si apre. Allora le noci mature cadono dall'albero.",
+  "m": "Le noci si raccolgono in autunno."
+ },
+ "89002": {
+  "q": "Con che cosa si avvisano le navi tra loro quando c'è una nebbia fitta?",
+  "a": [
+   "Con una sirena da nebbia",
+   "Con un organo da chiesa",
+   "Con un pianoforte",
+   "Con un violino"
+  ],
+  "e": "La sirena da nebbia fa un suono molto forte e profondo. Così le altre navi sentono dove si è, anche se non vedono niente.",
+  "m": "Con la nebbia le navi avvisano con la sirena da nebbia."
+ },
+ "35047": {
+  "q": "Si può lasciare vuota la casella di un oggetto in votazione e scrivere sì per un altro?",
+  "a": [
+   "Sì, è permesso",
+   "No, allora non conta niente",
+   "No, bisogna compilare tutto allo stesso modo",
+   "No, è vietato"
+  ],
+  "e": "Ogni oggetto in votazione viene contato per conto suo. Si può quindi rispondere a una domanda e non scrivere niente per un'altra.",
+  "m": "Ogni oggetto sulla scheda di voto conta per conto suo."
+ },
+ "37840": {
+  "q": "Che cos'è una manifestazione?",
+  "a": [
+   "Tante persone mostrano insieme la loro opinione",
+   "Una partita di calcio allo stadio",
+   "Un concerto a scuola",
+   "Un mercato in piazza"
+  ],
+  "e": "In una manifestazione tante persone scendono insieme in strada. Con cartelli e slogan mostrano che cosa vogliono o che cosa rifiutano.",
+  "m": "In una manifestazione le persone mostrano insieme la loro opinione."
+ },
+ "37882": {
+  "q": "Chi decideva sulle fabbriche e sulla terra nell'Unione Sovietica?",
+  "a": [
+   "lo Stato",
+   "ogni contadino da solo",
+   "ditte straniere",
+   "la Chiesa"
+  ],
+  "e": "Nell'Unione Sovietica fabbriche e fattorie furono date allo Stato. Poi era lo Stato a decidere.",
+  "m": "Nell'Unione Sovietica le fabbriche appartenevano allo Stato."
+ },
+ "37131": {
+  "q": "Dove si annunciano le svizzere e gli svizzeri che abitano all'estero?",
+  "a": [
+   "Presso la rappresentanza svizzera",
+   "Presso la squadra di calcio",
+   "Presso la scuola del villaggio",
+   "Alla dogana dell'aeroporto"
+  ],
+  "e": "Chi abita all'estero si annuncia presso la rappresentanza svizzera competente, cioè un'ambasciata o un consolato. Così in caso di emergenza può aiutare in fretta.",
+  "m": "Gli Svizzeri all'estero si annunciano presso la rappresentanza svizzera."
+ },
+ "65178": {
+  "q": "In che lingua il muezzin chiama alla preghiera?",
+  "a": [
+   "Arabo",
+   "Turco",
+   "Inglese",
+   "Persiano"
+  ],
+  "e": "La chiamata alla preghiera viene fatta in arabo in tutto il mondo. È anche la lingua del Corano.",
+  "m": "Il muezzin chiama alla preghiera in arabo."
+ },
+ "63355": {
+  "q": "Che cosa significa la parola «discepolo»?",
+  "a": [
+   "Allievo",
+   "Re",
+   "Servo",
+   "Fratello"
+  ],
+  "e": "Un discepolo è un allievo che vive con il suo maestro e impara da lui.",
+  "m": "Un discepolo è un allievo di Gesù."
+ },
+ "64088": {
+  "q": "Che cosa mangiano insieme molte famiglie dopo la preghiera della festa?",
+  "a": [
+   "Una grande colazione di festa",
+   "Una fondue a mezzanotte",
+   "Solo un bicchiere di latte",
+   "Proprio niente"
+  ],
+  "e": "Dopo la preghiera del mattino la famiglia si riunisce. C'è una ricca colazione con tante cose buone.",
+  "m": "Dopo la preghiera della festa la famiglia fa una grande colazione."
+ },
+ "18539": {
+  "q": "In quale fiume sfocia l'Aar?",
+  "a": [
+   "Reno",
+   "Rodano",
+   "Inn",
+   "Ticino"
+  ],
+  "e": "Vicino a Koblenz, nel canton Argovia, l'Aar si getta in un fiume più grande. Lì spesso porta più acqua di quel fiume.",
+  "m": "L'Aar sfocia nel Reno."
+ },
+ "22000": {
+  "q": "Quale stile di nuoto assomiglia al movimento di una rana?",
+  "a": [
+   "Rana",
+   "Crawl",
+   "Dorso",
+   "Delfino"
+  ],
+  "e": "Nello stile rana si spingono le gambe come fa una rana. Molti bambini imparano prima questo stile.",
+  "m": "Lo stile rana assomiglia a una rana che nuota."
+ },
+ "82489": {
+  "q": "Che cosa fai se da un interruttore della luce escono dei fili?",
+  "a": [
+   "Non toccarli e chiamare un adulto",
+   "Spingere dentro i fili",
+   "Avvolgerli con il nastro adesivo",
+   "Pulirli con uno straccio bagnato"
+  ],
+  "e": "I fili staccati possono essere sotto tensione. Per questo non si toccano e si chiama subito aiuto.",
+  "m": "Gli interruttori rotti non si toccano."
+ },
+ "5631": {
+  "q": "Quante entrate può avere spesso la tana di una volpe?",
+  "a": [
+   "Di solito diverse, a volte anche molte",
+   "Sempre una sola",
+   "Mai nemmeno una",
+   "Più di mille"
+  ],
+  "e": "La tana di una volpe ha spesso diverse entrate e vie di fuga. Così in caso di pericolo la volpe può scappare in fretta da un'altra uscita.",
+  "m": "La tana della volpe ha spesso diverse entrate."
+ },
+ "22292": {
+  "q": "Come si chiama il cagnolino di Obelix?",
+  "a": [
+   "Idefix",
+   "Milù",
+   "Snoopy",
+   "Pluto"
+  ],
+  "e": "Idefix è un cagnolino bianco. Non gli piace quando si abbattono gli alberi.",
+  "m": "Obelix ha un cagnolino che si chiama Idefix."
+ },
+ "82165": {
+  "q": "Quante stelle formano il carro del Grande Carro?",
+  "a": [
+   "4",
+   "3",
+   "5",
+   "6"
+  ],
+  "e": "Quattro stelle formano un quadrilatero che sembra il cassone di un carro. Le altre tre stelle sono il timone.",
+  "m": "Il carro del Grande Carro ha quattro stelle."
+ },
+ "19977": {
+  "q": "Perché si risparmiano i soldi?",
+  "a": [
+   "Per un desiderio grande",
+   "Perché spariscano",
+   "Perché ammuffiscano",
+   "Perché i soldi puzzano"
+  ],
+  "e": "Alcune cose costano troppo per comprarle in una volta. Chi risparmia può comprarle più tardi.",
+  "m": "Risparmiando si realizzano desideri più grandi."
+ },
+ "82932": {
+  "q": "Perché Mary Anning non poté diventare membro della importante società di geologi di Londra?",
+  "a": [
+   "Perché era una donna",
+   "Perché era troppo giovane",
+   "Perché non parlava inglese",
+   "Perché abitava troppo lontano"
+  ],
+  "e": "A quei tempi le donne non potevano diventare membri della Geological Society. Molti studiosi però usavano lo stesso i suoi ritrovamenti.",
+  "m": "Mary Anning, in quanto donna, per molto tempo non fu riconosciuta."
+ },
+ "22589": {
+  "q": "Su quale albero crescono le ghiande?",
+  "a": [
+   "Quercia",
+   "Faggio",
+   "Abete",
+   "Betulla"
+  ],
+  "e": "Le ghiande sono i frutti della quercia. Agli scoiattoli e ai cinghiali piace mangiarle.",
+  "m": "Le ghiande crescono sulla quercia."
+ },
+ "76891": {
+  "q": "Quale tipo di libro ha le nuvolette come qui?",
+  "a": [
+   "Un fumetto",
+   "Un dizionario",
+   "Un atlante",
+   "Un libro di cucina"
+  ],
+  "e": "Le nuvolette e le immagini nei riquadri fanno parte di un fumetto.",
+  "m": "In un fumetto i personaggi parlano nelle nuvolette."
+ },
+ "26844": {
+  "q": "In che anno le donne in Svizzera ottennero il diritto di voto per tutta la Svizzera?",
+  "a": [
+   "1971",
+   "1848",
+   "1918",
+   "2002"
+  ],
+  "e": "Il 7 febbraio 1971 fu approvato il diritto di voto delle donne a livello federale. Da allora le donne possono partecipare alle votazioni federali.",
+  "m": "Dal 1971 le donne in Svizzera possono votare ed eleggere."
+ },
+ "82367": {
+  "q": "Quando asciuga più in fretta il bucato bagnato steso fuori?",
+  "a": [
+   "In una giornata calda e ventosa",
+   "In una giornata fredda e nebbiosa",
+   "In una notte di pioggia",
+   "In una mattina umida"
+  ],
+  "e": "Il caldo e il vento aiutano l'acqua a evaporare. Il vento porta via l'aria umida.",
+  "m": "Caldo e vento fanno asciugare in fretta il bucato."
+ },
+ "71904": {
+  "q": "Che cosa significa la parola inglese «glue»?",
+  "a": [
+   "Colla",
+   "Fortuna",
+   "Colore",
+   "Carta"
+  ],
+  "e": "«Glue» significa colla. Con la colla si incolla la carta.",
+  "m": "Con la glue, cioè la colla, incolliamo."
+ },
+ "85217": {
+  "q": "Dove si può fare da soli l'humus in giardino?",
+  "a": [
+   "Sul mucchio del compost",
+   "Nella buca delle lettere",
+   "Nel frigorifero",
+   "Sul tetto"
+  ],
+  "e": "Nel compost marciscono gli scarti di cucina e i resti del giardino. Dopo qualche mese diventano buona terra di compost.",
+  "m": "Nel compost si forma l'humus."
+ },
+ "73959": {
+  "q": "Come si sente un bambino che ride e saltella?",
+  "a": [
+   "Allegro",
+   "Triste",
+   "Arrabbiato",
+   "Spaventato"
+  ],
+  "e": "Ridere e saltellare sono segni tipici di gioia.",
+  "m": "Chi ride spesso è allegro."
+ },
+ "72477": {
+  "q": "Come si dice «la sorella» in francese?",
+  "a": [
+   "la sœur",
+   "la cousine",
+   "la tante",
+   "la fille"
+  ],
+  "e": "La sorella si dice «la sœur». La «œ» si scrive unita.",
+  "m": "In francese la sorella si dice «la sœur»."
+ },
+ "20910": {
+  "q": "Come si dice «mamma» (la madre) in francese?",
+  "a": [
+   "la mère",
+   "la mer",
+   "le père",
+   "la sœur"
+  ],
+  "e": "In francese la madre si dice «la mère», con un accento sulla prima e (è). «La mer» senza accento è il mare.",
+  "m": "In francese la madre si dice «la mère»."
+ },
+ "24423": {
+  "q": "Quale località di oggi si chiamava Tenedo al tempo dei Romani?",
+  "a": [
+   "Bad Zurzach",
+   "Bad Ragaz",
+   "Bad Säckingen",
+   "Bad Ems"
+  ],
+  "e": "Tenedo si trovava sul Reno e aveva un importante passaggio sul fiume. Oggi la località si chiama Bad Zurzach.",
+  "m": "Tenedo è l'odierna Bad Zurzach."
+ },
+ "25232": {
+  "q": "Come si chiamavano in Africa occidentale i narratori che tramandavano a memoria la storia dell'Impero del Mali?",
+  "a": [
+   "Griot",
+   "Cavalieri",
+   "Monaci",
+   "Pirati"
+  ],
+  "e": "I griot sono cantori e narratori. Hanno tramandato a voce storie e canzoni per molte generazioni.",
+  "m": "I griot raccontavano la storia del Mali."
+ },
+ "25841": {
+  "q": "A quale Paese appartengono le isole Galápagos?",
+  "a": [
+   "Ecuador",
+   "Messico",
+   "Spagna",
+   "Australia"
+  ],
+  "e": "Le isole Galápagos appartengono all'Ecuador, in Sudamerica. Si trovano a circa 1000 chilometri dalla costa.",
+  "m": "Le isole Galápagos appartengono all'Ecuador."
+ },
+ "12997": {
+  "q": "Come si fa il fuoco anche senza pietre?",
+  "a": [
+   "Strofinando velocemente il legno",
+   "Scuotendo l'acqua",
+   "Lanciando sabbia",
+   "Gridando forte"
+  ],
+  "e": "Se si fa girare velocemente un bastoncino di legno su un'asse, il legno si scalda. Così si forma una piccola brace.",
+  "m": "Strofinando velocemente il legno si può formare una brace."
+ },
+ "157": {
+  "q": "In un gioco sul telefonino puoi pagare per dei «gioielli». Che cosa è vero?",
+  "a": [
+   "Costano soldi veri, prima bisogna chiedere ai genitori",
+   "Sono sempre gratis",
+   "I gioielli sono vere pietre preziose",
+   "I soldi vengono restituiti più tardi"
+  ],
+  "e": "Questi acquisti in-app costano soldi veri, anche se sembrano soldi del gioco. Molti giochi sono fatti apposta perché si compri sempre di nuovo. Per questo chiedi sempre prima.",
+  "m": "Le monete dei giochi sul telefonino costano soldi veri."
+ },
+ "51379": {
+  "q": "In quale mare si trovano le Baleari?",
+  "a": [
+   "Mediterraneo",
+   "Mare del Nord",
+   "Mar Baltico",
+   "Mar Nero"
+  ],
+  "e": "Le Baleari si trovano nel Mediterraneo occidentale. Lì d'estate fa caldo e secco.",
+  "m": "Le Baleari si trovano nel caldo Mediterraneo."
+ },
+ "51813": {
+  "q": "Che cosa distrusse nel 1861 una grande parte della città di Glarona?",
+  "a": [
+   "Un incendio",
+   "Un terremoto",
+   "Una valanga",
+   "Un'alluvione"
+  ],
+  "e": "Nel 1861, con un forte vento di favonio, scoppiò un incendio che si diffuse in fretta. Dopo, Glarona fu ricostruita con strade larghe e diritte.",
+  "m": "Un grande incendio distrusse nel 1861 una parte di Glarona."
+ },
+ "55234": {
+  "q": "Chi inaugurò solennemente il Teatro dell'Opera di Sydney?",
+  "a": [
+   "La regina Elisabetta II",
+   "La regina Vittoria",
+   "La regina Beatrice",
+   "L'imperatrice Maria Teresa"
+  ],
+  "e": "Il 20 ottobre 1973 la regina Elisabetta II inaugurò il Teatro dell'Opera. Era anche regina dell'Australia.",
+  "m": "La regina Elisabetta II inaugurò il Teatro dell'Opera di Sydney."
+ },
+ "73478": {
+  "q": "Quale simbolo c'è spesso sulle cose che si possono riciclare?",
+  "a": [
+   "Tre frecce in cerchio",
+   "Una croce rossa",
+   "Un teschio",
+   "Una stella gialla"
+  ],
+  "e": "Il simbolo del riciclaggio è fatto di tre frecce che girano in cerchio. Mostra che un materiale può essere riutilizzato.",
+  "m": "Tre frecce in cerchio sono il simbolo del riciclaggio."
+ },
+ "80734": {
+  "q": "Su che cosa si muove di solito il Bee-Bot in classe?",
+  "a": [
+   "Su un tappeto a caselle",
+   "Sull'acqua",
+   "Su per il muro",
+   "Su una cordicella"
+  ],
+  "e": "Le caselle del tappeto corrispondono esattamente a un passo del Bee-Bot. Così si possono contare bene i passi.",
+  "m": "Su un tappeto a caselle si possono pianificare bene i percorsi."
+ },
+ "92505": {
+  "q": "Perché quando si piange spesso cola anche il naso?",
+  "a": [
+   "Le lacrime scendono nel naso",
+   "Si ha il raffreddore",
+   "Anche il naso piange",
+   "Si respira troppo in fretta"
+  ],
+  "e": "Un piccolo canale va dall'angolo interno dell'occhio al naso. Quando si piange, molto liquido delle lacrime scorre lì dentro.",
+  "m": "Le lacrime scorrono nel naso attraverso un canale."
+ },
+ "4304": {
+  "q": "Come si chiama il noto passo del Giura che appartiene al canton Soletta?",
+  "a": [
+   "Passwang",
+   "Passo del San Gottardo",
+   "Passo della Furka",
+   "Passo del Sempione"
+  ],
+  "e": "Il Passwang si trova nella catena del Giura nel canton Soletta ed è amato da escursionisti e ciclisti. Da lì si ha una vista stupenda sulle montagne.",
+  "m": "Il Passwang è un passo del Giura vicino a Soletta."
+ },
+ "75489": {
+  "q": "Su che cosa dipingeva Albert Anker, oltre che sulla tela, anche piccoli quadri per un laboratorio di Parigi?",
+  "a": [
+   "Sulla ceramica",
+   "Su bottiglie di vetro",
+   "Su zoccoli di legno",
+   "Su gusci d'uovo"
+  ],
+  "e": "Anker dipinse molti piatti e vassoi di maiolica per il ceramista Théodore Deck.",
+  "m": "Anker dipingeva anche la ceramica."
+ },
+ "69782": {
+  "q": "Quanto fa 3 per 30?",
+  "a": [
+   "90",
+   "60",
+   "33",
+   "120"
+  ],
+  "e": "3 per 3 decine fa 9 decine, cioè 90.",
+  "m": "Tre per trenta fa novanta."
+ },
+ "20300": {
+  "q": "Che cosa vuole di solito la pubblicità?",
+  "a": [
+   "Che si compri qualcosa",
+   "Che si dorma",
+   "Che si faccia un calcolo",
+   "Che si legga"
+  ],
+  "e": "La pubblicità mostra le cose particolarmente belle. Deve far venire voglia di comprare qualcosa.",
+  "m": "La pubblicità vuole che io compri qualcosa."
+ },
+ "21681": {
+  "q": "In quale strumento della musica popolare svizzera si battono le corde con piccoli martelletti?",
+  "a": [
+   "Salterio (Hackbrett)",
+   "Corno delle Alpi",
+   "Fisarmonica",
+   "Flauto dolce"
+  ],
+  "e": "Il salterio è una cassa con tante corde. Si suonano battendole con due piccoli martelletti, per esempio nella musica appenzellese.",
+  "m": "Nel salterio si battono le corde con piccoli martelletti."
+ },
+ "97335": {
+  "q": "Quali fiocchi croccanti per la colazione si fanno con il mais?",
+  "a": [
+   "Cornflakes",
+   "Fiocchi d'avena",
+   "Gallette di riso",
+   "Fette biscottate"
+  ],
+  "e": "Per fare i cornflakes il mais viene cotto, schiacciato e tostato. La parola inglese «corn» qui significa mais.",
+  "m": "I cornflakes si fanno con il mais."
+ },
+ "102838": {
+  "q": "Che cosa aiuta a registrare con precisione un'osservazione?",
+  "a": [
+   "Un disegno o una foto",
+   "Una canzone divertente",
+   "Una bella barzelletta",
+   "Un indovinello difficile"
+  ],
+  "e": "Con un disegno o una foto si vede ancora bene più tardi com'era. In più si scrivono un paio di frasi.",
+  "m": "Disegni e foto registrano le osservazioni."
+ },
+ "33631": {
+  "q": "Dove si trova spesso la lavanderia in una casa con più appartamenti?",
+  "a": [
+   "In cantina",
+   "Sul tetto",
+   "Nell'ascensore",
+   "Sul balcone"
+  ],
+  "e": "La lavanderia è spesso in cantina o al pianterreno. Lì c'è posto per le grandi macchine.",
+  "m": "La lavanderia è spesso in cantina."
+ },
+ "37841": {
+  "q": "Che cosa significa disobbedienza civile?",
+  "a": [
+   "Non seguire in modo pacifico regole ingiuste",
+   "Essere sfacciati durante la lezione",
+   "Attaccare la polizia",
+   "Obbedire sempre a tutti"
+  ],
+  "e": "Nella disobbedienza civile le persone non rispettano di proposito una regola che trovano ingiusta. Lo fanno apertamente e senza violenza e accettano la punizione.",
+  "m": "La disobbedienza civile è una protesta pacifica contro regole ingiuste."
+ },
+ "38160": {
+  "q": "Come si chiama il periodo agitato in Cina cominciato nel 1966 sotto Mao?",
+  "a": [
+   "Rivoluzione culturale",
+   "Riforma",
+   "Rivoluzione industriale",
+   "Rivoluzione francese"
+  ],
+  "e": "Durante la Rivoluzione culturale molte persone furono perseguitate e molte cose antiche distrutte. Durò circa dieci anni.",
+  "m": "La Rivoluzione culturale fu un periodo difficile per la Cina."
+ },
+ "37258": {
+  "q": "Che cosa c'è spesso anche per i bambini nei grandi campi profughi?",
+  "a": [
+   "Una scuola",
+   "Un cinema",
+   "Un parco divertimenti",
+   "Uno zoo"
+  ],
+  "e": "Le organizzazioni umanitarie allestiscono scuole nei campi. Così i bambini possono continuare a imparare nonostante la fuga.",
+  "m": "Anche nel campo profughi i bambini possono andare a scuola."
+ },
+ "64952": {
+  "q": "Il tuo amico festeggia una festa che non conosci. Che cosa mostra rispetto e tolleranza?",
+  "a": [
+   "Fare domande con interesse",
+   "Dire che è stupida",
+   "Vietare la festa",
+   "Non parlargli più"
+  ],
+  "e": "Chi fa domande e ascolta impara qualcosa di nuovo. Così nasce la comprensione tra persone di religioni diverse.",
+  "m": "Chi chiede e ascolta conosce altre religioni."
+ },
+ "63818": {
+  "q": "Secondo la Bibbia, chi chiamò per primo Gesù «Agnello di Dio»?",
+  "a": [
+   "Giovanni Battista",
+   "L'imperatore Augusto",
+   "Il re Erode",
+   "Ponzio Pilato"
+  ],
+  "e": "Nel Vangelo di Giovanni, Giovanni Battista vede arrivare Gesù e dice: «Ecco l'Agnello di Dio.»",
+  "m": "Giovanni Battista chiamò Gesù l'Agnello di Dio."
+ },
+ "64280": {
+  "q": "Con che cosa sono spesso decorate le moschee?",
+  "a": [
+   "Con motivi e scritte",
+   "Con foto di persone",
+   "Con statue di animali",
+   "Con cartelloni pubblicitari"
+  ],
+  "e": "Nelle moschee di solito non ci sono immagini di persone o animali. Al loro posto motivi decorativi, tralci di piante e bella scrittura ornano le pareti.",
+  "m": "Le moschee sono decorate con motivi e scritte."
+ },
+ "18505": {
+  "q": "Come si chiama il grande mercato di Berna a novembre dove ci sono tante cipolle?",
+  "a": [
+   "Zibelemärit",
+   "Chästeilet",
+   "Sechseläuten",
+   "Chlausmärt"
+  ],
+  "e": "Allo Zibelemärit i contadini vendono cipolle intrecciate e a forma di figure. Si tiene ogni anno il quarto lunedì di novembre.",
+  "m": "Allo Zibelemärit ci sono tante cipolle."
+ },
+ "22024": {
+  "q": "Come si chiama una corsa ciclistica in cui ogni corridore corre da solo contro il tempo?",
+  "a": [
+   "Cronometro",
+   "Gran premio della montagna",
+   "Tappa",
+   "Volata"
+  ],
+  "e": "Nella cronometro i corridori partono uno alla volta. Vince chi fa il percorso nel tempo più breve.",
+  "m": "Nella cronometro ognuno corre da solo contro il tempo."
+ },
+ "86448": {
+  "q": "Quale personaggio dei fumetti inventò Hergé prendendo come modello Auguste Piccard?",
+  "a": [
+   "Il professor Girasole",
+   "Il capitano Haddock",
+   "Obelix",
+   "Lucky Luke"
+  ],
+  "e": "Hergé, il disegnatore di «Tintin», prese Auguste Piccard come modello per il professor Girasole.",
+  "m": "Il professor Girasole è ispirato ad Auguste Piccard."
+ },
+ "7001": {
+  "q": "Più o meno quanto vive una singola vespa operaia?",
+  "a": [
+   "Solo poche settimane",
+   "Dieci anni",
+   "Un giorno",
+   "Cento anni"
+  ],
+  "e": "Le operaie di solito vivono solo qualche settimana. Poi muoiono e nuove vespe prendono il loro lavoro.",
+  "m": "Le operaie vivono solo settimane."
+ },
+ "22304": {
+  "q": "Come si chiama il pupazzo di neve nel film «Frozen»?",
+  "a": [
+   "Olaf",
+   "Sven",
+   "Hans",
+   "Kristoff"
+  ],
+  "e": "Olaf è un pupazzo di neve allegro. Sogna di vivere un giorno l'estate.",
+  "m": "Il simpatico pupazzo di neve si chiama Olaf."
+ },
+ "81259": {
+  "q": "Quanto è lontano Nettuno dal Sole se tutto viene rimpicciolito un miliardo di volte?",
+  "a": [
+   "Circa 4,5 chilometri",
+   "Circa 45 metri",
+   "Circa 45 chilometri",
+   "Circa 450 chilometri"
+  ],
+  "e": "Nettuno è lontano dal Sole circa 4,5 miliardi di chilometri. Un miliardo di volte più piccolo fa circa 4,5 chilometri.",
+  "m": "Nel modello Nettuno sta a diversi chilometri dal Sole."
+ },
+ "20015": {
+  "q": "Come si dice quando si prendono soldi dal conto?",
+  "a": [
+   "Prelevare",
+   "Versare",
+   "Risparmiare",
+   "Guadagnare"
+  ],
+  "e": "Chi prende soldi dal conto li preleva. Dopo sul conto ci sono meno soldi.",
+  "m": "Prelevando si prendono soldi dal conto."
+ },
+ "85864": {
+  "q": "Quali animali domestici mangiano volentieri le foglie del dente di leone?",
+  "a": [
+   "I conigli",
+   "I gatti",
+   "I pesci rossi",
+   "I pappagallini"
+  ],
+  "e": "Ai conigli e ai porcellini d'India piacciono molto le foglie fresche del dente di leone.",
+  "m": "I conigli mangiano volentieri il dente di leone."
+ },
+ "22586": {
+  "q": "Quale di questi animali depone le uova?",
+  "a": [
+   "Gallina",
+   "Mucca",
+   "Cavallo",
+   "Pecora"
+  ],
+  "e": "Le galline sono uccelli e depongono le uova. Mucca, cavallo e pecora fanno nascere piccoli vivi.",
+  "m": "La gallina depone le uova."
+ },
+ "26541": {
+  "q": "Chi nel 1848 non poteva ancora votare a livello federale?",
+  "a": [
+   "Le donne",
+   "I contadini",
+   "I maestri",
+   "I soldati"
+  ],
+  "e": "Nel 1848 solo gli uomini potevano eleggere e votare. Le donne ottennero il diritto di voto federale solo nel 1971.",
+  "m": "Nel 1848 le donne non potevano ancora votare."
+ },
+ "81431": {
+  "q": "Che cosa si fa alla lana per farne un filo?",
+  "a": [
+   "La si fila",
+   "La si cuoce in forno",
+   "La si fonde",
+   "La si versa"
+  ],
+  "e": "Filando si attorcigliano le fibre di lana in un lungo filo. Una volta lo si faceva con l'arcolaio.",
+  "m": "La lana viene filata per farne un filo."
+ },
+ "72049": {
+  "q": "Come si chiama Babbo Natale in inglese?",
+  "a": [
+   "Santa Claus",
+   "Saint Snow",
+   "Mister Winter",
+   "King Present"
+  ],
+  "e": "Babbo Natale si chiama «Santa Claus». In Inghilterra si dice anche «Father Christmas».",
+  "m": "In inglese Babbo Natale si chiama «Santa Claus»."
+ },
+ "83273": {
+  "q": "Con che cosa vengono lavati certi jeans perché sembrino slavati?",
+  "a": [
+   "Con pietre pomici",
+   "Con biglie",
+   "Con patate",
+   "Con ciottoli del Reno"
+  ],
+  "e": "I jeans venivano lavati in lavatrice insieme a pietre pomici. Le pietre ruvide toglievano il colore strofinando.",
+  "m": "La pietra pomice rende i jeans slavati."
+ },
+ "74004": {
+  "q": "Perché è bello che le persone siano diverse?",
+  "a": [
+   "Si può imparare gli uni dagli altri",
+   "Così si litiga",
+   "Così è tutto uguale",
+   "Non è bello"
+  ],
+  "e": "Persone diverse hanno idee e capacità diverse. Così si può imparare tanto gli uni dagli altri.",
+  "m": "La diversità ci rende più ricchi."
+ },
+ "72510": {
+  "q": "Quale giorno è «samedi»?",
+  "a": [
+   "Sabato",
+   "Domenica",
+   "Venerdì",
+   "Lunedì"
+  ],
+  "e": "«Samedi» è il sabato. È il primo giorno del fine settimana.",
+  "m": "«Samedi» è il sabato."
+ },
+ "20855": {
+  "q": "Come si dice «testa» in inglese?",
+  "a": [
+   "head",
+   "hand",
+   "heart",
+   "hair"
+  ],
+  "e": "In inglese la testa si dice «head».",
+  "m": "In inglese la testa si dice «head»."
+ },
+ "13350": {
+  "q": "A quale gruppo di popoli appartenevano gli Elvezi?",
+  "a": [
+   "Ai Celti",
+   "Ai Vichinghi",
+   "Agli Egizi",
+   "Ai Greci"
+  ],
+  "e": "Gli Elvezi erano una tribù celtica. Vivevano soprattutto nell'Altopiano tra il Giura e le Alpi.",
+  "m": "Gli Elvezi erano Celti."
+ },
+ "25019": {
+  "q": "Quale re dovette accettare la Magna Carta?",
+  "a": [
+   "Giovanni Senzaterra",
+   "Riccardo Cuor di Leone",
+   "Guglielmo il Conquistatore",
+   "Enrico VIII"
+  ],
+  "e": "Il re Giovanni Senzaterra litigava molto con dei nobili potenti. Loro lo costrinsero ad accettare la Magna Carta.",
+  "m": "Giovanni Senzaterra accettò la Magna Carta."
+ },
+ "25918": {
+  "q": "Da quale città portuale inglese partì il Titanic?",
+  "a": [
+   "Southampton",
+   "Liverpool",
+   "Dover",
+   "Manchester"
+  ],
+  "e": "Il Titanic salpò il 10 aprile 1912 da Southampton, nel sud dell'Inghilterra.",
+  "m": "Il viaggio del Titanic cominciò a Southampton."
+ },
+ "23526": {
+  "q": "Dove si trovano oggi in Svizzera molti antichi tumuli funerari?",
+  "a": [
+   "Nel bosco",
+   "In mezzo alle città",
+   "Sui ghiacciai",
+   "Nel lago"
+  ],
+  "e": "Nel bosco le collinette non sono state spianate dall'aratro. Per questo lì spesso si vedono ancora bene.",
+  "m": "Molti tumuli funerari oggi si trovano nel bosco."
+ },
+ "54": {
+  "q": "Ricevi 5 franchi ogni settimana e desideri un gioco da 20 franchi. Che cosa ti aiuta?",
+  "a": [
+   "Risparmiare per qualche settimana",
+   "Spendere tutto subito in dolci",
+   "Nascondere i soldi e dimenticarli",
+   "Niente, non si può mai"
+  ],
+  "e": "Se ogni settimana metti da parte la paghetta, dopo quattro settimane hai 20 franchi. Risparmiare significa rinunciare adesso per comprare più tardi qualcosa di più grande.",
+  "m": "Chi risparmia oggi ha di più domani."
+ },
+ "50420": {
+  "q": "Quale mezzo di trasporto usano particolarmente spesso le persone nei Paesi Bassi?",
+  "a": [
+   "La bicicletta",
+   "Il cavallo",
+   "La funivia",
+   "Il cammello"
+  ],
+  "e": "Nei Paesi Bassi ci sono più biciclette che abitanti. Il Paese è pianeggiante e ha tantissime piste ciclabili.",
+  "m": "Nei Paesi Bassi tantissime persone vanno in bicicletta."
+ },
+ "52148": {
+  "q": "Come si chiama l'edificio con la cupola sullo Jungfraujoch da cui si vede lontano?",
+  "a": [
+   "Sphinx",
+   "Piramide",
+   "Faro",
+   "Castello"
+  ],
+  "e": "La Sphinx è una stazione di ricerca con una terrazza panoramica su una roccia vicino allo Jungfraujoch.",
+  "m": "La Sphinx si trova sullo Jungfraujoch."
+ },
+ "55195": {
+  "q": "Più o meno quanto è alta la Grande Muraglia cinese vicino a Pechino?",
+  "a": [
+   "Circa 7 a 8 metri",
+   "Circa 1 metro",
+   "Circa 70 metri",
+   "Circa 700 metri"
+  ],
+  "e": "Nei tratti famosi vicino a Pechino la Muraglia è alta quasi 8 metri. È più o meno l'altezza di una casa di due o tre piani.",
+  "m": "Vicino a Pechino la Grande Muraglia è alta circa 7 a 8 metri."
+ },
+ "73447": {
+  "q": "In quale stagione si raccolgono in Svizzera la maggior parte delle mele?",
+  "a": [
+   "In autunno",
+   "In primavera",
+   "In inverno",
+   "A febbraio"
+  ],
+  "e": "Le mele maturano a fine estate e in autunno. Poi si conservano, così le si può mangiare a lungo.",
+  "m": "Le mele si raccolgono in autunno."
+ },
+ "80723": {
+  "q": "Perché nella programmazione si usano le ripetizioni?",
+  "a": [
+   "Il programma diventa più corto",
+   "Il programma diventa più colorato",
+   "Il robot diventa più forte",
+   "Ci sono più errori"
+  ],
+  "e": "Invece di scrivere lo stesso comando tante volte, lo si scrive una volta sola con un numero. Così il programma resta corto e chiaro.",
+  "m": "Le ripetizioni rendono i programmi più corti."
+ },
+ "99279": {
+  "q": "Dove vivono nel corpo moltissimi batteri utili?",
+  "a": [
+   "Nell'intestino",
+   "Nelle ossa",
+   "Nei capelli",
+   "Dentro i denti"
+  ],
+  "e": "Nell'intestino vivono innumerevoli batteri. Aiutano a digerire il cibo.",
+  "m": "Nell'intestino i batteri aiutano a digerire."
+ },
+ "6889": {
+  "q": "Quale cittadina del canton Soletta si trova ai piedi del Giura?",
+  "a": [
+   "Balsthal",
+   "Coira",
+   "Lugano",
+   "Sion"
+  ],
+  "e": "Balsthal si trova nel Thal, una bella valle del canton Soletta ai piedi della catena del Giura. È circondata da boschi e colline.",
+  "m": "Balsthal si trova nel Thal ai piedi del Giura."
+ },
+ "75737": {
+  "q": "Che cosa aiuta quando si taglia una curva con le forbici?",
+  "a": [
+   "Girare piano la carta",
+   "Scuotere veloce le forbici",
+   "Chiudere gli occhi",
+   "Accartocciare la carta"
+  ],
+  "e": "In una curva le forbici restano ferme e con l'altra mano si gira la carta. Così la linea viene bella rotonda.",
+  "m": "Nelle curve si gira la carta, non le forbici."
+ },
+ "81602": {
+  "q": "Quanto fa 8 · 6, se si sa che 10 · 6 = 60?",
+  "a": [
+   "48",
+   "54",
+   "52",
+   "42"
+  ],
+  "e": "8 · 6 sono due volte 6 in meno di 10 · 6. Quindi 60 - 12 fa 48.",
+  "m": "Otto per sei fa quarantotto."
+ },
+ "20228": {
+  "q": "Con quale programma si guardano le pagine web?",
+  "a": [
+   "Con il browser",
+   "Con la calcolatrice",
+   "Con la fotocamera",
+   "Con la sveglia"
+  ],
+  "e": "Un browser è un programma per mostrare le pagine web. In alto si scrive l'indirizzo.",
+  "m": "Le pagine web si guardano con un browser."
+ },
+ "75185": {
+  "q": "Come si chiama il primo violino che guida gli archi nell'orchestra?",
+  "a": [
+   "Spalla",
+   "Maestro di cappella",
+   "Maestro del coro",
+   "Battitore del tempo"
+  ],
+  "e": "La spalla siede al primo leggio dei primi violini e guida gli strumenti ad arco.",
+  "m": "La spalla è il primo violino dell'orchestra."
+ },
+ "102607": {
+  "q": "Che cosa fa un ranger quando qualcuno lascia in giro dei rifiuti?",
+  "a": [
+   "Parla con la persona",
+   "Butta via ancora più rifiuti",
+   "Si mette solo a ridere",
+   "Chiama i pompieri"
+  ],
+  "e": "Il ranger ricorda gentilmente le regole alla persona. Nei casi gravi può esserci anche una multa.",
+  "m": "I ranger ricordano le regole nella natura."
+ },
+ "91730": {
+  "q": "Con che cosa si possono costruire bene le figure per un teatro delle ombre?",
+  "a": [
+   "Con il cartone",
+   "Con il vetro",
+   "Con la pellicola trasparente",
+   "Con l'acqua"
+  ],
+  "e": "Il cartone non lascia passare la luce. Per questo le figure di cartone fanno un'ombra ben chiara.",
+  "m": "Le figure di cartone fanno belle ombre."
+ },
+ "34747": {
+  "q": "In quali tre lingue si possono ascoltare tradotti i dibattiti del Consiglio nazionale?",
+  "a": [
+   "Tedesco, francese, italiano",
+   "Tedesco, inglese, spagnolo",
+   "Francese, inglese, latino",
+   "Italiano, spagnolo, inglese"
+  ],
+  "e": "Al Consiglio nazionale c'è una traduzione simultanea in tedesco, francese e italiano. Le interpreti e gli interpreti lavorano in cabine.",
+  "m": "Al Consiglio nazionale si traduce in tedesco, francese e italiano."
+ },
+ "37553": {
+  "q": "Come si chiamava il generale svizzero durante la Seconda guerra mondiale?",
+  "a": [
+   "Henri Guisan",
+   "Guglielmo Tell",
+   "Henri Dunant",
+   "Alfred Escher"
+  ],
+  "e": "Henri Guisan fu eletto generale nel 1939. Guidò l'esercito svizzero durante la Seconda guerra mondiale.",
+  "m": "Henri Guisan era il generale svizzero nella Seconda guerra mondiale."
+ },
+ "37907": {
+  "q": "Nel capitalismo, a chi appartengono le fabbriche?",
+  "a": [
+   "a proprietari privati",
+   "a tutti insieme",
+   "a nessuno",
+   "solo allo Stato"
+  ],
+  "e": "Nel capitalismo ditte e fabbriche appartengono a singole persone o a imprese. Sono loro a decidere che cosa succede lì.",
+  "m": "Nel capitalismo le fabbriche appartengono a proprietari privati."
+ },
+ "37177": {
+  "q": "Che cosa mostrano due politici quando si stringono la mano dopo una trattativa?",
+  "a": [
+   "Che sono d'accordo",
+   "Che sono stanchi",
+   "Che hanno freddo",
+   "Che hanno fame"
+  ],
+  "e": "Una stretta di mano dopo una trattativa mostra che si è trovato un accordo. È un segno di fiducia.",
+  "m": "Una stretta di mano mostra che si è d'accordo."
+ },
+ "64339": {
+  "q": "Che forma hanno le Hamantaschen (orecchie di Aman), un dolce di Purim?",
+  "a": [
+   "Triangolare",
+   "Rotonda",
+   "Quadrata",
+   "A forma di cuore"
+  ],
+  "e": "Le Hamantaschen sono fagottini di pasta triangolari. Spesso sono ripieni di semi di papavero, marmellata o cioccolato.",
+  "m": "Le Hamantaschen sono triangolari."
+ },
+ "63521": {
+  "q": "Nella parabola del figlio prodigo, quale animale fa uccidere il padre per la festa?",
+  "a": [
+   "Il vitello grasso",
+   "Una gallina",
+   "Un pesce",
+   "Un'oca"
+  ],
+  "e": "Il padre fa uccidere il vitello ingrassato. Tutti devono mangiare e festeggiare allegri.",
+  "m": "Per la festa il padre fa uccidere il vitello grasso."
+ },
+ "64113": {
+  "q": "Che cosa significa la risposta «Wa aleikum salam»?",
+  "a": [
+   "E su di voi sia la pace",
+   "E arrivederci",
+   "E buon appetito",
+   "E grazie mille"
+  ],
+  "e": "Si restituisce il saluto di pace. Così le due persone si augurano pace a vicenda.",
+  "m": "Con la risposta si augura la pace anche all'altro."
+ },
+ "18481": {
+  "q": "Che cosa significa quando la bandiera svizzera è issata solo a metà?",
+  "a": [
+   "Si è in lutto per qualcuno",
+   "È un giorno di festa",
+   "Sta arrivando una tempesta",
+   "La bandiera è rotta"
+  ],
+  "e": "Una bandiera a metà altezza si dice a mezz'asta. Così si mostra di essere in lutto per una persona morta.",
+  "m": "Una bandiera a mezz'asta mostra il lutto."
+ },
+ "21985": {
+  "q": "Dove bisogna tirare la palla nella pallacanestro per fare punti?",
+  "a": [
+   "Nel canestro",
+   "Nella porta",
+   "Sopra la rete",
+   "Nell'angolo"
+  ],
+  "e": "Nella pallacanestro si fanno punti quando la palla entra dall'alto nel canestro.",
+  "m": "Nella pallacanestro si tira la palla nel canestro."
+ },
+ "79571": {
+  "q": "Come si chiama un martello molto pesante che si usa con tutte e due le mani?",
+  "a": [
+   "Mazza",
+   "Martello di gomma",
+   "Martello da orologiaio",
+   "Martello da tappezziere"
+  ],
+  "e": "La mazza ha una testa grande e pesante e un manico lungo. Con essa si piantano per esempio i pali nel terreno.",
+  "m": "Una mazza è molto pesante."
+ },
+ "3847": {
+  "q": "Più o meno quanti lombrichi possono vivere in un metro quadrato di prato sano?",
+  "a": [
+   "Fino a 100",
+   "Solo uno",
+   "Fino a 1000000",
+   "Nessuno"
+  ],
+  "e": "In un buon terreno possono vivere insieme moltissimi lombrichi. Spesso sono fino a cento in un solo metro quadrato.",
+  "m": "Nel terreno buono vivono tanti lombrichi."
+ },
+ "22329": {
+  "q": "Da quale Paese viene il personaggio di plastilina Pingu?",
+  "a": [
+   "Svizzera",
+   "Norvegia",
+   "Svezia",
+   "Austria"
+  ],
+  "e": "Pingu è stato inventato dallo svizzero Otmar Gutmann. Il piccolo pinguino parla una lingua inventata.",
+  "m": "Pingu è un personaggio animato svizzero."
+ },
+ "17313": {
+  "q": "Più o meno quanto tempo impiega la Luna per fare un giro attorno alla Terra?",
+  "a": [
+   "Circa un mese",
+   "Circa un giorno",
+   "Circa una settimana",
+   "Circa un anno"
+  ],
+  "e": "La Luna gira una volta attorno alla Terra in circa 27 a 30 giorni. Per questo un mese è lungo più o meno quanto un giro della Luna.",
+  "m": "La Luna gira attorno alla Terra in circa un mese."
+ },
+ "19992": {
+  "q": "Che cosa bisogna comprare per prima cosa quando i soldi sono pochi?",
+  "a": [
+   "Il cibo",
+   "I dolci",
+   "I giocattoli",
+   "Gli adesivi"
+  ],
+  "e": "Prima viene quello che serve davvero, cioè il cibo. I desideri vengono solo dopo.",
+  "m": "Prima si compra quello che serve davvero."
+ },
+ "93345": {
+  "q": "Di che materiale sono oggi la maggior parte delle gomme per cancellare?",
+  "a": [
+   "Di plastica",
+   "Di legno",
+   "Di argilla",
+   "Di metallo"
+  ],
+  "e": "Oggi molte gomme sono di plastica, come il vinile. Cancellano bene e sporcano poco.",
+  "m": "Le gomme moderne sono di plastica."
+ },
+ "22632": {
+  "q": "Con che cosa ci si lavano i denti?",
+  "a": [
+   "Spazzolino",
+   "Pettine",
+   "Cucchiaio",
+   "Spugna"
+  ],
+  "e": "I denti si lavano con lo spazzolino e il dentifricio. Bisognerebbe farlo almeno due volte al giorno.",
+  "m": "I denti si lavano con lo spazzolino."
+ },
+ "76872": {
+  "q": "Quale colore si ottiene mescolando questi due colori?",
+  "a": [
+   "Grigio",
+   "Rosa",
+   "Marrone",
+   "Beige"
+  ],
+  "e": "Bianco e nero mescolati danno il grigio.",
+  "m": "Bianco e nero insieme danno il grigio."
+ },
+ "26412": {
+  "q": "Perché nel 1522 era vietato mangiare salsicce?",
+  "a": [
+   "Perché era tempo di Quaresima",
+   "Perché le salsicce costavano troppo",
+   "Perché era notte",
+   "Perché la domenica c'era il mercato"
+  ],
+  "e": "Durante la Quaresima prima di Pasqua, secondo la regola della Chiesa, non si poteva mangiare carne. Gli uomini infransero questa regola di proposito.",
+  "m": "In Quaresima la carne era vietata."
+ },
+ "86311": {
+  "q": "In quale bevanda c'è per natura parecchio fluoruro?",
+  "a": [
+   "Tè nero",
+   "Latte",
+   "Succo d'arancia",
+   "Sciroppo di lamponi"
+  ],
+  "e": "Le piante del tè assorbono il fluoruro dal terreno. Per questo il tè nero ne contiene parecchio.",
+  "m": "Il tè nero contiene fluoruro per natura."
+ },
+ "71868": {
+  "q": "Come si dice il numero 20 in inglese?",
+  "a": [
+   "twenty",
+   "twelve",
+   "twice",
+   "thirty"
+  ],
+  "e": "Il numero 20 si dice «twenty», cioè venti.",
+  "m": "In inglese il numero venti si dice twenty."
+ },
+ "86187": {
+  "q": "Quale oceano si trova tra l'Africa e l'Australia?",
+  "a": [
+   "Oceano Indiano",
+   "Atlantico",
+   "Mar Glaciale Artico",
+   "Pacifico"
+  ],
+  "e": "L'oceano Indiano si trova a sud dell'India. Va dall'Africa fino all'Australia.",
+  "m": "Tra l'Africa e l'Australia c'è l'oceano Indiano."
+ },
+ "73977": {
+  "q": "Hai urtato qualcuno senza volerlo. Che cosa dici?",
+  "a": [
+   "«Scusa!»",
+   "«Colpa tua!»",
+   "«Ma stai attento!»",
+   "Proprio niente"
+  ],
+  "e": "Anche quando non lo si fa apposta, si chiede scusa. Così l'altro capisce che non era voluto.",
+  "m": "Anche quando non lo si fa apposta si chiede scusa."
+ },
+ "72574": {
+  "q": "Che cosa significa «Je joue au football»?",
+  "a": [
+   "Gioco a calcio.",
+   "Guardo il calcio.",
+   "Compro un pallone da calcio.",
+   "Non mi piace il calcio."
+  ],
+  "e": "«Je joue» significa «gioco». Con gli sport si dice «jouer au», per esempio «jouer au football».",
+  "m": "«Jouer» significa «giocare»."
+ },
+ "20880": {
+  "q": "Come si dice «libro» in inglese?",
+  "a": [
+   "book",
+   "bag",
+   "box",
+   "boot"
+  ],
+  "e": "In inglese il libro si dice «book».",
+  "m": "In inglese il libro si dice «book»."
+ },
+ "23954": {
+  "q": "Che cosa sostenevano le colonne dei templi greci?",
+  "a": [
+   "Il tetto",
+   "Le campane",
+   "Le bandiere",
+   "Le finestre"
+  ],
+  "e": "Le colonne stanno tutt'intorno al tempio e sostengono il pesante tetto con le travi di pietra.",
+  "m": "Nei templi greci le colonne sostengono il tetto."
+ },
+ "24992": {
+  "q": "Più o meno quanto è lungo l'arazzo di Bayeux?",
+  "a": [
+   "Circa 70 metri",
+   "Circa 7 metri",
+   "Circa 700 metri",
+   "Circa 2 metri"
+  ],
+  "e": "L'arazzo è lungo quasi 70 metri. Più o meno quanto una fila di 15 automobili.",
+  "m": "L'arazzo di Bayeux è lungo quasi 70 metri."
+ },
+ "25889": {
+  "q": "Quale macchina elettrica porta il nome di Tesla?",
+  "a": [
+   "La bobina di Tesla",
+   "La pompa di Tesla",
+   "La bilancia di Tesla",
+   "L'orologio di Tesla"
+  ],
+  "e": "La bobina di Tesla produce tensioni altissime. Così si formano dei fulmini artificiali.",
+  "m": "La bobina di Tesla fa fulmini artificiali."
+ },
+ "22933": {
+  "q": "Lo pteranodonte aveva denti nel becco?",
+  "a": [
+   "No, nessuno",
+   "Sì, tanti e appuntiti",
+   "Sì, due grandi",
+   "Sì, molari piatti"
+  ],
+  "e": "Il nome pteranodonte significa «ala senza denti». Il suo lungo becco era senza denti.",
+  "m": "Lo pteranodonte aveva un becco senza denti."
+ },
+ "6761": {
+  "q": "Perché è furbo non spendere subito tutta la paghetta?",
+  "a": [
+   "Per potersi permettere più tardi qualcosa di più grande",
+   "Perché i genitori si riprendano i soldi",
+   "Perché altrimenti i soldi si perdono",
+   "Perché i soldi si rovinano in fretta"
+  ],
+  "e": "Chi non spende tutto subito, col tempo può realizzare anche desideri più costosi. Risparmiare richiede pazienza.",
+  "m": "Risparmiare realizza desideri più grandi."
+ },
+ "51415": {
+  "q": "Come si chiama la seconda isola più grande di Malta?",
+  "a": [
+   "Gozo",
+   "Ibiza",
+   "Capri",
+   "Elba"
+  ],
+  "e": "Lo Stato di Malta è formato da diverse isole. Gozo è la seconda per grandezza dopo l'isola principale.",
+  "m": "Gozo è la seconda isola più grande di Malta."
+ },
+ "52604": {
+  "q": "Quale mucca porta spesso gli ornamenti più belli alla discesa dall'alpe?",
+  "a": [
+   "La mucca capofila",
+   "Il vitello più giovane",
+   "La mucca più piccola",
+   "La mucca più stanca"
+  ],
+  "e": "La mucca capofila guida la mandria. Porta spesso l'ornamento sulla testa più grande e un grande campanaccio.",
+  "m": "La mucca capofila va davanti ed è ben addobbata."
+ },
+ "49373": {
+  "q": "Di che colori è il famoso pesce pagliaccio?",
+  "a": [
+   "Arancione e bianco",
+   "Blu e giallo",
+   "Verde e rosso",
+   "Nero e rosa"
+  ],
+  "e": "Il pesce pagliaccio più famoso è arancione con strisce bianche. Le strisce hanno spesso un bordo nero.",
+  "m": "Il pesce pagliaccio è arancione con strisce bianche."
+ },
+ "73482": {
+  "q": "Che cosa si fa con un telefonino rotto?",
+  "a": [
+   "Lo si riporta in negozio",
+   "Lo si butta nel compost",
+   "Lo si sotterra nel bosco",
+   "Lo si butta nel vetro usato"
+  ],
+  "e": "Gli apparecchi elettronici contengono materiali preziosi. I negozi ritirano i vecchi apparecchi.",
+  "m": "I vecchi apparecchi elettronici si riportano in negozio."
+ },
+ "79764": {
+  "q": "Che cosa fa spesso un doppio clic su una parola in un testo?",
+  "a": [
+   "Seleziona la parola",
+   "Cancella la parola",
+   "Stampa la parola",
+   "Nasconde la parola"
+  ],
+  "e": "In molti programmi di scrittura con un doppio clic si seleziona tutta la parola.",
+  "m": "Un doppio clic seleziona una parola intera."
+ },
+ "79102": {
+  "q": "Dove guardi se appoggi il mento sul petto?",
+  "a": [
+   "In basso",
+   "In alto",
+   "Indietro",
+   "Di lato"
+  ],
+  "e": "Quando il mento va verso il petto, la testa si piega in avanti. Allora si guarda in basso.",
+  "m": "Con il mento sul petto si guarda in basso."
+ },
+ "75476": {
+  "q": "Quale albero scuro si alza davanti verso il cielo nella «Notte stellata» di van Gogh?",
+  "a": [
+   "Un cipresso",
+   "Una palma",
+   "Una betulla",
+   "Una quercia"
+  ],
+  "e": "A sinistra in primo piano c'è un cipresso scuro. Sembra una grande fiamma.",
+  "m": "Nella Notte stellata c'è un cipresso."
+ },
+ "69710": {
+  "q": "Quante centinaia intere ci sono nel numero 890?",
+  "a": [
+   "8",
+   "9",
+   "89",
+   "0"
+  ],
+  "e": "In 890 l'8 sta al posto delle centinaia. Quindi in 890 ci sono 8 centinaia intere.",
+  "m": "La cifra delle centinaia mostra quante centinaia intere ha un numero."
+ },
+ "203": {
+  "q": "Una persona che conosci solo online vuole incontrarti. Che cosa fai?",
+  "a": [
+   "Lo racconti ai tuoi genitori o a una persona di fiducia e non ci vai da solo",
+   "Ci vai subito da solo",
+   "Non lo dici a nessuno",
+   "Mandi alla persona il tuo indirizzo"
+  ],
+  "e": "Online chiunque può fingere di essere qualcun altro. Raccontalo sempre a un adulto di fiducia. Se qualcuno ti chiede di tenere un segreto, è un segnale d'allarme.",
+  "m": "Un incontro con qualcuno conosciuto online? Prima chiedi sempre a un adulto."
+ },
+ "21738": {
+  "q": "Dove siedono di solito i violini nell'orchestra?",
+  "a": [
+   "Davanti, vicino al direttore",
+   "Tutto in fondo",
+   "Dietro i timpani",
+   "Sulla galleria"
+  ],
+  "e": "I violini siedono di solito davanti, a sinistra del direttore. Gli strumenti forti come i timpani stanno più indietro.",
+  "m": "Nell'orchestra i violini siedono di solito davanti."
+ },
+ "17910": {
+  "q": "Quali bacche crescono su un arbusto?",
+  "a": [
+   "Ribes",
+   "Fragole",
+   "Ciliegie",
+   "Prugne"
+  ],
+  "e": "Il ribes cresce su un arbusto. Ciliegie e prugne crescono sugli alberi, le fragole su piantine basse a terra.",
+  "m": "Il ribes cresce sull'arbusto."
+ },
+ "100195": {
+  "q": "Che cosa gira in molti forni a microonde?",
+  "a": [
+   "un piatto",
+   "un ventilatore fuori",
+   "la porta",
+   "la spina"
+  ],
+  "e": "Il piatto girevole fa ruotare lentamente il cibo. Così si scalda in modo uniforme da tutte le parti.",
+  "m": "Il piatto girevole fa scaldare il cibo in modo uniforme."
+ },
+ "34555": {
+  "q": "Quale banca ha la sua sede proprio sulla Piazza federale a Berna?",
+  "a": [
+   "Banca nazionale svizzera",
+   "Banca mondiale",
+   "Cassa di risparmio di Zurigo",
+   "Banca Raiffeisen di Ginevra"
+  ],
+  "e": "La Banca nazionale svizzera ha un edificio sulla Piazza federale. Si occupa del denaro della Svizzera.",
+  "m": "La Banca nazionale si trova sulla Piazza federale a Berna."
+ },
+ "37491": {
+  "q": "Per quanto tempo veniva nominato di solito un dittatore nell'antica Roma?",
+  "a": [
+   "Al massimo circa sei mesi",
+   "Dieci anni",
+   "Tutta la vita",
+   "Cento anni"
+  ],
+  "e": "Un dittatore romano veniva nominato di solito solo per poco tempo, al massimo circa sei mesi. Appena finito il suo compito, doveva restituire il potere.",
+  "m": "Un dittatore romano di solito governava solo per poco tempo."
+ },
+ "38060": {
+  "q": "Che cosa fece il giovane soldato di confine Conrad Schumann il 15 agosto 1961?",
+  "a": [
+   "Saltò a ovest",
+   "Costruì una casa",
+   "Dipinse il Muro",
+   "Andò a Mosca"
+  ],
+  "e": "Conrad Schumann saltò oltre il filo spinato verso Berlino Ovest. Una foto del suo salto diventò famosa in tutto il mondo.",
+  "m": "Conrad Schumann fuggì con un famoso salto oltre il filo spinato."
+ },
+ "36103": {
+  "q": "Da che anno esistono le monete e le banconote in euro?",
+  "a": [
+   "Dal 2002",
+   "Dal 1848",
+   "Dal 1971",
+   "Dal 2020"
+  ],
+  "e": "Il 1° gennaio 2002 le prime monete e banconote in euro arrivarono nei portamonete.",
+  "m": "Le monete e le banconote in euro esistono dal 2002."
+ },
+ "64915": {
+  "q": "Quale simbolo usa la Croce Rossa in molti Paesi musulmani?",
+  "a": [
+   "Una mezzaluna rossa",
+   "Una stella rossa",
+   "Una ruota rossa",
+   "Una colomba rossa"
+  ],
+  "e": "Il movimento è stato fondato dal ginevrino Henri Dunant. In molti Paesi musulmani si chiama Mezzaluna Rossa.",
+  "m": "In molti Paesi musulmani aiuta la Mezzaluna Rossa."
+ },
+ "63342": {
+  "q": "In quale fiume fu battezzato Gesù?",
+  "a": [
+   "Nel Giordano",
+   "Nel Nilo",
+   "Nell'Eufrate",
+   "Nel Tevere"
+  ],
+  "e": "Giovanni battezzava sul Giordano. Lì andò anche Gesù per farsi battezzare.",
+  "m": "Gesù fu battezzato nel Giordano."
+ },
+ "64044": {
+  "q": "Più o meno quanto tempo passa da una luna nuova alla successiva?",
+  "a": [
+   "Circa 29 giorni e mezzo",
+   "Circa 7 giorni",
+   "Circa 100 giorni",
+   "Esattamente 365 giorni"
+  ],
+  "e": "La Luna ha bisogno di circa 29 giorni e mezzo per avere di nuovo lo stesso aspetto. Per questo un mese lunare ha 29 o 30 giorni.",
+  "m": "Da luna nuova a luna nuova passano circa 29 giorni e mezzo."
+ },
+ "18511": {
+  "q": "Con quali due Paesi confina la città di Basilea?",
+  "a": [
+   "Germania e Francia",
+   "Italia e Austria",
+   "Francia e Italia",
+   "Austria e Germania"
+  ],
+  "e": "Basilea si trova nel punto dei tre confini. Lì si incontrano la Svizzera, la Germania e la Francia.",
+  "m": "Basilea si trova dove si incontrano tre Paesi."
+ },
+ "74827": {
+  "q": "In quali casi i bambini portano anche il casco?",
+  "a": [
+   "In monopattino e in skateboard",
+   "In autobus",
+   "In treno",
+   "In ascensore"
+  ],
+  "e": "Anche in monopattino, in skateboard o con i pattini in linea si può cadere. Per questo anche lì il casco è utile.",
+  "m": "Anche in monopattino il casco protegge la testa."
+ },
+ "83521": {
+  "q": "Che cosa significa la lettera B su una matita?",
+  "a": [
+   "La mina è morbida e nera",
+   "La mina è dura e chiara",
+   "La mina è blu",
+   "La mina è corta"
+  ],
+  "e": "B indica le mine morbide, che scrivono scuro. H indica le mine dure e chiare.",
+  "m": "La B sulla matita significa una mina morbida e scura."
+ },
+ "3371": {
+  "q": "Più o meno per quanto tempo i maschi di pinguino imperatore possono restare senza cibo mentre scaldano l'uovo?",
+  "a": [
+   "Diverse settimane",
+   "Solo un giorno",
+   "Un decennio intero",
+   "Un'ora"
+  ],
+  "e": "Mentre il maschio scalda l'uovo, non mangia niente e vive delle sue riserve di grasso. Può durare molte settimane, finché la femmina torna.",
+  "m": "I maschi di pinguino imperatore digiunano per settimane per l'uovo."
+ },
+ "22353": {
+  "q": "Come si chiamano i film sul futuro e sui viaggi nello spazio?",
+  "a": [
+   "Fantascienza",
+   "Western",
+   "Film di montagna",
+   "Film muto"
+  ],
+  "e": "I film di fantascienza mostrano tecnologie inventate, astronavi e pianeti sconosciuti.",
+  "m": "La fantascienza racconta il futuro e lo spazio."
+ },
+ "84196": {
+  "q": "Quale razzo Ariane ha volato dal 1996 al 2023?",
+  "a": [
+   "Ariane 5",
+   "Ariane 1",
+   "Ariane 3",
+   "Ariane 6"
+  ],
+  "e": "L'Ariane 5 è stato in servizio per quasi 30 anni. Il suo ultimo volo è stato nel luglio 2023.",
+  "m": "L'Ariane 5 ha volato dal 1996 al 2023."
+ },
+ "19931": {
+  "q": "Come si chiama il denaro di un Paese?",
+  "a": [
+   "Valuta",
+   "Abitazione",
+   "Escursione",
+   "Pubblicità"
+  ],
+  "e": "Ogni Paese ha il suo denaro, la valuta. In Svizzera è il franco.",
+  "m": "Il denaro di un Paese si chiama valuta."
+ },
+ "103024": {
+  "q": "Come si chiama la famosa stazione ornitologica in Svizzera?",
+  "a": [
+   "Stazione ornitologica di Sempach",
+   "Stazione ornitologica di Zermatt",
+   "Stazione ornitologica di Lugano",
+   "Stazione ornitologica di Basilea"
+  ],
+  "e": "La Stazione ornitologica svizzera si trova a Sempach, nel canton Lucerna. Studia e protegge gli uccelli.",
+  "m": "La Stazione ornitologica svizzera si trova a Sempach."
+ },
+ "22640": {
+  "q": "Che cosa ha un letto ma non dorme mai?",
+  "a": [
+   "Un fiume",
+   "Un neonato",
+   "Un gatto",
+   "Un orso"
+  ],
+  "e": "Il terreno in cui scorre un fiume si chiama letto del fiume. Ma un fiume non può dormire.",
+  "m": "Un fiume ha un letto, ma non dorme mai."
+ },
+ "76698": {
+  "q": "Che cosa mangia il lupo per rendere fine la sua voce?",
+  "a": [
+   "Gesso",
+   "Miele",
+   "Zucchero",
+   "Burro"
+  ],
+  "e": "Il lupo, la nuvoletta e il gessetto indicano il gesso. Con un pezzo di gesso il lupo rende fine la sua voce rauca.",
+  "m": "Il lupo mangia il gesso per avere una voce fine."
+ },
+ "26657": {
+  "q": "Con quale ditta zurighese si unì Lindt nel 1899?",
+  "a": [
+   "Con Sprüngli",
+   "Con Maggi",
+   "Con Nestlé",
+   "Con Suchard"
+  ],
+  "e": "Nel 1899 Johann Rudolf Sprüngli comprò la fabbrica di Lindt. Così nacque Lindt & Sprüngli.",
+  "m": "Lindt e Sprüngli stanno insieme dal 1899."
+ },
+ "82408": {
+  "q": "Che cosa fanno le piante verdi con l'anidride carbonica dell'aria?",
+  "a": [
+   "Ne fanno nutrimento e ossigeno",
+   "Ne fanno pietre",
+   "La trasformano in sale",
+   "La bruciano in fumo"
+  ],
+  "e": "Con l'aiuto della luce del sole le piante trasformano anidride carbonica e acqua in zucchero. Intanto liberano ossigeno.",
+  "m": "Le piante danno ossigeno all'aria."
+ },
+ "72003": {
+  "q": "Come si dice «cucina» in inglese?",
+  "a": [
+   "kitchen",
+   "chicken",
+   "kitten",
+   "cushion"
+  ],
+  "e": "La cucina si dice «kitchen». Attenzione: «chicken» è il pollo e «kitten» il gattino.",
+  "m": "Nella «kitchen» si cucina."
+ }
+}
