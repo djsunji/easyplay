@@ -234,5 +234,26 @@ window.renderDuellEnde = function(){
   return r;
 };
 
+/* ---------- App (Handy und iPad): Kachel im Duell-Tab ---------- */
+function appKachel(){
+  try{
+    const zwei = document.querySelector("#app .ap-duell .ap-zwei"); if(!zwei || zwei.querySelector(".x-regapp")) return;
+    stil();
+    const m = meine();
+    const b = document.createElement("button"); b.type = "button"; b.className = "apf x-regapp";
+    b.innerHTML = `<span class="x-regapp-e" aria-hidden="true">🇨🇭</span><b>Regionen-Duell</b><small>${m ? h(m.emo + " " + m.name) : "DS · Romandie · Tessin"}</small>`;
+    b.onclick = () => go("x-regionen");
+    const erst = zwei.firstElementChild; if(erst) erst.after(b); else zwei.appendChild(b);
+  }catch(e){ console.warn("regionen.js app", e); }
+}
+try{ const app = document.getElementById("app"); if(app) new MutationObserver(() => { if(app.querySelector(".ap-duell .ap-zwei") && !app.querySelector(".x-regapp")) appKachel(); }).observe(app, {childList:true, subtree:true}); }catch(e){}
+(function(){ const s = document.createElement("style"); s.id = "ep-x-regionen-app"; s.textContent = `
+.ap-duell .ap-zwei .apf.x-regapp{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;padding:12px;background:linear-gradient(135deg,#C81D4E 0%,#3D5AFE 55%,#12A57F 100%);color:#fff}
+.ap-duell .ap-zwei .apf.x-regapp .x-regapp-e{font-size:22px;line-height:1;margin-bottom:6px}
+.ap-duell .ap-zwei .apf.x-regapp b{font:700 15px/1.15 "Fredoka","Lexend",system-ui,sans-serif}
+.ap-duell .ap-zwei .apf.x-regapp small{font-size:11.5px;opacity:.9}
+.ap-duell .ap-zwei{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media (max-width:699px){.ap-duell .ap-zwei{gap:8px!important}.ap-duell .ap-zwei .apf b{font-size:14px!important}}
+@media (min-width:700px){.ap-duell .apf.x-regapp{min-height:120px;padding:18px}.ap-duell .apf.x-regapp b{font-size:20px}.ap-duell .apf.x-regapp .x-regapp-e{font-size:30px}}`; document.head.appendChild(s); })();
+
 window.EP_REGIONEN = { meine:() => { const m = meine(); return m ? m.id : null; }, vorschlag, REG, buchen };
 })();

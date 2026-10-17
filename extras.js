@@ -207,6 +207,24 @@ css.textContent = `
 .x-kachel small{font-size:.86rem;opacity:.95;color:#fff;line-height:1.3}
 .x-badge{position:absolute;top:10px;right:12px;font-style:normal;background:#FFE34D;color:#1B2240;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .x-leer{color:#fff;background:rgba(15,20,48,.45);padding:12px 16px;border-radius:16px}
+/* ===== App (Handy und iPad): gleiche Lebendigkeit wie am Computer ===== */
+body.ep-app .apf::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.2) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;animation:xkGlanz 8s ease-in-out infinite}
+body.ep-app .apf:nth-child(2n)::before{animation-delay:2s}body.ep-app .apf:nth-child(3n)::before{animation-delay:4s}body.ep-app .apf:nth-child(5n)::before{animation-delay:6s}
+body.ep-app .apf:is(.f-lila,.f-gold,.f-navy,.f-blau,.f-pink,.f-orange,.f-teal,.f-gruen){background-size:170% 170%!important;animation:xkFluss 12s ease-in-out infinite alternate}
+body.ep-app .ap-stats>*{background-size:170% 170%!important;animation:xkFluss 12s ease-in-out infinite alternate}
+body.ep-app .apf .apico,body.ep-app .ap-zwei .apf>svg:first-child{animation:xkSchweb 4s ease-in-out infinite}
+body.ep-app .apf:active{transform:scale(.97)}
+/* Profil: Entdecken als farbige ganze Zeile, Symbole in farbigen Kreisen */
+body.ep-app .ap-liste .x-ein{grid-column:1/-1;justify-content:flex-start;min-height:50px;background:linear-gradient(120deg,#FF5FA2,#8A3FE0 55%,#3D5AFE)!important;font-weight:800!important;box-shadow:0 8px 18px rgba(110,50,200,.35)}
+body.ep-app .ap-liste .x-ein span:not(.x-ein-emo){overflow:visible}
+body.ep-app .ap-liste>*:not(.x-ein)>svg:first-child{box-sizing:content-box;padding:7px;border-radius:50%;background:var(--xli,#5B4BF5);opacity:1;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+body.ep-app .ap-liste>*:nth-child(6n+2)>svg:first-child{--xli:linear-gradient(135deg,#FF8A3D,#FF5F9E)}
+body.ep-app .ap-liste>*:nth-child(6n+3)>svg:first-child{--xli:linear-gradient(135deg,#0FA968,#0B6E86)}
+body.ep-app .ap-liste>*:nth-child(6n+4)>svg:first-child{--xli:linear-gradient(135deg,#2E5BFF,#22A9BB)}
+body.ep-app .ap-liste>*:nth-child(6n+5)>svg:first-child{--xli:linear-gradient(135deg,#F4A818,#E8590C)}
+body.ep-app .ap-liste>*:nth-child(6n)>svg:first-child{--xli:linear-gradient(135deg,#B5179E,#E8366F)}
+body.ep-app .ap-liste>*:nth-child(6n+1):not(.x-ein)>svg:first-child{--xli:linear-gradient(135deg,#5B2BD9,#9B4DE0)}
+@media (prefers-reduced-motion:reduce){body.ep-app .apf,body.ep-app .apf::before,body.ep-app .apf *,body.ep-app .ap-stats>*{animation:none!important}}
 /* ===== Lebendige Kacheln auf der Startseite (Computer) ===== */
 html body .ep-wg>.ep-w:is(.eptl,[data-a=zufall],[data-a=fehler],[data-a=live]):not(.x-ein),html body .ep-wg>.ep-w:has(.epring),html body .ep-wg>.ep-w:has(.epabz),html body .ep-wg>.ep-w:has(.epfakt){color:#fff!important;border:0!important;background-size:180% 180%!important;animation:xkFluss 12s ease-in-out infinite alternate;box-shadow:0 12px 28px rgba(20,20,70,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;isolation:isolate}
 html body .ep-wg>.ep-w.eptl{background:linear-gradient(135deg,#1E3A8A,#2E5BFF 60%,#4F8BFF)!important}
