@@ -1564,7 +1564,9 @@ window.render=function(){
   }
   return origRender.apply(this, arguments);
 };
-function zuSeite(s){ try{ if(S.libModus && typeof setLibModus==="function"){ S.libModus=false; document.documentElement.dataset.mode="spiel"; } }catch(e){} go(s); }
+// Der Lehrerbereich ist eine eigene Seite (lehrer/index.html); in claude.ai bleibt er in der App
+function zumLehrerbereich(){ if(window.claude || !/^https?:/.test(location.protocol)) return false; location.href="lehrer/"; return true; }
+function zuSeite(s){ if(s==="lehrer" && zumLehrerbereich()) return; try{ if(S.libModus && typeof setLibModus==="function"){ S.libModus=false; document.documentElement.dataset.mode="spiel"; } }catch(e){} go(s); }
 // Menüeinträge
 if(typeof window.renderNav==="function"){
   const origNav=window.renderNav;
@@ -1597,8 +1599,8 @@ if(typeof window.renderProfil==="function"){
       const box=document.createElement("section"); box.className="statcard lz-sek"; box.id="lzProfil";
       const fertig=()=>{ const ist=SP?.istLehrer?.(); box.innerHTML=`<h2>🎓 Lehrperson</h2><p class="help">${ist?"Du bist als Lehrperson freigeschaltet.":"Bist du Lehrerin oder Lehrer? Dann schalte den Lehrerbereich frei: Klassen, Tests mit Code, Noten und Arbeitsblätter."}</p>
         <div class="row lz-links">${ist?`<button class="big" type="button" id="lzProfZu">🎓 Zum Lehrerbereich</button>`:`<button class="big gold" type="button" id="lzProfRolle">🎓 Ich bin Lehrperson</button>`}</div>`;
-        const z=box.querySelector("#lzProfZu"); z&&(z.onclick=()=>go("lehrer"));
-        const ro=box.querySelector("#lzProfRolle"); ro&&(ro.onclick=async()=>{ ro.disabled=true; try{ const sp=await speicher(); if(!sp.lehrerId()){ go("lehrer"); return; } await sp.rolleSetzen(); go("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); ro.disabled=false; } }); };
+        const z=box.querySelector("#lzProfZu"); z&&(z.onclick=()=>zuSeite("lehrer"));
+        const ro=box.querySelector("#lzProfRolle"); ro&&(ro.onclick=async()=>{ ro.disabled=true; try{ const sp=await speicher(); if(!sp.lehrerId()){ zuSeite("lehrer"); return; } await sp.rolleSetzen(); zuSeite("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); ro.disabled=false; } }); };
       fertig(); app().appendChild(box); if(!SP) speicher().then(()=>{ if(document.body.contains(box)) fertig(); });
     } }catch(e){}
     ligaProfil();

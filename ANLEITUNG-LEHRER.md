@@ -4,17 +4,17 @@ Mit dem Lehrerbereich legen Lehrpersonen Klassen an, verteilen Tests mit einem C
 
 ## 1. So nutzen Lehrpersonen den Bereich
 
-### Freischalten
-1. Bei easyplay anmelden (Menü «Anmelden» oder «Registrieren»).
-2. Menü **☰ → 🎓 Lehrerbereich** öffnen (oder im Profil auf **«Ich bin Lehrperson»** tippen).
-3. Einmal **«Ich bin Lehrperson»** bestätigen. Die Rolle wird im Konto gespeichert.
+### Öffnen und anmelden
+1. Den Lehrerbereich unter **https://djsunji.github.io/easyplay/lehrer/** öffnen (oder in easyplay im Menü auf **🎓 Lehrerbereich** tippen).
+2. Mit dem easyplay-Konto anmelden oder ein neues Konto registrieren. Die Rolle «Lehrperson» wird im Konto gespeichert.
+3. **Ausprobieren ohne Konto:** auf der Anmeldeseite **«Test-Zugang ausprobieren»** wählen (Benutzer `test@easyplay.ch`, Passwort `Lehrer-Test-2026`). Der Test-Zugang hat Beispielklassen, Beispieltests und Resultate. Alles bleibt nur auf diesem Gerät und lässt sich mit «Testdaten zurücksetzen» neu laden. Die Beispieltests (Codes BERG5A, WALD5A, WAHL6B) lassen sich auf demselben Gerät in easyplay mit Code und PIN lösen.
 
 In der claude.ai-Fassung gilt automatisch die angemeldete claude.ai-Person als Lehrperson.
 
 ### Klasse anlegen
 1. Im Lehrerbereich unter **«Neue Klasse anlegen»** Namen (z. B. «4b Lindenhof»), Schuljahr und Zyklus wählen.
 2. In der Klasse die Kinder eintragen: **nur Vorname oder Kürzel**, eines pro Zeile (z. B. «Lena», «Mia S.», «LM»).
-3. easyplay erzeugt für jedes Kind einen **PIN mit 4 Ziffern**. Mit **«PIN-Kärtchen (PDF)»** druckst du Kärtchen zum Ausschneiden.
+3. easyplay erzeugt für jedes Kind einen **PIN**. Mit **«PIN-Kärtchen (PDF)»** druckst du Kärtchen zum Ausschneiden.
 4. Mit 🔁 bekommt ein Kind einen neuen PIN, mit 🗑️ wird es entfernt.
 
 ### Test erstellen und verteilen

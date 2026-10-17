@@ -168,6 +168,34 @@ nav button.unter{padding-left:22px;font-size:13px}
 .bw-upload{margin:16px 0 4px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
 .bw-upload label.k{cursor:pointer;padding:8px 16px}
 .bw-leer{text-align:center;padding:40px}.bw-leer img{width:120px;height:auto}
+
+/* Welten, Bereiche, Klassen-Liga */
+.spalten{grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))}
+.welten{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:10px}
+.wkarte{background:var(--fl);border:1px solid var(--li);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0;box-shadow:0 1px 2px rgba(40,20,90,.05)}
+.wkarte .wk-kopf{display:flex;gap:10px;align-items:center}
+.wkarte .wk-emo{font-size:26px;line-height:1;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:color-mix(in srgb,var(--v) 12%,var(--fl));flex:none}
+.wkarte b.wk-t{font-size:15px}
+.wkarte .wk-dateien{font-size:12px;color:var(--mu);display:grid;gap:2px}
+.wkarte .wk-dateien span{display:flex;justify-content:space-between;gap:8px;min-width:0}
+.wkarte .wk-dateien code{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.wkarte .wk-chips{display:flex;gap:4px;flex-wrap:wrap}
+.wkarte .wk-chips span{font-size:12px;padding:1px 8px;border-radius:999px;background:var(--zb);border:1px solid var(--li)}
+.wkarte .ak{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+a.k{display:inline-block;text-decoration:none;color:inherit;background:var(--fl);border:1px solid var(--li);border-radius:5px;padding:5px 10px}
+a.k:hover{border-color:var(--mu)}
+.seg{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.seg button{background:var(--fl);border:1px solid var(--li);border-radius:999px;padding:5px 12px;cursor:pointer}
+.seg button.an{background:var(--grad);border-color:transparent;color:#fff}
+tr.weg td{text-decoration:line-through;color:var(--mu)}
+tr.geaendert td:first-child{box-shadow:inset 3px 0 0 var(--wa)}
+.bild.aus{opacity:.55}
+.bild .bfakt{color:var(--mu);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.balkenlang{height:10px;background:var(--zb);border-radius:5px;overflow:hidden;margin:6px 0 2px}.balkenlang i{display:block;height:100%;background:var(--grad)}
+@media (max-width:800px){#rahmen{grid-template-columns:minmax(0,1fr)}nav .fusskinder{display:none}}
+@media (max-width:900px){.zwei{grid-template-columns:minmax(0,1fr)}}
+select{max-width:100%}
+@media (max-width:640px){main{padding:12px}main table{display:block;overflow-x:auto;max-width:100%}.leiste input[type=search]{min-width:0!important;flex:1 1 180px}.held{padding:18px}.held h2{font-size:22px}}
 </style>
 </head>
 <body>
@@ -193,8 +221,11 @@ nav button.unter{padding-left:22px;font-size:13px}
   <button data-t="fragen">Fragen <small id="nFragen"></small></button>
   <button data-t="bilder">Bilder <small id="nBilder"></small></button>
   <button data-t="bildwechsel" class="unter">↳ Bilder wechseln</button>
+  <button data-t="welten">Welten <small id="nWelten"></small></button>
   <div class="gr">Personen</div>
   <button data-t="benutzer">Benutzer</button>
+  <button data-t="lehrpersonen">Lehrpersonen</button>
+  <button data-t="liga">Klassen-Liga</button>
   <button data-t="kommentare">Kommentare</button>
   <button data-t="fehlermeldungen">Fehlermeldungen</button>
   <div class="gr">System</div>
@@ -229,7 +260,12 @@ const store = {
   del(k){ try{ sessionStorage.removeItem(k); localStorage.removeItem(k); }catch(e){} }
 };
 const DATEN = { fragen:null, themen:{}, bereiche:{}, themaBereich:{}, bildindex:null, seiten:null, gesperrt:null, repo:null };
-const AE = { fragen:new Map(), bilder:new Map(), dateien:new Map() };   // offene Änderungen
+const AE = { fragen:new Map(), bilder:new Map(), dateien:new Map(), welten:new Map() };   // offene Änderungen
+const offen = () => AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0) + AE.welten.size;
+// Zahlen merken, damit die Übersicht ohne grosse Downloads sofort etwas zeigt
+const zahlenCache = () => store.get("ep-admin-zahlen", {}) || {};
+function zahlenMerken(o){ store.set("ep-admin-zahlen", {...zahlenCache(), ...o}, true); }
+const groesse = b => b == null ? "-" : b < 1024 ? b + " B" : b < 1000 * 1024 ? zahl(Math.round(b / 1024)) + " KB" : (Math.round(b / 104857.6) / 10).toLocaleString("de-CH") + " MB";
 
 /* ======================= GitHub ======================= */
 const ghToken = () => store.get("ep-admin-gh", "");
@@ -300,6 +336,7 @@ async function ladeFragen(){
   const alle = [];
   res.forEach((liste, i) => (liste||[]).forEach(f => alle.push({...f, _datei: teile[i]})));
   DATEN.fragen = alle;
+  zahlenMerken({fragen: alle.length, themen: new Set(alle.map(f => f.t)).size, fragenStand: Date.now()});
   try{
     const html = await fetch(B + "index.html", {cache:"no-cache"}).then(r => r.text());
     for(const m of html.matchAll(/\{id:"([a-z0-9_]+)", name:"([^"]+)"/g)) DATEN.themen[m[1]] = m[2];
@@ -318,6 +355,7 @@ const themaName = t => DATEN.themen[t] || (t && t.startsWith("kt_") ? "Kanton " 
 async function ladeBilder(){
   if(!DATEN.bildindex) DATEN.bildindex = await fetch(B + "bildindex.json", {cache:"no-cache"}).then(r => r.json()).catch(() => ({}));
   if(!DATEN.seiten) DATEN.seiten = await fetch(B + "tools/bildseiten.json", {cache:"no-cache"}).then(r => r.json()).catch(() => []);
+  if(DATEN.seiten.length) zahlenMerken({seiten: DATEN.seiten.length, mitBild: DATEN.seiten.filter(s => DATEN.bildindex[s.k]).length, buecher: new Set(DATEN.seiten.map(s => s.b)).size, bilderStand: Date.now()});
   return DATEN;
 }
 
@@ -330,7 +368,7 @@ function statusZeigen(){
   $("#stAus").onclick = abmelden; const g = $("#stGh"); if(g) g.onclick = () => zeige("zugang");
 }
 function aenderungenZeigen(){
-  const n = AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0);
+  const n = offen();
   $("#aenderungen").classList.toggle("da", n > 0);
   $("#aeText").textContent = n + (n === 1 ? " Änderung" : " Änderungen") + " nicht gespeichert";
 }
@@ -343,7 +381,7 @@ function zeige(t){
   Promise.resolve(TABS[t]()).catch(e => { $("#inhalt").innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; });
 }
 $("#tabs").onclick = e => { const b = e.target.closest("button"); if(b) zeige(b.dataset.t); };
-addEventListener("beforeunload", e => { if(AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0)){ e.preventDefault(); e.returnValue = ""; } });
+addEventListener("beforeunload", e => { if(offen()){ e.preventDefault(); e.returnValue = ""; } });
 
 /* ======================= Übersicht ======================= */
 const kacheln = liste => `<div class="raster">${liste.map(([a,b,c,ziel]) => `<div class="zahl"${ziel ? ` style="cursor:pointer" data-ziel="${esc(ziel)}"` : ""}><span>${esc(a)}</span><b>${b}</b>${c ? ` <small>${c}</small>` : ""}</div>`).join("")}</div>`;
@@ -352,8 +390,10 @@ const kpiKarten = liste => `<div class="raster kpi">${liste.map(([n, w, z, st, i
 const ampel = (wert, gut, mittel, hochBesser = true) => wert == null || isNaN(wert) ? "" : hochBesser ? (wert >= gut ? "ok" : wert >= mittel ? "wa" : "fe") : (wert <= gut ? "ok" : wert <= mittel ? "wa" : "fe");
 const pz = x => (x == null || isNaN(x)) ? "-" : (Math.round(x * 10) / 10).toLocaleString("de-CH") + " %";
 const balkenZelle = (n, max) => `<div class="balkenzeile"><span class="r">${zahl(n)}</span><div class="mini"><i style="width:${max ? Math.round(n / max * 100) : 0}%"></i></div></div>`;
-function zielBinden(){ $$("[data-ziel]").forEach(el => el.onclick = () => { const [t, f, w] = el.dataset.ziel.split(":"); if(t === "fragen"){ FF.nur = ""; FF.bereich = ""; FF.stufe = ""; FF.thema = ""; FF.suche = ""; if(f) FF[f] = w; } if(t === "bilder" && f){ FB[f] = w; FB.seite = 0; } zeige(t); }); }
-TABS.uebersicht = async () => {
+function zielBinden(){ $$("[data-ziel]").forEach(el => el.onclick = () => { const [t, f, w] = el.dataset.ziel.split(":"); if(t === "fragen"){ FF.nur = ""; FF.bereich = ""; FF.stufe = ""; FF.thema = ""; FF.suche = ""; if(f) FF[f] = w; } if(t === "bilder" && f){ FB[f] = w; FB.seite = 0; } if(t === "welten") WT.ansicht = f || "liste"; zeige(t); }); }
+async function ueDetails(){
+  const box = $("#ueDetails"); if(!box) return;
+  box.innerHTML = '<div class="box mu">Lädt Fragen und Bilder …</div>';
   const [fr, d] = await Promise.all([ladeFragen(), ladeBilder()]); doppelteBerechnen();
   const ix = d.bildindex, seiten = d.seiten;
   const mitBild = seiten.filter(s => ix[s.k]).length, lokal = seiten.filter(s => ix[s.k] && ix[s.k][6]).length;
@@ -366,14 +406,8 @@ TABS.uebersicht = async () => {
   const balance = Math.min(...st) / Math.max(...st) * 100;
   const kleineThemen = proThemaN.filter(n => n < 50).length;
   const bildQ = mitBild / seiten.length * 100, lokalQ = mitBild ? lokal / mitBild * 100 : 0;
-  const std = new Date().getHours(), gruss = std < 11 ? "Guten Morgen" : std < 17 ? "Hallo" : "Guten Abend";
-  const nutzer = (store.get("ep-admin-sitzung", {}) || {}).name || "";
   const kpiRot = [ohneBefund / fr.length * 100 < 95, kleineThemen > 5, bildQ < 75].filter(Boolean).length;
-  let html = `<div class="held"><div class="text"><h2>${gruss}${nutzer ? ", " + esc(nutzer.charAt(0).toUpperCase() + nutzer.slice(1)) : ""}!</h2>
-    <p>${zahl(fr.length)} Fragen und ${zahl(seiten.length)} Bibliotheksseiten warten auf neugierige Köpfe. ${kpiRot ? `${kpiRot} ${kpiRot === 1 ? "Kennzahl braucht" : "Kennzahlen brauchen"} Aufmerksamkeit.` : "Alle Inhalts-Kennzahlen sind im grünen oder orangen Bereich."}</p>
-    <div class="chips"><span>${zahl(themenSet.size)} Themen</span><span>${proz(mitBild, seiten.length)} mit Bild</span><span>Stand ${datum(new Date())}</span></div></div>
-    <img src="../img/kinder.webp" alt="" width="760" height="507"></div>
-  <p class="mu klein" style="margin-top:-8px">Ampel: grün = Ziel erreicht, orange = nahe dran, rot = handeln. Kacheln anklicken führt zur passenden Liste.</p>
+  let html = `<p class="mu klein" style="margin-top:-8px">Ampel: grün = Ziel erreicht, orange = nahe dran, rot = handeln. Kacheln anklicken führt zur passenden Liste.</p>
   <div class="abschnitt"><h3>Kennzahlen Inhalte</h3>${kpiKarten([
     ["Fragen total", zahl(fr.length), "wachsend", "", `${zahl(themenSet.size)} Themen`, "fragen"],
     ["Fragen ohne Befund", pz(ohneBefund / fr.length * 100), "100 %", ampel(ohneBefund / fr.length * 100, 99, 95), "Anteil Fragen ohne ß, Striche, gleiche Antworten, fehlende Erklärung/Merksatz, Doppel", "fragen:nur:pruef"],
@@ -382,7 +416,7 @@ TABS.uebersicht = async () => {
     ["Themen unter 50 Fragen", zahl(kleineThemen), "0", ampel(kleineThemen, 0, 5, false), "Themen mit zu wenig Fragen für abwechslungsreiche Tests", ""],
     ["Bibliothek mit Bild", pz(bildQ), "≥ 90 %", ampel(bildQ, 90, 75), `${zahl(seiten.length - mitBild)} Seiten ohne Bild`, "bilder:art:ohne"],
     ["Bilder lokal gespeichert", pz(lokalQ), "100 %", ampel(lokalQ, 99.5, 95), "Bilder, die ohne Wikipedia geladen werden (offline-fähig)", "bilder:art:fern"]
-  ])}<div id="ueKpiSb"></div><div id="ueKpiTech"></div></div>`;
+  ])}</div>`;
   // Fragen nach Bereich und Stufe
   const bereiche = Object.keys(d && DATEN.bereiche).concat(["andere"]);
   const zeilen = bereiche.map(b => { const l = fr.filter(f => bereichVon(f.t) === b); return {b, n:l.length, s:[1,2,3].map(x => l.filter(f => +f.l === x).length), bild:l.filter(f => f.img).length, ohneE:l.filter(f => !String(f.e||"").trim()).length, themen:new Set(l.map(f => f.t)).size}; }).filter(z => z.n);
@@ -410,16 +444,20 @@ TABS.uebersicht = async () => {
     <tr><td><b>Total</b></td><td class="r"><b>${buecher.reduce((a,x)=>a+x.kap,0)}</b></td><td class="r"><b>${zahl(seiten.length)}</b></td><td class="r"><b>${zahl(mitBild)}</b> <span class="mu">${proz(mitBild, seiten.length)}</span></td><td class="r"><b>${zahl(lokal)}</b></td><td class="r"><b>${zahl(buecher.reduce((a,x)=>a+x.gr,0))}</b></td></tr></tbody></table></div>
     <div class="abschnitt"><h3>Bildquellen und Lizenzen</h3><table><thead><tr><th>Quelle</th><th class="r">Bilder</th></tr></thead><tbody>${Object.entries(qz).sort((a,b)=>b[1]-a[1]).map(([q,n]) => `<tr><td>${esc(quellen[q] || q)}</td><td class="r">${zahl(n)}</td></tr>`).join("")}</tbody></table>
     <table style="margin-top:8px"><thead><tr><th>Lizenz</th><th class="r">Bilder</th></tr></thead><tbody>${Object.entries(liz).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([l,n]) => `<tr><td>${esc(l)}</td><td class="r">${zahl(n)}</td></tr>`).join("")}</tbody></table></div></div>`;
-  html += `<div id="ueSb"></div><div id="ueGh"></div>`;
-  $("#inhalt").innerHTML = html; zielBinden();
+  if(!$("#ueDetails")) return;
+  $("#ueDetails").innerHTML = html; zielBinden();
+  const rot = $("#ueRot"); if(rot) rot.textContent = kpiRot ? `${kpiRot} ${kpiRot === 1 ? "Kennzahl braucht" : "Kennzahlen brauchen"} Aufmerksamkeit.` : "Alle Inhalts-Kennzahlen sind im grünen oder orangen Bereich.";
   $("#nFragen").textContent = zahl(fr.length); $("#nBilder").textContent = zahl(mitBild);
-  // Supabase
-  const sbBox = $("#ueSb");
+  ueSchnell();
+}
+async function ueSupabase(){
+  const sbBox = $("#ueSb"); if(!sbBox) return;
   if(!sbAn()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis leerbild"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><span>Supabase ist nicht eingerichtet. Besucherzahlen und Benutzerverwaltung starten, sobald Supabase in <code>config.js</code> eingetragen und <code>supabase/admin.sql</code> ausgeführt ist. Anleitung unter «Zugang».</span></div></div>`;
   else if(!sbSitzung()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis">Für Besucherzahlen und Benutzer unter «Zugang» bei Supabase anmelden.</div></div>`;
   else {
     try{
       const s = await rpc("admin_statistik", {p_tage:30});
+      if(!$("#ueKpiSb")) return;
       const summe = (l, ab) => (l||[]).filter(x => !ab || x.tag >= ab).reduce((a, x) => a + (+x.n||0), 0);
       const heute = new Date().toISOString().slice(0,10), vor7 = new Date(Date.now() - 6*864e5).toISOString().slice(0,10);
       const u = s.benutzer || {}, k = s.kommentare || {}, l = s.lehrer || {};
@@ -454,11 +492,14 @@ TABS.uebersicht = async () => {
       zielBinden();
     }catch(e){ sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis fe">${esc(e.message)}</div></div>`; }
   }
-  // GitHub kurz und Technik-KPIs
+}
+async function ueGithub(){
+  if(!$("#ueGh")) return;
   try{ const [commits, laeufe, repo] = await Promise.all([gh("/commits?per_page=6&sha=" + ZWEIG), gh("/actions/runs?per_page=50"), gh("")]);
+    if(!$("#ueKpiTech")) return;
     const runs = laeufe.workflow_runs || [], seit = Date.now() - 7*864e5;
     const letzte7 = runs.filter(r => new Date(r.created_at) > seit && r.conclusion), fehl = letzte7.filter(r => r.conclusion === "failure").length;
-    const deploy = runs.find(r => /pages/i.test(r.name)), groesse = repo.size / 1024;
+    const deploy = runs.find(r => /pages/i.test(r.name)), groesse = await seitenGroesseMB().catch(() => null) ?? repo.size / 1024;
     $("#ueKpiTech").innerHTML = `<h3>Kennzahlen Technik</h3>` + kpiKarten([
       ["Website-Grösse", zahl(Math.round(groesse)) + " MB", "< 800 MB", ampel(groesse, 800, 950, false), "GitHub Pages erlaubt etwa 1'000 MB", "technik"],
       ["Abläufe fehlgeschlagen (7 Tage)", zahl(fehl) + " / " + zahl(letzte7.length), "0", ampel(fehl, 0, 2, false), "", "technik"],
@@ -466,31 +507,161 @@ TABS.uebersicht = async () => {
     ]);
     $("#ueGh").innerHTML = `<div class="spalten"><div class="abschnitt"><h3>Letzte Änderungen</h3>${commitTabelle(commits)}</div><div class="abschnitt"><h3>Automatische Abläufe (letzter Lauf)</h3>${laufTabelle(runs)}</div></div>`;
     zielBinden();
-  }catch(e){ $("#ueGh").innerHTML = `<div class="abschnitt"><h3>GitHub</h3><p class="mu">${esc(e.message)}</p></div>`; }
+  }catch(e){ const g = $("#ueGh"); if(g) g.innerHTML = `<div class="abschnitt"><h3>GitHub</h3><div class="hinweis">${esc(e.message)}. ${ghToken() ? "" : "Ohne GitHub-Schlüssel erlaubt GitHub nur wenige Abfragen pro Stunde. Schlüssel unter «Zugang» eintragen."}</div></div>`; }
+}
+TABS.uebersicht = async () => {
+  const z = zahlenCache();
+  const std = new Date().getHours(), gruss = std < 11 ? "Guten Morgen" : std < 17 ? "Hallo" : "Guten Abend";
+  const nutzer = (store.get("ep-admin-sitzung", {}) || {}).name || "";
+  const auto = !!DATEN.fragen || store.get("ep-admin-details-auto", false);
+  $("#inhalt").innerHTML = `<div class="held"><div class="text"><h2>${gruss}${nutzer ? ", " + esc(nutzer.charAt(0).toUpperCase() + nutzer.slice(1)) : ""}!</h2>
+    <p>${z.fragen ? zahl(z.fragen) + " Fragen, " + (z.seiten ? zahl(z.seiten) + " Bibliotheksseiten" : "die Bibliothek") : z.seiten ? zahl(z.seiten) + " Bibliotheksseiten" : "Die Bibliothek"} und ${WELTEN.length} Welten zum Entdecken warten auf neugierige Köpfe. <span id="ueRot"></span></p>
+    <div class="chips">${z.themen ? `<span>${zahl(z.themen)} Themen</span>` : ""}${z.seiten && z.mitBild ? `<span>${proz(z.mitBild, z.seiten)} mit Bild</span>` : ""}<span>Stand ${datum(new Date())}</span></div></div>
+    <img src="../img/kinder.webp" alt="" width="760" height="507"></div>
+  <div class="abschnitt"><h3>Inhalte auf einen Blick</h3><div id="ueSchnell"><p class="mu">Lädt …</p></div><p class="mu klein" id="ueSchnellInfo"></p></div>
+  <div class="abschnitt"><h3>Bereiche der Website</h3><div class="welten" id="ueBereiche"></div></div>
+  <div class="abschnitt"><div id="ueKpiSb"></div><div id="ueKpiTech"></div></div>
+  <div class="abschnitt" id="ueDetails"></div>
+  <div id="ueSb"></div><div id="ueGh"></div>`;
+  ueBereiche();
+  if(auto) ueDetails().catch(e => { const b = $("#ueDetails"); if(b) b.innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; }); else ueDetailsKnopf();
+  await Promise.all([ueSchnell(), ueSupabase(), ueGithub()]);
 };
+function ueDetailsKnopf(){
+  const box = $("#ueDetails"); if(!box) return;
+  box.innerHTML = `<h3>Kennzahlen Inhalte</h3><div class="box leerbild"><img src="../img/fragezeichen.webp" alt="" width="180" height="169"><div>
+    <p style="margin:0 0 6px">Für Ampel-Kennzahlen, Datenqualität, Themen und Bibliothek nach Buch werden alle Fragen und der Bilder-Index geladen (rund 60 MB). Darum erst auf Knopfdruck.</p>
+    <div class="leiste" style="margin:0"><button class="k p" id="ueDetLaden">Kennzahlen laden</button><label class="klein"><input type="checkbox" id="ueDetAuto"> immer automatisch laden</label></div></div></div>`;
+  $("#ueDetLaden").onclick = () => ueDetails().catch(e => { const b = $("#ueDetails"); if(b) b.innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; });
+  $("#ueDetAuto").onchange = e => store.set("ep-admin-details-auto", e.target.checked, true);
+}
+async function ueSchnell(){
+  let w; try{ w = await weltenZahlen(); }catch(e){ w = null; }
+  const box = $("#ueSchnell"); if(!box) return;
+  const z = zahlenCache(), W = w || {karte:{}, album:{}, feste:{}, sw:{}};
+  box.innerHTML = kacheln([
+    ["Fragen", z.fragen ? zahl(z.fragen) : "-", z.fragen ? zahl(z.themen) + " Themen" : "noch nicht gezählt", "fragen"],
+    ["Bibliotheksseiten", z.seiten ? zahl(z.seiten) : "-", z.buecher ? zahl(z.buecher) + " Bücher" : "", "bilder:art:alle"],
+    ["Seiten mit Beschreibung", z.texteMit != null ? zahl(z.texteMit) : "-", z.texteMit != null ? proz(z.texteMit, z.texteMit + z.texteOhne) : "noch nicht gezählt", ""],
+    ["Seiten ohne Beschreibung", z.texteOhne != null ? `<em class="${z.texteOhne ? "wa" : "ok"}" style="font-style:normal">${zahl(z.texteOhne)}</em>` : "-", z.texteTotal != null ? zahl(z.texteTotal) + " Texte total" : "", ""],
+    ["Bibliothek mit Bild", z.mitBild != null ? zahl(z.mitBild) : "-", z.seiten ? proz(z.mitBild, z.seiten) : "", "bilder"],
+    ["Album-Karten", zahl(W.album.karten), W.album.aus ? `<span class="wa">${zahl(W.album.aus)} ausgeblendet</span>` : W.album.kap ? zahl(W.album.kap) + " Kapitel" : "", "welten:album"],
+    ["Feste-Fragen", zahl(W.feste.fragen), W.feste.feste ? zahl(W.feste.feste) + " Feste" : "", "welten:feste"],
+    ["Spielwelt: Bilder", zahl(W.sw.bilder), "Bild-Rätsel", "welten:spielwelt"],
+    ["Spielwelt: Reihen", zahl(W.sw.reihenEintraege), W.sw.reihen ? zahl(W.sw.reihen) + " Kategorien" : "", "welten:spielwelt"],
+    ["Spielwelt: Paare", zahl(W.sw.paare), W.sw.saetze ? zahl(W.sw.saetze) + " Sätze" : "", "welten:spielwelt"],
+    ["Kantone (Karte)", zahl(W.karte.kantone), W.sw.kantone ? zahl(W.sw.kantone) + " in der Spielwelt" : "", "welten:liste"]
+  ]);
+  const st = (t, n) => t ? `${n}: Stand ${datum(t)}` : `${n}: noch nicht gezählt`;
+  $("#ueSchnellInfo").innerHTML = `${st(z.fragenStand, "Fragen")} · ${st(z.bilderStand, "Bilder")} · ${st(z.texteStand, "Bibliothekstexte")}. <a class="link" id="ueTexte">Bibliothekstexte jetzt zählen</a> <span class="mu">(lädt ${(CFG.texteDateien || ["texte-1.json","texte-2.json"]).length + (CFG.texteDateien2 || []).length} Dateien, rund 30 MB)</span>`;
+  $("#ueTexte").onclick = async () => { try{ await texteZaehlen(); ueSchnell(); melde("Bibliothekstexte gezählt."); }catch(e){ melde(e.message, "fe"); } };
+  zielBinden();
+}
+async function texteZaehlen(){
+  const dateien = (CFG.texteDateien || ["texte-1.json","texte-2.json"]).concat(CFG.texteDateien2 || []);
+  const info = () => $("#ueSchnellInfo");
+  if(info()) info().textContent = "Bibliothekstexte: Seitenliste wird geladen …";
+  await ladeBilder();
+  const mit = new Set(), alle = new Set(); let fertig = 0, bytes = 0;
+  await Promise.all(dateien.map(async f => {
+    const r = await fetch(B + f, {cache:"no-cache"}); if(!r.ok) throw new Error(f + ": " + r.status);
+    const t = await r.text(); bytes += t.length; const j = JSON.parse(t);
+    for(const [k, v] of Object.entries(j || {})){ alle.add(k); const txt = typeof v === "string" ? v : v && (v.text || (v.teile && v.teile.einleitung)); if(String(txt || "").trim()) mit.add(k); }
+    fertig++; if(info()) info().textContent = `Bibliothekstexte: ${fertig} von ${dateien.length} Dateien geladen …`;
+  }));
+  const seiten = DATEN.seiten || [], mitS = seiten.filter(s => mit.has(s.k)).length;
+  const proBuch = {}; seiten.forEach(s => { const p = proBuch[s.b] = proBuch[s.b] || [0, 0]; p[0]++; if(mit.has(s.k)) p[1]++; });
+  zahlenMerken({texteMit: mitS, texteOhne: seiten.length - mitS, texteTotal: mit.size, texteAusserhalb: (sk => [...mit].filter(k => !sk.has(k)).length)(new Set(seiten.map(s => s.k))), texteProBuch: proBuch, texteStand: Date.now()});
+}
+async function ueBereiche(){
+  const box = $("#ueBereiche"); if(!box) return;
+  const karte = (emo, titel, text, knoepfe) => `<div class="wkarte"><div class="wk-kopf"><span class="wk-emo" aria-hidden="true">${emo}</span><div><b class="wk-t">${esc(titel)}</b><div class="mu klein">${esc(text)}</div></div></div><div class="ak">${knoepfe}</div></div>`;
+  box.innerHTML = karte("🏫", "Lehrerbereich", "Eigene Seite für Lehrpersonen: Klassen, Tests, Klassen-Liga", `<a class="k" href="../lehrer/" target="_blank" rel="noopener">Lehrerbereich öffnen</a><button class="k" data-ziel="lehrpersonen">Lehrpersonen</button><button class="k" data-ziel="liga">Klassen-Liga</button>`)
+    + karte("✨", "Entdecken: " + WELTEN.length + " Welten", WELTEN.map(w => w.titel).join(", "), `<button class="k p" data-ziel="welten:liste">Welten ansehen</button><a class="k" href="../index.html" target="_blank" rel="noopener">Website öffnen</a>`)
+    + karte("✏️", "Welten bearbeiten", "Feste-Fragen, Spielwelt-Reihen und Paare, Album-Karten", `<button class="k" data-ziel="welten:feste">Feste-Fragen</button><button class="k" data-ziel="welten:spielwelt">Spielwelt</button><button class="k" data-ziel="welten:album">Album</button>`)
+    + karte("📚", "Fragen und Bibliothek", "Fragen bearbeiten, Bilder der Bibliothek prüfen und wechseln", `<button class="k" data-ziel="fragen">Fragen</button><button class="k" data-ziel="bilder">Bilder</button><button class="k" data-ziel="bildwechsel">Bilder wechseln</button>`)
+    + karte("⚙️", "Technik und Zugang", "Anmelde-Anbieter, Service-Worker, Website-Grösse, Schlüssel", `<button class="k" data-ziel="technik">Technik</button><button class="k" data-ziel="zugang">Zugang</button>`);
+  zielBinden(); const nw = $("#nWelten"); if(nw) nw.textContent = WELTEN.length;
+}
+
 const commitTabelle = commits => `<table><thead><tr><th>Zeit</th><th>Änderung</th><th>Von</th></tr></thead><tbody>${commits.map(c => `<tr><td class="nowrap">${datum(c.commit.author.date)}</td><td>${esc(c.commit.message.split("\n")[0])}</td><td class="mu">${esc(c.commit.author.name)}</td></tr>`).join("")}</tbody></table>`;
 function laufTabelle(runs){ const neu = new Map(); runs.forEach(r => { if(!neu.has(r.name)) neu.set(r.name, r); });
   return `<table><thead><tr><th>Ablauf</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>${[...neu.values()].map(r => { const c = r.conclusion === "success" ? "ok" : r.conclusion === "cancelled" || !r.conclusion ? "wa" : "fe";
     return `<tr><td>${esc(r.name)}</td><td class="nowrap">${datum(r.created_at)}</td><td><span class="ampel ${c}"></span>${esc({success:"erfolgreich", failure:"fehlgeschlagen", cancelled:"abgebrochen"}[r.conclusion] || (r.status === "in_progress" ? "läuft" : r.status === "queued" ? "wartet" : r.conclusion || r.status))}</td></tr>`; }).join("")}</tbody></table>`; }
 
 /* ======================= Technik ======================= */
+const LOGIN_MD = "https://github.com/djsunji/easyplay/blob/main/ANLEITUNG-LOGIN.md";
 TABS.technik = async () => {
-  $("#inhalt").innerHTML = `<h2>Technik</h2><div id="tInhalt"><p class="mu">Lädt …</p></div>`;
-  const [repo, commits, laeufe, rel, pages] = await Promise.all([gh(""), gh("/commits?per_page=15&sha=" + ZWEIG), gh("/actions/runs?per_page=50"), gh("/releases/tags/bilder-app").catch(() => null), gh("/pages").catch(() => null)]);
-  const mb = kb => zahl(Math.round(kb / 1024)) + " MB";
-  const app = rel ? rel.assets.reduce((a, x) => a + x.size, 0) : 0;
-  $("#tInhalt").innerHTML = `<div class="abschnitt">${kacheln([
-      ["Projektgrösse (GitHub)", mb(repo.size), "Limit Website ca. 1'000 MB"], ["Letzte Änderung", datum(repo.pushed_at)], ["Sichtbarkeit", repo.private ? "privat" : "öffentlich"],
-      ["App-Bildpaket", rel ? zahl(Math.round(app / 1048576)) + " MB" : "-", rel ? rel.assets.length + " Dateien" : ""], ["Website", pages ? (pages.status === "built" ? "online" : esc(pages.status || "?")) : "online", "djsunji.github.io/easyplay"]
-    ])}</div>
-    <div class="spalten"><div class="abschnitt"><h3>Automatische Abläufe</h3>${laufTabelle(laeufe.workflow_runs||[])}</div>
-    <div class="abschnitt"><h3>Dateien</h3><table><tbody>
-      <tr><td>Fragen-Dateien</td><td class="r">${(CFG.fragenDateien||[]).length}</td></tr>
+  $("#inhalt").innerHTML = `<h2>Technik</h2>
+    <div class="spalten"><div class="abschnitt"><h3>Website-Grösse</h3><div id="tGroesse" class="box"><p class="mu" style="margin:0">Lädt …</p></div></div>
+    <div class="abschnitt"><h3>Service-Worker (Offline-Speicher)</h3><div id="tSw" class="box"><p class="mu" style="margin:0">Lädt …</p></div></div></div>
+    <div class="abschnitt"><h3>Anmelde-Anbieter</h3><div id="tAnb"><p class="mu">Lädt …</p></div></div>
+    <div class="spalten"><div class="abschnitt"><h3>Dateien</h3><table><tbody>
+      <tr><td>Fragen-Dateien</td><td class="r">${(CFG.fragenDateien || []).length}</td></tr>
+      <tr><td>Bibliothekstext-Dateien</td><td class="r">${(CFG.texteDateien || ["texte-1.json", "texte-2.json"]).length + (CFG.texteDateien2 || []).length}</td></tr>
+      <tr><td>Welten (Entdecken)</td><td class="r"><a class="link" data-ziel="welten">${WELTEN.length} Welten</a></td></tr>
+      <tr><td>Lehrerbereich</td><td class="r"><a class="link" href="../lehrer/" target="_blank" rel="noopener">/lehrer/ öffnen</a></td></tr>
       <tr><td>Supabase</td><td class="r">${sbAn() ? '<span class="ok">eingerichtet</span>' : '<span class="wa">nicht eingerichtet</span>'}</td></tr>
-      <tr><td>Website-Adresse für Teilen</td><td class="r klein">${esc(CFG.teilenUrl || "-")}</td></tr>
-      <tr><td>Bilderpaket für die App</td><td class="r">${rel ? `<a class="link" href="${esc(rel.html_url)}" target="_blank" rel="noopener">Release öffnen</a>` : "-"}</td></tr></tbody></table></div></div>
-    <div class="abschnitt"><h3>Letzte 15 Änderungen</h3>${commitTabelle(commits)}</div>`;
+      <tr><td>Website-Adresse für Teilen</td><td class="r klein">${esc(CFG.teilenUrl || "-")}</td></tr></tbody></table></div>
+    <div class="abschnitt"><h3>GitHub</h3><div id="tGh"><p class="mu">Lädt …</p></div></div></div>
+    <div id="tInhalt"></div>`;
+  zielBinden();
+  await Promise.all([techSw(), techAnbieter(), techGithub()]);
 };
+async function techSw(){
+  let v = "", fehler = "";
+  try{ const t = await fetch(B + "sw.js", {cache:"no-cache"}).then(r => { if(!r.ok) throw new Error("sw.js " + r.status); return r.text(); }); v = (t.match(/const VERSION\s*=\s*"([^"]+)"/) || [])[1] || ""; }catch(e){ fehler = e.message; }
+  let caches_ = []; try{ if(window.caches) caches_ = (await caches.keys()).filter(k => /^ep-/.test(k)); }catch(e){}
+  let reg = null; try{ if(navigator.serviceWorker) reg = await navigator.serviceWorker.getRegistration(B); }catch(e){}
+  const box = $("#tSw"); if(!box) return;
+  const hier = [...new Set(caches_.map(k => k.replace(/-(huelle|bilder)$/, "")))];
+  const aktuell = v && hier.includes(v);
+  box.innerHTML = `${kacheln([["Version in sw.js", v ? `<span style="font-size:15px">${esc(v)}</span>` : `<span class="fe">?</span>`, fehler ? esc(fehler) : ""], ["In diesem Browser", hier.length ? `<span style="font-size:15px" class="${aktuell ? "ok" : "wa"}">${esc(hier.join(", "))}</span>` : '<span class="mu" style="font-size:15px">kein Cache</span>', reg ? "Service-Worker aktiv" : "nicht registriert"]])}
+    <p class="mu klein" style="margin:8px 0 0">Bei jeder Änderung an der App-Hülle (HTML, JS, CSS) in <code>sw.js</code> die <code>VERSION</code> hochzählen, sonst sehen Besucher alte Dateien. ${hier.length && !aktuell ? '<span class="wa">Dieser Browser hat noch eine ältere Version, sie wird beim nächsten Besuch der Website ersetzt.</span>' : ""}</p>`;
+}
+async function techAnbieter(){
+  let html = ""; try{ html = await fetch(B + "index.html", {cache:"no-cache"}).then(r => r.text()); }catch(e){}
+  const block = html.slice(html.indexOf("const PROVIDER = ["), html.indexOf("];", html.indexOf("const PROVIDER = [")));
+  const knoepfe = [...block.matchAll(/\{id:"([a-z]+)"(?:, oauth:"([a-z]+)")?[^}]*?name:"([^"]+)"/g)].map(m => ({id:m[1], sb:m[2] || m[1], name:m[3]}));
+  let ext = null, fehler = "";
+  if(sbAn()){ try{ const r = await fetch(SB.url + "/auth/v1/settings", {headers:{apikey:SB.key}}); if(!r.ok) throw new Error("Supabase " + r.status); ext = (await r.json()).external || {}; }catch(e){ fehler = e.message; } }
+  const anker = {google:"#3-google", facebook:"#4-facebook", apple:"#5-apple", microsoft:"#6-microsoft", email:"#2-e-mail-best%C3%A4tigung"};
+  const zeilen = [{id:"email", sb:"email", name:"E-Mail und Passwort", immer:true}, ...knoepfe];
+  ["google", "microsoft", "apple", "facebook"].forEach(id => { if(!knoepfe.some(k => k.id === id)) zeilen.push({id, sb: id === "microsoft" ? "azure" : id, name: id.charAt(0).toUpperCase() + id.slice(1), fehlt:true}); });
+  const box = $("#tAnb"); if(!box) return;
+  const status = z => !sbAn() ? '<span class="mu">Supabase fehlt</span>' : fehler ? '<span class="wa">unbekannt</span>' : ext[z.sb] ? '<span class="ok"><span class="ampel ok"></span>aktiv</span>' : '<span class="fe"><span class="ampel fe"></span>aus</span>';
+  box.innerHTML = `<table><thead><tr><th>Anbieter</th><th>Knopf auf der Website</th><th>Name in Supabase</th><th>In Supabase aktiv</th><th>Anleitung</th></tr></thead><tbody>${zeilen.map(z => `<tr><td><b>${esc(z.name)}</b></td>
+      <td>${z.immer ? '<span class="ok">Formular</span>' : z.fehlt ? '<span class="wa">kein Knopf</span>' : '<span class="ok">ja</span>'}</td><td><code>${esc(z.sb)}</code></td><td>${status(z)}</td>
+      <td><a class="link" href="${LOGIN_MD + (anker[z.id] || "")}" target="_blank" rel="noopener">ANLEITUNG-LOGIN.md</a></td></tr>`).join("")}</tbody></table>
+    <p class="mu klein">${!sbAn() ? "Ohne Supabase funktionieren die Knöpfe nicht: Die Website meldet dann, dass die Anmeldung noch nicht eingerichtet ist. Zuerst Supabase einrichten (siehe «Zugang»), dann die Anbieter in Supabase unter Authentication → Providers einschalten." : fehler ? "Status konnte nicht abgefragt werden: " + esc(fehler) : "Status direkt aus Supabase (Authentication → Providers). Ein Knopf ohne aktiven Anbieter zeigt Besuchern eine Fehlermeldung."} Microsoft heisst in Supabase «Azure».</p>`;
+}
+/* Veröffentlichte Grösse = Summe aller Dateien im aktuellen Stand (ohne Verlauf). repo.size von GitHub enthält den ganzen Verlauf. */
+async function seitenGroesseMB(){
+  try{ const c = JSON.parse(sessionStorage.getItem("ep-admin-seitengroesse") || "null"); if(c && Date.now() - c.t < 3600000) return c.mb; }catch(e){}
+  const t = await gh("/git/trees/" + ZWEIG + "?recursive=1");
+  if(!t || !Array.isArray(t.tree)) return null;
+  const mb = t.tree.reduce((a, x) => a + (x.type === "blob" ? (x.size || 0) : 0), 0) / 1048576;
+  try{ sessionStorage.setItem("ep-admin-seitengroesse", JSON.stringify({t:Date.now(), mb, abgeschnitten:!!t.truncated})); }catch(e){}
+  return mb;
+}
+async function techGithub(){
+  let repo = null, fehler = "";
+  try{ repo = await gh(""); }catch(e){ fehler = e.message; }
+  const gBox = $("#tGroesse"); if(!gBox) return;
+  if(repo){ let seite = null; try{ seite = await seitenGroesseMB(); }catch(e){} const verlauf = repo.size / 1024, mb = seite != null ? seite : verlauf, q = Math.min(100, mb / 1024 * 100), st = ampel(mb, 800, 950, false);
+    gBox.innerHTML = `<div class="leiste" style="margin:0"><b style="font-size:22px">${zahl(Math.round(mb))} MB</b><span class="mu">von etwa 1'024 MB</span><span class="rechts"><span class="ampel ${st}"></span>${st === "ok" ? "genug Platz" : st === "wa" ? "wird knapp" : "zu gross"}</span></div>
+      <div class="balkenlang" role="img" aria-label="${Math.round(q)} Prozent belegt"><i style="width:${q}%"></i></div>
+      <p class="mu klein" style="margin:6px 0 0">${seite != null ? `Veröffentlichte Website (aktueller Stand aller Dateien, inklusive Bilder in <code>bilder/</code>). GitHub Pages veröffentlicht höchstens 1 GB. Das Repository mit dem ganzen Verlauf ist ${zahl(Math.round(verlauf))} MB gross; das zählt nicht für die Pages-Grenze, GitHub empfiehlt aber unter 1 GB zu bleiben.` : "Gemessen wurde das Repository mit dem ganzen Verlauf (die veröffentlichte Website ist kleiner). GitHub Pages veröffentlicht höchstens 1 GB."} Einzelne Dateien höchstens 100 MB.</p>`; }
+  else gBox.innerHTML = `<p style="margin:0" class="wa">Grösse nicht abrufbar.</p><p class="mu klein" style="margin:6px 0 0">${esc(fehler)}. ${ghToken() ? "" : "Ohne GitHub-Schlüssel erlaubt GitHub nur wenige Abfragen pro Stunde; mit Schlüssel (unter «Zugang») klappt es zuverlässig. "}GitHub Pages veröffentlicht höchstens 1 GB. Direkt nachsehen: <a class="link" href="https://github.com/${REPO}" target="_blank" rel="noopener">github.com/${REPO}</a>.</p>`;
+  const ghBox = $("#tGh");
+  if(!repo){ if(ghBox) ghBox.innerHTML = `<div class="hinweis">GitHub nicht erreichbar: ${esc(fehler)}</div>`; return; }
+  const [commits, laeufe, rel, pages] = await Promise.all([gh("/commits?per_page=15&sha=" + ZWEIG).catch(() => []), gh("/actions/runs?per_page=50").catch(() => ({workflow_runs:[]})), gh("/releases/tags/bilder-app").catch(() => null), gh("/pages").catch(() => null)]);
+  if(!$("#tGh")) return;
+  const app = rel ? rel.assets.reduce((a, x) => a + x.size, 0) : 0;
+  $("#tGh").innerHTML = kacheln([["Letzte Änderung", `<span style="font-size:15px">${datum(repo.pushed_at)}</span>`], ["Sichtbarkeit", repo.private ? "privat" : "öffentlich"],
+    ["App-Bildpaket", rel ? zahl(Math.round(app / 1048576)) + " MB" : "-", rel ? `<a class="link" href="${esc(rel.html_url)}" target="_blank" rel="noopener">${rel.assets.length} Dateien</a>` : ""], ["Website", pages ? (pages.status === "built" ? "online" : esc(pages.status || "?")) : "online", "djsunji.github.io/easyplay"]]);
+  $("#tInhalt").innerHTML = `<div class="spalten"><div class="abschnitt"><h3>Automatische Abläufe</h3>${laufTabelle(laeufe.workflow_runs || [])}</div><div class="abschnitt"><h3>Letzte 15 Änderungen</h3>${commitTabelle(commits)}</div></div>`;
+}
 
 /* ======================= Statistik ======================= */
 TABS.statistik = async () => {
@@ -863,6 +1034,313 @@ document.addEventListener("keydown", e => {
   else if(/^[1-4]$/.test(e.key)){ const b = $$("#bwVs .bw-karte[data-j]")[+e.key - 1]; if(b){ e.preventDefault(); b.click(); } }
 });
 
+/* ======================= Welten (Menü «Entdecken» der Website) ======================= */
+const WELTEN = [
+  {id:"karte", titel:"Schweizer Karte", text:"Spiel alle 26 Kantone frei", emo:"🗺️", js:"karte.js", daten:["welten/karte/kantone.js"]},
+  {id:"album", titel:"Sammelalbum", text:"Sammle Wissenskarten mit Bildern aus der Bibliothek", emo:"🃏", js:"album.js", daten:["welten/album/karten.json"], edit:"album"},
+  {id:"garderobe", titel:"Garderobe", text:"Schmück dein Profilbild mit Mützen, Brillen und mehr", emo:"👒", js:"garderobe.js", daten:[]},
+  {id:"abenteuer", titel:"Abenteuer", text:"Reise mit Lumi und Milo durch die Schweiz", emo:"🗺️", js:"abenteuer.js", daten:[]},
+  {id:"spielwelt", titel:"Spielwelt", text:"Bild-Rätsel, Reihenfolge, Zuordnen und Zeitstrahl", emo:"🎲", js:"spielwelt.js", daten:["welten/spielwelt/bilder.json", "welten/spielwelt/reihen.json", "welten/spielwelt/paare.json"], edit:"spielwelt"},
+  {id:"truhe", titel:"Tägliche Truhe", text:"Jeden Tag eine kleine Überraschung", emo:"🎁", js:"truhe.js", daten:[]},
+  {id:"feste", titel:"Feste und Jahreszeiten", text:"Festkalender, Countdown und Fest-Quiz", emo:"🎉", js:"feste.js", daten:["welten/feste/fragen.json"], edit:"feste"},
+  {id:"sound", titel:"Musik & Töne", text:"Eigene Musik anhören, Töne ausprobieren", emo:"🎵", js:"sound.js", daten:[]}
+];
+const PF = "welten/feste/fragen.json", PA = "welten/album/karten.json", PR = "welten/spielwelt/reihen.json", PP = "welten/spielwelt/paare.json";
+const WT = { ansicht:"liste", fest:"", sw:"reihen", kat:"", satz:"", aSuche:"", aKap:"", aArt:"", aSeite:0 };
+const WD = {};   // geladene Dateien: Pfad -> Promise<{text, bytes, json}>
+function weltDatei(pfad){
+  if(!WD[pfad]){ WD[pfad] = fetch(B + pfad, {cache:"no-cache"}).then(async r => { if(!r.ok) throw new Error(pfad + ": " + r.status); const text = await r.text();
+    return {text, bytes: new Blob([text]).size, json: /\.json$/.test(pfad) ? JSON.parse(text) : null}; }); WD[pfad].catch(() => delete WD[pfad]); }
+  return WD[pfad];
+}
+// Datei mit allen offenen Änderungen (Kopie, das Original bleibt unverändert)
+async function weltDaten(pfad){ const d = await weltDatei(pfad); const j = JSON.parse(JSON.stringify(d.json)); for(const op of AE.welten.values()) if(op.datei === pfad) weltAnwenden(j, op); return j; }
+// Eine Änderung auf eine Datei anwenden. Gesperrte Einträge wandern in eine eigene Liste, welche die Website nicht liest.
+function weltAnwenden(j, op){
+  const verschieben = (an, aus, finde, gesperrt) => { const i = an.findIndex(finde), g = aus.findIndex(finde);
+    if(gesperrt === true && i >= 0) aus.push(an.splice(i, 1)[0]); if(gesperrt === false && g >= 0) an.push(aus.splice(g, 1)[0]); };
+  const setze = (e, werte) => { for(const [k, v] of Object.entries(werte || {})){ if(v === "" || v == null) delete e[k]; else e[k] = v; } };
+  if(op.art === "feste"){ const l = j[op.fest] = j[op.fest] || []; const i = op.alt == null ? -1 : l.findIndex(f => f.q === op.alt);
+    if(op.neu == null){ if(i >= 0) l.splice(i, 1); } else if(i >= 0) l[i] = op.neu; else l.push(op.neu); }
+  if(op.art === "reihe" || op.art === "paar"){
+    const gruppe = op.art === "reihe" ? (j.kategorien || []).find(k => k.id === op.gruppe) : (j.saetze || []).find(s => s.id === op.gruppe); if(!gruppe) return;
+    const feld = op.art === "reihe" ? "eintraege" : "paare", schl = op.art === "reihe" ? "n" : "l";
+    gruppe[feld] = gruppe[feld] || []; const aus = gruppe.gesperrt || [];
+    const e = gruppe[feld].find(x => x[schl] === op.name) || aus.find(x => x[schl] === op.name); if(!e) return;
+    setze(e, op.werte); verschieben(gruppe[feld], aus, x => x[schl] === op.name, op.gesperrt);
+    if(aus.length) gruppe.gesperrt = aus; else delete gruppe.gesperrt;
+  }
+  if(op.art === "album"){ const aus = j.aus || []; verschieben(j.k, aus, c => c[0] === op.id, op.gesperrt); if(aus.length) j.aus = aus; else delete j.aus; }
+}
+// Gleiche Formatierung wie die Datei vorher (kompakt oder eingerückt)
+function jsonWie(j, alt){ const nl = /\n$/.test(alt) ? "\n" : "", body = alt.trim(); if(!/\n/.test(body)) return JSON.stringify(j) + nl;
+  const m = body.match(/\n( *)["{\[]/), ein = m ? m[1].length : 0; return (ein ? JSON.stringify(j, null, ein) : JSON.stringify(j, null, 1).replace(/^ +/gm, "")) + nl; }
+async function weltenSpeichern(){
+  const nachDatei = new Map(); for(const op of AE.welten.values()){ if(!nachDatei.has(op.datei)) nachDatei.set(op.datei, []); nachDatei.get(op.datei).push(op); }
+  const n = AE.welten.size;
+  await ghCommit(`Verwaltung: ${n} ${n === 1 ? "Änderung" : "Änderungen"} in den Welten`, async () => {
+    const out = [];
+    for(const [datei, ops] of nachDatei){ const alt = await ghDateiText(datei); const j = JSON.parse(alt); ops.forEach(op => weltAnwenden(j, op)); out.push({pfad: datei, text: jsonWie(j, alt)}); }
+    return out;
+  });
+  AE.welten.clear(); for(const k of Object.keys(WD)) delete WD[k];
+}
+async function weltenZahlen(){
+  const [k, a, f, b, r, p] = await Promise.all(["welten/karte/kantone.js", PA, PF, "welten/spielwelt/bilder.json", PR, PP].map(x => (x.endsWith(".json") ? weltDaten(x) : weltDatei(x)).catch(() => null)));
+  const summe = (l, fn) => (l || []).reduce((s, x) => s + fn(x), 0);
+  return {
+    karte:{kantone: k ? new Set([...k.text.matchAll(/"([A-Z]{2})":"M/g)].map(m => m[1])).size : null},
+    album:{karten: a ? a.k.length : null, aus: a && a.aus ? a.aus.length : 0, kap: a ? (a.kap || []).length : null},
+    feste:{feste: f ? Object.keys(f).length : null, fragen: f ? summe(Object.values(f), l => l.length) : null},
+    sw:{bilder: Array.isArray(b) ? b.length : null, reihen: r ? r.kategorien.length : null, reihenEintraege: r ? summe(r.kategorien, k => (k.eintraege || []).length) : null, reihenAus: r ? summe(r.kategorien, k => (k.gesperrt || []).length) : 0,
+        saetze: p ? p.saetze.length : null, paare: p ? summe(p.saetze, s => (s.paare || []).length) : null, paareAus: p ? summe(p.saetze, s => (s.gesperrt || []).length) : 0, kantone: p ? (p.kantone || []).length : null}
+  };
+}
+const textFehler = t => { const p = []; if(/ß/.test(t)) p.push("«ß» wird beim Übernehmen durch «ss» ersetzt."); if(/[–—]/.test(t)) p.push("Gedankenstriche (lange Striche) sind nicht erlaubt, bitte Komma, Punkt oder Doppelpunkt verwenden."); return p; };
+const pruefAnzeige = (el, p) => { el.innerHTML = p.map(x => `<span class="${/ersetzt|empfohlen/.test(x) ? "wa" : "fe"}">${esc(x)}</span>`).join("<br>"); return p.filter(x => !/ersetzt|empfohlen/.test(x)).length === 0; };
+const ohneSz = o => JSON.parse(JSON.stringify(o).replace(/ß/g, "ss"));
+
+TABS.welten = async () => {
+  const seg = [["liste", "Übersicht"], ["feste", "Feste-Fragen"], ["spielwelt", "Spielwelt"], ["album", "Album-Karten"]];
+  if(!seg.some(x => x[0] === WT.ansicht)) WT.ansicht = "liste";
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Welten</h2><span class="mu klein">Bereiche im Menü «Entdecken» der Website</span></div>
+    <div class="seg" id="wSeg">${seg.map(([v, t]) => `<button type="button" data-v="${v}" class="${WT.ansicht === v ? "an" : ""}">${t}</button>`).join("")}</div><div id="wBox"><p class="mu">Lädt …</p></div>`;
+  $("#wSeg").onclick = e => { const b = e.target.closest("button"); if(!b) return; WT.ansicht = b.dataset.v; zeige("welten"); };
+  await ({liste: weltenListe, feste: festeAnsicht, spielwelt: spielweltAnsicht, album: albumAnsicht})[WT.ansicht]();
+};
+async function weltenListe(){
+  const alle = ["extras.js", ...WELTEN.flatMap(w => [w.js, ...w.daten])], res = {};
+  await Promise.all(alle.map(async f => { try{ res[f] = await weltDatei(f); }catch(e){ res[f] = null; } }));
+  const W = await weltenZahlen(); const box = $("#wBox"); if(!box) return;
+  const meta = w => { const t = res[w.js] && res[w.js].text; const m = t && t.match(new RegExp('id:"' + w.id + '", titel:"([^"]+)", text:"([^"]+)", emo:"([^"]+)"')); return m ? {titel:m[1], text:m[2], emo:m[3]} : w; };
+  const chips = {karte:[["Kantone", W.karte.kantone]], album:[["Karten", W.album.karten], ["Kapitel", W.album.kap], ["ausgeblendet", W.album.aus]],
+    spielwelt:[["Bilder", W.sw.bilder], ["Reihen-Einträge", W.sw.reihenEintraege], ["Paare", W.sw.paare], ["gesperrt", W.sw.reihenAus + W.sw.paareAus]], feste:[["Feste", W.feste.feste], ["Fragen", W.feste.fragen]]};
+  const total = alle.reduce((a, f) => a + (res[f] ? res[f].bytes : 0), 0);
+  const datei = f => `<span><code title="${esc(f)}">${esc(f)}</code><span class="nowrap">${res[f] ? groesse(res[f].bytes) : '<span class="fe">fehlt</span>'}</span></span>`;
+  box.innerHTML = `<div class="hinweis klein">So kommt man hin: <a class="link" href="../index.html" target="_blank" rel="noopener">Website öffnen</a>, auf der Startseite die Kachel «✨ Entdecken» antippen (in der App-Ansicht im Profil-Menü oder im Karussell «Neu bei easyplay»), dann die Welt wählen. Die Welten haben keine eigene Adresse. Alle Dateien zusammen: <b>${groesse(total)}</b>.</div>
+    <div class="welten">${WELTEN.map(w => { const m = meta(w); const c = (chips[w.id] || []).filter(([, n]) => n);
+      return `<div class="wkarte"><div class="wk-kopf"><span class="wk-emo" aria-hidden="true">${esc(m.emo)}</span><div><b class="wk-t">${esc(m.titel)}</b><div class="mu klein">${esc(m.text)}</div></div></div>
+      <div class="wk-dateien">${[w.js, ...w.daten].map(datei).join("")}</div>
+      ${c.length ? `<div class="wk-chips">${c.map(([t, n]) => `<span>${zahl(n)} ${esc(t)}</span>`).join("")}</div>` : `<div class="mu klein">Inhalt steckt im Programmcode, hier nichts zu bearbeiten.</div>`}
+      <div class="mu klein">Weg: Entdecken › ${esc(m.titel)}</div>
+      <div class="ak"><a class="k" href="../index.html" target="_blank" rel="noopener">Website öffnen</a>${w.edit ? `<button type="button" class="k p" data-v="${w.edit}">Bearbeiten</button>` : ""}</div></div>`; }).join("")}
+    <div class="wkarte"><div class="wk-kopf"><span class="wk-emo" aria-hidden="true">🧩</span><div><b class="wk-t">Grundgerüst</b><div class="mu klein">Menü «Entdecken», Kacheln und Einstiege für alle Welten</div></div></div><div class="wk-dateien">${datei("extras.js")}</div></div></div>`;
+  $$("#wBox [data-v]").forEach(b => b.onclick = () => { WT.ansicht = b.dataset.v; zeige("welten"); });
+}
+
+/* ---------- Feste-Fragen ---------- */
+async function festeAnsicht(){
+  const [basis, js] = await Promise.all([weltDatei(PF), weltDatei("feste.js").catch(() => null)]);
+  const namen = {}; if(js) for(const m of js.text.matchAll(/\{id:"([a-z0-9-]+)", name:"([^"]+)", emo:"([^"]+)", deko:/g)) namen[m[1]] = {name:m[2], emo:m[3]};
+  const daten = await weltDaten(PF), box = $("#wBox"); if(!box) return;
+  const feste = [...new Set([...Object.keys(namen), ...Object.keys(daten)])];
+  if(!feste.includes(WT.fest)) WT.fest = feste[0];
+  const name = id => (namen[id] ? namen[id].emo + " " + namen[id].name : id);
+  const eintraege = festeEintraege(basis.json, WT.fest);
+  const aktiv = eintraege.filter(e => e.st !== "weg"), stufen = [1, 2, 3].map(l => aktiv.filter(e => +e.f.l === l).length);
+  const probleme = e => festePruefen(e.f).filter(x => !/ersetzt|empfohlen/.test(x)).length;
+  box.innerHTML = `<div class="leiste"><select id="wfFest" aria-label="Fest wählen">${feste.map(id => `<option value="${esc(id)}"${id === WT.fest ? " selected" : ""}>${esc(name(id))} (${(daten[id] || []).length})</option>`).join("")}</select>
+      <span class="mu klein">${zahl(aktiv.length)} Fragen · Stufe 1: ${stufen[0]}, 2: ${stufen[1]}, 3: ${stufen[2]}</span><span class="rechts"></span><button type="button" class="k p" id="wfNeu">Neue Frage</button></div>
+    <table><thead><tr><th>Nr.</th><th>St.</th><th>Frage</th><th>Richtige Antwort</th></tr></thead><tbody>${eintraege.map((e, i) => `<tr class="klick${e.st === "weg" ? " weg" : ""}${e.st ? " geaendert" : ""}" data-i="${i}"><td class="nowrap">${i + 1}${e.st ? ` <span class="wa" title="nicht gespeichert">●</span>` : ""}${probleme(e) ? ` <span class="fe" title="Prüfung nicht bestanden">⚠</span>` : ""}</td><td>${+e.f.l || "?"}</td><td>${esc(e.f.q)}${e.st === "neu" ? ' <span class="marke">neu</span>' : ""}</td><td class="klein">${esc((e.f.a || [])[0])}</td></tr>`).join("") || `<tr><td colspan="4" class="mu">Noch keine Fragen für dieses Fest.</td></tr>`}</tbody></table>
+    <p class="mu klein">Zeile anklicken zum Bearbeiten. Die erste Antwort ist die richtige, die Website mischt die Reihenfolge. Regeln: vier verschiedene Antworten, Stufe 1 bis 3, kein «ß», keine Gedankenstriche.</p>`;
+  $("#wfFest").onchange = e => { WT.fest = e.target.value; festeAnsicht(); };
+  $("#wfNeu").onclick = () => festeDialog(null, WT.fest, name(WT.fest), basis.json);
+  $$("#wBox tr[data-i]").forEach(tr => tr.onclick = () => festeDialog(eintraege[+tr.dataset.i], WT.fest, name(WT.fest), basis.json));
+}
+function festeEintraege(basis, fest){
+  const out = (basis[fest] || []).map(f => { const key = "feste|" + fest + "|" + f.q, op = AE.welten.get(key); return {key, alt:f.q, f: op && op.neu ? op.neu : f, st: op ? (op.neu ? "geaendert" : "weg") : ""}; });
+  for(const [key, op] of AE.welten) if(op.art === "feste" && op.fest === fest && op.alt == null) out.push({key, alt:null, f:op.neu, st:"neu"});
+  return out;
+}
+function festePruefen(n){
+  const p = [], a = (n.a || []).map(x => String(x || "").trim());
+  if(!String(n.q || "").trim()) p.push("Die Frage fehlt.");
+  if(a.length !== 4 || a.some(x => !x)) p.push("Alle vier Antworten ausfüllen.");
+  else if(new Set(a.map(x => x.toLowerCase())).size !== 4) p.push("Die vier Antworten müssen verschieden sein.");
+  if(![1, 2, 3].includes(+n.l)) p.push("Die Stufe muss 1, 2 oder 3 sein.");
+  p.push(...textFehler([n.q, ...a, n.e].join(" ")));
+  if(!String(n.e || "").trim()) p.push("Eine Erklärung ist empfohlen.");
+  return p;
+}
+function festeDialog(e, fest, festName, basis){
+  const f = e ? e.f : {q:"", a:["", "", "", ""], e:"", l:1}, d = $("#dlg");
+  d.innerHTML = `<h2>${e ? "Frage bearbeiten" : "Neue Frage"}</h2><p class="mu klein" style="margin-top:-6px">${esc(festName)} · ${PF}</p>
+    <div class="formular">
+      <label for="wfL">Stufe</label><select id="wfL">${[1, 2, 3].map(l => `<option${+f.l === l ? " selected" : ""}>${l}</option>`).join("")}</select>
+      <label for="wfQ">Frage</label><textarea id="wfQ">${esc(f.q)}</textarea>
+      <label class="ok" for="wfA0">Richtige Antwort</label><input type="text" id="wfA0" value="${esc((f.a || [])[0])}">
+      <label for="wfA1">Falsche Antwort 1</label><input type="text" id="wfA1" value="${esc((f.a || [])[1])}">
+      <label for="wfA2">Falsche Antwort 2</label><input type="text" id="wfA2" value="${esc((f.a || [])[2])}">
+      <label for="wfA3">Falsche Antwort 3</label><input type="text" id="wfA3" value="${esc((f.a || [])[3])}">
+      <label for="wfE">Erklärung</label><textarea id="wfE">${esc(f.e)}</textarea>
+    </div><p id="wfPruef" class="klein"></p>
+    <div class="leiste" style="margin:0"><span class="rechts"></span>${e && e.st !== "weg" ? '<button type="button" class="k g" id="wfWeg">Löschen</button>' : ""}${e && e.st ? '<button type="button" class="k" id="wfZur">Änderung verwerfen</button>' : ""}<button type="button" class="k" id="wfAbbr">Abbrechen</button><button type="button" class="k p" id="wfOk">Übernehmen</button></div>`;
+  d.showModal();
+  const lesen = () => { const n = {q: $("#wfQ").value.trim(), a: [0, 1, 2, 3].map(i => $("#wfA" + i).value.trim()), e: $("#wfE").value.trim(), l: +$("#wfL").value}; if(!n.e) delete n.e; return n; };
+  const pruefen = () => pruefAnzeige($("#wfPruef"), festePruefen(lesen()));
+  $$("#dlg input,#dlg textarea,#dlg select").forEach(el => el.oninput = pruefen); if(e) pruefen();
+  const fertig = t => { d.close(); aenderungenZeigen(); festeAnsicht(); melde(t); };
+  $("#wfAbbr").onclick = () => d.close();
+  $("#wfOk").onclick = () => { if(!pruefen()) return; const n = ohneSz(lesen());
+    const key = e ? e.key : "feste|" + fest + "|neu|" + Date.now(), alt = e ? e.alt : null;
+    const orig = alt != null ? (basis[fest] || []).find(x => x.q === alt) : null;
+    if(orig && JSON.stringify(orig) === JSON.stringify(n)) AE.welten.delete(key);
+    else AE.welten.set(key, {datei:PF, art:"feste", fest, alt, neu:n, text:`Fest-Quiz ${festName}: ${alt == null ? "neue Frage" : "Frage geändert"} «${n.q.slice(0, 70)}»`});
+    fertig("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
+  const weg = $("#wfWeg"); if(weg) weg.onclick = () => { if(e.alt == null) AE.welten.delete(e.key); else AE.welten.set(e.key, {datei:PF, art:"feste", fest, alt:e.alt, neu:null, text:`Fest-Quiz ${festName}: Frage löschen «${String(e.alt).slice(0, 70)}»`}); fertig("Zum Löschen vorgemerkt."); };
+  const zur = $("#wfZur"); if(zur) zur.onclick = () => { AE.welten.delete(e.key); fertig("Änderung verworfen."); };
+}
+
+/* ---------- Spielwelt: Reihen und Paare ---------- */
+async function spielweltAnsicht(){
+  const reihe = WT.sw !== "paare", pfad = reihe ? PR : PP;
+  const [basis, daten, bilder] = await Promise.all([weltDatei(pfad), weltDaten(pfad), weltDatei("welten/spielwelt/bilder.json").catch(() => null)]);
+  const box = $("#wBox"); if(!box) return;
+  const gruppen = reihe ? daten.kategorien : daten.saetze, gKey = reihe ? "kat" : "satz";
+  if(!gruppen.some(g => g.id === WT[gKey])) WT[gKey] = gruppen[0].id;
+  const g = gruppen.find(x => x.id === WT[gKey]), gB = (reihe ? basis.json.kategorien : basis.json.saetze).find(x => x.id === g.id) || {};
+  const feld = reihe ? "eintraege" : "paare", schl = reihe ? "n" : "l", art = reihe ? "reihe" : "paar";
+  const zeilen = [...(g[feld] || []).map(e => ({e, aus:false})), ...(g.gesperrt || []).map(e => ({e, aus:true}))];
+  const minimum = reihe ? 4 : 8, aktiv = (g[feld] || []).length;
+  const opKey = name => art + "|" + g.id + "|" + name;
+  box.innerHTML = `<div class="leiste"><div class="seg" style="margin:0" id="wSw"><button type="button" data-v="reihen" class="${reihe ? "an" : ""}">Reihenfolge und Zeitstrahl</button><button type="button" data-v="paare" class="${reihe ? "" : "an"}">Zuordnen (Paare)</button></div>
+      <select id="wSwG" aria-label="Kategorie wählen">${gruppen.map(x => `<option value="${esc(x.id)}"${x.id === g.id ? " selected" : ""}>${esc((x.emo || "") + " " + x.titel)} (${(x[feld] || []).length})</option>`).join("")}</select>
+      <span class="rechts mu klein">${bilder ? zahl(bilder.json.length) + " Bilder im Bild-Rätsel (" + groesse(bilder.bytes) + ")" : ""}</span></div>
+    <div class="box klein">${reihe ? `<b>${esc(g.titel)}</b>: ${esc(g.frage)} · Einheit ${esc(g.einheit || "keine")} · ${g.richtung === "ab" ? "absteigend" : "aufsteigend"}${g.jahr ? " · Jahreszahlen" : ""} · ab Stufe ${+g.stufe || 1}${g.quelle ? ` · Quelle: ${esc(g.quelle)}` : ""}`
+      : `<b>${esc(g.titel)}</b>: Spalten «${esc(g.links)}» und «${esc(g.rechts)}» · ab Stufe ${+g.stufe || 1}`}
+      <br><span class="${aktiv < minimum ? "fe" : "mu"}">${zahl(aktiv)} aktiv${(g.gesperrt || []).length ? `, ${zahl(g.gesperrt.length)} gesperrt` : ""}. ${reihe ? "Das Spiel braucht mindestens 4 Einträge pro Kategorie." : "Für Stufe 3 braucht ein Satz mindestens 8 Paare (Stufe 1: 5, Stufe 2: 6)."}</span></div>
+    <table><thead><tr>${reihe ? "<th>Name</th><th class=\"r\">Wert</th><th>Anzeige</th>" : `<th>${esc(g.links)}</th><th>${esc(g.rechts)}</th><th>Zusatz</th>`}<th>Status</th><th></th></tr></thead><tbody>
+    ${zeilen.map(({e, aus}, i) => { const op = AE.welten.get(opKey(e[schl]));
+      return `<tr class="${aus ? "weg" : ""}${op ? " geaendert" : ""}" data-i="${i}"><td>${esc(e[schl])}${op ? ' <span class="wa" title="nicht gespeichert">●</span>' : ""}</td>${reihe ? `<td class="r nowrap">${esc(Number(e.w).toLocaleString("de-CH", {useGrouping: !g.jahr}))} ${esc(g.jahr ? "" : g.einheit || "")}</td><td class="klein">${esc(e.t || "")}</td>` : `<td>${esc(e.r)}</td><td class="klein">${esc([e.e, e.f ? "Flagge " + e.f : ""].filter(Boolean).join(" · "))}</td>`}
+        <td class="nowrap">${aus ? '<span class="wa">gesperrt</span>' : '<span class="ok">aktiv</span>'}</td><td class="nowrap"><button type="button" class="k" data-a="edit">Bearbeiten</button> <button type="button" class="k${aus ? "" : " g"}" data-a="sperren">${aus ? "Entsperren" : "Sperren"}</button></td></tr>`; }).join("")}</tbody></table>
+    <p class="mu klein">Gesperrte Einträge bleiben in der Datei (Liste «gesperrt»), die Website zeigt sie aber nicht mehr. Namen sind der Schlüssel und lassen sich hier nicht umbenennen.</p>`;
+  $("#wSw").onclick = ev => { const b = ev.target.closest("button"); if(!b) return; WT.sw = b.dataset.v; spielweltAnsicht(); };
+  $("#wSwG").onchange = ev => { WT[gKey] = ev.target.value; spielweltAnsicht(); };
+  // Basiszustand eines Eintrags (wie auf GitHub)
+  const basisEintrag = name => { const e = (gB[feld] || []).find(x => x[schl] === name); if(e) return {e, aus:false}; const a = (gB.gesperrt || []).find(x => x[schl] === name); return a ? {e:a, aus:true} : null; };
+  const setzeOp = (name, aenderung, text) => { const key = opKey(name), alt = AE.welten.get(key) || {datei:pfad, art, gruppe:g.id, name};
+    const op = {...alt, ...aenderung, werte: {...(alt.werte || {}), ...(aenderung.werte || {})}};
+    const b = basisEintrag(name); const felder = Object.keys(op.werte);
+    const gleich = b && felder.every(k => String(b.e[k] ?? "") === String(op.werte[k] ?? "")) && (op.gesperrt == null || op.gesperrt === b.aus);
+    if(gleich) AE.welten.delete(key); else { if(!felder.length) delete op.werte; op.text = `Spielwelt «${g.titel}»: ${name} ${text}`; AE.welten.set(key, op); }
+    aenderungenZeigen(); spielweltAnsicht(); };
+  $$("#wBox tr[data-i]").forEach(tr => { const {e, aus} = zeilen[+tr.dataset.i];
+    tr.querySelector('[data-a="sperren"]').onclick = () => { if(!aus && aktiv - 1 < minimum && !confirm(`Danach hat «${g.titel}» nur noch ${aktiv - 1} aktive Einträge. Trotzdem sperren?`)) return; setzeOp(e[schl], {gesperrt: !aus}, aus ? "entsperrt" : "gesperrt"); };
+    tr.querySelector('[data-a="edit"]').onclick = () => spielweltDialog(reihe, g, e, werte => setzeOp(e[schl], {werte}, "geändert"));
+  });
+}
+function spielweltDialog(reihe, g, e, ok){
+  const d = $("#dlg");
+  d.innerHTML = `<h2>${esc(reihe ? e.n : e.l)}</h2><p class="mu klein" style="margin-top:-6px">${esc(g.titel)} · ${reihe ? PR : PP}</p>
+    <div class="formular">${reihe ? `<label for="wsW">Wert${g.einheit ? " (" + esc(g.einheit) + ")" : ""}</label><input type="number" id="wsW" step="any" value="${esc(e.w)}">
+      <label for="wsT">Anzeige (optional)</label><input type="text" id="wsT" value="${esc(e.t || "")}" placeholder="z. B. etwa 150 Tonnen">`
+      : `<label for="wsR">${esc(g.rechts)}</label><input type="text" id="wsR" value="${esc(e.r)}">
+      <label for="wsE">Emoji (optional)</label><input type="text" id="wsE" value="${esc(e.e || "")}">
+      <label for="wsF">Flagge (optional)</label><input type="text" id="wsF" value="${esc(e.f || "")}" placeholder="Ländercode, z. B. de" maxlength="5">`}</div>
+    <p id="wsPruef" class="klein"></p>
+    <div class="leiste" style="margin:0"><span class="rechts"></span><button type="button" class="k" id="wsAbbr">Abbrechen</button><button type="button" class="k p" id="wsOk">Übernehmen</button></div>`;
+  d.showModal();
+  const lesen = () => reihe ? {w: $("#wsW").value.trim() === "" ? NaN : Number($("#wsW").value), t: $("#wsT").value.trim()} : {r: $("#wsR").value.trim(), e: $("#wsE").value.trim(), f: $("#wsF").value.trim().toLowerCase()};
+  const pruefen = () => { const n = lesen(), p = [];
+    if(reihe && !isFinite(n.w)) p.push("Der Wert muss eine Zahl sein.");
+    if(!reihe && !n.r) p.push(`«${g.rechts}» darf nicht leer sein.`);
+    if(!reihe && n.f && !/^[a-z]{2}(-[a-z]{2})?$/.test(n.f)) p.push("Flagge: zwei Buchstaben wie «ch» oder «de».");
+    p.push(...textFehler(Object.values(n).join(" ")));
+    return pruefAnzeige($("#wsPruef"), p); };
+  $$("#dlg input").forEach(el => el.oninput = pruefen);
+  $("#wsAbbr").onclick = () => d.close();
+  $("#wsOk").onclick = () => { if(!pruefen()) return; d.close(); ok(ohneSz(lesen())); melde("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
+}
+
+/* ---------- Album-Karten ---------- */
+async function albumAnsicht(){
+  const [basis, j] = await Promise.all([weltDatei(PA), weltDaten(PA)]); const box = $("#wBox"); if(!box) return;
+  const kap = j.kap || [], liz = j.liz || [], basisAus = new Set((basis.json.aus || []).map(c => c[0]));
+  const pos = new Map([...basis.json.k, ...(basis.json.aus || [])].map((c, i) => [c[0], i]));
+  const alle = [...j.k.map(c => ({c, aus:false})), ...(j.aus || []).map(c => ({c, aus:true}))].sort((x, y) => (pos.get(x.c[0]) ?? 1e9) - (pos.get(y.c[0]) ?? 1e9));
+  const q = WT.aSuche.toLowerCase();
+  const l = alle.filter(({c, aus}) => (!WT.aKap || String(c[2]) === WT.aKap) && (!q || (c[1] + " " + (c[7] || "")).toLowerCase().includes(q))
+    && (WT.aArt !== "aus" || aus) && (WT.aArt !== "aktiv" || !aus) && (WT.aArt !== "ae" || AE.welten.has("album|" + c[0])));
+  const pro = 48, seiten = Math.max(1, Math.ceil(l.length / pro)); WT.aSeite = Math.min(WT.aSeite, seiten - 1);
+  box.innerHTML = `<div class="leiste"><input type="search" id="waSuche" placeholder="Titel oder Fakt" value="${esc(WT.aSuche)}" style="min-width:220px">
+      <select id="waKap" aria-label="Kapitel"><option value="">alle Kapitel</option>${kap.map((k, i) => `<option value="${i}"${WT.aKap === String(i) ? " selected" : ""}>${esc(k[2])}</option>`).join("")}</select>
+      <select id="waArt" aria-label="Auswahl">${[["", "alle Karten"], ["aktiv", "sichtbare"], ["aus", "ausgeblendete"], ["ae", "nur geänderte"]].map(([v, t]) => `<option value="${v}"${WT.aArt === v ? " selected" : ""}>${t}</option>`).join("")}</select>
+      <span class="rechts mu klein">${zahl(l.length)} von ${zahl(alle.length)} Karten · ${zahl(j.k.length)} sichtbar</span></div>
+    <div class="bilder">${l.slice(WT.aSeite * pro, WT.aSeite * pro + pro).map(({c, aus}) => { const [id, titel, ki, , urheber, li, datei, fakt] = c; const k = kap[ki] || [];
+      const quelle = String(datei || "").startsWith("c:") ? "https://commons.wikimedia.org/wiki/File:" + String(datei).slice(2) : String(datei || "");
+      return `<div class="bild${aus ? " aus" : ""}${AE.welten.has("album|" + id) ? " geaendert" : ""}" data-id="${esc(id)}"><img src="${esc(B + "bilder/" + id.slice(-2) + "/" + id + ".webp")}" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;leer&quot;>Bild nur online</div>'">
+        <b>${esc(titel)}</b><span class="mu">${esc(k[2] || "")}</span><span class="bfakt">${esc(fakt || "")}</span><span class="mu">${esc(urheber || "")} · ${esc(liz[li] || "")}</span>
+        <div class="ak">${aus ? '<button type="button" class="k" data-a="an">Wieder zeigen</button>' : '<button type="button" class="k g" data-a="aus">Ausblenden</button>'}${quelle ? `<a class="k" href="${esc(quelle)}" target="_blank" rel="noopener noreferrer">Quelle</a>` : ""}</div></div>`; }).join("") || '<p class="mu">Keine Karten gefunden.</p>'}</div>
+    <div class="seiten"><button type="button" class="k" id="waZur"${WT.aSeite ? "" : " disabled"}>‹</button><span class="mu">Seite ${WT.aSeite + 1} von ${seiten}</span><button type="button" class="k" id="waVor"${WT.aSeite < seiten - 1 ? "" : " disabled"}>›</button></div>
+    <p class="mu klein">Ausgeblendete Karten (z. B. bei einem ungeeigneten Bild) kommen in die Liste «aus» der Datei. Kinder können sie nicht mehr ziehen, bereits gesammelte zählen nicht mehr mit. Die Kartennummern im Album rücken nach.</p>`;
+  let t; $("#waSuche").oninput = e => { clearTimeout(t); t = setTimeout(() => { WT.aSuche = e.target.value.trim(); WT.aSeite = 0; albumAnsicht().then(() => { const s = $("#waSuche"); if(s){ s.focus(); s.setSelectionRange(s.value.length, s.value.length); } }); }, 250); };
+  $("#waKap").onchange = e => { WT.aKap = e.target.value; WT.aSeite = 0; albumAnsicht(); };
+  $("#waArt").onchange = e => { WT.aArt = e.target.value; WT.aSeite = 0; albumAnsicht(); };
+  $("#waZur").onclick = () => { WT.aSeite--; albumAnsicht(); }; $("#waVor").onclick = () => { WT.aSeite++; albumAnsicht(); };
+  $$("#wBox .bild[data-id]").forEach(el => el.querySelectorAll("button[data-a]").forEach(b => b.onclick = () => {
+    const id = el.dataset.id, aus = b.dataset.a === "aus", key = "album|" + id, titel = el.querySelector("b").textContent;
+    if(aus === basisAus.has(id)) AE.welten.delete(key); else AE.welten.set(key, {datei:PA, art:"album", id, gesperrt:aus, text:`Album-Karte «${titel}» ${aus ? "ausblenden" : "wieder zeigen"}`});
+    aenderungenZeigen(); albumAnsicht(); }));
+}
+
+/* ======================= Klassen-Liga ======================= */
+const LG = { suche:"", art:"" };
+const ligaAnleitung = offen => `<details class="box klein"${offen ? " open" : ""}><summary><b>Einrichtung: Schritt 7 in ANLEITUNG-SUPABASE.md</b></summary><ol>
+  <li>Zuerst die Dateien aus Schritt 3 der Anleitung ausführen (schema, lehrer, admin, live, duell, lehrer2).</li>
+  <li>In Supabase <b>SQL Editor → New query</b> den ganzen Inhalt von <code>supabase/klassenliga.sql</code> einfügen und <b>Run</b> drücken. Mehrfaches Ausführen schadet nicht.</li>
+  <li>Das Skript legt die Tabelle <code>liga_klassen</code>, die öffentliche Rangliste und die Admin-Funktionen <code>admin_liga_klassen</code> und <code>admin_liga_sperren</code> an.</li>
+  <li>Hier unter «Zugang» mit deinem Admin-Konto bei Supabase anmelden. Danach erscheinen hier alle angemeldeten Klassen.</li>
+  <li>Prüfen: im Lehrerbereich «Klassen-Liga» öffnen und eine Klasse mit mindestens 5 Kindern anmelden.</li></ol>
+  <a class="link" href="https://github.com/djsunji/easyplay/blob/main/ANLEITUNG-SUPABASE.md" target="_blank" rel="noopener">Anleitung auf GitHub öffnen</a></details>`;
+const lehrerLink = `<a class="k" href="../lehrer/" target="_blank" rel="noopener">Lehrerbereich öffnen</a>`;
+const kein = (titel, text, mitZugang) => `<div class="hinweis leerbild"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><span>${text}${mitZugang ? ' <a class="link" data-ziel="zugang">Zu «Zugang»</a>' : ""}</span></div>`;
+TABS.liga = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Klassen-Liga</h2><span class="mu klein">Klasse gegen Klasse: Wochen-Rangliste</span><span class="rechts"></span>${lehrerLink}</div>`;
+  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", "Die Klassen-Liga braucht Supabase. Solange Supabase nicht eingerichtet ist, zeigt der Lehrerbereich nur eine Vorschau mit Beispieldaten und hier gibt es nichts zu verwalten.") + ligaAnleitung(true); return; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", "Für die Liste der angemeldeten Klassen bitte unter «Zugang» mit dem Admin-Konto bei Supabase anmelden.", true) + ligaAnleitung(false); zielBinden(); return; }
+  let l;
+  try{ l = await rpc("admin_liga_klassen") || []; }
+  catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}. Wahrscheinlich ist <code>supabase/klassenliga.sql</code> noch nicht ausgeführt.</div>` + ligaAnleitung(true); return; }
+  const leute = {}, punkte = {};
+  try{ (await rpc("admin_benutzer") || []).forEach(u => leute[u.id] = u); }catch(e){}
+  try{ (await rpc("liga_rangliste", {}) || []).forEach(r => punkte[r.liga_id] = r); }catch(e){}
+  const zeichnen = () => {
+    const q = LG.suche.toLowerCase();
+    const f = l.filter(k => (!LG.art || (LG.art === "gesperrt") === !!k.gesperrt) && (!q || [k.anzeige, k.kanton, leute[k.lehrer]?.email].join(" ").toLowerCase().includes(q)));
+    $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Angemeldete Klassen", zahl(l.length)], ["Sichtbar", zahl(l.filter(k => !k.gesperrt).length)], ["Gesperrt", `<em class="${l.some(k => k.gesperrt) ? "wa" : ""}" style="font-style:normal">${zahl(l.filter(k => k.gesperrt).length)}</em>`], ["Kantone", zahl(new Set(l.map(k => k.kanton).filter(Boolean)).size)], ["Lehrpersonen", zahl(new Set(l.map(k => k.lehrer)).size)], ["In der Rangliste (Woche)", zahl(Object.keys(punkte).length)]])}</div>
+      <div class="leiste"><input type="search" id="lgSuche" placeholder="Anzeigename, Kanton, E-Mail" value="${esc(LG.suche)}" style="min-width:220px"><select id="lgArt" aria-label="Auswahl">${[["", "alle"], ["sichtbar", "sichtbare"], ["gesperrt", "gesperrte"]].map(([v, t]) => `<option value="${v}"${LG.art === v ? " selected" : ""}>${t}</option>`).join("")}</select><span class="rechts mu klein">${zahl(f.length)} angezeigt</span></div>
+      <table><thead><tr><th>Anzeigename</th><th>Kanton</th><th>Zyklus</th><th>Lehrperson</th><th>Angemeldet</th><th class="r">Woche</th><th>Status</th><th></th></tr></thead><tbody>${f.map(k => { const p = punkte[k.liga_id], u = leute[k.lehrer];
+        return `<tr data-id="${esc(k.liga_id)}"><td><b>${esc(k.anzeige)}</b></td><td>${esc(k.kanton || "-")}</td><td>${k.zyklus ? "Zyklus " + +k.zyklus : "-"}</td><td class="klein">${esc(u ? u.email : String(k.lehrer).slice(0, 8))}</td><td class="nowrap">${tag(k.angemeldet)}</td>
+        <td class="r nowrap">${p ? `Platz ${+p.platz} · ${esc(Number(p.punkte).toLocaleString("de-CH"))} P.` : '<span class="mu">-</span>'}</td><td class="nowrap">${k.gesperrt ? '<span class="fe">gesperrt</span>' : '<span class="ok">sichtbar</span>'}</td>
+        <td class="nowrap"><button type="button" class="k${k.gesperrt ? "" : " g"}" data-g="${k.gesperrt ? "0" : "1"}">${k.gesperrt ? "Entsperren" : "Sperren"}</button></td></tr>`; }).join("") || '<tr><td colspan="8" class="mu">Noch keine Klasse angemeldet.</td></tr>'}</tbody></table>
+      <p class="mu klein">Sperren blendet eine Klasse in der öffentlichen Rangliste aus (z. B. bei unpassendem Anzeigenamen). Die Lehrperson und ihre Daten bleiben unverändert.</p>` + ligaAnleitung(false);
+    let t; $("#lgSuche").oninput = e => { clearTimeout(t); t = setTimeout(() => { LG.suche = e.target.value.trim(); zeichnen(); const s = $("#lgSuche"); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 250); };
+    $("#lgArt").onchange = e => { LG.art = e.target.value; zeichnen(); };
+    $$("#inhalt tr[data-id] button[data-g]").forEach(b => b.onclick = async () => { const id = b.closest("tr").dataset.id, sperren = b.dataset.g === "1", k = l.find(x => x.liga_id === id);
+      if(sperren && !confirm(`Klasse «${k.anzeige}» in der Rangliste ausblenden?`)) return;
+      try{ await rpc("admin_liga_sperren", {p_liga: id, p_gesperrt: sperren}); k.gesperrt = sperren; melde(sperren ? "Gesperrt." : "Entsperrt."); zeichnen(); }catch(e){ melde(e.message, "fe"); } });
+  };
+  zeichnen();
+};
+
+/* ======================= Lehrpersonen ======================= */
+TABS.lehrpersonen = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Lehrpersonen</h2><span class="mu klein">Konten mit der Rolle «Lehrperson»</span><span class="rechts"></span>${lehrerLink}</div>`;
+  const info = `<p class="mu klein">Der Lehrerbereich ist eine eigene Seite unter <code>/lehrer/</code>. Klassen, Kinder und Tests einzelner Lehrpersonen schützt Supabase mit Zeilenschutz (<code>supabase/lehrer.sql</code>): Admins sehen nur Gesamtzahlen und die Liga-Anmeldungen. Eine Liste der Klassen pro Lehrperson bräuchte eine zusätzliche Admin-Funktion in Supabase.</p>`;
+  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", "Ohne Supabase gibt es keine zentrale Liste: Lehrpersonen und Klassen liegen dann nur im Browser des jeweiligen Geräts. Anleitung unter «Zugang».", true) + info; zielBinden(); return; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", "Bitte zuerst unter «Zugang» mit dem Admin-Konto bei Supabase anmelden.", true) + info; zielBinden(); return; }
+  const alle = await rpc("admin_benutzer") || [], lp = alle.filter(u => u.rolle === "lehrperson");
+  let liga = null, st = null; try{ liga = await rpc("admin_liga_klassen") || []; }catch(e){} try{ st = (await rpc("admin_statistik", {p_tage:30}) || {}).lehrer || null; }catch(e){}
+  const vor30 = Date.now() - 30 * 864e5, ligaVon = id => liga ? liga.filter(k => k.lehrer === id) : [];
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Lehrpersonen", zahl(lp.length)], ["Aktiv 30 Tage", zahl(lp.filter(u => u.zuletzt && new Date(u.zuletzt) > vor30).length)], ["Klassen", zahl(st?.klassen)], ["Kinder (PIN)", zahl(st?.kinder)], ["Tests", zahl(st?.tests)], ["Abgaben 7 Tage", zahl(st?.abgaben_7)], ["Klassen in der Liga", liga ? zahl(liga.length) : '<span class="mu klein">Liga nicht eingerichtet</span>', "", "liga"]])}</div>
+    <table><thead><tr><th>Name</th><th>E-Mail</th><th>Registriert</th><th>Zuletzt</th><th>Liga-Klassen</th><th>Status</th><th></th></tr></thead><tbody>${lp.map(u => { const k = ligaVon(u.id);
+      return `<tr><td>${esc([u.meta?.vorname, u.meta?.nachname].filter(Boolean).join(" ") || "-")}${u.meta?.schule ? `<br><span class="mu klein">${esc(u.meta.schule)}</span>` : ""}</td><td>${esc(u.email)} <span class="mu klein">${esc(u.anbieter !== "email" ? u.anbieter : "")}</span></td><td class="nowrap">${tag(u.erstellt)}</td><td class="nowrap">${u.zuletzt ? datum(u.zuletzt) : '<span class="mu">nie</span>'}</td>
+        <td class="klein">${k.length ? k.map(x => esc(x.anzeige) + (x.gesperrt ? ' <span class="fe">(gesperrt)</span>' : "")).join(", ") : '<span class="mu">-</span>'}</td>
+        <td class="nowrap">${gesperrt(u) ? `<span class="fe">gesperrt bis ${tag(u.gesperrt_bis)}</span>` : u.bestaetigt ? '<span class="ok">aktiv</span>' : '<span class="wa">unbestätigt</span>'}</td><td><button type="button" class="k" data-mail="${esc(u.email)}">Verwalten</button></td></tr>`; }).join("") || '<tr><td colspan="7" class="mu">Noch keine Lehrpersonen registriert.</td></tr>'}</tbody></table>` + info;
+  zielBinden();
+  $$("#inhalt button[data-mail]").forEach(b => b.onclick = () => { FU.suche = b.dataset.mail.toLowerCase(); FU.rolle = ""; zeige("benutzer"); });
+};
+
 /* ======================= Benutzer ======================= */
 const FU = { suche:"", rolle:"", liste:null };
 TABS.benutzer = async () => {
@@ -941,7 +1419,7 @@ TABS.zugang = async () => {
   const s = sbSitzung();
   $("#inhalt").innerHTML = `<h2>Zugang</h2>
   <div class="zwei"><div>
-    <div class="box"><b>GitHub (Fragen und Bilder speichern)</b>
+    <div class="box"><b>GitHub (Fragen, Bilder und Welten speichern)</b>
       <p class="mu klein">Änderungen werden direkt ins Projekt <code>${REPO}</code> gespeichert. Dafür braucht es einen persönlichen Schlüssel (Fine-grained token). Er bleibt nur in diesem Browser.</p>
       <div class="leiste"><input type="password" id="zGh" placeholder="github_pat_…" style="flex:1" value="${esc(ghToken())}" autocomplete="off"></div>
       <div class="leiste"><label><input type="checkbox" id="zGhMerken"${localStorage.getItem("ep-admin-gh-enc") ? " checked" : ""}> auf diesem Gerät verschlüsselt merken (mit deinem Passwort)</label><span class="rechts"></span><button class="k" id="zGhWeg">Entfernen</button><button class="k p" id="zGhOk">Speichern und prüfen</button></div>
@@ -960,10 +1438,11 @@ TABS.zugang = async () => {
       <p id="zSbInfo" class="klein"></p>
       <details class="klein"${sbAn() ? "" : " open"}><summary>Einrichtung</summary><ol>
         <li>Supabase-Projekt anlegen und in <code>config.js</code> Project URL und den öffentlichen Schlüssel (anon) eintragen (siehe ANLEITUNG-DATENBANK.md und ANLEITUNG-LOGIN.md).</li>
-        <li>Im Supabase SQL Editor nacheinander ausführen: <code>supabase/schema.sql</code>, <code>supabase/lehrer.sql</code>, <code>supabase/admin.sql</code>.</li>
+        <li>Im Supabase SQL Editor nacheinander ausführen: <code>supabase/schema.sql</code>, <code>lehrer.sql</code>, <code>admin.sql</code>, <code>live.sql</code>, <code>duell.sql</code>, <code>lehrer2.sql</code> und für die Klassen-Liga <code>klassenliga.sql</code> (ANLEITUNG-SUPABASE.md, Schritte 3 und 7).</li>
         <li>Auf der Website mit deiner E-Mail registrieren und bestätigen.</li>
         <li>Im SQL Editor dich als Admin eintragen:<br><code>insert into public.admins (user_id) select id from auth.users where email = 'deine@email.ch';</code></li>
-        <li>Hier anmelden. Ab dann zählt die Website anonym die Aufrufe.</li></ol></details>
+        <li>Hier anmelden. Ab dann zählt die Website anonym die Aufrufe.</li>
+        <li>Anmeldung mit Google, Microsoft, Apple und Facebook: in Supabase unter Authentication → Providers einschalten (ANLEITUNG-LOGIN.md). Den Status zeigt «Technik».</li></ol></details>
     </div>
     <div class="box"><b>Google-Bildersuche (optional)</b>
       <p class="mu klein">Für zusätzliche Vorschläge unter «Bilder wechseln». Braucht einen API-Schlüssel und eine Suchmaschinen-ID (Programmable Search Engine mit «Bildersuche» und «Das gesamte Web durchsuchen»). Bis 100 Suchen pro Tag gratis. Google-Bilder haben oft keine freie Lizenz.</p>
@@ -991,12 +1470,12 @@ TABS.zugang = async () => {
 };
 
 /* ======================= Speichern ======================= */
-$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); aenderungenZeigen(); zeige(TAB); };
+$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); AE.welten.clear(); aenderungenZeigen(); zeige(TAB); };
 $("#aeListe").onclick = () => { const d = $("#dlg");
-  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
+  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}${[...AE.welten.values()].map(op => `<li>${esc(op.text)} <span class="mu klein">(${esc(op.datei)})</span></li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
   d.showModal(); $("#dZu").onclick = () => d.close(); };
 $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disabled = true; b.textContent = "Speichert …";
-  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
+  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
   catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 
