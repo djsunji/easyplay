@@ -1,8 +1,8 @@
-# Anmeldung einrichten: E-Mail, Google, Facebook und Apple
+# Anmeldung einrichten: E-Mail, Google, Microsoft, Facebook und Apple
 
 Ohne Einrichtung funktioniert die Registrierung mit E-Mail und Passwort nur **auf dem jeweiligen Gerät**
 (das Passwort wird verschlüsselt im Browser gespeichert). Damit sich Kinder von überall anmelden können,
-mit Bestätigungs-E-Mail, «Passwort vergessen» und Google/Facebook/Apple, braucht es **Supabase**.
+mit Bestätigungs-E-Mail, «Passwort vergessen» und Google/Microsoft/Facebook/Apple, braucht es **Supabase**.
 
 ## 1. Supabase verbinden
 1. Auf supabase.com ein Projekt anlegen (falls noch nicht geschehen, siehe ANLEITUNG-DATENBANK.md).
@@ -37,9 +37,25 @@ Für viele Anmeldungen empfiehlt Supabase einen eigenen E-Mail-Versand (SMTP), z
    Domain und Callback-Adresse aus Supabase eintragen, einen Schlüssel (.p8) erstellen.
 3. Services-ID, Team-ID, Key-ID und den Schlüssel in Supabase bei **Apple** eintragen.
 
+## 6. Microsoft
+Supabase nennt den Anbieter «Azure». easyplay fragt dabei automatisch die E-Mail-Adresse ab (`scopes: "email"`).
+1. portal.azure.com → **Microsoft Entra ID** → **App registrations** → **New registration**.
+2. Name `easyplay`. Bei «Supported account types» die Option für **persönliche Microsoft-Konten und alle Organisationen** wählen.
+3. Redirect URI: Typ **Web**, Adresse aus Supabase eintragen (Supabase → Authentication → Providers → Azure),
+   sie sieht so aus: `https://<projekt>.supabase.co/auth/v1/callback`. Dann **Register**.
+4. Auf der Übersicht die **Application (client) ID** kopieren.
+5. **Certificates & secrets** → **New client secret** → Ablaufdatum wählen. Den **Value** kopieren (nicht die Secret ID).
+   Im Kalender eine Erinnerung setzen: Vor dem Ablauf einen neuen Schlüssel erstellen und in Supabase ersetzen,
+   sonst funktioniert die Microsoft-Anmeldung plötzlich nicht mehr.
+6. In Supabase bei **Azure**: Client ID und Secret eintragen, aktivieren. «Azure Tenant URL» leer lassen
+   (dann gilt `common`, also persönliche und Schul- oder Firmenkonten). Nur private Konten: `https://login.microsoftonline.com/consumers`.
+7. Empfohlen (Sicherheit): In Azure unter **Manifest** bei `optionalClaims` den Eintrag `xms_edov` ergänzen
+   (bei `idToken` zusammen mit `email`, bei `accessToken` allein). Vorher das Manifest sichern.
+   So erkennt Supabase, ob die E-Mail-Adresse bestätigt ist.
+
 ## Wichtig bei Kindern
 - Bei Kindern unter 16 Jahren sollten die Eltern zustimmen (Datenschutzgesetz der Schweiz, in der EU DSGVO).
   Die Registrierung fragt deshalb nach dem Einverständnis.
-- Google, Facebook und Apple erlauben eigene Konten meist erst ab 13 Jahren. Jüngere Kinder registrieren sich
+- Google, Microsoft, Facebook und Apple erlauben eigene Konten meist erst ab 13 Jahren. Jüngere Kinder registrieren sich
   am besten mit der E-Mail-Adresse der Eltern.
-- Erstelle eine kurze Datenschutzerklärung (welche Daten, wofür, wie lange, Kontakt) und verlinke sie auf der Website.
+- Die Datenschutzerklärung (datenschutz.html) beschreibt die Anmeldung mit diesen Anbietern bereits.
