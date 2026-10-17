@@ -166,6 +166,8 @@ function einstiege(){
       b.onclick = () => go("x-entdecken");
       nav.insertBefore(b, nav.firstChild);
     }
+    const pf = app.querySelector(".ap-profil");
+    if(pf && !pf.querySelector(".ep-ver")){ const v = document.createElement("p"); v.className = "ep-ver"; v.textContent = "Version " + String(window.EP_BUILD || "").replace(/^ep-/, ""); pf.appendChild(v); }
   }catch(e){ console.warn("extras einstiege", e); }
 }
 
@@ -231,6 +233,7 @@ html body .du2-rang>span:not(.du2-liga),html body .du2-rang>small{color:#fff!imp
 /* iPhone: Logo etwas kleiner, damit Fahne und Lautsprecher nebeneinander Platz haben */
 @media (max-width:400px){body.ep-app .ap-gruss .ap-logo{height:38px!important;top:2px!important}}
 @media (max-width:340px){body.ep-app .ap-gruss .ap-logo{height:31px!important;top:5px!important}}
+.ep-ver{grid-column:1/-1;margin:2px 0 0;text-align:center;font:500 11px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.6)}
 /* Feinschliff: nichts abschneiden */
 .xa-tab b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15}
 .xg-teil b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.1;-webkit-hyphens:auto;hyphens:auto;letter-spacing:-.01em}@media (max-width:420px){.xg-teil b{font-size:10.5px!important}}
