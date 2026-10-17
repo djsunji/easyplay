@@ -207,6 +207,19 @@ css.textContent = `
 .x-kachel small{font-size:.86rem;opacity:.95;color:#fff;line-height:1.3}
 .x-badge{position:absolute;top:10px;right:12px;font-style:normal;background:#FFE34D;color:#1B2240;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .x-leer{color:#fff;background:rgba(15,20,48,.45);padding:12px 16px;border-radius:16px}
+/* Duell-Menü: farbige Kacheln statt dunkler Kästen */
+html body .du2-team{background:linear-gradient(120deg,#E043B8,#8A3FE0 50%,#3D5AFE)!important;border:0!important;box-shadow:0 12px 26px rgba(110,50,200,.3);background-size:170% 170%!important;animation:xkFluss 12s ease-in-out infinite alternate}
+html body .du2-team .lbl{color:#fff!important;opacity:.95}
+html body .du2-rang{background:linear-gradient(120deg,#F4A818,#E8790C 60%,#D9480F)!important;border:0!important;color:#fff!important;box-shadow:0 10px 22px rgba(200,100,10,.3)}
+html body .du2-rang>span:not(.du2-liga),html body .du2-rang>small{color:#fff!important}
+@media (prefers-reduced-motion:reduce){html body .du2-team{animation:none}}
+/* Feinschliff: nichts abschneiden */
+.xa-tab b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15}
+.xg-teil b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.1;-webkit-hyphens:auto;hyphens:auto;letter-spacing:-.01em}@media (max-width:420px){.xg-teil b{font-size:10.5px!important}}
+body.ep-app .apf.x-app{overflow:visible!important}
+body.ep-app .ap-gruss b{overflow:visible!important}
+body.ep-app .ap-kz>h1{white-space:normal!important;text-overflow:clip!important;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.1!important;overflow-wrap:anywhere;hyphens:auto}
+@media (max-width:420px){body.ep-app .ap-kz>h1{font-size:15px!important}}
 /* ===== App (Handy und iPad): gleiche Lebendigkeit wie am Computer ===== */
 body.ep-app .apf::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.2) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;animation:xkGlanz 8s ease-in-out infinite}
 body.ep-app .apf:nth-child(2n)::before{animation-delay:2s}body.ep-app .apf:nth-child(3n)::before{animation-delay:4s}body.ep-app .apf:nth-child(5n)::before{animation-delay:6s}
