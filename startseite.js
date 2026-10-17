@@ -666,7 +666,7 @@ window.renderHome = function(){
     const hero = document.querySelector("#app .hero"); if(!hero) return r;
     hero.classList.add("ep"); hero.innerHTML = startseiteHTML(); ["lernleiste","lvKarte"].forEach(id => { const x = document.getElementById(id); if(x) x.remove(); });
     const ber = document.querySelector("#app .bereiche"); const w = wocheHTML();
-    if(w){ const tmp = document.createElement("div"); tmp.innerHTML = w; (ber || hero).insertAdjacentElement(ber ? "afterend" : "afterend", tmp.firstElementChild); }
+    if(w){ const tmp = document.createElement("div"); tmp.innerHTML = w; const duell = hero.querySelector(".ep-bereit"); if(duell) duell.before(tmp.firstElementChild); else (ber || hero).insertAdjacentElement("afterend", tmp.firstElementChild); }
     binden(document.getElementById("app")); tachoBinden();
     if(cdTimer) clearInterval(cdTimer);
     cdTimer = setInterval(() => { const el = document.getElementById("epLiveCd"); if(!el || S.screen !== "home"){ clearInterval(cdTimer); cdTimer = null; return; } const nl = liveNaechster(); if(!nl) return; if(liveStatus(nl) === "jetzt"){ render(); return; } el.textContent = dauerText(nl.start - Date.now()); }, 1000);
