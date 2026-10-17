@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache">
+<script>/* Beim Start nichts Halbfertiges zeigen: #app erst sichtbar, wenn alle Teile geladen sind */
+document.documentElement.classList.add("ep-boot"); setTimeout(function(){ document.documentElement.classList.remove("ep-boot"); }, 8000);</script>
+<style>html.ep-boot #app,html.ep-boot #nav,html.ep-boot .ap-nav{visibility:hidden!important}
+html.ep-boot body::after{content:"";position:fixed;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;border:5px solid rgba(255,255,255,.25);border-top-color:#FF5FA2;border-right-color:#8A3FE0;animation:epBootDreh .8s linear infinite;z-index:99999}
+@keyframes epBootDreh{to{transform:rotate(360deg)}}</style>
 <script>/* Notfall: …/easyplay/?reset löscht alte Speicher (ohne Offline-Pakete und ohne Spielstand) und lädt frisch */
 (function(){ try{ if(!/[?&]reset\b/.test(location.search)) return;
   var fertig=function(){ location.replace(location.pathname + "?v=" + Date.now()); };
@@ -8167,6 +8172,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="eltern.js"></script>
 <script src="offline.js"></script>
 <script src="i18n.js"></script><script src="regionen.js"></script>
+<script>try{ render(); }catch(e){} requestAnimationFrame(function(){ document.documentElement.classList.remove("ep-boot"); });</script>
 <script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
 (function(){
 const css=`
