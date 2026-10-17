@@ -4509,7 +4509,7 @@ function renderQuiz(){
   const prog = ((Q.list.length-offenN) / Q.list.length) * 100;
   const nextLbl = offenN===0 ? (Q.mode==="test"?"✅ Test abgeben":"Ergebnis") : (Q.i+1<Q.list.length && stQ[Q.i+1].picked==null ? "Nächste Frage" : "Zur nächsten offenen Frage");
   const frage = `${test? (Q.custom? `<span class="modebadge">📝 ${esc(Q.titel)}</span>` : `<span class="modebadge">${ico("trophy")} Gewerteter Test · ${Q.points} Punkte</span>`):""}
-      ${speakBtn(f.q + ". " + f.opts.map((o,i)=>"ABCD"[i]+": "+o.txt).join(". "))}
+      <div class="speakrow hlf-vlrow"></div>
       ${f.img?`<div class="qimg">${imgSvg(f.img)}</div>`:""}
       <h2 class="question">${esc(f.q)}</h2>
       <div class="answers">${f.opts.map((o,i)=>{
@@ -4526,7 +4526,7 @@ function renderQuiz(){
   else body = `<div class="explain pop">
         <div class="pic" aria-hidden="true">${themaIcon(S.thema)}</div>
         ${answered ? "" : `<p class="peek">${ico("bulb")} Du kannst die Erklärung schon jetzt lesen, oder zuerst selbst raten.</p>`}
-        ${speakBtn(f.e + " Merke: " + f.m)}
+        <div class="speakrow hlf-vlrow"></div>
         <p>${esc(f.e)}</p>
         <div class="merke"><small>Merke dir</small>${esc(f.m)}</div>
         <p class="biblink" id="bibLink" hidden></p>
