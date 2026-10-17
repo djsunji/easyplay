@@ -8523,7 +8523,14 @@ window.oeffneReels = function(){ const r = vor.apply(this, arguments); try{ einb
 <script>
 /* Service Worker: schnelle Wiederholungsbesuche und Offline-Nutzung */
 if("serviceWorker" in navigator && !window.claude && (location.protocol==="https:" || location.hostname==="localhost" || location.hostname==="127.0.0.1")){
-  addEventListener("load", ()=>navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{}));
+  addEventListener("load", ()=>navigator.serviceWorker.register("sw.js",{scope:"./",updateViaCache:"none"}).then(r=>{ try{ r.update(); }catch(e){} }).catch(()=>{}));
+  /* Neue Version übernommen: einmal neu laden, aber nie mitten in einem Spiel */
+  (()=>{ const hatteAlten=!!navigator.serviceWorker.controller; let geladen=false;
+    const ruhig=()=>{ try{ return !["quiz","duellplay","duellsplit","liveplay","livehost","hardcore","check","fremdtest"].includes(S.screen) && !document.querySelector(".hlf-vl.an:focus"); }catch(e){ return true; } };
+    const t0=Date.now();
+    const neu=()=>{ if(geladen || Date.now()-t0>25000) return; if(ruhig()){ geladen=true; location.reload(); } else setTimeout(neu, 3000); };
+    navigator.serviceWorker.addEventListener("controllerchange", ()=>{ if(hatteAlten) neu(); });
+  })();
 }
 </script>
 </body>

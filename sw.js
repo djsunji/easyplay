@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-17-18";
+const VERSION = "ep-2026-10-17-19";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -102,7 +102,7 @@ function gleich(alt, neu) {
 
 // Holt eine Ressource frisch vom Netz und legt sie im Cache ab (nur wenn sie sich geändert hat)
 async function holenUndSpeichern(cacheName, anfrage, key, alt) {
-  const antwort = await fetch(anfrage);
+  const antwort = await fetch(typeof anfrage === "string" ? anfrage : new Request(anfrage, { cache: "no-cache" }));
   if (speicherbar(antwort) && !gleich(alt, antwort)) {
     const cache = await caches.open(cacheName);
     if (cacheName.startsWith(PAKET_PREFIX)) {
@@ -192,7 +192,9 @@ async function seiteSpeichern(antwort) {
 // Seiten: zuerst Netz, sonst gespeicherte Seite (Hülle oder Offline-Paket), sonst freundliche Offline-Seite
 async function netzZuerst(event) {
   try {
-    const antwort = await fetch(event.request);
+    let antwort;
+    try { antwort = await fetch(event.request.url, { cache: "no-cache", credentials: "same-origin" }); }
+    catch (e1) { antwort = await fetch(event.request); }
     const pfad = new URL(event.request.url).pathname;
     if (speicherbar(antwort) && (pfad.endsWith("/") || pfad.endsWith("/index.html"))) {
       event.waitUntil(seiteSpeichern(antwort.clone()).catch(() => null));
@@ -219,6 +221,36 @@ async function staleWhileRevalidate(event, key) {
     return await holenUndSpeichern(CACHE_HUELLE, event.request, key);
   } catch (e) {
     return nichtDa();
+  }
+}
+
+// Code (js, css, json, Schriften): zuerst Netz ohne HTTP-Cache (dank ETag meist nur ein kurzes «unverändert»),
+// damit nach einem Update sofort die neue Version läuft. Antwortet das Netz nicht innert 3 Sekunden
+// oder ist man offline, kommt die gespeicherte Version.
+async function codeNetzZuerst(event) {
+  const frisch = (async () => {
+    const antwort = await fetch(new Request(event.request, { cache: "no-cache" }));
+    if (speicherbar(antwort)) {
+      const cache = await caches.open(CACHE_HUELLE);
+      await cache.put(event.request, antwort.clone());
+    }
+    return antwort;
+  })();
+  if (offlineNetz()) {
+    const t = await finde(event.request, [CACHE_HUELLE]);
+    if (t) return t.antwort;
+  }
+  const zeit = new Promise((ok) => setTimeout(() => ok(null), 3000));
+  try {
+    const r = await Promise.race([frisch, zeit]);
+    if (r) return r;
+    event.waitUntil(frisch.catch(() => null));
+    const t = await finde(event.request, [CACHE_HUELLE]);
+    if (t) return t.antwort;
+    return await frisch;
+  } catch (e) {
+    const t = await finde(event.request, [CACHE_HUELLE]);
+    return t ? t.antwort : nichtDa();
   }
 }
 
@@ -284,8 +316,8 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 4. Alles andere (js, css, json, Schriften lokal): aus Cache, im Hintergrund aktualisieren
-  event.respondWith(staleWhileRevalidate(event));
+  // 4. Alles andere (js, css, json, Schriften lokal): zuerst Netz, offline aus dem Speicher
+  event.respondWith(codeNetzZuerst(event));
 });
 
 /* ---------- Nachrichten von der Seite ---------- */
