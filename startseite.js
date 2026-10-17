@@ -194,17 +194,40 @@ async function liveEnde(sl, t){
 
 /* ---------- Wochen-Challenge: jede Woche ein anderes Thema ---------- */
 const WOCHE_ZIEL = 30, WOCHE_XP = 150;
-function wocheThema(){ const l = themenListe(); if(!l.length) return null; const w = isoWoche(); const n = parseInt(w.slice(0, 4)) * 53 + parseInt(w.slice(6)); return THEMA[l[(n * 11 + 5) % l.length]]; }
+/* Wochenplan für immer: alle Themen der Reihe nach, abwechselnd aus den Bereichen (Welt, Natur, Geld, Alltag …).
+   Jedes Thema kommt einmal dran, dann beginnt der Plan von vorne. Woche 42/2026 bleibt Ethik (Anker). */
+let WPLAN = null;
+function wochenPlan(){
+  if(WPLAN && WPLAN.n === Object.keys(THEMA).length) return WPLAN.l;
+  const l = themenListe(), gruppen = {}, reihe = [];
+  l.forEach(id => { const b = (THEMA[id].bereich && THEMA[id].bereich.id) || "x"; (gruppen[b] = gruppen[b] || []).push(id); });
+  const bs = Object.keys(gruppen);
+  for(let k = 0; reihe.length < l.length; k++) bs.forEach(b => { if(gruppen[b][k]) reihe.push(gruppen[b][k]); });
+  WPLAN = {n:Object.keys(THEMA).length, l:reihe}; return reihe;
+}
+function montag(d){ const x = new Date(d || Date.now()); x.setHours(12, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+function wocheThemaFuer(d){
+  const l = wochenPlan(); if(!l.length) return null;
+  const anker = Math.max(0, l.indexOf("ethik"));                       // Woche ab Montag, 12. Oktober 2026 = Ethik
+  const k = Math.round((montag(d) - montag(new Date(2026, 9, 12))) / 6048e5);
+  return THEMA[l[((k % l.length) + l.length + anker) % l.length]];
+}
+function wocheThema(){ return wocheThemaFuer(new Date()); }
+/* Ziel pro Thema: 30 richtige, bei kleinen Themen weniger (sonst nicht schaffbar) */
+function wocheZiel(th){ if(!th) return WOCHE_ZIEL; let n = 0; try{ n = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f.t === th.id).length; }catch(e){} return n && n < 45 ? Math.max(5, Math.floor(n * 0.6)) : WOCHE_ZIEL; }
+/* Die nächsten Wochen (für die Vorschau) */
+function wocheVorschau(anzahl){ const raus = []; for(let k = 1; k <= (anzahl || 3); k++){ const d = new Date(); d.setDate(d.getDate() + 7 * k); const w = isoWoche(d); raus.push({w, thema:wocheThemaFuer(d)}); } return raus; }
 function woche(){
-  const w = isoWoche(), th = wocheThema(); let d = LS.get(K.woche, null);
+  const w = isoWoche(); let d = LS.get(K.woche, null);
+  let th = d && d.w === w && THEMA[d.t] ? THEMA[d.t] : wocheThema();
   if(!d || d.w !== w){ d = {w, t:th ? th.id : "", n:0, r:0, fertig:false}; LS.set(K.woche, d); }
   const so = new Date(); so.setDate(so.getDate() + (7 - (so.getDay() || 7))); so.setHours(23, 59, 59, 999);
-  return {...d, thema:th, ziel:WOCHE_ZIEL, ende:so};
+  return {...d, thema:th, ziel:wocheZiel(th), ende:so};
 }
 function wocheZaehlen(f, ok){
   const d = woche(); if(!d.thema || f.t !== d.thema.id) return;
   const neu = {w:d.w, t:d.t, n:d.n + 1, r:d.r + (ok ? 1 : 0), fertig:d.fertig};
-  if(!neu.fertig && neu.r >= WOCHE_ZIEL){ neu.fertig = true; const b = xpGeben(WOCHE_XP); setTimeout(() => meldung("🏔️", `Wochen-Challenge geschafft! +${b} XP`, `${WOCHE_ZIEL} richtige Antworten zu «${d.thema.name}»`), 400); }
+  if(!neu.fertig && neu.r >= d.ziel){ neu.fertig = true; const b = xpGeben(WOCHE_XP); setTimeout(() => meldung("🏔️", `Wochen-Challenge geschafft! +${b} XP`, `${d.ziel} richtige Antworten zu «${d.thema.name}»`), 400); }
   LS.set(K.woche, neu);
 }
 const WOCHE_TEST_XP = 100;
@@ -774,5 +797,5 @@ if(typeof vorReels === "function"){
   };
 }
 
-window.EP_START = { WOCHE_TEST_XP, erwachsen, erwachsenSetzen, heldSlides, team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
+window.EP_START = { wocheVorschau, wochenPlan, WOCHE_TEST_XP, erwachsen, erwachsenSetzen, heldSlides, team, teamWahl, liveSlots, liveStatus, liveNaechster, liveFragen, woche, LIVE, TEAMS, aktion, serie, tagesquiz, fehlerAnzahl, level, abzeichenZahl, fakt, dauerText, slotLabel, K };
 })();

@@ -207,6 +207,17 @@ css.textContent = `
 .x-kachel small{font-size:.86rem;opacity:.95;color:#fff;line-height:1.3}
 .x-badge{position:absolute;top:10px;right:12px;font-style:normal;background:#FFE34D;color:#1B2240;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .x-leer{color:#fff;background:rgba(15,20,48,.45);padding:12px 16px;border-radius:16px}
+/* Thema der Woche: Vorschau der nächsten Wochen */
+.wk2-plan{margin-top:18px;padding:16px;border-radius:24px;background:linear-gradient(135deg,#1E3A8A,#3D5AFE 60%,#8A3FE0);color:#fff;box-shadow:0 12px 26px rgba(30,40,120,.3)}
+.wk2-plan h3{margin:0 0 10px;font-size:1.15rem;color:#fff}
+.wk2-plan p{margin:10px 0 0;font-size:.85rem;opacity:.9;color:#fff}
+.wk2-pl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.wk2-pk{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px;border-radius:18px;background:rgba(255,255,255,.16);min-width:0}
+.wk2-pk small{font-size:.72rem;opacity:.9;color:#fff}
+.wk2-pk b{font-size:1rem;line-height:1.15;color:#fff;-webkit-hyphens:auto;hyphens:auto}
+.wk2-pi{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#fff;margin-bottom:4px;overflow:hidden}
+.wk2-pi img,.wk2-pi svg{width:30px;height:30px;object-fit:contain}
+@media (max-width:420px){.wk2-pl{gap:6px}.wk2-pk{padding:9px}.wk2-pk b{font-size:.8rem}.wk2-pi{width:34px;height:34px}}
 /* Duell-Seite: Symbol und Titel in der Mitte */
 html body .dukopf{text-align:center!important}
 html body .dukopf .dusw{display:grid!important;place-items:center;margin-left:auto!important;margin-right:auto!important}

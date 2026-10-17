@@ -862,6 +862,8 @@ function wocheHTML(){
       <button type="button" class="wk2-k wk2-test" data-x="wochetest"${testOk ? "" : " disabled"}><span class="wk2-kic">🏆</span><b>Test absolvieren</b><small>Gewertet mit Punkten für die Rangliste. Wochen-Bonus: +${bonus} XP und das Wochen-Abzeichen ab der Hälfte richtig.</small>
         ${abz ? `<span class="wk2-abz">🏅 Abzeichen geholt: ${abz.r} von ${abz.n}</span>` : `<span class="wk2-abz">🏅 Wochen-Abzeichen offen</span>`}<span class="wk2-los">${S.profil ? "Test starten ▶" : "Registrieren und starten ▶"}</span></button>
     </div>
+    ${(() => { let v = []; try{ v = ES.wocheVorschau(3) || []; }catch(e){} let n = 0; try{ n = ES.wochenPlan().length; }catch(e){} if(!v.length) return "";
+      return `<section class="wk2-plan"><h3>📅 Die nächsten Wochen</h3><div class="wk2-pl">${v.map((x, i) => { let ic = ""; try{ ic = themaIcon(x.thema); }catch(e){} return `<div class="wk2-pk" style="--i:${i}"><span class="wk2-pi" aria-hidden="true">${ic}</span><small>${i === 0 ? "Nächste Woche" : `In ${i + 1} Wochen`}</small><b>${h(x.thema ? x.thema.name : "")}</b></div>`; }).join("")}</div><p>Jede Woche ein neues Thema. Nach allen ${n} Themen beginnt der Plan von vorne.</p></section>`; })()}
   </div>`;
 }
 
