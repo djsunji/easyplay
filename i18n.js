@@ -25,6 +25,13 @@ const INFO = {
   fr:{ name:"Français", kurz:"FR", lang:"fr-CH", hallo:"Salut !" },
   it:{ name:"Italiano", kurz:"IT", lang:"it-CH", hallo:"Ciao!" }
 };
+/* Fahnen als SVG (Emoji-Fahnen fehlen unter Windows) */
+const FAHNE = {
+  de:`<rect width="30" height="10" fill="#1A1A1A"/><rect y="10" width="30" height="10" fill="#DD0000"/><rect y="20" width="30" height="10" fill="#FFCE00"/>`,
+  fr:`<rect width="10" height="30" fill="#0055A4"/><rect x="10" width="10" height="30" fill="#FFFFFF"/><rect x="20" width="10" height="30" fill="#EF4135"/>`,
+  it:`<rect width="10" height="30" fill="#009246"/><rect x="10" width="10" height="30" fill="#FFFFFF"/><rect x="20" width="10" height="30" fill="#CE2B37"/>`
+};
+const fahne = (l, cls) => `<span class="xui-fl${cls ? " " + cls : ""}" aria-hidden="true"><svg viewBox="0 0 30 30" focusable="false">${FAHNE[l] || ""}</svg></span>`;
 /* Eigene Texte dieses Moduls in allen Sprachen (werden nicht vom Wörterbuch angefasst) */
 const T = {
   de:{ knopf:"Sprache wählen", menu:"Sprache", mehr:"Mehr zur Sprache", zurueck:"Zurück" },
@@ -533,7 +540,7 @@ function knopf(){
 }
 function knopfAktuell(){
   if(!knopfEl) return;
-  knopfEl.innerHTML = `<span aria-hidden="true">${INFO[L].kurz}</span>`;
+  knopfEl.innerHTML = fahne(L) + `<span class="xui-kb" aria-hidden="true">${INFO[L].kurz}</span>`;
   knopfEl.setAttribute("aria-label", `${T[L].knopf}: ${INFO[L].name}`);
   knopfEl.title = "Deutsch · Français · Italiano";
   knopfEl.dataset.l = L;
@@ -551,7 +558,7 @@ function menuInhalt(){
   if(!menuEl) return;
   menuEl.setAttribute("aria-label", T[L].menu);
   menuEl.innerHTML = `<b class="xui-mt">🌐 ${hx(T[L].menu)}</b>
-    <div role="radiogroup" aria-label="${hx(T[L].menu)}" class="xui-wl">${SPRACHEN.map(l => `<button type="button" role="radio" aria-checked="${l === L}" class="xui-wahl${l === L ? " an" : ""}" data-l="${l}" lang="${INFO[l].lang}"><i>${INFO[l].kurz}</i><span>${INFO[l].name}</span>${l === L ? "<em aria-hidden=\"true\">✓</em>" : ""}</button>`).join("")}</div>
+    <div role="radiogroup" aria-label="${hx(T[L].menu)}" class="xui-wl">${SPRACHEN.map(l => `<button type="button" role="radio" aria-checked="${l === L}" class="xui-wahl${l === L ? " an" : ""}" data-l="${l}" lang="${INFO[l].lang}">${fahne(l)}<span>${INFO[l].name}</span>${l === L ? "<em aria-hidden=\"true\">✓</em>" : ""}</button>`).join("")}</div>
     <button type="button" class="xui-mehr">${hx(T[L].mehr)} ›</button>`;
   menuEl.querySelectorAll(".xui-wahl").forEach(b => b.onclick = () => { const l = b.dataset.l; menuZu(); if(l !== L) setze(l); });
   menuEl.querySelector(".xui-mehr").onclick = () => { menuZu(); try{ go("x-sprache"); }catch(e){} };
@@ -646,7 +653,7 @@ function welt(box, api){
       <div class="xui-karten" role="radiogroup" aria-label="Sprache">${SPRACHEN.map(l => {
         const n = anzahl(l);
         return `<button type="button" role="radio" aria-checked="${l === L}" class="xui-karte xui-k-${l}${l === L ? " an" : ""}" data-l="${l}">
-          <span class="xui-kc" aria-hidden="true" translate="no">${INFO[l].kurz}</span><b translate="no" lang="${INFO[l].lang}">${INFO[l].name}</b>
+          ${fahne(l, "gross")}<b translate="no" lang="${INFO[l].lang}">${INFO[l].name}</b>
           <small translate="no" lang="${INFO[l].lang}">${hx(INFO[l].hallo)}</small>
           <span class="xui-kz">${l === "de" ? "Alle Fragen" : (FQ.geladen[l] ? (n ? `${n.toLocaleString("de-CH")} übersetzte Fragen` : "Fragen folgen bald") : "Fragen werden geladen …")}</span>
           ${l === L ? `<em class="xui-kh">✓ Aktiv</em>` : ""}</button>`; }).join("")}</div>
@@ -676,6 +683,17 @@ css.textContent = `
 html.xui-laden #app{opacity:0}
 .xui-knopf{position:relative;flex:none;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:rgba(15,20,48,.55);color:#fff;cursor:pointer;font:800 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.02em;box-shadow:0 6px 14px rgba(27,34,64,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:transform .15s}
 .xui-knopf:hover{transform:scale(1.06)}
+.xui-fl{position:relative;display:inline-block;flex:none;width:32px;height:32px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px #fff,0 3px 8px rgba(0,0,0,.3)}
+.xui-fl svg{display:block;width:100%;height:100%}
+.xui-fl::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 25%,rgba(255,255,255,.55),rgba(255,255,255,0) 45%),radial-gradient(circle at 70% 85%,rgba(0,0,0,.18),rgba(0,0,0,0) 55%)}
+.xui-fl.gross{width:46px;height:46px;box-shadow:0 0 0 3px #fff,0 4px 12px rgba(0,0,0,.3)}
+.xui-knopf .xui-fl{width:100%;height:100%;box-shadow:none}
+.xui-knopf{overflow:visible;padding:0!important;border:2.5px solid #fff!important;box-shadow:0 4px 12px rgba(10,12,40,.35)!important}
+.xui-knopf .xui-kb{position:absolute;right:-7px;bottom:-5px;padding:1px 4px;border-radius:7px;background:#1B2240;color:#fff;font:800 9px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.03em;box-shadow:0 0 0 1.5px #fff}
+.xui-knopf[data-ort=gruss] .xui-kb{font-size:8px;right:-6px;bottom:-4px}
+#nav>.xui-knopf .xui-kb{font-size:11px;right:-4px;bottom:-3px}
+.xui-wahl .xui-fl{width:30px;height:30px}
+
 .xui-knopf:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
 .xui-knopf>*{pointer-events:none}
 .xui-knopf[data-ort=gruss]{position:absolute;z-index:6;width:34px;height:34px;margin:0;font-size:12px}

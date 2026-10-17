@@ -43,6 +43,17 @@ function setze(k, v){
 
 /* ================= Stil ================= */
 const CSS = `
+.hlf-vlrow{display:flex!important;justify-content:flex-end;margin:0 0 10px!important}
+.hlf-vl{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 8px 0 5px;border:0;border-radius:999px;background:rgba(15,20,48,.62);color:#fff;font:600 .9rem "Lexend",system-ui,sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.14);transition:background .2s}
+.hlf-vl .hlf-vli{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.16)}
+.hlf-vl .hlf-vls{position:relative;width:38px;height:22px;border-radius:99px;background:rgba(255,255,255,.22);transition:background .2s}
+.hlf-vl .hlf-vls i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.hlf-vl.an{background:linear-gradient(135deg,#FF8A3D,#E0581C);box-shadow:0 6px 16px rgba(224,88,28,.35)}
+.hlf-vl.an .hlf-vli{background:#fff;color:#E0581C}
+.hlf-vl.an .hlf-vls{background:rgba(255,255,255,.4)}
+.hlf-vl.an .hlf-vls i{transform:translateX(16px)}
+.hlf-vl:focus-visible{outline:3px solid #FFD34D;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.hlf-vl,.hlf-vl .hlf-vls,.hlf-vl .hlf-vls i{transition:none}}
 .hlf-joker{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 0}
 .hlf-j{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 14px 0 8px;border:0;border-radius:999px;background:rgba(15,20,48,.62);color:#fff;font:600 .9rem "Lexend",system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(15,20,48,.18)}
 .hlf-j:hover{background:rgba(15,20,48,.78)}
@@ -358,11 +369,23 @@ function quizErgaenzen(nurZeichnen){
     }
   }
 
+  /* Schalter «Vorlesen» an/aus (ersetzt den alten Vorlese-Knopf) */
+  card.querySelectorAll(".hlf-vlrow").forEach(row => {
+    const an = hoerenAn();
+    row.innerHTML = `<button type="button" class="hlf-vl${an ? " an" : ""}" role="switch" aria-checked="${an}" aria-label="Vorlesen ${an ? "an" : "aus"}"><span class="hlf-vli" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor"/>${an ? `<path d="M15.5 9a4.5 4.5 0 0 1 0 6"/><path d="M18 6.5a8 8 0 0 1 0 11"/>` : `<path d="M16 9.5l5 5M21 9.5l-5 5"/>`}</svg></span><span class="hlf-vlt">Vorlesen</span><span class="hlf-vls" aria-hidden="true"><i></i></span></button>`;
+    row.querySelector(".hlf-vl").onclick = () => {
+      const jetzt = !hoerenAn(); setze("hoeren", jetzt);
+      try{ window.EP_SOUND?.play("klick"); }catch(e){}
+      if(jetzt){ try{ const Q2 = S.quiz, f2 = Q2.list[Q2.i]; if(Q2.mode === "test" || Q2.tab === "frage"){ if(Q2.picked == null) sag(frageTeile(f2)); else sag(feedbackTeile(f2, Q2.picked)); } else sag([f2.e, "Merke: " + f2.m]); }catch(e){} }
+      setTimeout(() => document.querySelector(".hlf-vl")?.focus({preventScroll:true}), 0);
+    };
+  });
+
   /* Hinweis, wenn keine deutsche Stimme da ist */
   card.querySelector(".hlf-hinweis")?.remove();
   if(hoerenAn() && frageTab && !answered && !stimmeDa()){
     const p = document.createElement("p"); p.className = "hlf-hinweis"; p.setAttribute("role", "note");
-    p.textContent = "🔇 Auf diesem Gerät gibt es keine deutsche Vorlesestimme. Der Hör-Modus bleibt still.";
+    p.textContent = "🔇 Dieses Gerät hat keine deutsche Vorlesestimme.";
     const q = card.querySelector(".question"); if(q) q.insertAdjacentElement("beforebegin", p);
   }
 

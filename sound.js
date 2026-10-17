@@ -422,6 +422,35 @@ if(typeof window.soloTipp === "function"){
     return r;
   };
 }
+/* Hardcore (eigenes Modul in einer Kapsel): Klick auf eine Antwort auswerten */
+document.addEventListener("click", e => {
+  const b = e.target && e.target.closest && e.target.closest("[data-hc]"); if(!b || b.disabled) return;
+  const i = b.dataset.hc;
+  setTimeout(() => { try{ const x = document.querySelector(`[data-hc="${i}"]`); spiele(x && x.classList.contains("right") ? "richtig" : "falsch"); }catch(err){} }, 30);
+}, true);
+/* Duell auf einem Gerät: jeder Tipp klingt (richtig oder daneben) */
+if(typeof window.splitTipp === "function"){
+  const vorSplit = window.splitTipp;
+  window.splitTipp = function(p, i){
+    let D = null, frei = false, f = null; try{ D = DU.split; frei = !!(D && !D.aus && !D.lock[p]); f = D && D.list[D.i]; }catch(e){}
+    const r = vorSplit.apply(this, arguments);
+    try{ if(frei && f) spiele(i === f.c ? "richtig" : "falsch"); }catch(e){}
+    return r;
+  };
+}
+/* Live-Quiz (PIN): Ton, sobald die Auflösung erscheint */
+if(typeof window.renderLivePlay === "function"){
+  const vorLive = window.renderLivePlay; let liveZuletzt = "";
+  window.renderLivePlay = function(){
+    const r = vorLive.apply(this, arguments);
+    try{ const w = document.querySelector("#app .lwait.good, #app .lwait.bad");
+      if(!w){ liveZuletzt = ""; }
+      else { const k = w.textContent.slice(0, 200); if(k !== liveZuletzt){ liveZuletzt = k; spiele(w.classList.contains("good") ? "richtig" : "falsch"); } } }catch(e){}
+    return r;
+  };
+}
+/* Berufs-Check: kein richtig oder falsch, aber ein Klick */
+document.addEventListener("click", e => { try{ if(S.screen === "check" && e.target.closest && e.target.closest(".ans")) spiele("klick"); }catch(x){} }, true);
 /* Qeels: Antwort-Knöpfe .ropt bekommen beim Klick sofort .richtig oder .falsch */
 document.addEventListener("click", e => {
   const b = e.target && e.target.closest && e.target.closest(".ropt"); if(!b || b.disabled) return;
@@ -473,6 +502,7 @@ if(typeof window.render === "function"){
 const SVG_LS = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M4 9.2v5.6c0 .4.3.7.7.7h3.1l4.4 3.7c.5.4 1.3.1 1.3-.6V5.4c0-.7-.8-1-1.3-.6L7.8 8.5H4.7c-.4 0-.7.3-.7.7z" fill="currentColor"/>`;
 const SVG_AN = `<path d="M16.2 9a4.2 4.2 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.6 6.4a8 8 0 0 1 0 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 const SVG_AUS = `<path d="M16.5 9.5l5 5M21.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+const SVG_NOTE = `<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M9 17.2V6.6c0-.5.3-.9.8-1l8.4-2c.6-.1 1.2.3 1.2 1v10.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9.2l10.4-2.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="6.4" cy="17.6" rx="3" ry="2.4" transform="rotate(-18 6.4 17.6)" fill="currentColor"/><ellipse cx="16.8" cy="15.4" rx="3" ry="2.4" transform="rotate(-18 16.8 15.4)" fill="currentColor"/></svg>`;
 let knopfEl = null, menuEl = null;
 function knopf(){
   if(knopfEl) return knopfEl;
@@ -483,10 +513,10 @@ function knopf(){
 }
 function knopfAktuell(){
   if(!knopfEl) return;
-  const html = SVG_LS + (API.an() ? SVG_AN : SVG_AUS) + (E.musik ? `<i class="xs-note" aria-hidden="true">♪</i>` : "");
+  const html = (E.musik ? SVG_NOTE : SVG_LS + (API.an() ? SVG_AN : SVG_AUS)) + (E.musik ? `<i class="xs-eqk" aria-hidden="true"><b></b><b></b><b></b></i>` : "");
   if(knopfEl._html !== html){ knopfEl._html = html; knopfEl.innerHTML = html; }
   knopfEl.setAttribute("aria-label", `Ton und Musik: Töne ${E.effekte ? "an" : "aus"}, Musik ${E.musik ? "an" : "aus"}`);
-  knopfEl.classList.toggle("aus", !API.an());
+  knopfEl.classList.toggle("aus", !API.an()); knopfEl.classList.toggle("musik", !!E.musik);
 }
 hoerer.add(knopfAktuell);
 
@@ -505,8 +535,8 @@ function bedienungAktuell(root){
 function menuAuf(){
   menuZu();
   const m = document.createElement("div"); m.className = "xs-menu"; m.setAttribute("role", "dialog"); m.setAttribute("aria-label", "Ton und Musik");
-  m.innerHTML = `<p class="xs-mt">Ton & Musik</p>${schalterHTML("fx", "Töne", E.effekte)}${schalterHTML("mu", "Musik", E.musik)}${reglerHTML()}
-    <button type="button" class="xs-mehr">🎵 Alle Musikstücke anhören</button>`;
+  m.innerHTML = `<p class="xs-mt"><span class="xs-mti" aria-hidden="true">${SVG_NOTE}</span>Ton & Musik</p>${schalterHTML("fx", "Töne", E.effekte)}${schalterHTML("mu", "Musik", E.musik)}${reglerHTML()}
+    <button type="button" class="xs-mehr"><span aria-hidden="true">▶</span> Alle Musikstücke anhören</button>`;
   document.body.appendChild(m); menuEl = m;
   bedienungBinden(m);
   m.querySelector(".xs-mehr").onclick = () => { menuZu(); try{ go("x-sound"); }catch(e){} };
@@ -637,7 +667,13 @@ css.textContent = `
 .xs-knopf>*{pointer-events:none}
 .xs-knopf:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
 .xs-knopf.aus{opacity:.85}
-.xs-knopf .xs-note{position:absolute;right:-4px;top:-5px;width:18px;height:18px;border-radius:50%;background:#FFE34D;color:#1B2240;font:800 12px/18px system-ui,sans-serif;font-style:normal;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,.25)}
+.xs-knopf.musik{border-color:rgba(255,255,255,.85);background:linear-gradient(135deg,#FF5FA2,#8A3FE0 60%,#4F6BFF);box-shadow:0 6px 16px rgba(138,63,224,.45),inset 0 1px 0 rgba(255,255,255,.35)}
+.xs-knopf.musik svg{filter:drop-shadow(0 1px 1px rgba(40,10,80,.35))}
+.xs-knopf .xs-eqk{position:absolute;right:-5px;bottom:-4px;display:flex;align-items:flex-end;gap:1.5px;height:16px;padding:2px 3px;border-radius:7px;background:#FFE34D;box-shadow:0 2px 5px rgba(0,0,0,.25)}
+.xs-knopf .xs-eqk b{width:2.5px;height:5px;border-radius:2px;background:#5B2BD9;animation:xseq .7s ease-in-out infinite alternate}
+.xs-knopf .xs-eqk b:nth-child(2){animation-delay:.2s}.xs-knopf .xs-eqk b:nth-child(3){animation-delay:.4s}
+#nav>.xs-knopf.musik{border-color:transparent;color:#fff;background:linear-gradient(135deg,#FF5FA2,#8A3FE0 60%,#4F6BFF)}
+@media (prefers-reduced-motion: reduce){.xs-knopf .xs-eqk b{animation:none;height:9px}}
 .xs-knopf[data-ort=gruss]{position:absolute;z-index:6;width:38px;height:38px;margin:0}
 .xs-knopf[data-ort=gruss].unten{width:34px;height:34px}
 .xs-knopf[data-ort=gruss].unten svg{width:18px;height:18px}
@@ -646,7 +682,8 @@ css.textContent = `
 #nav>.xs-knopf svg{width:26px;height:26px}
 @media (min-width:700px){.xs-knopf[data-ort=gruss]:not(.unten){width:48px;height:48px}.xs-knopf[data-ort=gruss]:not(.unten) svg{width:26px;height:26px}}
 .xs-menu{position:fixed;z-index:10000;width:min(270px,calc(100vw - 20px));font-size:15px;line-height:1.25;box-sizing:border-box;padding:14px;border-radius:22px;background:rgba(20,24,58,.96);color:#fff;box-shadow:0 18px 40px rgba(10,12,40,.45);display:grid;gap:8px}
-.xs-mt{margin:0 0 2px;font-weight:800;font-size:1.05rem;color:#fff}
+.xs-mt{display:flex;align-items:center;gap:8px;margin:0 0 2px;font-weight:800;font-size:1.05rem;color:#fff}
+.xs-mti{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#FF5FA2,#8A3FE0);color:#fff}.xs-mti svg{width:18px;height:18px}
 .xs-schalter{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;padding:6px 12px;border:0;border-radius:14px;background:rgba(255,255,255,.12);color:#fff;font:inherit;font-weight:700;cursor:pointer;text-align:left}
 .xs-schalter:focus-visible,.xs-mehr:focus-visible,.xs-regler input:focus-visible,.xs-stueck:focus-visible,.xs-fxk:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
 .xs-schalter i{position:relative;flex:none;width:46px;height:26px;border-radius:999px;background:rgba(255,255,255,.3);transition:background .2s}
