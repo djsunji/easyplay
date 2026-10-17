@@ -8365,6 +8365,14 @@ html body #app .buchseite{overflow-wrap:break-word}
 /* Profil (Tablet quer): ohne den früheren Schalter füllt die Liste die ganze Breite */
 html body.ep-app .ap-profil .ap-liste{grid-column:1/-1}
 @media (min-width:1000px) and (orientation:landscape){html body.ep-app .ap-profil .ap-liste{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* Qeels am PC: so breit wie die Startseite (.wrap, 1040px), Inhalt mittig in lesbarer Breite */
+@media (min-width:900px) and (pointer:fine){
+  html body #reels{--rbreit:min(calc(100vw - 180px),1040px)}
+  html body #reels .rfeed,html body #reels .rkopf,html body #reels .rstories,html body #rlib{width:var(--rbreit)!important}
+  html body #reels .rinhalt{padding-left:max(16px,calc((100% - 720px) / 2))!important;padding-right:max(84px,calc((100% - 720px) / 2))!important}
+  html body #reels .rainhalt{left:max(14px,calc((100% - 720px) / 2))!important;right:max(78px,calc((100% - 720px) / 2))!important}
+  html body #reels .rpfeile{right:max(16px,calc(50% - var(--rbreit) / 2 - 76px))!important}
+}
 </style>
 <script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
 (function(){
