@@ -624,7 +624,7 @@ function grussLage(k, ton){
   const kw = k.offsetWidth || 34, kh = k.offsetHeight || 34, L0 = lg.getBoundingClientRect();
   const T0 = ton && ton.isConnected && ton.style.visibility !== "hidden" ? ton.getBoundingClientRect() : null;
   const kand = [];
-  if(T0 && T0.width){ kand.push([T0.left - kw - 6, T0.top + (T0.height - kh) / 2]); kand.push([T0.left + (T0.width - kw) / 2, T0.bottom + 6]); }
+  if(T0 && T0.width){ kand.push([T0.left - kw - 12, T0.top + (T0.height - kh) / 2]); kand.push([T0.left - kw - 12, T0.top]); kand.push([T0.left + (T0.width - kw) / 2, T0.bottom + 6]); }
   else kand.push([L0.left - kw - 6, L0.top + (L0.height - kh) / 2]);
   kand.push([L0.right - kw - 2 - (T0 && T0.top > L0.bottom - 4 ? T0.width + 6 : 0), L0.bottom + 2]);
   kand.push([L0.left + 2, L0.bottom + 2]);
@@ -698,15 +698,15 @@ html.xui-laden #app{opacity:0}
 .xui-fl.gross{width:52px;height:52px;box-shadow:0 0 0 3px #fff,0 4px 12px rgba(0,0,0,.3)}
 .xui-knopf .xui-fl{width:100%;height:100%;box-shadow:none}
 .xui-knopf{overflow:visible;padding:0!important;border:2.5px solid #fff!important;background:radial-gradient(circle at 35% 30%,#FFFFFF,#DDF0FF 70%)!important;box-shadow:0 4px 12px rgba(10,12,40,.35)!important}
-.xui-knopf .xui-kb{position:absolute;right:-7px;bottom:-5px;padding:1px 5px;border-radius:8px;background:#FF5FA2;color:#fff;font:900 9px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.03em;box-shadow:0 0 0 1.5px #fff}
-.xui-knopf[data-ort=gruss] .xui-kb{font-size:8px;right:-6px;bottom:-4px}
-#nav>.xui-knopf .xui-kb{font-size:11px;right:-4px;bottom:-3px}
+.xui-knopf .xui-kb{position:absolute;left:50%;right:auto;transform:translateX(-50%);bottom:-7px;padding:1px 5px;border-radius:8px;background:#FF5FA2;color:#fff;font:900 9px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.03em;box-shadow:0 0 0 1.5px #fff}
+.xui-knopf[data-ort=gruss] .xui-kb{font-size:8px;bottom:-6px}
+#nav>.xui-knopf .xui-kb{font-size:11px;bottom:-6px}
 .xui-wahl .xui-fl{width:30px;height:30px}
 
 .xui-knopf:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
 .xui-knopf>*{pointer-events:none}
 .xui-knopf[data-ort=gruss]{position:absolute;z-index:6;width:34px;height:34px;margin:0;font-size:12px}
-.xui-knopf[data-ort=kz]{margin-left:8px;width:40px;height:40px}
+.xui-knopf[data-ort=kz]{margin-left:12px;width:40px;height:40px}
 #nav>.xui-knopf{width:58px;height:58px;font-size:17px;border:2px solid var(--line,#E3E1F2);background:var(--surface,#fff);color:var(--ink,#1B2240);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .xui-menu{position:fixed;z-index:10000;width:min(250px,calc(100vw - 20px));box-sizing:border-box;padding:12px;border-radius:22px;background:rgba(20,24,58,.96);color:#fff;box-shadow:0 18px 40px rgba(10,12,40,.45);display:grid;gap:8px;font:15px/1.25 system-ui,-apple-system,"Segoe UI",sans-serif}
 .xui-mt{font-size:14px;opacity:.9;padding:2px 4px}

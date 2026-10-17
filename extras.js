@@ -228,6 +228,9 @@ html body .du2-team .lbl{color:#fff!important;opacity:.95}
 html body .du2-rang{background:linear-gradient(120deg,#F4A818,#E8790C 60%,#D9480F)!important;border:0!important;color:#fff!important;box-shadow:0 10px 22px rgba(200,100,10,.3)}
 html body .du2-rang>span:not(.du2-liga),html body .du2-rang>small{color:#fff!important}
 @media (prefers-reduced-motion:reduce){html body .du2-team{animation:none}}
+/* iPhone: Logo etwas kleiner, damit Fahne und Lautsprecher nebeneinander Platz haben */
+@media (max-width:400px){body.ep-app .ap-gruss .ap-logo{height:38px!important;top:2px!important}}
+@media (max-width:340px){body.ep-app .ap-gruss .ap-logo{height:31px!important;top:5px!important}}
 /* Feinschliff: nichts abschneiden */
 .xa-tab b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15}
 .xg-teil b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.1;-webkit-hyphens:auto;hyphens:auto;letter-spacing:-.01em}@media (max-width:420px){.xg-teil b{font-size:10.5px!important}}
