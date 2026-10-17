@@ -91,3 +91,15 @@ python3 einbau_lehrer.py --kopieren   # lehrer.js, lehrer.sql und diese Anleitun
 - **Fragendatenbank und Bibliothek:** nur lesen. Bei jedem Eintrag gibt es «Fehler melden». Mit Supabase (`supabase/lehrer2.sql`) landen die Meldungen in der Verwaltung unter «Fehlermeldungen», sonst sendest du sie per E-Mail.
 - **Klassen-Liga («Klasse gegen Klasse»):** Im Lehrerbereich links **Klassen-Liga**. Du meldest eine Klasse freiwillig mit einem Anzeigenamen an (z. B. «5b Solothurn», ohne Kindernamen) und wählst den Kanton. Jede Kalenderwoche (Montag bis Sonntag) zählen die Testpunkte aller Kinder der Klasse (pro Kind höchstens 150), geteilt durch die Anzahl eingetragener Kinder. So sind kleine und grosse Klassen vergleichbar. Es gibt eine Rangliste für diese Woche und die Vorwoche, einen Kantons-Filter, deine Klassen sind farbig umrandet, und die drei besten Klassen bekommen ein Gold-, Silber- oder Bronze-Abzeichen. Mitmachen können Klassen ab 5 Kindern. Die Kinder sehen nach einem Test und in ihrem Profil den Platz ihrer Klasse mit einem Fortschrittsbalken. Die Liga braucht Supabase (`supabase/klassenliga.sql`, siehe ANLEITUNG-SUPABASE.md, Schritt 7); ohne Online-Datenbank zeigt die Seite eine Vorschau mit Beispieldaten.
 
+
+## Lehrplan 21
+
+Unter **Tests › Lehrplan 21** siehst du alle Fachbereiche des Lehrplans 21 als Karte mit den Zyklen 1 bis 3.
+Jede Zelle zeigt, wie viele Kompetenzbereiche easyplay mit Fragen abdeckt und wie viele Fragen es dazu gibt.
+
+1. Zyklus oben wählen (Zyklus 1: KG bis 2. Klasse, Zyklus 2: 3. bis 6. Klasse, Zyklus 3: 7. bis 9. Klasse).
+2. Einen Fachbereich antippen, zum Beispiel «Natur, Mensch, Gesellschaft».
+3. Kompetenzbereiche ankreuzen (oder «Alle mit Fragen»).
+4. «Test daraus erstellen»: Der neue Test ist mit Titel, Stufe, Thema und Lehrplan-Bezug vorbereitet. Fragen ziehen oder selbst auswählen, eigene Fragen ergänzen und speichern.
+
+Die Zuordnung der easyplay-Themen zu den Kompetenzbereichen ist eine Annäherung. Prüfe die gezogenen Fragen vor dem Test kurz.

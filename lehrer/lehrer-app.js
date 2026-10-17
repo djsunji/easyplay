@@ -94,7 +94,7 @@ const THEMA_LP21 = {
   geo_schweiz:[["NMG.8"],["RZG.4","RZG.1"]], geo_europa:[["NMG.8","NMG.7"],["RZG.4","RZG.2"]], geo_welt:[["NMG.8","NMG.7"],["RZG.4","RZG.2","RZG.1"]],
   rel_christentum:[["NMG.12"],["ERG.4","ERG.3"]], rel_islam:[["NMG.12"],["ERG.4","ERG.3"]], rel_andere:[["NMG.12"],["ERG.4","ERG.3"]],
   bilder:[["NMG.8"],["RZG.4"]],
-  natur:[["NMG.2"],["NT.9"]], tiere:[["NMG.2"],["NT.9","NT.8"]], wissenschaft:[["NMG.4","NMG.5"],["NT.1"]], koerper:[["NMG.1"],["NT.7","NT.6"]],
+  natur:[["NMG.2"],["NT.9"]], tiere:[["NMG.2"],["NT.9"]], wissenschaft:[["NMG.4","NMG.5"],["NT.1"]], koerper:[["NMG.1"],["NT.7","NT.6"]],
   physik:[["NMG.3","NMG.4"],["NT.5","NT.4"]], weltall:[["NMG.4"],["NT.1","RZG.1"]], erde:[["NMG.4","NMG.8"],["RZG.1","RZG.3"]], chemie:[["NMG.3"],["NT.2","NT.3"]],
   mathe:[["MA.1.A","MA.2.A"],["MA.1.A","MA.2.A","MA.3.A"]], technik:[["NMG.5","MI.2"],["NT.1","MI.2"]],
   geld:[["NMG.6"],["WAH.2"]], banken:[["NMG.6"],["WAH.2"]], steuern:[["NMG.6","NMG.10"],["WAH.2","RZG.8"]], krankenkasse:[["NMG.1","NMG.6"],["WAH.5","WAH.4"]],
@@ -548,12 +548,12 @@ function zeigeRolle(){
 const NAV = [
   ["Überblick", [["uebersicht","Übersicht"],["auswertung","Auswertung"]]],
   ["Klassen", [["klassen","Klassen"],["kinder","Kinder"]]],
-  ["Tests", [["tests","Tests"],["neu","Neuer Test"],["korrigieren","Korrigieren"],["fragen","Fragenpool"]]],
+  ["Tests", [["tests","Tests"],["lehrplan","Lehrplan 21"],["neu","Neuer Test"],["korrigieren","Korrigieren"],["fragen","Fragenpool"]]],
   ["Mitmachen", [["liga","Klassen-Liga"],["meldungen","Fehlermeldungen"]]],
   ["Konto", [["einstellungen","Einstellungen"]]]
 ];
 const NAV_ELTERN = {klasse:"klassen", kind:"kinder", test:"tests"};
-const TITEL = {uebersicht:"Übersicht", auswertung:"Auswertung", klassen:"Klassen", klasse:"Klasse", kinder:"Kinder", kind:"Kind", tests:"Tests", test:"Test", neu:"Neuer Test", korrigieren:"Korrigieren", fragen:"Fragenpool", liga:"Klassen-Liga", meldungen:"Fehlermeldungen", einstellungen:"Einstellungen"};
+const TITEL = {uebersicht:"Übersicht", auswertung:"Auswertung", klassen:"Klassen", klasse:"Klasse", kinder:"Kinder", kind:"Kind", tests:"Tests", test:"Test", neu:"Neuer Test", lehrplan:"Lehrplan 21", korrigieren:"Korrigieren", fragen:"Fragenpool", liga:"Klassen-Liga", meldungen:"Fehlermeldungen", einstellungen:"Einstellungen"};
 
 function appStart(){
   $("#login").hidden=true; $("#app").hidden=false; ST.daten=null;
@@ -968,12 +968,79 @@ function ladePool(){
   return POOL.laedt;
 }
 const poolLadeAnzeige = () => `<div class="laden"><div class="spinner" aria-hidden="true"></div><div><span data-pooltext>Fragenpool wird geladen … ${POOL.fertig} von ${POOL.total||"?"} Dateien</span><div class="fortschritt"><i data-poolfort style="width:${POOL.total?Math.round(POOL.fertig/POOL.total*100):0}%"></i></div><span class="mu klein">Rund 128 000 Fragen. Beim ersten Mal dauert das einen Moment.</span></div></div>`;
-function poolSicher(){ if(POOL.daten) return true; ladePool().then(()=>{ if(["neu","fragen"].includes(ST.tab)) neu(); }); return false; }
+function poolSicher(){ if(POOL.daten) return true; ladePool().then(()=>{ if(["neu","fragen","lehrplan"].includes(ST.tab)) neu(); }); return false; }
 
+
+/* ================= Lehrplan 21: Karte der Kompetenzbereiche, Tests daraus ================= */
+const LP_AUS = new Set(["NT.8"]);                 // Fortpflanzung: bei easyplay bewusst nicht
+const LP_FARBE = {D:"#E8364F",FS1E:"#2E86DE",FS2F:"#3D5AFE",MA:"#8A3FE0",NMG:"#0FA968",NT:"#12A57F",WAH:"#E8840C",RZG:"#B5179E",ERG:"#5B2BD9",BG:"#E043B8",TTG:"#C2185B",MU:"#F4A818",BS:"#22A9BB",MI:"#1E3A8A",BO:"#6D4C41"};
+const Z_STUFE = {1:[1], 2:[1,2], 3:[2,3]};
+function lpWahl(v){ const m=String(v).slice(3).split("@"); return {codes:(m[0]||"").split(",").filter(Boolean), z:+m[1]||2}; }
+function lpThemen(codes, z){
+  const out=new Set(), z3=+z>=3, want=new Set(codes);
+  Object.entries(THEMA_LP21).forEach(([id,m])=>{ (z3?m[1]:m[0]).forEach(c=>{ if(want.has(c)){ if(id==="kt_") KANTONE.forEach(k=>out.add(k.id)); else if(THEMA[id]?.kids) THEMA[id].kids.forEach(k=>out.add(k)); else if(id==="geschichte") GESCH_IDS.forEach(k=>out.add(k)); else out.add(id); } }); });
+  return [...out];
+}
+let LP_ZAHL = null;
+function lpZahlen(){
+  if(LP_ZAHL || !POOL.daten) return LP_ZAHL;
+  const proThema={}; POOL.daten.forEach(f=>{ if(f.img) return; const o=proThema[f.t]||(proThema[f.t]={1:0,2:0,3:0}); o[f.l]=(o[f.l]||0)+1; });
+  LP_ZAHL={};
+  [1,2,3].forEach(z=>{ const r=LP_ZAHL[z]={}; Object.keys(LP21_KB).forEach(c=>{ if(LP_AUS.has(c)) return; const th=lpThemen([c], z); let n=0; th.forEach(t=>{ const o=proThema[t]; if(o) Z_STUFE[z].forEach(l=>n+=o[l]||0); }); r[c]={n, th}; }); });
+  return LP_ZAHL;
+}
+const LP = {z:0, wahl:new Set()};
+function lpThemaText(th){ const kt=th.filter(x=>String(x).startsWith("kt_")).length, rest=th.filter(x=>!String(x).startsWith("kt_")).map(x=>themaName(x)); if(kt) rest.push(kt+" Kantonen"); return h(rest.slice(0,7).join(", ")+(rest.length>7?" und weiteren":"")); }
+function lpStufe(n){ return n>=150 ? 3 : n>=30 ? 2 : n>0 ? 1 : 0; }
+SEITEN.lehrplan = el => {
+  const D=ST.daten; if(!LP.z) LP.z = D.klassen[0]?.zyklus || sjObj(D.klassen[0]?.schuljahr)?.zyklus || 2;
+  const fachAkt = ST.param && LP21.find(f=>f.f===ST.param) ? ST.param : "";
+  const poolDa = poolSicher(); const Z = poolDa ? lpZahlen() : null; const zz=LP.z;
+  const faecher = LP21.filter(f=>f.z.includes(zz));
+  const kbs = f => f.kb.filter(([c])=>!LP_AUS.has(c));
+  const zelle = (f, z) => { if(!f.z.includes(z)) return `<td class="lpx" aria-label="nicht in Zyklus ${z}">·</td>`; if(!Z) return `<td class="lpc">…</td>`;
+    const l=kbs(f), ab=l.filter(([c])=>Z[z][c]?.n>0).length, n=l.reduce((s,[c])=>s+(Z[z][c]?.n||0),0);
+    return `<td><button type="button" class="lpc s${lpStufe(n/Math.max(1,l.length))}" data-lpf="${f.f}" data-lpz="${z}" style="--lf:${LP_FARBE[f.f]||"#5b45e8"}" title="${h(f.n)}, Zyklus ${z}: ${ab} von ${l.length} Kompetenzbereichen mit Fragen"><b>${ab}/${l.length}</b><small>${n.toLocaleString("de-CH")}</small></button></td>`; };
+  const kopf = `<div class="held lphe"><div class="text"><h2>Lehrplan 21</h2><p>Alle Fachbereiche und Kompetenzbereiche auf einen Blick. Sieh, wo easyplay Fragen hat, und mach daraus mit zwei Klicks einen Test.</p>
+      <div class="chips">${[1,2,3].map(z=>`<button type="button" data-lpzy="${z}" aria-pressed="${zz===z}" style="${zz===z?"background:#fff;color:#4b32c8":""}">Zyklus ${z} · ${["","KG bis 2. Klasse","3. bis 6. Klasse","7. bis 9. Klasse"][z]}</button>`).join("")}</div></div></div>`;
+  if(!fachAkt){
+    el.innerHTML = kopf + `
+      <div class="box"><h2>Karte: Fachbereiche und Zyklen</h2><p class="mu klein">Jede Zelle zeigt, wie viele Kompetenzbereiche easyplay mit Fragen abdeckt, darunter die Zahl passender Fragen. Je kräftiger die Farbe, desto mehr Fragen. Tippe eine Zelle an.</p>
+        ${poolDa?"":poolLadeAnzeige()}
+        <div class="tabwrap"><table class="lpkarte"><thead><tr><th>Fachbereich</th><th class="c">Zyklus 1</th><th class="c">Zyklus 2</th><th class="c">Zyklus 3</th></tr></thead><tbody>
+        ${LP21.map(f=>`<tr><th scope="row"><span class="lpdot" style="--lf:${LP_FARBE[f.f]}"></span>${h(f.n)} <span class="mu klein">${f.f}</span></th>${[1,2,3].map(z=>zelle(f,z)).join("")}</tr>`).join("")}
+        </tbody></table></div>
+        <p class="mu klein">Legende: <span class="lpleg s3">viele Fragen</span> <span class="lpleg s2">einige</span> <span class="lpleg s1">wenige</span> <span class="lpleg s0">noch keine</span></p></div>
+      <div class="box"><h2>Fachbereiche im Zyklus ${zz}</h2><div class="lpgrid">${faecher.map(f=>{ const l=kbs(f), ab=Z?l.filter(([c])=>Z[zz][c]?.n>0).length:0, n=Z?l.reduce((s,[c])=>s+(Z[zz][c]?.n||0),0):0;
+        return `<button type="button" class="lpfach" data-lpf="${f.f}" style="--lf:${LP_FARBE[f.f]}"><span class="lpcode">${f.f}</span><b>${h(f.n)}</b><span class="lpbar"><i style="width:${l.length?Math.round(ab/l.length*100):0}%"></i></span><small>${Z?`${ab} von ${l.length} Kompetenzbereichen · ${n.toLocaleString("de-CH")} Fragen`:"wird gezählt …"}</small></button>`; }).join("")}</div></div>`;
+  } else {
+    const f=LP21.find(x=>x.f===fachAkt), l=kbs(f), aktivZ=f.z.includes(zz);
+    el.innerHTML = kopf + brot([["Lehrplan 21","lehrplan"],[f.n]]) + `
+      <div class="box lpdetail" style="--lf:${LP_FARBE[f.f]}"><div class="kopfzeile"><div><h1><span class="lpdot"></span>${h(f.n)} <span class="mu">${f.f}</span></h1><p class="mu">Zyklus ${zz}${aktivZ?"":" (dieser Fachbereich gehört nicht zu Zyklus "+zz+")"} · Wähle Kompetenzbereiche aus und erstelle daraus einen Test.</p></div></div>
+      ${poolDa?"":poolLadeAnzeige()}
+      <div class="lpkb">${l.map(([c,t])=>{ const d=Z?Z[zz][c]:null, n=d?d.n:0, an=LP.wahl.has(c);
+        return `<label class="lpzeile ${an?"an":""} ${n?"":"leer"}"><input type="checkbox" data-lpk="${c}" ${an?"checked":""} ${n?"":"disabled"}><span class="lpcode">${c}</span><span class="lptx"><b>${h(t)}</b><small>${Z?(n?`${n.toLocaleString("de-CH")} Fragen aus ${lpThemaText(d.th)}`:"Dazu gibt es bei easyplay noch keine Fragen. Eigene Fragen kannst du beim neuen Test ergänzen."):"wird gezählt …"}</small></span><span class="lpn s${lpStufe(n)}">${Z?n.toLocaleString("de-CH"):""}</span></label>`; }).join("")}</div>
+      <div class="festleiste"><span>${LP.wahl.size ? `${LP.wahl.size} ${LP.wahl.size===1?"Kompetenzbereich":"Kompetenzbereiche"} gewählt` : "Kompetenzbereiche ankreuzen"}</span>
+        <button type="button" class="k rechts" id="lpAlle">Alle mit Fragen</button><button type="button" class="k p" id="lpTest" ${LP.wahl.size?"":"disabled"}>Test daraus erstellen ›</button></div></div>`;
+  }
+  brotBinden(el);
+  $$("[data-lpzy]", el).forEach(b=>b.onclick=()=>neu(()=>{ LP.z=+b.dataset.lpzy; LP.wahl.clear(); }));
+  $$("[data-lpf]", el).forEach(b=>b.onclick=()=>{ if(b.dataset.lpz) LP.z=+b.dataset.lpz; LP.wahl.clear(); zeige("lehrplan", b.dataset.lpf); });
+  $$("[data-lpk]", el).forEach(cb=>cb.onchange=()=>neu(()=>{ if(cb.checked) LP.wahl.add(cb.dataset.lpk); else LP.wahl.delete(cb.dataset.lpk); }));
+  const alle=$("#lpAlle"); if(alle) alle.onclick=()=>neu(()=>{ const f=LP21.find(x=>x.f===fachAkt); const Zl=lpZahlen(); if(!Zl) return; kbs(f).forEach(([c])=>{ if(Zl[LP.z][c]?.n) LP.wahl.add(c); }); });
+  const los=$("#lpTest"); if(los) los.onclick=()=>{
+    if(!D.klassen.length){ melde("Lege zuerst eine Klasse an, dann kannst du den Test erstellen.","fe"); zeige("klassen"); return; }
+    const codes=[...LP.wahl]; const k=D.klassen.find(x=>(x.zyklus||sjObj(x.schuljahr)?.zyklus)===LP.z) || D.klassen[0];
+    neuStart(k.id); const n=ST.neu; n.thema="lp:"+codes.join(",")+"@"+LP.z; n.stufe={1:1,2:2,3:3}[LP.z]||0;
+    const f=LP21_KB[codes[0]]; n.titel=(f?f.fachName:"Lehrplan 21")+": "+(codes.length<=3 ? codes.join(", ") : codes.length+" Kompetenzbereiche")+" (Zyklus "+LP.z+")";
+    if(!(sjObj(n.schuljahr)?.zyklus===LP.z)){ const sj=SCHULJAHRE.find(x=>x.zyklus===LP.z && x.harmos); if(sj) n.schuljahr=sj.id; }
+    lpAuto(); zeige("neu");
+  };
+};
 /* ---------- Neuer Test ---------- */
 function themaOptionen(sel){
   const o=(v,l,ind)=>`<option value="${h(v)}" ${sel===v?"selected":""}>${ind?"   ":""}${h(l)}</option>`;
-  let html=o("","Alle Themen");
+  let html=(String(sel).startsWith("lp:") ? o(sel, themaLabel(sel)) : "")+o("","Alle Themen");
   BEREICHE.forEach(b=>{
     html+=`<optgroup label="${h(b.name)}">`+o("b:"+b.id, "Ganzer Bereich «"+b.name+"»");
     b.themen.forEach(t=>{
@@ -987,20 +1054,21 @@ function themaOptionen(sel){
 }
 function themaIds(v){
   if(!v) return null;
+  if(v.startsWith("lp:")){ const {codes, z}=lpWahl(v); return lpThemen(codes, z); }
   if(v.startsWith("b:")){ const b=BEREICHE.find(x=>x.id===v.slice(2)); return b ? b.themen.flatMap(t=>themaIds(t.id)||[]) : null; }
   if(v==="geschichte") return GESCH_IDS;
   if(v==="kt_alle") return KANTONE.map(k=>k.id);
   if(THEMA[v]?.kids) return THEMA[v].kids;
   return [v];
 }
-function themaLabel(v){ if(!v) return "Gemischt"; if(v.startsWith("b:")) return (BEREICHE.find(x=>x.id===v.slice(2))?.name)||"Bereich"; if(v==="kt_alle") return "Kantone"; return themaName(v); }
+function themaLabel(v){ if(!v) return "Gemischt"; if(v.startsWith("lp:")){ const {codes}=lpWahl(v); return "Lehrplan 21 "+codes.join(", "); } if(v.startsWith("b:")) return (BEREICHE.find(x=>x.id===v.slice(2))?.name)||"Bereich"; if(v==="kt_alle") return "Kantone"; return themaName(v); }
 function neuStart(klasseId){
   const D=ST.daten; const kid = klasseId && klasseVon(klasseId) ? klasseId : D.klassen[0]?.id || ""; const k=klasseVon(kid);
   ST.neu={titel:"", klasseId:kid, schuljahr:k?.schuljahr||"h6", thema:"", stufe:0, unter:"", anzahl:10, modus:"zufall", sel:[], fmap:new Map(), suche:"", lp21:[], lpAuto:true, fach:"", edit:{}, alleOffen:false, bearb:null, entwurf:{art:"mc", q:"", a:["","","",""], m:"", p:2, z:4}};
   lpAuto();
 }
 function zyklusNeu(){ const n=ST.neu; const s=sjObj(n.schuljahr); return s ? s.zyklus : (klasseVon(n.klasseId)?.zyklus||2); }
-function lpAuto(){ const n=ST.neu; if(!n.lpAuto) return; n.lp21=lp21Vorschlag(themaIds(n.thema)||[], zyklusNeu()); n.fach = n.lp21[0] ? LP21_KB[n.lp21[0]].fach : n.fach; }
+function lpAuto(){ const n=ST.neu; if(String(n.thema).startsWith("lp:")){ const {codes}=lpWahl(n.thema); n.lp21=codes.slice(0,4); n.fach=LP21_KB[codes[0]]?.fach||n.fach; return; } if(!n.lpAuto) return; n.lp21=lp21Vorschlag(themaIds(n.thema)||[], zyklusNeu()); n.fach = n.lp21[0] ? LP21_KB[n.lp21[0]].fach : n.fach; }
 function poolNeu(ohneUnter){
   const n=ST.neu; const ids=themaIds(n.thema); const set=ids?new Set(ids):null; const u=ohneUnter?"":n.unter.trim().toLowerCase();
   return (POOL.daten||[]).filter(f=>THEMA[f.t] && !f.img && (!n.stufe || f.l===n.stufe) && (!set || set.has(f.t)) && (!u || String(f.s||"").toLowerCase().includes(u)));
