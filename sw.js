@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-17-11";
+const VERSION = "ep-2026-10-17-12";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -112,9 +112,12 @@ self.addEventListener("activate", (event) => {
 async function netzZuerst(event) {
   try {
     const antwort = await fetch(event.request);
-    if (speicherbar(antwort) && new URL(event.request.url).pathname.endsWith("/")) {
+    const pfad = new URL(event.request.url).pathname;
+    if (speicherbar(antwort) && pfad.endsWith("/")) {
+      // Startseite unter "./", Unterseiten wie qeels/ unter ihrer eigenen Adresse
       const cache = await caches.open(CACHE_HUELLE);
-      event.waitUntil(cache.put("./", antwort.clone()));
+      const startseite = pfad === new URL("./", self.location.href).pathname;
+      event.waitUntil(cache.put(startseite ? "./" : pfad, antwort.clone()));
     }
     return antwort;
   } catch (e) {
