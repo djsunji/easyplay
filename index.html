@@ -8311,6 +8311,23 @@ html body #reels .rsticker{top:max(22%,112px)!important}
   html body.ep-app .ap-karu-spur>.ap-held2>img{height:calc(100% + 26px)!important}
 }
 
+/* --- 6b. Startseite (Tablet und PC-App-Ansicht): Figuren ragen oben aus der Kachel, ohne abgeschnitten zu werden.
+   Die Spur bekommt oben Luft (Padding + negativer Rand); die Luft fängt keine Klicks ab. --- */
+@media (min-width:700px){
+  html body.ep-app .ap-karu,html body.ep-app .ap-karu-spur>.ap-held{overflow:visible!important}
+  html body.ep-app .ap-karu-spur{padding-top:96px!important;margin-top:-96px!important;pointer-events:none}
+  html body.ep-app .ap-karu-spur>*{pointer-events:auto}
+  html body.ep-app .ap-karu-spur>.ap-held>img{right:0!important}
+}
+@media (min-width:700px) and (orientation:portrait){
+  /* Hochformat: der Schriftzug sitzt rechts oben, die Fäuste von Lumi und Milo dürfen ihn nicht verdecken */
+  html body.ep-app .ap-karu-spur>.ap-held.hs-start>img{top:-30px!important;height:calc(100% + 30px)!important}
+  html body.ep-app .ap-karu-spur>.ap-held.ap-held2>img{top:0!important;height:100%!important}
+}
+/* Handy: Beschreibung in den Karussell-Kacheln höchstens 2 Zeilen, damit nichts unten abgeschnitten wird */
+@media (max-width:699px){html body.ep-app .ap-karu-spur>.ap-held .aph-text{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;max-width:none!important;white-space:normal!important}}
+/* Figuren am unteren Kachelrand: nicht unter den Rand schieben, sonst werden Schuhe abgeschnitten */
+html body .apf.ap-top>img,html body .ep-w.ep-testk>img{bottom:0!important;right:max(0px,var(--fig-r,0px))!important}
 /* --- 7. Bibliothek (Handy und Tablet): Texte bleiben im goldenen Rahmen der Buchform.
    Die Selektoren sind absichtlich stärker als die App-Regeln (body.ep-app.ep-s-lib ...). Schrift in cqw = Anteil der Buchbreite. --- */
 @media (max-width:900px){
