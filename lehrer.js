@@ -286,7 +286,15 @@ function supaSpeicher(){
       chk(await sb().from("lehrer_abgaben").update({korrektur:korrektur||{}, ...(r?{punkte:r.punkte, max:r.max, note:r.note}:{})}).eq("id",a.id)); },
     async kidLaden(code, pin){ const r=await sb().rpc("test_laden",{test_code:normCode(code), pin:normPin(pin)}); if(r.error) throw new Error(r.error.message); return r.data||{fehler:"code"}; },
     async kidAbgeben(code, pin, antworten, dauer){ const r=await sb().rpc("abgabe_einreichen",{test_code:normCode(code), pin:normPin(pin), antworten, dauer_ms:Math.max(0,dauer|0)}); if(r.error) throw new Error(r.error.message);
-      const d=r.data||{fehler:"daten"}; if(d.note!=null) d.note=+d.note; return d; }
+      const d=r.data||{fehler:"daten"}; if(d.note!=null) d.note=+d.note; return d; },
+    /* Klassen-Liga (supabase/klassenliga.sql) */
+    liga: true,
+    async ligaMeine(){ return chk(await sb().from("liga_klassen").select("klasse_id,liga_id,anzeige,kanton,gesperrt")); },
+    async ligaAnmelden(klasseId, anzeige, kanton){ const r=await sb().rpc("liga_anmelden",{p_klasse:klasseId, p_anzeige:anzeige, p_kanton:kanton||""}); if(r.error) throw new Error((r.error.code?r.error.code+" ":"")+r.error.message); return r.data||{fehler:"daten"}; },
+    async ligaAbmelden(klasseId){ const r=await sb().rpc("liga_abmelden",{p_klasse:klasseId}); if(r.error) throw new Error((r.error.code?r.error.code+" ":"")+r.error.message); return !!r.data; },
+    async ligaRangliste(woche, kanton){ const r=await sb().rpc("liga_rangliste",{p_woche:woche||null, p_kanton:kanton||null}); if(r.error) throw new Error((r.error.code?r.error.code+" ":"")+r.error.message);
+      return (r.data||[]).map(x=>({platz:+x.platz, id:x.liga_id, anzeige:x.anzeige, kanton:x.kanton||"", zyklus:x.zyklus, punkte:+x.punkte, kinder:+x.kinder, aktiv:+x.aktiv})); },
+    async ligaKind(code, pin){ const r=await sb().rpc("liga_meine_klasse",{test_code:normCode(code), pin:normPin(pin)}); if(r.error) throw new Error(r.error.message); return r.data||{liga:false}; }
   };
 }
 
@@ -528,8 +536,8 @@ const LZ = { daten:null, lid:null, laedt:false, fehler:"", klasseId:null, testCo
 const app = () => $q("#app");
 function rerender(){ if(SEITEN[S.screen]) render(); }
 /* Lehrerbereich im Stil der Verwaltung: Kopfzeile, Navigation links, Inhalt rechts, ohne Figuren und Effekte */
-const ADMIN_SEITEN = new Set(["lehrer","lklasse","lkind","ltestneu","ltest","lkinder","lfragen","lbib","lbibseite","lmeld"]);
-const NAV_L = [["lehrer","Übersicht","Klassen und Tests"],["lkinder","Kinder","Leistung und Verlauf"],["ltestneu","Neuer Test","Fragen wählen oder selbst schreiben"],["lfragen","Fragendatenbank","alle Fragen lesen"],["lbib","Bibliothek","alle Artikel lesen"],["lmeld","Fehlermeldungen","gemeldete Fehler"]];
+const ADMIN_SEITEN = new Set(["lehrer","lklasse","lkind","ltestneu","ltest","lkinder","lliga","lfragen","lbib","lbibseite","lmeld"]);
+const NAV_L = [["lehrer","Übersicht","Klassen und Tests"],["lkinder","Kinder","Leistung und Verlauf"],["lliga","Klassen-Liga","Klasse gegen Klasse"],["ltestneu","Neuer Test","Fragen wählen oder selbst schreiben"],["lfragen","Fragendatenbank","alle Fragen lesen"],["lbib","Bibliothek","alle Artikel lesen"],["lmeld","Fehlermeldungen","gemeldete Fehler"]];
 const NAV_AKTIV = {lklasse:"lehrer", ltest:"lehrer", lkind:"lkinder", lbibseite:"lbib"};
 function shell(html){
   const akt = NAV_AKTIV[S.screen] || S.screen;
@@ -718,6 +726,7 @@ function seiteKlasse(){
       ${verlaufSVG([{name:"Ø Klasse", farbe:"var(--welt)", punkte:wochenSchnitt(ab).map(p=>({w:p.w, wert:p.wert, n:p.n}))}], "Notenverlauf der Klasse")}
     </section>
     <section class="statcard lz-sek"><h2>📋 Noten: Kinder × Tests</h2>${tabelleKindTest(k, ts)}</section>
+    ${ligaKlasseHTML(k)}
     <section class="statcard lz-sek"><h2>🔍 Fehleranalyse der Klasse</h2>
       <p class="help">Fragen, die in allen Tests dieser Klasse am häufigsten falsch beantwortet wurden.</p>
       ${themenBalken(themenQuote(ts, ab))}
@@ -746,6 +755,7 @@ function seiteKlasse(){
   $q("#lzESave").onclick=()=>{ const name=$q("#lzEName").value.trim().slice(0,60); if(!name){ $q("#lzEErr").textContent="Der Name darf nicht leer sein."; return; }
     speichern({...k, name, schuljahr:$q("#lzESj").value, zyklus:+$q("#lzEZy").value}); };
   $q("#lzTNeuK").onclick=()=>{ LZ.neu=null; LZ.neuKlasse=k.id; go("ltestneu"); };
+  $a("[data-lzl-zu]").forEach(b=>b.onclick=()=>{ go("lliga"); scrollTo(0,0); });
   $q("#lzPinPdf") && ($q("#lzPinPdf").onclick=async()=>{ const b=$q("#lzPinPdf"); b.disabled=true; try{ const d=await pdfPins(k); const r=await pdfSpeichern(d, `PIN-Kaertchen-${slug(k.name)}.pdf`); if(r==="gespeichert") toast("PDF erstellt.","ok"); }catch(e){ toast(fehlerText(e),"bad"); } b.disabled=false; });
   $q("#lzKDel").onclick=async()=>{ if(!confirm(`Klasse «${k.name}» mit allen Tests und Resultaten löschen? Das kann nicht rückgängig gemacht werden.`)) return;
     try{ await SP.klasseLoeschen(k.id, LZ.daten.tests); toast("Klasse gelöscht.","ok"); await neuLaden(); go("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); } };
@@ -1303,6 +1313,7 @@ function seiteFertig(){
     <p>${E.punkte} von ${E.max} Punkten · Zeit ${h(zeit(E.dauer))} · ${h(T.titel)}</p>
     ${T.fragen.some(istOffen)?`<p class="help">Die Note bekommst du, sobald deine Lehrperson die offenen Fragen korrigiert hat.</p>`:""}
     <p class="help">Dein Resultat ist bei deiner Lehrperson angekommen.</p>
+    <div id="lzLigaKind"></div>
     <div class="summary"><h2>Lösungen und Erklärungen</h2>
       <div class="review">${T.fragen.map((f,i)=>{ const l=E.loesung?.[i]||{}; const d=K.antworten[i];
         if(istOffen(f) || l.offen) return `<div class="rev r-offen"><div class="revhead"><span class="revnr">${i+1}</span><span aria-hidden="true">✍️</span><b>${h(f.q)}</b></div>
@@ -1313,11 +1324,232 @@ function seiteFertig(){
           ${l.e?`<span class="revm">💡 ${h(l.e)}</span>`:""}</div>`; }).join("")}</div></div>
     <div class="row"><button class="big" id="lzFertigOk" type="button">🏠 Zur Startseite</button></div></div>`);
   $q("#lzFertigOk").onclick=()=>{ LZ.kid=null; go("home"); };
+  ligaKindNachAbgabe(K);
+}
+
+/* ================= 7b. Klassen-Liga («Klasse gegen Klasse») =================
+   Lehrpersonen melden eine Klasse freiwillig mit Anzeigenamen (ohne Kindernamen) an.
+   Punkte pro ISO-Woche = Testpunkte aller Abgaben der Klasse (pro Kind höchstens 150) / Anzahl eingetragener Kinder.
+   Berechnet wird nur auf dem Server (supabase/klassenliga.sql, Funktion liga_rangliste). Ohne Supabase: Hinweis und Vorschau mit Beispieldaten. */
+const LS_LIGA = "ep-lehrer-liga";   // Gerät eines Kindes: {id, anzeige, kanton} der Liga-Klasse (kein Name, kein PIN)
+const LIGA_MIN = 5;
+const LIGA = {woche:"jetzt", kanton:"", cache:{}, laedt:{}, fehler:"", meine:null, meineLaedt:false, offen:null, info:""};
+function isoWoche(d){
+  const t=new Date(d||Date.now()); t.setHours(12,0,0,0); t.setDate(t.getDate()+3-((t.getDay()+6)%7));
+  const jahr=t.getFullYear(), j4=new Date(jahr,0,4,12); const n=1+Math.round(((t-j4)/864e5-3+((j4.getDay()+6)%7))/7);
+  return {jahr, kw:n, key:`${jahr}-${String(n).padStart(2,"0")}`};
+}
+function ligaWochen(){ return {jetzt:isoWoche(new Date()), vor:isoWoche(new Date(Date.now()-7*864e5))}; }
+const fmtPkt = n => { const x=Math.round((+n||0)*10)/10; try{ return x.toLocaleString("de-CH",{minimumFractionDigits:1, maximumFractionDigits:1}); }catch(e){ return x.toFixed(1); } };
+const KT_STD = [["AG","Aargau"],["AI","Appenzell Innerrhoden"],["AR","Appenzell Ausserrhoden"],["BE","Bern"],["BL","Basel-Landschaft"],["BS","Basel-Stadt"],["FR","Freiburg"],["GE","Genf"],["GL","Glarus"],["GR","Graubünden"],["JU","Jura"],["LU","Luzern"],["NE","Neuenburg"],["NW","Nidwalden"],["OW","Obwalden"],["SG","St. Gallen"],["SH","Schaffhausen"],["SO","Solothurn"],["SZ","Schwyz"],["TG","Thurgau"],["TI","Tessin"],["UR","Uri"],["VD","Waadt"],["VS","Wallis"],["ZG","Zug"],["ZH","Zürich"]];
+let KT_CACHE=null;
+// KANTONE der Seite kann [Kürzel, Name] oder {kuerzel, kurz} enthalten; die 26 Kantone als Rückfall
+function kantonListe(){
+  if(KT_CACHE) return KT_CACHE;
+  let l=[]; try{ if(typeof KANTONE!=="undefined" && Array.isArray(KANTONE)) l=KANTONE.map(k=>Array.isArray(k) ? [k[0],k[1]] : (k && k.kuerzel ? [k.kuerzel, k.kurz||String(k.name||"").replace(/^Kanton\s+/,"")] : null)).filter(k=>k && /^[A-Z]{2}$/.test(k[0]) && k[1]); }catch(e){}
+  KT_CACHE = (l.length>=26 ? l : KT_STD).slice().sort((a,b)=>String(a[1]).localeCompare(String(b[1]),"de"));
+  return KT_CACHE;
+}
+const ktName = c => (kantonListe().find(k=>k[0]===c)||[])[1] || c || "";
+const MEDAILLE = {1:["🥇","Gold"], 2:["🥈","Silber"], 3:["🥉","Bronze"]};
+const LIGA_FEHLER = {konto:"Bitte melde dich zuerst an.", klasse:"Diese Klasse gehört nicht zu deinem Konto.", name:"Der Anzeigename braucht 2 bis 40 Zeichen, ohne E-Mail-Adresse oder Link.",
+  kanton:"Bitte einen Kanton aus der Liste wählen.", klein:`Für die Liga braucht die Klasse mindestens ${LIGA_MIN} eingetragene Kinder.`, viele:"Du hast schon 30 Klassen in der Liga.", daten:"Das hat nicht geklappt."};
+function ligaFehlerText(e){
+  const m=String(e?.message||e||"");
+  if(/PGRST202|42883|42P01|could not find the function|liga_klassen|does not exist|schema cache/i.test(m)) return "Die Klassen-Liga ist in Supabase noch nicht eingerichtet. Bitte supabase/klassenliga.sql im SQL Editor ausführen (ANLEITUNG-SUPABASE.md, Schritt 7).";
+  return fehlerText(e);
+}
+// Beispieldaten für die Vorschau ohne Online-Datenbank (klar als Beispiel markiert)
+const LIGA_BSP = {
+  jetzt:[["5b Solothurn","SO",2,24.6,22,21],["6a Wil","SG",2,22.1,19,18],["4c Bern Kirchenfeld","BE",2,19.8,24,20],["Deine Klasse (Beispiel)","ZH",2,17.3,21,17,1],
+         ["3b Chur","GR",2,15.0,18,14],["2. Sek Aarau","AG",3,12.4,23,16],["5a Luzern","LU",2,9.7,20,12],["4b Frauenfeld","TG",2,6.2,17,9],["6c Zürich Wipkingen","ZH",2,4.8,25,10]],
+  vor:[["6a Wil","SG",2,26.3,19,19],["Deine Klasse (Beispiel)","ZH",2,23.9,21,20,1],["5b Solothurn","SO",2,21.0,22,19],["2. Sek Aarau","AG",3,18.2,23,20],
+       ["4c Bern Kirchenfeld","BE",2,14.5,24,17],["3b Chur","GR",2,11.1,18,12],["6c Zürich Wipkingen","ZH",2,7.6,25,13]]
+};
+function mitPlatz(l){ const s=[...l].sort((a,b)=>b.punkte-a.punkte || String(a.anzeige).localeCompare(String(b.anzeige),"de")); let p=0, last=null;
+  return s.map((x,i)=>{ if(x.punkte!==last){ p=i+1; last=x.punkte; } return {...x, platz:p}; }); }
+function ligaBeispiel(woche, kanton){
+  const l=(LIGA_BSP[woche]||[]).map(([anzeige,kt,zy,pk,ki,ak,eig])=>({id:"bsp-"+anzeige, anzeige, kanton:kt, zyklus:zy, punkte:pk, kinder:ki, aktiv:ak, eigen:!!eig}));
+  return mitPlatz(l.filter(x=>!kanton || x.kanton===kanton));
+}
+// Rangliste laden (Supabase), zwischengespeichert pro Woche und Kanton; zeichnet die Seite danach neu
+function ligaLaden(key, kanton, nachher){
+  const ck=key+"|"+(kanton||"");
+  if(LIGA.cache[ck] || LIGA.laedt[ck] || !SP?.liga) return LIGA.cache[ck]||null;
+  LIGA.laedt[ck]=true;
+  SP.ligaRangliste(key, kanton).then(l=>{ LIGA.cache[ck]={liste:l, zeit:Date.now()}; LIGA.fehler=""; })
+    .catch(e=>{ console.warn("lehrer.js Liga", e); LIGA.fehler=ligaFehlerText(e); LIGA.cache[ck]={liste:[], zeit:Date.now(), fehler:true}; })
+    .finally(()=>{ delete LIGA.laedt[ck]; try{ nachher ? nachher() : (S.screen==="lliga" || S.screen==="lklasse") && rerender(); }catch(e){} });
+  return null;
+}
+function ligaMeineLaden(){
+  if(LIGA.meine || LIGA.meineLaedt || !SP?.liga) return;
+  LIGA.meineLaedt=true;
+  SP.ligaMeine().then(l=>{ LIGA.meine=l||[]; }).catch(e=>{ console.warn("lehrer.js Liga", e); LIGA.meine=[]; LIGA.fehler=ligaFehlerText(e); })
+    .finally(()=>{ LIGA.meineLaedt=false; if(S.screen==="lliga" || S.screen==="lklasse") rerender(); });
+}
+function ligaNeuLaden(){ LIGA.cache={}; LIGA.meine=null; LIGA.fehler=""; }
+function ligaListeHTML(liste, eigene, leerText){
+  if(!liste.length) return `<p class="empty">${h(leerText||"Diese Woche hat noch keine Klasse Punkte gesammelt.")}</p>`;
+  const top=Math.max(0.1, liste[0].punkte);
+  const zeigen=liste.filter((x,i)=>i<30 || eigene(x));
+  return `<ol class="lzl-liste" aria-label="Rangliste">${zeigen.map((x,i)=>{ const eig=eigene(x), m=MEDAILLE[x.platz], p=Math.max(3, Math.round(x.punkte/top*100));
+    const luecke = i>0 && liste.indexOf(x)!==liste.indexOf(zeigen[i-1])+1;
+    return `${luecke?`<li class="lzl-luecke" aria-hidden="true">⋯</li>`:""}<li class="lzl-karte ${m?"lzl-p"+x.platz:""} ${eig?"lzl-eigen":""}" ${eig?'aria-current="true"':""}>
+      <span class="lzl-platz">${m?`<span aria-hidden="true">${m[0]}</span><span class="lzl-sr">Platz ${x.platz}</span>`:`<span class="lzl-sr">Platz </span>${x.platz}`}</span>
+      <span class="lzl-mitte"><b class="lzl-name">${h(x.anzeige)}</b>
+        <span class="lzl-pills">${eig?`<i class="lzl-pill">Deine Klasse</i>`:""}${m?`<i class="lzl-pill">${m[1]}-Abzeichen</i>`:""}</span>
+        <small>${x.kanton?h(ktName(x.kanton))+" · ":""}${x.zyklus?"Zyklus "+h(x.zyklus)+" · ":""}${h(x.aktiv)} von ${h(x.kinder)} Kindern aktiv</small>
+        <span class="lzl-bar" aria-hidden="true"><i style="width:${p}%"></i></span></span>
+      <span class="lzl-pkt"><b>${fmtPkt(x.punkte)}</b><small>Punkte pro Kind</small></span></li>`; }).join("")}</ol>`;
+}
+function ligaFilterHTML(W){
+  return `<div class="lzl-filter">
+    <div class="segs" role="group" aria-label="Woche"><button type="button" class="seg" data-lw="jetzt" aria-pressed="${LIGA.woche==="jetzt"}">Diese Woche · KW ${W.jetzt.kw}</button><button type="button" class="seg" data-lw="vor" aria-pressed="${LIGA.woche==="vor"}">Vorwoche · KW ${W.vor.kw}</button></div>
+    <label class="lzl-kt"><span>Kanton</span><select id="lzlKt" class="sel"><option value="">Ganze Schweiz</option>${kantonListe().map(([c,n])=>`<option value="${h(c)}" ${LIGA.kanton===c?"selected":""}>${h(n)}</option>`).join("")}</select></label>
+  </div>`;
+}
+function ligaFilterBinden(){
+  $a("[data-lw]").forEach(b=>b.onclick=()=>{ LIGA.woche=b.dataset.lw; rerender(); const n=$q(`[data-lw="${LIGA.woche}"]`); n&&n.focus(); });
+  const k=$q("#lzlKt"); k && (k.onchange=()=>{ LIGA.kanton=k.value; rerender(); const n=$q("#lzlKt"); n&&n.focus(); });
+}
+const ligaRegeln = () => `<details class="lzl-regeln"><summary>So werden die Punkte berechnet</summary>
+  <ul><li>Gezählt werden die <b>Testpunkte</b> aller Abgaben der Kinder einer Klasse in der Kalenderwoche (Montag bis Sonntag). Bei Auswahlfragen gibt jede richtige Antwort 1 Punkt, offene Fragen zählen mit den Punkten aus deiner Korrektur.</li>
+  <li>Pro Kind zählen höchstens 150 Punkte pro Woche.</li>
+  <li>Die Summe wird durch die Anzahl <b>eingetragener Kinder</b> der Klasse geteilt. So sind kleine und grosse Klassen vergleichbar, und es lohnt sich, dass alle mitmachen.</li>
+  <li>Mitmachen können Klassen ab ${LIGA_MIN} Kindern. Öffentlich sind nur Anzeigename, Kanton, Zyklus, Punkte pro Kind und wie viele Kinder aktiv waren, nie Namen oder einzelne Resultate.</li>
+  <li>Die drei besten Klassen der Woche bekommen ein Gold-, Silber- oder Bronze-Abzeichen.</li></ul></details>`;
+// Karte für Kinder: Platz der eigenen Klasse und Fortschrittsbalken (Abstand zur besten Klasse)
+function ligaKindKarte(info, liste, beispiel){
+  const W=ligaWochen().jetzt; const x=(liste||[]).find(y=>y.id===info.id); let haupt, sub, p=0, med="";
+  if(x){ const top=Math.max(0.1, liste[0].punkte); p=Math.max(6, Math.round(x.punkte/top*100)); const m=MEDAILLE[x.platz]; med=m?m[0]+" ":"";
+    const vor=[...liste].reverse().find(y=>y.platz<x.platz);
+    haupt=`Platz ${x.platz} von ${liste.length}`;
+    sub = !vor ? "Eure Klasse ist ganz vorne. Super gemacht!" : `Noch ${fmtPkt(Math.max(0.1, vor.punkte-x.punkte))} Punkte pro Kind bis Platz ${vor.platz}. Jeder Test hilft mit!`;
+  } else { haupt="Noch keine Punkte"; sub="Diese Woche zählt jeder gelöste Test. Gemeinsam schafft ihr das!"; }
+  return `<section class="lzl-kind${beispiel?" lzl-bsp":""}" aria-label="Klassen-Liga">
+    <img src="img/kids/duo-jubel.webp" alt="" class="lzl-kindbild" width="120" height="120">
+    <div class="lzl-kindtext"><small>🏆 Klassen-Liga · KW ${W.kw}${beispiel?" · Beispiel":""}</small>
+      <b>${h(info.anzeige)}</b><span class="lzl-gross">${med}${h(haupt)}</span>
+      <span class="lzl-bar hell" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}" aria-label="Punkte im Vergleich zur besten Klasse"><i style="width:${p}%"></i></span>
+      <span class="lzl-sub">${h(sub)}</span></div></section>`;
+}
+
+function seiteLiga(){
+  if(!bereitFuerLehrer("Klassen-Liga")) return;
+  const W=ligaWochen(), wk=LIGA.woche==="vor"?W.vor:W.jetzt, D=LZ.daten;
+  const kopf=`${lc([START,LB], "Klassen-Liga")}
+    <div class="bhead"><span class="emo" aria-hidden="true">🏆</span><h1>Klassen-Liga</h1></div>
+    <p class="bdesc">Klasse gegen Klasse: Jede Woche zählen die Testpunkte eurer Kinder, geteilt durch die Anzahl Kinder der Klasse. So haben kleine und grosse Klassen die gleichen Chancen. Mitmachen ist freiwillig.</p>`;
+  if(!SP.liga){
+    const bsp=ligaBeispiel(LIGA.woche, LIGA.kanton); const bspJetzt=ligaBeispiel("jetzt","");
+    setze(`${kopf}
+      <div class="lzl-online"><span class="lzl-onicon" aria-hidden="true">🌐</span><div><b>Die Klassen-Liga braucht die Online-Datenbank.</b>
+        <p>Damit Klassen von verschiedenen Schulen gegeneinander spielen können, müssen die Punkte an einem gemeinsamen Ort zusammenkommen. Im Moment speichert easyplay alles nur ${SP.art==="claude"?"in diesem claude.ai-Artifact":"auf diesem Gerät"}. Sobald Supabase verbunden ist (ANLEITUNG-SUPABASE.md, Schritt 7), kannst du deine Klassen hier anmelden.</p></div></div>
+      <section class="statcard"><h2>Vorschau mit Beispieldaten</h2>
+        <p class="lzl-bspband" role="note">Beispiel: Diese Klassen und Punkte sind erfunden und dienen nur zur Ansicht.</p>
+        ${ligaFilterHTML(W)}
+        ${ligaListeHTML(bsp, x=>x.eigen, "In diesem Kanton gibt es in den Beispieldaten keine Klasse.")}
+      </section>
+      <div class="lz-grid2">
+        <section class="statcard"><h2>So sehen es die Kinder</h2>
+          <p class="help">Nach einem Test und im Profil sehen die Kinder den Platz ihrer Klasse (Beispiel):</p>
+          ${ligaKindKarte({id:"bsp-Deine Klasse (Beispiel)", anzeige:"Deine Klasse (Beispiel)"}, bspJetzt, true)}
+        </section>
+        <section class="statcard"><h2>Meine Klassen</h2>
+          ${D.klassen.length ? `<ul class="lzl-meine">${D.klassen.map(k=>`<li><span><b>${h(k.name)}</b><small>${(k.schueler||[]).length} Kinder</small></span><button type="button" class="lza-k klein" disabled>Anmelden</button></li>`).join("")}</ul>
+            <p class="help">Anmelden geht, sobald die Online-Datenbank verbunden ist.</p>` : `<p class="empty">Noch keine Klasse.</p>`}
+        </section>
+      </div>
+      ${ligaRegeln()}`);
+    ligaFilterBinden();
+    return;
+  }
+  // Online (Supabase)
+  ligaMeineLaden();
+  const daten=ligaLaden(wk.key, LIGA.kanton); const jetztAlle=ligaLaden(W.jetzt.key, ""); const vorAlle=ligaLaden(W.vor.key, "");
+  const meine=LIGA.meine||[]; const meineIds=new Set(meine.map(m=>m.liga_id));
+  const eigen=x=>meineIds.has(x.id);
+  const platzVon=(cache,id)=>cache?.liste?.find(x=>x.id===id)||null;
+  const klassenHTML = !LIGA.meine ? ladeAnzeige("Anmeldungen werden geladen …") : !D.klassen.length ? `<p class="empty">Lege zuerst eine Klasse an.</p>` :
+    `<ul class="lzl-meine">${D.klassen.map(k=>{ const a=meine.find(m=>m.klasse_id===k.id); const n=(k.schueler||[]).length;
+      const j=a&&platzVon(jetztAlle,a.liga_id), v=a&&platzVon(vorAlle,a.liga_id); const mv=v&&MEDAILLE[v.platz];
+      const status = !a ? (n<LIGA_MIN ? `Nicht angemeldet. Ab ${LIGA_MIN} Kindern möglich (jetzt ${n}).` : "Nicht angemeldet.")
+        : a.gesperrt ? `Als «${h(a.anzeige)}» angemeldet, aber von der Verwaltung ausgeblendet. Bitte melde dich bei easyplay.`
+        : `Als «${h(a.anzeige)}»${a.kanton?" · "+h(ktName(a.kanton)):""} · ${j?`diese Woche Platz ${j.platz} (${fmtPkt(j.punkte)} Punkte pro Kind)`:"diese Woche noch keine Punkte"}${mv?` · ${mv[0]} ${mv[1]}-Abzeichen der Vorwoche`:""}`;
+      const form = LIGA.offen===k.id ? `<div class="lz-form lzl-form">
+          <label for="lzlName">Anzeigename der Klasse (ohne Kindernamen)</label><input id="lzlName" class="sel" maxlength="40" value="${h(a?.anzeige||k.name)}" placeholder="z. B. 5b Solothurn">
+          <label for="lzlKanton">Kanton</label><select id="lzlKanton" class="sel"><option value="">ohne Kanton</option>${kantonListe().map(([c,nm])=>`<option value="${h(c)}" ${(a?.kanton||"")===c?"selected":""}>${h(nm)}</option>`).join("")}</select>
+          <p class="help">Der Anzeigename ist für alle easyplay-Besucher sichtbar. Nimm Klasse und Ort oder Schulhaus, keine Namen von Kindern oder Lehrpersonen.</p>
+          <p class="err" id="lzlErr" aria-live="polite"></p>
+          <div class="row"><button type="button" class="big" id="lzlSave" data-k="${h(k.id)}">${a?"Speichern":"Für die Liga anmelden"}</button><button type="button" class="big alt" id="lzlAbbr">Abbrechen</button></div></div>` : "";
+      return `<li class="${LIGA.offen===k.id?"offen":""}"><span><b>${h(k.name)}</b><small>${status}</small></span>
+        <span class="lzl-akt">${a ? `<button type="button" class="lza-k klein" data-lzl-edit="${h(k.id)}">Ändern</button>${a.gesperrt?"":`<button type="button" class="lza-k klein g" data-lzl-ab="${h(k.id)}">Abmelden</button>`}`
+          : `<button type="button" class="lza-k klein p" data-lzl-edit="${h(k.id)}" ${n<LIGA_MIN?"disabled":""}>Anmelden</button>`}</span>${form}</li>`; }).join("")}</ul>`;
+  setze(`${kopf}
+    ${LIGA.fehler?`<div class="lz-hinweis">⚠️ <span>${h(LIGA.fehler)}</span></div>`:""}
+    ${LIGA.info?`<p class="lzl-info" role="status">${h(LIGA.info)}</p>`:""}
+    <section class="statcard"><h2>Meine Klassen in der Liga</h2>${klassenHTML}</section>
+    <section class="statcard"><h2>Rangliste KW ${wk.kw}${LIGA.kanton?" · "+h(ktName(LIGA.kanton)):""}</h2>
+      ${ligaFilterHTML(W)}
+      ${daten ? ligaListeHTML(daten.liste, eigen, LIGA.kanton ? "In diesem Kanton hat diese Woche noch keine Klasse Punkte." : (LIGA.woche==="vor" ? "In der Vorwoche hat keine Klasse Punkte gesammelt." : "Diese Woche hat noch keine Klasse Punkte gesammelt. Der erste Test zählt!")) : ladeAnzeige("Rangliste wird geladen …")}
+      <div class="row"><button type="button" class="lza-k" id="lzlReload">Aktualisieren</button></div>
+    </section>
+    ${ligaRegeln()}`);
+  LIGA.info="";
+  ligaFilterBinden();
+  $q("#lzlReload").onclick=()=>{ ligaNeuLaden(); rerender(); };
+  $a("[data-lzl-edit]").forEach(b=>b.onclick=()=>{ LIGA.offen = LIGA.offen===b.dataset.lzlEdit ? null : b.dataset.lzlEdit; rerender(); const i=$q("#lzlName"); i&&i.focus(); });
+  $q("#lzlAbbr") && ($q("#lzlAbbr").onclick=()=>{ LIGA.offen=null; rerender(); });
+  $q("#lzlSave") && ($q("#lzlSave").onclick=async()=>{ const b=$q("#lzlSave"), err=$q("#lzlErr"); const name=$q("#lzlName").value.replace(/\s+/g," ").trim();
+    if(name.length<2 || name.length>40 || /[@<>{}]|https?:|www\./i.test(name)){ err.textContent=LIGA_FEHLER.name; $q("#lzlName").focus(); return; }
+    const kid=(LZ.daten.klassen.find(k=>k.id===b.dataset.k)?.schueler||[]).map(s=>s.name.toLowerCase());
+    if(kid.some(n=>n.length>=3 && new RegExp(`(^|[^a-zäöü])${n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}([^a-zäöü]|$)`,"i").test(name))){ err.textContent="Bitte keine Namen von Kindern im Anzeigenamen."; $q("#lzlName").focus(); return; }
+    b.disabled=true; err.textContent="Wird gespeichert …";
+    try{ const r=await SP.ligaAnmelden(b.dataset.k, name, $q("#lzlKanton").value);
+      if(!r || r.fehler){ err.textContent=LIGA_FEHLER[r?.fehler]||LIGA_FEHLER.daten; b.disabled=false; return; }
+      LIGA.offen=null; LIGA.info=`«${r.anzeige}» ist in der Klassen-Liga angemeldet.`; ligaNeuLaden(); rerender(); toast("Gespeichert.","ok");
+    }catch(e){ err.textContent=ligaFehlerText(e); b.disabled=false; } });
+  $a("[data-lzl-ab]").forEach(b=>b.onclick=async()=>{ const k=LZ.daten.klassen.find(x=>x.id===b.dataset.lzlAb); if(!k || !confirm(`«${k.name}» aus der Klassen-Liga abmelden? Die Klasse erscheint dann nicht mehr in der Rangliste.`)) return;
+    b.disabled=true; try{ await SP.ligaAbmelden(k.id); LIGA.info=`«${k.name}» ist abgemeldet.`; ligaNeuLaden(); rerender(); }catch(e){ toast(ligaFehlerText(e),"bad"); b.disabled=false; } });
+}
+// Kurzer Liga-Block auf der Klassenseite
+function ligaKlasseHTML(k){
+  if(!SP?.liga) return `<section class="statcard lz-sek"><h2>🏆 Klassen-Liga</h2><p class="help">Klasse gegen Klasse: Die Liga braucht die Online-Datenbank. Schau dir die Vorschau mit Beispieldaten an.</p><div class="row lz-links"><button type="button" class="big alt" data-lzl-zu="1">Zur Klassen-Liga</button></div></section>`;
+  ligaMeineLaden(); const a=(LIGA.meine||[]).find(m=>m.klasse_id===k.id);
+  const W=ligaWochen(); const c=a ? ligaLaden(W.jetzt.key, "") : null; const j=c?.liste?.find(x=>x.id===a.liga_id);
+  const txt = !LIGA.meine ? "Wird geladen …" : !a ? "Diese Klasse ist nicht in der Liga angemeldet. Mitmachen ist freiwillig." : a.gesperrt ? `Als «${a.anzeige}» angemeldet, von der Verwaltung ausgeblendet.` : `Als «${a.anzeige}» angemeldet · ${j?`diese Woche Platz ${j.platz} mit ${fmtPkt(j.punkte)} Punkten pro Kind`:"diese Woche noch keine Punkte"}.`;
+  return `<section class="statcard lz-sek"><h2>🏆 Klassen-Liga</h2><p class="help">${h(txt)}</p><div class="row lz-links"><button type="button" class="big alt" data-lzl-zu="1">Zur Klassen-Liga</button></div></section>`;
+}
+// Kinder: nach der Abgabe (mit Code und PIN) die eigene Liga-Klasse merken und den Platz zeigen
+async function ligaKindNachAbgabe(K){
+  try{
+    if(!SP?.liga || !K?.code || !K?.pin) return;
+    if(!K.liga){ const r=await SP.ligaKind(K.code, K.pin); K.liga = r && r.liga ? {id:r.liga_id, anzeige:r.anzeige, kanton:r.kanton||""} : {kein:true};
+      if(!K.liga.kein) lsSet(LS_LIGA, K.liga); }
+    if(K.liga.kein) return;
+    const W=ligaWochen(); const ck=W.jetzt.key+"|";
+    const zeige=()=>{ const el=$q("#lzLigaKind"); const c=LIGA.cache[ck]; if(el && c && !c.fehler) el.innerHTML=ligaKindKarte(K.liga, c.liste, false); };
+    if(LIGA.cache[ck] && Date.now()-LIGA.cache[ck].zeit<60000) zeige(); else { delete LIGA.cache[ck]; ligaLaden(W.jetzt.key, "", zeige); }
+  }catch(e){ console.warn("lehrer.js Liga (Kind)", e); }
+}
+// Kinder: im Profil, falls dieses Gerät eine Liga-Klasse kennt
+function ligaProfil(){
+  try{
+    const info=lsGet(LS_LIGA, null); if(!info || !info.id || S.screen!=="profil" || !app() || $q("#lzlProfil")) return;
+    const box=document.createElement("div"); box.id="lzlProfil"; box.className="lz-sek"; app().appendChild(box);
+    speicher().then(sp=>{ if(!sp?.liga){ box.remove(); return; } const W=ligaWochen(); const ck=W.jetzt.key+"|";
+      const zeige=()=>{ const c=LIGA.cache[ck]; if(!document.body.contains(box) || !c || c.fehler) return;
+        box.innerHTML=ligaKindKarte(info, c.liste, false)+`<p class="lzl-weg"><button type="button" class="lz-link" id="lzlVergessen">Klasse auf diesem Gerät nicht mehr anzeigen</button></p>`;
+        const v=box.querySelector("#lzlVergessen"); v&&(v.onclick=()=>{ try{ localStorage.removeItem(LS_LIGA); }catch(e){} box.remove(); }); };
+      if(LIGA.cache[ck] && Date.now()-LIGA.cache[ck].zeit<60000) zeige(); else { delete LIGA.cache[ck]; ligaLaden(W.jetzt.key, "", zeige); }
+    }).catch(()=>{});
+  }catch(e){}
 }
 
 /* ================= 8. Einbindung in easyplay ================= */
 const SEITEN = {lehrer:seiteLehrer, lklasse:seiteKlasse, lkind:seiteKind, ltestneu:seiteTestNeu, ltest:seiteTest, lcode:seiteCode, lspiel:seiteSpiel, lfertig:seiteFertig,
-  lkinder:seiteKinder, lfragen:seiteFragen, lbib:seiteBib, lbibseite:seiteBibSeite, lmeld:seiteMeldungen};
+  lkinder:seiteKinder, lliga:seiteLiga, lfragen:seiteFragen, lbib:seiteBib, lbibseite:seiteBibSeite, lmeld:seiteMeldungen};
 const origRender=window.render;
 window.render=function(){
   try{ if(S.profil && !["login","register"].includes(S.screen) && sessionStorage.getItem("ep-lz-nach-login")){ sessionStorage.removeItem("ep-lz-nach-login"); S.screen="lehrer"; } }catch(e){}
@@ -1369,6 +1601,7 @@ if(typeof window.renderProfil==="function"){
         const ro=box.querySelector("#lzProfRolle"); ro&&(ro.onclick=async()=>{ ro.disabled=true; try{ const sp=await speicher(); if(!sp.lehrerId()){ go("lehrer"); return; } await sp.rolleSetzen(); go("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); ro.disabled=false; } }); };
       fertig(); app().appendChild(box); if(!SP) speicher().then(()=>{ if(document.body.contains(box)) fertig(); });
     } }catch(e){}
+    ligaProfil();
     return r;
   };
 }
@@ -1686,6 +1919,73 @@ body.lz-admin,body.ep-app.lz-admin{padding:0!important}
 .lza .lz-erstellen{position:sticky;bottom:0;background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:10px!important;box-shadow:0 -4px 12px rgba(40,20,90,.06)!important;padding:10px 14px!important;z-index:3}
 .lz-kidbild{height:150px;width:auto;display:block;margin:0 auto 6px;filter:drop-shadow(0 10px 16px rgba(40,30,120,.25))}
 @media (max-width:520px){.lz-kidbild{height:110px}}
+/* Klassen-Liga */
+.lzl-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.lzl-online{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#5B45E8,#8A3FE0);color:#fff;border-radius:22px;padding:16px 18px;margin:0 0 14px;box-shadow:0 10px 24px rgba(70,40,160,.22)}
+.lzl-online b{font-size:16px;display:block;margin-bottom:4px}
+.lzl-online p{margin:0;color:#fff;opacity:.95;line-height:1.5}
+.lzl-onicon{font-size:30px;line-height:1}
+.lzl-bspband{display:inline-block;background:rgba(15,20,48,.78);color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;margin:0 0 10px}
+.lzl-filter{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 12px}
+.lzl-filter .segs{margin:0!important}
+.lzl-kt{display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600}
+.lzl-kt select{min-width:170px}
+.lzl-liste{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.lzl-karte{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 16px;border-radius:20px;color:#fff;
+  background:linear-gradient(135deg,#4A3BD1,#7B3FD8);box-shadow:0 6px 16px rgba(60,40,150,.18)}
+.lzl-karte.lzl-p1{background:linear-gradient(135deg,#9A5B00,#C27C0E)}
+.lzl-karte.lzl-p2{background:linear-gradient(135deg,#4F5B6B,#76839A)}
+.lzl-karte.lzl-p3{background:linear-gradient(135deg,#86411C,#A85A2E)}
+.lzl-karte.lzl-eigen{outline:4px solid #FF4FA3;outline-offset:2px;box-shadow:0 8px 22px rgba(255,79,163,.35)}
+.lzl-platz{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18);font:800 20px "Fredoka",system-ui,sans-serif;color:#fff}
+.lzl-p1 .lzl-platz,.lzl-p2 .lzl-platz,.lzl-p3 .lzl-platz{font-size:28px;background:rgba(255,255,255,.22)}
+.lzl-mitte{display:flex;flex-direction:column;gap:3px;min-width:0}
+.lzl-name{font-size:15.5px;font-weight:700;overflow-wrap:anywhere;color:#fff}
+.lzl-mitte small{color:#fff;opacity:.9;font-size:12.5px}
+.lzl-pills{display:flex;flex-wrap:wrap;gap:4px}
+.lzl-pills:empty{display:none}
+.lzl-pill{font-style:normal;font-size:11.5px;font-weight:700;background:rgba(15,20,48,.4);color:#fff;border-radius:999px;padding:1px 9px}
+.lzl-eigen .lzl-pill:first-child{background:#FF4FA3}
+.lzl-bar{display:block;height:8px;border-radius:999px;background:rgba(255,255,255,.25);overflow:hidden;margin-top:3px;max-width:340px}
+.lzl-bar i{display:block;height:100%;border-radius:999px;background:#fff}
+.lzl-pkt{text-align:right;display:flex;flex-direction:column;align-items:flex-end}
+.lzl-pkt b{font:800 24px "Fredoka",system-ui,sans-serif;color:#fff;line-height:1.1;font-variant-numeric:tabular-nums}
+.lzl-pkt small{font-size:11.5px;color:#fff;opacity:.9;white-space:nowrap}
+.lzl-luecke{text-align:center;color:var(--lza-mu,#6b6880);font-size:18px;line-height:1}
+.lzl-regeln{background:var(--lza-fl,#fff);border:1px solid var(--lza-li,#e2def0);border-radius:10px;padding:10px 16px;margin:0 0 14px;font-size:13.5px}
+.lzl-regeln summary{cursor:pointer;font-weight:600;min-height:32px;display:flex;align-items:center}
+.lzl-regeln ul{margin:6px 0 4px;padding-left:20px;display:grid;gap:4px}
+.lzl-meine{list-style:none;margin:0;padding:0;border:1px solid var(--lza-li,#e2def0);border-radius:8px;overflow:hidden}
+.lzl-meine>li{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid var(--lza-li,#e2def0)}
+.lzl-meine>li:last-child{border-bottom:0}
+.lzl-meine>li>span:first-child{display:flex;flex-direction:column;min-width:0;flex:1 1 240px}
+.lzl-meine small{color:var(--lza-mu,#6b6880);font-size:12.5px}
+.lzl-akt{display:flex;gap:6px;flex-wrap:wrap}
+.lzl-form{flex:1 1 100%;max-width:520px}
+.lzl-info{background:#e8f6ec;border-left:3px solid #1d7a3a;padding:8px 12px;margin:0 0 12px;font-size:13px}
+.lzl-kind{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#5B45E8,#C2338A);color:#fff;border-radius:24px;padding:14px 18px;margin:14px 0;box-shadow:0 10px 24px rgba(90,40,160,.25);text-align:left}
+.lzl-kind.lzl-bsp{background:linear-gradient(135deg,#4A3BD1,#B0307E)}
+.lzl-kindbild{width:96px;height:auto;flex:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.2))}
+.lzl-kindtext{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.lzl-kindtext small{font-size:12.5px;font-weight:600;color:#fff;opacity:.92}
+.lzl-kindtext b{font-size:16px;color:#fff;overflow-wrap:anywhere}
+.lzl-gross{font:800 24px "Fredoka",system-ui,sans-serif;color:#fff;line-height:1.15}
+.lzl-sub{font-size:13.5px;color:#fff;line-height:1.4}
+.lzl-bar.hell{height:12px;max-width:none;margin:4px 0}
+.lzl-weg{margin:-6px 0 12px;text-align:center;font-size:13px}
+.lzl-weg .lz-link{display:inline-block;background:rgba(15,20,48,.55)!important;color:#fff!important;border-radius:999px;padding:5px 14px;text-decoration:none;font-weight:600;min-height:32px}
+@media (max-width:520px){
+  .lzl-karte{grid-template-columns:40px minmax(0,1fr);gap:4px 10px;padding:10px 12px}
+  .lzl-platz{width:38px;height:38px;font-size:17px}
+  .lzl-p1 .lzl-platz,.lzl-p2 .lzl-platz,.lzl-p3 .lzl-platz{font-size:22px}
+  .lzl-pkt{grid-column:2;flex-direction:row;align-items:baseline;gap:6px;justify-content:flex-start}
+  .lzl-pkt b{font-size:19px}
+  .lzl-kind{padding:12px 14px;gap:10px}
+  .lzl-kindbild{width:70px}
+  .lzl-gross{font-size:20px}
+  .lzl-kt{flex:1 1 100%}.lzl-kt select{flex:1;min-width:0}
+}
+.lzl-karte :focus-visible,.lzl-meine :focus-visible,.lzl-filter :focus-visible{outline:3px solid #FF4FA3;outline-offset:2px}
 /* Kinder: offene Frage */
 .lz-offenlbl{display:block;font-weight:700;margin:6px 0 6px}
 .lz-offen{width:100%;box-sizing:border-box;min-height:110px;font:500 1.05rem/1.5 "Lexend",system-ui,sans-serif!important;font-style:normal!important;color:var(--ink,#1B2240)!important;text-align:left!important;padding:12px 14px;border-radius:16px;resize:vertical}

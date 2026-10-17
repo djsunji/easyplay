@@ -24,6 +24,7 @@ function tabVon(sc){
   if(sc === "home") return tab;
   if(["profil","register","login","konto","historie","spieler","lehrer","lcode","suche","meinetests","testergebnis","bibliothek","werkstatt"].includes(sc)) return "profil";
   if(sc === "chat" || sc === "epwoche") return "heute";
+  if(typeof sc === "string" && sc.startsWith("x-")) return ["x-garderobe","x-album","x-sound"].includes(sc) ? "profil" : "heute";
   if(sc === "livequiz") return "duell";
   if(["duell","duellsplit","duellende","duellresultat","spielmodi","board","live"].includes(sc)) return "duell";
   return "themen";

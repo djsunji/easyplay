@@ -38,6 +38,7 @@ In Supabase **SQL Editor → New query**. Nacheinander den Inhalt dieser Dateien
 4. `supabase/live.sql` (Live-Quiz)
 5. `supabase/duell.sql` (Online-Duell mit zufälligem Gegner)
 6. `supabase/lehrer2.sql` (Lehrerbereich: offene Fragen korrigieren, Fehlermeldungen an die Verwaltung)
+7. `supabase/klassenliga.sql` (Klassen-Liga «Klasse gegen Klasse»: Wochen-Rangliste der Klassen)
 
 Jede Datei darf mehrmals ausgeführt werden, es geht nichts verloren.
 
@@ -67,3 +68,17 @@ Jede Datei darf mehrmals ausgeführt werden, es geht nichts verloren.
 - Die Besucherstatistik ist anonym: keine Cookies, keine IP-Adressen. Das steht auch in der Datenschutzerklärung.
 - Supabase pausiert Gratis-Projekte nach einer Woche ohne Zugriffe. Mit Besuchern auf der Website passiert das nicht.
 - Bei Fragen: in der Verwaltung unter **Zugang** steht die Kurzfassung dieser Anleitung.
+
+## 7. Klassen-Liga einrichten (Datei `supabase/klassenliga.sql`)
+Erst ausführen, wenn die Dateien 1 bis 6 aus Abschnitt 3 gelaufen sind (es braucht die Lehrer-Tabellen und `ist_admin()`).
+
+1. In Supabase **SQL Editor → New query**.
+2. Den ganzen Inhalt von `supabase/klassenliga.sql` einfügen und **Run** drücken. Mehrfaches Ausführen schadet nicht.
+3. Das Skript legt an:
+   - Tabelle `liga_klassen` (welche Klasse mit welchem Anzeigenamen und Kanton mitmacht), mit Zeilenschutz: Lehrpersonen lesen nur ihre eigenen Anmeldungen, niemand schreibt direkt.
+   - `liga_anmelden(klasse, anzeigename, kanton)` und `liga_abmelden(klasse)`: nur für angemeldete Lehrpersonen und nur für eigene Klassen (mindestens 5 Kinder).
+   - `liga_rangliste(woche, kanton)`: die öffentliche Rangliste. Sie gibt nur Werte pro Klasse heraus (Anzeigename, Kanton, Zyklus, Punkte pro Kind, Anzahl Kinder und aktive Kinder), keine Namen und keine einzelnen Resultate.
+   - `liga_meine_klasse(test_code, pin)`: Kinder erfahren damit nach einem Test, in welcher Liga-Klasse sie sind.
+   - `admin_liga_klassen()` und `admin_liga_sperren(liga_id, true/false)`: unpassende Anzeigenamen ausblenden (nur Admins, vorerst im SQL Editor, z. B. `select public.admin_liga_sperren('<liga_id>', true);` als angemeldeter Admin oder direkt `update public.liga_klassen set gesperrt = true where anzeige = '…';`).
+4. Prüfen: Im Lehrerbereich links **Klassen-Liga** öffnen. Statt der Vorschau mit Beispieldaten erscheint «Meine Klassen in der Liga». Eine Klasse mit mindestens 5 Kindern anmelden; sobald ein Kind dieser Klasse einen Test abgibt, erscheint sie in der Rangliste.
+

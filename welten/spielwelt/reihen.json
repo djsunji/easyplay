@@ -1,0 +1,745 @@
+{
+"kategorien": [
+{
+"id": "berge",
+"titel": "Schweizer Berge",
+"frage": "Ordne nach Höhe: der höchste zuerst",
+"richtung": "ab",
+"einheit": "m",
+"stufe": 1,
+"emo": "🏔️",
+"jahr": false,
+"quelle": "bergwelten.com, redbull.com",
+"eintraege": [
+{
+"n": "Dufourspitze",
+"w": 4634
+},
+{
+"n": "Dom",
+"w": 4545
+},
+{
+"n": "Weisshorn",
+"w": 4505
+},
+{
+"n": "Matterhorn",
+"w": 4478
+},
+{
+"n": "Dent Blanche",
+"w": 4357
+},
+{
+"n": "Finsteraarhorn",
+"w": 4273
+},
+{
+"n": "Jungfrau",
+"w": 4158
+},
+{
+"n": "Mönch",
+"w": 4110
+},
+{
+"n": "Piz Bernina",
+"w": 4049
+},
+{
+"n": "Eiger",
+"w": 3967
+},
+{
+"n": "Titlis",
+"w": 3238
+},
+{
+"n": "Säntis",
+"w": 2502
+},
+{
+"n": "Pilatus",
+"w": 2128
+},
+{
+"n": "Rigi",
+"w": 1798
+}
+]
+},
+{
+"id": "seen",
+"titel": "Schweizer Seen",
+"frage": "Ordne nach Fläche: der grösste zuerst",
+"richtung": "ab",
+"einheit": "km²",
+"stufe": 2,
+"emo": "🌊",
+"jahr": false,
+"quelle": "swissactivities.com, Wikipedia (ganze Seefläche, gerundet)",
+"eintraege": [
+{
+"n": "Genfersee",
+"w": 580
+},
+{
+"n": "Neuenburgersee",
+"w": 218
+},
+{
+"n": "Lago Maggiore",
+"w": 212
+},
+{
+"n": "Vierwaldstättersee",
+"w": 114
+},
+{
+"n": "Zürichsee",
+"w": 88
+},
+{
+"n": "Luganersee",
+"w": 49
+},
+{
+"n": "Thunersee",
+"w": 48
+},
+{
+"n": "Bielersee",
+"w": 39
+},
+{
+"n": "Brienzersee",
+"w": 30
+},
+{
+"n": "Walensee",
+"w": 24
+},
+{
+"n": "Murtensee",
+"w": 23
+},
+{
+"n": "Sempachersee",
+"w": 14
+},
+{
+"n": "Hallwilersee",
+"w": 10
+}
+]
+},
+{
+"id": "beitritt",
+"titel": "Kantone und Eidgenossenschaft",
+"frage": "Ordne nach Beitritt zur Eidgenossenschaft: der früheste zuerst",
+"richtung": "auf",
+"einheit": "",
+"stufe": 3,
+"emo": "🤝",
+"jahr": true,
+"quelle": "",
+"eintraege": [
+{
+"n": "Uri",
+"w": 1291
+},
+{
+"n": "Schwyz",
+"w": 1291
+},
+{
+"n": "Luzern",
+"w": 1332
+},
+{
+"n": "Zürich",
+"w": 1351
+},
+{
+"n": "Glarus",
+"w": 1352
+},
+{
+"n": "Bern",
+"w": 1353
+},
+{
+"n": "Freiburg",
+"w": 1481
+},
+{
+"n": "Basel",
+"w": 1501
+},
+{
+"n": "Appenzell",
+"w": 1513
+},
+{
+"n": "St. Gallen",
+"w": 1803
+},
+{
+"n": "Graubünden",
+"w": 1803
+},
+{
+"n": "Tessin",
+"w": 1803
+},
+{
+"n": "Wallis",
+"w": 1815
+},
+{
+"n": "Genf",
+"w": 1815
+},
+{
+"n": "Jura",
+"w": 1979
+}
+]
+},
+{
+"id": "geschichte",
+"titel": "Schweizer Geschichte",
+"frage": "Ordne nach Jahr: das älteste Ereignis zuerst",
+"richtung": "auf",
+"einheit": "",
+"stufe": 2,
+"emo": "🏰",
+"jahr": true,
+"quelle": "",
+"eintraege": [
+{
+"n": "Bundesbrief der Urkantone",
+"w": 1291
+},
+{
+"n": "Schlacht am Morgarten",
+"w": 1315
+},
+{
+"n": "Schlacht bei Sempach",
+"w": 1386
+},
+{
+"n": "Schlacht bei Murten",
+"w": 1476
+},
+{
+"n": "Schlacht bei Marignano",
+"w": 1515
+},
+{
+"n": "Westfälischer Friede: Unabhängigkeit vom Reich",
+"w": 1648
+},
+{
+"n": "Helvetische Republik",
+"w": 1798
+},
+{
+"n": "Wiener Kongress anerkennt die Neutralität",
+"w": 1815
+},
+{
+"n": "Erste Bundesverfassung",
+"w": 1848
+},
+{
+"n": "Gründung des Roten Kreuzes in Genf",
+"w": 1863
+},
+{
+"n": "Gotthard-Eisenbahntunnel eröffnet",
+"w": 1882
+},
+{
+"n": "Frauenstimmrecht in der ganzen Schweiz",
+"w": 1971
+},
+{
+"n": "Kanton Jura gegründet",
+"w": 1979
+},
+{
+"n": "Beitritt zur UNO",
+"w": 2002
+},
+{
+"n": "Gotthard-Basistunnel eröffnet",
+"w": 2016
+}
+]
+},
+{
+"id": "erfindungen",
+"titel": "Erfindungen",
+"frage": "Ordne nach Jahr: die älteste Erfindung zuerst",
+"richtung": "auf",
+"einheit": "",
+"stufe": 2,
+"emo": "💡",
+"jahr": true,
+"quelle": "SRF Espresso (Schweizer Erfindungen)",
+"eintraege": [
+{
+"n": "Buchdruck mit beweglichen Lettern",
+"w": 1450,
+"t": "um 1450"
+},
+{
+"n": "Fernrohr",
+"w": 1608
+},
+{
+"n": "Dampfmaschine von James Watt",
+"w": 1769
+},
+{
+"n": "Laufmaschine, Vorläufer des Velos",
+"w": 1817
+},
+{
+"n": "Erste Fotografie",
+"w": 1826
+},
+{
+"n": "Milchschokolade",
+"w": 1875
+},
+{
+"n": "Telefon",
+"w": 1876
+},
+{
+"n": "Glühbirne von Edison",
+"w": 1879
+},
+{
+"n": "Automobil von Carl Benz",
+"w": 1886
+},
+{
+"n": "Schweizer Taschenmesser",
+"w": 1891
+},
+{
+"n": "Motorflugzeug der Brüder Wright",
+"w": 1903
+},
+{
+"n": "Penicillin",
+"w": 1928
+},
+{
+"n": "Computer Z3 von Konrad Zuse",
+"w": 1941
+},
+{
+"n": "World Wide Web",
+"w": 1989
+},
+{
+"n": "Erstes iPhone",
+"w": 2007
+}
+]
+},
+{
+"id": "planeten",
+"titel": "Planeten: Abstand zur Sonne",
+"frage": "Ordne nach Abstand zur Sonne: der nächste zuerst",
+"richtung": "auf",
+"einheit": "Mio. km",
+"stufe": 1,
+"emo": "🪐",
+"jahr": false,
+"quelle": "NASA Planetary Fact Sheet (Mittelwerte)",
+"eintraege": [
+{
+"n": "Merkur",
+"w": 58
+},
+{
+"n": "Venus",
+"w": 108
+},
+{
+"n": "Erde",
+"w": 150
+},
+{
+"n": "Mars",
+"w": 228
+},
+{
+"n": "Jupiter",
+"w": 778
+},
+{
+"n": "Saturn",
+"w": 1433
+},
+{
+"n": "Uranus",
+"w": 2872
+},
+{
+"n": "Neptun",
+"w": 4495
+}
+]
+},
+{
+"id": "planetengroesse",
+"titel": "Planeten: Grösse",
+"frage": "Ordne nach Durchmesser: der grösste zuerst",
+"richtung": "ab",
+"einheit": "km",
+"stufe": 1,
+"emo": "🌍",
+"jahr": false,
+"quelle": "NASA Planetary Fact Sheet",
+"eintraege": [
+{
+"n": "Jupiter",
+"w": 142984
+},
+{
+"n": "Saturn",
+"w": 120536
+},
+{
+"n": "Uranus",
+"w": 51118
+},
+{
+"n": "Neptun",
+"w": 49528
+},
+{
+"n": "Erde",
+"w": 12756
+},
+{
+"n": "Venus",
+"w": 12104
+},
+{
+"n": "Mars",
+"w": 6792
+},
+{
+"n": "Merkur",
+"w": 4879
+}
+]
+},
+{
+"id": "tiere",
+"titel": "Tiere nach Gewicht",
+"frage": "Ordne nach Gewicht: das schwerste zuerst",
+"richtung": "ab",
+"einheit": "kg",
+"stufe": 1,
+"emo": "🐘",
+"jahr": false,
+"quelle": "Durchschnittswerte erwachsener Tiere, gerundet",
+"eintraege": [
+{
+"n": "Blauwal",
+"w": 150000,
+"t": "etwa 150 Tonnen"
+},
+{
+"n": "Afrikanischer Elefant",
+"w": 6000,
+"t": "etwa 6 Tonnen"
+},
+{
+"n": "Giraffe",
+"w": 1200,
+"t": "etwa 1200 kg"
+},
+{
+"n": "Pferd",
+"w": 500,
+"t": "etwa 500 kg"
+},
+{
+"n": "Braunbär",
+"w": 300,
+"t": "etwa 300 kg"
+},
+{
+"n": "Rothirsch",
+"w": 150,
+"t": "etwa 150 kg"
+},
+{
+"n": "Wolf",
+"w": 40,
+"t": "etwa 40 kg"
+},
+{
+"n": "Biber",
+"w": 20,
+"t": "etwa 20 kg"
+},
+{
+"n": "Rotfuchs",
+"w": 7,
+"t": "etwa 7 kg"
+},
+{
+"n": "Hauskatze",
+"w": 4,
+"t": "etwa 4 kg"
+},
+{
+"n": "Igel",
+"w": 1,
+"t": "etwa 1 kg"
+},
+{
+"n": "Eichhörnchen",
+"w": 0.3,
+"t": "etwa 300 g"
+},
+{
+"n": "Hausmaus",
+"w": 0.02,
+"t": "etwa 20 g"
+},
+{
+"n": "Honigbiene",
+"w": 0.0001,
+"t": "etwa 0,1 g"
+}
+]
+},
+{
+"id": "fluesse",
+"titel": "Flüsse nach Länge",
+"frage": "Ordne nach Länge: der längste zuerst",
+"richtung": "ab",
+"einheit": "km",
+"stufe": 2,
+"emo": "🏞️",
+"jahr": false,
+"quelle": "switzerlanding.com und gängige Angaben, gerundet",
+"eintraege": [
+{
+"n": "Nil",
+"w": 6650,
+"t": "etwa 6650 km"
+},
+{
+"n": "Jangtsekiang",
+"w": 6300,
+"t": "etwa 6300 km"
+},
+{
+"n": "Wolga",
+"w": 3530,
+"t": "etwa 3530 km"
+},
+{
+"n": "Donau",
+"w": 2850,
+"t": "etwa 2850 km"
+},
+{
+"n": "Rhein",
+"w": 1230,
+"t": "etwa 1230 km"
+},
+{
+"n": "Elbe",
+"w": 1090,
+"t": "etwa 1090 km"
+},
+{
+"n": "Rhone",
+"w": 810,
+"t": "etwa 810 km"
+},
+{
+"n": "Inn",
+"w": 520,
+"t": "etwa 520 km"
+},
+{
+"n": "Aare",
+"w": 290,
+"t": "etwa 290 km"
+},
+{
+"n": "Reuss",
+"w": 160,
+"t": "etwa 160 km"
+},
+{
+"n": "Limmat",
+"w": 35,
+"t": "etwa 35 km"
+}
+]
+},
+{
+"id": "kantonsflaeche",
+"titel": "Kantone nach Fläche",
+"frage": "Ordne nach Fläche: der grösste zuerst",
+"richtung": "ab",
+"einheit": "km²",
+"stufe": 3,
+"emo": "🗺️",
+"jahr": false,
+"quelle": "grenzgaengerzentrum.de (BFS-Werte)",
+"eintraege": [
+{
+"n": "Graubünden",
+"w": 7105
+},
+{
+"n": "Bern",
+"w": 5960
+},
+{
+"n": "Wallis",
+"w": 5224
+},
+{
+"n": "Waadt",
+"w": 3212
+},
+{
+"n": "Tessin",
+"w": 2812
+},
+{
+"n": "St. Gallen",
+"w": 2028
+},
+{
+"n": "Zürich",
+"w": 1729
+},
+{
+"n": "Luzern",
+"w": 1494
+},
+{
+"n": "Uri",
+"w": 1077
+},
+{
+"n": "Schwyz",
+"w": 908
+},
+{
+"n": "Jura",
+"w": 839
+},
+{
+"n": "Glarus",
+"w": 685
+},
+{
+"n": "Genf",
+"w": 282
+},
+{
+"n": "Zug",
+"w": 239
+},
+{
+"n": "Basel-Stadt",
+"w": 37
+}
+]
+},
+{
+"id": "laender",
+"titel": "Länder Europas nach Fläche",
+"frage": "Ordne nach Fläche: das grösste Land zuerst",
+"richtung": "ab",
+"einheit": "km²",
+"stufe": 1,
+"emo": "🇪🇺",
+"jahr": false,
+"quelle": "gerundet",
+"eintraege": [
+{
+"n": "Frankreich",
+"w": 550000,
+"t": "etwa 550 000 km²"
+},
+{
+"n": "Spanien",
+"w": 506000,
+"t": "etwa 506 000 km²"
+},
+{
+"n": "Deutschland",
+"w": 358000,
+"t": "etwa 358 000 km²"
+},
+{
+"n": "Italien",
+"w": 302000,
+"t": "etwa 302 000 km²"
+},
+{
+"n": "Grossbritannien",
+"w": 244000,
+"t": "etwa 244 000 km²"
+},
+{
+"n": "Österreich",
+"w": 84000,
+"t": "etwa 84 000 km²"
+},
+{
+"n": "Schweiz",
+"w": 41300,
+"t": "etwa 41 300 km²"
+},
+{
+"n": "Belgien",
+"w": 30700,
+"t": "etwa 30 700 km²"
+},
+{
+"n": "Luxemburg",
+"w": 2600,
+"t": "etwa 2600 km²"
+},
+{
+"n": "Liechtenstein",
+"w": 160,
+"t": "etwa 160 km²"
+},
+{
+"n": "Monaco",
+"w": 2,
+"t": "etwa 2 km²"
+},
+{
+"n": "Vatikanstadt",
+"w": 0.44,
+"t": "etwa 0,44 km²"
+}
+]
+}
+]
+}

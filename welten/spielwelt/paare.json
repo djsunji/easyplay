@@ -1,0 +1,421 @@
+{
+"saetze": [
+{
+"id": "hauptstadt",
+"titel": "Land und Hauptstadt",
+"emo": "🇪🇺",
+"stufe": 1,
+"links": "Land",
+"rechts": "Hauptstadt",
+"paare": [
+{
+"l": "Deutschland",
+"r": "Berlin",
+"f": "de"
+},
+{
+"l": "Frankreich",
+"r": "Paris",
+"f": "fr"
+},
+{
+"l": "Italien",
+"r": "Rom",
+"f": "it"
+},
+{
+"l": "Österreich",
+"r": "Wien",
+"f": "at"
+},
+{
+"l": "Spanien",
+"r": "Madrid",
+"f": "es"
+},
+{
+"l": "Portugal",
+"r": "Lissabon",
+"f": "pt"
+},
+{
+"l": "Niederlande",
+"r": "Amsterdam",
+"f": "nl"
+},
+{
+"l": "Belgien",
+"r": "Brüssel",
+"f": "be"
+},
+{
+"l": "Liechtenstein",
+"r": "Vaduz",
+"f": "li"
+},
+{
+"l": "Polen",
+"r": "Warschau",
+"f": "pl"
+},
+{
+"l": "Tschechien",
+"r": "Prag",
+"f": "cz"
+},
+{
+"l": "Ungarn",
+"r": "Budapest",
+"f": "hu"
+},
+{
+"l": "Griechenland",
+"r": "Athen",
+"f": "gr"
+},
+{
+"l": "Schweden",
+"r": "Stockholm",
+"f": "se"
+},
+{
+"l": "Norwegen",
+"r": "Oslo",
+"f": "no"
+},
+{
+"l": "Dänemark",
+"r": "Kopenhagen",
+"f": "dk"
+},
+{
+"l": "Finnland",
+"r": "Helsinki",
+"f": "fi"
+},
+{
+"l": "Irland",
+"r": "Dublin",
+"f": "ie"
+},
+{
+"l": "Grossbritannien",
+"r": "London",
+"f": "gb"
+},
+{
+"l": "Kroatien",
+"r": "Zagreb",
+"f": "hr"
+},
+{
+"l": "Slowakei",
+"r": "Bratislava",
+"f": "sk"
+},
+{
+"l": "Slowenien",
+"r": "Ljubljana",
+"f": "si"
+},
+{
+"l": "Rumänien",
+"r": "Bukarest",
+"f": "ro"
+},
+{
+"l": "Bulgarien",
+"r": "Sofia",
+"f": "bg"
+},
+{
+"l": "Island",
+"r": "Reykjavik",
+"f": "is"
+}
+]
+},
+{
+"id": "lebensraum",
+"titel": "Tier und Lebensraum",
+"emo": "🐾",
+"stufe": 1,
+"links": "Tier",
+"rechts": "Lebensraum",
+"paare": [
+{
+"l": "Eisbär",
+"r": "Arktis",
+"e": "🐻‍❄️"
+},
+{
+"l": "Kaiserpinguin",
+"r": "Antarktis",
+"e": "🐧"
+},
+{
+"l": "Dromedar",
+"r": "Wüste",
+"e": "🐪"
+},
+{
+"l": "Steinbock",
+"r": "Hochgebirge",
+"e": "🐐"
+},
+{
+"l": "Delfin",
+"r": "Meer",
+"e": "🐬"
+},
+{
+"l": "Orang-Utan",
+"r": "Regenwald",
+"e": "🦧"
+},
+{
+"l": "Löwe",
+"r": "Savanne",
+"e": "🦁"
+},
+{
+"l": "Biber",
+"r": "Fluss",
+"e": "🦫"
+},
+{
+"l": "Buntspecht",
+"r": "Wald",
+"e": "🐦"
+},
+{
+"l": "Maulwurf",
+"r": "unter der Erde",
+"e": "🐾"
+},
+{
+"l": "Clownfisch",
+"r": "Korallenriff",
+"e": "🐠"
+},
+{
+"l": "Rentier",
+"r": "Tundra",
+"e": "🦌"
+},
+{
+"l": "Lama",
+"r": "Anden",
+"e": "🦙"
+},
+{
+"l": "Fledermaus",
+"r": "Höhle",
+"e": "🦇"
+}
+]
+},
+{
+"id": "erfinder",
+"titel": "Erfindung und Erfinder",
+"emo": "💡",
+"stufe": 2,
+"links": "Erfindung",
+"rechts": "Erfinder",
+"paare": [
+{
+"l": "Telefon",
+"r": "Alexander Graham Bell"
+},
+{
+"l": "Glühbirne",
+"r": "Thomas Edison"
+},
+{
+"l": "Buchdruck",
+"r": "Johannes Gutenberg"
+},
+{
+"l": "Automobil",
+"r": "Carl Benz"
+},
+{
+"l": "Motorflugzeug",
+"r": "Brüder Wright"
+},
+{
+"l": "Penicillin",
+"r": "Alexander Fleming"
+},
+{
+"l": "Dampfmaschine (verbessert)",
+"r": "James Watt"
+},
+{
+"l": "Klettverschluss",
+"r": "George de Mestral"
+},
+{
+"l": "Schweizer Taschenmesser",
+"r": "Karl Elsener"
+},
+{
+"l": "Milchschokolade",
+"r": "Daniel Peter"
+},
+{
+"l": "World Wide Web",
+"r": "Tim Berners-Lee"
+},
+{
+"l": "Laufmaschine",
+"r": "Karl Drais"
+},
+{
+"l": "Dynamit",
+"r": "Alfred Nobel"
+},
+{
+"l": "Zellophan",
+"r": "Jacques Brandenberger"
+},
+{
+"l": "Computer Z3",
+"r": "Konrad Zuse"
+}
+]
+}
+],
+"kantone": [
+{
+"k": "ZH",
+"name": "Zürich",
+"ort": "Zürich"
+},
+{
+"k": "BE",
+"name": "Bern",
+"ort": "Bern"
+},
+{
+"k": "LU",
+"name": "Luzern",
+"ort": "Luzern"
+},
+{
+"k": "UR",
+"name": "Uri",
+"ort": "Altdorf"
+},
+{
+"k": "SZ",
+"name": "Schwyz",
+"ort": "Schwyz"
+},
+{
+"k": "OW",
+"name": "Obwalden",
+"ort": "Sarnen"
+},
+{
+"k": "NW",
+"name": "Nidwalden",
+"ort": "Stans"
+},
+{
+"k": "GL",
+"name": "Glarus",
+"ort": "Glarus"
+},
+{
+"k": "ZG",
+"name": "Zug",
+"ort": "Zug"
+},
+{
+"k": "FR",
+"name": "Freiburg",
+"ort": "Freiburg"
+},
+{
+"k": "SO",
+"name": "Solothurn",
+"ort": "Solothurn"
+},
+{
+"k": "BS",
+"name": "Basel-Stadt",
+"ort": "Basel"
+},
+{
+"k": "BL",
+"name": "Basel-Landschaft",
+"ort": "Liestal"
+},
+{
+"k": "SH",
+"name": "Schaffhausen",
+"ort": "Schaffhausen"
+},
+{
+"k": "AR",
+"name": "Appenzell Ausserrhoden",
+"ort": "Herisau"
+},
+{
+"k": "AI",
+"name": "Appenzell Innerrhoden",
+"ort": "Appenzell"
+},
+{
+"k": "SG",
+"name": "St. Gallen",
+"ort": "St. Gallen"
+},
+{
+"k": "GR",
+"name": "Graubünden",
+"ort": "Chur"
+},
+{
+"k": "AG",
+"name": "Aargau",
+"ort": "Aarau"
+},
+{
+"k": "TG",
+"name": "Thurgau",
+"ort": "Frauenfeld"
+},
+{
+"k": "TI",
+"name": "Tessin",
+"ort": "Bellinzona"
+},
+{
+"k": "VD",
+"name": "Waadt",
+"ort": "Lausanne"
+},
+{
+"k": "VS",
+"name": "Wallis",
+"ort": "Sitten"
+},
+{
+"k": "NE",
+"name": "Neuenburg",
+"ort": "Neuenburg"
+},
+{
+"k": "GE",
+"name": "Genf",
+"ort": "Genf"
+},
+{
+"k": "JU",
+"name": "Jura",
+"ort": "Delsberg"
+}
+]
+}
