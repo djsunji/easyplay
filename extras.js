@@ -207,6 +207,63 @@ css.textContent = `
 .x-kachel small{font-size:.86rem;opacity:.95;color:#fff;line-height:1.3}
 .x-badge{position:absolute;top:10px;right:12px;font-style:normal;background:#FFE34D;color:#1B2240;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .x-leer{color:#fff;background:rgba(15,20,48,.45);padding:12px 16px;border-radius:16px}
+/* ===== Lebendige Kacheln auf der Startseite (Computer) ===== */
+html body .ep-wg>.ep-w:is(.eptl,[data-a=zufall],[data-a=fehler],[data-a=live]):not(.x-ein),html body .ep-wg>.ep-w:has(.epring),html body .ep-wg>.ep-w:has(.epabz),html body .ep-wg>.ep-w:has(.epfakt){color:#fff!important;border:0!important;background-size:180% 180%!important;animation:xkFluss 12s ease-in-out infinite alternate;box-shadow:0 12px 28px rgba(20,20,70,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;isolation:isolate}
+html body .ep-wg>.ep-w.eptl{background:linear-gradient(135deg,#1E3A8A,#2E5BFF 60%,#4F8BFF)!important}
+html body .ep-wg>.ep-w[data-a=zufall]{background:linear-gradient(135deg,#FF8A3D,#FF5F9E 60%,#E043B8)!important}
+html body .ep-wg>.ep-w:has(.epring){background:linear-gradient(135deg,#0FA968,#0B8A7A 55%,#0B6E86)!important}
+html body .ep-wg>.ep-w[data-a=live]{background:linear-gradient(135deg,#7B1FA2,#B5179E 55%,#E8366F)!important}
+html body .ep-wg>.ep-w[data-a=live].rot{background:linear-gradient(135deg,#E8364F,#FF6B3D)!important}
+html body .ep-wg>.ep-w:has(.epabz){background:linear-gradient(135deg,#F4A818,#E8790C 60%,#D9480F)!important}
+html body .ep-wg>.ep-w:has(.epfakt){background:linear-gradient(135deg,#2E5BFF,#2A86E0 55%,#22A9BB)!important}
+html body .ep-wg>.ep-w[data-a=fehler]{background:linear-gradient(135deg,#FF5F6D,#FF8A5C 60%,#FFB347)!important}
+html body .ep-wg>.ep-w[data-a=fehler][disabled]{background:linear-gradient(135deg,#17B26A,#12A57F 55%,#0B8A7A)!important;opacity:1!important;cursor:default}
+/* Texte weiss */
+html body .ep-wg>.ep-w:is(.eptl,[data-a=zufall],[data-a=fehler],[data-a=live]) *,html body .ep-wg>.ep-w:has(.epring) *,html body .ep-wg>.ep-w:has(.epabz) *,html body .ep-wg>.ep-w:has(.epfakt) *{color:#fff!important}
+html body .ep-wg>.ep-w small{opacity:.9;letter-spacing:.06em}
+html body .ep-wg>.ep-w :is(.ep-btn.gelb,.epmini,[class*=gelb]),html body .ep-wg>.ep-w[data-a=live] .ep-btn,html body .ep-wg>.ep-w .xg-tag *{color:#1B2240!important}
+html body .ep-wg>.ep-w:has(.epfakt) span:last-child{display:inline-block;width:fit-content;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.2);font-size:.9rem}
+html body .ep-wg>.ep-w.eptl .epe b{color:#fff!important}
+html body .ep-wg>.ep-w.eptl .epe small{opacity:.85}
+html body .ep-wg>.ep-w.eptl .epe::before{background:rgba(255,255,255,.3)!important}
+html body .ep-wg>.ep-w.eptl .epe i{background:#2348C8!important}
+html body .ep-wg>.ep-w.eptl .epe.st-jetzt i{animation:xkPuls 1.8s ease-out infinite}
+html body .ep-wg>.ep-w.eptl time{color:rgba(255,255,255,.75)!important}
+html body .ep-wg>.ep-w:has(.epring) .epring b{background:#0B7A80!important}
+html body .ep-wg>.ep-w[data-a=zufall] .eptage i{background:rgba(255,255,255,.3)}
+html body .ep-wg>.ep-w[data-a=zufall] .eptage i.an{background:#FFE34D}
+html body .ep-wg>.ep-w[data-a=live] .ep-btn,html body .ep-wg>.ep-w[data-a=live] button{color:#2a1d5c!important}
+/* grosses Symbol als Wasserzeichen, sanft bewegt */
+html body .ep-wg>.ep-w:is(.eptl,[data-a=zufall],[data-a=fehler],[data-a=live]):not(.x-ein)::after,html body .ep-wg>.ep-w:has(.epring)::after,html body .ep-wg>.ep-w:has(.epabz)::after,html body .ep-wg>.ep-w:has(.epfakt)::after{position:absolute;right:-8px;bottom:-18px;z-index:-1;font-size:118px;line-height:1;opacity:.2;pointer-events:none;animation:xkSchweb 5s ease-in-out infinite;filter:saturate(1.2)}
+html body .ep-wg>.ep-w.eptl::after{content:"☀️";font-size:150px;right:-20px;bottom:-30px;animation:xkDreh 40s linear infinite}
+html body .ep-wg>.ep-w[data-a=zufall]::after{content:"🔥"}
+html body .ep-wg>.ep-w:has(.epring)::after{content:"⭐";animation:xkDreh 24s linear infinite}
+html body .ep-wg>.ep-w[data-a=live]::after{content:"⚡";font-size:150px}
+html body .ep-wg>.ep-w:has(.epabz)::after{content:"🏆"}
+html body .ep-wg>.ep-w:has(.epfakt)::after{content:"💡";animation:xkLeucht 3s ease-in-out infinite}
+html body .ep-wg>.ep-w[data-a=fehler]::after{content:"🎯"}
+/* Glanz, der über die Kachel streicht */
+html body .ep-wg>.ep-w:is(.eptl,[data-a=zufall],[data-a=fehler],[data-a=live]):not(.x-ein)::before,html body .ep-wg>.ep-w:has(.epring)::before,html body .ep-wg>.ep-w:has(.epabz)::before,html body .ep-wg>.ep-w:has(.epfakt)::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;animation:xkGlanz 7s ease-in-out infinite}
+html body .ep-wg>.ep-w:nth-child(3)::before{animation-delay:1s}html body .ep-wg>.ep-w:nth-child(4)::before{animation-delay:2s}html body .ep-wg>.ep-w:nth-child(7)::before{animation-delay:3s}html body .ep-wg>.ep-w:nth-child(9)::before{animation-delay:4s}html body .ep-wg>.ep-w:nth-child(10)::before{animation-delay:5s}html body .ep-wg>.ep-w:nth-child(11)::before{animation-delay:6s}
+/* lebendige Inhalte */
+html body .ep-wg>.ep-w[data-a=zufall] .epzahl{display:inline-block;transform-origin:bottom center}
+html body .ep-wg>.ep-w:has(.epabz) .epabz{display:inline-block;animation:xkWackel 2.6s ease-in-out infinite}
+html body .ep-wg>.ep-w[data-a=live] #epLiveCd{animation:xkTick 1s ease-in-out infinite}
+html body .ep-wg>.ep-w:has(.epring) .epring{animation:xkSchweb 4s ease-in-out infinite}
+html body .ep-wg>.ep-w:not(.x-gross):hover{transform:translateY(-4px) scale(1.01);transition:transform .2s}
+@keyframes xkFluss{from{background-position:0% 30%}to{background-position:100% 70%}}
+@keyframes xkSchweb{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+@keyframes xkDreh{to{transform:rotate(360deg)}}
+@keyframes xkLeucht{0%,100%{opacity:.16;filter:drop-shadow(0 0 0 #FFE34D)}50%{opacity:.38;filter:drop-shadow(0 0 18px #FFE34D)}}
+@keyframes xkGlanz{0%,70%{background-position:150% 0}100%{background-position:-60% 0}}
+@keyframes xkWackel{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg) scale(1.08)}40%{transform:rotate(6deg)}60%{transform:rotate(0) scale(1)}}
+@keyframes xkTick{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes xkPuls{0%{box-shadow:0 0 0 0 rgba(255,227,77,.7)}100%{box-shadow:0 0 0 12px rgba(255,227,77,0)}}
+/* App: Kachel «Mein Level» farbig statt dunkel */
+.ap-heute .ap-tag .apf.f-navy{background:linear-gradient(135deg,#0FA968,#0B6E86)!important}
+.ap-heute .apf .apico{animation:xkSchweb 4s ease-in-out infinite}
+.ap-heute .ap-tag .apf:nth-child(2) .apico{animation-delay:-1s}.ap-heute .ap-tag .apf:nth-child(3) .apico{animation-delay:-2s}.ap-heute .ap-tag .apf:nth-child(4) .apico{animation-delay:-3s}
+@media (prefers-reduced-motion:reduce){html body .ep-wg>.ep-w,html body .ep-wg>.ep-w::before,html body .ep-wg>.ep-w::after,html body .ep-wg>.ep-w *,.ap-heute .apf .apico{animation:none!important}}
 .ep-w.x-gross{grid-column:span 3;position:relative;overflow:visible;min-height:250px;padding:26px 28px!important;display:flex;align-items:stretch;background:linear-gradient(120deg,#FF5FA2 0%,#8A3FE0 45%,#3D5AFE 100%)!important;box-shadow:0 16px 36px rgba(110,50,200,.35)!important}
 .ep-w.x-gross .x-g-txt{display:flex;flex-direction:column;gap:8px;max-width:58%;position:relative;z-index:1}
 .ep-w.x-gross small{display:inline-block;width:fit-content;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.22);font-size:.82rem;font-weight:800;letter-spacing:.02em;text-transform:none}
