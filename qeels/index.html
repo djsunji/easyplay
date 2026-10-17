@@ -2085,6 +2085,7 @@ body.reelsauf{overflow:hidden}
 #reels .ropt.falsch{opacity:1;background:#D6362E;border-color:#FF9C95}
 #reels .rerkl{background:rgba(0,0,0,.42);backdrop-filter:blur(10px);border-radius:16px;padding:12px 14px;font-size:.95rem;line-height:1.45}
 #reels .rerkl p{margin:0 0 6px}#reels .rerkl p:last-child{margin:0}
+#reels .rnurpc{display:none}
 #reels .rres{font-weight:800;font-size:1.05rem}
 #reels .rmerk{font-weight:600;color:#FFE38A}
 #reels .rweiter{font-size:.8rem;opacity:.8;text-align:center}
@@ -4635,7 +4636,10 @@ function rlArtInfo(B,s){
   const merk=[...new Set(eig.map(f=>f.m).filter(m=>m && !/ = |→|^[^:]{1,45}: /.test(m)))];
   const punkte=(T?.wichtigste?.length ? T.wichtigste : merk).slice(0,3).map(x=>String(x).replace(/\*\*/g,""));
   const gewusst=(T?.gewusst?.length ? T.gewusst[Math.floor(Math.random()*T.gewusst.length)] : eig.length ? eig[Math.floor(Math.random()*eig.length)].e : "") || "";
-  return {intro, punkte, gewusst:String(gewusst).replace(/\*\*/g,"")};
+  // Am PC ist mehr Platz: längere Einleitung und mehr Punkte
+  const lang=[...new Set([...saetze(intro), ...saetze(txt), ...(s.typ==="art" ? saetze(String(s.art.html).replace(/<[^>]+>/g," ").replace(/\s+/g," ")) : [])].map(x=>x.replace(/\*\*/g,"").trim()).filter(Boolean))].slice(0,5).join(" ");
+  const punkteLang=(T?.wichtigste?.length ? T.wichtigste : merk).slice(0,5).map(x=>String(x).replace(/\*\*/g,""));
+  return {intro, punkte, gewusst:String(gewusst).replace(/\*\*/g,""), introLang:lang||intro, punkteLang};
 }
 function rlRail(id, extra){
   const an=!!RL.likes[id];
@@ -4677,6 +4681,7 @@ function rlFrageHTML(it, idx){
       <h2 class="rfrage">${esc(f.q)}</h2>
       <div class="ropts">${it.opts.map((o,i)=>`<button type="button" class="ropt" data-o="${i}"><span class="rk">${"ABCD"[i]}</span><span>${esc(o.t)}</span></button>`).join("")}</div>
       <div class="rerkl" hidden></div>
+      <div class="rinfo rnurpc"><b>${ti} ${esc(th.name)}</b>${th.text?`<span>${esc(th.text)}</span>`:""}<small>${STUFE_EMO[f.l]} Stufe ${esc(stufeObj(f.l).name)}${stufeObj(f.l).alter?` · ${esc(stufeObj(f.l).alter)}`:""} · ${esc(th.bereich.name)} · Frage Nr. ${frageNr(f)}</small></div>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-erkl><span class="rbi">💡</span><small>Erklärung</small></button><button type="button" class="rbtn" data-qart><span class="rbi">📖</span><small>Artikel</small></button>`)}
     ${rlMeta("Quiz", `<p class="rcap">Tippe auf die richtige Antwort! <span class="rlnr">Nr. ${frageNr(f)}</span></p>`, `${esc(th.bereich.name)} · ${esc(th.name)}`, "", rlKanal(th.bereich.name), th.bereich.emo?ico(th.bereich.emo):(cx?.emo||ti))}
@@ -4696,9 +4701,10 @@ function rlArtikelHTML(it, idx){
       <span class="rtag">${B.emo} ${esc(B.titel)} · ${esc(s.kap.titel)}</span>
       <h2 class="ratitel">${esc(s.titel)}</h2>
       <div class="rakarte">
-        <p class="raintro">${esc((String(I.intro).match(/[^.!?]+[.!?]+(\s|$)/g)||[I.intro]).slice(0,2).join("").trim())}</p>
+        <p class="raintro rnurmobil">${esc((String(I.intro).match(/[^.!?]+[.!?]+(\s|$)/g)||[I.intro]).slice(0,2).join("").trim())}</p>
+        <p class="raintro rnurpc">${esc(I.introLang)}</p>
         ${I.gewusst?`<div class="ragewusst"><b>💡 Wusstest du schon?</b><p>${esc(I.gewusst)}</p></div>`:""}
-        ${I.punkte.length?`<div class="rapunkte"><b>🎯 Das Wichtigste</b><ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
+        ${I.punkte.length?`<div class="rapunkte rnurmobil"><b>🎯 Das Wichtigste</b><ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div><div class="rapunkte rnurpc"><b>🎯 Das Wichtigste</b><ul>${I.punkteLang.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
       </div>
       <button type="button" class="ralesen" data-lesen>📖 Ganzen Artikel lesen</button>
     </div>
@@ -4722,9 +4728,16 @@ function rlHinzu(n){
     let html=""; try{ html = it.typ==="q" ? rlFrageHTML(it, idx) : rlArtikelHTML(it, idx); }catch(e){ console.warn(e); }
     if(!html) continue;
     RL.map.set(idx, it); feed.insertAdjacentHTML("beforeend", html);
-    const sec=feed.lastElementChild; rlBinde(sec, it); RL.obs && RL.obs.observe(sec);
+    const sec=feed.lastElementChild; rlBinde(sec, it); RL.obs && RL.obs.observe(sec); rlPasst(sec);
   }
 }
+/* Am PC: längeren Artikeltext schrittweise kürzen, bis er ohne Scrollen in die Karte passt */
+function rlPasst(sec){
+  const k=sec.querySelector(".rakarte"); if(!k) return;
+  k.classList.remove("kurz1","kurz2","kurz3");
+  for(const st of ["kurz1","kurz2","kurz3"]){ if(k.scrollHeight<=k.clientHeight+2) break; k.classList.add(st); }
+}
+addEventListener("resize",()=>{ clearTimeout(rlPasst.t); rlPasst.t=setTimeout(()=>document.querySelectorAll("#rfeed .reel").forEach(rlPasst),200); });
 function rlToast(t){ const o=$("#reels"); if(!o) return; const d=document.createElement("div"); d.className="rtoast"; d.textContent=t; o.appendChild(d); setTimeout(()=>d.remove(),1900); }
 function rlHerz(sec, x, y){ const h=document.createElement("span"); h.className="rherz"; h.textContent="❤️"; const r=sec.getBoundingClientRect(); h.style.left=(x-r.left)+"px"; h.style.top=(y-r.top)+"px"; sec.appendChild(h); setTimeout(()=>h.remove(),900); }
 function rlLike(sec, an){
@@ -8365,39 +8378,87 @@ html body #app .buchseite{overflow-wrap:break-word}
 /* Profil (Tablet quer): ohne den früheren Schalter füllt die Liste die ganze Breite */
 html body.ep-app .ap-profil .ap-liste{grid-column:1/-1}
 @media (min-width:1000px) and (orientation:landscape){html body.ep-app .ap-profil .ap-liste{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* Qeels am PC: so breit wie die Startseite (.wrap, 1040px), Inhalt füllt die Karte und ist grösser */
+/* Qeels: farbige Knöpfe (Antworten A bis D, Seitenleiste, Artikel lesen) */
+html body #reels .ropt{border:0;color:#fff;background:linear-gradient(135deg,var(--oa),var(--ob));box-shadow:0 6px 0 var(--os),0 10px 24px rgba(0,0,0,.28);text-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s,filter .12s}
+html body #reels .ropt:nth-child(1){--oa:#4F6BFF;--ob:#2F45D8;--os:#1F2F9E}
+html body #reels .ropt:nth-child(2){--oa:#22B868;--ob:#128A4A;--os:#0B5F33}
+html body #reels .ropt:nth-child(3){--oa:#FFB020;--ob:#E8840C;--os:#A85A05}
+html body #reels .ropt:nth-child(4){--oa:#F0408A;--ob:#C21E68;--os:#86104A}
+html body #reels .ropt .rk{color:var(--ob);font-weight:900;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+html body #reels .ropt:hover:not([disabled]){filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 8px 0 var(--os),0 14px 28px rgba(0,0,0,.32)}
+html body #reels .ropt:active:not([disabled]){transform:translateY(4px);box-shadow:0 2px 0 var(--os),0 6px 14px rgba(0,0,0,.25)}
+html body #reels .ropt[disabled]{opacity:.45;filter:saturate(.6)}
+html body #reels .ropt.richtig{--oa:#2BD47A;--ob:#16A35A;--os:#0B6B39;opacity:1;filter:none;outline:3px solid #B8FFD6;outline-offset:2px}
+html body #reels .ropt.falsch{--oa:#F25A50;--ob:#C9302A;--os:#7E1A16;opacity:1;filter:none}
+html body #reels .rbtn .rbi{background:var(--rb,rgba(0,0,0,.3));box-shadow:0 4px 14px rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.35);transition:transform .12s}
+html body #reels .rbtn:hover .rbi{background:var(--rb,rgba(0,0,0,.45));transform:scale(1.08)}
+html body #reels .rbtn[data-like]{--rb:linear-gradient(135deg,#FF5C8A,#E0245E)}
+html body #reels .rbtn[data-komm]{--rb:linear-gradient(135deg,#4F8BFF,#2F55D8)}
+html body #reels .rbtn[data-erkl]{--rb:linear-gradient(135deg,#FFC23D,#E8920C)}
+html body #reels .rbtn[data-qart],html body #reels .rbtn[data-lesen]{--rb:linear-gradient(135deg,#2EC4B6,#13897F)}
+html body #reels .rbtn[data-erkl],html body #reels .rbtn[data-qart]:has([data-birne]){--rb:linear-gradient(135deg,#FFC23D,#E8920C)}
+html body #reels .rbtn[data-dazu]{--rb:linear-gradient(135deg,#A66BFF,#7333D6)}
+html body #reels .rbtn[data-teilen]{--rb:linear-gradient(135deg,#34C774,#14904D)}
+html body #reels .rbtn[data-vorlesen]{--rb:linear-gradient(135deg,#FF8A3D,#E0581C)}
+html body #reels .ralesen{background:linear-gradient(135deg,#FFD84D,#FF9F1C);color:#2A1A00;box-shadow:0 5px 0 #B86A00,0 10px 24px rgba(0,0,0,.3)}
+html body #reels .ralesen:active{transform:translateY(3px);box-shadow:0 2px 0 #B86A00}
+/* Qeels am PC: so breit wie die Startseite (.wrap, 1040px), Inhalt füllt die Karte, mehr Text */
 @media (min-width:900px) and (pointer:fine){
   html body #reels{--rbreit:min(calc(100vw - 180px),1040px)}
   html body #reels .rfeed,html body #reels .rkopf,html body #reels .rstories,html body #rlib{width:var(--rbreit)!important}
   html body #reels .rpfeile{right:max(16px,calc(50% - var(--rbreit) / 2 - 76px))!important}
+  html body #reels .rnurpc{display:block}
+  html body #reels .rnurmobil{display:none!important}
+  html body #reels .rakarte.kurz1 .raintro.rnurpc,html body #reels .rakarte.kurz2 .rapunkte.rnurpc{display:none}
+  html body #reels .rakarte.kurz3 .ragewusst{display:none}
+  html body #reels .rakarte.kurz3>.rapunkte{grid-column:1 / -1}
+  html body #reels .rakarte.kurz1 .raintro.rnurmobil,html body #reels .rakarte.kurz2 .rapunkte.rnurmobil{display:block!important}
+  html body #reels .rrail{right:10px;gap:12px}
+  html body #reels .rbtn{width:76px}
+  html body #reels .rbtn small{white-space:nowrap;font-size:.72rem}
   /* Quiz: Bild links, Frage und Antworten rechts; ohne Bild über die ganze Breite */
-  html body #reels .rinhalt{padding-left:48px!important;padding-right:120px!important;padding-bottom:120px!important;gap:20px}
-  html body #reels .rinhalt:has(.rimg){display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-template-rows:auto auto auto 1fr;column-gap:40px;row-gap:18px;align-content:center}
+  html body #reels .rinhalt{padding-left:48px!important;padding-right:120px!important;padding-bottom:112px!important;gap:18px;justify-content:safe center}
+  html body #reels .rinhalt:has(.rimg){display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-auto-rows:auto;column-gap:40px;row-gap:16px;align-content:safe center}
   html body #reels .rinhalt:has(.rimg)>.rtag{grid-column:1 / -1;justify-self:start}
   html body #reels .rinhalt:has(.rimg)>.rimg{grid-column:1;grid-row:2 / span 3;align-self:center;max-width:100%;width:100%;margin:0}
   html body #reels .rinhalt:has(.rimg)>:not(.rtag):not(.rimg){grid-column:2}
-  html body #reels .rimg svg,html body #reels .rimg img{max-height:46vh}
+  html body #reels .rimg svg,html body #reels .rimg img{max-height:40vh;object-fit:contain}
   html body #reels .rtag{font-size:.95rem;padding:7px 14px}
-  html body #reels .rfrage,html body #reels .rfrage.lang,html body #reels .rfrage.sehrlang{font-size:clamp(1.6rem,4.4vh,2.6rem)!important;line-height:1.18}
-  html body #reels .rfrage.sehrlang{font-size:clamp(1.35rem,3.6vh,2rem)!important}
-  html body #reels .ropts{grid-template-columns:1fr 1fr;gap:14px}
-  html body #reels .rinhalt:has(.rimg) .ropts{grid-template-columns:1fr}
-  html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{min-height:64px!important;padding:12px 18px!important;font-size:1.15rem!important;border-radius:18px;gap:14px}
+  html body #reels .rfrage,html body #reels .rfrage.lang{font-size:clamp(1.5rem,4.2vh,2.5rem)!important;line-height:1.18}
+  html body #reels .rfrage.sehrlang{font-size:clamp(1.3rem,3.4vh,1.9rem)!important}
+  html body #reels .ropts{grid-template-columns:1fr 1fr;gap:16px 16px;padding-bottom:6px}
+  html body #reels .rinhalt:has(.rimg) .ropts{grid-template-columns:1fr;gap:12px}
+  html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{min-height:60px!important;padding:12px 18px!important;font-size:1.12rem!important;border-radius:18px;gap:14px;line-height:1.25}
   html body #reels .ropt .rk{width:38px;height:38px;font-size:1rem}
-  html body #reels .rerkl{font-size:1.1rem;padding:16px 20px;line-height:1.5}
-  /* Artikel: Titel gross, Karte zweispaltig */
-  html body #reels .rainhalt{left:48px!important;right:120px!important;top:120px!important;bottom:110px!important;gap:16px}
+  html body #reels .rerkl{font-size:1.08rem;padding:16px 20px;line-height:1.5}
+  html body #reels .rinfo{background:rgba(10,12,24,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:12px 16px;font-size:.98rem;line-height:1.45}
+  html body #reels .rinfo b{display:block;font-size:1.02rem;margin-bottom:2px}
+  html body #reels .rinfo span{display:block;opacity:.92}
+  html body #reels .rinfo small{display:block;margin-top:6px;opacity:.72;font-size:.85rem}
+  html body #reels .rinfo .ic{width:1.1em;height:1.1em;vertical-align:-.2em}
+  html body #reels .rerkl:not([hidden])~.rinfo{display:none}
+  @media (max-height:799px){html body #reels .rinfo{display:none}
+    html body #reels .rainhalt{top:104px!important;bottom:88px!important;gap:10px}
+    html body #reels .ratitel{font-size:clamp(1.7rem,5vh,2.4rem)}
+    html body #reels .rakarte{padding:14px 18px;font-size:1rem;gap:10px 22px}
+    html body #reels .rakarte>.raintro{font-size:1.04rem}
+    html body #reels .ragewusst p,html body #reels .rapunkte ul{font-size:.96rem;line-height:1.45}
+    html body #reels .ralesen{padding:10px 20px;font-size:.98rem}
+    html body #reels .rerkl{font-size:.98rem;padding:12px 16px;line-height:1.42}
+    html body #reels .rinhalt{gap:12px;padding-bottom:100px!important}}
+  /* Artikel: Titel gross, Karte zweispaltig, längerer Text */
+  html body #reels .rainhalt{left:48px!important;right:120px!important;top:118px!important;bottom:100px!important;gap:14px}
   html body #reels .rtag{align-self:flex-start}
-  html body #reels .ratitel{font-size:clamp(2.2rem,6vh,3.4rem)}
-  html body #reels .rakarte{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px 28px;padding:22px 26px;font-size:1.15rem;line-height:1.55}
-  html body #reels .rakarte>.raintro{grid-column:1 / -1;font-size:1.2rem}
+  html body #reels .ratitel{font-size:clamp(2rem,5.4vh,3.2rem);flex:none}
+  html body #reels .rakarte{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-content:start;gap:16px 28px;padding:20px 24px;font-size:1.08rem;line-height:1.55}
+  html body #reels .rakarte>.raintro{grid-column:1 / -1;font-size:1.12rem}
   html body #reels .rakarte:not(:has(.rapunkte))>.ragewusst,html body #reels .rakarte:not(:has(.ragewusst))>.rapunkte{grid-column:1 / -1}
-  html body #reels .ragewusst{align-self:start;padding:14px 18px}
-  html body #reels .ragewusst p,html body #reels .rapunkte ul{font-size:1.08rem;line-height:1.55}
+  html body #reels .ragewusst{align-self:start;padding:14px 18px;transform:rotate(-.6deg)}
+  html body #reels .ragewusst p,html body #reels .rapunkte ul{font-size:1.02rem;line-height:1.5}
   html body #reels .rapunkte b,html body #reels .ragewusst b{font-size:.95rem}
-  html body #reels .ralesen{font-size:1.05rem;padding:13px 24px}
+  html body #reels .ralesen{font-size:1.05rem;padding:13px 24px;flex:none}
   /* Fusszeile */
-  html body #reels .rmeta{padding:0 24px 22px;right:120px}
+  html body #reels .rmeta{padding:0 24px 20px;right:120px}
   html body #reels .rcap,html body #reels .rkanal b{font-size:1.02rem}
 }
 </style>
