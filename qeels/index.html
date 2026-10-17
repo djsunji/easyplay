@@ -5722,7 +5722,9 @@ async function ladeFragenDB(){
       S.fragenQuelle = "Supabase";
     } else {
       const teile = cfg.fragenDateien || Array.from({length:30},(_,i)=>`fragen-${i+1}.json`);
-      const res = await Promise.all(teile.map(f=>fetch(f,{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null)));
+      const res = new Array(teile.length); let naechste = 0;
+      const holer = async () => { while(naechste < teile.length){ const i = naechste++; res[i] = await fetch(teile[i]).then(r=>r.ok?r.json():null).catch(()=>null); } };
+      await Promise.all([holer(), holer(), holer(), holer()]);
       if(Array.isArray(res[0])) rows = res.filter(Array.isArray).flat();
       else { const r = await fetch(cfg.fragenDatei || "fragen.json", {cache:"no-cache"}); if(!r.ok) throw new Error("fragen.json "+r.status); rows = await r.json(); }
       S.fragenQuelle = "fragen.json";
@@ -8114,7 +8116,9 @@ if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash);
 addEventListener("hashchange",()=>{ if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash); if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash); });
 himmelAktualisieren();
 setInterval(himmelAktualisieren, 60000);
-ladeFragenDB(); texteBeiBedarf();
+/* Fragen und Texte erst laden, wenn die Seite steht (sonst bremsen sie das Laden der Programmteile) */
+window.__epDatenLos = () => { if(window.__epDatenLos.lief) return; window.__epDatenLos.lief = true; ladeFragenDB(); texteBeiBedarf(); };
+setTimeout(() => window.__epDatenLos(), 6000);
 
 (async()=>{
   if(!window.claude || !window.claude.use) return;
@@ -8175,7 +8179,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="eltern.js"></script>
 <script src="offline.js"></script>
 <script src="i18n.js"></script><script src="regionen.js"></script>
-<script>try{ render(); }catch(e){} requestAnimationFrame(function(){ document.documentElement.classList.remove("ep-boot"); });</script>
+<script>try{ render(); }catch(e){} requestAnimationFrame(function(){ document.documentElement.classList.remove("ep-boot"); setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 0); });</script>
 <script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
 (function(){
 const css=`
