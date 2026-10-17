@@ -120,9 +120,27 @@ window.render = function(){
   const r = vorRender.apply(this, arguments);
   try{ if(S.screen === "done") quizEnde(); }catch(e){}
   requestAnimationFrame(einstiege); setTimeout(einstiege, 400);
+  ausQuiz(); setTimeout(ausQuiz, 60); setTimeout(ausQuiz, 450);
   return r;
 };
 
+
+/* ---------- Aus dem Quiz in die Bibliothek: nur «Zurück zum Quiz» ---------- */
+function ausQuiz(){
+  let an = false; try{ an = S.screen === "libseite" && LIB.vonQuiz && S.quiz && S.quiz.list; }catch(e){}
+  document.body.classList.toggle("ep-ausquiz", !!an);
+  if(!an) return;
+  const zq = document.getElementById("zumQuiz"); if(!zq) return;
+  const label = `↩️ Zurück zum Quiz <small>(Frage ${S.quiz.i + 1} von ${S.quiz.list.length})</small>`;
+  // App: der Kopf-Knopf «Zurück» wird zu «Zurück zum Quiz»
+  const kb = document.querySelector("#app .ap-kz .ap-zbtn");
+  if(kb && !kb.dataset.ausquiz){ kb.dataset.ausquiz = "1"; kb.innerHTML = `<span aria-hidden="true">↩️</span><span>Zum Quiz</span>`; kb.setAttribute("aria-label", "Zurück zum Quiz");
+    kb.onclick = e => { e.preventDefault(); e.stopPropagation(); zq.click(); }; }
+  // Computer: grosser Knopf ganz oben, über dem Artikel
+  zq.innerHTML = label;
+  // Links im Text führen nicht aus dem Artikel
+  document.querySelectorAll("#app .vlink").forEach(a => { if(a.dataset.ausquiz) return; a.dataset.ausquiz = "1"; a.setAttribute("tabindex", "-1"); a.setAttribute("aria-disabled", "true"); });
+}
 /* ---------- Einstiege: Karussell (App), Startseite (Computer), Profil-Liste (App) ---------- */
 function einstiege(){
   try{
@@ -234,6 +252,13 @@ html body .du2-rang>span:not(.du2-liga),html body .du2-rang>small{color:#fff!imp
 @media (max-width:400px){body.ep-app .ap-gruss .ap-logo{height:38px!important;top:2px!important}}
 @media (max-width:340px){body.ep-app .ap-gruss .ap-logo{height:31px!important;top:5px!important}}
 .ep-ver{grid-column:1/-1;margin:2px 0 0;text-align:center;font:500 11px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.6)}
+/* Aus dem Quiz in der Bibliothek: alle anderen Wege aus dem Artikel ausblenden */
+body.ep-ausquiz .crumbs,body.ep-ausquiz .obennav,body.ep-ausquiz .blaettern,body.ep-ausquiz .verbindungen,body.ep-ausquiz .libnav,body.ep-ausquiz .wikilink,body.ep-ausquiz .zufallleiste,body.ep-ausquiz #oVor,body.ep-ausquiz #oNach,body.ep-ausquiz .onav,body.ep-ausquiz #navKonto,body.ep-ausquiz #navReels,body.ep-ausquiz #navMenu,body.ep-ausquiz #home,body.ep-ausquiz #epTabs,body.ep-ausquiz .eplegal,body.ep-ausquiz .x-ein{display:none!important}
+body.ep-ausquiz .vlink{pointer-events:none;color:inherit!important;text-decoration:none!important;background:none!important;border:0!important;font-weight:inherit}
+body.ep-ausquiz.ep-app .zurueckquiz{display:none!important}
+body.ep-ausquiz .ap-kz .ap-zbtn{background:linear-gradient(135deg,#FFB020,#F2840C)!important;border-color:transparent!important;color:#2a1d5c!important;font-weight:800}
+body.ep-ausquiz:not(.ep-app) .zurueckquiz{position:sticky;top:10px;z-index:20}
+body.ep-ausquiz .zurueckquiz small{font-weight:600;opacity:.85}
 /* Feinschliff: nichts abschneiden */
 .xa-tab b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15}
 .xg-teil b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.1;-webkit-hyphens:auto;hyphens:auto;letter-spacing:-.01em}@media (max-width:420px){.xg-teil b{font-size:10.5px!important}}
