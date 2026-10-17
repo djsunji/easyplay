@@ -8362,13 +8362,40 @@ html body #app .buchseite{overflow-wrap:break-word}
 /* Profil (Tablet quer): ohne den früheren Schalter füllt die Liste die ganze Breite */
 html body.ep-app .ap-profil .ap-liste{grid-column:1/-1}
 @media (min-width:1000px) and (orientation:landscape){html body.ep-app .ap-profil .ap-liste{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* Qeels am PC: so breit wie die Startseite (.wrap, 1040px), Inhalt mittig in lesbarer Breite */
+/* Qeels am PC: so breit wie die Startseite (.wrap, 1040px), Inhalt füllt die Karte und ist grösser */
 @media (min-width:900px) and (pointer:fine){
   html body #reels{--rbreit:min(calc(100vw - 180px),1040px)}
   html body #reels .rfeed,html body #reels .rkopf,html body #reels .rstories,html body #rlib{width:var(--rbreit)!important}
-  html body #reels .rinhalt{padding-left:max(16px,calc((100% - 720px) / 2))!important;padding-right:max(84px,calc((100% - 720px) / 2))!important}
-  html body #reels .rainhalt{left:max(14px,calc((100% - 720px) / 2))!important;right:max(78px,calc((100% - 720px) / 2))!important}
   html body #reels .rpfeile{right:max(16px,calc(50% - var(--rbreit) / 2 - 76px))!important}
+  /* Quiz: Bild links, Frage und Antworten rechts; ohne Bild über die ganze Breite */
+  html body #reels .rinhalt{padding-left:48px!important;padding-right:120px!important;padding-bottom:120px!important;gap:20px}
+  html body #reels .rinhalt:has(.rimg){display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-template-rows:auto auto auto 1fr;column-gap:40px;row-gap:18px;align-content:center}
+  html body #reels .rinhalt:has(.rimg)>.rtag{grid-column:1 / -1;justify-self:start}
+  html body #reels .rinhalt:has(.rimg)>.rimg{grid-column:1;grid-row:2 / span 3;align-self:center;max-width:100%;width:100%;margin:0}
+  html body #reels .rinhalt:has(.rimg)>:not(.rtag):not(.rimg){grid-column:2}
+  html body #reels .rimg svg,html body #reels .rimg img{max-height:46vh}
+  html body #reels .rtag{font-size:.95rem;padding:7px 14px}
+  html body #reels .rfrage,html body #reels .rfrage.lang,html body #reels .rfrage.sehrlang{font-size:clamp(1.6rem,4.4vh,2.6rem)!important;line-height:1.18}
+  html body #reels .rfrage.sehrlang{font-size:clamp(1.35rem,3.6vh,2rem)!important}
+  html body #reels .ropts{grid-template-columns:1fr 1fr;gap:14px}
+  html body #reels .rinhalt:has(.rimg) .ropts{grid-template-columns:1fr}
+  html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{min-height:64px!important;padding:12px 18px!important;font-size:1.15rem!important;border-radius:18px;gap:14px}
+  html body #reels .ropt .rk{width:38px;height:38px;font-size:1rem}
+  html body #reels .rerkl{font-size:1.1rem;padding:16px 20px;line-height:1.5}
+  /* Artikel: Titel gross, Karte zweispaltig */
+  html body #reels .rainhalt{left:48px!important;right:120px!important;top:120px!important;bottom:110px!important;gap:16px}
+  html body #reels .rtag{align-self:flex-start}
+  html body #reels .ratitel{font-size:clamp(2.2rem,6vh,3.4rem)}
+  html body #reels .rakarte{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px 28px;padding:22px 26px;font-size:1.15rem;line-height:1.55}
+  html body #reels .rakarte>.raintro{grid-column:1 / -1;font-size:1.2rem}
+  html body #reels .rakarte:not(:has(.rapunkte))>.ragewusst,html body #reels .rakarte:not(:has(.ragewusst))>.rapunkte{grid-column:1 / -1}
+  html body #reels .ragewusst{align-self:start;padding:14px 18px}
+  html body #reels .ragewusst p,html body #reels .rapunkte ul{font-size:1.08rem;line-height:1.55}
+  html body #reels .rapunkte b,html body #reels .ragewusst b{font-size:.95rem}
+  html body #reels .ralesen{font-size:1.05rem;padding:13px 24px}
+  /* Fusszeile */
+  html body #reels .rmeta{padding:0 24px 22px;right:120px}
+  html body #reels .rcap,html body #reels .rkanal b{font-size:1.02rem}
 }
 </style>
 <script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
