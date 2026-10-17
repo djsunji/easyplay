@@ -65,3 +65,13 @@ Alle Dateien sind kleiner als 5 MB, damit sie sich auch im Browser auf GitHub ho
 ## Qeels
 
 Die Qeels (Q für Quiz) zeigen Fragen und Bibliotheksartikel im Stil von Shorts und Reels. Teilen geht über WhatsApp, Telegram, Facebook, X, E-Mail, SMS oder einen Link; die Link-Adresse steht in `config.js` unter `teilenUrl`. Die Anzahl «Gefällt mir» wird gemeinsam gezählt, sobald Supabase eingerichtet ist (Tabelle `likes` und Funktion `like_aendern` aus `supabase/schema.sql`). Ohne Supabase zeigt die GitHub-Version nur das eigene Herz.
+
+## Qeels als eigene Seite
+
+Unter <https://djsunji.github.io/easyplay/qeels/> laufen die Qeels als eigenständige Seite mit eigenem Titel, eigenem App-Symbol-Namen und eigenen Vorschautexten beim Teilen. Die Seite hat keine eigenen Daten: Fragen, Bibliothekstexte, Bilder, Bildindex sowie Likes, Kommentare und Konten (Supabase) kommen aus easyplay. Geteilte Qeels führen auf die Qeels-Seite.
+
+| Datei | Wozu |
+|---|---|
+| `qeels/index.html` | Wird automatisch aus `index.html` erzeugt (`tools/qeels_bauen.py`, GitHub Action `qeels.yml`). Nicht von Hand ändern. |
+| `qeels/qeels-vorher.js`, `qeels/qeels.js` | Öffnen sofort die Qeels und machen aus «Zurück» einen Link zu easyplay |
+| `qeels/manifest.webmanifest` | App «Qeels» zum Installieren auf dem Handy |

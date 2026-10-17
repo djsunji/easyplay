@@ -112,9 +112,12 @@ self.addEventListener("activate", (event) => {
 async function netzZuerst(event) {
   try {
     const antwort = await fetch(event.request);
-    if (speicherbar(antwort) && new URL(event.request.url).pathname.endsWith("/")) {
+    const pfad = new URL(event.request.url).pathname;
+    if (speicherbar(antwort) && pfad.endsWith("/")) {
+      // Startseite unter "./", Unterseiten wie qeels/ unter ihrer eigenen Adresse
       const cache = await caches.open(CACHE_HUELLE);
-      event.waitUntil(cache.put("./", antwort.clone()));
+      const startseite = pfad === new URL("./", self.location.href).pathname;
+      event.waitUntil(cache.put(startseite ? "./" : pfad, antwort.clone()));
     }
     return antwort;
   } catch (e) {
