@@ -207,6 +207,10 @@ css.textContent = `
 .x-kachel small{font-size:.86rem;opacity:.95;color:#fff;line-height:1.3}
 .x-badge{position:absolute;top:10px;right:12px;font-style:normal;background:#FFE34D;color:#1B2240;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .x-leer{color:#fff;background:rgba(15,20,48,.45);padding:12px 16px;border-radius:16px}
+/* Duell-Seite: Symbol und Titel in der Mitte */
+html body .dukopf{text-align:center!important}
+html body .dukopf .dusw{display:grid!important;place-items:center;margin-left:auto!important;margin-right:auto!important}
+html body .dukopf h1,html body .dukopf p{margin-left:auto!important;margin-right:auto!important;text-align:center!important;position:relative;z-index:1}
 /* Duell-Menü: farbige Kacheln statt dunkler Kästen */
 html body .du2-team{background:linear-gradient(120deg,#E043B8,#8A3FE0 50%,#3D5AFE)!important;border:0!important;box-shadow:0 12px 26px rgba(110,50,200,.3);background-size:170% 170%!important;animation:xkFluss 12s ease-in-out infinite alternate}
 html body .du2-team .lbl{color:#fff!important;opacity:.95}
