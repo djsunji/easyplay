@@ -11,10 +11,11 @@ const LS = {
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
 const K = { team:"ep-team", woche:"ep-woche", live:"ep-live", zuletzt:"ep-zuletzt", chatgesehen:"ep-chat-tag", erw:"ep-erwachsen" };
-/* Erwachsenenmodus: keine Kids, kein Konfetti, keine Leuchteffekte */
-const erwachsen = () => !!LS.get(K.erw, false);
-function erwachsenSetzen(an){ LS.set(K.erw, !!an); document.body.classList.toggle("ep-erw", !!an); try{ render(); }catch(e){} }
-try{ document.body.classList.toggle("ep-erw", erwachsen()); }catch(e){}
+/* Erwachsenenmodus wurde im Oktober 2026 entfernt. Ein früher gespeicherter Wert wird gelöscht und hat keine Wirkung mehr.
+   erwachsen() bleibt als Stub (immer false), damit ältere Aufrufe nicht brechen. */
+const erwachsen = () => false;
+function erwachsenSetzen(){ try{ localStorage.removeItem(K.erw); }catch(e){} try{ document.body.classList.remove("ep-erw"); }catch(e){} }
+erwachsenSetzen();
 const KIDS = "img/kids/";
 const heute = (d) => { const x = d ? new Date(d) : new Date(); return x.getFullYear() + "-" + String(x.getMonth()+1).padStart(2,"0") + "-" + String(x.getDate()).padStart(2,"0"); };
 const h = s => { try{ return esc(s); }catch(e){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); } };
@@ -469,13 +470,6 @@ body.dark .ep-w .epmini{background:#FFE34D;color:#1B2240}
 .ep-code small{grid-column:1/-1;color:#5D5C80;font-size:.82rem}
 .ep-codekopie{border:0;border-radius:999px;background:linear-gradient(135deg,#3D5AFE,#8A3FE0);color:#fff;font:700 .85rem Lexend,system-ui,sans-serif;padding:7px 14px;cursor:pointer;justify-self:start}
 body.ep-app .ep-code{margin:0 0 12px}
-/* Erwachsenenmodus */
-body.ep-erw .epduo,body.ep-erw .epname,body.ep-erw .epglow,body.ep-erw .epkids,body.ep-erw .ep-chatkids,body.ep-erw .st-kids,body.ep-erw .st-libkids,body.ep-erw .lq-kids,body.ep-erw .c2-kids,body.ep-erw .ep-w img,body.ep-erw .ep-team img,body.ep-erw .ep-turm img,body.ep-erw .ep-liegt .pagehead::after,body.ep-erw .xpflug,body.ep-erw .konf,body.ep-erw .lvup .konf,body.ep-erw .ap-held>img,body.ep-erw .ap-bereit>img,body.ep-erw .ap-konto>img,body.ep-erw .ap-top img,body.ep-erw .wk2-kids,body.ep-erw .epbereit-duo,body.ep-erw .lq-team img,body.ep-erw .ep-testk img,body.ep-erw .c2-avs,body.ep-erw .c2-av,body.ep-erw .ep-msg .epav,body.ep-erw #epTabs .tabav,body.ep-erw .ap-chatkids,body.ep-erw .hs-kid{display:none!important}
-body.ep-erw .ep-liegt .pagehead{padding-right:0!important;min-height:0!important}
-body.ep-erw .ep-banner::before{opacity:.35}
-body.ep-erw .ep-bereit h2{text-shadow:none}
-body.ep-erw .lq-held::after,body.ep-erw .lq-ansage,body.ep-erw .lq-vs,body.ep-erw .epglow,body.ep-erw .lvring,body.ep-erw .eptc-nadel{animation:none!important}
-body.ep-erw .fxlob,body.ep-erw .fxkonf,body.ep-erw .konfetti,body.ep-erw .lob,body.ep-erw .flug,body.ep-erw #fxlayer,body.ep-erw .fx{display:none!important}
 /* Wordmark auf iPad und iPhone weg */
 @media (max-width:1100px),(pointer:coarse) and (max-width:1400px){.topbar .wmimg{display:none!important}.topbar .eplogo{flex:0 0 auto!important;width:auto!important}.topbar .eplogoimg{display:inline-block!important;height:44px!important;width:auto!important}}
 `;
@@ -648,7 +642,6 @@ function aktion(a, el){
       BEREICHE.forEach(b => { const p = alle.filter(f => THEMA[f.t].bereich && THEMA[f.t].bereich.id === b.id); for(let k = 0; k < je && p.length; k++) raus.push(p.splice(Math.floor(Math.random() * p.length), 1)[0]); });
       if(raus.length) startListe(raus, "Alles gemischt"); else aktion("zufall"); }catch(e){ aktion("zufall"); } }
   else if(a === "lib"){ try{ setLibModus(true); scrollTo(0, 0); }catch(e){} }
-  else if(a === "erw"){ erwachsenSetzen(!erwachsen()); }
   else if(a === "tagesquiz"){ try{ window.EP_LERNEN_TQ(); }catch(e){ go("chat"); } }
   else if(a === "fehler"){ try{ const l = window.EP_LERNEN.fehlerListe(); if(l.length) startListe(l, "Fehler üben"); }catch(e){} }
   else if(a === "live") liveOeffnen();
@@ -745,19 +738,6 @@ if(typeof vorProfilCode === "function"){
   };
 }
 window.EP_PROFILCODE = profilCode;
-
-/* ---------- Menü: Erwachsenenmodus ---------- */
-const vorNav = window.renderNav;
-if(typeof vorNav === "function"){
-  window.renderNav = function(){
-    const r = vorNav.apply(this, arguments);
-    try{ const m = document.getElementById("hauptmenue"); if(m && !m.querySelector("[data-erw]")){
-      const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitem"); b.dataset.erw = "1";
-      b.innerHTML = (erwachsen() ? "🧒 Kindermodus einschalten" : "🧑 Erwachsenenmodus"); b.onclick = () => erwachsenSetzen(!erwachsen());
-      const set = m.querySelector('[data-m="set"]'); if(set) set.after(b); else m.appendChild(b); } }catch(e){}
-    return r;
-  };
-}
 
 /* ---------- Bildschirme einhängen ---------- */
 const vorRender = window.render;

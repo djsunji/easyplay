@@ -707,7 +707,6 @@ function profilHTML(){
       <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b><span>${h(lv && lv.titel ? lv.titel.name : "Neuling")}</span></div>
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}</b><span>von ${ab.alle}</span></div>
     </div>
-    <button type="button" class="apf f-navy ap-ersch" data-x="erw" aria-pressed="${!!(ES.erwachsen && ES.erwachsen())}"><span class="aptx"><b>Erwachsenenmodus</b><small>Ohne Lumi, Milo, Leni und Ben, ohne Konfetti</small></span><span class="ap-sw"><i></i></span></button>
     <nav class="glas ap-liste" aria-label="Mehr">
       ${zeile('data-x="board"', I.pokal, "Rangliste")}
       ${zeile('data-x="lib"', I.buch, "Bibliothek")}

@@ -6934,6 +6934,27 @@ function renderLibKapitel(){
   document.querySelectorAll(".regitem").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
   $("#libQuiz") && ($("#libQuiz").onclick=()=> istSonderKapitel(k.id) ? startListe([...new Map(k.seiten.flatMap(x=>x.fragen).map(f=>[f.q,f])).values()], k.titel) : libZumQuiz(k.id));
 }
+/* Wissenskarten (Fakten): eine Reihe zum Wischen nach links und rechts statt einer langen Liste.
+   Sichtbar sind je nach Breite 1 bis 3 Karten (nie mehr als 5), die übrigen erreicht man durch Wischen oder mit den Pfeilen. */
+function wkSwipeHTML(karten){
+  const n=karten.length; if(!n) return "";
+  return `<div class="wkswipe${n<2?" wkeins":""}"><div class="wkarten wkspur" tabindex="0" role="region" aria-label="Wissenskarten, ${n} Karten. Nach links oder rechts wischen.">${karten.join("")}</div>${n>1?`<div class="wknav"><button type="button" class="wkpf" data-d="-1" aria-label="Vorherige Karte" disabled>‹</button><span class="wkzahl" aria-live="polite">1 von ${n}</span><button type="button" class="wkpf" data-d="1" aria-label="Nächste Karte">›</button></div>`:""}</div>`;
+}
+function wkSwipeBinden(){
+  document.querySelectorAll("#app .wkswipe").forEach(w=>{ if(w.dataset.ok) return; w.dataset.ok="1";
+    const spur=w.querySelector(".wkspur"), zahl=w.querySelector(".wkzahl"), pf=w.querySelectorAll(".wkpf"); if(!spur||!zahl) return;
+    const karten=()=>[...spur.children];
+    const schritt=()=>{ const k=karten(); return k.length>1 ? k[1].offsetLeft-k[0].offsetLeft : spur.clientWidth; };
+    const zeigen=()=>{ if(!w.isConnected){ removeEventListener("resize",zeigen); return; } const k=karten(), st=schritt()||1, i=Math.round(spur.scrollLeft/st), sicht=Math.max(1,Math.min(5,Math.round(spur.clientWidth/st)));
+      const bis=Math.min(k.length,i+sicht); zahl.textContent = sicht>1 ? `${i+1} bis ${bis} von ${k.length}` : `${i+1} von ${k.length}`;
+      const sl=spur.scrollLeft, sr=sl+spur.clientWidth; let hoch=0; k.forEach(c=>{ if(c.offsetLeft-spur.offsetLeft<sr-4 && c.offsetLeft-spur.offsetLeft+c.offsetWidth>sl+4) hoch=Math.max(hoch,c.offsetHeight); }); if(hoch) spur.style.height=(hoch+10)+"px";
+      pf[0].disabled = spur.scrollLeft<=2; pf[1].disabled = spur.scrollLeft+spur.clientWidth>=spur.scrollWidth-2; };
+    pf.forEach(b=>b.onclick=()=>spur.scrollBy({left:(+b.dataset.d)*schritt(),behavior:"smooth"}));
+    spur.addEventListener("keydown",e=>{ if(e.key==="ArrowRight"||e.key==="ArrowLeft"){ e.preventDefault(); spur.scrollBy({left:(e.key==="ArrowRight"?1:-1)*schritt(),behavior:"smooth"}); } });
+    let t=0; spur.addEventListener("scroll",()=>{ cancelAnimationFrame(t); t=requestAnimationFrame(zeigen); },{passive:true});
+    addEventListener("resize",zeigen); zeigen();
+  });
+}
 function renderLibSeite(){
   const B=BUECHER.find(x=>x.id===LIB.buch); if(!B){ go("lib"); return; }
   const D=buchDaten(B.id); const s=D.seiten.find(x=>x.nr===LIB.seite); if(!s){ go("libbuch"); return; }
@@ -6953,9 +6974,8 @@ function renderLibSeite(){
       ${beschr}
       <figure class="karte" id="kartenBox" hidden></figure>
       ${s.fragen.length?"":`<p class="empty">Zu diesem Stichwort gibt es noch keine Quizfragen.</p>`}
-      <h3 class="faktkopf" ${s.fragen.length?"":"hidden"}>📚 Fakten${s.fragen.length>5?` <small>(5 von ${s.fragen.length})</small>`:""}</h3>
-      <div class="wkarten">${erste.map(karte).join("")}</div>
-      ${rest.length?`<details class="mehrfakten"><summary>Weitere ${rest.length} ${rest.length===1?"Fakt":"Fakten"} anzeigen</summary><div class="wkarten">${rest.map(karte).join("")}</div></details>`:""}
+      <h3 class="faktkopf" ${s.fragen.length?"":"hidden"}>📚 Fakten${s.fragen.length>1?` <small>(${s.fragen.length})</small>`:""}</h3>
+      ${s.fragen.length?wkSwipeHTML(s.fragen.map(karte)):""}
       ${s.titel!=="Allgemeines"?`<p class="wikilink"><a href="${wikiUrl(s.wiki||s.titel)}" target="_blank" rel="noopener">📚 Mehr über «${esc(s.titel)}» auf Wikipedia</a></p>`:""}`;
   }
   $("#app").innerHTML = `${crumbs()}
@@ -6980,6 +7000,7 @@ function renderLibSeite(){
       ${s.kap.id.startsWith("__") ? (s.art?.quiz?`<div class="row libnav"><button class="big gold" id="libQuiz" type="button">🎮 Quiz zu diesem Thema</button></div>`:"") : `<div class="row libnav"><button class="big gold" id="libQuiz" type="button">🎮 Quiz zu «${esc(s.kap.titel)}»</button></div>`}
       <div class="sfuss">Seite ${s.nr}</div>
     </article>`;
+  wkSwipeBinden();
   const blatt=(n)=>{ const art=$(".buchseite"); if(matchMedia("(prefers-reduced-motion: reduce)").matches){ LIB.seite=n; render(); scrollTo(0,0); return; }
     art.animate([{transform:"perspective(1200px) rotateY(0)",opacity:1},{transform:`perspective(1200px) rotateY(${n>s.nr?-12:12}deg)`,opacity:0}],{duration:220,easing:"ease-in"}).onfinish=()=>{ LIB.seite=n; render(); scrollTo(0,0); $(".buchseite")?.animate([{transform:`perspective(1200px) rotateY(${n>s.nr?12:-12}deg)`,opacity:0},{transform:"none",opacity:1}],{duration:260,easing:"ease-out"}); }; };
   if(s.typ==="art") zeigeWikiBild(null, s.nr, [s.art.bild||null, s.titel], s.titel+" Schweiz");
@@ -7035,10 +7056,11 @@ function renderLibThema(){
       <h3>🗝️ Das Wichtigste in Kürze</h3>
       <ul class="merkliste">${[...new Set(karten.map(f=>f.m).filter(Boolean))].slice(0,12).map(m=>`<li>${esc(m)}</li>`).join("")}</ul>
       <h3>📚 Wissenskarten</h3>
-      <div class="wkarten">${karten.map(f=>`<div class="wk"><p class="wkq">${esc(f.q)}</p><p class="wka">${esc(f.a[0])}</p><p class="wke">${esc(f.e)}</p>${f.s?`<a href="${wikiUrl(f.s)}" target="_blank" rel="noopener">📚 Mehr auf Wikipedia: ${esc(f.s)}</a>`:""}</div>`).join("")}</div>
+      ${wkSwipeHTML(karten.map(f=>`<div class="wk"><p class="wkq">${esc(f.q)}</p><p class="wka">${esc(f.a[0])}</p><p class="wke">${esc(f.e)}</p>${f.s?`<a href="${wikiUrl(f.s)}" target="_blank" rel="noopener">📚 Mehr auf Wikipedia: ${esc(f.s)}</a>`:""}</div>`))}
       <div class="row libnav"><button class="big gold" id="libQuiz" type="button">🎮 Jetzt das Quiz dazu spielen</button></div>
     </article>`;
   $("#libQuiz").onclick=()=>libZumQuiz(id);
+  wkSwipeBinden();
 }
 function libZumQuiz(id){
   setLibModus(false);
@@ -7549,12 +7571,14 @@ function renderHistorie(){
 
 function ohneStrich(t){ if(typeof t!=="string") return t; return t.replace(/(\d)\s*[–—]\s*(\d)/g,"$1 bis $2").replace(/([.!?:;,])\s*[–—]\s*/g,"$1 ").replace(/(^|[\n(\["'])\s*[–—]\s*/g,"$1").replace(/\s+[–—]\s*$/g,"").replace(/\s+[–—]\s+/g,", ").replace(/[–—]/g,"-"); }
 function frageOhneStrich(f){ return {...f, q:ohneStrich(f.q), a:Array.isArray(f.a)?f.a.map(ohneStrich):f.a, e:ohneStrich(f.e), m:ohneStrich(f.m)}; }
-/* ================= Konten: E-Mail + Passwort, Google, Facebook, Apple ================= */
+/* ================= Konten: E-Mail + Passwort, Google, Facebook, Apple, Microsoft ================= */
+/* Microsoft heisst bei Supabase "azure" (Feld oauth). Azure braucht zusätzlich scopes:"email", sonst fehlt die E-Mail-Adresse. */
 const AUTH = { sb:null, bereit:false, modus:"lokal", user:null };
 const PROVIDER = [
   {id:"google", name:"Google", icon:'<svg viewBox="0 0 48 48" width="22" height="22"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>'},
   {id:"facebook", name:"Facebook", icon:'<svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.1 12.9l.4-2.8h-2.7V8.3c0-.8.4-1.5 1.6-1.5h1.2V4.4s-1.1-.2-2.2-.2c-2.2 0-3.7 1.4-3.7 3.9v2.1H7.3v2.8h2.4V20h3.1v-7.1h2.3z"/></svg>'},
-  {id:"apple", name:"Apple", icon:'<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.7c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg>'}
+  {id:"apple", name:"Apple", icon:'<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.7c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg>'},
+  {id:"microsoft", oauth:"azure", scopes:"email", name:"Microsoft", icon:'<svg viewBox="0 0 23 23" width="20" height="20" aria-hidden="true"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>'}
 ];
 const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 // Lokale Konten: PBKDF2 mit 600 000 Runden. Alte SHA-256-Hashes werden beim Anmelden ersetzt.
@@ -7602,7 +7626,9 @@ function bindSocial(){
   document.querySelectorAll("[data-prov]").forEach(b=>b.onclick=async()=>{
     const err=$("#socErr");
     if(AUTH.modus!=="supabase"){ err.textContent = window.claude ? "Die Anmeldung mit "+b.textContent.trim()+" funktioniert nur auf deiner eigenen Website, nicht in der claude.ai-Vorschau." : "Die Anmeldung mit "+b.textContent.trim()+" ist noch nicht eingerichtet. Dafür braucht es Supabase (siehe ANLEITUNG-LOGIN.md)."; return; }
-    try{ const {error}=await AUTH.sb.auth.signInWithOAuth({provider:b.dataset.prov, options:{redirectTo: location.origin+location.pathname}}); if(error) throw error; }
+    const pv=PROVIDER.find(x=>x.id===b.dataset.prov)||{id:b.dataset.prov};
+    const opt={redirectTo: location.origin+location.pathname}; if(pv.scopes) opt.scopes=pv.scopes;
+    try{ const {error}=await AUTH.sb.auth.signInWithOAuth({provider:pv.oauth||pv.id, options:opt}); if(error) throw error; }
     catch(e){ err.textContent="Das hat nicht geklappt: "+(e.message||"unbekannter Fehler"); }
   });
 }
@@ -8155,6 +8181,198 @@ addEventListener("resize",plane);
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(plane);
 window.EP_EINPASSEN=einpassen;
 })();</script>
+<style id="ep-mobilfix-okt">
+/* ===== Mobil-Feinschliff Oktober 2026 (Wissenskarten, Anmeldung, Qeels, Startseite, Bücher) =====
+   Steht absichtlich im body nach allen anderen Stilen, damit diese Regeln gewinnen. */
+
+/* --- 1. Wissenskarten: eine Reihe zum Wischen, je nach Breite 1, 2 oder 3 Karten sichtbar (nie mehr als 5) --- */
+html body #app .wkswipe{position:relative;max-width:100%;min-width:0;clear:both}
+html body #app .wkswipe .wkspur{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:88%;gap:10px;
+  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  align-items:start;padding:2px 2px 8px;margin:0;scrollbar-width:thin;max-width:100%;box-sizing:border-box}
+html body #app .wkswipe.wkeins .wkspur{grid-auto-columns:100%}
+html body #app .wkswipe .wkspur{transition:height .2s ease}
+html body #app .wkswipe .wkspur:focus-visible{outline:3px solid #FFD43B;outline-offset:2px;border-radius:14px}
+html body #app .wkswipe .wk{scroll-snap-align:start;min-width:0;box-sizing:border-box;overflow-wrap:break-word;word-break:normal;hyphens:auto;-webkit-hyphens:auto}
+html body #app .wkswipe .wk .bibimg{max-width:38%}
+html body #app .wkswipe .wk .bibimg img,html body #app .wkswipe .wk .bibimg svg{max-width:100%;height:auto}
+html body #app .wknav{display:flex;align-items:center;justify-content:center;gap:12px;margin:4px 0 0}
+html body #app .wknav .wkzahl{font-weight:700;font-size:.85rem;color:var(--libacc,#C9A66B);min-width:7.5em;text-align:center}
+html body #app .wknav .wkpf{width:40px;height:40px;border-radius:50%;border:2px solid var(--libline,rgba(255,255,255,.3));background:var(--libpaper,rgba(255,255,255,.08));color:var(--libink,#fff);font-size:1.4rem;line-height:1;font-weight:800;cursor:pointer;display:grid;place-items:center;padding:0 0 3px}
+html body #app .wknav .wkpf:disabled{opacity:.35;cursor:default}
+@media (min-width:700px){html body #app .wkswipe .wkspur{grid-auto-columns:calc((100% - 10px) / 2)}}
+@media (min-width:1100px){html body #app .wkswipe .wkspur{grid-auto-columns:calc((100% - 20px) / 3)}}
+
+/* --- 3. Anmeldung, Auswahl und Registrierung: auf dem Handy kompakter --- */
+html body #app .provbtns .sbtn{min-width:0;white-space:nowrap}
+html body #app .provbtns .sbtn span{overflow:hidden;text-overflow:ellipsis}
+html body #app .regbox .provbtns{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:560px){
+  html body #app .kwahl{gap:12px;margin:2px auto 16px}
+  html body #app .kwkopf h1{font-size:1.35rem;margin:0 0 4px}
+  html body #app .kwkopf p{font-size:.9rem}
+  html body #app .kwgrid{gap:10px}
+  html body #app .kwkarte{padding:12px 8px;border-radius:20px;gap:2px}
+  html body #app .kwic{width:44px;height:44px;font-size:1.35rem;margin-bottom:2px}
+  html body #app .kwkarte b{font-size:1.05rem}
+  html body #app .kwkarte small{font-size:.76rem;line-height:1.25}
+  html body #app .kwlos{min-height:36px;padding:0 8px;margin-top:8px;font-size:.78rem;border-radius:11px}
+
+  html body #app .authbox{margin:2px auto 16px;padding:14px 14px 12px;border-radius:20px;gap:3px;max-width:100%;box-sizing:border-box}
+  html body #app .authkopf{margin-bottom:2px}
+  html body #app .authkopf h1{font-size:1.4rem;margin:2px 0}
+  html body #app .authkopf p{font-size:.84rem;line-height:1.35}
+  html body #app .authicon{width:46px;height:46px;font-size:1.4rem}
+  html body #app .authbox label{margin-top:4px;font-size:.88rem}
+  html body #app .authbox input[type=email],html body #app .authbox input[type=password],html body #app .authbox input[type=text]{min-height:44px;padding:7px 12px;font-size:16px;border-width:2px;border-radius:12px}
+  html body #app .authbox .pwfeld input{padding-right:44px}
+  html body #app .authbox .big{min-height:44px;font-size:.98rem;padding-top:6px;padding-bottom:6px}
+  html body #app .authbox .linkbtn{font-size:.85rem;padding:2px}
+  html body #app .authbox .social .trenner{margin:6px 0 6px;font-size:.82rem}
+  html body #app .provbtns{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px}
+  html body #app .provbtns .sbtn{min-height:40px;font-size:.88rem;gap:6px;padding:0 6px;border-radius:11px}
+  html body #app .provbtns .sbtn svg{width:18px;height:18px;flex:none}
+  html body #app .authwechsel{margin:6px 0 0;font-size:.88rem}
+
+  html body #app .regw{margin:0 auto 16px}
+  html body #app .regbox{padding:14px 12px 12px}
+  html body #app .regav{width:56px;height:56px;font-size:1.7rem}
+  html body #app .regbox .trenner{margin:8px 0 2px;font-size:.8rem}
+  html body #app .regsek{padding:10px 0;gap:4px}
+  html body #app .regsek h3{font-size:1rem;margin:0 0 2px;gap:8px}
+  html body #app .regnr{width:22px;height:22px;font-size:.78rem}
+  html body #app .regsek label{margin:3px 0 3px;font-size:.88rem}
+  html body #app .regsek input[type=text],html body #app .regsek input[type=email],html body #app .regsek input[type=password]{min-height:44px;padding:7px 12px;font-size:16px;border-width:2px;border-radius:12px}
+  html body #app .regsek .help{font-size:.78rem;line-height:1.35}
+  html body #app .regsek .namerow{grid-template-columns:1fr 1fr;gap:8px}
+  html body #app .regstufen{gap:6px}
+  html body #app .regstufen .seg{min-height:58px;padding:6px 3px!important;border-radius:14px;font-size:.82rem!important}
+  html body #app .regstufen .seg .rsi{font-size:1.15rem}
+  html body #app .regstufen .seg small{font-size:.68rem}
+  html body #app .regfig{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+  html body #app .regfig .avbtn{border-width:2px;border-radius:12px}
+  html body #app .regfig .avbtn:has(.avimg){padding:2px}
+  html body #app .regkt{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  html body #app .regkt .ktbtn{padding:3px 1px;border-width:2px;border-radius:10px;font-size:.66rem}
+  html body #app .regkt .ktbtn .wappen{width:22px;height:26px}
+  html body #app .regchk{padding:10px 0 2px;gap:10px;font-size:.88rem}
+  html body #app .regknoepfe{gap:8px;margin-top:10px}
+  html body #app .regbox .authwechsel{margin-top:10px}
+  html body #app .regbox .note{font-size:.8rem;margin-top:8px}
+}
+@media (max-width:370px){
+  html body #app .regsek .namerow{grid-template-columns:1fr;gap:0}
+  html body #app .provbtns .sbtn{font-size:.82rem;gap:5px}
+}
+
+/* --- 5. Qeels: obere Leiste weg. Nur der Zurück-Knopf und ein kleiner Auswahl-Knopf bleiben oben rechts --- */
+html body #reels .rkopf{background:none!important;justify-content:flex-end;padding:12px 12px 0!important;gap:8px!important}
+html body #reels .rkopf>.rmarke{display:none!important}
+html body #reels .rkopf>.rtabs,html body #reels .rkopf>.rserie{display:none!important}
+html body #reels .rfilter{position:relative;flex:none;width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;
+  background:rgba(15,20,48,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35),0 8px 20px -10px rgba(0,0,0,.6);padding:0}
+html body.ep-app #reels .rfilter{width:50px;height:50px}
+html body #reels .rfilter svg{width:22px;height:22px}
+html body #reels .rfilter[aria-expanded="true"]{background:#fff;color:#1B2240}
+html body #reels .rfilter .rfpunkt{position:absolute;top:4px;right:4px;width:11px;height:11px;border-radius:50%;background:#FFD43B;box-shadow:0 0 0 2px rgba(15,20,48,.6)}
+html body #reels .rfilter .rfpunkt[hidden]{display:none}
+html body #reels .rfpop{position:absolute;top:calc(100% + 8px);right:12px;max-width:calc(100% - 24px);box-sizing:border-box;display:flex;flex-direction:column;align-items:stretch;gap:8px;
+  padding:10px 12px;border-radius:20px;background:rgba(15,20,48,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 16px 40px -12px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.18);pointer-events:auto;z-index:13}
+html body #reels .rfpop[hidden]{display:none!important}
+html body #reels .rkopf:has(.rfpop:not([hidden])){z-index:15!important}
+html body #reels .rfpop .rfkopf{font:700 .78rem "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.75);letter-spacing:.02em}
+html body #reels .rfpop .rtabs{display:flex!important;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:6px;margin:0;min-width:0}
+html body #reels .rfpop .rserie{display:inline-block;align-self:flex-start}
+html body #reels .rfpop .rserie[hidden]{display:none!important}
+html body #reels .rfpop .rlupe{margin-left:auto}
+/* Themen-Reihe (Stories) rückt nach oben neben die Knöpfe und läuft nicht unter sie */
+html body #reels .rstories{top:6px!important;padding-right:calc(var(--rres,120px) + 12px)!important;clip-path:inset(-30px var(--rres,120px) -30px 0)}
+@media (min-width:700px){html body #reels .rstories{top:22px!important}}
+@media (pointer:coarse) and (min-width:761px){html body #reels .rstories{width:min(100vw,calc((100dvh - 32px) * 9 / 16),640px)!important}}
+/* Inhalt der Karten beginnt unter der Themen-Reihe, nichts läuft unter den Zurück-Knopf */
+html body #reels:has(.rstories) .rinhalt{padding-top:112px!important}
+html body #reels:has(.rstories) .rainhalt{top:108px!important}
+html body #reels:not(:has(.rstories)) .rinhalt{padding-top:72px!important}
+html body #reels .rschip{top:108px!important}
+html body #reels:has(#rschip) .rinhalt{padding-top:148px!important}
+html body #reels:has(#rschip) .rainhalt{top:146px!important}
+html body #reels .rsuchfeld{top:66px!important;z-index:14}
+html body #reels .rsticker{top:max(22%,112px)!important}
+@media (max-height:760px){
+  html body #reels .rainhalt .ratitel{font-size:clamp(1.3rem,4.4vh,1.7rem)!important}
+  html body #reels .rinhalt .rfrage{font-size:clamp(1.15rem,4.1vh,1.6rem)!important}
+}
+
+/* --- 6. Startseite (Handy): Kinder dürfen oben aus der Kachel herausragen, ohne das Logo zu verdecken --- */
+@media (max-width:699px){
+  html body.ep-app .ap-karu,html body.ep-app .ap-karu-spur,html body.ep-app .ap-karu-spur>.ap-held{overflow:visible}
+  html body.ep-app .ap-karu-spur{overflow-x:auto;overflow-y:hidden;padding-top:30px;margin-top:-30px}
+  html body.ep-app .ap-karu-spur>.ap-held>img{height:calc(100% + 28px)!important;right:2px!important}
+  html body.ep-app .ap-karu-spur>.ap-held2>img{height:calc(100% + 26px)!important}
+}
+
+/* --- 7. Bibliothek (Handy und Tablet): Texte bleiben im goldenen Rahmen der Buchform.
+   Die Selektoren sind absichtlich stärker als die App-Regeln (body.ep-app.ep-s-lib ...). Schrift in cqw = Anteil der Buchbreite. --- */
+@media (max-width:900px){
+  html body.ep-app.ep-s-lib .regal .buch .bcover, html body.ep-app .regal .buch .bcover, html body .regal .buch .bcover{container-type:inline-size;overflow:hidden!important;justify-content:center!important;align-items:center!important;box-sizing:border-box!important;padding:12px 11px 11px 22px!important;gap:2px!important}
+  html body.ep-app.ep-s-lib .regal .buch .bcover::before, html body.ep-app .regal .buch .bcover::before, html body .regal .buch .bcover::before{top:7px!important;left:17px!important;right:7px!important;bottom:7px!important;width:auto!important;height:auto!important}
+  html body.ep-app.ep-s-lib .regal .buch .bemo2, html body.ep-app .regal .buch .bemo2, html body .regal .buch .bemo2{font-size:30cqw!important;line-height:1.1!important;flex:none!important;height:auto!important;margin:0!important}
+  html body.ep-app.ep-s-lib .regal .buch .btitel, html body.ep-app .regal .buch .btitel, html body .regal .buch .btitel{font-size:17cqw!important;line-height:1.1!important;max-width:100%!important;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto;flex:none!important;margin:0!important}
+  html body.ep-app.ep-s-lib .regal .buch .bunter, html body.ep-app .regal .buch .bunter, html body .regal .buch .bunter{font-size:12cqw!important;line-height:1.22!important;max-width:100%!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden!important;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto;flex:none!important;margin:0!important}
+  html body.ep-app.ep-s-lib .regal .buch .btop, html body.ep-app .regal .buch .btop, html body .regal .buch .btop{position:static!important;margin:3px 0 0!important;max-width:100%!important;box-sizing:border-box!important;font-size:10cqw!important;line-height:1.2!important;padding:1px 4px!important;white-space:normal!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important;overflow-wrap:anywhere;text-align:center;flex:none!important}
+}
+@media (min-width:901px){
+  html body.ep-app.ep-s-lib .regal .buch .btop, html body.ep-app .regal .buch .btop, html body .regal .buch .btop{font-size:12.5px!important;padding-left:6px!important;padding-right:6px!important}
+}
+@media (max-width:560px){
+  html body.ep-app.ep-s-lib .regal .buch .bcover, html body.ep-app .regal .buch .bcover, html body .regal .buch .bcover{padding:9px 8px 8px 17px!important}
+  html body.ep-app.ep-s-lib .regal .buch .bcover::before, html body.ep-app .regal .buch .bcover::before, html body .regal .buch .bcover::before{top:5px!important;left:13px!important;right:5px!important;bottom:5px!important}
+}
+@media (max-width:440px){
+  html body.ep-app.ep-s-lib .regal .buch .btop, html body.ep-app .regal .buch .btop, html body .regal .buch .btop{display:none!important}
+}
+html body #app .buchseite h1,html body #app .buchseite .skopf span,html body #app .libart h1{overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto}
+html body #app .buchseite{overflow-wrap:break-word}
+/* Profil (Tablet quer): ohne den früheren Schalter füllt die Liste die ganze Breite */
+html body.ep-app .ap-profil .ap-liste{grid-column:1/-1}
+@media (min-width:1000px) and (orientation:landscape){html body.ep-app .ap-profil .ap-liste{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+<script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
+(function(){
+"use strict";
+const vor = window.oeffneReels; if(typeof vor !== "function") return;
+const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg>';
+function platz(o){ try{ const st = o.querySelector(".rstories"), f = o.querySelector(".rfilter"); if(!st || !f) return;
+  const r = st.getBoundingClientRect(), fl = f.getBoundingClientRect().left; if(!r.width) return;
+  st.style.setProperty("--rres", Math.max(0, Math.round(r.right - fl + 6)) + "px"); }catch(e){} }
+function zustand(o){ const p = o.querySelector(".rfilter .rfpunkt"); if(!p) return;
+  const sel = o.querySelector('.rtabs [aria-selected="true"]'); const id = sel ? (sel.dataset.rtab || "") : "";
+  p.hidden = !(RL && (RL.tab === "quiz" || RL.tab === "wissen" || RL.tab === "suche")) && !(id && id !== "mix"); }
+function einbauen(){
+  const o = document.getElementById("reels"); if(!o) return;
+  const kopf = o.querySelector(".rkopf"), zu = o.querySelector("#rZu"); if(!kopf || !zu) return;
+  if(!o.querySelector(".rfilter")){
+    const b = document.createElement("button"); b.type = "button"; b.className = "rfilter"; b.id = "rFilter";
+    b.setAttribute("aria-label", "Auswahl: Für dich, Quiz, Wissen oder Suchen"); b.title = "Auswahl"; b.setAttribute("aria-expanded", "false"); b.setAttribute("aria-controls", "rFpop");
+    b.innerHTML = ICON + '<i class="rfpunkt" hidden></i>';
+    const pop = document.createElement("div"); pop.className = "rfpop"; pop.id = "rFpop"; pop.hidden = true; pop.setAttribute("role", "group"); pop.setAttribute("aria-label", "Qeels Auswahl");
+    pop.innerHTML = '<span class="rfkopf">Was möchtest du sehen?</span>';
+    const tabs = kopf.querySelector(".rtabs"), serie = kopf.querySelector(".rserie");
+    if(serie) pop.appendChild(serie); if(tabs) pop.appendChild(tabs);
+    kopf.insertBefore(b, zu); kopf.appendChild(pop);
+    const zu_ = () => { pop.hidden = true; b.setAttribute("aria-expanded", "false"); };
+    b.addEventListener("click", e => { e.stopPropagation(); const auf = pop.hidden; pop.hidden = !auf; b.setAttribute("aria-expanded", String(auf)); });
+    pop.addEventListener("click", e => { e.stopPropagation(); const t = e.target.closest("[data-rtab],.rlupe,[data-z]"); if(t) setTimeout(() => { zu_(); zustand(o); }, 220); });
+    o.addEventListener("click", e => { if(!pop.hidden && !pop.contains(e.target) && e.target !== b) zu_(); });
+    document.addEventListener("keydown", e => { if(e.key === "Escape" && !pop.hidden){ zu_(); b.focus(); } });
+    if(tabs) new MutationObserver(() => zustand(o)).observe(tabs, {subtree:true, attributes:true, attributeFilter:["aria-selected"]});
+    addEventListener("resize", () => platz(o));
+  }
+  zustand(o); platz(o); requestAnimationFrame(() => platz(o)); setTimeout(() => platz(o), 400);
+}
+window.oeffneReels = function(){ const r = vor.apply(this, arguments); try{ einbauen(); }catch(e){ console.warn("mobilfix", e); } return r; };
+})();
+</script>
 <script>/*__epScrollPause*/(function(){let t=0;addEventListener('scroll',function(){if(!t)document.body.classList.add('scrollt');clearTimeout(t);t=setTimeout(function(){document.body.classList.remove('scrollt');t=0;},180);},{passive:true});document.addEventListener('visibilitychange',function(){document.body.classList.toggle('scrollt',document.hidden);});})();</script>
 <script>
 /* Anonyme Besucherstatistik (nur mit Supabase): zählt Seitenbereiche, Gerätetyp und Herkunftsseite. Keine Cookies, keine IP-Speicherung. */

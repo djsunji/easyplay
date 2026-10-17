@@ -1685,7 +1685,6 @@ body.lz-admin,body.ep-app.lz-admin{padding:0!important}
 .lza .lz-kb{border:1px solid var(--lza-li)!important;border-radius:6px!important;box-shadow:none!important;padding:6px 10px!important;background:var(--lza-fl)!important;display:flex;gap:8px;align-items:center}
 .lza .lz-erstellen{position:sticky;bottom:0;background:var(--lza-fl)!important;border:1px solid var(--lza-li)!important;border-radius:10px!important;box-shadow:0 -4px 12px rgba(40,20,90,.06)!important;padding:10px 14px!important;z-index:3}
 .lz-kidbild{height:150px;width:auto;display:block;margin:0 auto 6px;filter:drop-shadow(0 10px 16px rgba(40,30,120,.25))}
-body.ep-erw .lz-kidbild{display:none}
 @media (max-width:520px){.lz-kidbild{height:110px}}
 /* Kinder: offene Frage */
 .lz-offenlbl{display:block;font-weight:700;margin:6px 0 6px}

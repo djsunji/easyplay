@@ -225,7 +225,6 @@ body.ep-app.ep-s-duellplay .wrap{padding-top:calc(8px + env(safe-area-inset-top)
 .du2-rang{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:20px;background:rgba(15,20,48,.62);color:#fff;border:1px solid rgba(255,255,255,.18);font:600 .9rem Lexend,sans-serif}
 .du2-rang .du2-liga{font-size:.9rem}
 .du2-rang small{color:rgba(255,255,255,.8)}
-body.ep-erw .ep-kid{display:none!important}
 @media (max-width:520px){.du2-ek img{height:84px}.du2-ek h1{font-size:1.15rem}.du2-stats{gap:5px}.du2-stats>div{padding:6px 6px;border-radius:12px}.du2-stats span{font-size:.56rem;letter-spacing:.03em}.du2-stats b{font-size:1rem}.du2-stats small{font-size:.6rem}.du2-auf,.du2-ab{font-size:.85rem;padding:8px 12px}.du2-bilanz{display:none}.du2-elo{padding:8px 10px;gap:10px}.du2-hinw{font-size:.78rem;margin:2px 2px 4px}.du2-ende .row .big{padding:10px 14px;font-size:.95rem}.du2-ende{padding:14px 12px 12px!important}.du2-ende .duvs.gross .dupkt{font-size:1.9rem}.du2-eloz b{font-size:1.7rem}.du2-verlauf>div{grid-template-columns:56px 1fr}.du2-dots i{height:18px;font-size:.62rem}.du2-lkid{height:100px}}
 body.ep-app.ep-s-duellende .du2-ende{margin-top:4px}
 `;
