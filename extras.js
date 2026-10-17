@@ -119,7 +119,7 @@ window.render = function(){
   try{ delete document.body.dataset.xwelt; }catch(e){}
   const r = vorRender.apply(this, arguments);
   try{ if(S.screen === "done") quizEnde(); }catch(e){}
-  requestAnimationFrame(einstiege);
+  requestAnimationFrame(einstiege); setTimeout(einstiege, 400);
   return r;
 };
 
@@ -129,13 +129,34 @@ function einstiege(){
     if(typeof S === "undefined" || S.screen !== "home" || S.libModus) return;
     const app = document.getElementById("app"); if(!app) return;
     const appAn = (() => { try{ return window.EP_APP && window.EP_APP.an(); }catch(e){ return false; } })();
+    const welten = liste().slice().sort((x, y) => (x.reihe || 99) - (y.reihe || 99));
     if(!appAn){
       const wg = app.querySelector(".ep-wg");
       if(wg && !wg.querySelector(".x-ein")){
-        const b = document.createElement("button"); b.type = "button"; b.className = "ep-w x-ein";
-        b.innerHTML = `<small>Neu</small><b>✨ Entdecken</b><span>Schweizer Karte, Sammelalbum, Abenteuer und mehr</span>`;
+        const b = document.createElement("button"); b.type = "button"; b.className = "ep-w x-ein x-gross";
+        b.setAttribute("aria-label", `Entdecken: ${welten.length} Welten`);
+        b.innerHTML = `<span class="x-g-txt"><small>✨ ${welten.length} Welten zum Entdecken</small><b>Entdecken</b>
+          <span class="x-g-sub">Schweizer Karte, Sammelalbum, Abenteuer, Regionen-Duell, Musik und vieles mehr</span>
+          <span class="x-g-chips">${welten.slice(0, 6).map(m => `<i>${h(m.emo)} ${h(m.titel)}</i>`).join("")}<i>+${Math.max(0, welten.length - 6)} weitere</i></span>
+          <span class="x-g-los">Los geht's ›</span></span>
+          <img class="x-g-bild" src="img/kids/duo-jubel.webp" alt="">`;
         b.onclick = () => go("x-entdecken");
-        wg.appendChild(b);
+        /* gross nach den ersten vier Kacheln (Dein Tag, Test, Serie, Level) */
+        wg.insertBefore(b, wg.children[4] || null);
+      }
+      /* Truhe neben Entdecken, damit die Reihe voll ist */
+      const x = wg && wg.querySelector(".x-ein"), t = wg && wg.querySelector(".xt-ein");
+      if(x && t && x.nextElementSibling !== t) x.after(t);
+    } else {
+      const fakt = app.querySelector(".ap-heute .ap-fakt");
+      if(fakt && !app.querySelector(".ap-heute .x-app")){
+        const b = document.createElement("button"); b.type = "button"; b.className = "apf x-app";
+        b.setAttribute("aria-label", `Entdecken: ${welten.length} Welten`);
+        b.innerHTML = `<span class="x-a-txt"><small>✨ ${welten.length} Welten</small><b>Entdecken</b><span class="x-a-emo" aria-hidden="true">${welten.slice(0, 7).map(m => `<i>${h(m.emo)}</i>`).join("")}</span></span><img src="img/kids/duo-jubel.webp" alt="">`;
+        b.onclick = () => go("x-entdecken");
+        fakt.remove();
+        const woche = app.querySelector(".ap-heute .ap-woche");
+        if(woche) woche.before(b); else app.querySelector(".ap-heute").appendChild(b);
       }
     }
     const nav = app.querySelector(".ap-profil .ap-liste");
@@ -186,6 +207,34 @@ css.textContent = `
 .x-kachel small{font-size:.86rem;opacity:.95;color:#fff;line-height:1.3}
 .x-badge{position:absolute;top:10px;right:12px;font-style:normal;background:#FFE34D;color:#1B2240;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .x-leer{color:#fff;background:rgba(15,20,48,.45);padding:12px 16px;border-radius:16px}
+.ep-w.x-gross{grid-column:span 3;position:relative;overflow:visible;min-height:250px;padding:26px 28px!important;display:flex;align-items:stretch;background:linear-gradient(120deg,#FF5FA2 0%,#8A3FE0 45%,#3D5AFE 100%)!important;box-shadow:0 16px 36px rgba(110,50,200,.35)!important}
+.ep-w.x-gross .x-g-txt{display:flex;flex-direction:column;gap:8px;max-width:58%;position:relative;z-index:1}
+.ep-w.x-gross small{display:inline-block;width:fit-content;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.22);font-size:.82rem;font-weight:800;letter-spacing:.02em;text-transform:none}
+.ep-w.x-gross b{font-size:clamp(2.2rem,3.6vw,3.2rem);line-height:1;font-weight:900;letter-spacing:-.01em;text-shadow:0 3px 12px rgba(40,10,90,.35)}
+.ep-w.x-gross .x-g-sub{font-size:1rem;line-height:1.35;opacity:.95}
+.ep-w.x-gross .x-g-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ep-w.x-gross .x-g-chips i{font-style:normal;font-size:.82rem;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(15,20,48,.32);white-space:nowrap}
+.ep-w.x-gross .x-g-los{margin-top:auto;width:fit-content;padding:10px 20px;border-radius:999px;background:#FFE34D;color:#2a1d5c!important;font-weight:900;box-shadow:0 5px 0 #C9A800}
+.ep-w.x-gross .x-g-bild{position:absolute;right:10px;bottom:0;height:calc(100% + 34px);max-width:42%;object-fit:contain;object-position:bottom right;pointer-events:none;filter:drop-shadow(0 10px 18px rgba(30,10,80,.35))}
+.ep-w.x-gross:hover{transform:translateY(-3px)}
+.ep-w.x-gross:hover .x-g-bild{transform:scale(1.03);transition:transform .25s}
+.ep-wg>.xt-ein{min-height:250px;display:flex!important;flex-direction:column;justify-content:space-between}
+@media (min-width:861px){.ep-wg>.xt-ein .xt-ein-truhe{position:static!important;display:block;width:78%!important;max-width:190px;height:auto!important;margin:6px auto 0;transform:none!important;order:1}
+.ep-wg>.xt-ein .xt-ein-truhe svg{width:100%!important;height:auto!important}
+.ep-wg>.xt-ein>b,.ep-wg>.xt-ein>span:not(.xt-ein-truhe){order:2}
+.ep-wg .eptl{display:flex!important;flex-direction:column}.ep-wg .eptl .epe{flex:1 1 auto}}
+@media (max-width:860px){.ep-w.x-gross{grid-column:1/-1}.ep-wg>.xt-ein{min-height:0;grid-column:1/-1}}
+.apf.x-app{position:relative;overflow:visible;display:flex;align-items:center;text-align:left;min-height:108px;padding:14px 16px;border:0;border-radius:24px;color:#fff;cursor:pointer;background:linear-gradient(120deg,#FF5FA2 0%,#8A3FE0 50%,#3D5AFE 100%);box-shadow:0 12px 26px rgba(110,50,200,.35);font:inherit}
+.apf.x-app .x-a-txt{display:flex;flex-direction:column;gap:4px;max-width:62%;position:relative;z-index:1}
+.apf.x-app small{width:fit-content;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.22);font-size:.74rem;font-weight:800}
+.apf.x-app b{font-size:1.75rem;line-height:1;font-weight:900;text-shadow:0 2px 10px rgba(40,10,90,.35)}
+.apf.x-app .x-a-emo{display:flex;gap:3px;font-size:1.05rem}
+.apf.x-app .x-a-emo i{font-style:normal;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:rgba(255,255,255,.2)}
+.apf.x-app img{position:absolute;right:6px;bottom:0;height:calc(100% + 26px);max-width:44%;object-fit:contain;object-position:bottom right;pointer-events:none;filter:drop-shadow(0 8px 14px rgba(30,10,80,.35))}
+@media (max-height:780px) and (max-width:699px){.ap-heute .ap-woche{display:none!important}}
+.apf.x-app:focus-visible,.ep-w.x-gross:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+@media (min-width:700px){.apf.x-app{min-height:170px;padding:20px 24px}.apf.x-app b{font-size:2.4rem}.apf.x-app .x-a-emo{font-size:1.3rem}.apf.x-app .x-a-emo i{width:34px;height:34px}}
+@media (prefers-reduced-motion:reduce){.ep-w.x-gross:hover,.ep-w.x-gross:hover .x-g-bild{transform:none}}
 .ep-w.x-ein{background:linear-gradient(135deg,#5B4BF5,#9B4DE0 60%,#E043B8)!important;color:#fff!important;text-align:left;cursor:pointer;border:0}
 .ep-w.x-ein b,.ep-w.x-ein small,.ep-w.x-ein span{color:#fff!important}
 .ap-liste .x-ein{display:flex;align-items:center;gap:10px}

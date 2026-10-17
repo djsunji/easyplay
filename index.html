@@ -4297,10 +4297,6 @@ function renderHome(){
           <button class="big zartikel" id="zufallArt" type="button"><span class="cicon wuerfel">🔮</span> Zufälliger Artikel</button>
         </div>
     </section>
-    <p class="label" id="stufeLbl"><span>Deine Stufe</span></p>
-    <div class="levels" role="group" aria-labelledby="stufeLbl">
-      ${STUFEN.map(s=>`<button class="level" type="button" data-s="${s.id}" aria-pressed="${S.stufe===s.id}"><span class="em" aria-hidden="true">${STUFE_EMO[s.id]}</span><span><b>${s.name}</b><span class="a">${s.alter} · ${allCountL(s.id)} Fragen</span><small class="schule">(${esc(SCHULE[s.id])})</small></span></button>`).join("")}
-    </div>
     <p class="label" id="bereiche"><span>Bereiche</span><small>${allCountL(S.stufe)} Fragen für ${stufeObj().name} · ${allCount()} insgesamt</small></p>
     <div class="bereiche">
       ${BEREICHE.map(b=>`<button class="bereich" type="button" data-b="${b.id}" style="--c:var(${b.c})">
