@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-17-20";
+const VERSION = "ep-2026-10-17-21";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -168,10 +168,9 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const namen = await caches.keys();
-    // Nur alte Versions-Caches löschen; Offline-Pakete (epoff-…) bleiben
-    await Promise.all(namen
-      .filter((n) => n.startsWith("ep-") && n !== CACHE_HUELLE && n !== CACHE_BILDER)
-      .map((n) => caches.delete(n)));
+    // Alle alten Versions-Caches löschen (auch alte Bilder); Offline-Pakete (epoff-…) bleiben
+    const alt = namen.filter((n) => n.startsWith("ep-") && n !== CACHE_HUELLE && n !== CACHE_BILDER);
+    await Promise.all(alt.map((n) => caches.delete(n)));
     await self.clients.claim();
   })());
 });

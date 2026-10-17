@@ -2,6 +2,15 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<script>/* Notfall: …/easyplay/?reset löscht alte Speicher (ohne Offline-Pakete und ohne Spielstand) und lädt frisch */
+(function(){ try{ if(!/[?&]reset\b/.test(location.search)) return;
+  var fertig=function(){ location.replace(location.pathname + "?v=" + Date.now()); };
+  var arbeit=[];
+  if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations) arbeit.push(navigator.serviceWorker.getRegistrations().then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); }));
+  if(window.caches) arbeit.push(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(k){ return k.indexOf("epoff-")!==0; }).map(function(k){ return caches.delete(k); })); }));
+  Promise.all(arbeit).then(fertig, fertig); setTimeout(fertig, 4000);
+}catch(e){} })();</script>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://de.wikipedia.org https://commons.wikimedia.org https://*.supabase.co wss://*.supabase.co; frame-src https://www.openstreetmap.org; media-src 'self' https: data: blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
