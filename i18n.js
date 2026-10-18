@@ -621,6 +621,25 @@ function grussLage(k, ton){
   const rechtecke = () => { const rs = []; gr.querySelectorAll(":scope > b, :scope > span").forEach(el => { const rg = document.createRange(); rg.selectNodeContents(el); rs.push(...rg.getClientRects()); });
     rs.push(lg.getBoundingClientRect()); if(ton && ton.isConnected) rs.push(ton.getBoundingClientRect()); return rs; };
   const stoesst = () => { const kr = k.getBoundingClientRect(); return kr.left < 4 || kr.right > innerWidth - 4 || kr.top < 0 || rechtecke().some(r => r.width && r.right > kr.left - 3 && r.left < kr.right + 3 && r.bottom > kr.top + 1 && r.top < kr.bottom - 1); };
+  /* Fest: [Lautsprecher][Fahne][Logo] auf einer Linie, Begrüssung bekommt rechts genug Platz */
+  if(ton && ton.isConnected && ton.parentNode === k.parentNode){
+    const L = lg.getBoundingClientRect(), G = gr.getBoundingClientRect();
+    const fw = k.offsetWidth || 40, fh = k.offsetHeight || 40, tw = ton.offsetWidth || 40, th = ton.offsetHeight || 40;
+    const cy = L.top + L.height / 2, fx = L.left - fw - 6, tx = fx - tw - 6;
+    const tpos = (x, y) => { const l = Math.round(x - bx + ox) + "px", t = Math.round(y - by + oy) + "px"; if(ton.style.left !== l) ton.style.left = l; if(ton.style.top !== t) ton.style.top = t; ton.style.visibility = ""; ton.classList.remove("unten"); };
+    if(tx - G.left >= 96){
+      pos(fx, cy - fh / 2); tpos(tx, cy - th / 2);
+      gr.style.setProperty("--ep-gfrei", Math.max(0, Math.round(G.right - tx + 8)) + "px");
+    } else {
+      /* sehr schmal: beide klein unter das Logo, rechtsbündig */
+      pos(L.right - fw, L.bottom + 4); tpos(L.right - fw - tw - 6, L.bottom + 4 + (fh - th) / 2);
+      gr.style.setProperty("--ep-gfrei", Math.max(0, Math.round(G.right - L.left + 8)) + "px");
+    }
+    k.style.visibility = "";
+    if(!ton._epWacht){ ton._epWacht = true; try{ new MutationObserver(() => { clearTimeout(ton._epT); ton._epT = setTimeout(() => { try{ if(k.isConnected && ton.isConnected) grussLage(k, ton); }catch(e){} }, 30); }).observe(ton, {attributes:true, attributeFilter:["style","class"]}); }catch(e){} }
+    if(!(lg.complete && lg.naturalWidth)) lg.addEventListener("load", () => { try{ grussLage(k, ton); }catch(e){} }, {once:true});
+    return;
+  }
   const kw = k.offsetWidth || 34, kh = k.offsetHeight || 34, L0 = lg.getBoundingClientRect();
   const T0 = ton && ton.isConnected && ton.style.visibility !== "hidden" ? ton.getBoundingClientRect() : null;
   const kand = [];
@@ -687,6 +706,8 @@ function registrieren(){
 /* =================== Stil =================== */
 const css = document.createElement("style"); css.id = "ep-x-i18n";
 css.textContent = `
+html body.ep-app .ap-gruss > b,html body.ep-app .ap-gruss > span{padding-right:var(--ep-gfrei,170px)!important;box-sizing:border-box}
+html body.ep-app .ap-gruss > span{white-space:normal;line-height:1.25}
 html.xui-laden #app{opacity:0}
 .xui-knopf{position:relative;flex:none;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:rgba(15,20,48,.55);color:#fff;cursor:pointer;font:800 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.02em;box-shadow:0 6px 14px rgba(27,34,64,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:transform .15s}
 .xui-knopf:hover{transform:scale(1.06)}
