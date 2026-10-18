@@ -166,7 +166,7 @@ function schneiden(){
     const r = c.getBoundingClientRect(); c.style.transform = t;
     const o = r.top - P.oben, h = r.height;
     const oben = Math.max(0, von - o), unten = Math.max(0, (o + h) - bis);
-    c.style.clipPath = (oben >= h || unten >= h || oben + unten >= h) ? "inset(0 0 100% 0)" : `inset(${oben}px -40px ${unten}px -40px)`;
+    c.style.clipPath = (oben >= h || unten >= h || oben + unten >= h) ? "inset(0 0 100% 0)" : `inset(${oben > 0 ? oben : -40}px -40px ${unten}px -40px)`;
   });
 }
 function zeigen(s, anim, richtung){

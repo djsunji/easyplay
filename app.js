@@ -901,18 +901,28 @@ function themenSeiten(){
   const app = document.getElementById("app"); const th = app && app.querySelector(":scope > .themen"); if(!th || th.dataset.ap) return;
   th.dataset.ap = "1";
   const kacheln = [...th.querySelectorAll(":scope > .thema")]; if(!kacheln.length) return;
-  const quer = QUER.matches, tabs = document.getElementById("epTabs"); const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null;
-  const ende = tr ? tr.top - 10 : innerHeight - 16;
+  const quer = QUER.matches, tabs = document.getElementById("epTabs");
+  const ende = () => { const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null; return tr ? tr.top - 10 : innerHeight - 16; };
   const wrap = document.createElement("div"); wrap.className = "ap-tp"; th.before(wrap); th.remove();
   const spalten = innerWidth >= 700 ? 3 : 2;
+  let pk = null;
+  const verteile = proSeite => {
+    wrap.innerHTML = ""; if(pk){ pk.remove(); pk = null; }
+    for(let i = 0; i < kacheln.length; i += proSeite){ const pg = document.createElement("div"); pg.className = "ap-tpage"; kacheln.slice(i, i + proSeite).forEach(k => pg.appendChild(k)); wrap.appendChild(pg); }
+    const n = wrap.children.length;
+    if(n > 1){ pk = document.createElement("div"); pk.className = "ap-tpunkte"; pk.innerHTML = Array.from({length:n}, (x, i) => `<i${i ? "" : ' class="an"'}></i>`).join(""); wrap.after(pk); }
+  };
+  const messen = () => {
+    const probe = wrap.querySelector(".ap-tpage") || wrap; const k0 = kacheln[0];
+    const top = wrap.getBoundingClientRect().top, hoehe = Math.max(140, ende() - top - 22), kh = k0.getBoundingClientRect().height + 10;
+    return Math.max(2, Math.floor(hoehe / kh)) * spalten;
+  };
   const probe = document.createElement("div"); probe.className = "ap-tpage"; wrap.appendChild(probe); probe.appendChild(kacheln[0]);
-  const top = wrap.getBoundingClientRect().top + scrollY, hoehe = Math.max(140, ende - top - 22), kh = kacheln[0].getBoundingClientRect().height + 10;
-  const zeilen = Math.max(2, Math.floor(hoehe / kh)), proSeite = zeilen * spalten;
-  wrap.innerHTML = "";
-  for(let i = 0; i < kacheln.length; i += proSeite){ const pg = document.createElement("div"); pg.className = "ap-tpage"; kacheln.slice(i, i + proSeite).forEach(k => pg.appendChild(k)); wrap.appendChild(pg); }
-  const n = wrap.children.length;
-  if(n > 1){ const pk = document.createElement("div"); pk.className = "ap-tpunkte"; pk.innerHTML = Array.from({length:n}, (x, i) => `<i${i ? "" : ' class="an"'}></i>`).join(""); wrap.after(pk);
-    wrap.addEventListener("scroll", () => { const i = Math.round(wrap.scrollLeft / Math.max(1, wrap.clientWidth + 12)); [...pk.children].forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true}); }
+  let proSeite = messen(); verteile(proSeite);
+  /* Nachmessen, sobald Schriften und Layout stehen: passt die erste Seite nicht, neu verteilen */
+  const pruefen = () => { if(!wrap.isConnected) return; const neu = messen(); if(neu !== proSeite){ proSeite = neu; verteile(proSeite); } };
+  setTimeout(pruefen, 120); setTimeout(pruefen, 500);
+  wrap.addEventListener("scroll", () => { if(!pk) return; const i = Math.round(wrap.scrollLeft / Math.max(1, wrap.clientWidth + 12)); [...pk.children].forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true});
 }
 function libKompakt(){
   const app = document.getElementById("app"); const reg = app && app.querySelector(".regal"); if(!reg || app.querySelector(".ap-libkids")) return;
