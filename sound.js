@@ -1,6 +1,6 @@
 /* easyplay: Soundpaket «Musik & Töne»
    Ein Teil der Musik und Töne entsteht im Browser (Web Audio API), der Rest liegt als MP3 in musik/ (DATEI_STUECKE, FX_DATEI).
-   Musik je Ort: Startseite sonnenschein, Quiz quiz, Duell duell, Live-Quiz live, Qeels qeels, Bibliothek bibliothek.
+   Musik je Ort: Startseite sonnenschein (19 bis 7 Uhr zauberlaterne), Quiz quiz, Duell duell, Live-Quiz live, Qeels qeels, Bibliothek bibliothek.
 
    window.EP_SOUND
      play(name)          Effekt abspielen: klick, richtig, falsch, xp, levelup, sammeln, freischalten, truhe, fanfare, tick, wisch, fehler (+ fertig)
@@ -195,6 +195,7 @@ const STUECKE = {
 /* Stücke als Audiodatei (musik/*.mp3, nahtlose Schleifen, n = exakte Länge in Samples bei 44,1 kHz) */
 const DATEI_STUECKE = {
   sonnenschein: { titel:"Sonnenschein", text:"Fröhlich, für die Startseite", emo:"🌞", farbe:"linear-gradient(135deg,#F7B32B,#F2762E)", datei:"musik/loop-startseite.mp3", n:1512000, gain:1.15 },
+  zauberlaterne: { titel:"Zauberlaterne", text:"Verträumt, für die Startseite am Abend", emo:"🏮", farbe:"linear-gradient(135deg,#3B3F9E,#1E2A6E)", datei:"musik/loop-startseite-nacht.mp3", n:1924364, gain:1.15 },
   quiz: { titel:"Denkmütze", text:"Ruhig, zum Nachdenken im Quiz", emo:"🤔", farbe:"linear-gradient(135deg,#3B82F6,#2563EB)", datei:"musik/loop-quiz.mp3", n:1693440, gain:1.1 },
   duell: { titel:"Bergduell", text:"Schnell und mutig, für Duelle", emo:"⚔️", farbe:"linear-gradient(135deg,#F05A4F,#C62F3B)", datei:"musik/loop-duell.mp3", n:1209600, gain:1.1 },
   live: { titel:"Showtime", text:"Quizshow, für das Live-Quiz", emo:"🎤", farbe:"linear-gradient(135deg,#B05CEB,#7B3FE4)", datei:"musik/loop-livequiz.mp3", n:1365677, gain:1.1 },
@@ -458,6 +459,13 @@ document.addEventListener("click", e => {
 }, true);
 
 /* ---------- Musik je Ort ---------- */
+/* Startseite: am Tag «Sonnenschein», von 19 bis 7 Uhr «Zauberlaterne» */
+function nachtJetzt(){ const h = new Date().getHours(); return h >= 19 || h < 7; }
+setInterval(() => {
+  if(wunsch !== "sonnenschein" && wunsch !== "zauberlaterne") return;
+  const soll = nachtJetzt() ? "zauberlaterne" : "sonnenschein";
+  if(soll !== wunsch){ wunsch = soll; sync(); }
+}, 60000);
 const OHNE = ["done", "checkdone", "duellende", "duellresultat", "fremddone", "testergebnis"];   // Ergebnis: Platz für die Fanfare
 const ORT_QUIZ = ["quiz", "check", "fremdtest", "hardcore"];
 const ORT_DUELL = ["duell", "duelllobby", "duellplay", "duellannahme", "duellsplit"];
@@ -473,7 +481,7 @@ function ortMusik(){
   if(sc === "x-abenteuer") return "abenteuer";
   if(sc === "x-feste") return "fest";
   if(lib || sc.startsWith("lib") || sc === "bibliothek") return "bibliothek";
-  return "sonnenschein";
+  return nachtJetzt() ? "zauberlaterne" : "sonnenschein";
 }
 if(typeof window.render === "function"){
   const vorRender = window.render;
