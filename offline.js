@@ -116,7 +116,7 @@ async function grundDateien(){
   ((info && info.huelle) || []).forEach(dazu);
   for(const sc of Array.from(document.scripts)) if(sc.src) dazu(rel(sc.src));
   for(const l of Array.from(document.querySelectorAll("link[href]"))){ const r = rel(l.href); if(r && !/\.html$/.test(r)) dazu(r); }
-  (cfg.fragenDateien || Array.from({length:18}, (_, i) => "fragen-" + (i + 1) + ".json")).forEach(dazu);
+  (cfg.fragenDateien || Array.from({length:19}, (_, i) => "fragen-" + (i + 1) + ".json")).forEach(dazu);
   for(let i = 1; i <= 12; i++) dazu("daten-" + String(i).padStart(2, "0") + ".js");
   [...IMG, ...KIDS, ...FLAGGEN, ...WELTEN].forEach(dazu);
   try{ (await quellPfade()).forEach(dazu); }catch(e){}

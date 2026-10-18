@@ -388,6 +388,76 @@ html body .ep-wg>.ep-w:not(.x-gross):hover{transform:translateY(-4px) scale(1.01
 `;
 document.head.appendChild(css);
 
+/* ---------- Qeels: Musik an/aus (Knopf oben und Tippen auf das Qeel) ---------- */
+(function(){
+  const NOTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>';
+  const STRICH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 3l18 18"/></svg>';
+  const st = document.createElement("style");
+  st.textContent = `
+html body #reels .rmusik{position:relative;flex:none;width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;padding:0;
+  background:rgba(15,20,48,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35),0 8px 20px -10px rgba(0,0,0,.6)}
+html body.ep-app #reels .rmusik{width:50px;height:50px}
+html body #reels .rmusik>svg{width:22px;height:22px;grid-area:1/1}
+html body #reels .rmusik.an{background:linear-gradient(135deg,#FF5FA2,#8A3FE0 60%,#4F6BFF);box-shadow:0 0 0 2px rgba(255,255,255,.55),0 8px 20px -8px rgba(138,63,224,.9)}
+html body #reels .rmusik:not(.an)>svg+svg{display:block}
+html body #reels .rmusik.an>svg+svg{display:none}
+#reels .rmflash{position:absolute;left:50%;top:50%;z-index:30;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;
+  padding:22px 26px;border-radius:28px;background:rgba(10,8,40,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:700 1rem "Lexend",system-ui,sans-serif;
+  animation:rmflash 1.1s ease forwards}
+#reels .rmflash b{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FF5FA2,#8A3FE0 60%,#4F6BFF)}
+#reels .rmflash.aus b{background:rgba(255,255,255,.18)}
+#reels .rmflash svg{width:32px;height:32px;grid-area:1/1}
+@keyframes rmflash{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}25%{transform:translate(-50%,-50%) scale(1)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.96)}}
+@media (prefers-reduced-motion:reduce){#reels .rmflash{animation:none;opacity:1}}
+`;
+  document.head.appendChild(st);
+  const snd = () => window.EP_SOUND;
+  const istAn = () => { try{ return !!snd().musikAn(); }catch(e){ return false; } };
+  function aktualisieren(){
+    const b = document.querySelector("#reels .rmusik"); if(!b) return;
+    const an = istAn(); b.classList.toggle("an", an);
+    b.setAttribute("aria-pressed", String(an)); b.setAttribute("aria-label", an ? "Musik ausschalten" : "Musik einschalten"); b.title = an ? "Musik aus" : "Musik an";
+  }
+  function flash(an){
+    const o = document.getElementById("reels"); if(!o) return;
+    o.querySelectorAll(".rmflash").forEach(x => x.remove());
+    const d = document.createElement("div"); d.className = "rmflash" + (an ? "" : " aus"); d.setAttribute("role", "status");
+    d.innerHTML = `<b>${NOTE}${an ? "" : STRICH}</b><span>${an ? "Musik an" : "Musik aus"}</span>`;
+    o.appendChild(d); setTimeout(() => d.remove(), 1200);
+  }
+  function umschalten(mitFlash){
+    const s = snd(); if(!s || !s.setze) return;
+    const neu = !istAn(); s.setze({musik: neu}); aktualisieren(); if(mitFlash) flash(neu);
+  }
+  function einbauen(){
+    const o = document.getElementById("reels"); if(!o) return;
+    const kopf = o.querySelector(".rkopf"), zu = o.querySelector("#rZu"); if(!kopf || !zu) return;
+    if(!o.querySelector(".rmusik")){
+      const b = document.createElement("button"); b.type = "button"; b.className = "rmusik";
+      b.innerHTML = NOTE + STRICH;
+      b.addEventListener("click", e => { e.stopPropagation(); umschalten(true); });
+      kopf.insertBefore(b, zu);
+      /* Tippen auf eine freie Stelle im Qeel schaltet die Musik um (nicht auf Knöpfen, Links oder Antworten) */
+      let px = 0, py = 0, pt = 0;
+      o.addEventListener("pointerdown", e => { px = e.clientX; py = e.clientY; pt = Date.now(); }, true);
+      o.addEventListener("click", e => {
+        const t = e.target; if(!t || !t.closest) return;
+        if(!t.closest("#rfeed .reel")) return;
+        if(t.closest("button,a,input,textarea,select,label,[role=button],[tabindex],.ropts,.rerkl,.rmeta,.rstories,.rkopf,.rfpop,.rakarte a")) return;
+        if(Math.hypot(e.clientX - px, e.clientY - py) > 12 || Date.now() - pt > 600) return;
+        try{ const sel = getSelection(); if(sel && String(sel).trim()) return; }catch(err){}
+        if(document.getElementById("rsheet") || document.getElementById("rFpop") && !document.getElementById("rFpop").hidden) return;
+        umschalten(true);
+      });
+      new MutationObserver(aktualisieren).observe(o, {attributes:true, attributeFilter:["hidden"]});
+    }
+    aktualisieren();
+  }
+  new MutationObserver(() => { const o = document.getElementById("reels"); if(o && !o.querySelector(".rmusik")) einbauen(); })
+    .observe(document.body, {childList:true});
+  document.addEventListener("click", () => setTimeout(aktualisieren, 0), true);
+})();
+
 window.EP_EXTRAS = {
   register(m){ if(!m || !m.id || typeof m.render !== "function") return; const i = MODS.findIndex(x => x.id === m.id); if(i >= 0) MODS.splice(i, 1); MODS.push(m); MODS.sort((a, b) => (a.reihe || 50) - (b.reihe || 50)); },
   liste, api, oeffne: id => go("x-" + id), meldung
