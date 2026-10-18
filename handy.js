@@ -321,6 +321,38 @@ body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{flex:0 0 auto!important;height:218
 body.ep-app.ep-home #mond,body.ep-app.ep-home #sonne{left:74%!important;top:118px!important}
 @media (max-height:700px){body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{height:172px!important}body.ep-app .ap-heute .x-app .apkids,body.ep-app .ap-heute .x-app img{max-height:96px}body.ep-app .ap-heute .ap-tag .apf{min-height:0!important}}
 body.ep-app .ap-heute > .hd-platz{visibility:hidden!important;pointer-events:none!important}
+
+/* ===== Abgleich mit dem Entwurf (Nr. 6 bis 12) ===== */
+/* Nachthimmel im Violett des Entwurfs, Berge violett getönt */
+:root[data-theme="dark"] body.ep-app.hd-handy{background:linear-gradient(180deg,#22197A 0%,#17115A 45%,#0F0B3A 100%) fixed!important}
+:root[data-theme="dark"] body.ep-app.hd-handy #alpen{filter:hue-rotate(18deg) saturate(1.25) brightness(.85)}
+/* Start: Kacheln kurz wie im Entwurf, damit die Wochen-Challenge Platz hat */
+body.hd-handy .ap-heute .ap-tag .apf small,body.hd-handy .ap-heute .ap-tag .apf .aptx small{display:none!important}
+body.hd-handy .ap-heute .ap-tag .apf{min-height:0!important;height:auto!important;padding:12px!important}
+body.hd-handy .ap-heute .ap-tag{flex:0 0 auto!important;height:auto!important}
+/* Duell: Blitz-Symbol und Kartenhöhe */
+body.ep-app .ap-duell .ap-titel h2::before{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232A1D5C'%3E%3Cpath d='M13 2L4 14h7l-1 8 9-12h-7z'/%3E%3C/svg%3E") center/22px no-repeat,linear-gradient(180deg,#FFD85E,#FFB21E)!important;flex:none}
+body.hd-handy .ap-duell .ap-bereit{flex:0 0 auto!important;height:288px!important;min-height:0!important}
+body.hd-handy .ap-duell .ap-bereit .apkids img,body.hd-handy .ap-duell .ap-bereit > img{height:270px!important;max-height:none!important}
+/* Profil: ohne Titel, Karte ganz oben */
+body.hd-handy .ap-profil > .ap-titel{display:none!important}
+/* Quiz: kein Rahmen, Frage gross oben, Kinder gross rechts, Antworten unten */
+body.hd-handy.ep-s-quiz #mond,body.hd-handy.ep-s-quiz #sonne{display:none!important}
+html:root[data-theme="dark"] body.ep-app.hd-handy.ep-s-quiz #app .card{outline:0!important;border:0!important;box-shadow:none!important;background:transparent!important}
+body.hd-handy.ep-s-quiz .card{display:flex!important;flex-direction:column;min-height:calc(100dvh - 92px - env(safe-area-inset-top));box-sizing:border-box}
+body.hd-handy.ep-s-quiz .card .qbox{flex:1 1 auto;min-height:190px!important;padding-right:0!important;align-items:flex-start!important;display:block!important}
+body.hd-handy.ep-s-quiz .card h2.question{width:64%;margin:14px 0 0!important;font-size:clamp(1.45rem,7.6vw,1.95rem)!important;line-height:1.12!important}
+body.hd-handy.ep-s-quiz .card .hd-qkid{height:min(236px,32dvh)!important;right:-26px!important;bottom:-4px!important}
+body.hd-handy.ep-s-quiz .card .answers{margin-top:12px!important;gap:12px!important}
+body.hd-handy.ep-s-quiz .card .hd-hilfen{margin-top:14px}
+/* Nach der Antwort: Frage klein oben, Blatt von unten über die ganze Breite */
+body.hd-handy.ep-s-quiz .card.hd-beantwortet{min-height:0}
+body.hd-handy.ep-s-quiz .card.hd-beantwortet .qbox{flex:none;min-height:0!important}
+body.hd-handy.ep-s-quiz .card.hd-beantwortet h2.question{width:auto;font-size:22px!important;margin:0!important}
+body.hd-handy.ep-s-quiz .card.hd-beantwortet .answers{gap:8px!important}
+body.hd-handy.ep-s-quiz .card.hd-beantwortet .answers .ans{min-height:52px!important}
+body.hd-handy .feedback.pop{position:fixed!important;left:0!important;right:0!important;bottom:0!important;margin:0!important;z-index:80;border-radius:34px 34px 0 0!important;padding:22px 16px calc(24px + env(safe-area-inset-bottom))!important;box-shadow:0 -10px 40px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.35)!important;animation:hdHoch .3s cubic-bezier(.2,.9,.3,1.2) both}
+body.hd-handy.ep-s-quiz .card.hd-beantwortet{padding-bottom:var(--hd-blatt,320px)!important}
 `;
 document.head.appendChild(css);
 
@@ -541,7 +573,7 @@ function blatt(){
   const nx = fb.querySelector("#next"); if(nx && /Nächste Frage/.test(nx.textContent)) nx.textContent = "Weiter →";
   const hil = $("#app .card .hd-hilfen"); if(hil) hil.style.display = "none";
   const card = fb.closest(".card"); if(card) card.classList.add("hd-beantwortet");
-  setTimeout(() => { try{ const r = fb.getBoundingClientRect(); if(r.bottom > innerHeight - 8) window.scrollBy({top:r.bottom - innerHeight + 12, behavior:"smooth"}); }catch(e){} }, 80);
+  setTimeout(() => { try{ if(card) card.style.setProperty("--hd-blatt", Math.ceil(fb.getBoundingClientRect().height + 12) + "px"); }catch(e){} }, 60);
 }
 
 
@@ -582,7 +614,7 @@ function einpassen(){
 addEventListener("resize", () => { try{ einpassen(); }catch(e){} });
 
 /* ---------- Anstossen: nach jedem Rendern und bei App-Umbauten ---------- */
-function alles(){ try{ nacht(); }catch(e){} try{ kopf(); }catch(e){} try{ start(); }catch(e){} try{ suche(); }catch(e){} try{ weiter(); }catch(e){} try{ profilKarte(); }catch(e){} try{ woche(); }catch(e){} try{ quizKopf(); }catch(e){} try{ blatt(); }catch(e){} try{ zurueck(); }catch(e){} try{ kapsel(); }catch(e){} try{ einpassen(); }catch(e){} try{ frage(); }catch(e){} try{ tabname(); }catch(e){} try{ profil(); }catch(e){} try{ quiz(); }catch(e){} }
+function alles(){ try{ document.body.classList.toggle("hd-handy", handy()); }catch(e){} try{ nacht(); }catch(e){} try{ kopf(); }catch(e){} try{ start(); }catch(e){} try{ suche(); }catch(e){} try{ weiter(); }catch(e){} try{ profilKarte(); }catch(e){} try{ woche(); }catch(e){} try{ quizKopf(); }catch(e){} try{ blatt(); }catch(e){} try{ zurueck(); }catch(e){} try{ kapsel(); }catch(e){} try{ einpassen(); }catch(e){} try{ frage(); }catch(e){} try{ tabname(); }catch(e){} try{ profil(); }catch(e){} try{ quiz(); }catch(e){} }
 if(typeof window.render === "function"){ const vor = window.render; window.render = function(){ const r = vor.apply(this, arguments); setTimeout(alles, 0); setTimeout(alles, 80); return r; }; }
 let plan = 0;
 const mo = new MutationObserver(() => { if(plan) return; plan = setTimeout(() => { plan = 0; alles(); }, 30); });
