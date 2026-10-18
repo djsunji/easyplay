@@ -121,7 +121,7 @@ body.ep-app .ap-heute .hd-pillen .xt-pw{display:inline-flex}
 body.ep-app .ap-heute .hd-pillen .xt-pw .xt-p-t{display:none}
 body.ep-app .ap-heute .ap-kopf.hd-weg{display:none!important}
 body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{margin-top:44px!important;min-height:196px!important}
-@media (max-height:780px){body.ep-app .ap-heute .ap-gruss.hd-schlicht > span{display:none}body.ep-app .ap-heute .ap-gruss.hd-schlicht > .ap-logo{margin-bottom:2px!important;height:30px!important}body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{margin-top:40px!important;min-height:176px!important}body.ep-app .ap-heute .ap-woche small,body.ep-app .ap-heute .x-app small{display:none!important}body.ep-app .ap-heute .hs-start .epname{display:none}}
+@media (max-height:780px){body.ep-app .ap-heute .ap-gruss.hd-schlicht > .ap-logo{margin-bottom:2px!important;height:30px!important}body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{margin-top:40px!important;min-height:176px!important}body.ep-app .ap-heute .ap-woche small,body.ep-app .ap-heute .x-app small{display:none!important}body.ep-app .ap-heute .hs-start .epname{display:none}}
 /* Tableiste: «Start» statt «Hauptmenü», aktiver Reiter pink */
 body.ep-app #epTabs button[aria-current="page"]{background:linear-gradient(140deg,#FF5C9E,#D92472)!important;color:#fff!important;box-shadow:0 8px 18px -8px rgba(226,48,122,.8)}
 /* Themen: Suchknopf im Titel */
@@ -309,6 +309,18 @@ body.ep-app.ep-s-libseite .hd-zurueck small{font-weight:500;font-size:14px}
 body.ep-app.ep-ausquiz.ep-s-libseite #app{padding-bottom:100px}
 body.ep-app.ep-ausquiz.ep-s-libseite .ap-kz .ap-zbtn{opacity:.001;pointer-events:none;position:absolute}
 body.ep-app.ep-s-libseite .libart .speak,body.ep-app.ep-s-libseite .libart .vorlesen{background:linear-gradient(140deg,#25C9AB,#0A7766)!important;color:#fff!important;border:0!important;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)!important}
+
+body.ep-app .ap-heute .hd-kapsel{position:absolute;top:8px;right:-6px;height:48px;border-radius:24px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);z-index:4;pointer-events:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+:root[data-theme="light"] body.ep-app .ap-heute .hd-kapsel{background:rgba(27,34,64,.4)}
+body.ep-app .ap-heute .hd-pillen > span.glas,body.ep-app .ap-heute > .xs-knopf,body.ep-app .ap-heute > .xui-knopf{background:rgba(255,255,255,.12)!important;border:0!important}
+/* Hero so hoch wie im Entwurf, Rest bekommt Platz */
+body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{flex:0 0 auto!important;height:218px!important;min-height:0!important}
+@media (max-height:740px){body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{height:196px!important}}
+
+/* Mond und Sonne auf der Startseite nicht über die Begrüssung legen */
+body.ep-app.ep-home #mond,body.ep-app.ep-home #sonne{left:74%!important;top:118px!important}
+@media (max-height:700px){body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{height:172px!important}body.ep-app .ap-heute .x-app .apkids,body.ep-app .ap-heute .x-app img{max-height:96px}body.ep-app .ap-heute .ap-tag .apf{min-height:0!important}}
+body.ep-app .ap-heute > .hd-platz{visibility:hidden!important;pointer-events:none!important}
 `;
 document.head.appendChild(css);
 
@@ -546,8 +558,31 @@ function zurueck(){
 const moZ = new MutationObserver(() => { const b = $(".hd-zurueck"); if(b && !(document.body.classList.contains("ep-ausquiz") && document.body.classList.contains("ep-s-libseite"))) b.remove(); });
 moZ.observe(document.body, {attributes:true, attributeFilter:["class"]});
 
+
+function kapsel(){
+  if(!handy()) return; const heute = $("#app .ap-heute"); const pil = heute && heute.querySelector(".hd-pillen"); if(!pil) return;
+  let k = heute.querySelector(".hd-kapsel"); if(!k){ k = document.createElement("div"); k.className = "hd-kapsel"; heute.appendChild(k); }
+  const hr = heute.getBoundingClientRect(), pr = pil.getBoundingClientRect(); if(!pr.width) return;
+  k.style.width = Math.round(hr.right - pr.left + 6 + 6) + "px";
+}
+addEventListener("resize", () => { try{ kapsel(); }catch(e){} try{ einpassen(); }catch(e){} });
+
+
+/* Startseite: Kästen, die nicht mehr ganz über die Tableiste passen, ausblenden statt anschneiden */
+function einpassen(){
+  if(!handy()) return; const heute = $("#app .ap-heute"); const tabs = document.getElementById("epTabs"); if(!heute || !tabs) return;
+  $$(".hd-platz", heute).forEach(e => e.classList.remove("hd-platz"));
+  const grenze = tabs.getBoundingClientRect().top - 6;
+  [...heute.children].reverse().forEach(e => {
+    if(e.classList.contains("hd-kapsel") || e.classList.contains("hd-pillen") || e.matches(".xs-knopf,.xui-knopf,.ap-gruss,.ap-karu")) return;
+    const st = getComputedStyle(e); if(st.display === "none" || st.position === "absolute" || st.position === "fixed") return;
+    if(e.getBoundingClientRect().bottom > grenze) e.classList.add("hd-platz");
+  });
+}
+addEventListener("resize", () => { try{ einpassen(); }catch(e){} });
+
 /* ---------- Anstossen: nach jedem Rendern und bei App-Umbauten ---------- */
-function alles(){ try{ nacht(); }catch(e){} try{ kopf(); }catch(e){} try{ start(); }catch(e){} try{ suche(); }catch(e){} try{ weiter(); }catch(e){} try{ profilKarte(); }catch(e){} try{ woche(); }catch(e){} try{ quizKopf(); }catch(e){} try{ blatt(); }catch(e){} try{ zurueck(); }catch(e){} try{ frage(); }catch(e){} try{ tabname(); }catch(e){} try{ profil(); }catch(e){} try{ quiz(); }catch(e){} }
+function alles(){ try{ nacht(); }catch(e){} try{ kopf(); }catch(e){} try{ start(); }catch(e){} try{ suche(); }catch(e){} try{ weiter(); }catch(e){} try{ profilKarte(); }catch(e){} try{ woche(); }catch(e){} try{ quizKopf(); }catch(e){} try{ blatt(); }catch(e){} try{ zurueck(); }catch(e){} try{ kapsel(); }catch(e){} try{ einpassen(); }catch(e){} try{ frage(); }catch(e){} try{ tabname(); }catch(e){} try{ profil(); }catch(e){} try{ quiz(); }catch(e){} }
 if(typeof window.render === "function"){ const vor = window.render; window.render = function(){ const r = vor.apply(this, arguments); setTimeout(alles, 0); setTimeout(alles, 80); return r; }; }
 let plan = 0;
 const mo = new MutationObserver(() => { if(plan) return; plan = setTimeout(() => { plan = 0; alles(); }, 30); });
