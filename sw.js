@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-18-18";
+const VERSION = "ep-2026-10-19-01";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -17,7 +17,7 @@ const HUELLE = [
   "lernen.js",
   "level.js",
   "startseite.js",
-  "app.js", "stil.js", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "hilfen.js", "mathe.js", "sprachen.js", "familie.js", "forscher.js", "eltern.js", "offline.js", "i18n.js", "regionen.js", "mobilpager.js", "handy.js", "vorlage.js", "img/logo.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
+  "app.js", "stil.js", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "hilfen.js", "mathe.js", "sprachen.js", "familie.js", "forscher.js", "eltern.js", "offline.js", "i18n.js", "regionen.js", "img/logo.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
   "img/kids/duo-jubel.webp",
   "img/kids/duo-winken.webp",
   "img/kids/duo-bereit.webp",
@@ -235,7 +235,7 @@ async function staleWhileRevalidate(event, key) {
 
 // Code (js, css, json, Schriften): zuerst Netz ohne HTTP-Cache (dank ETag meist nur ein kurzes «unverändert»),
 // damit nach einem Update sofort die neue Version läuft. Antwortet das Netz nicht innert 3 Sekunden
-// oder ist man offline, kommt die gespeicherte Version. (8 s, damit langsames Handynetz nicht alten Code liefert)
+// oder ist man offline, kommt die gespeicherte Version.
 async function codeNetzZuerst(event) {
   const frisch = (async () => {
     const antwort = await fetch(new Request(event.request, { cache: "no-cache" }));

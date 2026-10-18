@@ -604,6 +604,46 @@ body.ep-app .rrail .rbi{display:grid;place-items:center;background:rgba(255,255,
 body.ep-app .rrail .rbi svg{width:26px;height:26px;color:#fff}
 body.ep-app .rrail .rlike[aria-pressed="true"] .rbi{background:rgba(255,61,110,.25)}
 body.ep-app .rrail .rlike[aria-pressed="true"] .rbi svg{color:#FF3D6E;fill:#FF3D6E}
+
+/* ===== Handy: Scrollen statt Seitenblättern (alle Inhalte untereinander) ===== */
+@media (max-width:699px){
+  body.ep-app.ep-home{overflow:visible;overscroll-behavior:auto;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  html:has(body.ep-app.ep-home){overflow:visible}
+  body.ep-app.ep-home .wrap{padding-bottom:0!important}
+  body.ep-app #app > .ap{height:auto!important;overflow:visible!important;padding-bottom:8px}
+  body.ep-app.ep-s-bereich,body.ep-app.ep-s-submenu,body.ep-app.ep-s-lib{overflow:visible}
+  /* Start: Hero-Karussell mit fester Höhe, Kacheln als Raster, alle Karten sichtbar */
+  .ap-heute .ap-karu{flex:none;height:clamp(200px,30vh,250px);min-height:0;margin-top:56px}
+  .ap-heute .ap-tagswipe{grid-auto-flow:row!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-columns:auto!important;overflow:visible!important;scroll-snap-type:none!important;gap:10px}
+  .ap-heute .ap-tag button{min-height:104px}
+  .ap-heute .ap-woche,.ap-heute .ap-fakt,.ap-heute .ap-weiter{display:flex!important}
+  /* Themen: jeder Bereich als Karte mit allen Themen */
+  .ap-themen .ap-ber{display:flex;flex-direction:column;flex:none;min-height:0;gap:14px}
+  .ap-themen .ap-ber .apb{flex:none}
+  .ap-themen .ap-ber .apb-kopf{flex:none;min-height:0;padding:14px 16px 6px;grid-template-rows:auto auto auto}
+  .ap-themen .ap-ber .apem{width:56px;height:56px;border-radius:18px;font-size:34px}
+  .ap-themen .ap-ber .apem svg,.ap-themen .ap-ber .apem img{width:38px;height:38px}
+  .ap-themen .ap-ber .apb-kopf b{grid-row:2;font-size:21px;margin-top:6px}
+  .ap-themen .ap-ber .apb-kopf small{grid-row:3;font-size:12.5px;-webkit-line-clamp:2}
+  .ap-themen .ap-ber .apn i{display:inline}
+  .ap-themen .ap-ber .apwm{width:130px;height:130px;font-size:104px;right:-20px;top:-16px;bottom:auto}
+  .ap-themen .ap-ber .apb-liste{position:relative;z-index:1;flex:none;min-height:0;overflow:visible;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:6px 14px 4px}
+  .ap-themen .ap-ber .apc,.ap-themen .ap-ber .apc[hidden]{display:inline-flex!important;align-items:center;gap:7px;max-width:100%;min-height:42px;box-sizing:border-box;padding:6px 12px 6px 6px;border-radius:14px;border:1px solid rgba(255,255,255,.28);cursor:pointer;background:rgba(255,255,255,.16);color:#fff;text-align:left}
+  .ap-themen .ap-ber .apc .apci{width:30px;height:30px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:17px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .ap-themen .ap-ber .apc .apci svg,.ap-themen .ap-ber .apc .apci img{width:20px;height:20px}
+  .ap-themen .ap-ber .apc .apcn{font:600 14.5px/1.15 "Fredoka",system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ap-themen .ap-ber .apc small{font:600 11px "Lexend",system-ui,sans-serif;color:rgba(255,255,255,.85);white-space:nowrap;background:rgba(0,0,0,.18);border-radius:8px;padding:2px 6px}
+  .ap-themen .ap-ber .apc.leer{opacity:.55}
+  .ap-themen .ap-ber .apb-alle{position:relative;z-index:1;display:flex;align-items:center;gap:4px;align-self:flex-start;margin:8px 14px 14px;padding:8px 14px;border:0;border-radius:12px;background:rgba(0,0,0,.2);cursor:pointer;font:700 14px "Lexend",system-ui,sans-serif;color:#fff}
+  /* Duell und Profil: natürliche Höhe */
+  .ap-duell .ap-bereit{flex:none;min-height:260px}
+  /* Themenauswahl in einem Bereich: Kacheln untereinander statt Wischseiten */
+  body.ep-app .ap-tp{display:block!important;overflow:visible!important;scroll-snap-type:none!important;margin:0!important;padding:0!important}
+  body.ep-app .ap-tp .ap-tpage{width:auto!important;min-width:0!important;flex:none!important;margin:0 0 10px!important;scroll-snap-align:none!important}
+  body.ep-app .ap-tpunkte{display:none!important}
+}
+@media (min-width:700px) and (orientation:portrait){.ap-themen .ap-ber{flex:none!important;grid-auto-rows:auto!important;min-height:0!important}.ap-ber .apb{flex:none}body.ep-app.ep-home{overflow:visible;padding-bottom:calc(110px + env(safe-area-inset-bottom))}html:has(body.ep-app.ep-home){overflow:visible}body.ep-app #app > .ap{height:auto!important;overflow:visible!important}.ap-heute .ap-karu{flex:none;height:clamp(300px,34vh,420px)}.ap-ber .apb-liste{flex:none!important;overflow:visible!important}.ap-ber .apc[hidden]{display:inline-flex!important}body.ep-app.ep-s-bereich,body.ep-app.ep-s-submenu,body.ep-app.ep-s-lib{overflow:visible}body.ep-app .ap-tp{display:block!important;overflow:visible!important}body.ep-app .ap-tp .ap-tpage{width:auto!important;flex:none!important;margin:0 0 14px!important}body.ep-app .ap-tpunkte{display:none!important}}
+@media (max-width:380px){.ap-liste>* span{white-space:normal!important;line-height:1.15;overflow:visible!important} .ap-bereit .apkids{max-width:46%!important;height:min(70%,220px)!important}.ap-bereit .apwahl{width:min(200px,56%)!important} .ap-konto>img{height:70%!important;max-height:170px!important;right:0!important}.ap-konto .apkn{max-width:60%!important}}
 `;
 document.head.appendChild(css);
 
@@ -901,28 +941,18 @@ function themenSeiten(){
   const app = document.getElementById("app"); const th = app && app.querySelector(":scope > .themen"); if(!th || th.dataset.ap) return;
   th.dataset.ap = "1";
   const kacheln = [...th.querySelectorAll(":scope > .thema")]; if(!kacheln.length) return;
-  const quer = QUER.matches, tabs = document.getElementById("epTabs");
-  const ende = () => { const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null; return tr ? tr.top - 10 : innerHeight - 16; };
+  const quer = QUER.matches, tabs = document.getElementById("epTabs"); const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null;
+  const ende = tr ? tr.top - 10 : innerHeight - 16;
   const wrap = document.createElement("div"); wrap.className = "ap-tp"; th.before(wrap); th.remove();
   const spalten = innerWidth >= 700 ? 3 : 2;
-  let pk = null;
-  const verteile = proSeite => {
-    wrap.innerHTML = ""; if(pk){ pk.remove(); pk = null; }
-    for(let i = 0; i < kacheln.length; i += proSeite){ const pg = document.createElement("div"); pg.className = "ap-tpage"; kacheln.slice(i, i + proSeite).forEach(k => pg.appendChild(k)); wrap.appendChild(pg); }
-    const n = wrap.children.length;
-    if(n > 1){ pk = document.createElement("div"); pk.className = "ap-tpunkte"; pk.innerHTML = Array.from({length:n}, (x, i) => `<i${i ? "" : ' class="an"'}></i>`).join(""); wrap.after(pk); }
-  };
-  const messen = () => {
-    const probe = wrap.querySelector(".ap-tpage") || wrap; const k0 = kacheln[0];
-    const top = wrap.getBoundingClientRect().top, hoehe = Math.max(140, ende() - top - 22), kh = k0.getBoundingClientRect().height + 10;
-    return Math.max(2, Math.floor(hoehe / kh)) * spalten;
-  };
   const probe = document.createElement("div"); probe.className = "ap-tpage"; wrap.appendChild(probe); probe.appendChild(kacheln[0]);
-  let proSeite = messen(); verteile(proSeite);
-  /* Nachmessen, sobald Schriften und Layout stehen: passt die erste Seite nicht, neu verteilen */
-  const pruefen = () => { if(!wrap.isConnected) return; const neu = messen(); if(neu !== proSeite){ proSeite = neu; verteile(proSeite); } };
-  setTimeout(pruefen, 120); setTimeout(pruefen, 500);
-  wrap.addEventListener("scroll", () => { if(!pk) return; const i = Math.round(wrap.scrollLeft / Math.max(1, wrap.clientWidth + 12)); [...pk.children].forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true});
+  const top = wrap.getBoundingClientRect().top + scrollY, hoehe = Math.max(140, ende - top - 22), kh = kacheln[0].getBoundingClientRect().height + 10;
+  const zeilen = Math.max(2, Math.floor(hoehe / kh)), proSeite = zeilen * spalten;
+  wrap.innerHTML = "";
+  for(let i = 0; i < kacheln.length; i += proSeite){ const pg = document.createElement("div"); pg.className = "ap-tpage"; kacheln.slice(i, i + proSeite).forEach(k => pg.appendChild(k)); wrap.appendChild(pg); }
+  const n = wrap.children.length;
+  if(n > 1){ const pk = document.createElement("div"); pk.className = "ap-tpunkte"; pk.innerHTML = Array.from({length:n}, (x, i) => `<i${i ? "" : ' class="an"'}></i>`).join(""); wrap.after(pk);
+    wrap.addEventListener("scroll", () => { const i = Math.round(wrap.scrollLeft / Math.max(1, wrap.clientWidth + 12)); [...pk.children].forEach((p, j) => p.classList.toggle("an", j === i)); }, {passive:true}); }
 }
 function libKompakt(){
   const app = document.getElementById("app"); const reg = app && app.querySelector(".regal"); if(!reg || app.querySelector(".ap-libkids")) return;
