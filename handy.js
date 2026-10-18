@@ -99,8 +99,100 @@ body.ep-app .feedback.pop .row .big{min-height:52px;border-radius:26px;font:700 
 body.ep-app .feedback.pop .row .big.alt{background:rgba(0,0,0,.2);color:#fff;border:2px solid rgba(255,255,255,.6)}
 body.ep-app .feedback.pop .row .big:not(.alt){background:linear-gradient(180deg,#FFD85E,#FFB21E);color:#2A1D5C;box-shadow:0 5px 0 #D2860A}
 body.ep-app .feedback.pop .row .big:only-child{grid-column:1/-1}
+
+/* ===== Dunkler Grundton: Nachthimmel immer in der Handy-Ansicht ===== */
+body.ep-app.hd-dunkel #sonne{display:none!important}
+body.ep-app.hd-dunkel .ap-heute .ap-gruss > b,body.ep-app.hd-dunkel .ap-heute .ap-gruss > span{padding-right:0!important}
+/* Kopfzeile: Logo links, Pillen rechts (Ton und Fahne bleiben Geschwister, nur fest platziert) */
+body.ep-app .ap-heute{position:relative}
+body.ep-app .ap-heute .ap-gruss.hd-schlicht{display:grid!important;grid-template-columns:1fr;gap:2px;padding:0 0 0!important;margin:0!important;min-height:0!important}
+body.ep-app .ap-heute .ap-gruss.hd-schlicht > .ap-logo{position:static!important;order:-1;height:34px!important;width:auto!important;margin:3px 0 6px!important;transform:none!important;justify-self:start}
+body.ep-app .ap-heute .ap-gruss.hd-schlicht > b{display:block;font:800 26px/1.1 "Bricolage Grotesque","Fredoka",system-ui,sans-serif;padding:0!important}
+body.ep-app .ap-heute .ap-gruss.hd-schlicht > span{display:block;font-size:14px;opacity:.9;padding:0!important}
+body.ep-app .ap-heute > .xs-knopf,body.ep-app .ap-heute > .xui-knopf{position:absolute!important;left:auto!important;top:12px!important;visibility:visible!important;width:36px!important;height:36px!important;transform:none!important;z-index:5}
+body.ep-app .ap-heute > .xs-knopf{right:0!important}
+body.ep-app .ap-heute > .xui-knopf{right:44px!important}
+body.ep-app .ap-heute .hd-pillen{position:absolute;right:88px;top:12px;display:flex;align-items:center;gap:6px;z-index:5}
+body.ep-app .ap-heute .hd-pillen > *{position:static!important;margin:0!important;transform:none!important}
+body.ep-app .ap-heute .hd-pillen > span.glas{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 11px;border-radius:17px;font:700 14px "Lexend",system-ui,sans-serif;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14)}
+body.ep-app .ap-heute .hd-pillen > span.glas svg{width:16px;height:16px}
+body.ep-app .ap-heute .hd-pillen .xt-pw{display:inline-flex}
+body.ep-app .ap-heute .hd-pillen .xt-pw .xt-p-t{display:none}
+body.ep-app .ap-heute .ap-kopf.hd-weg{display:none!important}
+body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{margin-top:44px!important;min-height:196px!important}
+@media (max-height:780px){body.ep-app .ap-heute .ap-gruss.hd-schlicht > span{display:none}body.ep-app .ap-heute .ap-gruss.hd-schlicht > .ap-logo{margin-bottom:2px!important;height:30px!important}body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{margin-top:40px!important;min-height:176px!important}body.ep-app .ap-heute .ap-woche small,body.ep-app .ap-heute .x-app small{display:none!important}body.ep-app .ap-heute .hs-start .epname{display:none}}
+/* Tableiste: «Start» statt «Hauptmenü», aktiver Reiter pink */
+body.ep-app #epTabs button[aria-current="page"]{background:linear-gradient(140deg,#FF5C9E,#D92472)!important;color:#fff!important;box-shadow:0 8px 18px -8px rgba(226,48,122,.8)}
+/* Themen: Suchknopf im Titel */
+body.ep-app .ap-themen .ap-titel{display:flex;align-items:center;justify-content:space-between}
+body.ep-app .ap-themen .ap-titel .hd-such{width:40px;height:40px;border-radius:20px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+body.ep-app .ap-themen .ap-titel .hd-such svg{width:20px;height:20px}
+body.ep-app .ap-themen .ap-info{display:none!important}
+/* Quiz: keine weisse Karte, Frage weiss auf dunklem Grund, Kinder rechts */
+body.ep-app.ep-s-quiz .card{background:transparent!important;box-shadow:none!important;border:0!important;padding:0!important;color:#fff!important}
+body.ep-app.ep-s-quiz .card .tabs{display:flex;gap:6px;margin:0 0 10px}
+body.ep-app.ep-s-quiz .card .tabs button,body.ep-app.ep-s-quiz .card .tabs .seg{background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:none!important}
+body.ep-app.ep-s-quiz .card .tabs button[aria-selected="true"],body.ep-app.ep-s-quiz .card .tabs .seg.on,body.ep-app.ep-s-quiz .card .tabs .seg[aria-pressed="true"]{background:linear-gradient(140deg,#4FCB62,#1D7F33)!important;border-color:transparent!important}
+body.ep-app.ep-s-quiz .card .hlf-vlrow{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.14)!important;color:#fff!important;box-shadow:none!important}
+body.ep-app.ep-s-quiz .card .hlf-hinweis,body.ep-app.ep-s-quiz .card .vlhinweis{background:rgba(255,255,255,.1)!important;color:#fff!important}
+body.ep-app.ep-s-quiz .card .qbox{position:relative;padding-right:104px;min-height:104px;display:flex;align-items:center}
+body.ep-app.ep-s-quiz .card h2.question{color:#fff!important;text-align:left!important;font:800 clamp(1.15rem,5.2vw,1.45rem)/1.25 "Bricolage Grotesque","Fredoka",system-ui,sans-serif!important;text-shadow:0 1px 3px rgba(0,0,0,.4);margin:0!important}
+body.ep-app.ep-s-quiz .card .hd-qkid{position:absolute;right:-4px;bottom:-6px;height:110px;width:auto;pointer-events:none;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+@media (max-height:720px){body.ep-app.ep-s-quiz .card .qbox{min-height:96px;padding-right:96px}body.ep-app.ep-s-quiz .card .hd-qkid{height:118px}}
+body.ep-app.ep-s-quiz .card .answers{margin-top:14px}
+body.ep-app.ep-s-quiz .card .explain,body.ep-app.ep-s-quiz .card .erklaerung{background:rgba(255,255,255,.1);color:#fff;border-radius:18px;padding:12px 14px}
+body.ep-app.ep-s-quiz .hlf-joker .hlf-j{border:0!important;box-shadow:0 5px 0 rgba(0,0,0,.25)!important}
+/* Profil: dunkle Karten */
+body.ep-app .ap-profil .hd-ptabs{background:rgba(255,255,255,.1)}
 `;
 document.head.appendChild(css);
+
+
+/* ---------- Nachthimmel: in der Handy-Ansicht immer dunkel ---------- */
+const handy = () => app() && innerWidth < 700;
+(function dunkel(){
+  const h0 = window.himmelAktualisieren;
+  if(typeof h0 !== "function" || typeof H !== "object") return;
+  window.himmelAktualisieren = function(){
+    if(!handy()){ document.body.classList.remove("hd-dunkel"); return h0.apply(this, arguments); }
+    const m = H.modus; H.modus = "nacht";
+    try{ return h0.apply(this, arguments); } finally{ H.modus = m; document.body.classList.add("hd-dunkel"); try{ window.applyDark && applyDark(); }catch(e){} }
+  };
+})();
+let dunkelDa = false;
+function nacht(){ if(dunkelDa || !handy()) return; dunkelDa = true; try{ window.himmelAktualisieren && himmelAktualisieren(); }catch(e){} }
+
+/* ---------- Start: Kopfzeile mit Logo links und Pillen rechts ---------- */
+function kopf(){
+  if(!handy()) return;
+  const heute = $("#app .ap-heute"); if(!heute || heute.querySelector(".hd-pillen")) return;
+  const gruss = heute.querySelector(":scope > .ap-gruss"); if(!gruss) return;
+  const pillen = document.createElement("div"); pillen.className = "hd-pillen";
+  const chips = heute.querySelector(".ap-kopf .ap-chips");
+  if(chips){ const truhe = chips.querySelector(".xt-pw"); if(truhe) pillen.appendChild(truhe);
+    const serie = [...chips.querySelectorAll(":scope > span.glas")].find(x => !/Lv/.test(x.textContent)); if(serie) pillen.appendChild(serie); }
+  heute.appendChild(pillen); gruss.classList.add("hd-schlicht");
+  const k = heute.querySelector(".ap-kopf"); if(k) k.classList.add("hd-weg");
+}
+
+/* ---------- Themen: Suche im Titel ---------- */
+function suche(){
+  if(!handy()) return;
+  const t = $("#app .ap-themen .ap-titel"); if(!t || t.querySelector(".hd-such")) return;
+  const b = document.createElement("button"); b.type = "button"; b.className = "hd-such"; b.setAttribute("aria-label", "Fragen suchen");
+  b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
+  b.onclick = () => { try{ go("suche"); }catch(e){} }; t.appendChild(b);
+}
+
+/* ---------- Quiz: Frage mit Lumi und Milo ---------- */
+function frage(){
+  if(!handy()) return;
+  const q = $("#app .card h2.question"); if(!q || q.closest(".qbox")) return;
+  const box = document.createElement("div"); box.className = "qbox"; q.before(box); box.appendChild(q);
+  const img = document.createElement("img"); img.className = "hd-qkid"; img.alt = ""; img.src = KIDS + "lb-denken.webp"; box.appendChild(img);
+}
+/* Tableiste: «Start» statt «Hauptmenü» */
+function tabname(){ if(!handy()) return; $$("#epTabs button[data-tab='heute'] span:last-child").forEach(sp => { if(sp.textContent === "Hauptmenü") sp.textContent = "Start"; }); }
 
 /* ---------- Start: Tagesziel in der Hero-Karte ---------- */
 function start(){
@@ -186,11 +278,12 @@ function quiz(){
 }
 
 /* ---------- Anstossen: nach jedem Rendern und bei App-Umbauten ---------- */
-function alles(){ try{ start(); }catch(e){} try{ profil(); }catch(e){} try{ quiz(); }catch(e){} }
+function alles(){ try{ nacht(); }catch(e){} try{ kopf(); }catch(e){} try{ start(); }catch(e){} try{ suche(); }catch(e){} try{ frage(); }catch(e){} try{ tabname(); }catch(e){} try{ profil(); }catch(e){} try{ quiz(); }catch(e){} }
 if(typeof window.render === "function"){ const vor = window.render; window.render = function(){ const r = vor.apply(this, arguments); setTimeout(alles, 0); setTimeout(alles, 80); return r; }; }
 let plan = 0;
 const mo = new MutationObserver(() => { if(plan) return; plan = setTimeout(() => { plan = 0; alles(); }, 30); });
 function beobachten(){ const a = document.getElementById("app"); if(a) mo.observe(a, {childList:true, subtree:true}); alles(); }
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", beobachten); else beobachten();
-window.EP_HANDY = { start, profil, quiz, blattZu };
+window.EP_HANDY = { start, profil, quiz, blattZu, kopf };
+addEventListener("resize", () => { dunkelDa = false; try{ nacht(); }catch(e){} });
 })();
