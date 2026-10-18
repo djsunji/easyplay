@@ -12,7 +12,7 @@ html.ep-boot body::after{content:"";position:fixed;left:50%;top:50%;width:54px;h
 @keyframes epBootDreh{to{transform:rotate(360deg)}}</style>
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-18-05";
+window.EP_BUILD="ep-2026-10-18-06";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   var k="ep-versionscheck", jetzt=Date.now(), letzt=0; try{ letzt=+sessionStorage.getItem(k)||0; }catch(e){}
@@ -5752,6 +5752,8 @@ async function ladeFragenDB(){
 }
 /* Bibliothek im Leerlauf vorbereiten, damit das erste Öffnen sofort geht */
 function buecherVorwaermen(){
+  /* Ohne passenden Index (z. B. nach neuen Fragen) wäre das Vorwärmen sehr teuer und blockiert das Handy: dann erst beim Öffnen rechnen */
+  try{ const P=window.EP_BIBIDX; if(!P || P.n!==FRAGEN.length){ console.warn("Bibliothek-Index passt nicht ("+(P&&P.n)+" vs "+FRAGEN.length+"), kein Vorwärmen"); return; } }catch(e){ return; }
   const liste = (typeof BUECHER !== "undefined" ? BUECHER : []).map(b=>b.id); let i = 0;
   const schritt = (dl) => { while(i < liste.length && (!dl || dl.timeRemaining() > 8)){ try{ buchDaten(liste[i]); }catch(e){} i++; } if(i < liste.length) (window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>50}),200)))(schritt, {timeout:3000}); };
   (window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>50}),1500)))(schritt, {timeout:5000});
