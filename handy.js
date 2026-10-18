@@ -146,6 +146,25 @@ body.ep-app.ep-s-quiz .card .answers{margin-top:14px}
 body.ep-app.ep-s-quiz .hlf-joker .hlf-j{border:0!important;box-shadow:0 5px 0 rgba(0,0,0,.25)!important}
 /* Profil: dunkle Karten */
 body.ep-app .ap-profil .hd-ptabs{background:rgba(255,255,255,.1)}
+
+/* ===== Genau wie der Entwurf: pinke Hero-Karte, ein Held, Glas-Pillen, Musiknote ===== */
+body.ep-app .ap-heute .ap-karu-spur > .apf.f-held.hs-start{background:linear-gradient(140deg,#FF5C9E 0%,#E2307A 50%,#B5175A 100%)!important}
+body.ep-app .ap-heute .hd-schlicht ~ .ap-karu .ap-karu-spur > .apf:not(.hs-start){display:none!important}
+body.ep-app .ap-heute .hd-schlicht ~ .ap-karu .ap-karu-punkte{display:none!important}
+body.ep-app .ap-heute .hs-start .ap-weissbtn{color:#D92472!important;background:#fff!important}
+body.ep-app .ap-heute .hs-start .epname{display:none!important}
+body.ep-app .ap-heute .hs-start .hd-tag b{color:#FFF0F6}
+body.ep-app .ap-heute .hd-bars s.an{box-shadow:0 0 8px rgba(255,216,94,.8)}
+body.ep-app .ap-heute .ap-gruss.hd-schlicht > b{font-size:32px!important;line-height:1.05!important}
+body.ep-app .ap-heute .ap-gruss.hd-schlicht > span{font-size:15px!important;color:#D7D2FF!important;opacity:1}
+:root[data-theme="light"] body.ep-app .ap-heute .ap-gruss.hd-schlicht > span{color:#fff!important;opacity:.9}
+body.ep-app .ap-heute .hd-pillen > span.glas,body.ep-app .ap-heute > .xs-knopf,body.ep-app .ap-heute > .xui-knopf{background:rgba(255,255,255,.14)!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:none!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+:root[data-theme="light"] body.ep-app .ap-heute .hd-pillen > span.glas,:root[data-theme="light"] body.ep-app .ap-heute > .xs-knopf,:root[data-theme="light"] body.ep-app .ap-heute > .xui-knopf{background:rgba(27,34,64,.5)!important}
+body.ep-app .ap-heute .hd-pillen > span.glas{height:36px;font-weight:700}
+body.ep-app .ap-heute .hd-pillen .xt-pw{display:none!important}
+body.ep-app .ap-heute > .xs-knopf > svg{display:none!important}
+body.ep-app .ap-heute > .xs-knopf::before{content:"";width:20px;height:20px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18V5l11-2v13'/%3E%3Ccircle cx='6' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='17' cy='16' r='3' fill='%23000'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18V5l11-2v13'/%3E%3Ccircle cx='6' cy='18' r='3' fill='%23000'/%3E%3Ccircle cx='17' cy='16' r='3' fill='%23000'/%3E%3C/svg%3E") center/contain no-repeat}
+body.ep-app .ap-heute > .xs-knopf.aus::before{opacity:.55}
 `;
 document.head.appendChild(css);
 
@@ -161,8 +180,7 @@ function kopf(){
   const gruss = heute.querySelector(":scope > .ap-gruss"); if(!gruss) return;
   const pillen = document.createElement("div"); pillen.className = "hd-pillen";
   const chips = heute.querySelector(".ap-kopf .ap-chips");
-  if(chips){ const truhe = chips.querySelector(".xt-pw"); if(truhe) pillen.appendChild(truhe);
-    const serie = [...chips.querySelectorAll(":scope > span.glas")].find(x => !/Lv/.test(x.textContent)); if(serie) pillen.appendChild(serie); }
+  if(chips){ const serie = [...chips.querySelectorAll(":scope > span.glas")].find(x => !/Lv/.test(x.textContent)); if(serie) pillen.appendChild(serie); }
   heute.appendChild(pillen); gruss.classList.add("hd-schlicht");
   const k = heute.querySelector(".ap-kopf"); if(k) k.classList.add("hd-weg");
 }
