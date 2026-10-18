@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-18-13";
+const VERSION = "ep-2026-10-18-14";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -225,7 +225,7 @@ async function staleWhileRevalidate(event, key) {
 
 // Code (js, css, json, Schriften): zuerst Netz ohne HTTP-Cache (dank ETag meist nur ein kurzes «unverändert»),
 // damit nach einem Update sofort die neue Version läuft. Antwortet das Netz nicht innert 3 Sekunden
-// oder ist man offline, kommt die gespeicherte Version.
+// oder ist man offline, kommt die gespeicherte Version. (8 s, damit langsames Handynetz nicht alten Code liefert)
 async function codeNetzZuerst(event) {
   const frisch = (async () => {
     const antwort = await fetch(new Request(event.request, { cache: "no-cache" }));
@@ -239,7 +239,7 @@ async function codeNetzZuerst(event) {
     const t = await finde(event.request, [CACHE_HUELLE]);
     if (t) return t.antwort;
   }
-  const zeit = new Promise((ok) => setTimeout(() => ok(null), 3000));
+  const zeit = new Promise((ok) => setTimeout(() => ok(null), 8000));
   try {
     const r = await Promise.race([frisch, zeit]);
     if (r) return r;
