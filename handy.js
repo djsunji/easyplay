@@ -313,7 +313,7 @@ body.ep-app.ep-s-libseite .libart .speak,body.ep-app.ep-s-libseite .libart .vorl
 document.head.appendChild(css);
 
 
-const handy = () => app() && innerWidth < 700;
+const handy = () => app() && Math.min(innerWidth, (screen && screen.width) || innerWidth) < 700;
 function nacht(){}
 let dunkelDa = false;
 

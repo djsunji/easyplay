@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-18-14";
+const VERSION = "ep-2026-10-18-15";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -172,6 +172,16 @@ self.addEventListener("activate", (event) => {
     const alt = namen.filter((n) => n.startsWith("ep-") && n !== CACHE_HUELLE && n !== CACHE_BILDER);
     await Promise.all(alt.map((n) => caches.delete(n)));
     await self.clients.claim();
+    // Update von einer älteren Version: offene Fenster neu laden, damit nicht die alte Seite stehen bleibt
+    // (wirkt auch, wenn die alte Seite selbst keine Versionsprüfung hat, z. B. in der iPhone-Homescreen-App)
+    if (alt.length) {
+      try {
+        const fenster = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+        await Promise.all(fenster.map((c) => {
+          try { const u = new URL(c.url); u.searchParams.set("v", VERSION); return c.navigate ? c.navigate(u.href).catch(() => null) : null; } catch (e) { return null; }
+        }));
+      } catch (e) {}
+    }
   })());
 });
 
