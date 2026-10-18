@@ -12,18 +12,34 @@ html.ep-boot body::after{content:"";position:fixed;left:50%;top:50%;width:54px;h
 @keyframes epBootDreh{to{transform:rotate(360deg)}}</style>
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-18-13";
+window.EP_BUILD="ep-2026-10-18-14";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
-  var k="ep-versionscheck", jetzt=Date.now(), letzt=0; try{ letzt=+sessionStorage.getItem(k)||0; }catch(e){}
-  fetch("sw.js?nocache="+jetzt, {cache:"no-store"}).then(function(r){ return r.ok ? r.text() : ""; }).then(function(t){
-    var m=/VERSION = "([^"]+)"/.exec(t||""); if(!m || m[1]===window.EP_BUILD) return;
-    if(jetzt-letzt < 600000) return; try{ sessionStorage.setItem(k, String(jetzt)); }catch(e){}
-    var arbeit=[];
-    if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations) arbeit.push(navigator.serviceWorker.getRegistrations().then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); }));
-    if(window.caches) arbeit.push(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(x){ return x.indexOf("epoff-")!==0; }).map(function(x){ return caches.delete(x); })); }));
-    Promise.all(arbeit).then(function(){ location.replace(location.pathname+"?v="+m[1]+location.hash); }, function(){ location.replace(location.pathname+"?v="+m[1]); });
-  }).catch(function(){});
+  /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
+     wieder sichtbar wird (iPhone-Homescreen-App wird oft nur aus dem Hintergrund geholt, nicht neu geladen). */
+  var k="ep-versionscheck", laeuft=false;
+  function imSpiel(){ try{ return ["quiz","duellplay","duellsplit","liveplay","livehost","hardcore","check","fremdtest"].indexOf(S.screen)>=0; }catch(e){ return false; } }
+  function pruefen(beimLaden){
+    if(laeuft) return; laeuft=true;
+    var jetzt=Date.now(), letzt=0; try{ letzt=+sessionStorage.getItem(k)||0; }catch(e){}
+    fetch("sw.js?nocache="+jetzt, {cache:"no-store"}).then(function(r){ return r.ok ? r.text() : ""; }).then(function(t){
+      laeuft=false;
+      var m=/VERSION = "([^"]+)"/.exec(t||""); if(!m || m[1]===window.EP_BUILD) return;
+      if(jetzt-letzt < 60000) return;
+      if(!beimLaden && imSpiel()) return;
+      try{ sessionStorage.setItem(k, String(jetzt)); }catch(e){}
+      var arbeit=[];
+      if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations) arbeit.push(navigator.serviceWorker.getRegistrations().then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); }));
+      if(window.caches) arbeit.push(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(x){ return x.indexOf("epoff-")!==0; }).map(function(x){ return caches.delete(x); })); }));
+      var weiter=function(){ location.replace(location.pathname+"?v="+m[1]+location.hash); };
+      Promise.all(arbeit).then(weiter, weiter); setTimeout(weiter, 4000);
+    }).catch(function(){ laeuft=false; });
+  }
+  pruefen(true);
+  document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="visible") pruefen(false); });
+  addEventListener("pageshow", function(e){ if(e.persisted) pruefen(false); });
+  addEventListener("focus", function(){ pruefen(false); });
+  setInterval(function(){ if(document.visibilityState==="visible") pruefen(false); }, 15*60000);
 }catch(e){} })();</script>
 <script>/* Notfall: …/easyplay/?reset löscht alte Speicher (ohne Offline-Pakete und ohne Spielstand) und lädt frisch */
 (function(){ try{ if(!/[?&]reset\b/.test(location.search)) return;
