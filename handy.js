@@ -606,7 +606,7 @@ function einpassen(){
   $$(".hd-platz", heute).forEach(e => e.classList.remove("hd-platz"));
   const grenze = tabs.getBoundingClientRect().top - 6;
   [...heute.children].reverse().forEach(e => {
-    if(e.classList.contains("hd-kapsel") || e.classList.contains("hd-pillen") || e.matches(".xs-knopf,.xui-knopf,.ap-gruss,.ap-karu")) return;
+    if(e.classList.contains("vl") || e.classList.contains("hd-kapsel") || e.classList.contains("hd-pillen") || e.matches(".xs-knopf,.xui-knopf,.ap-gruss,.ap-karu")) return;
     const st = getComputedStyle(e); if(st.display === "none" || st.position === "absolute" || st.position === "fixed") return;
     if(e.getBoundingClientRect().bottom > grenze) e.classList.add("hd-platz");
   });
