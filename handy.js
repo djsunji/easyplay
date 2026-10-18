@@ -83,6 +83,8 @@ body.ep-app .answers .ans.right .key{background:#fff;color:#1D7F33}
 body.ep-app .answers .ans.wrong{background:linear-gradient(140deg,#FF6B6B,#B51B1B)!important;outline:3px solid rgba(255,255,255,.7)}
 body.ep-app .answers.hd-fertig .ans:not(.right):not(.wrong){background:#E9E6F5!important;color:#8B86A8!important;box-shadow:none;opacity:.9}
 body.ep-app .answers.hd-fertig .ans:not(.right):not(.wrong) .key{background:#fff;color:#8B86A8}
+:root[data-theme="dark"] body.ep-app .answers.hd-fertig .ans:not(.right):not(.wrong){background:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.5)!important}
+:root[data-theme="dark"] body.ep-app .answers.hd-fertig .ans:not(.right):not(.wrong) .key{background:rgba(255,255,255,.15);color:rgba(255,255,255,.6)}
 body.ep-app .hlf-joker{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 body.ep-app .hlf-joker .hlf-j{min-height:48px;border:0;border-radius:16px;color:#fff;font:600 14px "Lexend",system-ui,sans-serif;box-shadow:0 4px 0 rgba(0,0,0,.25),inset 0 2px 0 rgba(255,255,255,.25)}
 body.ep-app .hlf-joker .hlf-j:nth-child(1){background:linear-gradient(140deg,#9070FF,#4A2FC0)}
@@ -101,7 +103,6 @@ body.ep-app .feedback.pop .row .big:not(.alt){background:linear-gradient(180deg,
 body.ep-app .feedback.pop .row .big:only-child{grid-column:1/-1}
 
 /* ===== Dunkler Grundton: Nachthimmel immer in der Handy-Ansicht ===== */
-body.ep-app.hd-dunkel #sonne{display:none!important}
 body.ep-app.hd-dunkel .ap-heute .ap-gruss > b,body.ep-app.hd-dunkel .ap-heute .ap-gruss > span{padding-right:0!important}
 /* Kopfzeile: Logo links, Pillen rechts (Ton und Fahne bleiben Geschwister, nur fest platziert) */
 body.ep-app .ap-heute{position:relative}
@@ -114,7 +115,7 @@ body.ep-app .ap-heute > .xs-knopf{right:0!important}
 body.ep-app .ap-heute > .xui-knopf{right:44px!important}
 body.ep-app .ap-heute .hd-pillen{position:absolute;right:88px;top:12px;display:flex;align-items:center;gap:6px;z-index:5}
 body.ep-app .ap-heute .hd-pillen > *{position:static!important;margin:0!important;transform:none!important}
-body.ep-app .ap-heute .hd-pillen > span.glas{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 11px;border-radius:17px;font:700 14px "Lexend",system-ui,sans-serif;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14)}
+body.ep-app .ap-heute .hd-pillen > span.glas{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 11px;border-radius:17px;font:700 14px "Lexend",system-ui,sans-serif;color:#fff;background:rgba(27,34,64,.55);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 body.ep-app .ap-heute .hd-pillen > span.glas svg{width:16px;height:16px}
 body.ep-app .ap-heute .hd-pillen .xt-pw{display:inline-flex}
 body.ep-app .ap-heute .hd-pillen .xt-pw .xt-p-t{display:none}
@@ -125,22 +126,23 @@ body.ep-app .ap-heute .hd-schlicht ~ .ap-karu{margin-top:44px!important;min-heig
 body.ep-app #epTabs button[aria-current="page"]{background:linear-gradient(140deg,#FF5C9E,#D92472)!important;color:#fff!important;box-shadow:0 8px 18px -8px rgba(226,48,122,.8)}
 /* Themen: Suchknopf im Titel */
 body.ep-app .ap-themen .ap-titel{display:flex;align-items:center;justify-content:space-between}
-body.ep-app .ap-themen .ap-titel .hd-such{width:40px;height:40px;border-radius:20px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+body.ep-app .ap-themen .ap-titel .hd-such{width:40px;height:40px;border-radius:20px;border:1px solid rgba(255,255,255,.18);background:rgba(27,34,64,.55);color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
 body.ep-app .ap-themen .ap-titel .hd-such svg{width:20px;height:20px}
 body.ep-app .ap-themen .ap-info{display:none!important}
 /* Quiz: keine weisse Karte, Frage weiss auf dunklem Grund, Kinder rechts */
-body.ep-app.ep-s-quiz .card{background:transparent!important;box-shadow:none!important;border:0!important;padding:0!important;color:#fff!important}
-body.ep-app.ep-s-quiz .card .tabs{display:flex;gap:6px;margin:0 0 10px}
-body.ep-app.ep-s-quiz .card .tabs button,body.ep-app.ep-s-quiz .card .tabs .seg{background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:none!important}
-body.ep-app.ep-s-quiz .card .tabs button[aria-selected="true"],body.ep-app.ep-s-quiz .card .tabs .seg.on,body.ep-app.ep-s-quiz .card .tabs .seg[aria-pressed="true"]{background:linear-gradient(140deg,#4FCB62,#1D7F33)!important;border-color:transparent!important}
-body.ep-app.ep-s-quiz .card .hlf-vlrow{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.14)!important;color:#fff!important;box-shadow:none!important}
-body.ep-app.ep-s-quiz .card .hlf-hinweis,body.ep-app.ep-s-quiz .card .vlhinweis{background:rgba(255,255,255,.1)!important;color:#fff!important}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card{background:transparent!important;box-shadow:none!important;border:0!important;padding:0!important;color:#fff!important}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .tabs{display:flex;gap:6px;margin:0 0 10px}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .tabs button,:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .tabs .seg{background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:none!important}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .tabs button[aria-selected="true"],:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .tabs .seg.on,:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .tabs .seg[aria-pressed="true"]{background:linear-gradient(140deg,#4FCB62,#1D7F33)!important;border-color:transparent!important}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .hlf-vlrow{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.14)!important;color:#fff!important;box-shadow:none!important}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .hlf-hinweis,:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .vlhinweis{background:rgba(255,255,255,.1)!important;color:#fff!important}
+body.ep-app.ep-s-quiz .card h2.question{text-align:left!important;margin:0!important;font-weight:800!important}
 body.ep-app.ep-s-quiz .card .qbox{position:relative;padding-right:104px;min-height:104px;display:flex;align-items:center}
-body.ep-app.ep-s-quiz .card h2.question{color:#fff!important;text-align:left!important;font:800 clamp(1.15rem,5.2vw,1.45rem)/1.25 "Bricolage Grotesque","Fredoka",system-ui,sans-serif!important;text-shadow:0 1px 3px rgba(0,0,0,.4);margin:0!important}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card h2.question{color:#fff!important;text-align:left!important;font:800 clamp(1.15rem,5.2vw,1.45rem)/1.25 "Bricolage Grotesque","Fredoka",system-ui,sans-serif!important;text-shadow:0 1px 3px rgba(0,0,0,.4);margin:0!important}
 body.ep-app.ep-s-quiz .card .hd-qkid{position:absolute;right:-4px;bottom:-6px;height:110px;width:auto;pointer-events:none;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
 @media (max-height:720px){body.ep-app.ep-s-quiz .card .qbox{min-height:96px;padding-right:96px}body.ep-app.ep-s-quiz .card .hd-qkid{height:118px}}
 body.ep-app.ep-s-quiz .card .answers{margin-top:14px}
-body.ep-app.ep-s-quiz .card .explain,body.ep-app.ep-s-quiz .card .erklaerung{background:rgba(255,255,255,.1);color:#fff;border-radius:18px;padding:12px 14px}
+:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .explain,:root[data-theme="dark"] body.ep-app.ep-s-quiz .card .erklaerung{background:rgba(255,255,255,.1);color:#fff;border-radius:18px;padding:12px 14px}
 body.ep-app.ep-s-quiz .hlf-joker .hlf-j{border:0!important;box-shadow:0 5px 0 rgba(0,0,0,.25)!important}
 /* Profil: dunkle Karten */
 body.ep-app .ap-profil .hd-ptabs{background:rgba(255,255,255,.1)}
@@ -148,19 +150,9 @@ body.ep-app .ap-profil .hd-ptabs{background:rgba(255,255,255,.1)}
 document.head.appendChild(css);
 
 
-/* ---------- Nachthimmel: in der Handy-Ansicht immer dunkel ---------- */
 const handy = () => app() && innerWidth < 700;
-(function dunkel(){
-  const h0 = window.himmelAktualisieren;
-  if(typeof h0 !== "function" || typeof H !== "object") return;
-  window.himmelAktualisieren = function(){
-    if(!handy()){ document.body.classList.remove("hd-dunkel"); return h0.apply(this, arguments); }
-    const m = H.modus; H.modus = "nacht";
-    try{ return h0.apply(this, arguments); } finally{ H.modus = m; document.body.classList.add("hd-dunkel"); try{ window.applyDark && applyDark(); }catch(e){} }
-  };
-})();
+function nacht(){}
 let dunkelDa = false;
-function nacht(){ if(dunkelDa || !handy()) return; dunkelDa = true; try{ window.himmelAktualisieren && himmelAktualisieren(); }catch(e){} }
 
 /* ---------- Start: Kopfzeile mit Logo links und Pillen rechts ---------- */
 function kopf(){
@@ -187,7 +179,8 @@ function suche(){
 /* ---------- Quiz: Frage mit Lumi und Milo ---------- */
 function frage(){
   if(!handy()) return;
-  const q = $("#app .card h2.question"); if(!q || q.closest(".qbox")) return;
+  const q = $("#app .card h2.question"); if(!q) return;
+  const alt = q.closest(".qbox"); if(alt){ [...alt.children].forEach(c => { if(c !== q && !c.classList.contains("hd-qkid")) alt.before(c); }); return; }
   const box = document.createElement("div"); box.className = "qbox"; q.before(box); box.appendChild(q);
   const img = document.createElement("img"); img.className = "hd-qkid"; img.alt = ""; img.src = KIDS + "lb-denken.webp"; box.appendChild(img);
 }
