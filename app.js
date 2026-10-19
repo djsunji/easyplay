@@ -389,6 +389,12 @@ body.ep-app.ep-s-quiz .modebadge{font-size:.78rem;margin-bottom:6px}
 body.ep-app.ep-s-quiz .question{font-size:clamp(1.05rem,4.6vw,1.35rem)!important;margin:0 0 12px;text-align:center}
 body.ep-app.ep-s-quiz .qimg{max-height:120px;margin-bottom:8px}
 body.ep-app.ep-s-quiz .qimg svg,body.ep-app.ep-s-quiz .qimg img{max-height:120px;width:auto}
+/* Bilder in der Frage (Logos, Wappen, Flaggen) bleiben in ihrem Feld und überdecken den Fragetext nicht */
+body.ep-app .qimg{overflow:visible;align-items:center}
+body.ep-app .qimg .qbig{max-height:120px!important;height:120px}
+body.ep-app .qimg .logobox.qbig{width:120px!important;height:120px!important;max-width:120px!important;padding:14px!important;box-sizing:border-box}
+body.ep-app .qimg .logobox.qbig svg,body.ep-app .qimg .logobox.qbig img{width:100%!important;height:100%!important;max-height:none!important;object-fit:contain}
+body.ep-app .qimg .logobox.chlogo.qbig{width:min(240px,70vw)!important;max-width:70vw!important;height:110px!important}
 body.ep-app.ep-s-quiz .answers{gap:8px}
 body.ep-app.ep-s-quiz .ans{min-height:50px!important;padding:8px 12px!important;font-size:.98rem!important;border-radius:14px!important;border-width:0!important;box-shadow:0 4px 0 rgba(0,0,0,.18)!important;color:#fff!important;gap:10px}
 body.ep-app.ep-s-quiz .ans:nth-child(1){background:linear-gradient(135deg,#5B7CFF,#3D5AFE)!important}
@@ -418,6 +424,9 @@ body.ep-app.ep-s-quiz .explain .big{min-height:44px;font-size:.92rem}
   body.ep-app.ep-s-quiz .card{padding:22px 24px 20px!important;border-radius:30px!important}
   body.ep-app.ep-s-quiz .question{font-size:1.55rem!important;margin:6px 0 18px;line-height:1.3}
   body.ep-app.ep-s-quiz .qimg,body.ep-app.ep-s-quiz .qimg svg,body.ep-app.ep-s-quiz .qimg img{max-height:220px}
+  body.ep-app .qimg .qbig{max-height:200px!important;height:200px}
+  body.ep-app .qimg .logobox.qbig{width:200px!important;height:200px!important;max-width:200px!important;padding:22px!important}
+  body.ep-app .qimg .logobox.chlogo.qbig{width:min(340px,70vw)!important;max-width:70vw!important;height:170px!important}
   body.ep-app.ep-s-quiz .answers{gap:12px}
   body.ep-app.ep-s-quiz .ans{min-height:64px!important;font-size:1.15rem!important;padding:12px 18px!important;border-radius:18px!important}
   body.ep-app.ep-s-quiz .ans .key{width:36px;height:36px;min-width:36px;font-size:1rem}
