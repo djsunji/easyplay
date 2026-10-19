@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>/* Beim Start nichts Halbfertiges zeigen: #app erst sichtbar, wenn alle Teile geladen sind */
-document.documentElement.classList.add("ep-boot"); setTimeout(function(){ document.documentElement.classList.remove("ep-boot"); }, 8000);</script>
+document.documentElement.classList.add("ep-boot");
+/* Ladebild erst ausblenden, wenn (1) die Seite gezeichnet ist UND (2) feststeht, dass sie die aktuelle Version ist */
+window.__epVer="pruefe"; window.__epGerendert=false;
+window.__epBootEnde=function(){ if(window.__epVer==="ok" && window.__epGerendert) document.documentElement.classList.remove("ep-boot"); };
+setTimeout(function(){ if(window.__epVer!=="neu") document.documentElement.classList.remove("ep-boot"); }, 25000);</script>
 <style>html.ep-boot #app,html.ep-boot #nav,html.ep-boot .ap-nav{visibility:hidden!important}
 #epBoot{display:none}
 html.ep-boot .topbar{visibility:hidden!important}
@@ -17,28 +21,34 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-19-04";
+window.EP_BUILD="ep-2026-10-19-05";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
      wieder sichtbar wird (iPhone-Homescreen-App wird oft nur aus dem Hintergrund geholt, nicht neu geladen). */
   var k="ep-versionscheck", laeuft=false;
   function imSpiel(){ try{ return ["quiz","duellplay","duellsplit","liveplay","livehost","hardcore","check","fremdtest"].indexOf(S.screen)>=0; }catch(e){ return false; } }
+  function ok(){ if(window.__epVer!=="neu"){ window.__epVer="ok"; try{ window.__epBootEnde(); }catch(e){} } }
   function pruefen(beimLaden){
     if(laeuft) return; laeuft=true;
     var jetzt=Date.now(), letzt=0; try{ letzt=+sessionStorage.getItem(k)||0; }catch(e){}
+    var zeit=beimLaden ? setTimeout(function(){ ok(); }, 6000) : 0;   /* Netz zu langsam oder offline: Seite trotzdem zeigen */
     fetch("sw.js?nocache="+jetzt, {cache:"no-store"}).then(function(r){ return r.ok ? r.text() : ""; }).then(function(t){
-      laeuft=false;
-      var m=/VERSION = "([^"]+)"/.exec(t||""); if(!m || m[1]===window.EP_BUILD) return;
-      if(jetzt-letzt < 60000) return;
+      laeuft=false; clearTimeout(zeit);
+      var m=/VERSION = "([^"]+)"/.exec(t||""); if(!m || m[1]===window.EP_BUILD){ ok(); return; }
+      if(jetzt-letzt < 20000){ ok(); return; }        /* gerade erst neu geladen: keine Schleife */
       if(!beimLaden && imSpiel()) return;
+      window.__epVer="neu";
       try{ sessionStorage.setItem(k, String(jetzt)); }catch(e){}
+      document.documentElement.classList.add("ep-boot");
+      var txt=function(){ var p=document.querySelector("#epBoot p"); if(p) p.textContent="Neue Version wird geladen, einen Augenblick \u2026"; };
+      txt(); document.addEventListener("DOMContentLoaded", txt);
       var arbeit=[];
       if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations) arbeit.push(navigator.serviceWorker.getRegistrations().then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); }));
       if(window.caches) arbeit.push(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(x){ return x.indexOf("epoff-")!==0; }).map(function(x){ return caches.delete(x); })); }));
-      var weiter=function(){ location.replace(location.pathname+"?v="+m[1]+location.hash); };
+      var weg=false, weiter=function(){ if(weg) return; weg=true; location.replace(location.pathname+"?v="+m[1]+location.hash); };
       Promise.all(arbeit).then(weiter, weiter); setTimeout(weiter, 4000);
-    }).catch(function(){ laeuft=false; });
+    }).catch(function(){ laeuft=false; clearTimeout(zeit); ok(); });
   }
   pruefen(true);
   document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="visible") pruefen(false); });
@@ -8217,7 +8227,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="eltern.js"></script>
 <script src="offline.js"></script>
 <script src="i18n.js"></script><script src="regionen.js"></script>
-<script>try{ render(); }catch(e){} document.documentElement.classList.remove("ep-boot"); setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 30);</script>
+<script>try{ render(); }catch(e){} window.__epGerendert=true; try{ window.__epBootEnde(); }catch(e){} setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 30);</script>
 <script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
 (function(){
 const css=`

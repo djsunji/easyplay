@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-19-04";
+const VERSION = "ep-2026-10-19-05";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
@@ -290,6 +290,9 @@ self.addEventListener("fetch", (event) => {
   if (anfrage.headers.has("range")) return;
   // Downloads der Paketverwaltung (offline.js) direkt übers Netz
   if (anfrage.headers.has(OFFLINE_KOPF)) return;
+
+  // Versionsabfrage der Seite (sw.js?nocache=…) immer direkt beim Server, nie aus dem Speicher
+  if (url.searchParams.has("nocache")) return;
 
   const pfad = url.pathname;
   const datei = pfad.slice(pfad.lastIndexOf("/") + 1);
