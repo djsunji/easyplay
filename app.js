@@ -488,6 +488,11 @@ body.ep-app.ep-s-lib .ap-libkids img{height:100%;filter:drop-shadow(0 8px 10px r
 body.ep-app.ep-s-lib .ap-libkids img+img{margin-left:-6px}
 @media (min-width:700px){body.ep-app.ep-s-lib .regal .buecher{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:16px 14px!important}body.ep-app.ep-s-lib .buch .bemo2{font-size:2.6rem!important}body.ep-app.ep-s-lib .buch .btitel{font-size:1.1rem!important}body.ep-app.ep-s-lib .buch .bunter{font-size:.72rem!important}body.ep-app.ep-s-lib .ap-libkids{height:150px}}
 @media (max-height:720px) and (max-width:699px){body.ep-app.ep-s-lib .ap-libkids{display:none}body.ep-app.ep-s-lib .regal .buecher{gap:8px!important}}
+/* Suchfeld der Bibliothek auf dem Handy kleiner */
+@media (max-width:699px){body.ep-app .libsuche{margin:0 0 10px!important}body.ep-app .libsuche input.sel{min-height:42px!important;height:42px;padding:6px 16px!important;font-size:.95rem!important;border-width:2px!important;border-radius:999px!important;box-shadow:0 8px 16px -12px rgba(0,0,0,.5)!important}
+body.ep-app .libsuche input.sel:focus{box-shadow:0 0 0 4px color-mix(in srgb,#8A3FE0 25%,transparent)!important}
+body.ep-app.ep-s-lib .regal{padding:8px 8px 10px!important}
+body.ep-app.ep-s-lib .regal .buch .bcover{padding:6px 5px!important;gap:2px!important}}
 
 /* Begrüssung oben auf Heute */
 .ap-gruss{display:flex;flex-direction:column;gap:2px;padding:0 4px;margin-bottom:-46px;position:relative;z-index:0}
@@ -947,6 +952,24 @@ function seitenEinpassen(){
   const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null;
   const ende = tr ? tr.top - 10 : innerHeight - 16;
   const c = document.querySelector("#app .ep-chat"); if(c){ const top = c.getBoundingClientRect().top + scrollY; c.style.height = Math.max(320, Math.floor(ende - top)) + "px"; }
+  regalEinpassen(ende);
+}
+/* Bibliothek (Handy): Regal so gross machen, dass alle Bücher über der Leiste Platz haben */
+function regalEinpassen(ende){
+  const rg = document.querySelector("body.ep-s-lib #app .regal"), bu = rg && rg.querySelector(".buecher");
+  if(!bu) return;
+  bu.style.gridAutoRows = ""; bu.querySelectorAll(".buch").forEach(b => { b.style.removeProperty("height"); b.style.removeProperty("aspect-ratio"); });
+  if(innerWidth >= 700 || QUER.matches) return;
+  const n = bu.querySelectorAll(".buch").length, sp = Math.max(1, getComputedStyle(bu).gridTemplateColumns.split(" ").length), reihen = Math.ceil(n / sp);
+  if(!reihen) return;
+  const rr = rg.getBoundingClientRect(), br = bu.getBoundingClientRect();
+  const rand = (rr.bottom - br.bottom) + (br.top - rr.top) + 8;
+  const gap = parseFloat(getComputedStyle(bu).rowGap) || 8;
+  const platz = ende - rr.top - rand - gap * (reihen - 1);
+  const breite = (br.width - (parseFloat(getComputedStyle(bu).columnGap) || 8) * (sp - 1)) / sp;
+  const h = Math.max(80, Math.min(breite * 4 / 3, Math.floor(platz / reihen)));
+  bu.style.gridAutoRows = h + "px";
+  bu.querySelectorAll(".buch").forEach(b => { b.style.setProperty("height", h + "px", "important"); b.style.setProperty("aspect-ratio", "auto", "important"); });
 }
 
 /* ---------- Einhängen ---------- */
