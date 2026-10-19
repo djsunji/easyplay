@@ -396,7 +396,7 @@ body.ep-app .qimg .logobox.qbig{width:120px!important;height:120px!important;max
 body.ep-app .qimg .logobox.qbig svg,body.ep-app .qimg .logobox.qbig img{width:100%!important;height:100%!important;max-height:none!important;object-fit:contain}
 body.ep-app .qimg .logobox.chlogo.qbig{width:min(240px,70vw)!important;max-width:70vw!important;height:110px!important}
 body.ep-app.ep-s-quiz .answers{gap:8px}
-body.ep-app.ep-s-quiz .ans{min-height:50px!important;padding:8px 12px!important;font-size:.98rem!important;border-radius:14px!important;border-width:0!important;box-shadow:0 4px 0 rgba(0,0,0,.18)!important;color:#fff!important;gap:10px}
+body.ep-app.ep-s-quiz .ans{min-height:50px!important;padding:8px 50px!important;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:anywhere;line-height:1.25;font-size:.98rem!important;border-radius:14px!important;border-width:0!important;box-shadow:0 4px 0 rgba(0,0,0,.18)!important;color:#fff!important;gap:10px}
 body.ep-app.ep-s-quiz .ans:nth-child(1){background:linear-gradient(135deg,#5B7CFF,#3D5AFE)!important}
 body.ep-app.ep-s-quiz .ans:nth-child(2){background:linear-gradient(135deg,#FF6FB5,#E043B8)!important}
 body.ep-app.ep-s-quiz .ans:nth-child(3){background:linear-gradient(135deg,#2FD1A7,#12A57F)!important}
@@ -428,7 +428,7 @@ body.ep-app.ep-s-quiz .explain .big{min-height:44px;font-size:.92rem}
   body.ep-app .qimg .logobox.qbig{width:200px!important;height:200px!important;max-width:200px!important;padding:22px!important}
   body.ep-app .qimg .logobox.chlogo.qbig{width:min(340px,70vw)!important;max-width:70vw!important;height:170px!important}
   body.ep-app.ep-s-quiz .answers{gap:12px}
-  body.ep-app.ep-s-quiz .ans{min-height:64px!important;font-size:1.15rem!important;padding:12px 18px!important;border-radius:18px!important}
+  body.ep-app.ep-s-quiz .ans{min-height:64px!important;font-size:1.15rem!important;padding:12px 62px!important;border-radius:18px!important}
   body.ep-app.ep-s-quiz .ans .key{width:36px;height:36px;min-width:36px;font-size:1rem}
   body.ep-app.ep-s-quiz .tabbtn{min-height:48px;font-size:1rem}
   body.ep-app.ep-s-quiz .feedback p,body.ep-app.ep-s-quiz .explain p{font-size:1.05rem}
