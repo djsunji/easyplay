@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-19-09";
+window.EP_BUILD="ep-2026-10-20-10";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -39,6 +39,9 @@ window.EP_BUILD="ep-2026-10-19-09";
       laeuft=false; clearTimeout(zeit);
       var m=/VERSION = "([^"]+)"/.exec(t||""); if(!m || m[1]===window.EP_BUILD){ ok(); return; }
       if(jetzt-letzt < 20000){ ok(); return; }        /* gerade erst neu geladen: keine Schleife */
+      var schon=""; try{ schon=sessionStorage.getItem(k+"-v")||""; }catch(e){}
+      if(schon===m[1]){ ok(); return; }               /* für diese Version schon einmal neu geladen: nicht wieder (sonst zuckt die Seite) */
+      try{ sessionStorage.setItem(k+"-v", m[1]); }catch(e){}
       if(!beimLaden && imSpiel()) return;
       window.__epVer="neu";
       try{ sessionStorage.setItem(k, String(jetzt)); }catch(e){}
@@ -5001,6 +5004,7 @@ function oeffneReels(tab){
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
       document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
+      if(window.EP_NUR_QEELS && it){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
       if(!sec.nextElementSibling || !sec.nextElementSibling.nextElementSibling || !sec.nextElementSibling.nextElementSibling.nextElementSibling) rlHinzu(4);
       setTimeout(rlAufraeumen, 350);
@@ -5161,7 +5165,7 @@ function oeffneQeelLink(versuch){
   try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
 }
 addEventListener("hashchange",()=>{ if(/#qeel=/.test(location.hash)) oeffneQeelLink(); });
-setTimeout(()=>{ if(/#qeel=/.test(location.hash)) oeffneQeelLink(); }, 1200);
+const QEEL_HASH0=location.hash; setTimeout(()=>{ if(/#qeel=/.test(QEEL_HASH0) && location.hash===QEEL_HASH0) oeffneQeelLink(); }, 1200);
 
 /* ---------- Tastatur im Quiz: A bis D antworten, Pfeile vor und zurück ---------- */
 document.addEventListener("keydown",e=>{
@@ -8603,6 +8607,12 @@ html body #reels .ropt.falsch{opacity:1;filter:grayscale(.55) brightness(.8) dro
 html body #reels .ropt.richtig::after,html body #reels .ropt.falsch::after{content:"✓";margin-left:auto;flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#16A35A;color:#fff;font-weight:900;font-size:1rem;box-shadow:0 0 0 2px #fff;text-shadow:none}
 html body #reels .ropt.falsch::after{content:"✗";background:#D6362E}
 @media (min-width:900px){html body #reels .ropts{--ah:64px}html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{font-size:1.12rem!important}}
+/* Qeels Handy: Story-Reihe unter die Knöpfe oben, damit sich nichts überdeckt */
+@media (max-width:699px){
+html body #reels .rstories{top:62px!important;padding-right:12px!important;clip-path:none!important}
+html body #reels:has(.rstories) .rinhalt{padding-top:166px!important}
+html body #reels:has(.rstories) .rainhalt{top:162px!important}
+}
 /* Qeels: Glanz-Knöpfe oben (Auswahl, Musik, Zurück) */
 html body #reels .rkopf .rfilter,html body #reels .rkopf .rmusik,html body #reels .rkopf .rzu{background:center/contain no-repeat var(--rk)!important;border:0!important;box-shadow:none!important;
   backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:transparent!important;font-size:0!important;padding:0!important;

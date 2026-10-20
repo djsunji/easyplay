@@ -30,6 +30,9 @@ def bauen():
     html = QUELLE.read_text(encoding="utf-8")
     hinweis = "<!-- Automatisch erzeugt aus index.html mit tools/qeels_bauen.py. Nicht von Hand ändern. -->\n"
     html = ersetze(html, r'<meta charset="utf-8">', lambda m: m.group(0) + '\n<base href="../">')
+    # Versionsstempel immer passend zu sw.js, sonst lädt die Versionsprüfung die Seite neu
+    version = re.search(r'const VERSION = "([^"]+)"', (WURZEL / "sw.js").read_text(encoding="utf-8")).group(1)
+    html = ersetze(html, r'window\.EP_BUILD="[^"]*";', f'window.EP_BUILD="{version}";')
     html = ersetze(html, r"<title>.*?</title>", f"<title>{TITEL}</title>")
     html = ersetze(html, r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{TEXT}">')
     html = ersetze(html, r'<link rel="manifest" href="[^"]*">', '<link rel="manifest" href="qeels/manifest.webmanifest">')
