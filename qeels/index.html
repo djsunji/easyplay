@@ -4621,11 +4621,21 @@ const RL = { offen:false, tab:"mix", n:0, seenQ:new Set(), seenA:new Set(), aPoo
 const RL_TABS = [["mix","Für dich"],["quiz","Quiz"],["wissen","Wissen"]];
 function rlLogo(){ const i=document.getElementById("logoImg"); return i&&i.src ? `<img src="${i.src}" alt="">` : "🎓"; }
 function rlFarbe(f){ const b=THEMA[f.t]?.bereich; const m={"--welt":["#3D5AFE","#1B1F6B"],"--natur":["#17A35A","#0B3D2A"],"--geld":["#E0312B","#5A0F1F"],"--alltag":["#F2A000","#6B3A00"]}; return m[b?.c]||["#8A3FE0","#2A1052"]; }
+/* Entdecker (6 bis 9 Jahre): nur Artikel, deren Fragen mindestens zur Hälfte Entdecker-Fragen sind, und keine Themen für Ältere */
+const RL_ENTDECKER_NEIN = new Set(["pol_diktatur","pol_kommunismus"]);
+function rlFuerEntdecker(s){
+  if(s.typ==="art" || RL_ENTDECKER_NEIN.has(s.kap?.id)) return false;
+  const fr=s.fragen||[], n1=fr.filter(f=>f.l===1).length;
+  return n1>0 && n1*2>=fr.length;
+}
 function rlArtPool(){
-  if(RL.aPool) return RL.aPool;
+  const ent = S.stufe===1;
+  if(RL.aPool && RL.aPoolEnt===ent) return RL.aPool;
   const p=[];
   try{ BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{ if(s.titel==="Allgemeines") return;
+    if(ent && !rlFuerEntdecker(s)) return;
     if(s.typ==="art" || s.teile || S.texte[seiteKey(s)] || (s.fragen||[]).length>=3) p.push([B.id,s.nr]); })); }catch(e){ console.warn(e); }
+  RL.aPoolEnt=ent;
   return RL.aPool=p;
 }
 function rlNaechsteFrage(){
