@@ -8544,6 +8544,21 @@ html body #reels .ralesen:active{transform:translateY(3px);box-shadow:0 2px 0 #B
   html body #reels .rmeta{padding:0 24px 20px;right:120px}
   html body #reels .rcap,html body #reels .rkanal b{font-size:1.02rem}
 }
+/* Qeels: Neon-Pfeile zum Blättern, schweben und leuchten */
+html body #reels .rpfeile{gap:6px!important}
+html body #reels .rpfeile button{width:68px!important;height:68px!important;padding:0!important;border:0!important;border-radius:50%!important;background:center/contain no-repeat!important;box-shadow:none!important;
+  color:transparent!important;font-size:0!important;-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.9,.3,1.4),filter .18s}
+html body #reels .rpfeile #rHoch{background-image:url("img/qeels-pfeil-hoch.webp")!important;animation:rpfHoch 2.4s ease-in-out infinite,rpfGlow 2.4s ease-in-out infinite}
+html body #reels .rpfeile #rRunter{background-image:url("img/qeels-pfeil-runter.webp")!important;animation:rpfRunter 2.4s ease-in-out 1.2s infinite,rpfGlow 2.4s ease-in-out infinite}
+html body #reels .rpfeile button:hover{filter:brightness(1.25) drop-shadow(0 0 14px rgba(190,110,255,.85));animation:none!important}
+html body #reels .rpfeile #rHoch:hover{transform:translateY(-4px) scale(1.12)}
+html body #reels .rpfeile #rRunter:hover{transform:translateY(4px) scale(1.12)}
+html body #reels .rpfeile button:active{transform:scale(.88)!important;filter:brightness(1.5) drop-shadow(0 0 20px rgba(255,255,255,.9))}
+html body #reels .rpfeile button:focus-visible{outline:3px solid #FFD43B;outline-offset:2px}
+@keyframes rpfHoch{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes rpfRunter{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@keyframes rpfGlow{0%,100%{filter:brightness(1) drop-shadow(0 0 4px rgba(190,110,255,.4))}50%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(230,120,255,.85))}}
+@media (prefers-reduced-motion:reduce){html body #reels .rpfeile button{animation:none!important}}
 </style>
 <script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
 (function(){
