@@ -8383,6 +8383,16 @@ html body #reels .rfpop .rtabs{display:flex!important;flex-wrap:wrap;align-items
 html body #reels .rfpop .rserie{display:inline-block;align-self:flex-start}
 html body #reels .rfpop .rserie[hidden]{display:none!important}
 html body #reels .rfpop .rlupe{margin-left:auto}
+html body #reels .rfstufen{display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.15)}
+html body #reels .rfsbtns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+html body #reels .rfsbtns button{display:flex;align-items:center;gap:6px;min-height:40px;padding:6px 10px;border-radius:14px;border:0;cursor:pointer;color:#fff;
+  font:700 .88rem "Lexend",system-ui,sans-serif;white-space:nowrap;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1.5px var(--rsf,rgba(255,255,255,.3))}
+html body #reels .rfsbtns button .ic{font-size:1.05rem}
+html body #reels .rfsbtns button[data-rstufe="1"]{--rsf:#2FBF71}
+html body #reels .rfsbtns button[data-rstufe="2"]{--rsf:#4D6BFF}
+html body #reels .rfsbtns button[data-rstufe="3"]{--rsf:#FF9A1F}
+html body #reels .rfsbtns button[data-rstufe="4"]{--rsf:#B26BFF}
+html body #reels .rfsbtns button[aria-pressed="true"]{background:var(--rsf);box-shadow:0 3px 0 rgba(0,0,0,.3)}
 /* Themen-Reihe (Stories) rückt nach oben neben die Knöpfe und läuft nicht unter sie */
 html body #reels .rstories{top:6px!important;padding-right:calc(var(--rres,120px) + 12px)!important;clip-path:inset(-30px var(--rres,120px) -30px 0)}
 @media (min-width:700px){html body #reels .rstories{top:22px!important}}
@@ -8557,10 +8567,13 @@ function einbauen(){
     pop.innerHTML = '<span class="rfkopf">Was möchtest du sehen?</span>';
     const tabs = kopf.querySelector(".rtabs"), serie = kopf.querySelector(".rserie");
     if(serie) pop.appendChild(serie); if(tabs) pop.appendChild(tabs);
+    const stf = document.createElement("div"); stf.className = "rfstufen"; stf.setAttribute("role", "group"); stf.setAttribute("aria-label", "Stufe");
+    stf.innerHTML = '<span class="rfkopf">Stufe</span><div class="rfsbtns">' + [...STUFEN, STUFE_ALLE].map(s => `<button type="button" data-rstufe="${s.id}" aria-pressed="${S.stufe === s.id}">${STUFE_EMO[s.id]} ${s.id === 4 ? "Alle" : s.name}</button>`).join("") + '</div>';
+    pop.appendChild(stf);
     kopf.insertBefore(b, zu); kopf.appendChild(pop);
     const zu_ = () => { pop.hidden = true; b.setAttribute("aria-expanded", "false"); };
     b.addEventListener("click", e => { e.stopPropagation(); const auf = pop.hidden; pop.hidden = !auf; b.setAttribute("aria-expanded", String(auf)); });
-    pop.addEventListener("click", e => { e.stopPropagation(); const t = e.target.closest("[data-rtab],.rlupe,[data-z]"); if(t) setTimeout(() => { zu_(); zustand(o); }, 220); });
+    pop.addEventListener("click", e => { e.stopPropagation(); const st = e.target.closest("[data-rstufe]"); if(st){ window.rlStufeSetzen(+st.dataset.rstufe); setTimeout(zu_, 220); return; } const t = e.target.closest("[data-rtab],.rlupe,[data-z]"); if(t) setTimeout(() => { zu_(); zustand(o); }, 220); });
     o.addEventListener("click", e => { if(!pop.hidden && !pop.contains(e.target) && e.target !== b) zu_(); });
     document.addEventListener("keydown", e => { if(e.key === "Escape" && !pop.hidden){ zu_(); b.focus(); } });
     if(tabs) new MutationObserver(() => zustand(o)).observe(tabs, {subtree:true, attributes:true, attributeFilter:["aria-selected"]});
@@ -8569,6 +8582,12 @@ function einbauen(){
   zustand(o); platz(o); requestAnimationFrame(() => platz(o)); setTimeout(() => platz(o), 400);
 }
 window.oeffneReels = function(){ const r = vor.apply(this, arguments); try{ einbauen(); }catch(e){ console.warn("mobilfix", e); } return r; };
+/* Stufe für die Qeels wählen (1 bis 3 oder 4 = alle) und den Verlauf neu mischen */
+window.rlStufeSetzen = function(id){
+  if(![1,2,3,4].includes(id)) return; S.stufe = id; store.set("ep-stufe", id);
+  document.querySelectorAll("#reels [data-rstufe]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.rstufe === id)));
+  try{ if(RL.offen) rlTab(RL.tab); }catch(e){ console.warn(e); }
+};
 })();
 </script>
 <script>/*__epScrollPause*/(function(){let t=0;addEventListener('scroll',function(){if(!t)document.body.classList.add('scrollt');clearTimeout(t);t=setTimeout(function(){document.body.classList.remove('scrollt');t=0;},180);},{passive:true});document.addEventListener('visibilitychange',function(){document.body.classList.toggle('scrollt',document.hidden);});})();</script>
