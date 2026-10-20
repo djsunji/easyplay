@@ -6,6 +6,8 @@ Entdecker ist für 6 bis 9 Jahre. Eine Frage der Stufe 1 kommt zu den Könnern (
   - Frage oder richtige Antwort eine Jahreszahl, ein Jahrhundert, «v. Chr.» oder Prozent verlangt,
   - Frage oder Antwort sehr lange Fachwörter oder Abkürzungen (UNO, FIFA …) enthalten,
   - ein Sprachmodell (trainiert auf Stufe 1 gegen Stufe 3) sie klar als «Profi-Frage» einstuft.
+Umgekehrt kommen die von Hand ausgewählten leichten Fragen aus Könner und Profi in tools/entdecker_dazu.json
+zu Entdecker (Vorauswahl: Sprachmodell hält sie für leicht, keine der Regeln oben trifft zu).
 Es wird nichts gelöscht, nur das Feld "l" geändert. Bericht: tools/entdecker_bericht.tsv
 
 Braucht scikit-learn:  pip install scikit-learn
@@ -65,9 +67,16 @@ def main():
     daten = {f: json.load(open(f, encoding="utf-8")) for f in dateien}
     alle = [q for d in daten.values() for q in d]
     ki = ki_werte(alle)
+    dazu = set(json.load(open("tools/entdecker_dazu.json", encoding="utf-8")))
     bericht, zahl = [], {}
     for f, d in daten.items():
         for q in d:
+            if q["nr"] in dazu:
+                if q.get("l") != 1:
+                    zahl["dazu"] = zahl.get("dazu", 0) + 1
+                    bericht.append(f"{q['nr']}\t{q['t']}\tdazu (war {q['l']})\t{q['q']}\t{q['a'][0]}")
+                    q["l"] = 1
+                continue
             if q.get("l") != 1:
                 continue
             g = grund(q, ki)
@@ -77,7 +86,7 @@ def main():
                 q["l"] = 2
     with open("tools/entdecker_bericht.tsv", "w", encoding="utf-8") as o:
         o.write("nr\tthema\tgrund\tfrage\tantwort\n" + "\n".join(bericht) + "\n")
-    print(len(bericht), "Fragen von Entdecker zu Könner:", zahl)
+    print(len(bericht), "Änderungen:", zahl)
     if "--nur-bericht" in sys.argv:
         return
     for f, d in daten.items():

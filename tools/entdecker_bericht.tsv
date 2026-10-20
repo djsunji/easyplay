@@ -1,8 +1,14 @@
 nr	thema	grund	frage	antwort
 1	g_mittelalter	jahr/prozent	Wie hiessen die Seefahrer, die vor etwa 1000 Jahren aus Skandinavien mit Langschiffen loszogen?	Wikinger
+111	rel_andere	dazu (war 2)	Welches grosse Lichterfest feiern Hindus im Herbst?	Diwali
+125	natur	dazu (war 2)	Welcher Planet ist der Sonne am nächsten?	Merkur
+126	natur	dazu (war 2)	Welcher ist der grösste Planet in unserem Sonnensystem?	Jupiter
+147	physik	dazu (war 2)	Warum siehst du dich im Spiegel?	Der Spiegel wirft das Licht zurück
+150	physik	dazu (war 2)	Wann leuchtet eine Lampe in einem einfachen Stromkreis?	Wenn der Stromkreis geschlossen ist
 168	banken	fachwort	Was machst du mit dem PIN-Code deiner Karte?	Geheim halten und niemandem verraten
 276	ch_geschichte	ki	Welche drei Orte gelten als Gründer der Eidgenossenschaft?	Uri, Schwyz und Unterwalden
 363	kt_NE	ki	Für welche Industrie ist der Kanton Neuenburg besonders bekannt?	Für die Uhrenindustrie
+423	g_antike	dazu (war 2)	Welche Sprache sprachen die alten Römer?	Latein
 436	g_neuzeit	jahr/prozent	Welches Verkehrsmittel veränderte im 19. Jahrhundert das Reisen und fährt auf Schienen?	Die Eisenbahn
 445	pol_welt	fachwort	Welche Organisation hat das Ziel, den Frieden auf der ganzen Welt zu sichern?	Die UNO (Vereinte Nationen)
 455	pol_demokratie	ki	Was bedeutet das Wort «Demokratie»?	Herrschaft des Volkes
@@ -11,10 +17,30 @@ nr	thema	grund	frage	antwort
 510	pol_kommunismus	thema	Was trennte früher Ost- und Westberlin?	Eine Mauer
 521	pol_diktatur	thema	Darf man in einer Diktatur meistens frei sagen, was man über die Regierung denkt?	Nein, Kritik kann bestraft werden
 522	pol_diktatur	thema	In welcher Staatsform kann das Volk frei wählen, wer regiert?	In einer Demokratie
+560	natur	dazu (war 2)	Wie lange braucht die Erde für eine ganze Runde um die Sonne?	Ungefähr ein Jahr
+564	tiere	dazu (war 2)	Welches ist das schnellste Landtier der Welt?	Der Gepard
+565	tiere	dazu (war 2)	Womit atmen Fische?	Mit Kiemen
+566	tiere	dazu (war 2)	Welcher Vogel kann sogar rückwärts fliegen?	Der Kolibri
+567	tiere	dazu (war 2)	Welches Tier der Alpen hat als Männchen grosse, gebogene Hörner und klettert sehr geschickt?	Der Steinbock
+568	tiere	dazu (war 2)	Wie viele Beine hat eine Spinne?	Acht
+572	tiere	dazu (war 3)	Welches Säugetier kann aktiv fliegen?	Die Fledermaus
 573	wissenschaft	ki	Wie nennt man Forschende, die Sterne und Planeten untersuchen?	Astronominnen und Astronomen
+592	geo_schweiz	dazu (war 2)	In welches Meer fliesst der Rhein?	In die Nordsee
+594	geo_schweiz	dazu (war 2)	In welchem Kanton spricht man vor allem Italienisch?	Im Tessin
+613	geo_europa	dazu (war 2)	Welches Land hat auf der Landkarte die Form eines Stiefels?	Italien
+615	geo_europa	dazu (war 2)	Wie heisst die Hauptstadt von Spanien?	Madrid
+617	geo_europa	dazu (war 2)	Welches ist der kleinste Staat der Welt?	Die Vatikanstadt
+622	geo_europa	dazu (war 3)	Wie heisst die Hauptstadt von Norwegen?	Oslo
+632	geo_welt	dazu (war 2)	Wie heisst die grösste heisse Wüste der Welt?	Die Sahara
+636	geo_welt	dazu (war 2)	Wo liegt der grösste Regenwald der Welt?	Am Amazonas in Südamerika
+638	geo_welt	dazu (war 2)	Welcher ist der grösste Kontinent?	Asien
+649	natur	dazu (war 2)	Was entsteht, wenn die Sonne auf Regentropfen scheint?	Ein Regenbogen
 658	g_neuzeit	jahr/prozent	An welches Ereignis erinnern diese Bilder?	Die Mondlandung 1969
+675	tiere	dazu (war 2)	Kann die Ringelnatter schwimmen?	Ja, sie ist eine gute Schwimmerin
+734	tiere	dazu (war 2)	Welches Tier ziert das Wappen der Stadt und des Kantons Bern?	Der Bär
 740	tiere	fachwort	Welches Fell hat ein Rosettenmeerschweinchen?	Fell mit wirbeligen Haarrosetten
 764	pol_kommunismus	thema	Wie hiess der berühmte Revolutionär, der Fidel Castro in Kuba unterstützte?	Che Guevara
+769	tiere	dazu (war 2)	Welche Aufgabe haben Rentiere in der Sagenwelt zur Weihnachtszeit?	Sie ziehen den Schlitten des Weihnachtsmanns
 778	tiere	ki	Wodurch unterscheidet sich der Afrikanische Elefant äusserlich am meisten vom Asiatischen Elefanten?	Durch seine viel grösseren Ohren
 826	tiere	ki	Welche Tigerart ist die grösste von allen?	Sibirischer Tiger
 834	tiere	ki	Wodurch entsteht das Summen einer fliegenden Stubenfliege?	Durch den schnellen Flügelschlag
@@ -22,6 +48,7 @@ nr	thema	grund	frage	antwort
 907	tiere	ki	Warum können sich Stubenfliegen im Sommer so schnell vermehren?	Weil Wärme ihre Entwicklung beschleunigt
 941	tiere	ki	Welche zwei Hauptarten von Gorillas unterscheiden Forscherinnen und Forscher?	Westlicher Gorilla und Östlicher Gorilla
 961	tiere	ki	Wie lautet der wissenschaftliche Name der Stubenfliege?	Musca domestica
+1033	tiere	dazu (war 2)	Wozu benutzt ein Elefant seinen Rüssel unter anderem?	Zum Greifen, Riechen und Trinken
 1042	tiere	ki	Welche Marienkäferart ist in der Schweiz eingewandert und kann einheimische Arten verdrängen?	Der Asiatische Marienkäfer
 1057	tiere	ki	Wie nennt man die Qualle, die als besonders langlebig gilt und sich zurückverwandeln kann?	Die unsterbliche Qualle
 1147	tiere	ki	Wie wird der Eisbär wissenschaftlich genannt?	Ursus maritimus
@@ -34,8 +61,10 @@ nr	thema	grund	frage	antwort
 1327	tiere	ki	Welche Pflanzenart bildet die Hauptnahrung des Flusspferds?	Gras
 1431	tiere	ki	In welchem Schweizer Kanton finden traditionelle Ziegenkämpfe der Walliser Schwarzhalsziege statt?	Im Wallis
 1549	tiere	ki	Welche natürlichen Feinde hat der ausgewachsene Rotfuchs in der Schweiz kaum?	Er hat nur wenige natürliche Feinde
+1598	tiere	dazu (war 2)	Was machen Alpakas oft, wenn sie sich bedroht oder genervt fühlen?	Sie spucken
 1634	tiere	ki	Warum sollten Hauskaninchen nicht allein leben?	Sie sind soziale Tiere und brauchen Gesellschaft
 1643	tiere	ki	Wie viele verschiedene Vogelarten nutzt der Kuckuck weltweit als Wirtsvögel?	Über 100 verschiedene Arten
+1808	tiere	dazu (war 2)	Was passiert mit dem Fell mancher Mauswiesel im Winter?	Es wird weiss
 1811	tiere	ki	Von welcher Wildgans stammt unsere Hausgans ab?	Von der Graugans
 1873	tiere	ki	Wie heisst der wissenschaftliche Gattungsname des Geparden?	Acinonyx
 1918	tiere	ki	Wie verständigen sich Entenmutter und Küken?	Mit verschiedenen Lauten, denen die Küken folgen
@@ -52,14 +81,20 @@ nr	thema	grund	frage	antwort
 2172	pol_welt	fachwort	Was macht das Amt für auswärtige Angelegenheiten (EDA) der Schweiz?	Es kümmert sich um Beziehungen zu anderen Ländern
 2313	tiere	ki	Zu welcher grossen Tiergruppe gehört der Seehund wegen seiner Ernährung?	Zu den Fleischfressern (Raubtieren)
 2359	tiere	ki	Was brauchen Hauskaninchen unbedingt bei der Haltung?	Genug Platz zum Hüpfen und Verstecken
+2484	tiere	dazu (war 2)	Wie viele Beine hat eine Blattlaus?	Sechs
 2569	pol_kommunismus	thema	Wer war viele Jahre lang Staatschef der DDR?	Erich Honecker
 2581	pol_welt	fachwort	Wie nennt man Soldatinnen und Soldaten, die im Auftrag der UNO für Frieden sorgen?	Blauhelme
+2590	tiere	dazu (war 2)	Was fehlt dem Bonobo wie allen Menschenaffen?	Ein Schwanz
 2629	tiere	ki	Welches Geräusch macht eine Ente typischerweise?	Sie quakt
+2662	tiere	dazu (war 2)	Wer regiert einen Ameisenstaat und legt fast alle Eier?	Die Königin
 2692	pol_diktatur	thema	Wieso ist es wichtig, dass es mehrere Parteien gibt?	Damit die Menschen zwischen verschiedenen Ideen wählen können.
+2770	tiere	dazu (war 2)	Wie viele Höcker hat ein Trampeltier?	Zwei
 2790	tiere	ki	Welche zwei Hauptwege nutzen europäische Störche für ihren Flug nach Afrika?	eine Westroute über Spanien und eine Ostroute über den Bosporus
 2799	tiere	jahr/prozent	Wie viel Prozent des Quallenkörpers besteht ungefähr aus Wasser?	Rund 95 Prozent
 2888	pol_welt	ki	Wofür steht die Abkürzung 'EU'?	Europäische Union
 2896	pol_diktatur	thema	Was ist das Gegenteil einer Diktatur?	Eine Demokratie
+2913	tiere	dazu (war 2)	Wie nennt man ein Lied, das einem nicht mehr aus dem Kopf geht?	Ohrwurm
+2924	tiere	dazu (war 2)	Welche Vögel fressen im Garten gern Blattläuse?	Meisen
 2936	tiere	ki	In welchem Gebiet Afrikas lebt der Westliche Flachlandgorilla hauptsächlich?	Im Kongobecken in Zentralafrika
 2944	tiere	ki	Warum sind Orcas wichtig fürs Gleichgewicht im Meer?	Weil sie als Spitzenjäger das Ökosystem im Gleichgewicht halten
 2977	pol_kommunismus	thema	Wer war Karl Marx?	Ein Denker, der neue Ideen über eine gerechte Gesellschaft hatte
@@ -72,11 +107,13 @@ nr	thema	grund	frage	antwort
 3187	tiere	ki	Welche Krakenart ist für ihr starkes Gift bekannt?	Der Blaugeringelte Krake
 3215	tiere	ki	Was unterscheidet ein Wildschwein optisch meist deutlich von einem rosa Hausschwein?	Das dunkle, borstige Fell des Wildschweins
 3262	tiere	ki	Wie lange dauert es ungefähr, bis sich eine Kaulquappe zum fertigen Frosch entwickelt hat?	Einige Wochen bis wenige Monate
+3290	natur	dazu (war 2)	Wozu dienen Jahresringe in einem Baumstamm?	Sie zeigen das Alter des Baumes
 3325	tiere	ki	Von welcher Wildente stammt die Hausente ab?	Von der Stockente
 3372	tiere	ki	Warum sind viele Seepferdchen Arten heute bedroht?	Sie werden gefangen und als Souvenirs oder Medizin verkauft
 3426	pol_kommunismus	thema	In welchem Jahr wurden Ost- und Westdeutschland wieder ein Land?	1990
 3525	tiere	ki	Welche besondere Eigenschaft wird dem Karpfen oft nachgesagt?	Er gilt als besonders robust und anpassungsfähig
 3527	tiere	ki	Wie verhalten sich Gorillas normalerweise innerhalb ihrer eigenen Gruppe?	Meist friedlich und sozial
+3589	tiere	dazu (war 2)	Welche Farbe haben die Flügeldecken des Maikäfers meistens?	Braun
 3623	pol_kommunismus	thema	Was bedeuten Hammer und Sichel auf kommunistischen Flaggen?	Sie stehen für Arbeiter und Bauern
 3643	tiere	ki	Wie bezeichnet man die Zeit, in der sich Seehunde paaren?	Paarungszeit im Sommer
 3652	tiere	jahr/prozent	Wie viel wiegt ein erwachsenes Meerschweinchen ungefähr?	Etwa 700 bis 1200 Gramm
@@ -97,12 +134,14 @@ nr	thema	grund	frage	antwort
 4277	pol_welt	fachwort	Was ist das CERN bei Genf?	Ein Forschungszentrum, in dem Länder gemeinsam die Physik erforschen
 4288	tiere	jahr/prozent	Wie viele verschiedene Quallenarten gibt es ungefähr?	Über 2000
 4370	tiere	ki	Welches Land gilt als die eigentliche Heimat aller wildlebenden Pandas?	China
+4541	tiere	dazu (war 3)	Über welche Barriere fliegen viele europäische Zugvögel auf dem Weg nach Afrika?	Die Sahara
 4567	pol_welt	fachwort	Welche Organisation kümmert sich besonders um die Gesundheit von Menschen auf der ganzen Welt?	WHO
 4599	pol_kommunismus	thema	Was geschah oft mit Bauernhöfen in kommunistischen Ländern?	Sie wurden zu grossen staatlichen Höfen zusammengelegt
 4619	tiere	ki	Woraus besteht der Körper der Kreuzspinne hauptsächlich?	Aus zwei Teilen, Vorderkörper und Hinterleib
 4668	tiere	ki	Woher stammt die bekannte Rasse des Zwergesels ursprünglich?	Von der Insel Sardinien
 4669	pol_kommunismus	thema	Wer regierte Kuba viele Jahrzehnte lang als kommunistischer Anführer?	Fidel Castro
 4694	tiere	ki	Welche Forellenart gilt in der Schweiz als besonders selten und geschützt?	Die Seeforelle
+4707	tiere	dazu (war 2)	Wie viele Flügel hat eine Libelle?	Vier
 4823	tiere	ki	Wie kommunizieren Blauwale über weite Entfernungen?	Mit sehr tiefen Lauten
 4910	tiere	ki	Wie heisst der wissenschaftliche Name des Haussperlings?	Passer domesticus
 5017	pol_kommunismus	thema	In welchem Jahr fiel die Berliner Mauer?	1989
@@ -119,6 +158,7 @@ nr	thema	grund	frage	antwort
 5459	tiere	ki	Wieso gelten Höckerschwäne oft als Symbol für Eleganz?	wegen ihrer ruhigen, anmutigen Bewegungen auf dem Wasser
 5514	pol_diktatur	thema	Was bedeutet Meinungsfreiheit?	Man darf offen sagen, was man denkt.
 5615	tiere	fachwort	In einer alten Geschichte wird von riesigen Heuschreckenschwärmen erzählt, die über Ägypten kamen. Wie nennt man so ein grosses Ereignis?	Eine Heuschreckenplage
+5883	tiere	dazu (war 2)	Wie viele Beine hat eine Libelle?	Sechs
 6116	pol_diktatur	thema	Was macht eine Geheimpolizei in einer Diktatur?	Sie beobachtet heimlich Menschen, die anders denken.
 6231	tiere	ki	Was fressen Rehe im Vergleich zu Kühen eher: alles oder ausgewählte, feine Pflanzen?	Sie wählen gezielt feine, nährstoffreiche Pflanzenteile aus
 6283	tiere	ki	Wie schnell kann aus einem Ei eine fertige Stubenfliege werden?	Innerhalb von wenigen Wochen
@@ -128,17 +168,21 @@ nr	thema	grund	frage	antwort
 6448	pol_welt	fachwort	Was ist eine Delegation bei der UNO?	Eine Gruppe von Personen, die ein Land bei Treffen vertritt
 6521	tiere	ki	Wie heisst die Waldmaus auf Latein, ihr wissenschaftlicher Name?	Apodemus sylvaticus
 6542	pol_kommunismus	thema	Welches Land wurde nach einem langen Krieg unter kommunistischer Führung vereint?	Vietnam
+6588	tiere	dazu (war 2)	Was ist ein bekanntes Kinderlied über den Maikäfer?	Maikäfer flieg
 6643	geld	ki	Was bedeutet 'Geld spenden'?	Geld freiwillig an jemanden geben, der es braucht, ohne etwas dafür zu verlangen
 6784	tiere	ki	Wie wird der Fuchs oft in Geschichten und Sprichwörtern beschrieben?	Als besonders schlau und listig
+6798	tiere	dazu (war 2)	Welche Zähne des Bibers wachsen ein Leben lang nach?	Die Schneidezähne
 6916	tiere	ki	Wie nennt man das Verhalten, bei dem der Höckerschwan seine Flügel wie ein Segel über den Rücken hebt?	Imponierschwimmen
 6950	tiere	ki	Wie viele verschiedene Entwicklungsstadien durchläuft ein Marienkäfer von Ei bis fertigem Käfer?	Vier: Ei, Larve, Puppe, Käfer
 7031	tiere	ki	Wie leben erwachsene Keiler meistens ausserhalb der Paarungszeit?	Einzelgängerisch
 7034	tiere	ki	Wie heisst die Amsel auf Lateinisch, also ihr wissenschaftlicher Name?	Turdus merula
+7075	tiere	dazu (war 2)	Wie nennt man den Bau eines Fischotters?	Burg
 7115	tiere	ki	In welchem Land Südamerikas werden Meerschweinchen bis heute traditionell auch als Nutztiere gehalten?	In Peru
 7178	tiere	ki	Was benutzt die Qualle als Mund und gleichzeitig als Ausgang?	Eine einzige Körperöffnung
 7205	tiere	ki	Wie verständigen sich Storch-Paare, da sie nicht singen können?	durch Klappern und Körperhaltung
 7299	tiere	ki	Wozu werden speziell trainierte Trüffelschweine eingesetzt?	Um versteckte Trüffelpilze im Boden zu finden
 7384	pol_kommunismus	thema	Wie hiess das Militärbündnis der kommunistischen Staaten im Kalten Krieg?	Warschauer Pakt
+7488	tiere	dazu (war 2)	Wie viele Beine hat ein Maikäfer?	Sechs
 7492	pol_welt	heikel	In welchem Jahr wurde die UNO gegründet?	1945
 7556	tiere	ki	Wie verhält sich die Wirbelsäule des Geparden beim schnellen Rennen?	Sie ist sehr beweglich und krümmt sich stark
 7658	tiere	jahr/prozent	In welcher Höhe in den Alpen kann man Grasfrösche noch finden?	Sogar auf über 2000 Metern
@@ -161,6 +205,7 @@ nr	thema	grund	frage	antwort
 8755	pol_diktatur	thema	Was passiert oft, wenn ein Diktator stirbt?	Oft übernimmt ein Familienmitglied die Macht.
 8768	tiere	ki	Welche Farbe hat das Gefieder einer typischen Graugans hauptsächlich?	Graubraun
 8784	tiere	ki	Wie heisst der wissenschaftliche Name der Weinbergschnecke?	Helix pomatia
+8788	tiere	dazu (war 2)	Ist der Braunbär ein guter Schwimmer?	Ja, er schwimmt gerne und gut
 8879	tiere	ki	Wie lautet der wissenschaftliche Name des Wellensittichs?	Melopsittacus undulatus
 9029	pol_kommunismus	thema	Wie hiess das bekannte kleine Auto aus der DDR?	Trabant
 9075	tiere	ki	Wie viele Arten von Geparden gibt es nach heutiger Einteilung?	Nur eine Art mit mehreren Unterarten
@@ -177,6 +222,9 @@ nr	thema	grund	frage	antwort
 9608	tiere	ki	Wie nennt man die Fähigkeit des Kraken, sich perfekt an seine Umgebung anzupassen?	Tarnung
 9616	tiere	ki	Wie lautet der wissenschaftliche Name des Tigers?	Panthera tigris
 9637	tiere	fachwort	Wie tragen Blattschneiderameisen ihre Blattstücke?	Über dem Kopf
+9655	tiere	dazu (war 2)	Welche Farbe hat das Fleisch von Wildlachs meistens?	Rosa bis orange
+11974	tiere	dazu (war 3)	Wer trägt beim Seepferdchen die Eier aus?	Das Männchen
+12474	tiere	dazu (war 3)	Wie viele Augen hat eine Vogelspinne?	Acht
 12915	g_urzeit	ki	Wie viele Tier- und Pflanzenarten starben damals ungefähr aus?	etwa drei von vier Arten
 12926	g_urzeit	ki	Woher wissen Forscher, dass damals ein Asteroid einschlug?	aus Spuren im Gestein
 12972	g_urzeit	fachwort	Was gab es in der Steinzeit noch NICHT?	Die Schrift
@@ -214,9 +262,19 @@ nr	thema	grund	frage	antwort
 13601	g_mittelalter	jahr/prozent	Für welches Land segelte Kolumbus 1492?	Spanien
 13609	g_mittelalter	jahr/prozent	Wo landete Kolumbus 1492 zuerst?	Auf einer Insel der Bahamas
 13637	g_mittelalter	ki	Wie lange dauerte die erste Fahrt um die Welt ungefähr?	Rund drei Jahre
+13832	g_urzeit	dazu (war 2)	Von welchem Wildtier stammt das Hausschwein ab?	Vom Wildschwein
+14100	g_antike	dazu (war 2)	Wer war der oberste Gott der Griechen?	Zeus
+14268	g_mittelalter	dazu (war 2)	Wie heissen die schnellen, schmalen Schiffe der Wikinger?	Langschiffe
+14282	g_mittelalter	dazu (war 2)	Wie heissen die Mauerzacken oben auf einer Burgmauer?	Zinnen
+14285	g_mittelalter	dazu (war 2)	An welchem See liegt das bekannte Schloss Chillon?	Genfersee
+14380	ch_geschichte	dazu (war 2)	Ist Wilhelm Tell eine Person, die nachweislich gelebt hat?	Nein, er ist eine Sagenfigur
+14384	ch_geschichte	dazu (war 2)	In welchem Ort spielt laut Sage der Apfelschuss?	Altdorf
+14611	g_mittelalter	dazu (war 2)	Welches Getränk stellten die Maya schon früh aus den Bohnen einer Pflanze her?	Kakao
 17060	geo_welt	jahr/prozent	Welches Land hat seit 2023 die meisten Einwohner der Welt?	Indien
 17065	geo_welt	jahr/prozent	Wer kam im Jahr 1492 mit Schiffen nach Amerika?	Christoph Kolumbus
 17103	geo_welt	jahr/prozent	Wer erreichte im Jahr 1911 als Erster den Südpol?	Roald Amundsen
+17123	geo_welt	dazu (war 2)	Wie heisst die Hauptstadt von Japan?	Tokio
+17135	geo_welt	dazu (war 2)	Wie heisst der höchste Berg der Alpen?	Mont Blanc
 17315	weltall	jahr/prozent	Wer betrat 1969 als erster Mensch den Mond?	Neil Armstrong
 17317	weltall	jahr/prozent	Welches Land hatte bei der ersten Mondlandung 1969 ein eigenes Experiment dabei?	Die Schweiz
 17359	weltall	jahr/prozent	Womit wurde Uranus im Jahr 1781 entdeckt?	Mit einem Fernrohr
@@ -228,12 +286,14 @@ nr	thema	grund	frage	antwort
 17397	weltall	fachwort	Kann man die ISS von der Schweiz aus mit blossen Augen sehen?	Ja, als heller Lichtpunkt
 17398	weltall	fachwort	Woher bekommt die ISS ihren Strom?	Von Solarzellen
 17933	natur	jahr/prozent	Wie viel der Fläche der Schweiz ist etwa mit Wald bedeckt (Stand 2025)?	Ein Drittel
+18007	natur	dazu (war 2)	Womit locken viele Blüten Bienen an?	mit Nektar und auffälligen Farben
 18229	erde	fachwort	Welche Farbe kommt im Regenbogen NICHT vor?	Braun
 18269	erde	jahr/prozent	Welche heutige Schweizer Stadt wurde im Jahr 1356 von einem starken Erdbeben zerstört?	Basel
 18518	schweiz	fachwort	Welche grosse Organisation hat einen wichtigen Sitz in Genf?	Die UNO
 18535	schweiz	jahr/prozent	Wie lang ist der Rhein ungefähr?	Etwa 1200 Kilometer
 18553	schweiz	jahr/prozent	Welche ist die grösste Schweizer Banknote?	1000 Franken
 18566	schweiz	jahr/prozent	An welches Jahr erinnert der 1. August?	1291
+18589	schweiz	dazu (war 2)	Welche Stadt liegt an der Limmat?	Zürich
 18786	physik	ki	In welcher Einheit zeigt der Tacho im Auto die Geschwindigkeit an?	Kilometer pro Stunde
 18801	physik	fachwort	Welcher Gegenstand wird von einem Magneten NICHT angezogen?	Eine Münze aus Kupfer
 18838	physik	ki	Welches Kraftwerk nutzt die Kraft des Wassers?	Das Wasserkraftwerk
@@ -261,10 +321,26 @@ nr	thema	grund	frage	antwort
 19947	wirtschaft	jahr/prozent	Welche ist die Schweizer Banknote mit dem grössten Wert?	1000 Franken
 19956	wirtschaft	jahr/prozent	Seit welchem Jahr gibt es den Schweizer Franken?	Seit 1850
 20022	wirtschaft	fachwort	Wie heisst die Geheimzahl für die Bankkarte?	PIN
+20104	wirtschaft	dazu (war 2)	Wie viele Rappen ergeben einen Franken?	100
 20222	medien	fachwort	Wie heisst ein Funknetz, mit dem Geräte zu Hause ins Internet kommen?	WLAN
+20686	sprache	dazu (war 2)	Welches Wort gehört zur Wortfamilie von «spielen»?	Spielplatz
+20698	sprache	dazu (war 2)	Was bedeutet das Sprichwort «Morgenstund hat Gold im Mund»?	Früh aufstehen lohnt sich.
+20912	fremdsprachen	dazu (war 2)	Was heisst «Velo» auf Englisch?	bicycle
+20913	fremdsprachen	dazu (war 2)	Was bedeutet das englische Wort «kitchen»?	Küche
+20914	fremdsprachen	dazu (war 2)	Was heisst «Schmetterling» auf Englisch?	butterfly
+20917	fremdsprachen	dazu (war 2)	Was heisst «Wolke» auf Englisch?	cloud
+20920	fremdsprachen	dazu (war 2)	Was heisst «Rüebli» auf Englisch?	carrot
+20923	fremdsprachen	dazu (war 2)	Was heisst «Freitag» auf Französisch?	vendredi
+20924	fremdsprachen	dazu (war 2)	Was bedeutet das französische Wort «la fenêtre»?	das Fenster
+20925	fremdsprachen	dazu (war 2)	Was heisst «rot» auf Französisch?	rouge
+20927	fremdsprachen	dazu (war 2)	Was heisst «Hund» auf Französisch?	le chien
+20941	fremdsprachen	dazu (war 2)	Was bedeutet das französische Fragewort «pourquoi»?	warum
+21007	fremdsprachen	dazu (war 2)	Was sagt man auf Englisch, wenn jemand niest?	Bless you!
+21008	fremdsprachen	dazu (war 2)	Was bedeutet «À bientôt !»?	Bis bald!
 21166	pol_demokratie	jahr/prozent	Seit welchem Jahr dürfen Frauen in der Schweiz auf Bundesebene wählen und abstimmen?	1971
 21180	pol_demokratie	jahr/prozent	Wie viele Gemeinden hat die Schweiz ungefähr (Stand 2026)?	Rund 2100
 21194	pol_demokratie	fachwort	Welche Organisation setzt sich weltweit für Kinder ein?	UNICEF
+21271	pol_demokratie	dazu (war 2)	Wie viele Sterne hat die Europaflagge?	12
 21403	kunst	ki	Wie nennt man Geschichten in gezeichneten Bildern mit Sprechblasen?	Comic
 21446	kunst	ki	Wie heisst der Kunststil von Picasso, bei dem Gesichter aus eckigen Formen bestehen?	Kubismus
 21742	musik	ki	Welche typische Schweizer Gesangsart wechselt schnell zwischen tiefer und hoher Stimme?	Jodeln
@@ -277,6 +353,7 @@ nr	thema	grund	frage	antwort
 22038	sport	jahr/prozent	Wer hält den Weltrekord im 100-Meter-Lauf der Männer (Stand 2026)?	Usain Bolt
 22044	sport	jahr/prozent	Welche Schweizer Sprinterin wurde 2022 Europameisterin über 200 Meter?	Mujinga Kambundji
 22049	sport	jahr/prozent	In welchem Land fanden die Olympischen Winterspiele 2026 statt?	In Italien
+22098	sport	dazu (war 2)	Wie viele Spieler einer Mannschaft stehen beim Fussball gleichzeitig auf dem Feld?	11
 22296	unterhaltung	ki	Wie heissen die drei Neffen von Donald Duck?	Tick, Trick und Track
 22307	unterhaltung	jahr/prozent	Was war 1995 besonders am Film «Toy Story»?	Ganz am Computer gemacht
 22316	unterhaltung	fachwort	Was ist WALL-E im gleichnamigen Film?	Ein Roboter
@@ -284,7 +361,15 @@ nr	thema	grund	frage	antwort
 22338	unterhaltung	fachwort	Was zeigt die PEGI-Zahl auf einer Spielpackung?	Das geeignete Alter
 22339	unterhaltung	jahr/prozent	Welche Sportart zeigt das frühe Videospiel «Pong» von 1972?	Tischtennis
 22350	unterhaltung	jahr/prozent	Welche Konsole kam 2025 als Nachfolgerin der Nintendo Switch heraus?	Nintendo Switch 2
+22404	unterhaltung	dazu (war 2)	Wie heisst die Schwester von Elsa im Film «Die Eiskönigin»?	Anna
+22407	unterhaltung	dazu (war 2)	Was für ein Tier ist Gromit in den Knetfilmen «Wallace & Gromit»?	Ein Hund
+22432	unterhaltung	dazu (war 2)	Was für ein Tier ist die Schweizer Comicfigur Globi?	Ein Papagei
+22441	unterhaltung	dazu (war 2)	Welchen Beruf hat die Spielfigur Mario ursprünglich?	Klempner
 22631	allgemein	jahr/prozent	Welches Gebäude ist das höchste der Welt (Stand 2026)?	Burj Khalifa
+22686	allgemein	dazu (war 2)	Welches Landtier kann am schnellsten rennen?	Der Gepard
+22707	allgemein	dazu (war 2)	Was werfen sich die Menschen beim indischen Fest Holi gegenseitig zu?	Farbpulver
+22709	allgemein	dazu (war 2)	Was bewundern die Menschen in Japan beim Frühlingsbrauch Hanami?	Die Kirschblüten
+22730	allgemein	dazu (war 2)	Heute ist Mittwoch. Welcher Wochentag ist in 10 Tagen?	Samstag
 22864	g_urzeit	ki	Mit welchem Dinosaurier wurde ein Velociraptor im Kampf versteinert gefunden?	Mit einem Protoceratops
 22887	g_urzeit	heikel	Was geschah mit den ersten Spinosaurus-Knochen in einem Museum in München?	Sie wurden im Krieg zerstört
 22909	g_urzeit	jahr/prozent	In welcher Wüste wurden 1923 berühmte Nester mit Dinosaurier-Eiern entdeckt?	In der Wüste Gobi
@@ -936,6 +1021,9 @@ nr	thema	grund	frage	antwort
 26938	ch_geschichte	jahr/prozent	In welchem Jahr fand die letzte Fête des Vignerons statt (Stand 2026)?	2019
 26941	ch_geschichte	jahr/prozent	Auf welcher wichtigen Liste steht die Fête des Vignerons seit 2016?	Immaterielles Kulturerbe der UNESCO
 26974	ch_geschichte	jahr/prozent	In welchem Jahr fand das erste Unspunnenfest statt?	1805
+29779	ch_geschichte	dazu (war 2)	Wer soll die Teufelsbrücke gemäss der Sage gebaut haben?	der Teufel
+29786	ch_geschichte	dazu (war 2)	Nach welchem Tier soll Bern der Sage nach benannt sein?	Bär
+30809	g_urzeit	dazu (war 3)	Welches Tier gilt als das älteste Haustier des Menschen?	Der Hund
 33690	pol_demokratie	fachwort	Was hat ein Schiedsrichterassistent im Fussball in der Hand?	Eine Fahne
 33691	pol_demokratie	fachwort	Wie viele Schiedsrichterassistenten an der Seitenlinie gibt es bei einem grossen Fussballspiel?	Zwei
 33698	pol_demokratie	jahr/prozent	Bei welcher Fussball-Weltmeisterschaft wurden Gelbe und Rote Karten zum ersten Mal gezeigt?	1970 in Mexiko
@@ -2706,6 +2794,8 @@ nr	thema	grund	frage	antwort
 38237	pol_kommunismus	thema	Welche grosse Feier mit Soldaten findet meist am 9. Mai auf dem Roten Platz statt?	Die Siegesparade
 38238	pol_kommunismus	thema	Welches grosse alte Kaufhaus steht am Roten Platz?	Das GUM
 38239	pol_kommunismus	thema	Wozu gehören der Rote Platz und der Kreml seit 1990?	Zum UNESCO-Welterbe
+38938	pol_demokratie	dazu (war 2)	Welcher Kanton trägt das Kürzel TI?	Tessin
+39823	pol_demokratie	dazu (war 2)	Wer sitzt in einem Kinderparlament einer Schweizer Stadt?	Kinder aus dem Ort
 43991	pol_welt	ki	Wie heisst das Schweizer Amt, das für den Zoll zuständig ist?	Bundesamt für Zoll und Grenzsicherheit
 44006	pol_welt	fachwort	Welches riesige Schloss liess König Ludwig XIV. in Frankreich bauen?	Versailles
 44019	pol_welt	ki	Welches panierte Fleischgericht ist typisch für Österreich?	Wiener Schnitzel
@@ -3146,6 +3236,11 @@ nr	thema	grund	frage	antwort
 52610	geo_schweiz	fachwort	Wie heisst die SBB auf Französisch abgekürzt?	CFF
 52616	geo_schweiz	jahr/prozent	In welchem Jahr wurde die SBB gegründet?	1902
 52621	geo_schweiz	jahr/prozent	Welche Note hat den grössten Wert in der Schweiz?	1000 Franken
+54116	geo_welt	dazu (war 2)	Welcher Wal mit einem langen, gedrehten Stosszahn lebt im Arktischen Ozean?	Narwal
+54434	geo_welt	dazu (war 2)	Woher kommt ein Westwind?	Aus Westen
+54464	geo_welt	dazu (war 2)	Wie nennt man mittelhohe Wolken aus vielen kleinen Ballen, die wie eine Schafherde aussehen?	Schäfchenwolken
+54724	geo_welt	dazu (war 2)	Welcher Schweizer Kanton liegt am weitesten im Süden?	Tessin
+54797	geo_welt	dazu (war 2)	Welcher Stern zeigt am Nachthimmel ungefähr nach Norden?	Polarstern
 55123	geo_welt	fachwort	Wo solltest du bei einem Gewitter NICHT stehen?	Unter einem einzelnen Baum
 55173	geo_welt	ki	In welchen Monaten ist im Atlantik Hurrikanzeit?	Juni bis November
 55198	geo_welt	jahr/prozent	In welchem Jahr wurde die Freiheitsstatue eingeweiht?	1886
@@ -3161,6 +3256,14 @@ nr	thema	grund	frage	antwort
 55281	geo_welt	ki	Warum fehlt heute ein Teil der Aussenwand des Kolosseums?	Wegen Erdbeben und Steinraub
 55283	geo_welt	ki	Aus welchem hellen Kalkstein ist die Aussenwand des Kolosseums gebaut?	Travertin
 55331	geo_welt	jahr/prozent	Wo gab es ab 1848 einen berühmten Goldrausch?	In Kalifornien
+56137	geo_europa	dazu (war 2)	Womit fliegen viele Touristen frühmorgens über Kappadokien?	Heissluftballon
+57070	geo_schweiz	dazu (war 2)	Was steht auf dem mittleren Felsen im Rheinfall?	Eine Schweizerfahne
+57250	geo_schweiz	dazu (war 2)	Welches Tier ist das Wappentier der Stadt Bern?	Der Bär
+57251	geo_schweiz	dazu (war 2)	Wie heisst der Schneemann, dessen Kopf am Zürcher Sechseläuten explodiert?	Böögg
+57253	geo_schweiz	dazu (war 2)	An welchem Fluss liegt die Stadt Basel?	Rhein
+57319	geo_schweiz	dazu (war 2)	Wie heisst das Basler Gebäck aus Honig, Mandeln und Gewürzen?	Läckerli
+57442	geo_schweiz	dazu (war 2)	Wie nennt man eine Seilbahn mit vielen kleinen Kabinen, die ständig im Kreis fahren?	Gondelbahn
+57773	geo_welt	dazu (war 2)	Welches Tier frisst mit seiner langen Zunge die Blätter von Dornakazien?	Giraffe
 63098	rel_christentum	ki	Welcher römische Kaiser befahl nach der Bibel die Volkszählung?	Augustus
 63110	rel_christentum	ki	Aus der Familie welches Königs stammte Josef nach der Bibel?	David
 63113	rel_christentum	ki	In welchen Ort zog Josef mit seiner Familie nach der Zeit in Ägypten?	Nach Nazareth
@@ -3288,6 +3391,16 @@ nr	thema	grund	frage	antwort
 65207	rel_andere	jahr/prozent	In welcher Stadt steht die erste Moschee der Schweiz von 1963?	Zürich
 65228	rel_andere	ki	In welcher Stadt liegt das Grab des Propheten Mohammed?	Medina
 65245	rel_andere	ki	Welcher Reformator predigte in der Kathedrale Saint-Pierre in Genf?	Johannes Calvin
+65467	rel_christentum	dazu (war 2)	Womit schrieben die Mönche im Mittelalter meistens?	Mit einer Vogelfeder
+65776	rel_christentum	dazu (war 2)	Womit beginnt das Kirchenjahr?	Mit dem 1. Advent
+66084	rel_islam	dazu (war 2)	Wie heisst der Engel Dschibril in der Bibel?	Gabriel
+66226	rel_islam	dazu (war 2)	Wie viel ist die Ziffer 3 in der Zahl 352 wert?	300
+66397	rel_islam	dazu (war 2)	Müssen kleine Kinder im Ramadan fasten?	Nein, sie sind nicht verpflichtet
+66677	rel_andere	dazu (war 2)	Woraus streuen tibetische Mönche besondere Mandalas?	Aus farbigem Sand
+66721	rel_andere	dazu (war 2)	Was tragen viele Sikh-Männer, um ihr ungeschnittenes Haar zu bedecken?	Einen Turban
+66906	rel_andere	dazu (war 2)	Welche Kleidung tragen viele Kinder an Shichi-Go-San?	Einen Kimono
+67042	rel_andere	dazu (war 2)	Wofür war Inti bei den Inka der Gott?	Für die Sonne
+67398	rel_islam	dazu (war 2)	Welches Tier begleitet Nasreddin Hodscha in vielen Geschichten?	Ein Esel
 69604	pol_demokratie	ki	Wie nennt man eine Gemeindeversammlung, die zusätzlich für ein dringendes Thema stattfindet?	Ausserordentliche Gemeindeversammlung
 69631	pol_demokratie	fachwort	Wer hängt in vielen Dörfern die Weihnachtsbeleuchtung auf?	Der Werkhof
 69695	mathe	fachwort	Wie schreibt man «dreihundertfünfundzwanzig» als Zahl?	325
@@ -3298,25 +3411,56 @@ nr	thema	grund	frage	antwort
 70052	mathe	fachwort	Welche Zahl ist die römische Zahl III?	3
 70055	mathe	fachwort	Wie schreibt man die Zahl 12 mit römischen Zahlzeichen?	XII
 70058	mathe	fachwort	Welche Zahl ist die römische Zahl XIX?	19
+70180	mathe	dazu (war 2)	Wie viele Viertelstunden hat eine ganze Stunde?	4
 70908	sprache	fachwort	Welches dieser Wörter ist KEIN Verb?	Tasche
 70931	sprache	ki	Wie nennt man Wörter wie «der», «die» und «das»?	Artikel
 71111	sprache	ki	Aus welchen drei Teilen besteht eine Geschichte?	Einleitung, Hauptteil, Schluss
 71115	sprache	ki	Welche Wörter passen gut an den Anfang einer Geschichte?	Eines Tages
 71134	sprache	fachwort	In welcher Stadt steht die berühmte alte Stiftsbibliothek, die zum UNESCO-Welterbe gehört?	St. Gallen
+71223	sprache	dazu (war 2)	Welches Wort passt in «Lisa ist grösser ... Tom»?	als
+71228	sprache	dazu (war 2)	Welches Wort passt in «Morgen fahren wir ... Zürich»?	nach
+71233	sprache	dazu (war 2)	Welches Wort passt in «Wir treffen uns ... drei Uhr»?	um
+71237	sprache	dazu (war 2)	Welches Wort passt in «Kannst du ... bitte helfen»?	mir
+71290	sprache	dazu (war 2)	Wie schreibt man die Zahl 13 in Buchstaben?	dreizehn
+71302	sprache	dazu (war 2)	Was schreibt man in der Schweiz anstelle des Eszett?	ss
+71325	sprache	dazu (war 2)	Wie trennt man das Wort «Wasser» richtig?	Was-ser
+71329	sprache	dazu (war 2)	Wie trennt man das Wort «lachen» richtig?	la-chen
+71362	sprache	dazu (war 2)	Welches Verb passt am besten statt «sagen», wenn eine Figur sehr leise spricht?	flüstern
+71461	sprache	dazu (war 2)	Wie heisst das Haus, in dem Pippi Langstrumpf wohnt?	Villa Kunterbunt
+71517	sprache	dazu (war 2)	Was will Ursli im Bilderbuch «Schellen-Ursli» für den Umzug holen?	Eine grosse Glocke
+71520	sprache	dazu (war 2)	Was verschenkt der Regenbogenfisch im Bilderbuch von Marcus Pfister?	Seine glitzernden Schuppen
+71525	sprache	dazu (war 2)	Was sollten die Leute in Altdorf auf Befehl des Vogts grüssen?	Einen Hut auf einer Stange
+71526	sprache	dazu (war 2)	Mit welcher Waffe schiesst Tell den Apfel vom Kopf seines Sohnes?	Mit der Armbrust
+71528	sprache	dazu (war 2)	Wie heisst Tells Sohn, auf dessen Kopf der Apfel liegt?	Walter
 71959	englisch	ki	Wie lautet die Kurzform von «I am»?	I'm
 71961	englisch	ki	Wie lautet die Kurzform von «you are»?	you're
 71966	englisch	ki	Wie lautet die Kurzform von «I have got»?	I've got
+72177	englisch	dazu (war 2)	Wie heisst der Beruf Bäcker auf Englisch?	baker
+72217	englisch	dazu (war 2)	Welche Jahreszeit herrscht in Australien an Weihnachten?	Sommer
 72550	franzoesisch	ki	Welcher Artikel passt zu «maison» (Haus)?	la
 72591	franzoesisch	fachwort	Welche Uhrenstadt im Neuenburger Jura gehört zum UNESCO-Welterbe?	La Chaux-de-Fonds
 72634	franzoesisch	ki	Wie viel ist «vingt» plus «vingt»?	quarante
+72769	franzoesisch	dazu (war 2)	Du sagst: «Je voudrais un kilo de pommes.» Was möchtest du kaufen?	Äpfel
+72784	franzoesisch	dazu (war 2)	Du fragst: «Où est la gare ?» Was suchst du?	Den Bahnhof
+72810	franzoesisch	dazu (war 2)	Welches Fest ist auf Französisch «Pâques»?	Ostern
+73657	haushalt	dazu (war 2)	Was bedeutet eine Hand im Waschbottich-Symbol?	Nur von Hand waschen
+73685	haushalt	dazu (war 2)	Wohin bringt man abgelaufene Medikamente?	Zurück in die Apotheke
 73947	ethik	ki	Wie verhält sich eine faire Gewinnerin?	Sie bleibt freundlich
+74036	ethik	dazu (war 2)	Mit welchem Alter wird man in der Schweiz volljährig?	Mit 18 Jahren
+74047	ethik	dazu (war 2)	Drei Kinder teilen 12 Kekse gleichmässig auf. Wie viele Kekse bekommt jedes Kind?	4
+74209	ethik	dazu (war 2)	Wohin bringt man in der Schweiz oft Tiere, die kein Zuhause mehr haben?	ins Tierheim
 74465	informatik	jahr/prozent	Warum ist «1234» ein schlechtes Passwort?	Man errät es leicht
 74467	informatik	fachwort	Wie heisst ein kurzes Zahlen-Passwort für ein Handy?	PIN
 74470	informatik	fachwort	Wie heisst ein Netz ohne Kabel, mit dem man ins Internet kommt?	WLAN
 74480	informatik	fachwort	Was ist ein USB-Stick?	Ein kleiner Datenspeicher
+74507	informatik	dazu (war 2)	Welches Tier ist das bekannte Maskottchen von Scratch?	Eine Katze
 74804	sport	fachwort	Welche Organisation in der Schweiz hat die bekannten Baderegeln aufgestellt?	Die SLRG
 74805	sport	fachwort	Wie viele Baderegeln hat die SLRG?	6
 74860	sport	ki	Wo soll man auf der Piste nicht anhalten?	An engen oder unübersichtlichen Stellen
+74943	sport	dazu (war 2)	Was macht man bei der Rolle vorwärts mit dem Kopf?	Das Kinn zur Brust ziehen
+74952	sport	dazu (war 2)	Bei welchem Schwimmstil macht man mit den Beinen eine Schwunggrätsche wie ein Frosch?	Brust
+74984	sport	dazu (war 2)	Worauf wird beim Schwingen gekämpft?	Auf Sägemehl
+74986	sport	dazu (war 2)	Welcher Preis ist beim Eidgenössischen besonders berühmt?	Ein Muni
 75135	musik	ki	Welcher Notenschlüssel wird für tiefe Töne verwendet?	Bassschlüssel
 75136	musik	ki	Wie heissen die kurzen Linien über oder unter den fünf Notenlinien?	Hilfslinien
 75140	musik	ki	Welcher Ton steht beim Violinschlüssel auf der ersten Hilfslinie unter den fünf Linien?	C
@@ -3324,6 +3468,8 @@ nr	thema	grund	frage	antwort
 75193	musik	fachwort	In welcher Schweizer Stadt steht das Konzerthaus KKL direkt am See?	Luzern
 75472	kunst	jahr/prozent	Welcher deutsche Künstler malte sich im Jahr 1500 von vorne mit langen Locken?	Albrecht Dürer
 75484	kunst	jahr/prozent	In welchem Jahrhundert lebte Albert Anker hauptsächlich?	Im 19. Jahrhundert
+75813	kunst	dazu (war 2)	Wie viele Nadeln braucht man zum Häkeln?	eine
+75871	kunst	dazu (war 2)	Was soll man beim Bohren und Schleifen immer tragen, um die Augen zu schützen?	eine Schutzbrille
 76485	bilder	ki	Welches Schiff ist mit diesen Bildern gemeint?	Dampfschiff
 76645	bilder	ki	Welches Märchen zeigen diese Emojis?	Schneewittchen
 76662	bilder	ki	Welches Märchen zeigen diese Emojis?	Dornröschen
@@ -3597,6 +3743,7 @@ nr	thema	grund	frage	antwort
 84464	technik	fachwort	Welches englische Wort stand im Telegramm oft anstelle eines Punktes?	STOP
 84470	technik	fachwort	Was braucht ein Handy, damit man damit telefonieren kann?	Eine SIM-Karte
 84510	technik	fachwort	Welche riesigen Schüsseln stehen in Leuk im Wallis?	Antennen für Satellitenverbindungen
+84577	mathe	dazu (war 2)	Welche Note ist in den meisten Schweizer Schulen die beste?	6
 84610	informatik	ki	Was braucht eine Digitalkamera nicht mehr, im Gegensatz zu einer alten Kamera?	Einen Film
 84620	informatik	ki	Auf einem Blitzfoto leuchten die Augen rot. Welche Funktion hilft?	Rote-Augen-Korrektur
 84621	informatik	ki	Mit welchem Befehl macht man den letzten Bearbeitungsschritt ungeschehen?	Rückgängig
@@ -3702,6 +3849,8 @@ nr	thema	grund	frage	antwort
 86959	physik	ki	Welche Energie nutzt ein Windrad?	Die Energie des Windes
 86980	physik	fachwort	In welcher Einheit steht die Energie auf Lebensmittelpackungen?	In Kilokalorien
 86985	physik	ki	Welche Nährstoffe in Brot, Teigwaren und Kartoffeln liefern dem Körper Energie?	Kohlenhydrate
+87381	technik	dazu (war 2)	Welches Musikinstrument spielt Musik, wenn man an einer Kurbel dreht?	Drehorgel
+87438	technik	dazu (war 2)	Wie betätigt man an einem Velo eine Rücktrittbremse?	Man tritt die Pedale rückwärts
 87662	natur	ki	Warum bleibt der Boden unter einem Moospolster lange feucht?	Das Moos deckt ihn zu und speichert Wasser
 87676	natur	ki	Wogegen wurde der Wurzelstock des Wurmfarns früher als Heilmittel verwendet?	Gegen Bandwürmer
 87696	natur	ki	Welchen Boden mag die Hirschzunge besonders?	Kalkhaltigen Boden
@@ -3732,10 +3881,13 @@ nr	thema	grund	frage	antwort
 88789	wissenschaft	jahr/prozent	Wer entdeckte 1940 die Höhle von Lascaux?	Ein paar Jugendliche
 88796	wissenschaft	jahr/prozent	Was fanden Bauarbeiter im Winter 1961/62 in Kaiseraugst?	Einen römischen Silberschatz
 88799	wissenschaft	jahr/prozent	Welcher Goldschatz der Kelten wurde 1962 im Kanton Uri gefunden?	Goldschatz von Erstfeld
+89229	chemie	dazu (war 2)	Welche Farbe zeigt Rotkohlsaft, wenn man Essig hineingibt?	Rot
 89694	wissenschaft	jahr/prozent	Bei welcher Regenwahrscheinlichkeit nimmst du besser einen Schirm mit?	90 Prozent
 89766	wissenschaft	ki	Welches Thermometer zeigt die höchste und die tiefste Temperatur eines Tages?	Das Minimum-Maximum-Thermometer
 89771	koerper	ki	Durch welche Muskelplatte zwischen Brust und Bauch führt die Speiseröhre?	Durch das Zwerchfell
 89791	koerper	ki	Welcher Knochen bewegt sich beim Kauen auf und ab?	Der Unterkiefer
+90261	chemie	dazu (war 2)	Was legt man bei einem kleinen Pfannenbrand auf die Pfanne, um ihn zu ersticken?	Einen passenden Deckel
+90536	informatik	dazu (war 2)	Wie geht die Buchstabenfolge A, C, E, G, ... weiter?	I
 90656	wissenschaft	jahr/prozent	Wie viel der Erdoberfläche ist etwa mit Meer bedeckt?	Etwa 70 Prozent
 90663	wissenschaft	jahr/prozent	Welcher Schweizer tauchte 1960 als einer der Ersten zum tiefsten Punkt im Meer?	Jacques Piccard
 90677	wissenschaft	jahr/prozent	Wie hiess das Tauchboot, mit dem 1960 zum tiefsten Punkt getaucht wurde?	Trieste
@@ -3749,6 +3901,8 @@ nr	thema	grund	frage	antwort
 90824	koerper	ki	Welche Hülsenfrucht ist die Hauptzutat von Hummus?	Kichererbse
 90831	physik	ki	Welcher Notenname folgt in der deutschen Notenschrift auf das A?	H
 90836	physik	ki	Wie heisst der Abstand von einem C zum nächsten höheren C?	Oktave
+91187	chemie	dazu (war 2)	Was tut man im Labor mit langen Haaren?	Man bindet sie zusammen
+91351	informatik	dazu (war 2)	Was solltest du einem Chatbot nie verraten?	Deine Passwörter
 91461	natur	ki	Wie viele Blättchen stehen bei der Kanadischen Wasserpest meist rund um den Stängel auf gleicher Höhe?	3
 91513	wissenschaft	jahr/prozent	Rund wie viele Gletscher gibt es in der Schweiz?	Rund 1400
 91517	wissenschaft	jahr/prozent	Zu welchem besonderen Schutzgebiet gehört der Aletschgletscher seit 2001?	Zum UNESCO-Welterbe
@@ -4059,10 +4213,57 @@ nr	thema	grund	frage	antwort
 103824	wissenschaft	jahr/prozent	Seit welchem Jahr gibt es den Wettbewerb «Schweizer Jugend forscht»?	Seit 1967
 103827	wissenschaft	ki	Welches ist die beste Bewertung beim Wettbewerb «Schweizer Jugend forscht»?	Hervorragend
 103832	wissenschaft	ki	Wie nennt man ein erstes Probemodell einer Erfindung?	Prototyp
+104103	natur	dazu (war 2)	Wie heisst Glucose im Alltag auch?	Traubenzucker
+104794	physik	dazu (war 2)	Was passiert mit stehenden Fahrgästen, wenn ein Bus plötzlich bremst?	Sie kippen nach vorne
+104795	physik	dazu (war 2)	Was passiert mit stehenden Fahrgästen, wenn ein Bus ruckartig anfährt?	Sie kippen nach hinten
+104976	wissenschaft	dazu (war 2)	Wo soll Archimedes der Legende nach «Heureka» gerufen haben?	Im Bad
+105695	natur	dazu (war 2)	Wie heisst die rote Scheinfrucht der Wildrose?	Hagebutte
+106313	koerper	dazu (war 2)	Welches Getränk liefert den Bakterien im Zahnbelag keinen Zucker?	Wasser
+106505	natur	dazu (war 2)	Wie schützt ein Wald vor Lawinen?	Die Bäume halten die Schneedecke fest
+107159	physik	dazu (war 2)	Welches Meerestier hat viele Saugnäpfe an seinen Armen?	Der Krake
+107249	natur	dazu (war 2)	Welcher Käse hat eine weisse Rinde aus Edelschimmel?	Camembert
+107278	natur	dazu (war 2)	Wo wachsen Trüffeln?	Unter der Erde
+107279	natur	dazu (war 2)	Mit welchen Tieren sucht man heute meistens Trüffeln?	Mit Hunden
+108192	wissenschaft	dazu (war 2)	Welcher einzellige Pilz lässt Brotteig aufgehen?	Hefe
+108265	koerper	dazu (war 2)	Wie schützt man sich am besten vor ansteckenden Durchfallerregern?	Gründlich Hände waschen
+108643	koerper	dazu (war 2)	Woraus besteht Urin zum grössten Teil?	Wasser
+108646	koerper	dazu (war 2)	Was zeigt ein sehr dunkelgelber Urin oft an?	dass man zu wenig getrunken hat
+109296	wissenschaft	dazu (war 2)	Warum wechselt das Schneehuhn im Winter sein Gefieder zu Weiss?	Damit es im Schnee getarnt ist
+109394	koerper	dazu (war 2)	Wo taut man gefrorenes Fleisch am sichersten auf?	im Kühlschrank
+109397	koerper	dazu (war 2)	Was macht man mit einem Brot, auf dem Schimmel wächst?	ganz wegwerfen
+109465	koerper	dazu (war 2)	Wie soll man einen Schulranzen tragen?	mit beiden Trägern auf dem Rücken
+110327	physik	dazu (war 2)	Welches Tier hört deutlich höhere Töne als der Mensch?	Der Hund
+111115	physik	dazu (war 2)	Warum sollte man im Schnee in den Bergen eine Sonnenbrille tragen?	Schnee wirft sehr viel Sonnenlicht zurück
+111125	physik	dazu (war 2)	Welche Farbe haben die Rückstrahler hinten an Autos und Velos?	Rot
+111267	wissenschaft	dazu (war 2)	Wie viele Menschenarten leben heute auf der Erde?	Eine
+111979	natur	dazu (war 2)	Welches Säugetier frisst im Garten Schnecken, Käfer und Würmer und hält Winterschlaf?	Der Igel
+112046	wissenschaft	dazu (war 2)	Welche Meerestiere orientieren sich ähnlich wie ein Sonar mit Echos?	Delfine
+112110	koerper	dazu (war 2)	In welcher Jahreszeit gibt es in der Schweiz die meisten Grippefälle?	Im Winter
+112316	natur	dazu (war 2)	Warum gibt eine Kuh überhaupt Milch?	Weil sie ein Kalb geboren hat
+112390	natur	dazu (war 2)	Welches Obst wird in der Schweiz am meisten angebaut?	Äpfel
+112417	koerper	dazu (war 2)	Kann man Hausstaubmilben mit blossem Auge erkennen?	Nein, sie sind dafür zu klein
+112477	koerper	dazu (war 2)	Was geschieht meistens mit einer Honigbiene, nachdem sie einen Menschen gestochen hat?	Sie stirbt
+112796	natur	dazu (war 2)	Welcher Vogel trommelt im Laubwald mit dem Schnabel an Baumstämme?	Buntspecht
+112840	koerper	dazu (war 2)	Was darfst du bei einer Brandblase nicht tun?	Sie aufstechen
+112874	koerper	dazu (war 2)	Welche Angabe ist bei einem Notruf besonders wichtig?	Wo der Notfall passiert ist
+113022	natur	dazu (war 2)	Welches Haustier wird vom Geruch des Baldrians besonders angezogen?	Die Katze
+113141	koerper	dazu (war 2)	Wo kann man den Puls am Körper gut selbst ertasten?	Am Handgelenk
+113482	wissenschaft	dazu (war 2)	Wie heisst der Kontinent rund um den Südpol?	Antarktika
+113556	wissenschaft	dazu (war 2)	Was ist Krill?	Ein kleines Krebstier
+114145	koerper	dazu (war 2)	Was hilft, damit ein Powernap nicht zu lange dauert?	Einen Wecker stellen
+114280	natur	dazu (war 2)	Welches Bodentier frisst Erde und lockert den Boden mit seinen Gängen?	Der Regenwurm
+114285	natur	dazu (war 2)	Welches Säugetier gräbt Gänge im Boden und frisst vor allem Regenwürmer?	Der Maulwurf
+114545	koerper	dazu (war 2)	Welche Nummer wählt man in der Schweiz für einen Krankenwagen am Boden?	144
+115128	wissenschaft	dazu (war 2)	Woraus bestehen die beiden Seiten eines Klettverschlusses?	Aus Häkchen und Schlaufen
+115157	wissenschaft	dazu (war 2)	Welches berühmte Werkzeug entwickelte Karl Elsener?	Das Schweizer Taschenmesser
 127597	wissenschaft	fachwort	Was braucht ein Gecko NICHT, um an einer Glasscheibe zu haften?	Klebstoff
 127646	wissenschaft	ki	Welche Form gilt als besonders günstig, um durch Luft zu gleiten?	Die Tropfenform
 127695	physik	ki	Welches Teil unter dem Waschbecken funktioniert wie kommunizierende Röhren?	Der gebogene Siphon
 127735	physik	ki	Woran ist ein Hydrant angeschlossen?	An die Wasserleitung unter der Strasse
+127896	alltag	dazu (war 2)	Welche Lichter braucht ein Velo in der Nacht?	Vorne weiss, hinten rot
+127898	alltag	dazu (war 2)	An einer Kreuzung ohne Schild und Ampel: Wer hat Vortritt?	Wer von rechts kommt
+127910	alltag	dazu (war 2)	Du willst ein Foto von deiner Freundin online stellen. Was musst du tun?	Sie vorher um Erlaubnis fragen
+127915	alltag	dazu (war 2)	In der Pfanne brennt Öl. Was darfst du auf keinen Fall tun?	Wasser darauf schütten
 127974	banken	fachwort	Was braucht man, um am Bankomaten Geld zu holen?	Die Bankkarte und den PIN-Code
 127976	banken	fachwort	Am Bankomaten steht jemand ganz nah hinter dir. Was tust du?	Den PIN mit der Hand abdecken oder warten
 127980	banken	fachwort	Was ist ein PIN-Code?	Eine geheime Zahl für deine Karte
@@ -4079,14 +4280,21 @@ nr	thema	grund	frage	antwort
 128032	banken	fachwort	Jemand Unbekanntes schickt dir eine TWINT-Anfrage für Geld. Was tust du?	Ablehnen und den Eltern zeigen
 128033	banken	fachwort	Warum hat die TWINT-App einen Code oder Fingerabdruck zum Entsperren?	Damit nur du damit bezahlen kannst
 128035	banken	fachwort	Am Telefon sagt jemand, er sei von der Bank, und fragt nach deinem PIN. Was tust du?	Nichts verraten und auflegen
+128109	banken	dazu (war 2)	Welche ist die kleinste Münze, die es heute in der Schweiz noch gibt?	5 Rappen
+128110	banken	dazu (war 2)	Welche Farbe hat die 5-Rappen-Münze?	Goldgelb
+128111	banken	dazu (war 2)	Welche ist die grösste Schweizer Münze?	5 Franken
+128112	banken	dazu (war 2)	Wie nennt man die 5-Franken-Münze im Schweizer Alltag oft?	Fünfliber
 128222	geld	jahr/prozent	Welche ist die grösste Banknote in der Schweiz?	Die 1000-Franken-Note
 128512	krankenkasse	fachwort	Wer fährt im Krankenwagen mit und hilft den Verletzten?	Rettungssanitäterinnen und Rettungssanitäter
 128514	krankenkasse	jahr/prozent	Welche Nummer hat die Rega, die mit Helikoptern hilft?	1414
 128516	krankenkasse	jahr/prozent	Familie Huber wandert in den Bergen. Der Vater stürzt und kann nicht mehr gehen. Wen können sie rufen?	Die Rega mit 1414
+128641	krankenkasse	dazu (war 2)	Welche Nummer wählst du in der Schweiz für einen Krankenwagen?	144
 128790	beruf	fachwort	Was macht eine Detailhandelsfachfrau im Laden?	Sie berät die Kundschaft und füllt die Regale auf
 128825	steuern	fachwort	Was bedeutet die Abkürzung MWST?	Mehrwertsteuer
 128844	steuern	jahr/prozent	Welche Nummer hat die Rega, die mit dem Helikopter hilft?	1414
 128869	steuern	fachwort	Welches dieser Dinge wird NICHT mit Steuergeld bezahlt?	Dein Spielzeug zu Hause
+128891	steuern	dazu (war 2)	Wer bezahlt meistens die Feuerwehr in deinem Dorf?	Die Gemeinde
+128931	steuern	dazu (war 2)	Für welches Haustier gibt es in vielen Gemeinden eine eigene Steuer?	Für den Hund
 129110	beruf	fachwort	Was macht eine Detailhandelsfachfrau?	Sie berät Kundinnen und verkauft im Laden
 129130	beruf	fachwort	Was macht eine Schneiderin, offiziell Bekleidungsgestalterin?	Sie näht Kleider
 129131	beruf	fachwort	Wer braucht eine Nähmaschine für die Arbeit?	Die Bekleidungsgestalterin
