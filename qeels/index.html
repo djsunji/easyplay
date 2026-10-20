@@ -8557,6 +8557,49 @@ html body #reels .ralesen:active{transform:translateY(3px);box-shadow:0 2px 0 #B
   html body #reels .rmeta{padding:0 24px 20px;right:120px}
   html body #reels .rcap,html body #reels .rkanal b{font-size:1.02rem}
 }
+/* Qeels: Neon-Pfeile zum Blättern, schweben und leuchten */
+html body #reels .rpfeile{gap:6px!important}
+html body #reels .rpfeile button{width:68px!important;height:68px!important;padding:0!important;border:0!important;border-radius:50%!important;background:center/contain no-repeat!important;box-shadow:none!important;
+  color:transparent!important;font-size:0!important;-webkit-tap-highlight-color:transparent;transition:transform .18s cubic-bezier(.2,.9,.3,1.4),filter .18s}
+html body #reels .rpfeile #rHoch{background-image:url("img/qeels-pfeil-hoch.webp")!important;animation:rpfHoch 2.4s ease-in-out infinite,rpfGlow 2.4s ease-in-out infinite}
+html body #reels .rpfeile #rRunter{background-image:url("img/qeels-pfeil-runter.webp")!important;animation:rpfRunter 2.4s ease-in-out 1.2s infinite,rpfGlow 2.4s ease-in-out infinite}
+html body #reels .rpfeile button:hover{filter:brightness(1.25) drop-shadow(0 0 14px rgba(190,110,255,.85));animation:none!important}
+html body #reels .rpfeile #rHoch:hover{transform:translateY(-4px) scale(1.12)}
+html body #reels .rpfeile #rRunter:hover{transform:translateY(4px) scale(1.12)}
+html body #reels .rpfeile button:active{transform:scale(.88)!important;filter:brightness(1.5) drop-shadow(0 0 20px rgba(255,255,255,.9))}
+html body #reels .rpfeile button:focus-visible{outline:3px solid #FFD43B;outline-offset:2px}
+@keyframes rpfHoch{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes rpfRunter{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@keyframes rpfGlow{0%,100%{filter:brightness(1) drop-shadow(0 0 4px rgba(190,110,255,.4))}50%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(230,120,255,.85))}}
+@media (prefers-reduced-motion:reduce){html body #reels .rpfeile button{animation:none!important}}
+/* Qeels: Neon-Symbole im Seitenmenü */
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]) .rbi,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi{
+  background:center/contain no-repeat var(--rsym)!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  font-size:0!important;color:transparent!important;transform:scale(1.06);filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));transition:transform .18s cubic-bezier(.2,.9,.3,1.4),filter .18s}
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]) .rbi *,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi *{display:none}
+html body #reels .rbtn[data-like]{--rsym:url("img/qeels-sym-like.webp")}
+html body #reels .rbtn[data-komm]{--rsym:url("img/qeels-sym-komm.webp")}
+html body #reels .rbtn[data-erkl],html body #reels .rbtn[data-qart]:has([data-birne]){--rsym:url("img/qeels-sym-erkl.webp")}
+html body #reels .rbtn[data-teilen]{--rsym:url("img/qeels-sym-teilen.webp")}
+html body #reels .rbtn[data-vorlesen]{--rsym:url("img/qeels-sym-vorlesen.webp")}
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]):hover .rbi,html body #reels .rbtn[data-qart]:has([data-birne]):hover .rbi{transform:scale(1.18);filter:brightness(1.15) drop-shadow(0 0 12px rgba(255,255,255,.45))}
+html body #reels .rbtn[data-like]:not(.an) .rbi{filter:saturate(.75) brightness(.9) drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+html body #reels .rbtn[data-like].an .rbi{filter:brightness(1.15) drop-shadow(0 0 14px rgba(255,60,140,.9))}
+/* Qeels: Glanz-Knöpfe oben (Auswahl, Musik, Zurück) */
+html body #reels .rkopf .rfilter,html body #reels .rkopf .rmusik,html body #reels .rkopf .rzu{background:center/contain no-repeat var(--rk)!important;border:0!important;box-shadow:none!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:transparent!important;font-size:0!important;padding:0!important;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));transition:transform .16s cubic-bezier(.2,.9,.3,1.4),filter .16s}
+html body #reels .rkopf .rfilter>svg,html body #reels .rkopf .rmusik>svg,html body #reels .rkopf .rzu>*{display:none!important}
+html body #reels .rkopf .rfilter{--rk:url("img/qeels-knopf-filter.webp");width:48px!important;height:48px!important}
+html body #reels .rkopf .rfilter[aria-expanded="true"]{background-color:transparent!important;filter:brightness(1.15) drop-shadow(0 0 12px rgba(80,170,255,.9))}
+html body #reels .rkopf .rmusik{--rk:url("img/qeels-knopf-musik-aus.webp");width:48px!important;height:48px!important;border-radius:50%!important}
+html body #reels .rkopf .rmusik[aria-pressed="true"]{--rk:url("img/qeels-knopf-musik.webp");filter:drop-shadow(0 0 12px rgba(255,80,200,.8))}
+html body #reels .rkopf .rzu{--rk:url("img/qeels-knopf-zurueck.webp");width:70px!important;height:48px!important;border-radius:999px!important}
+html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):hover{transform:scale(1.1)}
+html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):active{transform:scale(.9)}
+html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):focus-visible{outline:3px solid #FFD43B;outline-offset:2px}
+html body.ep-app #reels .rkopf .rfilter,html body.ep-app #reels .rkopf .rmusik{width:52px!important;height:52px!important}
+html body.ep-app #reels .rkopf .rzu{width:76px!important;height:52px!important}
 </style>
 <script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
 (function(){
