@@ -8559,6 +8559,19 @@ html body #reels .rpfeile button:focus-visible{outline:3px solid #FFD43B;outline
 @keyframes rpfRunter{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 @keyframes rpfGlow{0%,100%{filter:brightness(1) drop-shadow(0 0 4px rgba(190,110,255,.4))}50%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(230,120,255,.85))}}
 @media (prefers-reduced-motion:reduce){html body #reels .rpfeile button{animation:none!important}}
+/* Qeels: Neon-Symbole im Seitenmenü */
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]) .rbi,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi{
+  background:center/contain no-repeat var(--rsym)!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  font-size:0!important;color:transparent!important;transform:scale(1.06);filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));transition:transform .18s cubic-bezier(.2,.9,.3,1.4),filter .18s}
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]) .rbi *,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi *{display:none}
+html body #reels .rbtn[data-like]{--rsym:url("img/qeels-sym-like.webp")}
+html body #reels .rbtn[data-komm]{--rsym:url("img/qeels-sym-komm.webp")}
+html body #reels .rbtn[data-erkl],html body #reels .rbtn[data-qart]:has([data-birne]){--rsym:url("img/qeels-sym-erkl.webp")}
+html body #reels .rbtn[data-teilen]{--rsym:url("img/qeels-sym-teilen.webp")}
+html body #reels .rbtn[data-vorlesen]{--rsym:url("img/qeels-sym-vorlesen.webp")}
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]):hover .rbi,html body #reels .rbtn[data-qart]:has([data-birne]):hover .rbi{transform:scale(1.18);filter:brightness(1.15) drop-shadow(0 0 12px rgba(255,255,255,.45))}
+html body #reels .rbtn[data-like]:not(.an) .rbi{filter:saturate(.75) brightness(.9) drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+html body #reels .rbtn[data-like].an .rbi{filter:brightness(1.15) drop-shadow(0 0 14px rgba(255,60,140,.9))}
 </style>
 <script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
 (function(){
