@@ -8584,6 +8584,22 @@ html body #reels .rbtn[data-like]:not(.an) .rbi{filter:saturate(.75) brightness(
 html body #reels .rbtn[data-like].an .rbi{filter:brightness(1.15) drop-shadow(0 0 14px rgba(255,60,140,.9))}
 /* Qeels: Seitenmenü senkrecht in der Mitte */
 html body #reels .rrail{top:50%!important;bottom:auto!important;transform:translateY(-50%)}
+/* Qeels: Glanz-Antworten A–D (Bild als 9-Slice, wächst mit langen Antworten) */
+html body #reels .ropts{--ah:58px}
+html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{--ab:url("img/qeels-antwort-a.webp");--ak:url("img/qeels-antwort-a-knopf.webp");min-height:var(--ah)!important;padding:2px calc(var(--ah) * .3) 2px calc(var(--ah) * .1)!important;gap:10px;background:none!important;border:0 solid transparent!important;border-width:calc(var(--ah) * .3) calc(var(--ah) * .5)!important;border-image:var(--ab) 48 80 fill / calc(var(--ah) * .3) calc(var(--ah) * .5) stretch!important;box-sizing:border-box;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;font-size:1rem!important;filter:drop-shadow(0 5px 10px rgba(0,0,0,.35));text-shadow:0 1px 3px rgba(0,0,0,.45);line-height:1.22}
+html body #reels .ropt{margin:0}
+html body #reels .ropt:nth-child(2){--ab:url("img/qeels-antwort-b.webp");--ak:url("img/qeels-antwort-b-knopf.webp")}
+html body #reels .ropt:nth-child(3){--ab:url("img/qeels-antwort-c.webp");--ak:url("img/qeels-antwort-c-knopf.webp")}
+html body #reels .ropt:nth-child(4){--ab:url("img/qeels-antwort-d.webp");--ak:url("img/qeels-antwort-d-knopf.webp")}
+html body #reels .ropt .rk{width:calc(var(--ah) * .8)!important;height:calc(var(--ah) * .8)!important;margin:calc(var(--ah) * -.3) 0 calc(var(--ah) * -.3) calc(var(--ah) * -.5);background:center/contain no-repeat var(--ak)!important;box-shadow:none!important;border-radius:50%;color:transparent!important;font-size:0!important;align-self:center}
+html body #reels .ropt:hover:not([disabled]){filter:brightness(1.1) drop-shadow(0 8px 14px rgba(0,0,0,.4));transform:translateY(-2px);box-shadow:none!important}
+html body #reels .ropt:active:not([disabled]){filter:brightness(.95) drop-shadow(0 2px 6px rgba(0,0,0,.3));transform:translateY(2px) scale(.98);box-shadow:none!important}
+html body #reels .ropt[disabled]{opacity:.45;filter:saturate(.6) drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+html body #reels .ropt.richtig{opacity:1;outline:0;filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #3BFF8E)}
+html body #reels .ropt.falsch{opacity:1;filter:grayscale(.55) brightness(.8) drop-shadow(0 0 12px #FF3B3B)}
+html body #reels .ropt.richtig::after,html body #reels .ropt.falsch::after{content:"✓";margin-left:auto;flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#16A35A;color:#fff;font-weight:900;font-size:1rem;box-shadow:0 0 0 2px #fff;text-shadow:none}
+html body #reels .ropt.falsch::after{content:"✗";background:#D6362E}
+@media (min-width:900px){html body #reels .ropts{--ah:64px}html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{font-size:1.12rem!important}}
 /* Qeels: Glanz-Knöpfe oben (Auswahl, Musik, Zurück) */
 html body #reels .rkopf .rfilter,html body #reels .rkopf .rmusik,html body #reels .rkopf .rzu{background:center/contain no-repeat var(--rk)!important;border:0!important;box-shadow:none!important;
   backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:transparent!important;font-size:0!important;padding:0!important;
