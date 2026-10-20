@@ -25,7 +25,10 @@
     if(t){ if(t.textContent !== "easyplay") t.textContent = "easyplay"; } else if(z.textContent !== "easyplay") z.textContent = "easyplay";
     z.onclick = () => { location.href = EASYPLAY; };
   }
+  // Eigenes Qeels-Symbol im Browser-Tab (easyplay setzt sonst sein eigenes)
+  function tabSymbol(){ document.querySelectorAll('link[rel~="icon"]').forEach(l => { if(!/qeels\/img\/icon-/.test(l.href)) l.href = "qeels/img/icon-192.png"; }); }
   function start(){
+    tabSymbol(); [500, 2000].forEach(ms => setTimeout(tabSymbol, ms));
     try{ if(!RL.offen) oeffneReels("mix"); }catch(e){ console.warn(e); }
     zuKnopf(); [300, 1000, 3000].forEach(ms => setTimeout(zuKnopf, ms));
     const kopf = document.querySelector("#reels .rkopf");
@@ -59,9 +62,7 @@
 body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken):not(#eventlayer){visibility:hidden!important}
 #qstart{position:fixed;inset:0;z-index:2147483000;display:flex;overflow:auto;padding:24px 16px;box-sizing:border-box;background:none;color:#fff;font-family:"Lexend",system-ui,sans-serif}
 #qstart .qsbox{width:100%;max-width:1000px;margin:auto;display:flex;flex-direction:column;align-items:stretch;gap:18px}
-#qstart .qslogo{align-self:flex-start;display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.5rem;padding:8px 18px 8px 8px;border-radius:999px;
-  background:linear-gradient(135deg,#FF7A3D,#E8457C 55%,#B03FE0);box-shadow:0 6px 0 rgba(0,0,0,.25),0 16px 30px -12px rgba(232,69,124,.7)}
-#qstart .qslogo b{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#fff;color:#E8457C;font-size:1.35rem}
+#qstart .qslogo{align-self:center;display:block;width:min(440px,78%);height:auto;margin:-6px 0 -10px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.45));animation:qsHuepf 4s ease-in-out infinite}
 #qstart .qshero{position:relative;border-radius:30px;padding:30px 32px;overflow:hidden;color:#2A1F5C;
   background:linear-gradient(120deg,#FFE3F3 0%,#F4E9FF 38%,#E3F0FF 70%,#E6FFF4 100%);box-shadow:0 24px 50px -20px rgba(0,0,0,.6),inset 0 0 0 2px rgba(255,255,255,.7)}
 #qstart .qshero::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 70% at 0% 100%,rgba(255,196,74,.35),transparent 70%),radial-gradient(35% 60% at 70% 0%,rgba(124,146,255,.3),transparent 70%);pointer-events:none}
@@ -91,8 +92,7 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
 @media (max-width:760px){
   #qstart{padding:16px 16px 24px}
   #qstart .qsbox{gap:14px;margin:0 auto auto}
-  #qstart .qslogo{font-size:1.25rem}
-  #qstart .qslogo b{width:32px;height:32px;font-size:1.15rem}
+  #qstart .qslogo{width:min(300px,82%);margin:0 0 -6px}
   #qstart .qshero{padding:20px 18px 18px;border-radius:24px}
   #qstart .qstext1{max-width:64%}
   #qstart h1{font-size:1.65rem}
@@ -104,7 +104,7 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
   #qstart .qsemo{width:48px;height:48px;font-size:1.6rem;border-radius:15px}
   #qstart .qsname{font-size:1.15rem;margin-top:10px}
 }
-@media (max-width:760px) and (max-height:700px){#qstart .qsinfo{display:none}#qstart .qsgrid button{min-height:132px}}
+@media (max-width:760px) and (max-height:700px){#qstart .qsinfo{display:none}#qstart .qsgrid button{min-height:118px}#qstart .qsemo{width:42px;height:42px;font-size:1.4rem}}
 /* Deko: schwebende Symbole, Funkeln, Bewegung */
 #qstart .qsdeko{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 #qstart .qsdeko i{position:absolute;font-style:normal;font-size:var(--g,2rem);opacity:.85;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));animation:qsSchweb var(--t,7s) ease-in-out var(--v,0s) infinite alternate}
@@ -116,7 +116,7 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
 @keyframes qsGlanz{from{transform:translateX(-120%) skewX(-20deg)}to{transform:translateX(320%) skewX(-20deg)}}
 @keyframes qsPuls{0%,100%{box-shadow:0 7px 0 rgba(0,0,0,.3),0 0 0 0 rgba(255,212,59,.7)}50%{box-shadow:0 7px 0 rgba(0,0,0,.3),0 0 0 10px rgba(255,212,59,0)}}
 #qstart .qsduo{animation:qsHuepf 3.2s ease-in-out infinite}
-#qstart .qsmaskott{position:absolute;right:30%;bottom:22px;width:96px;transform:rotate(-12deg);filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));animation:qsSchweb 4s ease-in-out infinite alternate;pointer-events:none;z-index:2}
+#qstart .qsmaskott{position:absolute;right:29%;bottom:26px;width:118px;border-radius:26px;box-shadow:0 0 0 3px rgba(255,255,255,.8);transform:rotate(-10deg);filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));animation:qsSchweb 4s ease-in-out infinite alternate;pointer-events:none;z-index:2}
 #qstart .qshero{overflow:visible}
 #qstart .qshero .qsfunk{position:absolute;color:#FFC83D;font-size:var(--g,1.4rem);animation:qsFunkel var(--t,2.4s) ease-in-out var(--v,0s) infinite;pointer-events:none;text-shadow:0 0 12px rgba(255,200,61,.8)}
 #qstart .qsaufruf{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-weight:800;font-size:1rem;color:#2A1F5C;background:#FFD43B;padding:9px 16px;border-radius:999px;box-shadow:0 4px 0 #C99A00}
@@ -147,16 +147,18 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
 }
 @media (max-width:760px) and (max-height:800px){#qstart .qsvorteile{display:none}}
 @media (max-width:400px){#qstart .qslos{display:none}}
+@media (max-height:760px){#qstart .qslogo{width:min(300px,70%)}}
+@media (max-height:700px){#qstart .qslogo{width:min(220px,66%)}}
 @media (prefers-reduced-motion:reduce){#qstart *,#qstart *::before{animation:none!important}}`;
       document.head.appendChild(css);
     }
     let zuletzt = 0; try{ zuletzt = +JSON.parse(localStorage.getItem("ep-stufe")) || 0; }catch(e){}
     const o = document.createElement("div"); o.id = "qstart"; o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true"); o.setAttribute("aria-labelledby", "qsTitel");
     o.innerHTML = `<div class="qsbox">
-      <div class="qslogo"><b>Q</b> Qeels</div>
+      <img class="qslogo" src="qeels/img/qeels-logo.webp" alt="Qeels" width="900" height="292">
       <div class="qsdeko" aria-hidden="true">${DEKO.map(([e, x, y, g, t, v]) => `<i style="left:${x}%;top:${y}%;--g:${g}rem;--t:${t}s;--v:${v}s">${e}</i>`).join("")}</div>
       <div class="qshero">
-        <img class="qsmaskott" src="img/fragezeichen-zwinkern.webp" alt="" aria-hidden="true">
+        <img class="qsmaskott" src="qeels/img/icon-512.webp" alt="" aria-hidden="true">
         <span class="qsfunk" style="left:46%;top:14%;--g:1.6rem" aria-hidden="true">✦</span>
         <span class="qsfunk" style="left:60%;top:62%;--g:1.1rem;--v:.8s" aria-hidden="true">✦</span>
         <span class="qsfunk" style="left:3%;top:78%;--g:1.3rem;--v:1.4s" aria-hidden="true">✦</span>
