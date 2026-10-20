@@ -38,6 +38,9 @@ def bauen():
     html = ersetze(html, r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{TITEL}">')
     html = ersetze(html, r'<meta property="og:description" content="[^"]*">', f'<meta property="og:description" content="{TEXT}">')
     html = ersetze(html, r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{URL}">')
+    html = ersetze(html, r'<link rel="icon" type="image/png" sizes="192x192" href="[^"]*">', '<link rel="icon" type="image/png" sizes="192x192" href="qeels/img/icon-192.png">')
+    html = ersetze(html, r'<link rel="apple-touch-icon" href="[^"]*">', '<link rel="apple-touch-icon" href="qeels/img/apple-touch-icon.png">')
+    html = re.sub(r'https://djsunji\.github\.io/easyplay/img/vorschau\.jpg', URL + "img/vorschau.jpg", html)
     html = ersetze(html, r'<script src="config.js"></script>', lambda m: m.group(0) + '\n<script src="qeels/qeels-vorher.js"></script>')
     i = html.rfind("</body>")
     if i < 0:
