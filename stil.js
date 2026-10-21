@@ -513,6 +513,10 @@ css.textContent = `
 .ep-w.ep-qk{border:0!important;color:#fff!important;justify-content:space-between!important;gap:8px;
   background:radial-gradient(120% 120% at 0% 100%,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%)!important;box-shadow:0 18px 30px -18px #962FBF!important}
 .epqk-kopf{display:flex;align-items:center;gap:8px}
+.epqk-bild{display:block;height:54px;width:auto;max-width:100%;filter:drop-shadow(0 3px 6px rgba(40,10,60,.35));margin:-4px 0 -2px -4px}
+.navbtn.reelsnav{background:rgba(255,255,255,.94)!important;border-color:rgba(255,255,255,.95)!important;padding-top:2px!important;padding-bottom:2px!important}
+.navbtn.reelsnav .rnlogo{display:block;height:44px;width:auto;filter:drop-shadow(0 2px 4px rgba(40,10,60,.25))}
+@media (max-width:899px){.navbtn.reelsnav .rnlogo{height:34px}}
 .epqk-kopf b{font:800 1.35rem "Bricolage Grotesque",sans-serif}
 .epqk-logo{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.6)}
 .epqk-st{display:flex;gap:6px}

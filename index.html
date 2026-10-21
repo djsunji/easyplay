@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-20-10";
+window.EP_BUILD="ep-2026-10-21-01";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4222,7 +4222,7 @@ function renderNav(){
     (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button>`
        : `<button class="navbtn primary" id="navKonto" type="button">👤 <span class="tlab">Anmelden</span></button>`) +
     
-    `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><span class="rnico">Q</span> <span class="tlab">Qeels</span></button>` +
+    `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><img class="rnlogo" src="img/qeels-logo-klein.webp" alt="Qeels" width="480" height="156" draggable="false"></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
       <div class="menu" id="hauptmenue" role="menu" hidden>
         <button role="menuitem" type="button" data-m="home">🏠 Startseite</button>

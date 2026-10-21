@@ -556,7 +556,7 @@ function tacho(){
 function qeelsKarte(){
   const l = themenListe().map(id => THEMA[id]).filter(Boolean); const rnd = zufall("qk-" + heute()); const w = [];
   for(let i = 0; i < 4 && l.length; i++) w.push(l.splice(Math.floor(rnd() * l.length), 1)[0]);
-  return `<button type="button" class="ep-w ep-qk" data-a="qeels"><span class="epqk-kopf"><span class="epqk-logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5.5"/><path d="M10 8.5v7l5.5-3.5z" fill="#fff"/></svg></span><b>Qeels</b></span>
+  return `<button type="button" class="ep-w ep-qk" data-a="qeels"><span class="epqk-kopf"><img class="epqk-bild" src="img/qeels-logo-klein.webp" alt="Qeels" width="480" height="156" draggable="false"></span>
     <span class="epqk-st">${w.map(t => `<span><i>${typeof themaIcon === "function" ? themaIcon(t) : "📚"}</i></span>`).join("")}</span>
     <span class="epqk-tx">Wissen in 30 Sekunden ▶</span></button>`;
 }
@@ -625,7 +625,7 @@ function wocheHTML(){
   const rest = d.ende - Date.now(), tage = Math.floor(rest / 864e5), std = Math.floor(rest % 864e5 / 36e5), min = Math.floor(rest % 36e5 / 6e4);
   const p = Math.min(100, Math.round(d.r / d.ziel * 100));
   return `<section class="ep-woche${d.fertig ? " epfertig" : ""}"><span class="ep-tag rot">Wochen-Challenge · ${h(d.w.replace("-W", ", Woche "))}</span>
-    <h2>${d.fertig ? "Geschafft: " : "Thema der Woche: "}${h(d.thema.name)} ${d.thema.emo && d.thema.emo.length <= 3 ? h(d.thema.emo) : ""}</h2>
+    <h2>${d.fertig ? "Geschafft: " : "Thema der Woche: "}${h(d.thema.name)} ${d.thema.emo && d.thema.emo.length <= 3 && !/^[a-z0-9_-]+$/i.test(d.thema.emo) ? h(d.thema.emo) : ""}</h2>
     <p>${d.fertig ? `Du hast die Challenge dieser Woche geschafft. Nächste Woche gibt es ein neues Thema.` : `Beantworte bis Sonntag ${d.ziel} Fragen zu «${h(d.thema.name)}» richtig und hol dir ${WOCHE_XP} XP extra.`}</p>
     <div class="epcdz"><span><b>${tage}</b><small>Tage</small></span><span><b>${std}</b><small>Std</small></span><span><b>${min}</b><small>Min</small></span></div>
     <div class="epziel"><div class="epvbar"><i style="width:${p}%"></i></div><small>${d.r} von ${d.ziel} richtig · ${d.n} beantwortet</small></div>
