@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-21-01";
+window.EP_BUILD="ep-2026-10-21-03";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -8627,6 +8627,23 @@ html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):active{transform:scale(.9)}
 html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):focus-visible{outline:3px solid #FFD43B;outline-offset:2px}
 html body.ep-app #reels .rkopf .rfilter,html body.ep-app #reels .rkopf .rmusik{width:52px!important;height:52px!important}
 html body.ep-app #reels .rkopf .rzu{width:76px!important;height:52px!important}
+/* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
+@media (max-width:699px){
+html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}
+html body #reels .rkopf .rfilter,html body #reels .rkopf .rmusik,html body.ep-app #reels .rkopf .rfilter,html body.ep-app #reels .rkopf .rmusik{width:40px!important;height:40px!important}
+html body #reels .rkopf .rzu,html body.ep-app #reels .rkopf .rzu{width:58px!important;height:40px!important}
+html body #reels .rstories{zoom:.74;top:calc(4px / .74)!important;left:0!important;transform:none!important;width:calc((100vw - 168px) / .74)!important;max-width:none!important;padding:6px 8px 8px 12px!important;clip-path:none!important;overflow-x:auto!important;overscroll-behavior-x:contain;touch-action:pan-x;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+html body #reels .rrail{zoom:.8;right:4px!important}
+html body #reels:has(.rstories) .rinhalt{padding-top:96px!important;padding-right:68px!important;gap:10px!important}
+html body #reels:has(.rstories) .rainhalt{top:92px!important}
+html body #reels .rinhalt .rfrage{font-size:clamp(1.05rem,5.4vw,1.4rem)!important;line-height:1.18}
+html body #reels .ropts{--ah:48px;gap:8px!important}
+html body #reels .ropt,html body #reels .ropt.lang,html body #reels .ropt.sehrlang{font-size:.9rem!important}
+html body #reels .rinhalt .rtag{transform:scale(.88);transform-origin:left center}
+html body #reels .rmeta{zoom:.85}
+html body #reels .rerkl{font-size:.88rem!important;line-height:1.38}
+html body #reels .rerkl .rres{font-size:1.05rem!important}
+}
 </style>
 <script>/*__epMobilfixOkt: Qeels ohne obere Leiste, Auswahl über kleinen Knopf neben «Zurück»*/
 (function(){
