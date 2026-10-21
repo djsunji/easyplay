@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-20-10";
+window.EP_BUILD="ep-2026-10-21-01";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -8577,16 +8577,18 @@ html body #reels .rpfeile button:focus-visible{outline:3px solid #FFD43B;outline
 @keyframes rpfGlow{0%,100%{filter:brightness(1) drop-shadow(0 0 4px rgba(190,110,255,.4))}50%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(230,120,255,.85))}}
 @media (prefers-reduced-motion:reduce){html body #reels .rpfeile button{animation:none!important}}
 /* Qeels: Neon-Symbole im Seitenmenü */
-html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]) .rbi,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi{
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen],[data-lesen],[data-dazu],[data-qart]) .rbi,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi{
   background:center/contain no-repeat var(--rsym)!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
   font-size:0!important;color:transparent!important;transform:scale(1.06);filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));transition:transform .18s cubic-bezier(.2,.9,.3,1.4),filter .18s}
-html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]) .rbi *,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi *{display:none}
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen],[data-lesen],[data-dazu],[data-qart]) .rbi *,html body #reels .rbtn[data-qart]:has([data-birne]) .rbi *{display:none}
 html body #reels .rbtn[data-like]{--rsym:url("img/qeels-sym-like.webp")}
 html body #reels .rbtn[data-komm]{--rsym:url("img/qeels-sym-komm.webp")}
+html body #reels .rbtn[data-lesen],html body #reels .rbtn[data-qart]{--rsym:url("img/qeels-sym-buch.webp")}
+html body #reels .rbtn[data-dazu]{--rsym:url("img/qeels-sym-spiel.webp")}
 html body #reels .rbtn[data-erkl],html body #reels .rbtn[data-qart]:has([data-birne]){--rsym:url("img/qeels-sym-erkl.webp")}
 html body #reels .rbtn[data-teilen]{--rsym:url("img/qeels-sym-teilen.webp")}
 html body #reels .rbtn[data-vorlesen]{--rsym:url("img/qeels-sym-vorlesen.webp")}
-html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen]):hover .rbi,html body #reels .rbtn[data-qart]:has([data-birne]):hover .rbi{transform:scale(1.18);filter:brightness(1.15) drop-shadow(0 0 12px rgba(255,255,255,.45))}
+html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[data-vorlesen],[data-lesen],[data-dazu],[data-qart]):hover .rbi,html body #reels .rbtn[data-qart]:has([data-birne]):hover .rbi{transform:scale(1.18);filter:brightness(1.15) drop-shadow(0 0 12px rgba(255,255,255,.45))}
 html body #reels .rbtn[data-like]:not(.an) .rbi{filter:saturate(.75) brightness(.9) drop-shadow(0 4px 10px rgba(0,0,0,.45))}
 html body #reels .rbtn[data-like].an .rbi{filter:brightness(1.15) drop-shadow(0 0 14px rgba(255,60,140,.9))}
 /* Qeels: Seitenmenü senkrecht in der Mitte */
