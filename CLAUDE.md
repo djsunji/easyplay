@@ -31,5 +31,6 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 21.10. Sitzung «Qeels» (session_01FK9DYmzXsy5baCUHMdhJCs): Qeels Handy kleiner und luftiger, Storys oben bündig neben den Knöpfen und seitwärts wischbar (`index.html`, PR #12). Ich arbeite nur an Qeels (CSS-Blöcke «Qeels …» am Ende von `index.html`, `qeels/`).
 - 21.10. Hauptseite: neues Qeels-Logo in Kachel und Kopfzeile; «pan» beim Thema der Woche entfernt (`index.html`, `startseite.js`, `stil.js`).
 - 19.10. Schneller laden, Bibliothek Handy, Logos und lange Antworten im Quiz (`index.html`, `app.js`, `daten-08` bis `daten-10`, `img/eb`, `img/av`, `img/ch`, `img/wp`).
