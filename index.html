@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-22-07";
+window.EP_BUILD="ep-2026-10-22-08";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4192,7 +4192,7 @@ function stufeObj(id){ const k=id??S.stufe; if(k===4) return STUFE_ALLE; return 
 const STUFE_EMO = {1:ico("sprout"),2:ico("rocket"),3:ico("medal"),4:ico("globe")};
 
 function speakBtn(text){ return ("speechSynthesis" in window) ? `<span class="speakrow"><button class="speak" type="button" data-say="${esc(text)}">${ico("speaker")} Vorlesen</button></span>` : ""; }
-function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>{ b.classList.remove("on"); b.innerHTML=`${ico("speaker")} Vorlesen`; }); }
+function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} try{ clearInterval(RL.vorT); rlVorlesenAus(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>{ b.classList.remove("on"); b.innerHTML=`${ico("speaker")} Vorlesen`; }); }
 function bindSpeak(){
   document.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>{ try{ if(b.classList.contains("on")) stopSpeak(); else speakText(b.dataset.say, b); }catch(e){} });
   
@@ -4716,8 +4716,21 @@ function rlRail(id, extra){
     <button type="button" class="rbtn" data-komm="${esc(id)}"><span class="rbi">💬</span><small>Kommentare</small></button>
     ${extra}
     <button type="button" class="rbtn" data-teilen><span class="rbi">↗️</span><small>Teilen</small></button>
-    ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
+    ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen aria-pressed="false"><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
+    <button type="button" class="rbtn" data-bild aria-pressed="false"><span class="rbi">🖼️</span><small>Bild</small></button>
   </aside>`;
+}
+/* Vorlesen-Knopf leuchtet, solange gesprochen wird; nochmals tippen stoppt */
+function rlVorlesenAn(v){
+  v.classList.add("an"); v.setAttribute("aria-pressed","true");
+  let start=true; clearInterval(RL.vorT);
+  RL.vorT=setInterval(()=>{ let laeuft=false; try{ laeuft=speechSynthesis.speaking||speechSynthesis.pending; }catch(e){} if(laeuft) start=false; if(!laeuft && !start || !v.isConnected){ clearInterval(RL.vorT); rlVorlesenAus(); } start=false; }, 400);
+}
+function rlVorlesenAus(){ document.querySelectorAll("#reels .rbtn[data-vorlesen].an").forEach(b=>{ b.classList.remove("an"); b.setAttribute("aria-pressed","false"); }); }
+/* Nur das Bild zeigen: alles andere ausblenden bis auf den Bild-Knopf */
+function rlNurBild(an){
+  const o=$("#reels"); if(!o) return; o.classList.toggle("rnurbild", !!an);
+  o.querySelectorAll(".rbtn[data-bild]").forEach(b=>b.setAttribute("aria-pressed", an?"true":"false"));
 }
 /* Passender Bibliotheksartikel zu einer Quizfrage (oder null) */
 function rlArtikelZiel(f){ try{ return qbZiel(f)||null; }catch(e){ return null; } }
@@ -4886,7 +4899,8 @@ function rlBinde(sec, it){
   });
   sec.querySelectorAll(".ropt").forEach(b=>b.onclick=()=>rlAntwort(sec,it,+b.dataset.o));
   sec.querySelector("[data-like]").onclick=()=>rlLike(sec);
-  const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ try{ speakText(it.say); }catch(e){} });
+  const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ if(v.classList.contains("an")){ stopSpeak(); return; } try{ speakText(it.say); }catch(e){ return; } rlVorlesenAn(v); });
+  const bi=sec.querySelector("[data-bild]"); bi && (bi.onclick=()=>rlNurBild(!$("#reels").classList.contains("rnurbild")));
   sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
   const kb=sec.querySelector("[data-komm]"); kb && (kb.onclick=()=>kmOeffnen(sec, kb.dataset.komm));
   const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } else { const z=rlArtikelZiel(it.f); if(z){ rlSheet(z.b, z.nr, z.key); return; } } e.hidden=!e.hidden; });
@@ -5012,7 +5026,7 @@ function oeffneReels(tab){
   document.body.appendChild(o);
   RL.obs=new IntersectionObserver(es=>es.forEach(en=>{
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
-      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
+      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlNurBild(false); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
       if(window.EP_NUR_QEELS && it && !window.QEEL_WARTET){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
@@ -8664,6 +8678,23 @@ html body #reels .rteilen{z-index:21!important}
 /* Qeels: Knopf «Erklärung» im Ergebnis-Kasten statt «Wische nach oben für mehr» */
 html body #reels .rerklmehr{display:inline-flex;align-items:center;gap:6px;margin-top:8px;border:0;border-radius:999px;padding:7px 14px;font:800 .9rem "Lexend",system-ui,sans-serif;color:#2A1A00;background:linear-gradient(135deg,#FFD84D,#FF9F1C);box-shadow:0 3px 0 #B86A00,0 6px 14px rgba(0,0,0,.25);cursor:pointer}
 html body #reels .rerklmehr:active{transform:translateY(2px);box-shadow:0 1px 0 #B86A00}
+/* Qeels: Vorlesen leuchtet beim Sprechen, Bild-Knopf und Bild-Ansicht */
+html body #reels .rbtn[data-bild]{--rsym:url("img/qeels-sym-bild.webp")}
+html body #reels .rbtn[data-bild] .rbi{background:center/contain no-repeat var(--rsym)!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;font-size:0!important;color:transparent!important;transform:scale(1.06);filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));transition:transform .18s cubic-bezier(.2,.9,.3,1.4),filter .18s}
+html body #reels .rbtn[data-bild]:hover .rbi{transform:scale(1.18);filter:brightness(1.15) drop-shadow(0 0 12px rgba(255,255,255,.45))}
+html body #reels .rbtn[data-vorlesen].an .rbi{animation:rvorGlow 1.1s ease-in-out infinite}
+html body #reels .rbtn[data-vorlesen].an small{color:#FFB070}
+@keyframes rvorGlow{0%,100%{transform:scale(1.1);filter:brightness(1.2) drop-shadow(0 0 10px rgba(255,140,50,.85))}50%{transform:scale(1.2);filter:brightness(1.45) drop-shadow(0 0 22px rgba(255,170,70,1))}}
+@media (prefers-reduced-motion:reduce){html body #reels .rbtn[data-vorlesen].an .rbi{animation:none;filter:brightness(1.4) drop-shadow(0 0 18px rgba(255,160,60,1))}}
+html body #reels.rnurbild > :not(.rfeed),
+html body #reels.rnurbild .reel > :not(.rbg):not(.rfoto):not(.rbild):not(.rrail),
+html body #reels.rnurbild .rrail > :not([data-bild]){opacity:0!important;pointer-events:none!important;transition:opacity .2s}
+html body #reels.rnurbild .rbtn[data-bild] .rbi{filter:brightness(1.3) drop-shadow(0 0 16px rgba(140,180,255,.95))}
+html body #reels.rnurbild .rfeed{overflow:hidden!important}
+html body #reels.rnurbild .rfoto img{opacity:1!important;filter:none!important}
+html body #reels.rnurbild .rfoto::after,html body #reels.rnurbild .rbild::after{opacity:0}
+html body #reels.rnurbild .rbg{opacity:0}
+html body #reels .reel.rq:not(.mitfoto) .rbtn[data-bild]{display:none}
 /* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
 @media (max-width:699px){
 html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}
