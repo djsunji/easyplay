@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: neues Feld «Bild per Link». Link von Wikipedia, Commons oder Openverse einfügen, Urheber, Lizenz und Quelle werden automatisch geholt; direkte Bildadressen mit Angaben von Hand (`admin/index.html`).
 - 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: Vorschläge erscheinen sofort, sobald die erste Quelle antwortet, jede Quelle höchstens 6 Sekunden (Openverse hing oft); «Zurück» springt nach einer Wahl wieder zur eben bearbeiteten Seite (`admin/index.html`). Neues Verwaltungspasswort.
 - 22.10. Sitzung «Qeels»: Artikel öffnen jetzt immer die richtige Seite (Seitennummern verschoben sich beim Nachladen), geteilte Links werden nicht mehr vom ersten Qeel überschrieben (`index.html`).
 - 22.10. Sitzung «Qeels»: gelber Glanz-Knopf «Ganzen Artikel lesen» mit Text je nach Sprache (`index.html`, `img/qeels-lesen-knopf.webp`); Teilen-Fenster repariert (schloss bei jedem Klick), Erklärung steht nach der Antwort gleich da, Knopf «Erklärung» öffnet den Artikel in der Bibliothek, echte App-Logos beim Teilen, Deko-Kreise der Ersatzbilder in Qeels ausgeblendet.

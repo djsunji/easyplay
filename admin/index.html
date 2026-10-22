@@ -155,6 +155,15 @@ nav button.unter{padding-left:22px;font-size:13px}
 .bw-aktion .k{padding:8px 16px;font-size:15px}
 .bw-aktion small{opacity:.75;font-size:11px}
 .bw h3{justify-content:center}
+.bw-link{max-width:760px;margin:10px auto 0;display:grid;gap:8px}
+.bw-link .zeile{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.bw-link .zeile input{flex:1;min-width:240px}
+.bw-treffer{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;align-items:start;background:var(--fl);border:2px solid var(--li);border-radius:12px;padding:10px;text-align:left}
+.bw-treffer img{width:140px;height:105px;object-fit:cover;border-radius:8px;background:var(--bg)}
+.bw-treffer .felder{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:center;font-size:13px}
+.bw-treffer .felder input{width:100%;padding:5px 8px}
+.bw-treffer .knoepfe{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+@media (max-width:560px){.bw-treffer{grid-template-columns:1fr}.bw-treffer img{width:100%;height:160px}}
 .bw-vs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:8px}
 @media (max-width:900px){.bw-vs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .bw-karte.hoch{align-items:center;justify-content:center;border-style:dashed;text-align:center;min-height:150px}
@@ -944,6 +953,10 @@ function bwZeigen(){
     <h3>Vorschläge <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· Taste 1 bis 4 wählt</span></h3>
     <div class="leiste" style="justify-content:center"><input type="search" id="bwSuche" value="${esc(BW.suche)}" style="min-width:280px"><button class="k" id="bwSuchen">Suchen</button><button class="k" id="bwMehr">Andere Vorschläge</button></div>
     <div class="bw-vs" id="bwVs"><p class="mu">Suche Bilder …</p></div>
+    <div class="bw-link"><h3 style="margin:8px 0 0">Bild per Link</h3>
+      <div class="zeile"><input type="url" id="bwLinkUrl" placeholder="Link zum Bild einfügen (Wikipedia, Commons, Openverse oder direkte Bildadresse)" autocomplete="off"><button class="k" id="bwLinkLos">Übernehmen</button></div>
+      <p class="mu klein" style="margin:0;text-align:center">Bei Wikipedia, Wikimedia Commons und Openverse werden Urheber, Lizenz und Quelle automatisch eingetragen.</p>
+      <div id="bwLinkErg"></div></div>
     <input type="file" id="bwDatei" accept="image/*" hidden>
     <p class="mu klein" style="margin-top:10px">Eigene Bilder werden auf 480 und 960 Pixel verkleinert. Vorschläge von Google und Openverse: Lizenz selbst prüfen.</p>
   </div>`;
@@ -954,6 +967,18 @@ function bwZeigen(){
   $("#bwSuchen").onclick = () => { BW.suche = $("#bwSuche").value.trim() || s.t; BW.sucheFuer = s.k; BW.vs = 0; bwVorschlaege(s, true); };
   $("#bwSuche").onkeydown = ev => { if(ev.key === "Enter"){ ev.stopPropagation(); $("#bwSuchen").click(); } };
   $("#bwMehr").onclick = () => { BW.vs += 4; bwVorschlaegeZeigen(s); };
+  const linkLos = async () => { const u = $("#bwLinkUrl").value.trim(); if(!u) return; const box = $("#bwLinkErg");
+    box.innerHTML = '<p class="mu" style="text-align:center">Lese Angaben zum Bild …</p>';
+    let v; try{ v = await bildAusLink(u); }catch(err){ box.innerHTML = `<p class="fe" style="text-align:center">${esc(err.message)}</p>`; return; }
+    if(BW.liste[BW.i] !== s) return;
+    box.innerHTML = `<div class="bw-treffer"><img src="${esc(v.thumb)}" alt="" referrerpolicy="no-referrer" id="bwLinkBild">
+      <div class="felder"><label for="bwLU">Urheber</label><input id="bwLU" value="${esc(v.urheber)}"><label for="bwLL">Lizenz</label><input id="bwLL" value="${esc(v.lizenz)}"><label for="bwLQ">Quelle</label><input id="bwLQ" value="${esc(v.quelle)}"></div>
+      <p class="mu klein" style="grid-column:1/-1;margin:0">${esc(v.quelleName)}${v.code === "g" ? " · Angaben bitte selbst prüfen und ergänzen" : ""}</p>
+      <div class="knoepfe"><button class="k p" id="bwLinkNimm">Dieses Bild nehmen</button></div></div>`;
+    $("#bwLinkBild").onerror = () => { box.insertAdjacentHTML("afterbegin", '<p class="fe" style="text-align:center">Das Bild lässt sich nicht laden. Ist der Link eine Bildadresse?</p>'); };
+    $("#bwLinkNimm").onclick = () => { v.urheber = $("#bwLU").value.trim(); v.lizenz = $("#bwLL").value.trim() || "Lizenz prüfen"; v.quelle = $("#bwLQ").value.trim(); bwWaehle(s, v); }; };
+  $("#bwLinkLos").onclick = linkLos;
+  $("#bwLinkUrl").onkeydown = ev => { if(ev.key === "Enter"){ ev.stopPropagation(); linkLos(); } };
   $("#bwDatei").onchange = async ev => { const f = ev.target.files[0]; if(!f) return;
     try{ const [klein, gross] = await Promise.all([bildVerkleinern(f, [480,400,.62]), bildVerkleinern(f, [960,800,.6])]);
       const basis = (CFG.teilenUrl || "https://djsunji.github.io/easyplay/").replace(/\/?$/, "/");
@@ -987,6 +1012,40 @@ function bwVorschlaegeZeigen(s, laeuft){
 function bwWaehle(s, v){
   AE.bilder.set(s.k, {eintrag:[v.url, s.t, v.urheber || "", v.lizenz || "Lizenz prüfen", v.quelle || "", v.code], vorschau:v.url, alt:DATEN.bildindex[s.k] || null});
   AE.freigabe.delete(s.k); aenderungenZeigen(); melde("Neues Bild gewählt."); bwWeiter();
+}
+/* Bild per Link: Datei erkennen und Urheber, Lizenz und Quelle automatisch holen */
+async function bildAusLink(roh){
+  let u; try{ u = new URL(roh.trim()); }catch(e){ throw new Error("Das ist kein gültiger Link."); }
+  if(u.protocol !== "https:") throw new Error("Bitte einen Link mit https:// verwenden.");
+  const txt = h => { const d = new DOMParser().parseFromString(String(h||""), "text/html"); return (d.body.textContent||"").replace(/\s+/g, " ").trim().slice(0,120); };
+  const holen = async url => { const ac = new AbortController(); const t = setTimeout(() => ac.abort(), 8000);
+    try{ const r = await fetch(url, {signal:ac.signal}); if(!r.ok) throw new Error(); return await r.json(); }catch(e){ throw new Error("Die Angaben zum Bild konnten nicht geladen werden."); } finally{ clearTimeout(t); } };
+  // Dateiname bei Wikipedia und Commons finden
+  let datei = null, wiki = "commons.wikimedia.org";
+  const pfad = decodeURIComponent(u.pathname), hash = decodeURIComponent(u.hash || "");
+  const m1 = /\/(?:File|Datei|Fichier|Image|Bild):(.+)$/i.exec(hash) || /\/wiki\/(?:File|Datei|Fichier|Image|Bild):(.+)$/i.exec(pfad);
+  if(/wikipedia\.org$|wikimedia\.org$/.test(u.hostname) && m1) datei = m1[1];
+  if(!datei && u.hostname === "upload.wikimedia.org"){ const t = pfad.split("/").filter(Boolean); const i = t.indexOf("thumb");
+    datei = i >= 0 ? t[i + 3] : t[t.length - 1]; if(t[1] && t[1] !== "commons") wiki = t[1] + "." + t[0] + ".org"; }
+  if(!datei && /^[a-z]+\.wikipedia\.org$/.test(u.hostname) && u.searchParams.get("title")) { const m = /^(?:File|Datei):(.+)$/i.exec(u.searchParams.get("title")); if(m) datei = m[1]; }
+  if(datei){
+    datei = datei.replace(/_/g, " ");
+    const frage = host => holen("https://" + host + "/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", titles:"File:" + datei, prop:"imageinfo", iiprop:"url|extmetadata|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName|Credit"}));
+    let j = await frage("commons.wikimedia.org"), p = (j?.query?.pages || [])[0];
+    if((!p || !p.imageinfo) && wiki !== "commons.wikimedia.org"){ j = await frage(wiki); p = (j?.query?.pages || [])[0]; }
+    if((!p || !p.imageinfo) && /wikipedia\.org$/.test(u.hostname)){ j = await frage(u.hostname); p = (j?.query?.pages || [])[0]; }
+    const i = p && p.imageinfo && p.imageinfo[0]; if(!i) throw new Error("Dieses Bild wurde auf Wikipedia oder Commons nicht gefunden.");
+    if(!/jpeg|png|webp|gif|svg/.test(i.mime || "")) throw new Error("Diese Datei ist kein Bild.");
+    return {url:i.thumburl || i.url, thumb:i.thumburl || i.url, titel:datei, quelleName:"Wikimedia: " + datei, urheber:txt(i.extmetadata?.Artist?.value) || txt(i.extmetadata?.Credit?.value), lizenz:txt(i.extmetadata?.LicenseShortName?.value) || "Lizenz prüfen", quelle:i.descriptionurl || roh, code:"m"};
+  }
+  // Openverse: Seite eines Bildes
+  const ov = /openverse\.org$/.test(u.hostname) && /\/image\/([0-9a-f-]{36})/i.exec(pfad);
+  if(ov){ const r = await holen("https://api.openverse.org/v1/images/" + ov[1] + "/");
+    if(!r || !r.url) throw new Error("Dieses Bild wurde auf Openverse nicht gefunden.");
+    return {url:r.url, thumb:r.thumbnail || r.url, titel:r.title || "", quelleName:"Openverse" + (r.source ? ": " + r.source : ""), urheber:txt(r.creator), lizenz:(r.license === "cc0" ? "CC0" : r.license === "pdm" ? "Public Domain" : ("CC " + String(r.license||"").toUpperCase() + " " + (r.license_version||"")).trim()), quelle:r.foreign_landing_url || roh, code:"m"}; }
+  // sonst: direkte Bildadresse, Angaben von Hand
+  if(/\.(html?|php|aspx?)$/i.test(u.pathname)) throw new Error("Das ist eine Webseite, kein Bild. Auf dem Bild mit Rechtsklick «Bildadresse kopieren» nehmen.");
+  return {url:u.href, thumb:u.href, titel:"", quelleName:"Direkter Link: " + u.hostname, urheber:u.hostname.replace(/^www\./, ""), lizenz:"Lizenz prüfen", quelle:u.href, code:"g"};
 }
 /* Vorschläge: Wikipedia-Artikel, Wikimedia Commons, Openverse und (wenn eingerichtet) Google */
 async function sucheVorschlaege(q, zwischen){
