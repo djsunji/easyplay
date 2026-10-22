@@ -12,6 +12,7 @@
     if(e.key !== "Escape") return;
     if(document.getElementById("rteilen") || document.getElementById("rsheet")) return;
     e.stopPropagation(); e.preventDefault();
+    if(document.getElementById("rbildvoll")){ e.stopPropagation(); e.preventDefault(); window.rlNurBild && rlNurBild(false); return; }
     const k = document.querySelector("#rkomm .rkzu"), l = document.getElementById("rlibZu");
     if(k) k.click(); else if(l && l.offsetParent) l.click();
   }, true);

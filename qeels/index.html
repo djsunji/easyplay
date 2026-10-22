@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-22-08";
+window.EP_BUILD="ep-2026-10-22-09";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4732,8 +4732,30 @@ function rlVorlesenAn(v){
 function rlVorlesenAus(){ document.querySelectorAll("#reels .rbtn[data-vorlesen].an").forEach(b=>{ b.classList.remove("an"); b.setAttribute("aria-pressed","false"); }); }
 /* Nur das Bild zeigen: alles andere ausblenden bis auf den Bild-Knopf */
 function rlNurBild(an){
-  const o=$("#reels"); if(!o) return; o.classList.toggle("rnurbild", !!an);
-  o.querySelectorAll(".rbtn[data-bild]").forEach(b=>b.setAttribute("aria-pressed", an?"true":"false"));
+  const o=$("#reels"); if(!o) return;
+  const img=an && rlAktiv()?.querySelector(".rbild.foto img, .rfoto img");
+  $("#rbildvoll")?.remove();
+  o.classList.toggle("rnurbild", !!img);
+  try{ if(img) screen.orientation?.unlock?.(); else if(matchMedia("(display-mode: standalone)").matches) screen.orientation?.lock?.("portrait").catch(()=>{}); }catch(e){}
+  if(!img) return;
+  o.insertAdjacentHTML("beforeend", `<div class="rbildvoll" id="rbildvoll"><img alt="" draggable="false"><button type="button" class="rbtn" data-bild aria-pressed="true" aria-label="Zurück zur ganzen Ansicht"><span class="rbi">🖼️</span><small>Bild</small></button></div>`);
+  const v=$("#rbildvoll"), bi=v.querySelector("img"); bi.src=img.currentSrc||img.src; bi.alt=img.alt||"";
+  v.querySelector("[data-bild]").onclick=()=>rlNurBild(false);
+  rlZoom(v, bi);
+}
+/* Bild mit zwei Fingern oder Mausrad zoomen, gezoomt verschieben, Doppeltippen zoomt hinein oder zurück */
+function rlZoom(box, img){
+  let s=1, x=0, y=0; const p=new Map(); let start=null, tapT=0;
+  const setze=()=>{ s=Math.min(6,Math.max(1,s)); if(s===1){ x=0; y=0; } const mx=box.clientWidth*(s-1)/2, my=box.clientHeight*(s-1)/2; x=Math.min(mx,Math.max(-mx,x)); y=Math.min(my,Math.max(-my,y)); img.style.transform=`translate(${x}px,${y}px) scale(${s})`; };
+  const abst=()=>{ const [a,b]=[...p.values()]; return Math.hypot(a.x-b.x,a.y-b.y); };
+  box.addEventListener("pointerdown", e=>{ if(e.target.closest("button")) return; box.setPointerCapture(e.pointerId); p.set(e.pointerId,{x:e.clientX,y:e.clientY}); start={s,x,y,d:p.size===2?abst():0,px:e.clientX,py:e.clientY}; });
+  box.addEventListener("pointermove", e=>{ if(!p.has(e.pointerId)) return; p.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(p.size===2 && start.d){ s=start.s*abst()/start.d; setze(); } else if(p.size===1 && s>1){ x=start.x+e.clientX-start.px; y=start.y+e.clientY-start.py; setze(); } });
+  const ende=e=>{ if(!p.delete(e.pointerId)) return; const r=[...p.values()][0]; start={s,x,y,d:0,px:r?.x||0,py:r?.y||0};
+    if(e.type==="pointerup" && !p.size){ const t=Date.now(); if(t-tapT<300){ s=s>1?1:2.5; setze(); tapT=0; } else tapT=t; } };
+  box.addEventListener("pointerup", ende); box.addEventListener("pointercancel", ende);
+  box.addEventListener("wheel", e=>{ e.preventDefault(); s*=e.deltaY<0?1.15:1/1.15; setze(); }, {passive:false});
+  addEventListener("resize", ()=>box.isConnected&&setze());
 }
 /* Passender Bibliotheksartikel zu einer Quizfrage (oder null) */
 function rlArtikelZiel(f){ try{ return qbZiel(f)||null; }catch(e){ return null; } }
@@ -4999,6 +5021,7 @@ function rlTaste(e){
   if(!RL.offen || e.ctrlKey||e.metaKey||e.altKey) return;
   const t=e.target; if(t&&(/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
   const k=e.key;
+  if($("#rbildvoll")){ if(k==="Escape"){ e.preventDefault(); rlNurBild(false); } return; }
   if($("#rteilen")){ if(k==="Escape"){ e.preventDefault(); rlTeilenZu(); } return; }
   if(rlSheetOffen()){ if(k==="Escape"){ e.preventDefault(); rlSheetZu(); } return; }
   if(k==="Escape"){ e.preventDefault(); schliesseReels(); return; }
@@ -8689,15 +8712,13 @@ html body #reels .rbtn[data-vorlesen].an .rbi{animation:rvorGlow 1.1s ease-in-ou
 html body #reels .rbtn[data-vorlesen].an small{color:#FFB070}
 @keyframes rvorGlow{0%,100%{transform:scale(1.1);filter:brightness(1.2) drop-shadow(0 0 10px rgba(255,140,50,.85))}50%{transform:scale(1.2);filter:brightness(1.45) drop-shadow(0 0 22px rgba(255,170,70,1))}}
 @media (prefers-reduced-motion:reduce){html body #reels .rbtn[data-vorlesen].an .rbi{animation:none;filter:brightness(1.4) drop-shadow(0 0 18px rgba(255,160,60,1))}}
-html body #reels.rnurbild > :not(.rfeed),
-html body #reels.rnurbild .reel > :not(.rbg):not(.rfoto):not(.rbild):not(.rrail),
-html body #reels.rnurbild .rrail > :not([data-bild]){opacity:0!important;pointer-events:none!important;transition:opacity .2s}
+html body #reels.rnurbild > :not(.rbildvoll){opacity:0!important;pointer-events:none!important}
 html body #reels.rnurbild .rbtn[data-bild] .rbi{filter:brightness(1.3) drop-shadow(0 0 16px rgba(140,180,255,.95))}
-html body #reels.rnurbild .rfeed{overflow:hidden!important}
-html body #reels.rnurbild .rfoto img{opacity:1!important;filter:none!important}
-html body #reels.rnurbild .rfoto::after,html body #reels.rnurbild .rbild::after{opacity:0}
-html body #reels.rnurbild .rbg{opacity:0}
-html body #reels .reel.rq:not(.mitfoto) .rbtn[data-bild]{display:none}
+html body #reels .reel.rq:not(.mitfoto) .rbtn[data-bild],html body #reels .reel.ra:not(:has(.rbild.foto)) .rbtn[data-bild]{display:none}
+html body:has(#rbildvoll) #epDreh{display:none!important}
+html body #reels .rbildvoll{position:fixed;inset:0;z-index:30;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+html body #reels .rbildvoll img{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;transform-origin:center;will-change:transform;pointer-events:none}
+html body #reels .rbildvoll .rbtn{position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:2;opacity:1!important;pointer-events:auto!important}
 /* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
 @media (max-width:699px){
 html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}
