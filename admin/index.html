@@ -965,20 +965,22 @@ function bwZeigen(){
   const n = BW.liste[BW.i + 1]; if(n && !BW.cache?.[n.k]) setTimeout(() => sucheVorschlaege(n.t).then(r => { BW.cache = BW.cache || {}; BW.cache[n.k + "|" + n.t] = r; }).catch(() => {}), 400);
 }
 function bwGehe(d){ BW.i = Math.max(0, Math.min(BW.liste.length - 1, BW.i + d)); BW.suche = ""; bwZeigen(); }
-function bwWeiter(){ if(BW.filter === "offen" || BW.filter === "mit" || BW.filter === "ohne"){ const k = BW.liste[BW.i] && BW.liste[BW.i].k; bwListe(); const j = BW.liste.findIndex(x => x.k === k); if(j >= 0) BW.i = j + 1; } else BW.i++; BW.i = Math.min(BW.i, Math.max(0, BW.liste.length - 1)); BW.suche = ""; bwZeigen(); }
+function bwWeiter(){ BW.i = Math.min(BW.i + 1, Math.max(0, BW.liste.length - 1)); BW.suche = ""; bwZeigen(); }
 async function bwVorschlaege(s, neu){
   const key = s.k + "|" + BW.suche; BW.cache = BW.cache || {};
-  if(neu || !BW.cache[key]){ $("#bwVs").innerHTML = '<p class="mu">Suche Bilder …</p>'; try{ BW.cache[key] = await sucheVorschlaege(BW.suche); }catch(e){ BW.cache[key] = []; } }
+  if(neu || !BW.cache[key]){ $("#bwVs").innerHTML = '<p class="mu">Suche Bilder …</p>';
+    const zwischen = l => { if(BW.liste[BW.i] !== s || !l.length) return; BW.vorschlag = l; bwVorschlaegeZeigen(s, true); };
+    try{ BW.cache[key] = await sucheVorschlaege(BW.suche, zwischen); }catch(e){ BW.cache[key] = []; } }
   if(BW.liste[BW.i] !== s) return;
   BW.vorschlag = BW.cache[key]; bwVorschlaegeZeigen(s);
 }
-function bwVorschlaegeZeigen(s){
+function bwVorschlaegeZeigen(s, laeuft){
   const l = BW.vorschlag || []; if(!l.length){ $("#bwVs").innerHTML = '<p class="mu" style="grid-column:1/5">Keine Vorschläge gefunden. Anderen Suchbegriff versuchen oder eigenes Bild hochladen.</p><button class="bw-karte hoch" id="bwHoch"><span class="gross">⬆</span><b>Eigenes Bild</b><small>hochladen</small></button>'; $("#bwHoch").onclick = () => $("#bwDatei").click(); return; }
   if(BW.vs >= l.length) BW.vs = 0;
   const teil = l.slice(BW.vs, BW.vs + 4);
   $("#bwVs").innerHTML = teil.map((v, j) => `<button class="bw-karte" data-j="${j}" title="${esc(v.titel)}"><span class="nr">${j + 1}</span><img src="${esc(v.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"><b>${esc(v.quelleName)}</b><small>${esc(v.lizenz || "Lizenz prüfen")} · ${esc(v.urheber || "")}</small></button>`).join("")
     + `<button class="bw-karte hoch" id="bwHoch"><span class="gross">⬆</span><b>Eigenes Bild</b><small>hochladen</small></button>`
-    + `<p class="mu klein" style="grid-column:1/-1;text-align:center;margin:4px 0 0">${zahl(l.length)} Treffer, Vorschläge ${BW.vs + 1} bis ${Math.min(l.length, BW.vs + 4)}</p>`;
+    + `<p class="mu klein" style="grid-column:1/-1;text-align:center;margin:4px 0 0">${zahl(l.length)} Treffer, Vorschläge ${BW.vs + 1} bis ${Math.min(l.length, BW.vs + 4)}${laeuft ? " · weitere Quellen laden noch …" : ""}</p>`;
   $$("#bwVs .bw-karte[data-j]").forEach(b => b.onclick = () => bwWaehle(s, teil[+b.dataset.j]));
   $("#bwHoch").onclick = () => $("#bwDatei").click();
 }
@@ -987,43 +989,47 @@ function bwWaehle(s, v){
   AE.freigabe.delete(s.k); aenderungenZeigen(); melde("Neues Bild gewählt."); bwWeiter();
 }
 /* Vorschläge: Wikipedia-Artikel, Wikimedia Commons, Openverse und (wenn eingerichtet) Google */
-async function sucheVorschlaege(q){
+async function sucheVorschlaege(q, zwischen){
+  // jede Quelle hat höchstens 6 Sekunden; was schon da ist, wird sofort gezeigt
+  const holeJson = (url) => { const ac = new AbortController(); const t = setTimeout(() => ac.abort(), 6000);
+    return fetch(url, {signal:ac.signal}).then(r => r.ok ? r.json() : {}).finally(() => clearTimeout(t)); };
   const txt = h => { const d = new DOMParser().parseFromString(String(h||""), "text/html"); return (d.body.textContent||"").replace(/\s+/g, " ").trim().slice(0,100); };
   const aus = [], urls = new Set();
   const dazu = v => { if(!v || !v.url || urls.has(v.url)) return; urls.add(v.url); aus.push(v); };
   const jobs = [];
   // 1. Wikipedia: Hauptbilder passender Artikel, Lizenzen von Commons
   jobs.push((async () => {
-    const j = await fetch("https://de.wikipedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", generator:"search", gsrsearch:q, gsrlimit:"8", gsrnamespace:"0", prop:"pageimages", piprop:"name"})).then(r => r.json());
+    const j = await holeJson("https://de.wikipedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", generator:"search", gsrsearch:q, gsrlimit:"8", gsrnamespace:"0", prop:"pageimages", piprop:"name"}));
     const seiten = (j?.query?.pages || []).sort((a,b) => a.index - b.index).filter(p => p.pageimage);
     if(!seiten.length) return [];
-    const ii = await fetch("https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", titles:seiten.map(p => "File:" + p.pageimage).join("|"), prop:"imageinfo", iiprop:"url|extmetadata|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"})).then(r => r.json());
+    const ii = await holeJson("https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", titles:seiten.map(p => "File:" + p.pageimage).join("|"), prop:"imageinfo", iiprop:"url|extmetadata|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"}));
     const info = {}; (ii?.query?.pages || []).forEach(p => { if(p.imageinfo) info[p.title.replace(/^File:/, "").replace(/ /g, "_")] = p.imageinfo[0]; });
     return seiten.map(p => { const i = info[p.pageimage]; if(!i || !/jpeg|png|webp/.test(i.mime||"")) return null;
       return {url:i.thumburl || i.url, thumb:(i.thumburl || i.url), titel:p.title, quelleName:"Wikipedia: " + p.title, urheber:txt(i.extmetadata?.Artist?.value), lizenz:txt(i.extmetadata?.LicenseShortName?.value), quelle:i.descriptionurl, code:"m"}; }).filter(Boolean);
   })());
   // 2. Commons-Suche
   jobs.push((async () => {
-    const j = await fetch("https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", generator:"search", gsrsearch:q + " filetype:bitmap", gsrnamespace:"6", gsrlimit:"12", prop:"imageinfo", iiprop:"url|extmetadata|size|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"})).then(r => r.json());
+    const j = await holeJson("https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({action:"query", format:"json", formatversion:"2", origin:"*", generator:"search", gsrsearch:q + " filetype:bitmap", gsrnamespace:"6", gsrlimit:"12", prop:"imageinfo", iiprop:"url|extmetadata|size|mime", iiurlwidth:"960", iiextmetadatafilter:"Artist|LicenseShortName"}));
     return (j?.query?.pages || []).sort((a,b) => a.index - b.index).map(p => { const i = (p.imageinfo||[])[0]; if(!i || !/jpeg|png|webp/.test(i.mime||"") || i.width < 500) return null;
       return {url:i.thumburl || i.url, thumb:i.thumburl || i.url, titel:p.title.replace(/^File:/, ""), quelleName:"Commons", urheber:txt(i.extmetadata?.Artist?.value), lizenz:txt(i.extmetadata?.LicenseShortName?.value), quelle:i.descriptionurl, code:"m"}; }).filter(Boolean);
   })());
   // 3. Openverse
   jobs.push((async () => {
-    const j = await fetch("https://api.openverse.org/v1/images/?" + new URLSearchParams({q, page_size:"12", mature:"false"})).then(r => r.json());
+    const j = await holeJson("https://api.openverse.org/v1/images/?" + new URLSearchParams({q, page_size:"12", mature:"false"}));
     return (j?.results || []).filter(r => r.url && /^https:/.test(r.url)).map(r => ({url:r.url, thumb:r.thumbnail || r.url, titel:r.title || q, quelleName:"Openverse" + (r.source ? ": " + r.source : ""), urheber:txt(r.creator), lizenz:(r.license === "cc0" ? "CC0" : r.license === "pdm" ? "Public Domain" : ("CC " + String(r.license||"").toUpperCase() + " " + (r.license_version||"")).trim()), quelle:r.foreign_landing_url || "", code:"o"}));
   })());
   // 4. Google (nur wenn unter «Zugang» eingerichtet)
   const g = store.get("ep-admin-google", null);
   if(g && g.key && g.cx) jobs.push((async () => {
-    const j = await fetch("https://www.googleapis.com/customsearch/v1?" + new URLSearchParams({key:g.key, cx:g.cx, q, searchType:"image", num:"10", safe:"active", imgSize:"large"})).then(r => r.json());
+    const j = await holeJson("https://www.googleapis.com/customsearch/v1?" + new URLSearchParams({key:g.key, cx:g.cx, q, searchType:"image", num:"10", safe:"active", imgSize:"large"}));
     return (j?.items || []).filter(i => /^https:/.test(i.link)).map(i => ({url:i.link, thumb:i.image?.thumbnailLink || i.link, titel:i.title, quelleName:"Google: " + (i.displayLink || ""), urheber:i.displayLink || "", lizenz:"Lizenz prüfen", quelle:i.image?.contextLink || "", code:"g"}));
   })());
-  const erg = await Promise.allSettled(jobs);
   // abwechselnd mischen, damit unter den ersten 4 verschiedene Quellen sind
-  const listen = erg.map(r => r.status === "fulfilled" ? r.value : []);
-  for(let i = 0; i < 20; i++) listen.forEach(l => dazu(l[i]));
-  return aus;
+  const listen = jobs.map(() => []);
+  const mischen = () => { aus.length = 0; urls.clear(); for(let i = 0; i < 20; i++) listen.forEach(l => dazu(l[i])); return aus.slice(); };
+  let offen = jobs.length;
+  await Promise.all(jobs.map((p, n) => p.then(v => { listen[n] = v || []; }, () => {}).finally(() => { offen--; if(offen > 0 && zwischen) try{ zwischen(mischen()); }catch(e){} })));
+  return mischen();
 }
 document.addEventListener("keydown", e => {
   if(TAB !== "bildwechsel" || /input|textarea|select/i.test((e.target && e.target.tagName) || "") || $("#dlg").open) return;
