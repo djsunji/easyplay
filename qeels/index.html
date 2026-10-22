@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-22-01";
+window.EP_BUILD="ep-2026-10-22-03";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4857,7 +4857,8 @@ function rlAntwort(sec, it, i){
   sec.querySelectorAll(".ropt").forEach((b,k)=>{ b.disabled=true; if(it.opts[k].ok) b.classList.add("richtig"); else if(k===i) b.classList.add("falsch"); });
   RL.serie = ok ? RL.serie+1 : 0; rlSerie();
   const e=sec.querySelector(".rerkl");
-  e.innerHTML=`<p class="rres ${ok?"ok":"no"}">${ok?(RL.serie>=3?`🔥 ${RL.serie} richtig in Folge!`:"✅ Richtig!"):"❌ Nicht ganz."}</p><p>${esc(f.e)}</p>${f.m?`<p class="rmerk">🗝️ ${esc(f.m)}</p>`:""}<p class="rweiter">Wische nach oben für mehr <span>⌃</span></p>`;
+  e.innerHTML=`<p class="rres ${ok?"ok":"no"}">${ok?(RL.serie>=3?`🔥 ${RL.serie} richtig in Folge!`:"✅ Richtig!"):"❌ Nicht ganz."}</p><div class="rerkltext" hidden><p>${esc(f.e)}</p>${f.m?`<p class="rmerk">🗝️ ${esc(f.m)}</p>`:""}</div><button type="button" class="rerklmehr">💡 Erklärung</button>`;
+  e.querySelector(".rerklmehr").onclick=ev=>{ ev.stopPropagation(); const t=e.querySelector(".rerkltext"); t.hidden=false; ev.currentTarget.remove(); t.animate([{opacity:0},{opacity:1}],{duration:200}); };
   e.hidden=false; e.animate([{opacity:0,transform:"translateY(12px)"},{opacity:1,transform:"none"}],{duration:300});
   if(ok) rlHerz(sec, sec.getBoundingClientRect().left+sec.clientWidth/2, sec.getBoundingClientRect().top+sec.clientHeight*.42);
 }
@@ -4887,7 +4888,7 @@ function rlBinde(sec, it){
   const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ try{ speakText(it.say); }catch(e){} });
   sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
   const kb=sec.querySelector("[data-komm]"); kb && (kb.onclick=()=>kmOeffnen(sec, kb.dataset.komm));
-  const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } e.hidden=!e.hidden; });
+  const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } else { const t=e.querySelector(".rerkltext"); if(t&&t.hidden){ t.hidden=false; e.querySelector(".rerklmehr")?.remove(); e.hidden=false; return; } } e.hidden=!e.hidden; });
   const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
   sec.querySelectorAll("[data-lesen]").forEach(le=>le.onclick=()=>rlSheet(it.b, it.nr));
   const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"… mehr"; });
@@ -8639,6 +8640,13 @@ html body #reels .ralesen{--lh:50px;min-height:var(--lh);padding:0 calc(var(--lh
 html body #reels .ralesen:hover{transform:translateY(-2px);filter:brightness(1.06) drop-shadow(0 8px 14px rgba(0,0,0,.4))}
 html body #reels .ralesen:active{transform:translateY(2px) scale(.98);box-shadow:none!important;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
 @media (max-width:699px){html body #reels .ralesen{--lh:44px;font-size:.95rem!important}}
+/* Qeels: Deko-Kreise der Ersatzbilder (Artikel ohne Foto) ausblenden, sie wirken in den Qeels wie leere Knöpfe */
+html body #reels .ebk{display:none!important}
+/* Qeels: Teilen-Fenster liegt über seinem abgedunkelten Hintergrund (sonst schloss jeder Klick das Fenster) */
+html body #reels .rteilen{z-index:21!important}
+/* Qeels: Knopf «Erklärung» im Ergebnis-Kasten statt «Wische nach oben für mehr» */
+html body #reels .rerklmehr{display:inline-flex;align-items:center;gap:6px;margin-top:8px;border:0;border-radius:999px;padding:7px 14px;font:800 .9rem "Lexend",system-ui,sans-serif;color:#2A1A00;background:linear-gradient(135deg,#FFD84D,#FF9F1C);box-shadow:0 3px 0 #B86A00,0 6px 14px rgba(0,0,0,.25);cursor:pointer}
+html body #reels .rerklmehr:active{transform:translateY(2px);box-shadow:0 1px 0 #B86A00}
 /* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
 @media (max-width:699px){
 html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}
