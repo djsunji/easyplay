@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-22-04";
+window.EP_BUILD="ep-2026-10-22-05";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4633,11 +4633,12 @@ function rlFuerEntdecker(s){
 }
 function rlArtPool(){
   const ent = S.stufe===1;
-  if(RL.aPool && RL.aPoolEnt===ent) return RL.aPool;
-  const p=[];
+  let anz=0; try{ BUECHER.forEach(B=>anz+=buchDaten(B.id).seiten.length); }catch(e){}
+  if(RL.aPool && RL.aPoolEnt===ent && RL.aPoolAnz===anz) return RL.aPool;
+  const p=[]; RL.aPoolAnz=anz;
   try{ BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{ if(s.titel==="Allgemeines") return;
     if(ent && !rlFuerEntdecker(s)) return;
-    if(s.typ==="art" || s.teile || S.texte[seiteKey(s)] || (s.fragen||[]).length>=3) p.push([B.id,s.nr]); })); }catch(e){ console.warn(e); }
+    if(s.typ==="art" || s.teile || S.texte[seiteKey(s)] || (s.fragen||[]).length>=3) p.push([B.id,s.nr,seiteKey(s)]); })); }catch(e){ console.warn(e); }
   RL.aPoolEnt=ent;
   return RL.aPool=p;
 }
@@ -4649,8 +4650,8 @@ function rlNaechsteFrage(){
 }
 function rlNaechsterArtikel(){
   const p=rlArtPool(); if(!p.length) return null;
-  for(let k=0;k<40;k++){ const w=p[Math.floor(Math.random()*p.length)], key=w.join("|"); if(!RL.seenA.has(key)){ RL.seenA.add(key); return {typ:"a", b:w[0], nr:w[1]}; } }
-  RL.seenA.clear(); const w=p[Math.floor(Math.random()*p.length)]; return {typ:"a", b:w[0], nr:w[1]};
+  for(let k=0;k<40;k++){ const w=p[Math.floor(Math.random()*p.length)], key=w[0]+"|"+w[2]; if(!RL.seenA.has(key)){ RL.seenA.add(key); return {typ:"a", b:w[0], nr:w[1], key:w[2]}; } }
+  RL.seenA.clear(); const w=p[Math.floor(Math.random()*p.length)]; return {typ:"a", b:w[0], nr:w[1], key:w[2]};
 }
 /* Qeels: Suche */
 function rlNorm(s){ return String(s||"").toLowerCase().replace(/ß/g,"ss").normalize("NFD").replace(/[̀-ͯ]/g,""); }
@@ -4659,7 +4660,7 @@ function rlSucheBauen(term){
   const fr=alleFragen().filter(f=>THEMA[f.t] && f.q && Array.isArray(f.a) && f.a.length===4 && rlNorm(f.q+" "+f.a[0]+" "+(f.s||"")+" "+(f.e||"")).includes(q));
   fr.sort((a,b)=>((a.l===S.stufe)?0:1)-((b.l===S.stufe)?0:1) || Math.random()-.5);
   const pool=new Set(rlArtPool().map(w=>w.join("|"))), art=[];
-  BUECHER.forEach(B=>{ try{ buchDaten(B.id).seiten.forEach(s=>{ if(pool.has(B.id+"|"+s.nr) && rlNorm(s.titel).includes(q)) art.push({typ:"a", b:B.id, nr:s.nr, t:rlNorm(s.titel)}); }); }catch(e){} });
+  BUECHER.forEach(B=>{ try{ buchDaten(B.id).seiten.forEach(s=>{ if(pool.has(B.id+"|"+s.nr) && rlNorm(s.titel).includes(q)) art.push({typ:"a", b:B.id, nr:s.nr, key:seiteKey(s), t:rlNorm(s.titel)}); }); }catch(e){} });
   art.sort((a,b)=>(a.t===q?0:a.t.startsWith(q)?1:2)-(b.t===q?0:b.t.startsWith(q)?1:2));
   return {term:String(term).trim(), fragen:fr.slice(0,400).map(f=>({typ:"q", f})), artikel:art.slice(0,120), n:0};
 }
@@ -4765,8 +4766,9 @@ function rlFrageHTML(it, idx){
   </section>`;
 }
 function rlArtikelHTML(it, idx){
-  const B=BUECHER.find(x=>x.id===it.b), s=buchDaten(it.b).seiten.find(x=>x.nr===it.nr);
+  const B=BUECHER.find(x=>x.id===it.b), s=rlSeite(it.b, it.nr, it.key);
   if(!B||!s) return "";
+  it.nr=s.nr; it.key=seiteKey(s);
   it.B=B; it.s=s; const I=rlArtInfo(B,s), id="a"+B.id+"-"+seiteKey(s);
   it.say=s.titel+". "+I.intro+" "+I.punkte.join(" ");
   it.share=`${s.titel}: ${I.intro}\nMehr dazu in der easyplay-Bibliothek!`;
@@ -4860,7 +4862,7 @@ function rlAntwort(sec, it, i){
   RL.serie = ok ? RL.serie+1 : 0; rlSerie();
   const e=sec.querySelector(".rerkl");
   e.innerHTML=`<p class="rres ${ok?"ok":"no"}">${ok?(RL.serie>=3?`🔥 ${RL.serie} richtig in Folge!`:"✅ Richtig!"):"❌ Nicht ganz."}</p><p>${esc(f.e)}</p>${f.m?`<p class="rmerk">🗝️ ${esc(f.m)}</p>`:""}${rlArtikelZiel(f)?`<button type="button" class="rerklmehr">💡 Erklärung</button>`:""}`;
-  const mehr=e.querySelector(".rerklmehr"); mehr && (mehr.onclick=ev=>{ ev.stopPropagation(); const z=rlArtikelZiel(f); if(z) rlSheet(z.b, z.nr); });
+  const mehr=e.querySelector(".rerklmehr"); mehr && (mehr.onclick=ev=>{ ev.stopPropagation(); const z=rlArtikelZiel(f); if(z) rlSheet(z.b, z.nr, z.key); });
   e.hidden=false; e.animate([{opacity:0,transform:"translateY(12px)"},{opacity:1,transform:"none"}],{duration:300});
   if(ok) rlHerz(sec, sec.getBoundingClientRect().left+sec.clientWidth/2, sec.getBoundingClientRect().top+sec.clientHeight*.42);
 }
@@ -4890,9 +4892,9 @@ function rlBinde(sec, it){
   const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ try{ speakText(it.say); }catch(e){} });
   sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
   const kb=sec.querySelector("[data-komm]"); kb && (kb.onclick=()=>kmOeffnen(sec, kb.dataset.komm));
-  const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } else { const z=rlArtikelZiel(it.f); if(z){ rlSheet(z.b, z.nr); return; } } e.hidden=!e.hidden; });
-  const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
-  sec.querySelectorAll("[data-lesen]").forEach(le=>le.onclick=()=>rlSheet(it.b, it.nr));
+  const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } else { const z=rlArtikelZiel(it.f); if(z){ rlSheet(z.b, z.nr, z.key); return; } } e.hidden=!e.hidden; });
+  const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr, z.key); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
+  sec.querySelectorAll("[data-lesen]").forEach(le=>le.onclick=()=>rlSheet(it.b, it.nr, it.key));
   const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"… mehr"; });
   const dz=sec.querySelector("[data-dazu]"); dz && (dz.onclick=()=>{
     const fr=rlEigene(it.s); if(!fr.length) return; const f=fr[Math.floor(Math.random()*fr.length)];
@@ -4932,9 +4934,13 @@ function rlSheetZu(){
   if(bg) bg.animate([{opacity:1},{opacity:0}],{duration:220}).onfinish=()=>bg.remove();
   stopSpeak();
 }
-function rlSheet(b, nr){
+/* Seitennummern verschieben sich, sobald weitere Daten nachgeladen sind; der Schlüssel bleibt gleich */
+function rlSeite(b, nr, key){
+  try{ const sn=buchDaten(b).seiten; return (key && sn.find(x=>seiteKey(x)===key)) || sn.find(x=>x.nr===nr) || null; }catch(e){ return null; }
+}
+function rlSheet(b, nr, key){
   const o=$("#reels"); if(!o) return; if(rlSheetOffen()) $("#rsheet").remove(), $("#rsheetBg")?.remove();
-  const B=BUECHER.find(x=>x.id===b), s=B && buchDaten(b).seiten.find(x=>x.nr===nr); if(!s) return;
+  const B=BUECHER.find(x=>x.id===b), s=B && rlSeite(b, nr, key); if(!s) return; nr=s.nr;
   let inhalt=""; try{ inhalt=rlSheetInhalt(B,s); }catch(e){ console.warn(e); inhalt=`<p class="empty">Dieser Artikel kann hier nicht angezeigt werden.</p>`; }
   o.insertAdjacentHTML("beforeend", `<div class="rsheet-bg" id="rsheetBg"></div>
     <div class="rsheet" id="rsheet" role="dialog" aria-modal="true" aria-label="${esc(s.titel)}" style="--bf:${B.farbe}">
@@ -5011,7 +5017,7 @@ function oeffneReels(tab){
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
       document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
-      if(window.EP_NUR_QEELS && it){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
+      if(window.EP_NUR_QEELS && it && !window.QEEL_WARTET){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
       if(!sec.nextElementSibling || !sec.nextElementSibling.nextElementSibling || !sec.nextElementSibling.nextElementSibling.nextElementSibling) rlHinzu(4);
       setTimeout(rlAufraeumen, 350);
@@ -5172,17 +5178,19 @@ function rlTeilen(it){
 function qeelStartAusLink(h){
   const m=/#qeel=([^&]+)/.exec(h||""); if(!m) return null; let v; try{ v=decodeURIComponent(m[1]).slice(0,300); }catch(e){ return null; }
   if(v[0]==="q"){ const nr=+v.slice(1); const f=alleFragen().find(x=>frageNr(x)===nr); return f?{typ:"q", f}:null; }
-  if(v[0]==="a"){ const [b,k]=v.slice(1).split("~"); try{ for(const bb of [b, ...BUECHER.map(x=>x.id).filter(x=>x!==b)]){ const s=buchDaten(bb).seiten.find(x=>x.typ!=="art"&&seiteKey(x)===k); if(s) return {typ:"a", b:bb, nr:s.nr}; } return null; }catch(e){ return null; } }
+  if(v[0]==="a"){ const [b,k]=v.slice(1).split("~"); try{ for(const bb of [b, ...BUECHER.map(x=>x.id).filter(x=>x!==b)]){ const s=buchDaten(bb).seiten.find(x=>x.typ!=="art"&&seiteKey(x)===k); if(s) return {typ:"a", b:bb, nr:s.nr, key:k}; } return null; }catch(e){ return null; } }
   return null;
 }
-function oeffneQeelLink(versuch){
-  const st=qeelStartAusLink(location.hash); if(!st){ if(/#qeel=/.test(location.hash) && (versuch||0)<4) setTimeout(()=>oeffneQeelLink((versuch||0)+1),1500); return; }
-  RL.start=st;
+function oeffneQeelLink(versuch, h){
+  h=h||location.hash;
+  const st=qeelStartAusLink(h); if(!st){ if(/#qeel=/.test(h) && (versuch||0)<6) setTimeout(()=>oeffneQeelLink((versuch||0)+1, h),1500); else window.QEEL_WARTET=false; return; }
+  window.QEEL_WARTET=false; RL.start=st;
   if(RL.offen){ rlTab(RL.tab); } else { const alt=$("#reels"); if(alt){ alt.remove(); RL.map.clear(); } oeffneReels("mix"); }
   try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
 }
 addEventListener("hashchange",()=>{ if(/#qeel=/.test(location.hash)) oeffneQeelLink(); });
-const QEEL_HASH0=location.hash; setTimeout(()=>{ if(/#qeel=/.test(QEEL_HASH0) && location.hash===QEEL_HASH0) oeffneQeelLink(); }, 1200);
+/* Bis der geteilte Link geöffnet ist, darf das erste Qeel die Adresse nicht überschreiben */
+const QEEL_HASH0=location.hash; window.QEEL_WARTET=/#qeel=/.test(QEEL_HASH0); setTimeout(()=>{ if(window.QEEL_WARTET) oeffneQeelLink(0, QEEL_HASH0); }, 1200);
 
 /* ---------- Tastatur im Quiz: A bis D antworten, Pfeile vor und zurück ---------- */
 document.addEventListener("keydown",e=>{
@@ -6796,10 +6804,10 @@ function qbIndex(){
   const prio=(s,f)=> (f.s && String(f.s).toLowerCase()===String(s.titel).toLowerCase() ? 4 : 0) + (s.teile?2:0) + (S.texte[seiteKey(s)]?1:0) + (s.titel==="Allgemeines"?-5:0);
   BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{
     if(s.typ!=="fr") return;
-    s.fragen.forEach(f=>{ const p=prio(s,f); const alt=map.get(f.q); if(!alt || p>alt.p) map.set(f.q,{b:B.id, nr:s.nr, titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p}); });
-    if(s.chlogo) map.set("c:"+s.chlogo,{b:B.id, nr:s.nr, titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p:9});
-    if(s.logo) map.set("l:"+s.logo,{b:B.id, nr:s.nr, titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p:9});
-    map.set("t:"+String(s.titel).toLowerCase(), map.get("t:"+String(s.titel).toLowerCase()) || {b:B.id, nr:s.nr, titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p:0});
+    s.fragen.forEach(f=>{ const p=prio(s,f); const alt=map.get(f.q); if(!alt || p>alt.p) map.set(f.q,{b:B.id, nr:s.nr, key:seiteKey(s), titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p}); });
+    if(s.chlogo) map.set("c:"+s.chlogo,{b:B.id, nr:s.nr, key:seiteKey(s), titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p:9});
+    if(s.logo) map.set("l:"+s.logo,{b:B.id, nr:s.nr, key:seiteKey(s), titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p:9});
+    map.set("t:"+String(s.titel).toLowerCase(), map.get("t:"+String(s.titel).toLowerCase()) || {b:B.id, nr:s.nr, key:seiteKey(s), titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p:0});
   }));
   QB.map=map; QB.key=key; return map;
 }
