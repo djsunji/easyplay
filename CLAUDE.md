@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 22.10. Sitzung «Qeels»: Vorlesen leuchtet beim Sprechen und stoppt beim zweiten Tippen, neuer Knopf «Bild» zeigt das Bild gross, mit Zoom und quer (`index.html`, `qeels/qeels.js`, `img/qeels-sym-bild.webp`).
 - 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: neues Feld «Bild per Link». Link von Wikipedia, Commons oder Openverse einfügen, Urheber, Lizenz und Quelle werden automatisch geholt; direkte Bildadressen mit Angaben von Hand (`admin/index.html`).
 - 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: Vorschläge erscheinen sofort, sobald die erste Quelle antwortet, jede Quelle höchstens 6 Sekunden (Openverse hing oft); «Zurück» springt nach einer Wahl wieder zur eben bearbeiteten Seite (`admin/index.html`). Neues Verwaltungspasswort.
 - 22.10. Sitzung «Qeels»: Artikel öffnen jetzt immer die richtige Seite (Seitennummern verschoben sich beim Nachladen), geteilte Links werden nicht mehr vom ersten Qeel überschrieben (`index.html`).
