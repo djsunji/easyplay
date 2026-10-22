@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-21-03";
+window.EP_BUILD="ep-2026-10-22-04";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4721,6 +4721,12 @@ function rlRail(id, extra){
     ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
   </aside>`;
 }
+/* Passender Bibliotheksartikel zu einer Quizfrage (oder null) */
+function rlArtikelZiel(f){ try{ return qbZiel(f)||null; }catch(e){ return null; } }
+/* Knopf «Ganzen Artikel lesen» in der gewählten Sprache (zurzeit ist nur Deutsch freigeschaltet) */
+const RL_LESEN = { de:"Ganzen Artikel lesen", en:"Read full article", fr:"Lire l\u2019article complet", it:"Leggi l\u2019articolo completo" };
+function rlLesenText(){ let l="de"; try{ l=(window.EP_I18N&&EP_I18N.sprache&&EP_I18N.sprache())||"de"; }catch(e){} return RL_LESEN[l]||RL_LESEN.de; }
+document.addEventListener("ep:sprache", ()=>document.querySelectorAll("#reels .ralesen .ralt").forEach(x=>x.textContent=rlLesenText()));
 function rlMeta(tag, text, ton, oben, kanal, ikon){
   return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar ${ikon?"rav-ikon":""}">${ikon||rlLogo()}</span><b>@easyplay${kanal?`<span class="rkslash">/${esc(kanal)}</span>`:""}</b><span class="rchip">${tag}</span></div>
     ${text}</div>`;
@@ -4776,7 +4782,7 @@ function rlArtikelHTML(it, idx){
         ${I.gewusst?`<div class="ragewusst"><b>💡 Wusstest du schon?</b><p>${esc(I.gewusst)}</p></div>`:""}
         ${I.punkte.length?`<div class="rapunkte rnurmobil"><b>🎯 Das Wichtigste</b><ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div><div class="rapunkte rnurpc"><b>🎯 Das Wichtigste</b><ul>${I.punkteLang.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
       </div>
-      <button type="button" class="ralesen" data-lesen>📖 Ganzen Artikel lesen</button>
+      <button type="button" class="ralesen" data-lesen><span class="ralt">${rlLesenText()}</span></button>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-lesen><span class="rbi">📖</span><small>Lesen</small></button>${rlEigene(s).length?`<button type="button" class="rbtn" data-dazu><span class="rbi">🎮</span><small>Frage dazu</small></button>`:""}`)}
     ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`, "", rlKanal(B.titel), B.emo)}
@@ -4853,7 +4859,8 @@ function rlAntwort(sec, it, i){
   sec.querySelectorAll(".ropt").forEach((b,k)=>{ b.disabled=true; if(it.opts[k].ok) b.classList.add("richtig"); else if(k===i) b.classList.add("falsch"); });
   RL.serie = ok ? RL.serie+1 : 0; rlSerie();
   const e=sec.querySelector(".rerkl");
-  e.innerHTML=`<p class="rres ${ok?"ok":"no"}">${ok?(RL.serie>=3?`🔥 ${RL.serie} richtig in Folge!`:"✅ Richtig!"):"❌ Nicht ganz."}</p><p>${esc(f.e)}</p>${f.m?`<p class="rmerk">🗝️ ${esc(f.m)}</p>`:""}<p class="rweiter">Wische nach oben für mehr <span>⌃</span></p>`;
+  e.innerHTML=`<p class="rres ${ok?"ok":"no"}">${ok?(RL.serie>=3?`🔥 ${RL.serie} richtig in Folge!`:"✅ Richtig!"):"❌ Nicht ganz."}</p><p>${esc(f.e)}</p>${f.m?`<p class="rmerk">🗝️ ${esc(f.m)}</p>`:""}${rlArtikelZiel(f)?`<button type="button" class="rerklmehr">💡 Erklärung</button>`:""}`;
+  const mehr=e.querySelector(".rerklmehr"); mehr && (mehr.onclick=ev=>{ ev.stopPropagation(); const z=rlArtikelZiel(f); if(z) rlSheet(z.b, z.nr); });
   e.hidden=false; e.animate([{opacity:0,transform:"translateY(12px)"},{opacity:1,transform:"none"}],{duration:300});
   if(ok) rlHerz(sec, sec.getBoundingClientRect().left+sec.clientWidth/2, sec.getBoundingClientRect().top+sec.clientHeight*.42);
 }
@@ -4883,7 +4890,7 @@ function rlBinde(sec, it){
   const v=sec.querySelector("[data-vorlesen]"); v && (v.onclick=()=>{ try{ speakText(it.say); }catch(e){} });
   sec.querySelector("[data-teilen]").onclick=()=>rlTeilen(it);
   const kb=sec.querySelector("[data-komm]"); kb && (kb.onclick=()=>kmOeffnen(sec, kb.dataset.komm));
-  const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } e.hidden=!e.hidden; });
+  const er=sec.querySelector("[data-erkl]"); er && (er.onclick=()=>{ const e=sec.querySelector(".rerkl"); if(!it.done){ e.innerHTML=`<p>${esc(it.f.e)}</p>${it.f.m?`<p class="rmerk">🗝️ ${esc(it.f.m)}</p>`:""}`; } else { const z=rlArtikelZiel(it.f); if(z){ rlSheet(z.b, z.nr); return; } } e.hidden=!e.hidden; });
   const qa=sec.querySelector("[data-qart]"); qa && (qa.onclick=()=>{ let z=null; try{ z=qbZiel(it.f); }catch(e){} if(z) rlSheet(z.b, z.nr); else rlToast("Zu dieser Frage gibt es noch keinen Artikel"); });
   sec.querySelectorAll("[data-lesen]").forEach(le=>le.onclick=()=>rlSheet(it.b, it.nr));
   const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"… mehr"; });
@@ -5126,6 +5133,16 @@ function qeelLink(it){
   const s=it.s||buchDaten(it.b).seiten.find(x=>x.nr===it.nr); return qeelBasis()+"#qeel=a"+encodeURIComponent(it.b)+"~"+(s?seiteKey(s):"");
 }
 function rlTeilenZu(){ $("#rteilen")?.remove(); $("#rteilenBg")?.remove(); }
+/* Echte App-Logos fürs Teilen (Simple Icons, CC0) */
+const RL_LOGO = {
+  "WhatsApp":["#25D366","M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"],
+  "Telegram":["#26A5E4","M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"],
+  "Facebook":["#0866FF","M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"],
+  "X":["#000000","M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"],
+  "E-Mail":["#1A73E8","M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.3.2 7.7 6.1 7.7-6.1a.7.7 0 0 0-.2-.2h-15a.7.7 0 0 0-.2.2Zm15.7 2.1-7.4 5.8a1 1 0 0 1-1.2 0L4 7.8v10.7c0 .3.2.5.5.5h15c.3 0 .5-.2.5-.5V7.8Z"],
+  "SMS":["#34C759","M5.285 0A5.273 5.273 0 0 0 0 5.285v13.43A5.273 5.273 0 0 0 5.285 24h13.43A5.273 5.273 0 0 0 24 18.715V5.285A5.273 5.273 0 0 0 18.715 0ZM12 4.154a8.809 7.337 0 0 1 8.809 7.338A8.809 7.337 0 0 1 12 18.828a8.809 7.337 0 0 1-2.492-.303A8.656 7.337 0 0 1 5.93 19.93a9.929 7.337 0 0 0 1.54-2.155 8.809 7.337 0 0 1-4.279-6.283A8.809 7.337 0 0 1 12 4.154"]
+};
+function rlAppLogo(n){ const l=RL_LOGO[n]; return l?`<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="${l[0]}" d="${l[1]}"/></svg>`:""; }
 function rlTeilen(it){
   const o=$("#reels"); if(!o) return; rlTeilenZu();
   const link=qeelLink(it), text=it.share, voll=text+"\n"+link, e=encodeURIComponent;
@@ -5140,7 +5157,7 @@ function rlTeilen(it){
   o.insertAdjacentHTML("beforeend",`<div class="rsheet-bg" id="rteilenBg"></div>
     <div class="rteilen" id="rteilen" role="dialog" aria-modal="true" aria-label="Teilen">
       <div class="rtkopf"><b>Teilen</b><button type="button" class="rszu" id="rtZu" aria-label="Schliessen">✕</button></div>
-      <div class="rtziele">${ziele.map(([n,i,u])=>`<a class="rtziel" href="${esc(u)}" target="_blank" rel="noopener"><span class="rti">${i}</span><small>${n}</small></a>`).join("")}
+      <div class="rtziele">${ziele.map(([n,i,u])=>`<a class="rtziel" href="${esc(u)}" target="_blank" rel="noopener"><span class="rti">${rlAppLogo(n)||i}</span><small>${n}</small></a>`).join("")}
         ${navigator.share?`<button type="button" class="rtziel" id="rtMehr"><span class="rti">⋯</span><small>Mehr</small></button>`:""}</div>
       <div class="rtlink"><input type="text" readonly value="${esc(link)}" id="rtLinkFeld" aria-label="Link"><button type="button" id="rtKopier">🔗 Link kopieren</button></div>
     </div>`);
@@ -8630,6 +8647,18 @@ html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):active{transform:scale(.9)}
 html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):focus-visible{outline:3px solid #FFD43B;outline-offset:2px}
 html body.ep-app #reels .rkopf .rfilter,html body.ep-app #reels .rkopf .rmusik{width:52px!important;height:52px!important}
 html body.ep-app #reels .rkopf .rzu{width:76px!important;height:52px!important}
+/* Qeels: gelber Glanz-Knopf «Ganzen Artikel lesen» (Bild als 9-Slice, Text in der gewählten Sprache) */
+html body #reels .ralesen{--lh:50px;min-height:var(--lh);padding:0 calc(var(--lh) * .1) 0 calc(var(--lh) * .08)!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--lh) * .31) calc(var(--lh) * .52) calc(var(--lh) * .31) calc(var(--lh) * 1.04)!important;border-image:url("img/qeels-lesen-knopf.webp") 30 50 30 100 fill / calc(var(--lh) * .31) calc(var(--lh) * .52) calc(var(--lh) * .31) calc(var(--lh) * 1.04) stretch!important;border-radius:0!important;box-shadow:none!important;color:#1A1400!important;font-weight:800;font-size:1.05rem!important;line-height:1.1;display:inline-flex;align-items:center;filter:drop-shadow(0 5px 10px rgba(0,0,0,.35));transition:transform .12s,filter .12s;white-space:nowrap}
+html body #reels .ralesen:hover{transform:translateY(-2px);filter:brightness(1.06) drop-shadow(0 8px 14px rgba(0,0,0,.4))}
+html body #reels .ralesen:active{transform:translateY(2px) scale(.98);box-shadow:none!important;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+@media (max-width:699px){html body #reels .ralesen{--lh:44px;font-size:.95rem!important}}
+/* Qeels: Deko-Kreise der Ersatzbilder (Artikel ohne Foto) ausblenden, sie wirken in den Qeels wie leere Knöpfe */
+html body #reels .ebk{display:none!important}
+/* Qeels: Teilen-Fenster liegt über seinem abgedunkelten Hintergrund (sonst schloss jeder Klick das Fenster) */
+html body #reels .rteilen{z-index:21!important}
+/* Qeels: Knopf «Erklärung» im Ergebnis-Kasten statt «Wische nach oben für mehr» */
+html body #reels .rerklmehr{display:inline-flex;align-items:center;gap:6px;margin-top:8px;border:0;border-radius:999px;padding:7px 14px;font:800 .9rem "Lexend",system-ui,sans-serif;color:#2A1A00;background:linear-gradient(135deg,#FFD84D,#FF9F1C);box-shadow:0 3px 0 #B86A00,0 6px 14px rgba(0,0,0,.25);cursor:pointer}
+html body #reels .rerklmehr:active{transform:translateY(2px);box-shadow:0 1px 0 #B86A00}
 /* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
 @media (max-width:699px){
 html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}
