@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-21-03";
+window.EP_BUILD="ep-2026-10-22-01";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4721,6 +4721,10 @@ function rlRail(id, extra){
     ${"speechSynthesis" in window?`<button type="button" class="rbtn" data-vorlesen><span class="rbi">🔊</span><small>Vorlesen</small></button>`:""}
   </aside>`;
 }
+/* Knopf «Ganzen Artikel lesen» in der gewählten Sprache (zurzeit ist nur Deutsch freigeschaltet) */
+const RL_LESEN = { de:"Ganzen Artikel lesen", en:"Read full article", fr:"Lire l\u2019article complet", it:"Leggi l\u2019articolo completo" };
+function rlLesenText(){ let l="de"; try{ l=(window.EP_I18N&&EP_I18N.sprache&&EP_I18N.sprache())||"de"; }catch(e){} return RL_LESEN[l]||RL_LESEN.de; }
+document.addEventListener("ep:sprache", ()=>document.querySelectorAll("#reels .ralesen .ralt").forEach(x=>x.textContent=rlLesenText()));
 function rlMeta(tag, text, ton, oben, kanal, ikon){
   return `<div class="rmeta">${oben||""}<div class="rkanal"><span class="ravatar ${ikon?"rav-ikon":""}">${ikon||rlLogo()}</span><b>@easyplay${kanal?`<span class="rkslash">/${esc(kanal)}</span>`:""}</b><span class="rchip">${tag}</span></div>
     ${text}</div>`;
@@ -4776,7 +4780,7 @@ function rlArtikelHTML(it, idx){
         ${I.gewusst?`<div class="ragewusst"><b>💡 Wusstest du schon?</b><p>${esc(I.gewusst)}</p></div>`:""}
         ${I.punkte.length?`<div class="rapunkte rnurmobil"><b>🎯 Das Wichtigste</b><ul>${I.punkte.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div><div class="rapunkte rnurpc"><b>🎯 Das Wichtigste</b><ul>${I.punkteLang.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
       </div>
-      <button type="button" class="ralesen" data-lesen>📖 Ganzen Artikel lesen</button>
+      <button type="button" class="ralesen" data-lesen><span class="ralt">${rlLesenText()}</span></button>
     </div>
     ${rlRail(id, `<button type="button" class="rbtn" data-lesen><span class="rbi">📖</span><small>Lesen</small></button>${rlEigene(s).length?`<button type="button" class="rbtn" data-dazu><span class="rbi">🎮</span><small>Frage dazu</small></button>`:""}`)}
     ${rlMeta(`${B.emo} Bibliothek`, "", `${esc(B.titel)} · ${esc(s.kap.titel)}`, "", rlKanal(B.titel), B.emo)}
@@ -8630,6 +8634,11 @@ html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):active{transform:scale(.9)}
 html body #reels .rkopf :is(.rfilter,.rmusik,.rzu):focus-visible{outline:3px solid #FFD43B;outline-offset:2px}
 html body.ep-app #reels .rkopf .rfilter,html body.ep-app #reels .rkopf .rmusik{width:52px!important;height:52px!important}
 html body.ep-app #reels .rkopf .rzu{width:76px!important;height:52px!important}
+/* Qeels: gelber Glanz-Knopf «Ganzen Artikel lesen» (Bild als 9-Slice, Text in der gewählten Sprache) */
+html body #reels .ralesen{--lh:50px;min-height:var(--lh);padding:0 calc(var(--lh) * .1) 0 calc(var(--lh) * .08)!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--lh) * .31) calc(var(--lh) * .52) calc(var(--lh) * .31) calc(var(--lh) * 1.04)!important;border-image:url("img/qeels-lesen-knopf.webp") 30 50 30 100 fill / calc(var(--lh) * .31) calc(var(--lh) * .52) calc(var(--lh) * .31) calc(var(--lh) * 1.04) stretch!important;border-radius:0!important;box-shadow:none!important;color:#1A1400!important;font-weight:800;font-size:1.05rem!important;line-height:1.1;display:inline-flex;align-items:center;filter:drop-shadow(0 5px 10px rgba(0,0,0,.35));transition:transform .12s,filter .12s;white-space:nowrap}
+html body #reels .ralesen:hover{transform:translateY(-2px);filter:brightness(1.06) drop-shadow(0 8px 14px rgba(0,0,0,.4))}
+html body #reels .ralesen:active{transform:translateY(2px) scale(.98);box-shadow:none!important;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+@media (max-width:699px){html body #reels .ralesen{--lh:44px;font-size:.95rem!important}}
 /* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
 @media (max-width:699px){
 html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}
