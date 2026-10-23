@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 23.10. ab 19:15, Sitzung «Hauptseite»: Bibliothekstexte für Politik, Geld, Leben, Alltag (2'910 Seiten). Neue Dateien `texte2-13.json` und folgende, dazu `config.js` (texteDateien2). Bitte diese Dateien nicht anfassen.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 23.10. Sitzung «Hauptseite»: Bibliothek: 2'910 neue Texte, Politik, Geld, Leben und Alltag sind jetzt vollständig (`texte2-13.json` bis `texte2-22.json`, `config.js`). Neue Texte immer in neue Dateien, veröffentlichte Textdateien nie überschreiben (Browser speichern sie lange).
 - 22.10. Sitzung «Qeels»: Vorlesen leuchtet beim Sprechen und stoppt beim zweiten Tippen, neuer Knopf «Bild» zeigt das Bild gross, mit Zoom und quer (`index.html`, `qeels/qeels.js`, `img/qeels-sym-bild.webp`).
 - 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: neues Feld «Bild per Link». Link von Wikipedia, Commons oder Openverse einfügen, Urheber, Lizenz und Quelle werden automatisch geholt; direkte Bildadressen mit Angaben von Hand (`admin/index.html`).
 - 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: Vorschläge erscheinen sofort, sobald die erste Quelle antwortet, jede Quelle höchstens 6 Sekunden (Openverse hing oft); «Zurück» springt nach einer Wahl wieder zur eben bearbeiteten Seite (`admin/index.html`). Neues Verwaltungspasswort.
