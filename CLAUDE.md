@@ -33,7 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
-- 24.10. Sitzung «Hauptseite»: Bibliothek: 3'738 neue Texte, Geschichte und Natur sind jetzt vollständig (`texte2-23.json` bis `texte2-38.json`, `config.js`). Im Kapitel Körper streng ohne Fortpflanzung und Geschlechtsorgane. Offen ist nur noch das Buch Welt (2'962 Seiten).
+- 23.10. Sitzung «Hauptseite»: Bibliothek: 3'738 neue Texte, Geschichte und Natur sind jetzt vollständig (`texte2-23.json` bis `texte2-38.json`, `config.js`). Im Kapitel Körper streng ohne Fortpflanzung und Geschlechtsorgane. Offen ist nur noch das Buch Welt (2'962 Seiten).
 - 23.10. Sitzung «Hauptseite»: Bibliothek: 2'910 neue Texte, Politik, Geld, Leben und Alltag sind jetzt vollständig (`texte2-13.json` bis `texte2-22.json`, `config.js`). Neue Texte immer in neue Dateien, veröffentlichte Textdateien nie überschreiben (Browser speichern sie lange).
 - 22.10. Sitzung «Qeels»: Vorlesen leuchtet beim Sprechen und stoppt beim zweiten Tippen, neuer Knopf «Bild» zeigt das Bild gross, mit Zoom und quer (`index.html`, `qeels/qeels.js`, `img/qeels-sym-bild.webp`).
 - 22.10. Sitzung «Hauptseite»: Verwaltung «Bilder wechseln»: neues Feld «Bild per Link». Link von Wikipedia, Commons oder Openverse einfügen, Urheber, Lizenz und Quelle werden automatisch geholt; direkte Bildadressen mit Angaben von Hand (`admin/index.html`).
