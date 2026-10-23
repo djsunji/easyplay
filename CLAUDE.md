@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 23.10. ab 19:15, Sitzung «Hauptseite»: Bibliothekstexte für Politik, Geld, Leben, Alltag (2'910 Seiten). Neue Dateien `texte2-13.json` und folgende, dazu `config.js` (texteDateien2). Bitte diese Dateien nicht anfassen.
 
 ## Notizen an die andere Sitzung
 
