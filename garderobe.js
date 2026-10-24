@@ -39,7 +39,14 @@ const HG = [
   ["hg_gold",       "Goldglanz",      "🏆", {tests:25}, "linear-gradient(135deg,#8A5A00,#E0A800 40%,#FFE680 55%,#C68346)"],
   ["hg_regenbogen", "Regenbogen",     "🌈", {serie:30}, "linear-gradient(135deg,#FF6FA8,#FFB347 22%,#FFE34D 40%,#7BE07B 58%,#7FD1FF 76%,#B98CFF)"],
   ["hg_wissen",     "Wissensnebel",   "🧠", {fragen:5000}, "radial-gradient(circle at 30% 40%,#FF6FA8aa,transparent 45%), radial-gradient(circle at 75% 60%,#7FD1FFaa,transparent 45%), linear-gradient(160deg,#2A1B5E,#5B2BB5)"],
-  ["hg_konfetti",   "Konfetti",       "🎉", {truhe:1, level:60}, "radial-gradient(circle,#FFE34D 0 3px,transparent 4px) 0 0/40px 40px, radial-gradient(circle,#7FD1FF 0 3px,transparent 4px) 20px 20px/40px 40px, radial-gradient(circle,#FF6FA8 0 2px,transparent 3px) 10px 30px/50px 50px, linear-gradient(135deg,#8A3FE0,#3D5AFE)"]
+  ["hg_konfetti",   "Konfetti",       "🎉", {truhe:1, level:60}, "radial-gradient(circle,#FFE34D 0 3px,transparent 4px) 0 0/40px 40px, radial-gradient(circle,#7FD1FF 0 3px,transparent 4px) 20px 20px/40px 40px, radial-gradient(circle,#FF6FA8 0 2px,transparent 3px) 10px 30px/50px 50px, linear-gradient(135deg,#8A3FE0,#3D5AFE)"],
+  // hohe Level: alle 50 Level etwas Neues
+  ["hg_vulkan",     "Vulkan",         "🌋", {level:100}, "radial-gradient(ellipse at 50% 100%,#FFB347,#E8384F 30%,transparent 60%), linear-gradient(180deg,#2B0F1E,#5A1A1A 60%,#1B0A0A)"],
+  ["hg_tiefsee",    "Tiefsee",        "🐋", {level:300}, "radial-gradient(circle at 25% 75%,#7FD1FF33 0 6px,transparent 7px) 0 0/70px 70px, radial-gradient(ellipse at 50% 0%,#3FB6C980,transparent 60%), linear-gradient(180deg,#0B3D91,#061A40 70%,#020A1C)"],
+  ["hg_galaxie",    "Galaxie",        "🌀", {level:500}, "radial-gradient(circle,#fff 0 1px,transparent 2px) 0 0/50px 50px, conic-gradient(from 200deg at 55% 50%,#0B1030,#E043B8,#3D5AFE,#0B1030,#7FD1FF,#0B1030)"],
+  ["hg_kristall",   "Kristallhöhle",  "💠", {level:700}, "conic-gradient(from 30deg at 30% 60%,#7FD1FF,#B98CFF,#3FB6C9,#E6FBFF,#5B8CFF,#7FD1FF), linear-gradient(#000,#000)"],
+  ["hg_sonne",      "Sonnenkrone",    "☀️", {level:900}, "repeating-conic-gradient(from 0deg at 50% 45%,#FFE34D 0 10deg,#FFB347 10deg 20deg), radial-gradient(circle,#fff,#FFE34D)"],
+  ["hg_krone",      "Krone des Wissens","👑", {level:1000}, "radial-gradient(circle at 50% 40%,#FFF4C2,#E0A800 35%,transparent 60%), repeating-linear-gradient(45deg,#4B2A9B 0 18px,#5B2BB5 18px 36px)"]
 ];
 const RA = [
   ["ohne",       "Ohne Rahmen",     "⭕", {start:1}, "transparent"],
@@ -53,7 +60,12 @@ const RA = [
   ["gold",       "Goldrahmen",      "🖼️", {level:40}, "conic-gradient(#8A5A00,#FFE680,#E0A800,#FFF4C2,#C68346,#FFE680,#8A5A00)"],
   ["diamant",    "Diamant",         "💎", {tests:100}, "conic-gradient(#E6FBFF,#5B8CFF,#E6FBFF,#3FB6C9,#E6FBFF,#B98CFF,#E6FBFF)"],
   ["wiese",      "Blumenwiese",     "🌷", {truhe:1, level:65}, "linear-gradient(160deg,#FF6FA8,#7BE07B)"],
-  ["meer",       "Unterwasser",     "🐠", {truhe:1, level:75}, "linear-gradient(160deg,#3FB6C9,#0B3D91)"]
+  ["meer",       "Unterwasser",     "🐠", {truhe:1, level:75}, "linear-gradient(160deg,#3FB6C9,#0B3D91)"],
+  ["feuer",      "Feuerring",       "🔥", {level:150}, "conic-gradient(#FFE34D,#FF8A3D,#E8384F,#FF8A3D,#FFE34D,#E8384F,#FFE34D)"],
+  ["gletscher",  "Gletscher",       "🧊", {level:350}, "conic-gradient(#fff,#BFE9FF,#7FD1FF,#fff,#3FB6C9,#BFE9FF,#fff)"],
+  ["smaragd",    "Smaragd",         "💚", {level:550}, "conic-gradient(#0B6E4F,#7BE07B,#0FA968,#E6FFE6,#0B6E4F,#7BE07B,#0B6E4F)"],
+  ["plasma",     "Plasma",          "🟣", {level:750}, "conic-gradient(#E043B8,#3D5AFE,#7FD1FF,#B98CFF,#E043B8,#3D5AFE,#E043B8)"],
+  ["rubin",      "Rubin",           "❤️", {level:950}, "conic-gradient(#7A0019,#FF6FA8,#E8384F,#FFD6E0,#B5121B,#FF6FA8,#7A0019)"]
 ];
 const ST = [
   // frühere Garderobe: Kopf, Brille, Hals
@@ -66,7 +78,8 @@ const ST = [
   // neu: für Lesen, Fragen und Tests
   ["buch","Buch","📚",{artikel:5}], ["eule","Eule","🦉",{artikel:50}], ["lupe","Lupe","🔎",{artikel:100}], ["globus","Globus","🌍",{artikel:500}],
   ["rakete","Rakete","🚀",{fragen:500}], ["gehirn","Gehirn","🧠",{fragen:2500}], ["blitz","Blitz","⚡",{fragen:10000}],
-  ["pokal","Pokal","🏆",{tests:10}], ["diplom","Diplom","🎓",{tests:50}], ["einhorn","Einhorn","🦄",{tests:250}]
+  ["pokal","Pokal","🏆",{tests:10}], ["diplom","Diplom","🎓",{tests:50}], ["einhorn","Einhorn","🦄",{tests:250}],
+  ["drache","Drache","🐉",{level:200}], ["adler","Adler","🦅",{level:400}], ["komet","Komet","☄️",{level:600}], ["planet","Planet","🪐",{level:800}],
 ];
 const EF = [
   ["kein",       "Kein Effekt",     "▫️", {start:1}, ""],
@@ -77,7 +90,11 @@ const EF = [
   ["seiten",     "Fliegende Seiten","📄", {artikel:100}, "📄"],
   ["fragezeichen","Fragezeichen",   "❓", {fragen:1000}, "❓"],
   ["schnee",     "Schneeflocken",   "❄️", {truhe:1, level:80}, "❄️"],
-  ["blasen",     "Seifenblasen",    "🫧", {truhe:1, level:85}, "🫧"]
+  ["blasen",     "Seifenblasen",    "🫧", {truhe:1, level:85}, "🫧"],
+  ["flammen",    "Flammen",         "🔥", {level:250}, "🔥"],
+  ["blitze",     "Blitze",          "⚡", {level:450}, "⚡"],
+  ["diamanten",  "Diamantenregen",  "💎", {level:650}, "💎"],
+  ["sternregen", "Sternenregen",    "🌟", {level:850}, "🌟"]
 ];
 const TEILE = [
   ...HG.map(([id, name, emo, frei, css]) => ({id, kat:"hg", name, emo, frei, css})),
