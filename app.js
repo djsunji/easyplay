@@ -901,8 +901,13 @@ function wocheHTML(){
 }
 
 /* ---------- Kopfzeile mit Zurück auf allen Unterseiten ---------- */
+// Verlauf der Artikel-Links vergessen, sobald man die Artikelseiten verlässt
+let zurueckImVerlauf = false;
+(function(){ const vor = window.go; if(typeof vor !== "function") return; window.go = function(z){ try{ if(!/seite$/.test(String(z)) && typeof LIB !== "undefined") LIB.verlauf = []; }catch(e){} return vor.apply(this, arguments); }; })();
 const TITEL = {chat:"Tagesquiz", livequiz:"Live-Quiz", spielmodi:"Wettbewerb & Duell", board:"Rangliste", lib:"Bibliothek", profil:"Mein Profil", register:"Registrieren", login:"Anmelden", konto:"Anmelden", duell:"Duell", epwoche:"Thema der Woche", hardcoreinfo:"Hardcore", live:"Wettbewerb", lehrer:"Lehrerbereich"};
 function zurueck(){
+  // nach einem Link im Artikel: zurück zum vorherigen Artikel statt zum Buch
+  try{ if(/seite$/.test(S.screen) && LIB.verlauf && LIB.verlauf.length){ const v = LIB.verlauf.pop(); LIB.buch = v.b; LIB.seite = v.nr; LIB.zufall = false; zurueckImVerlauf = true; go("libseite"); zurueckImVerlauf = false; scrollTo(0, 0); return; } }catch(e){ zurueckImVerlauf = false; }
   const cr = document.querySelector("#app .crumbs");
   if(cr && Array.isArray(S._crumbs) && S._crumbs.length){ try{ S._crumbs[S._crumbs.length - 1](); return; }catch(e){} }
   const t = tabVon(S.screen); if(HOME_TABS.includes(t)) setTab(t);
