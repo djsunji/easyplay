@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. ab 09:35, Sitzung «Hauptseite»: Fehlerbehebungen aus der Code-Durchsicht: `sw.js` (Update-Ablauf, Daten, Bilder), `offline.js`, `lernen.js` (Serie), Laden/Links/Speicher/Bibliothekssuche in `index.html`, Verwaltung Speichern (`admin/index.html`). In Qeels nur zwei kleine Stellen: `rlSheet` lädt den Text vor dem Anzeigen, und die Nummer bei «Frage dazu» (`RL.nextIdx`). Sonst fasse ich Qeels nicht an.
 
 ## Notizen an die andere Sitzung
 
