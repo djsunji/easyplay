@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-02";
+window.EP_BUILD="ep-2026-10-24-03";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4283,15 +4283,19 @@ function render(){
 // Nur diese Felder sind öffentlich in der Rangliste (keine E-Mail, keine Namen)
 function oeffentlichesProfil(p){
   p=p||{}; const o={name:String(p.name||"").slice(0,40), avatar:p.avatar||null, stufe:+p.stufe||1, kanton:String(p.kanton||"").slice(0,4), best:p.best||{}, saison:p.saison||{}, tests:+p.tests||0};
-  if(p.hc) o.hc=p.hc; if(p.erstellt) o.erstellt=p.erstellt; return o;
+  if(p.hc) o.hc=p.hc; if(p.erstellt) o.erstellt=p.erstellt;
+  try{ if(window.EP_PROFIL){ const x=window.EP_PROFIL.oeffentlich(); o.deko=x.deko; o.zahlen=x.zahlen; } }catch(e){}
+  return o;
 }
 // Fremde Profile aus der Datenbank: nur erwartete Felder und Typen übernehmen
+function dekoSauber(d){ if(!d||typeof d!=="object") return undefined; const w=v=>typeof v==="string"&&/^[a-z0-9_:]{1,24}$/i.test(v)?v:""; const l=(v,n)=>Array.isArray(v)?v.slice(0,n).map(w).filter(Boolean):[];
+  return {hg:w(d.hg), ra:w(d.ra), ef:w(d.ef), st:l(d.st,4), ti:typeof d.ti==="string"?d.ti.slice(0,30):"", vi:l(d.vi,3)}; }
 function spielerSauber(id, d){
   d=d||{}; const zahlen=o=>{ const r={}; if(o&&typeof o==="object") for(const k of Object.keys(o).slice(0,400)) { const n=+o[k]; if(isFinite(n)) r[String(k).slice(0,60)]=Math.max(0,Math.min(n,1e6)); } return r; };
   const saison={}; if(d.saison&&typeof d.saison==="object") for(const k of Object.keys(d.saison).slice(0,60)) saison[String(k).slice(0,40)]=zahlen(d.saison[k]);
   const hc=d.hc&&typeof d.hc==="object"?{best:Math.max(0,Math.min(+d.hc.best||0,100000)), zeit:+d.hc.zeit||0, datum:String(d.hc.datum||"").slice(0,30), spiele:+d.hc.spiele||0}:undefined;
   return {id:String(id), name:String(d.name||"").slice(0,40), avatar:typeof d.avatar==="string"?d.avatar.slice(0,40):null, stufe:[1,2,3].includes(+d.stufe)?+d.stufe:1,
-    kanton:typeof d.kanton==="string"?d.kanton.slice(0,4):"", best:zahlen(d.best), saison, tests:Math.max(0,+d.tests||0), hc, erstellt:d.erstellt};
+    kanton:typeof d.kanton==="string"?d.kanton.slice(0,4):"", best:zahlen(d.best), saison, tests:Math.max(0,+d.tests||0), hc, erstellt:d.erstellt, deko:dekoSauber(d.deko), zahlen:zahlen(d.zahlen)};
 }
 function totalPts(p){ const b=(p&&p.best)||{}; return Object.values(b).reduce((n,v)=>n+(+v||0),0); }
 function homeTop10(){
