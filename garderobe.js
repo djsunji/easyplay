@@ -28,25 +28,33 @@ const BERGE = svgUrl('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 1
 const KREUZE = svgUrl('<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><path d="M24 14h12v10h10v12H36v10H24V36H14V24h10z" fill="#fff" fill-opacity=".16"/></svg>');
 const HG = [
   ["hg_lila",       "Lila Traum",     "💜", {start:1}, "linear-gradient(135deg,#E043B8,#8A3FE0 55%,#3D5AFE)"],
-  ["hg_ozean",      "Ozean",          "🌊", {start:1}, "linear-gradient(160deg,#0B7E8A,#1E9BE0 55%,#3D5AFE)"],
+  ["hg_ozean",      "Ozean",          "🌊", {start:1}, "linear-gradient(160deg,#0B7E8A,#1E9BE0 55%,#3D5AFE)", "wellen"],
   ["hg_abend",      "Abendrot",       "🌇", {level:4}, "linear-gradient(160deg,#FF8A3D,#E043B8 60%,#6B2BB5)"],
   ["hg_wald",       "Wald",           "🌲", {serie:3}, "linear-gradient(170deg,#0FA968,#0B6E4F 60%,#08402F)"],
-  ["hg_alpen",      "Alpen",          "🏔️", {level:8}, `${BERGE} bottom/100% 55% no-repeat, linear-gradient(180deg,#5FB8F0,#BFE9FF)`],
+  ["hg_alpen",      "Alpen",          "🏔️", {level:8}, `${BERGE} bottom/100% 55% no-repeat, linear-gradient(180deg,#5FB8F0,#BFE9FF)`, "wolken"],
   ["hg_schweiz",    "Schweiz",        "🇨🇭", {level:12}, `${KREUZE}, linear-gradient(160deg,#E8384F,#B5121B)`],
-  ["hg_weltall",    "Weltall",        "🌌", {level:16}, "radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px) 0 0/60px 60px, radial-gradient(circle at 70% 70%,#fff 0 1px,transparent 2px) 0 0/90px 90px, radial-gradient(circle at 80% 20%,#B98CFF55,transparent 40%), linear-gradient(160deg,#0B1030,#2A1B5E)"],
+  ["hg_weltall",    "Weltall",        "🌌", {level:16}, "radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px) 0 0/60px 60px, radial-gradient(circle at 70% 70%,#fff 0 1px,transparent 2px) 0 0/90px 90px, radial-gradient(circle at 80% 20%,#B98CFF55,transparent 40%), linear-gradient(160deg,#0B1030,#2A1B5E)", "funkeln"],
   ["hg_bibliothek", "Bibliothek",     "📚", {artikel:25}, "repeating-linear-gradient(90deg,#8A3F2A 0 14px,#B5652E 14px 26px,#2F6E8A 26px 38px,#E0A800 38px 46px,#5B2BB5 46px 60px) bottom/100% 38% no-repeat, linear-gradient(180deg,#5A3A22,#3B2414)"],
-  ["hg_nordlicht",  "Nordlicht",      "🌠", {level:28}, "linear-gradient(160deg,#081C3A,#0FA968 42%,#3FB6C9 62%,#6B2BB5)"],
+  ["hg_nordlicht",  "Nordlicht",      "🌠", {level:28}, "linear-gradient(160deg,#081C3A,#0FA968 42%,#3FB6C9 62%,#6B2BB5)", "fliessen"],
   ["hg_gold",       "Goldglanz",      "🏆", {tests:25}, "linear-gradient(135deg,#8A5A00,#E0A800 40%,#FFE680 55%,#C68346)"],
-  ["hg_regenbogen", "Regenbogen",     "🌈", {serie:30}, "linear-gradient(135deg,#FF6FA8,#FFB347 22%,#FFE34D 40%,#7BE07B 58%,#7FD1FF 76%,#B98CFF)"],
+  ["hg_regenbogen", "Regenbogen",     "🌈", {serie:30}, "linear-gradient(135deg,#FF6FA8,#FFB347 22%,#FFE34D 40%,#7BE07B 58%,#7FD1FF 76%,#B98CFF)", "fliessen"],
   ["hg_wissen",     "Wissensnebel",   "🧠", {fragen:5000}, "radial-gradient(circle at 30% 40%,#FF6FA8aa,transparent 45%), radial-gradient(circle at 75% 60%,#7FD1FFaa,transparent 45%), linear-gradient(160deg,#2A1B5E,#5B2BB5)"],
   ["hg_konfetti",   "Konfetti",       "🎉", {truhe:1, level:60}, "radial-gradient(circle,#FFE34D 0 3px,transparent 4px) 0 0/40px 40px, radial-gradient(circle,#7FD1FF 0 3px,transparent 4px) 20px 20px/40px 40px, radial-gradient(circle,#FF6FA8 0 2px,transparent 3px) 10px 30px/50px 50px, linear-gradient(135deg,#8A3FE0,#3D5AFE)"],
+  // bewegte Hintergründe als besondere Belohnung
+  ["hg_wolkenzug",  "Ziehende Wolken", "☁️", {serie:14}, "linear-gradient(180deg,#5FB8F0,#BFE9FF)", "wolken"],
+  ["hg_lava",       "Lavalampe",       "🫠", {serie:60}, "radial-gradient(circle at 30% 30%,#FF6FA8,transparent 35%), radial-gradient(circle at 70% 70%,#FFB347,transparent 35%), radial-gradient(circle at 60% 25%,#B98CFF,transparent 30%), linear-gradient(160deg,#6B2BB5,#E043B8)", "lava"],
+  ["hg_feuerwerk",  "Feuerwerk",       "🎆", {serie:100}, "linear-gradient(180deg,#0B1030,#2A1B5E)", "feuerwerk"],
+  ["hg_schnee",     "Schneegestöber",  "🌨️", {artikel:250}, "linear-gradient(180deg,#5B7A99,#A9C4DE)", "schnee"],
+  ["hg_polar",      "Tanzende Polarlichter","🌌", {tests:250}, "linear-gradient(120deg,#081C3A,#0FA968,#3FB6C9,#B98CFF,#E043B8,#0FA968,#081C3A)", "fliessen"],
+  ["hg_strudel",    "Zeitstrudel",     "🌀", {artikel:1000}, "conic-gradient(from 0deg,#3D5AFE,#E043B8,#FFE34D,#0FA968,#3D5AFE)", "drehen"],
+  ["hg_farbwelle",  "Farbwelle",       "🎨", {fragen:10000}, "linear-gradient(90deg,#FF6FA8,#FFB347,#FFE34D,#7BE07B,#7FD1FF,#B98CFF,#FF6FA8,#FFB347)", "fliessen"],
   // hohe Level: alle 50 Level etwas Neues
-  ["hg_vulkan",     "Vulkan",         "🌋", {level:100}, "radial-gradient(ellipse at 50% 100%,#FFB347,#E8384F 30%,transparent 60%), linear-gradient(180deg,#2B0F1E,#5A1A1A 60%,#1B0A0A)"],
-  ["hg_tiefsee",    "Tiefsee",        "🐋", {level:300}, "radial-gradient(circle at 25% 75%,#7FD1FF33 0 6px,transparent 7px) 0 0/70px 70px, radial-gradient(ellipse at 50% 0%,#3FB6C980,transparent 60%), linear-gradient(180deg,#0B3D91,#061A40 70%,#020A1C)"],
-  ["hg_galaxie",    "Galaxie",        "🌀", {level:500}, "radial-gradient(circle,#fff 0 1px,transparent 2px) 0 0/50px 50px, conic-gradient(from 200deg at 55% 50%,#0B1030,#E043B8,#3D5AFE,#0B1030,#7FD1FF,#0B1030)"],
+  ["hg_vulkan",     "Vulkan",         "🌋", {level:100}, "radial-gradient(ellipse at 50% 100%,#FFB347,#E8384F 30%,transparent 60%), linear-gradient(180deg,#2B0F1E,#5A1A1A 60%,#1B0A0A)", "gluehen"],
+  ["hg_tiefsee",    "Tiefsee",        "🐋", {level:300}, "radial-gradient(circle at 25% 75%,#7FD1FF33 0 6px,transparent 7px) 0 0/70px 70px, radial-gradient(ellipse at 50% 0%,#3FB6C980,transparent 60%), linear-gradient(180deg,#0B3D91,#061A40 70%,#020A1C)", "blasen"],
+  ["hg_galaxie",    "Galaxie",        "🌀", {level:500}, "radial-gradient(circle,#fff 0 1px,transparent 2px) 0 0/50px 50px, conic-gradient(from 200deg at 55% 50%,#0B1030,#E043B8,#3D5AFE,#0B1030,#7FD1FF,#0B1030)", "drehen"],
   ["hg_kristall",   "Kristallhöhle",  "💠", {level:700}, "conic-gradient(from 30deg at 30% 60%,#7FD1FF,#B98CFF,#3FB6C9,#E6FBFF,#5B8CFF,#7FD1FF), linear-gradient(#000,#000)"],
-  ["hg_sonne",      "Sonnenkrone",    "☀️", {level:900}, "repeating-conic-gradient(from 0deg at 50% 45%,#FFE34D 0 10deg,#FFB347 10deg 20deg), radial-gradient(circle,#fff,#FFE34D)"],
-  ["hg_krone",      "Krone des Wissens","👑", {level:1000}, "radial-gradient(circle at 50% 40%,#FFF4C2,#E0A800 35%,transparent 60%), repeating-linear-gradient(45deg,#4B2A9B 0 18px,#5B2BB5 18px 36px)"]
+  ["hg_sonne",      "Sonnenkrone",    "☀️", {level:900}, "repeating-conic-gradient(from 0deg at 50% 45%,#FFE34D 0 10deg,#FFB347 10deg 20deg), radial-gradient(circle,#fff,#FFE34D)", "strahlen"],
+  ["hg_krone",      "Krone des Wissens","👑", {level:1000}, "radial-gradient(circle at 50% 40%,#FFF4C2,#E0A800 35%,transparent 60%), repeating-linear-gradient(45deg,#4B2A9B 0 18px,#5B2BB5 18px 36px)", "glanz"]
 ];
 const RA = [
   ["ohne",       "Ohne Rahmen",     "⭕", {start:1}, "transparent"],
@@ -97,7 +105,7 @@ const EF = [
   ["sternregen", "Sternenregen",    "🌟", {level:850}, "🌟"]
 ];
 const TEILE = [
-  ...HG.map(([id, name, emo, frei, css]) => ({id, kat:"hg", name, emo, frei, css})),
+  ...HG.map(([id, name, emo, frei, css, anim]) => ({id, kat:"hg", name, emo, frei, css, anim})),
   ...RA.map(([id, name, emo, frei, css]) => ({id, kat:"rahmen", name, emo, frei, css})),
   ...ST.map(([id, name, emo, frei]) => ({id, kat:"sticker", name, emo, frei})),
   ...EF.map(([id, name, emo, frei, z]) => ({id, kat:"effekt", name, emo, frei, z}))
@@ -201,13 +209,13 @@ function effektHTML(id){
 /* p: {name, avatar, kanton, deko:{hg,ra,ef,st,ti,vi}, zahlen:{f,t,a,l,s,ab}}; ich: eigenes Profil (Knopf zum Verzieren) */
 function kopfHTML(p, ich){
   const d = p.deko || {}, z = p.zahlen || {};
-  const hg = (TEIL[d.hg] && TEIL[d.hg].kat === "hg" ? TEIL[d.hg] : TEIL.hg_lila).css;
+  const hgT = TEIL[d.hg] && TEIL[d.hg].kat === "hg" ? TEIL[d.hg] : TEIL.hg_lila, hg = hgT.css;
   const ra = TEIL[d.ra] && TEIL[d.ra].kat === "rahmen" ? TEIL[d.ra] : TEIL.himmel;
   let av = ""; try{ av = avatar(p.avatar); }catch(e){}
   let ti = null; try{ ti = (window.EP_LEVEL.TITEL || []).find(t => t[2] === d.ti) || null; }catch(e){}
   let kt = ""; try{ if(p.kanton){ const k = KANTONE.find(x => x.kuerzel === p.kanton); kt = `${wappen(p.kanton)} ${h(k ? k.kurz : p.kanton)}`; } }catch(e){}
   const st = (Array.isArray(d.st) ? d.st : []).slice(0, MAX_STICKER).map(id => TEIL[id]).filter(t => t && t.kat === "sticker");
-  return `<section class="pp-kopf" style="background:${hg}">
+  return `<section class="pp-kopf${hgT.anim ? " pa pa-" + hgT.anim : ""}" style="background:${hg}">
     ${effektHTML(d.ef)}
     ${st.map((t, i) => `<span class="pp-st" style="left:${SPOTS[i][0]};top:${SPOTS[i][1]};--r:${SPOTS[i][2]}deg" title="${h(t.name)}" aria-hidden="true">${t.emo}</span>`).join("")}
     <div class="pp-mitte">
@@ -334,6 +342,35 @@ css.textContent = `
 .pp-eff i{position:absolute;bottom:-12%;font-style:normal;font-size:calc(1.1rem * var(--g));opacity:0;animation:ppSteig var(--t) linear var(--d) infinite}
 @keyframes ppSteig{0%{transform:translateY(0) rotate(-8deg);opacity:0}15%{opacity:.95}100%{transform:translateY(-260px) rotate(12deg);opacity:0}}
 @media (prefers-reduced-motion:reduce){.pp-eff i{animation:none;opacity:.8;bottom:auto;top:calc(var(--d) * 20%)}}
+/* Bewegte Hintergründe: Ebene .pa::before über dem Hintergrund, unter dem Inhalt */
+.pa{position:relative;overflow:hidden;isolation:isolate}
+.pa::before{content:"";position:absolute;pointer-events:none;z-index:-1}
+.pv-bild.pa{position:relative}
+.pv-bewegt{position:absolute;left:3px;bottom:3px;font-style:normal;font-size:.5rem;font-weight:800;background:rgba(15,20,48,.65);color:#fff;border-radius:999px;padding:1px 5px;z-index:2}
+.pa-fliessen{background-size:300% 300%!important;animation:paFliess 12s ease-in-out infinite alternate}
+@keyframes paFliess{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+.pa-wellen::before{left:0;right:0;bottom:0;height:45%;background:radial-gradient(ellipse 40px 14px at 50% 0,transparent 70%,rgba(255,255,255,.22) 72%,transparent 82%) 0 0/80px 22px repeat;animation:paWelle 5s linear infinite}
+@keyframes paWelle{to{background-position:80px 0}}
+.pa-funkeln::before{inset:0;background:radial-gradient(circle,#fff 0 1.5px,transparent 2.5px) 12px 18px/70px 70px,radial-gradient(circle,#FFE34D 0 1.5px,transparent 2.5px) 40px 50px/110px 90px;animation:paBlink 2.6s ease-in-out infinite alternate}
+@keyframes paBlink{0%{opacity:.15}100%{opacity:1}}
+.pa-gluehen::before{left:-20%;right:-20%;bottom:-30%;height:80%;background:radial-gradient(ellipse at 50% 100%,#FFE34D,#FF8A3D 25%,#E8384F 45%,transparent 70%);animation:paGlueh 3.4s ease-in-out infinite alternate}
+@keyframes paGlueh{0%{opacity:.45;transform:scale(.92)}100%{opacity:1;transform:scale(1.08)}}
+.pa-blasen::before{inset:0;background:radial-gradient(circle,rgba(255,255,255,.55) 0 2px,transparent 3px) 10px 0/60px 60px,radial-gradient(circle,rgba(191,233,255,.45) 0 3.5px,transparent 4.5px) 35px 20px/90px 80px;animation:paSteig 7s linear infinite}
+@keyframes paSteig{to{background-position:10px -60px,35px -140px}}
+.pa-drehen::before{inset:-60%;background:inherit;animation:paDreh 40s linear infinite}
+.pa-strahlen::before{inset:-80%;background:repeating-conic-gradient(rgba(255,255,255,.28) 0 6deg,transparent 6deg 18deg);animation:paDreh 30s linear infinite}
+@keyframes paDreh{to{transform:rotate(360deg)}}
+.pa-glanz::before{top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,244,194,.55),transparent);animation:paGlanz 4.5s ease-in-out infinite}
+@keyframes paGlanz{0%{transform:translateX(0)}60%,100%{transform:translateX(400%)}}
+.pa-wolken::before{left:0;right:0;top:4%;height:45%;background:radial-gradient(ellipse 50px 18px at 50% 50%,rgba(255,255,255,.9) 60%,transparent 62%) 0 10px/260px 60px repeat-x,radial-gradient(ellipse 34px 13px at 50% 50%,rgba(255,255,255,.75) 60%,transparent 62%) 120px 0/200px 50px repeat-x;animation:paZieh 26s linear infinite}
+@keyframes paZieh{to{background-position:260px 10px,320px 0}}
+.pa-lava{background-size:180% 180%!important;animation:paLava 9s ease-in-out infinite alternate}
+@keyframes paLava{0%{background-position:0% 0%,100% 100%,50% 0%,0 0}100%{background-position:100% 60%,0% 30%,20% 100%,0 0}}
+.pa-feuerwerk::before{inset:0;background:radial-gradient(circle,#FFE34D 0 2px,transparent 3px) 20px 20px/90px 80px,radial-gradient(circle,#FF6FA8 0 2px,transparent 3px) 60px 50px/120px 100px,radial-gradient(circle,#7FD1FF 0 2px,transparent 3px) 5px 60px/70px 110px,radial-gradient(circle at 30% 35%,rgba(255,111,168,.45),transparent 22%),radial-gradient(circle at 72% 30%,rgba(255,227,77,.4),transparent 20%);animation:paKnall 2.2s ease-out infinite}
+@keyframes paKnall{0%{opacity:0;transform:scale(.7)}25%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
+.pa-schnee::before{inset:0;background:radial-gradient(circle,#fff 0 2px,transparent 3px) 0 0/50px 50px,radial-gradient(circle,rgba(255,255,255,.8) 0 1.5px,transparent 2.5px) 25px 10px/35px 40px;animation:paFall 6s linear infinite}
+@keyframes paFall{to{background-position:20px 50px,5px 80px}}
+@media (prefers-reduced-motion:reduce){.pa,.pa::before{animation:none!important}}
 .pp-zahlen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
 .pp-zahl{background:var(--surface,#fff);border:2px solid var(--line,#E3E7F2);border-radius:18px;padding:10px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0}
 .pp-zahl span{font-size:1.3rem;line-height:1}
@@ -410,7 +447,7 @@ function seite(box){
     } else {
       html = TEILE.filter(t => t.kat === reiter).map(t => { const da = hat(t, st);
         const aktiv = reiter === "sticker" ? d.sticker.includes(t.id) : d[reiter] === t.id;
-        const bild = reiter === "hg" ? `<span class="pv-bild" style="background:${t.css}"></span>` : reiter === "rahmen" ? `<span class="pv-bild pv-ring" style="background:${t.id === "ohne" ? "rgba(255,255,255,.14)" : t.css}"><span></span></span>` : `<span class="pv-bild">${t.emo}</span>`;
+        const bild = reiter === "hg" ? `<span class="pv-bild${t.anim ? " pa pa-" + t.anim : ""}" style="background:${t.css}">${t.anim ? '<i class="pv-bewegt">bewegt</i>' : ""}</span>` : reiter === "rahmen" ? `<span class="pv-bild pv-ring" style="background:${t.id === "ohne" ? "rgba(255,255,255,.14)" : t.css}"><span></span></span>` : `<span class="pv-bild">${t.emo}</span>`;
         return kachel(t.id, aktiv, da, bild, t.name, wieText(t), neuJetzt.includes(t.id) && !g.includes(t.id)); }).join("");
       tipp = reiter === "sticker" ? `🦉 Bis zu ${MAX_STICKER} Sticker kleben auf deinem Profil. Nochmals antippen nimmt einen weg.` : "💡 Neue Verzierungen gibt es mit Level, Serie, Truhen, gelesenen Artikeln, Fragen und Tests.";
     }
