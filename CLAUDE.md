@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 24.10. ab 06:40, Sitzung «Hauptseite»: Bibliothekstexte nur bei Bedarf laden (neue Dateien in `tx/`, Ladecode der Texte in `index.html` um `ladeTexte1`/`ladeTexteTeil`, kleiner Vorlade-Haken bei `rlNaechsterArtikel`), Datenspeicher im Service Worker (`sw.js`), `config.js`. Die Qeels-Darstellung selbst fasse ich nicht an.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Bibliothekstexte werden nur noch bei Bedarf geladen (offene Seite mit Nachbarn, durchsuchtes Buch, nächster Qeels-Artikel). Die Texte liegen jetzt in `tx/` (150 Texte pro Datei, Hash im Namen, `tx/index-….json` sagt welche Seite wo steht); die alten `texte2-*.json` sind weg. Neue Texte immer über `texte_aufteilen.py` einbauen, nie Dateien in `tx/` von Hand ändern. Fragen und Texte liegen im Service Worker im Speicher `epoff-daten` und werden bei einem Update nicht mehr neu geladen (`index.html`, `sw.js`, `config.js`, `offline.js`, `tx/`). Für Qeels: `rlNaechsterArtikel()` wählt den nächsten Artikel jetzt einen Schritt im Voraus, damit sein Text schon da ist; Pool-Prüfungen nutzen `hatText(key)` statt `S.texte[key]`.
 - 24.10. Sitzung «Hauptseite»: Bibliothek: 2'962 neue Texte für das Buch Welt (`texte2-39.json` bis `texte2-52.json`, `config.js`). Damit haben alle 16'705 Seiten der Bibliothek einen Text.
 - 23.10. Sitzung «Hauptseite»: Bibliothek: 3'738 neue Texte, Geschichte und Natur sind jetzt vollständig (`texte2-23.json` bis `texte2-38.json`, `config.js`). Im Kapitel Körper streng ohne Fortpflanzung und Geschlechtsorgane. Offen ist nur noch das Buch Welt (2'962 Seiten).
 - 23.10. Sitzung «Hauptseite»: Bibliothek: 2'910 neue Texte, Politik, Geld, Leben und Alltag sind jetzt vollständig (`texte2-13.json` bis `texte2-22.json`, `config.js`). Neue Texte immer in neue Dateien, veröffentlichte Textdateien nie überschreiben (Browser speichern sie lange).
