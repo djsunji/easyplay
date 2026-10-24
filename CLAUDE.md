@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. ab 11:15, Sitzung «Hauptseite»: Sicherheit: `supabase/*.sql`, `duell2.js`, `regionen.js`, Live-Quiz-Code, `lehrer.js`, `lehrer/`, `admin/index.html`, Anmeldung in `index.html`, jsPDF lokal (`vendor/`). Qeels fasse ich nicht an.
 
 ## Notizen an die andere Sitzung
 
