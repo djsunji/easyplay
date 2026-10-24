@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-22-09";
+window.EP_BUILD="ep-2026-10-24-01";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4635,7 +4635,7 @@ function rlArtPool(){
   const p=[]; RL.aPoolAnz=anz;
   try{ BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{ if(s.titel==="Allgemeines") return;
     if(ent && !rlFuerEntdecker(s)) return;
-    if(s.typ==="art" || s.teile || S.texte[seiteKey(s)] || (s.fragen||[]).length>=3) p.push([B.id,s.nr,seiteKey(s)]); })); }catch(e){ console.warn(e); }
+    if(s.typ==="art" || s.teile || hatText(seiteKey(s)) || (s.fragen||[]).length>=3) p.push([B.id,s.nr,seiteKey(s)]); })); }catch(e){ console.warn(e); }
   RL.aPoolEnt=ent;
   return RL.aPool=p;
 }
@@ -4645,11 +4645,13 @@ function rlNaechsteFrage(){
   for(let k=0;k<40;k++){ const f=alle[Math.floor(Math.random()*alle.length)]; if(f && !RL.seenQ.has(f.q)){ RL.seenQ.add(f.q); return {typ:"q", f}; } }
   RL.seenQ.clear(); const f=alle[Math.floor(Math.random()*alle.length)]; return f?{typ:"q", f}:null;
 }
-function rlNaechsterArtikel(){
+function rlNaechsterArtikelOrig(){
   const p=rlArtPool(); if(!p.length) return null;
   for(let k=0;k<40;k++){ const w=p[Math.floor(Math.random()*p.length)], key=w[0]+"|"+w[2]; if(!RL.seenA.has(key)){ RL.seenA.add(key); return {typ:"a", b:w[0], nr:w[1], key:w[2]}; } }
   RL.seenA.clear(); const w=p[Math.floor(Math.random()*p.length)]; return {typ:"a", b:w[0], nr:w[1], key:w[2]};
 }
+// Nächster Artikel wurde schon vorher gewählt und sein Text vorgeladen; gleich den übernächsten vormerken
+function rlNaechsterArtikel(){ const it=TXL.vorA || rlNaechsterArtikelOrig(); TXL.vorA=rlNaechsterArtikelOrig(); try{ if(it) texteFuerKeys([it.key]); if(TXL.vorA) texteFuerKeys([TXL.vorA.key]); }catch(e){} return it; }
 /* Qeels: Suche */
 function rlNorm(s){ return String(s||"").toLowerCase().replace(/ß/g,"ss").normalize("NFD").replace(/[̀-ͯ]/g,""); }
 function rlSucheBauen(term){
@@ -5814,15 +5816,44 @@ async function ladeTexte1(){
   try{ const tres=await Promise.all((cfg.texteDateien||["texte-1.json","texte-2.json"]).map(f=>fetch(f,{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null))); const tj=Object.assign({},...tres.filter(Boolean)); if(Object.keys(tj).length){ if(tj && typeof tj==="object"){ const t={}, bi={}; for(const [k,v] of Object.entries(tj)){ if(typeof v==="string") t[k]=v; else if(v && typeof v.text==="string"){ t[k]=v.text; if(v.bilder||v.bild) bi[k]=v.bilder||String(v.bild); if(v.teile) (S.teile[k]=v.teile); } } S.texte=t; S.bilder=bi; ftMischen(); if(S.screen.startsWith("lib")) render(); } } }catch(e){}
 }
 // Bibliothekstexte (rund 17 MB) erst laden, wenn Bibliothek oder Qeels geöffnet werden, sonst nach einer Weile im Hintergrund
+/* Bibliothekstexte nur bei Bedarf (Okt. 2026): die Texte liegen in kleinen Dateien pro Buch (tx/…, Name mit Inhalts-Hash),
+   tx/index-….json sagt, welche Seite in welcher Datei steht. Geladen wird nur, was gerade gebraucht wird:
+   die offene Bibliotheksseite mit Nachbarn, das durchsuchte Buch, der nächste Qeels-Artikel; alles nur bei Suche über alle Bücher. */
 let TEXTE_P=null;
-function texteLaden(){ if(!TEXTE_P) TEXTE_P=Promise.all([ladeTexte1(), ladeTexteDatei()]).catch(()=>{}).then(()=>{ try{ RL.aPool=null; }catch(e){} }); return TEXTE_P; }
+const TXL={idxP:null, idx:null, dateien:{}, t1:null, vorA:null};
+function txIndex(){
+  if(!TXL.idxP){ const cfg=window.EP_CONFIG||{};
+    TXL.idxP = cfg.texteIndex ? fetch(cfg.texteIndex).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ TXL.idx=j; if(j){ try{ RL.aPool=null; }catch(e){} txAufraeumen(j); } return j; }) : Promise.resolve(null); }
+  return TXL.idxP;
+}
+// alte Textdateien aus dem Datenspeicher entfernen, die der aktuelle Index nicht mehr kennt
+function txAufraeumen(j){ try{ if(!window.caches) return; const gut=new Set(j.d.map(d=>d.split("/").pop()));
+  caches.has("epoff-daten").then(h=>h && caches.open("epoff-daten").then(c=>c.keys().then(ks=>ks.forEach(r=>{ const m=/\/tx\/([^/?#]+)$/.exec(new URL(r.url).pathname); if(m && !m[1].startsWith("index-") && !gut.has(m[1])) c.delete(r); })))).catch(()=>{}); }catch(e){} }
+function txDatei(i){ const d=TXL.idx&&TXL.idx.d[i]; if(!d) return Promise.resolve(); return TXL.dateien[d] || (TXL.dateien[d]=ladeTexteTeil(d)); }
+function txGrund(){ return TXL.t1 || (TXL.t1=ladeTexte1()); }
+// Seitenschlüssel hat einen Text (geladen oder laut Index vorhanden)
+function hatText(k){ return !!(S.texte[k] || (TXL.idx && TXL.idx.k[k]!=null)); }
+async function texteFuerKeys(keys){ const j=await txIndex(); txGrund(); if(!j) return texteLaden();
+  const nr=new Set(); (keys||[]).forEach(k=>{ const i=j.k[k]; if(i!=null) nr.add(i); }); await Promise.all([...nr].map(txDatei)); }
+async function texteFuerBuch(bid){ const j=await txIndex(); txGrund(); if(!j) return texteLaden(); await Promise.all((j.b[bid]||[]).map(txDatei)); }
+function texteLaden(){
+  if(!TEXTE_P) TEXTE_P=(async()=>{ const j=await txIndex(); await Promise.all([txGrund(), ...(j ? j.d.map((d,i)=>txDatei(i)) : [ladeTexteDatei()])]); })().catch(()=>{}).then(()=>{ try{ RL.aPool=null; }catch(e){} });
+  return TEXTE_P;
+}
 function texteBeiBedarf(){
   if(window.claude){ texteLaden(); return; }
-  const pruefe=()=>{ if(TEXTE_P) return clearInterval(t); const sc=String((typeof S!=="undefined"&&S.screen)||"");
-    if(document.documentElement.dataset.mode==="lib" || /^lib|suche|werkstatt/.test(sc) || document.getElementById("reels") || location.hash.includes("qeel=")) texteLaden(); };
-  const t=setInterval(pruefe, 600); pruefe();
-  const sparen=navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType||""));
-  if(!sparen) setTimeout(()=>(window.requestIdleCallback||(f=>f()))(()=>texteLaden()), 12000);
+  const pruefe=()=>{ const sc=String((typeof S!=="undefined"&&S.screen)||"");
+    try{
+      if(/suche|werkstatt/.test(sc) || (/^lib$|^lbib$/.test(sc) && (LIB.qa||"").trim().length>1)) return texteLaden();
+      if(/seite$/.test(sc) && LIB.buch){ const sei=buchDaten(LIB.buch).seiten, i=sei.findIndex(x=>x.nr===LIB.seite);
+        if(i>=0){ const k=[i-1,i,i+1].map(j=>sei[j]).filter(x=>x&&x.typ!=="art").map(x=>seiteKey(x)); if(k.join()!==TXL.letzt){ TXL.letzt=k.join(); texteFuerKeys(k); } } }
+      else if(/^(lib|lbib)/.test(sc) && LIB.buch && (LIB.q||"").trim().length>1) texteFuerBuch(LIB.buch);
+      else if(/^(lib|lbib|bibliothek)/.test(sc)) { txIndex(); txGrund(); }
+      if(document.getElementById("reels")){ txIndex(); if(!TXL.vorA && typeof rlNaechsterArtikelOrig==="function"){ TXL.vorA=rlNaechsterArtikelOrig(); if(TXL.vorA) texteFuerKeys([TXL.vorA.key]); } }
+    }catch(e){}
+  };
+  setInterval(pruefe, 600); pruefe();
+  if(location.hash.includes("qeel=")) txIndex();
 }
 async function ladeFragenDB(){
   if(window.claude) return;
@@ -6814,7 +6845,7 @@ function extraKapitel(bid){
 }
 function zufallArtikel(){
   const pool=[];
-  BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{ if(s.typ==="art" || (s.titel!=="Allgemeines" && (s.teile || s.fragen.length>=3 || S.texte[seiteKey(s)]))) pool.push([B.id,s.nr]); }));
+  BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{ if(s.typ==="art" || (s.titel!=="Allgemeines" && (s.teile || s.fragen.length>=3 || hatText(seiteKey(s))))) pool.push([B.id,s.nr]); }));
   if(!pool.length) return;
   let w; do { w=pool[Math.floor(Math.random()*pool.length)]; } while(pool.length>1 && w[0]===LIB.buch && w[1]===LIB.seite);
   LIB.buch=w[0]; LIB.seite=w[1]; LIB.zufall=true;
@@ -6835,7 +6866,7 @@ function qbIndex(){
   const key=FRAGEN.length+"|"+S.extra.length;
   if(QB.key===key && QB.map) return QB.map;
   const map=new Map();
-  const prio=(s,f)=> (f.s && String(f.s).toLowerCase()===String(s.titel).toLowerCase() ? 4 : 0) + (s.teile?2:0) + (S.texte[seiteKey(s)]?1:0) + (s.titel==="Allgemeines"?-5:0);
+  const prio=(s,f)=> (f.s && String(f.s).toLowerCase()===String(s.titel).toLowerCase() ? 4 : 0) + (s.teile?2:0) + (hatText(seiteKey(s))?1:0) + (s.titel==="Allgemeines"?-5:0);
   BUECHER.forEach(B=>buchDaten(B.id).seiten.forEach(s=>{
     if(s.typ!=="fr") return;
     s.fragen.forEach(f=>{ const p=prio(s,f); const alt=map.get(f.q); if(!alt || p>alt.p) map.set(f.q,{b:B.id, nr:s.nr, key:seiteKey(s), titel:s.titel, buch:B.titel, kap:s.kap?.titel||"", emo:B.emo, p}); });
@@ -6869,7 +6900,7 @@ function vlIndex(){
   const key=FRAGEN.length+"|"+S.extra.length;
   if(VL.key===key && VL.re) return VL;
   const map=new Map();
-  const score=s=>(s.teile||s.typ==="art"?5:0)+(S.texte[seiteKey(s)]?3:0)+Math.min((s.fragen||[]).length,20)/10;
+  const score=s=>(s.teile||s.typ==="art"?5:0)+(hatText(seiteKey(s))?3:0)+Math.min((s.fragen||[]).length,20)/10;
   vlSeitenAlle().forEach(({s,B})=>{
     if(s.titel==="Allgemeines") return;
     const a=vlAlias(s.titel); if(a.length<4 || /^\d+$/.test(a) || VL_STOPP.has(a)) return;
@@ -7412,7 +7443,8 @@ function blickListe(merk,key){
 const FT={t:{},bi:{},te:{}};
 function ftMischen(){ for(const k in FT.t){ if(!S.texte[k] || S.texte[k].length<1500){ S.texte[k]=FT.t[k]; if(FT.te[k]) S.teile[k]=FT.te[k]; if(FT.bi[k]) S.bilder[k]=FT.bi[k]; } } }
 async function ladeTexteDatei(){ const cfg=window.EP_CONFIG||{}; await Promise.all((cfg.texteDateien2||["texte2-1.json","texte2-2.json","texte2-3.json","texte2-4.json"]).map(f=>ladeTexteTeil(f))); }
-async function ladeTexteTeil(datei){ try{ const r=await fetch(datei,{cache:"force-cache"}); if(!r.ok) return; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); if(S.screen && S.screen.startsWith("lib")) render(); }catch(e){} }
+async function ladeTexteTeil(datei){ try{ const r=await fetch(datei,{cache:"force-cache"}); if(!r.ok) return; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); txNeuZeichnen(); }catch(e){} }
+function txNeuZeichnen(){ clearTimeout(TXL.zt); TXL.zt=setTimeout(()=>{ try{ RL.aPool=null; }catch(e){} if(S.screen && /^(lib|lbib)/.test(S.screen) && !document.getElementById("reels")) render(); }, 60); }
 function fettHTML(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>"); }
 function satzListe(t){ return String(t).replace(/\s+/g," ").match(/[^.!?]+[.!?]+(\s|$)/g)||[String(t)]; }
 function textHTML(k){

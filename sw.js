@@ -2,9 +2,13 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-22-09";
+const VERSION = "ep-2026-10-24-01";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
-const CACHE_BILDER = VERSION + "-bilder";   // Bilder aus bilder/ und img/
+const CACHE_BILDER = VERSION + "-bilder";
+// Grosse Daten (Fragen, Bibliothekstexte, Bildindex) in einem eigenen Speicher, der Updates überlebt.
+// Der Name beginnt mit "epoff-", damit weder das Aufräumen bei neuer Version noch die Versionsprüfung der Seite ihn löscht.
+// Textdateien in tx/ tragen einen Inhalts-Hash im Namen und ändern sich nie; der Rest wird still aufgefrischt.
+const CACHE_DATEN = "epoff-daten";   // Bilder aus bilder/ und img/
 const MAX_BILDER = 3000;                    // Obergrenze Einträge im Bilder-Cache
 
 // App-Hülle: wird bei der Installation vorgeladen
@@ -210,14 +214,15 @@ async function netzZuerst(event) {
 }
 
 // Aus dem Cache antworten (Hülle oder Offline-Paket), im Hintergrund dort aktualisieren
-async function staleWhileRevalidate(event, key) {
-  const t = await finde(key || event.request, [CACHE_HUELLE]);
+async function staleWhileRevalidate(event, key, cacheName) {
+  const ziel = cacheName || CACHE_HUELLE;
+  const t = await finde(key || event.request, [ziel, CACHE_HUELLE]);
   if (t) {
-    if (!offlineNetz()) event.waitUntil(holenUndSpeichern(t.name, event.request, key, t.antwort).catch(() => null));
+    if (!offlineNetz()) event.waitUntil(holenUndSpeichern(t.name === CACHE_HUELLE ? ziel : t.name, event.request, key, t.antwort).catch(() => null));
     return t.antwort;
   }
   try {
-    return await holenUndSpeichern(CACHE_HUELLE, event.request, key);
+    return await holenUndSpeichern(ziel, event.request, key);
   } catch (e) {
     return nichtDa();
   }
@@ -254,6 +259,16 @@ async function codeNetzZuerst(event) {
 }
 
 // Bilder: zuerst Cache (Bilder, Hülle, Offline-Pakete), sonst Netz und speichern
+async function datenFuerImmer(event, key) {
+  const t = await finde(key, [CACHE_DATEN]);
+  if (t) return t.antwort;
+  try {
+    return await holenUndSpeichern(CACHE_DATEN, event.request, key);
+  } catch (e) {
+    return nichtDa();
+  }
+}
+
 async function cacheZuerst(event) {
   const t = await finde(event.request, [CACHE_BILDER, CACHE_HUELLE]);
   if (t) return t.antwort;
@@ -303,9 +318,18 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 2. Grosse Daten: Fragen, Texte, Bildindex, daten-*.js (zuerst Speicher, dann still aktualisieren)
-  if (/^fragen-.*\.json$/.test(datei) || /^texte.*\.json$/.test(datei)
-      || datei === "bildindex.json" || /^daten-.*\.js$/.test(datei)) {
+  // 2a. Bibliothekstexte tx/…: Name enthält den Inhalts-Hash, also nur einmal laden und behalten
+  if (/\/tx\/[^/]+\.json$/.test(pfad)) {
+    event.respondWith(datenFuerImmer(event, schluessel(anfrage.url)));
+    return;
+  }
+  // 2b. Grosse Daten: Fragen, alte Texte, Bildindex (Datenspeicher, überlebt Updates; zuerst Speicher, dann still aktualisieren)
+  if (/^fragen-.*\.json$/.test(datei) || /^texte.*\.json$/.test(datei) || datei === "bildindex.json") {
+    event.respondWith(staleWhileRevalidate(event, schluessel(anfrage.url), CACHE_DATEN));
+    return;
+  }
+  // 2c. daten-*.js gehören zum Code dieser Version
+  if (/^daten-.*\.js$/.test(datei)) {
     event.respondWith(staleWhileRevalidate(event, schluessel(anfrage.url)));
     return;
   }

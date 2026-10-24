@@ -66,6 +66,8 @@ function schaetze(p){
   if(/^fragen-\d+\.json$/.test(p)) return 3100 * KB;
   if(/^daten-\d+\.js$/.test(p)) return 720 * KB;
   if(/^texte2-\d+\.json$/.test(p)) return 2150 * KB;
+  if(/^tx\/index-/.test(p)) return 330 * KB;
+  if(/^tx\//.test(p)) return 450 * KB;
   if(/^texte-\d+\.json$/.test(p)) return 2350 * KB;
   if(p === "bildindex.json") return 3900 * KB;
   if(p === "./" || p === "index.html") return 1750 * KB;
