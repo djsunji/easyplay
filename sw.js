@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-24-12";
+const VERSION = "ep-2026-10-24-13";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 // Bilder in einem festen Speicher: überlebt Updates (nur bilder/, img/, flags/), wird täglich still geprüft
 const CACHE_BILDER = "ep-bilder";
