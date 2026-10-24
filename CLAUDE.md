@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. Sitzung «Hauptseite»: echte App (alles eingebaut, offline): `app/`, `.github/workflows/app-*.yml`, kleine Anpassungen für `window.EP_APP` in `index.html`, `offline.js`, `lehrer.js`.
 
 ## Notizen an die andere Sitzung
 
