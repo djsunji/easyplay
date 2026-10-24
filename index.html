@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-08";
+window.EP_BUILD="ep-2026-10-24-09";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4694,8 +4694,47 @@ function rlSucheOeffnen(){
     const anz=R.fragen.length+R.artikel.length; if(!anz){ rlToast(`Nichts gefunden für «${R.term}»`); return; }
     RL.suche=R; inp.blur(); d.remove(); rlSucheChip(); rlTab("suche"); rlToast(`${anz} Qeels zu «${R.term}»`); };
 }
+/* ---------- Qeels: Werbung von Sponsoren aus werbung.json, jedes 10. Qeel ---------- */
+const RW={ liste:null, jedes:10, nr:0, laden:null };
+function rwLaden(){
+  if(RW.laden) return RW.laden;
+  const demo=/[?&]werbedemo\b/.test(location.search), heute=new Date().toISOString().slice(0,10);
+  return RW.laden=fetch("werbung.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{
+    RW.jedes=Math.max(3, +(d&&d.jedes)||10);
+    RW.liste=((d&&d.anzeigen)||[]).filter(a=>a && a.id && a.titel && (demo || (a.aktiv===true && (!a.von||a.von<=heute) && (!a.bis||a.bis>=heute))));
+  }).catch(()=>{ RW.liste=[]; });
+}
+function rwNaechste(){ const l=RW.liste; if(!l||!l.length) return null; return {typ:"w", w:l[RW.nr++ % l.length]}; }
+/* Zählt Anzeige und Klick in der anonymen Besucherstatistik (nur mit Supabase, siehe Verwaltung) */
+function rwZaehlen(id, art){ try{
+  const sp=typeof lkSupa==="function" && lkSupa(); if(!sp) return;
+  const b=("w-"+String(id).toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,20)+"-"+art).slice(0,30);
+  const w=Math.min(screen.width||innerWidth, innerWidth||9999), g=w<700?"handy":(matchMedia("(pointer:coarse)").matches&&w<1300?"tablet":"computer");
+  fetch(`${sp.u}/rest/v1/rpc/aufruf_zaehlen`,{method:"POST",headers:sp.h,keepalive:true,body:JSON.stringify({p_bereich:b, p_geraet:g, p_herkunft:""})}).catch(()=>{});
+}catch(e){} }
+function rwHTML(it, idx){
+  const a=it.w, link=/^(https:\/\/|mailto:)/i.test(a.link||"")?a.link:"", bild=/^(https:\/\/|img\/|bilder\/)[^"'<>\s]*$/i.test(a.bild||"")?a.bild:"";
+  const farbe=/^#[0-9a-f]{3,8}$/i.test(a.farbe||"")?a.farbe:"#2A1052";
+  return `<section class="reel ra rw" data-i="${idx}" style="--r1:${farbe};--r2:#0B0D1E">
+    <div class="rbild${bild?" foto":""}">${bild?`<img src="${esc(bild)}" alt="" loading="lazy">`:""}</div>
+    <div class="rschatten" aria-hidden="true"></div>
+    <div class="rainhalt">
+      <span class="rtag rwtag">Werbung${a.sponsor?` · ${esc(a.sponsor)}`:""}</span>
+      <h2 class="ratitel">${esc(a.titel)}</h2>
+      ${a.text?`<div class="rwkarte"><p>${esc(a.text)}</p></div>`:""}
+      ${link?`<a class="rwlink" href="${esc(link)}" target="_blank" rel="sponsored noopener">${esc(a.knopf||"Mehr erfahren")} ›</a>`:""}
+    </div>
+    <aside class="rrail"><button type="button" class="rbtn" data-bild aria-pressed="false"><span class="rbi">🖼️</span><small>Bild</small></button></aside>
+    <div class="rprog"><i></i></div>
+  </section>`;
+}
+function rwBinde(sec, it){
+  const l=sec.querySelector(".rwlink"); l && l.addEventListener("click", ()=>rwZaehlen(it.w.id, "klick"));
+  const bi=sec.querySelector("[data-bild]"); bi && (bi.onclick=()=>rlNurBild(!$("#reels").classList.contains("rnurbild")));
+}
 function rlNaechstes(){
   if(RL.start){ const s=RL.start; RL.start=null; RL.n++; return s; }
+  if(RL.n>0 && (RL.n+1)%RW.jedes===0){ const w=rwNaechste(); if(w){ RL.n++; return w; } }
   const t=RL.tab; let it=null;
   if(t==="suche"){ RL.n++; return rlSucheNaechstes(); }
   if(t==="quiz") it=rlNaechsteFrage();
@@ -4844,10 +4883,10 @@ function rlHinzu(n){
   const feed=$("#rfeed"); if(!feed) return;
   for(let k=0;k<n;k++){
     const it=rlNaechstes(); if(!it) break; if(RL.nextIdx==null || RL.map.size===0) RL.nextIdx=RL.map.size; const idx=RL.nextIdx++;
-    let html=""; try{ html = it.typ==="q" ? rlFrageHTML(it, idx) : rlArtikelHTML(it, idx); }catch(e){ console.warn(e); }
+    let html=""; try{ html = it.typ==="q" ? rlFrageHTML(it, idx) : it.typ==="w" ? rwHTML(it, idx) : rlArtikelHTML(it, idx); }catch(e){ console.warn(e); }
     if(!html) continue;
     RL.map.set(idx, it); feed.insertAdjacentHTML("beforeend", html);
-    const sec=feed.lastElementChild; rlBinde(sec, it); RL.obs && RL.obs.observe(sec); rlPasst(sec);
+    const sec=feed.lastElementChild; if(it.typ==="w") rwBinde(sec, it); else rlBinde(sec, it); RL.obs && RL.obs.observe(sec); rlPasst(sec);
   }
 }
 /* Am PC: längeren Artikeltext schrittweise kürzen, bis er ohne Scrollen in die Karte passt */
@@ -5043,10 +5082,10 @@ function rlTaste(e){
   const sec=rlAktiv(); if(!sec) return; const it=RL.map.get(+sec.dataset.i);
   const i="abcd".indexOf(k.toLowerCase());
   if(i>=0 && it?.typ==="q" && !e.shiftKey){ e.preventDefault(); rlAntwort(sec,it,i); return; }
-  if(k.toLowerCase()==="l"){ e.preventDefault(); rlLike(sec); }
+  if(k.toLowerCase()==="l" && it?.typ!=="w"){ e.preventDefault(); rlLike(sec); }
 }
 function oeffneReels(tab){
-  if(RL.offen) return; RL.offen=true; stopSpeak();
+  if(RL.offen) return; RL.offen=true; stopSpeak(); rwLaden();
   document.body.classList.add("reelsauf");
   const alt=$("#reels");
   if(alt){ alt.hidden=false; document.addEventListener("keydown", rlTaste);
@@ -5067,7 +5106,8 @@ function oeffneReels(tab){
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
       document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlNurBild(false); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
-      if(window.EP_NUR_QEELS && it && !window.QEEL_WARTET){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
+      if(it?.typ==="w" && !it.gezaehlt){ it.gezaehlt=true; rwZaehlen(it.w.id, "sicht"); }
+      if(window.EP_NUR_QEELS && it && it.typ!=="w" && !window.QEEL_WARTET){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
       const nx=sec.nextElementSibling; const itn=nx&&RL.map.get(+nx.dataset.i); if(itn?.laden){ itn.laden(); itn.laden=null; }
       if(!sec.nextElementSibling || !sec.nextElementSibling.nextElementSibling || !sec.nextElementSibling.nextElementSibling.nextElementSibling) rlHinzu(4);
       setTimeout(rlAufraeumen, 350);
@@ -8795,6 +8835,13 @@ html body:has(#rbildvoll) #epDreh{display:none!important}
 html body #reels .rbildvoll{position:fixed;inset:0;z-index:30;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
 html body #reels .rbildvoll img{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;transform-origin:center;will-change:transform;pointer-events:none}
 html body #reels .rbildvoll .rbtn{position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:2;opacity:1!important;pointer-events:auto!important}
+/* Qeels: Werbung von Sponsoren */
+html body #reels .rw .rwtag{background:#FFD23F!important;color:#1B2240!important;font-weight:800;letter-spacing:.02em}
+html body #reels .rw .rwkarte{background:rgba(10,12,30,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px 16px;color:#fff;font-size:1.02rem;line-height:1.45;max-width:560px}
+html body #reels .rw .rwkarte p{margin:0}
+html body #reels .rw .rwlink{align-self:flex-start;background:#fff;color:#1B2240;font-weight:800;border-radius:999px;padding:12px 22px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:transform .15s}
+html body #reels .rw .rwlink:hover{transform:translateY(-1px)}
+html body #reels .rw .rrail{gap:0}
 /* Qeels Handy: alles etwas kleiner, damit mehr Luft bleibt */
 @media (max-width:699px){
 html body #reels .rkopf{padding:10px 10px 0!important;gap:6px!important}

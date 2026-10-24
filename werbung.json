@@ -1,0 +1,19 @@
+{
+  "_hilfe": "Anzeigen für Qeels. Jedes «jedes»-te Qeel ist eine Anzeige. Eine Anzeige erscheint nur mit \"aktiv\": true und zwischen «von» und «bis» (JJJJ-MM-TT, leer = immer). Felder: id (nur Buchstaben und Zahlen), sponsor, titel, text, bild (img/... oder https://...), link (https://... oder mailto:...), knopf, farbe (#RRGGBB). Vorschau aller Anzeigen, auch inaktiver: Qeels-Adresse mit ?werbedemo am Ende.",
+  "jedes": 10,
+  "anzeigen": [
+    {
+      "id": "sponsorwerden",
+      "aktiv": false,
+      "sponsor": "easyplay",
+      "titel": "Dein Logo hier?",
+      "text": "easyplay sucht Sponsoren aus der Schweiz. Mit einer Anzeige in Qeels erreichst du Kinder, Familien und Schulklassen, ohne Tracking und klar als Werbung gekennzeichnet.",
+      "bild": "img/kinder.webp",
+      "link": "mailto:dejan.ehrbar@bluewin.ch?subject=Sponsoring%20easyplay",
+      "knopf": "Sponsor werden",
+      "farbe": "#2A1052",
+      "von": "",
+      "bis": ""
+    }
+  ]
+}
