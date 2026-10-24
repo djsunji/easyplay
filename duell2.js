@@ -437,10 +437,10 @@ window.renderDuellEnde = function(){
     </div>
     ${auf ? `<div class="du2-auf">⬆️ Aufstieg in die Liga ${E.ln.e} ${E.ln.n}! Deine nächsten Gegner sind stärker.</div>` : ab ? `<div class="du2-ab">⬇️ Abstieg in die Liga ${E.ln.e} ${E.ln.n}. Die nächsten Gegner sind etwas leichter, du schaffst das!</div>` : E ? `<p class="du2-mu du2-hinw">${E.delta >= 0 ? "Gewonnen: Deine nächsten Gegner werden etwas stärker." : "Verloren: Deine nächsten Gegner werden etwas leichter."}</p>` : ""}
     <div class="du2-stats">
-      ${tile("Richtig", `${meineR}/${n}`, g && g.i ? `${gR}/${g.i}` : "–")}
-      ${tile("Ø Zeit", mz.length ? sek(schnitt(mz)) : "–", gz.length ? sek(schnitt(gz)) : "–")}
-      ${tile("Schnellste", mz.length ? sek(Math.min(...mz)) : "–", gz.length ? sek(Math.min(...gz)) : "–")}
-      ${tile("Punkte", a.s, b ? b.s : "–")}
+      ${tile("Richtig", `${meineR}/${n}`, g && g.i ? `${gR}/${g.i}` : "?")}
+      ${tile("Ø Zeit", mz.length ? sek(schnitt(mz)) : "?", gz.length ? sek(schnitt(gz)) : "?")}
+      ${tile("Schnellste", mz.length ? sek(Math.min(...mz)) : "?", gz.length ? sek(Math.min(...gz)) : "?")}
+      ${tile("Punkte", a.s, b ? b.s : "?")}
     </div>
     <div class="du2-verlauf"><div><span>${h(a.n)}</span><div class="du2-dots">${punkteReihe(R.ant || [], n)}</div></div>
       ${b ? `<div><span>${h(b.n)}</span><div class="du2-dots">${punkteReihe((g.ant || "").split("").map(x => x === "1"), n)}</div></div>` : ""}</div>

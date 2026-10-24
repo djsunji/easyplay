@@ -9,9 +9,11 @@ const LS = {
   get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
-const K = { fehler:"ep-fehler", tage:"ep-lerntage", themen:"ep-lernthemen", tq:"ep-tagesquiz", geuebt:"ep-fehler-geuebt", wdh:"ep-wiederholen" };
+const K = { serie:"ep-serie", fehler:"ep-fehler", tage:"ep-lerntage", themen:"ep-lernthemen", tq:"ep-tagesquiz", geuebt:"ep-fehler-geuebt", wdh:"ep-wiederholen" };
+// Vortag eines Datums "JJJJ-MM-TT" (über Mittag gerechnet, damit die Zeitumstellung nichts verschiebt)
+const vortag = t => { const d = new Date(t + "T12:00:00"); d.setDate(d.getDate() - 1); return heute(d); };
 const heute = (d) => { const x = d ? new Date(d) : new Date(); return x.getFullYear() + "-" + String(x.getMonth()+1).padStart(2,"0") + "-" + String(x.getDate()).padStart(2,"0"); };
-const gestern = () => heute(Date.now() - 864e5);
+const gestern = () => vortag(heute());
 const nrVon = f => { try{ return frageNr(f) || 0; }catch(e){ return +f.nr || 0; } };
 const h = s => { try{ return esc(s); }catch(e){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); } };
 const zahl = n => Number(n || 0).toLocaleString("de-CH");
@@ -87,6 +89,8 @@ window.answer = function(i){
     const tg = LS.get(K.tage, {}); tg[t] = (tg[t]||0) + 1;
     const keys = Object.keys(tg).sort(); while(keys.length > 120) delete tg[keys.shift()];
     LS.set(K.tage, tg);
+    // Serie separat fortschreiben (die Liste oben reicht nur 120 Tage zurück)
+    if(tg[t] === 5){ const se = serieStand(); if(se.letzter !== t){ se.n = se.letzter === vortag(t) ? se.n + 1 : 1; se.letzter = t; se.best = Math.max(se.best, se.n); LS.set(K.serie, se); } }
     // Themen: richtig / beantwortet
     if(f.t){ const th = LS.get(K.themen, {}); const e = th[f.t] || [0,0]; e[1]++; if(ok) e[0]++; th[f.t] = e; LS.set(K.themen, th); }
   }catch(e){ console.warn("lernen.js", e); }
@@ -94,13 +98,24 @@ window.answer = function(i){
 };
 
 /* ---------- Serie: Tage am Stück mit mindestens 5 beantworteten Fragen ---------- */
-function serie(){
+// Aus den Lerntagen nachrechnen (nur für den ersten Start nach dem Update)
+function serieAusTagen(){
   const tg = LS.get(K.tage, {}); const aktiv = d => (tg[d]||0) >= 5;
-  let n = 0, d = new Date(); if(!aktiv(heute(d))) d = new Date(Date.now() - 864e5);   // heute noch nicht gelernt: Serie zählt bis gestern
-  while(aktiv(heute(d))){ n++; d = new Date(d.getTime() - 864e5); }
-  let best = 0, lauf = 0; const alle = Object.keys(tg).sort();
-  for(let i = 0; i < alle.length; i++){ if(!aktiv(alle[i])){ lauf = 0; continue; } const vor = alle[i-1]; lauf = (vor && aktiv(vor) && heute(new Date(alle[i]).getTime() - 864e5) === vor) ? lauf + 1 : 1; best = Math.max(best, lauf); }
-  return {n, best:Math.max(best, n), heute:(tg[heute()]||0), aktiv:aktiv(heute())};
+  let n = 0, d = heute(); if(!aktiv(d)) d = vortag(d);
+  while(aktiv(d)){ n++; d = vortag(d); }
+  let best = 0, lauf = 0, letzter = ""; const alle = Object.keys(tg).sort();
+  for(let i = 0; i < alle.length; i++){ if(!aktiv(alle[i])){ lauf = 0; continue; } const vor = alle[i-1]; lauf = (vor && aktiv(vor) && vortag(alle[i]) === vor) ? lauf + 1 : 1; best = Math.max(best, lauf); letzter = alle[i]; }
+  return {n, best:Math.max(best, n), letzter};
+}
+function serieStand(){
+  let se = LS.get(K.serie, null);
+  if(!se || typeof se !== "object" || typeof se.n !== "number"){ se = serieAusTagen(); LS.set(K.serie, se); }
+  return se;
+}
+function serie(){
+  const tg = LS.get(K.tage, {}), se = serieStand(), t = heute();
+  const n = (se.letzter === t || se.letzter === vortag(t)) ? se.n : 0;   // heute noch nicht gelernt: Serie zählt bis gestern
+  return {n, best:Math.max(se.best || 0, n), heute:(tg[t]||0), aktiv:(tg[t]||0) >= 5};
 }
 
 /* ---------- Tagesquiz: jeden Tag 5 Fragen, für alle gleich (pro Stufe) ---------- */
@@ -221,7 +236,7 @@ if(typeof vorHome === "function"){
 /* ---------- Profil: Abzeichen und Elternlink ---------- */
 function elternDaten(){
   const k = kennzahlen(), tg = LS.get(K.tage, {}), th = LS.get(K.themen, {});
-  const tage = []; for(let i = 13; i >= 0; i--){ tage.push(tg[heute(Date.now() - i*864e5)] || 0); }
+  const tage = []; let tz = heute(); for(let i = 0; i < 14; i++){ tage.unshift(tg[tz] || 0); tz = vortag(tz); }
   const themen = Object.entries(th).filter(([t, e]) => e[1] >= 5).map(([t, e]) => [t, e[0], e[1]]).sort((a, b) => b[2] - a[2]).slice(0, 24);
   return {v:1, n:(S.profil && S.profil.name) || "", d:heute(), s:S.stufe || 1, l:k.laeufe, f:k.fragen, r:k.richtig, se:k.serie.n, sb:k.serie.best, tq:k.tagesquiz,
     fe:wiederholung().offen, ge:wiederholung().gelernt, ab:abzeichen().filter(a => a.hat).map(a => a.id), t:tage, th:themen};

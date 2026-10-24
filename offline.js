@@ -65,7 +65,6 @@ const BILD_SCHNITT = 38 * KB;   // geschätzte Grösse eines kleinen Bildes (480
 function schaetze(p){
   if(/^fragen-\d+\.json$/.test(p)) return 3100 * KB;
   if(/^daten-\d+\.js$/.test(p)) return 720 * KB;
-  if(/^texte2-\d+\.json$/.test(p)) return 2150 * KB;
   if(/^tx\/index-/.test(p)) return 330 * KB;
   if(/^tx\//.test(p)) return 450 * KB;
   if(/^texte-\d+\.json$/.test(p)) return 2350 * KB;
@@ -130,7 +129,7 @@ async function grundDateien(){
 }
 function texteDateien(){
   const cfg = window.EP_CONFIG || {};
-  return [...(cfg.texteDateien || ["texte-1.json", "texte-2.json"]), ...(cfg.texteDateien2 || [])];
+  return [...(cfg.texteDateien || ["texte-1.json", "texte-2.json"]), ...(cfg.texteIndex ? [cfg.texteIndex] : []), ...(cfg.texteDateien2 || [])];
 }
 const albumPfad = id => "bilder/" + id.slice(-2) + "/" + id + ".webp";
 async function jsonLesen(p){ try{ const r = await fetch(abs(p)); return r.ok ? await r.json() : null; }catch(e){ return null; } }
@@ -229,6 +228,9 @@ async function dublettenWeg(id){
       if(/^(fragen-|texte|daten-)|^bildindex\.json$/.test(r) && await p.match(req, {ignoreSearch:true})) await c.delete(req);
     }
   }catch(e){}
+  // ebenso aus dem Datenspeicher (Fragen, Texte, Bildindex), sonst liegen sie doppelt auf dem Gerät
+  try{ if(await caches.has("epoff-daten")){ const d = await caches.open("epoff-daten"), p = await caches.open(PRE + id);
+    for(const req of await d.keys()) if(await p.match(req, {ignoreSearch:true})) await d.delete(req); } }catch(e){}
 }
 
 async function schutzAnfragen(){
@@ -326,12 +328,16 @@ let autoLaeuft = false;
 async function autoPruefen(){
   if(autoLaeuft || !SW_DA || !online() || sparModus() || LAUF) return;
   if(LS.get(LSA, true) === false) return;
-  const m = meta().grund; if(!m) return;
+  const m = meta().grund;
   autoLaeuft = true;
-  try{
+  try{ if(m){
     const info = await swInfo();
     if(info && info.version && (info.version !== m.version || m.teil)) await laden("grund", {still:true, frisch:!m.teil});
-  }catch(e){}
+  } }catch(e){}
+  // Texte-Paket: kamen neue Texte dazu (neuer Index), die neuen Dateien still nachladen
+  try{ const cfg = window.EP_CONFIG || {};
+    if(meta().texte && cfg.texteIndex && await caches.has(PRE + "texte") && !(await (await caches.open(PRE + "texte")).match(abs(cfg.texteIndex), {ignoreSearch:true})))
+      await laden("texte", {still:true}); }catch(e){}
   autoLaeuft = false;
 }
 

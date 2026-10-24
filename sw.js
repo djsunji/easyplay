@@ -2,9 +2,10 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-24-07";
+const VERSION = "ep-2026-10-24-08";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
-const CACHE_BILDER = VERSION + "-bilder";
+// Bilder in einem festen Speicher: überlebt Updates (nur bilder/, img/, flags/), wird täglich still geprüft
+const CACHE_BILDER = "ep-bilder";
 // Grosse Daten (Fragen, Bibliothekstexte, Bildindex) in einem eigenen Speicher, der Updates überlebt.
 // Der Name beginnt mit "epoff-", damit weder das Aufräumen bei neuer Version noch die Versionsprüfung der Seite ihn löscht.
 // Textdateien in tx/ tragen einen Inhalts-Hash im Namen und ändern sich nie; der Rest wird still aufgefrischt.
@@ -80,8 +81,8 @@ async function paketCaches() {
 }
 
 // Sucht zuerst in den genannten Caches, danach in allen Offline-Paketen. Liefert {name, antwort} oder null.
-async function finde(key, zuerst) {
-  const namen = [...zuerst, ...(await paketCaches())];
+async function finde(key, zuerst, ohnePakete) {
+  const namen = ohnePakete ? zuerst : [...zuerst, ...(await paketCaches())];
   for (const n of namen) {
     if (n.startsWith(PAKET_PREFIX) && !(await caches.has(n))) continue;
     const t = await (await caches.open(n)).match(key, MATCH);
@@ -125,6 +126,30 @@ async function holenUndSpeichern(cacheName, anfrage, key, alt) {
   return antwort;
 }
 
+// Bedingte Anfrage: schickt ETag/Last-Modified der gespeicherten Kopie mit, der Server antwortet dann meist nur «304 unverändert»
+function bedingtHolen(url, alt) {
+  const kopf = new Headers();
+  const e = alt && alt.headers.get("etag"), l = alt && alt.headers.get("last-modified");
+  if (e) kopf.set("If-None-Match", e); else if (l) kopf.set("If-Modified-Since", l);
+  return fetch(new Request(url, { headers: kopf, cache: "no-store", credentials: "same-origin" }));
+}
+// Antwort in einem Speicher ablegen (Offline-Pakete im Format von offline.js)
+async function ablegen(cacheName, key, antwort) {
+  const cache = await caches.open(cacheName);
+  if (cacheName.startsWith(PAKET_PREFIX)) {
+    const blob = await antwort.clone().blob();
+    const kopf = new Headers();
+    kopf.set("Content-Type", antwort.headers.get("content-type") || "application/octet-stream");
+    for (const k of ["last-modified", "etag"]) { const v = antwort.headers.get(k); if (v) kopf.set(k, v); }
+    kopf.set("x-ep-groesse", String(blob.size));
+    kopf.set("x-ep-paket", cacheName.slice(PAKET_PREFIX.length));
+    await cache.put(key, new Response(blob, { status: 200, statusText: "OK", headers: kopf }));
+  } else {
+    await cache.put(key, antwort.clone());
+  }
+}
+const warte = (ms) => new Promise((ok) => setTimeout(() => ok(null), ms));
+
 // Bilder-Cache begrenzen: älteste Einträge zuerst löschen (keys() liefert Einfügereihenfolge)
 let trimmenLaeuft = false;
 async function bilderTrimmen() {
@@ -159,12 +184,22 @@ Tipp: In «Offline spielen» kannst du easyplay für unterwegs herunterladen.</p
 self.addEventListener("install", (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_HUELLE);
-    // Einzeln laden: fehlt eine Datei, scheitert die Installation trotzdem nicht
-    await Promise.all(HUELLE.map((pfad) =>
-      fetch(new Request(pfad, { cache: "reload" }))
-        .then((r) => (speicherbar(r) ? cache.put(pfad, r) : null))
-        .catch(() => null)
-    ));
+    // Jede Datei bis zu dreimal versuchen. Scheitert eine Programmdatei am Netz, bricht die Installation ab:
+    // dann bleibt die bisherige Version vollständig aktiv, statt eine halbe neue zu verwenden.
+    // (Eine Datei, die der Server nicht kennt (404), bricht nicht ab, sonst blockiert ein Tippfehler jedes Update.)
+    const laden = async (pfad) => {
+      for (let i = 0; i < 3; i++) {
+        try {
+          const r = await fetch(new Request(pfad, { cache: "reload" }));
+          if (speicherbar(r)) { await cache.put(pfad, r); return true; }
+          if (r.status === 404) return true;
+        } catch (e) {}
+        await warte(700 * (i + 1));
+      }
+      return pfad.startsWith("img/");   // Bilder sind nicht zwingend
+    };
+    const ok = await Promise.all(HUELLE.map(laden));
+    if (ok.includes(false)) throw new Error("Update unvollständig, bisherige Version bleibt aktiv");
     await self.skipWaiting();
   })());
 });
@@ -198,14 +233,15 @@ async function netzZuerst(event) {
     let antwort;
     try { antwort = await fetch(event.request.url, { cache: "no-cache", credentials: "same-origin" }); }
     catch (e1) { antwort = await fetch(event.request); }
-    const pfad = new URL(event.request.url).pathname;
-    if (speicherbar(antwort) && (pfad.endsWith("/") || pfad.endsWith("/index.html"))) {
-      event.waitUntil(seiteSpeichern(antwort.clone()).catch(() => null));
+    const pfad = new URL(event.request.url).pathname, basis = new URL("./", self.location.href).pathname;
+    if (speicherbar(antwort)) {
+      if (pfad === basis || pfad === basis + "index.html") event.waitUntil(seiteSpeichern(antwort.clone()).catch(() => null));
+      else event.waitUntil(caches.open(CACHE_HUELLE).then((c) => c.put(schluessel(event.request.url), antwort.clone())).catch(() => null));   // z. B. qeels/ unter eigenem Namen
     }
     return antwort;
   } catch (e) {
-    const pfad = new URL(event.request.url).pathname;
-    const startseite = pfad.endsWith("/") || pfad.endsWith("/index.html");
+    const pfad = new URL(event.request.url).pathname, basis = new URL("./", self.location.href).pathname;
+    const startseite = pfad === basis || pfad === basis + "index.html";
     const t = (await finde(event.request, [CACHE_HUELLE]))
       || (startseite ? (await finde("./", [CACHE_HUELLE])) || (await finde("index.html", [CACHE_HUELLE])) : null);
     if (t) return t.antwort;
@@ -229,8 +265,8 @@ async function staleWhileRevalidate(event, key, cacheName) {
 }
 
 // Code (js, css, json, Schriften): zuerst Netz ohne HTTP-Cache (dank ETag meist nur ein kurzes «unverändert»),
-// damit nach einem Update sofort die neue Version läuft. Antwortet das Netz nicht innert 3 Sekunden
-// oder ist man offline, kommt die gespeicherte Version.
+// damit nach einem Update sofort die neue Version läuft. Antwortet das Netz nicht innert 8 Sekunden, kommt die
+// gespeicherte Datei DIESER Version; nur offline oder bei Netzfehler auch eine Datei aus einem Offline-Paket.
 async function codeNetzZuerst(event) {
   const frisch = (async () => {
     const antwort = await fetch(new Request(event.request, { cache: "no-cache" }));
@@ -249,13 +285,36 @@ async function codeNetzZuerst(event) {
     const r = await Promise.race([frisch, zeit]);
     if (r) return r;
     event.waitUntil(frisch.catch(() => null));
-    const t = await finde(event.request, [CACHE_HUELLE]);
+    const t = await finde(event.request, [CACHE_HUELLE], true);   // nur Dateien dieser Version, keine älteren Pakete
     if (t) return t.antwort;
     return await frisch;
   } catch (e) {
     const t = await finde(event.request, [CACHE_HUELLE]);
     return t ? t.antwort : nichtDa();
   }
+}
+
+// Grosse Daten (Fragen, alte Texte, Bildindex): gespeicherte Kopie bedingt beim Server prüfen.
+// Unverändert: kurze 304-Antwort, die Kopie wird geliefert. Geändert (z. B. aus der Verwaltung): sofort die neue Datei.
+// Offline oder Netz zu langsam (10 s): die Kopie.
+async function datenGeprueft(event, key) {
+  const t = await finde(key, [CACHE_DATEN, CACHE_HUELLE]);
+  if (!t) {
+    try { return await holenUndSpeichern(CACHE_DATEN, event.request, key); } catch (e) { return nichtDa(); }
+  }
+  if (offlineNetz()) return t.antwort;
+  const ziel = t.name.startsWith(PAKET_PREFIX) ? t.name : CACHE_DATEN;
+  const neu = (async () => {
+    const r = await bedingtHolen(event.request.url, t.antwort);
+    if (speicherbar(r)) { await ablegen(ziel, key, r); return r; }
+    return null;   // 304 oder Fehler: Kopie behalten
+  })();
+  try {
+    const r = await Promise.race([neu, warte(10000)]);
+    if (r) return r;
+    event.waitUntil(neu.catch(() => null));
+  } catch (e) {}
+  return t.antwort;
 }
 
 // Bilder: zuerst Cache (Bilder, Hülle, Offline-Pakete), sonst Netz und speichern
@@ -269,14 +328,30 @@ async function datenFuerImmer(event, key) {
   }
 }
 
+const TAG = 864e5;
+async function bildPruefen(req, t) {
+  try {
+    const r = await bedingtHolen(req.url, t.antwort);
+    const c = await caches.open(CACHE_BILDER);
+    if (speicherbar(r)) { const k = new Headers(r.headers); k.set("x-ep-geprueft", String(Date.now())); await c.put(req, new Response(await r.blob(), { status: 200, statusText: "OK", headers: k })); }
+    else if (r.status === 304) { const k = new Headers(t.antwort.headers); k.set("x-ep-geprueft", String(Date.now())); await c.put(req, new Response(await t.antwort.clone().blob(), { status: 200, statusText: "OK", headers: k })); }
+  } catch (e) {}
+}
 async function cacheZuerst(event) {
   const t = await finde(event.request, [CACHE_BILDER, CACHE_HUELLE]);
-  if (t) return t.antwort;
+  if (t) {
+    if (t.name === CACHE_BILDER && !offlineNetz()) {
+      const zuletzt = +t.antwort.headers.get("x-ep-geprueft") || Date.parse(t.antwort.headers.get("date") || "") || 0;
+      if (Date.now() - zuletzt > TAG) event.waitUntil(bildPruefen(event.request, t));
+    }
+    return t.antwort;
+  }
   try {
     const antwort = await fetch(event.request);
     if (speicherbar(antwort)) {
       const cache = await caches.open(CACHE_BILDER);
-      event.waitUntil(cache.put(event.request, antwort.clone()).then(bilderTrimmen).catch(() => null));
+      const k = new Headers(antwort.headers); k.set("x-ep-geprueft", String(Date.now()));
+      event.waitUntil(antwort.clone().blob().then((b) => cache.put(event.request, new Response(b, { status: 200, statusText: "OK", headers: k }))).then(bilderTrimmen).catch(() => null));
     }
     return antwort;
   } catch (e) {
@@ -325,14 +400,10 @@ self.addEventListener("fetch", (event) => {
   }
   // 2b. Grosse Daten: Fragen, alte Texte, Bildindex (Datenspeicher, überlebt Updates; zuerst Speicher, dann still aktualisieren)
   if (/^fragen-.*\.json$/.test(datei) || /^texte.*\.json$/.test(datei) || datei === "bildindex.json") {
-    event.respondWith(staleWhileRevalidate(event, schluessel(anfrage.url), CACHE_DATEN));
+    event.respondWith(datenGeprueft(event, schluessel(anfrage.url)));
     return;
   }
-  // 2c. daten-*.js gehören zum Code dieser Version
-  if (/^daten-.*\.js$/.test(datei)) {
-    event.respondWith(staleWhileRevalidate(event, schluessel(anfrage.url)));
-    return;
-  }
+  // (daten-*.js gehört zum Code dieser Version und läuft darum wie aller Code über «zuerst Netz», Punkt 4)
 
   // 3. Bilder unter bilder/, img/ und flags/
   const basis = new URL("./", self.location.href).pathname;

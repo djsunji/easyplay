@@ -115,7 +115,9 @@ const KATS = [["hg", "Hinter\u00ADgrund", "🖼️"], ["rahmen", "Rahmen", "⭕"
 const MAX_STICKER = 4, MAX_VITRINE = 3;
 
 /* ---------- Zahlen ---------- */
-function gelesenListe(){ const l = LS.get(K.gelesen, []); return Array.isArray(l) ? l : []; }
+let GEL = null;
+function gelesenListe(){ if(!GEL){ const l = LS.get(K.gelesen, []); GEL = Array.isArray(l) ? l : []; } return GEL; }
+addEventListener("storage", e => { if(e.key === K.gelesen) GEL = null; });
 const gelesen = () => gelesenListe().length;
 function zahlen(){
   const st = Object.assign({trainFragen:0, testFragen:0, testRuns:0}, (typeof S !== "undefined" && S.stats) || {});
@@ -179,7 +181,7 @@ function deko(){
     effekt: ok(d.effekt, "effekt") ? d.effekt : "kein",
     sticker: (Array.isArray(d.sticker) ? d.sticker : []).filter(id => ok(id, "sticker")).slice(0, MAX_STICKER),
     titel: titel.some(t => t[2] === d.titel) ? d.titel : (titel.length ? titel[titel.length - 1][2] : ""),
-    vitrine: (Array.isArray(d.vitrine) && d.vitrine.length ? d.vitrine.filter(id => fam.some(f => f.id === id)) : fam.slice().sort((a, b) => b.stufe - a.stufe).map(f => f.id)).slice(0, MAX_VITRINE)
+    vitrine: (Array.isArray(d.vitrine) && (d.vitrine.length || d.vitrineGewaehlt) ? d.vitrine.filter(id => fam.some(f => f.id === id)) : fam.slice().sort((a, b) => b.stufe - a.stufe).map(f => f.id)).slice(0, MAX_VITRINE)
   };
 }
 function dekoSetzen(teil){ const d = {...rohDeko(), ...teil}; LS.set(K.deko, d); veroeffentlichen(); }
@@ -190,12 +192,13 @@ function oeffentlich(){
   return { deko:{hg:d.hg, ra:d.rahmen, ef:d.effekt, st:d.sticker, ti:d.titel, vi:d.vitrine.map(id => { const f = fam.find(x => x.id === id); return f ? id + ":" + f.stufe : null; }).filter(Boolean)},
     zahlen:{f:z.fragen, t:z.tests, a:z.artikel, l:z.level, s:z.serie, ab:z.abzeichen} };
 }
-let pubT = null;
+let pubT = null, zuletztGesendet = "";
 function veroeffentlichen(){
   clearTimeout(pubT);
   pubT = setTimeout(() => { try{
     if(typeof S === "undefined" || !S.profil) return;
     const o = oeffentlich(); S.profil.deko = o.deko; S.profil.zahlen = o.zahlen;
+    const sig = JSON.stringify(o); if(sig === zuletztGesendet) return; zuletztGesendet = sig;   // nur bei echter Änderung schreiben
     if(S.online && S.db && S.uid && typeof oeffentlichesProfil === "function"){ const pr = S.db.doc(`spieler/${S.uid}`).set(oeffentlichesProfil(S.profil)); if(pr && pr.catch) pr.catch(() => {}); }
   }catch(e){} }, 1500);
 }
@@ -463,7 +466,7 @@ function seite(box){
       if(id.startsWith("t:")) dekoSetzen({titel:id.slice(2)});
       else if(id.startsWith("v:")){ const f = id.slice(2); let v = d2.vitrine.slice();
         if(v.includes(f)) v = v.filter(x => x !== f); else { v.push(f); if(v.length > MAX_VITRINE) v.shift(); }
-        dekoSetzen({vitrine:v}); }
+        dekoSetzen({vitrine:v, vitrineGewaehlt:true}); }
       else { const t = TEIL[id]; if(!t || !hat(t, st2)) return;
         if(t.kat === "sticker"){ let s = d2.sticker.slice(); if(s.includes(id)) s = s.filter(x => x !== id); else { s.push(id); if(s.length > MAX_STICKER) s.shift(); } dekoSetzen({sticker:s}); }
         else dekoSetzen({[t.kat]:id}); }

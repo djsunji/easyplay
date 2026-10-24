@@ -706,7 +706,7 @@ TABS.fragen = async () => {
   const neu = () => { FF.suche = $("#fSuche").value.trim(); FF.stufe = $("#fStufe").value; FF.thema = $("#fThema").value; FF.nur = $("#fNur").value; FF.bereich = $("#fBereich").value; FF.seite = 0; liste(); };
   let t; $("#fSuche").oninput = () => { clearTimeout(t); t = setTimeout(neu, 200); };
   $("#fStufe").onchange = $("#fThema").onchange = $("#fNur").onchange = $("#fBereich").onchange = neu;
-  $("#fNeu").onclick = () => { const max = Math.max(0, ...fr.map(f => +f.nr||0), ...[...AE.fragen.values()].map(a => +a.neu?.nr||0)); const letzte = (CFG.fragenDateien||[]).slice(-1)[0];
+  $("#fNeu").onclick = () => { const max = [...fr.map(f => +f.nr||0), ...[...AE.fragen.values()].map(a => +a.neu?.nr||0)].reduce((m, x) => Math.max(m, x), 0); const letzte = (CFG.fragenDateien||[]).slice(-1)[0];
     fragenEdit({nr:max+1, t:FF.thema || fr[0].t, l:+FF.stufe || 1, q:"", a:["","","",""], e:"", m:"", s:"", _datei:letzte, _neu:true}); };
   liste();
   if(FF.wahl != null){ const f = aktuelleFrage(FF.wahl); if(f) fragenEdit(f); }
@@ -772,29 +772,40 @@ function fragenEdit(f){
   $$("#fEdit input,#fEdit textarea,#fEdit select").forEach(el => el.oninput = pruefen); pruefen();
   $("#eOk").onclick = () => { if(!pruefen()) return; const n = JSON.parse(JSON.stringify(lesen()).replace(/ß/g, "ss"));
     const orig = DATEN.fragen.find(x => +x.nr === +f.nr);
-    if(orig && JSON.stringify({...orig}) === JSON.stringify(n)) AE.fragen.delete(+f.nr); else AE.fragen.set(+f.nr, {neu:n});
+    if(orig && JSON.stringify({...orig}) === JSON.stringify(n)) AE.fragen.delete(+f.nr); else AE.fragen.set(+f.nr, {neu:n, orig: orig ? JSON.parse(JSON.stringify(orig)) : null});
     aenderungenZeigen(); liste(); fragenEdit(n); melde("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
-  const weg = $("#eWeg"); if(weg) weg.onclick = () => { if(ae && ae.loeschen) AE.fragen.delete(+f.nr); else AE.fragen.set(+f.nr, {loeschen:true, neu:f}); aenderungenZeigen(); liste(); fragenEdit(DATEN.fragen.find(x => +x.nr === +f.nr) || f); };
+  const weg = $("#eWeg"); if(weg) weg.onclick = () => { if(ae && ae.loeschen) AE.fragen.delete(+f.nr); else AE.fragen.set(+f.nr, {loeschen:true, neu:f, orig:DATEN.fragen.find(x => +x.nr === +f.nr) || null}); aenderungenZeigen(); liste(); fragenEdit(DATEN.fragen.find(x => +x.nr === +f.nr) || f); };
   const zur = $("#eZurueck"); if(zur) zur.onclick = () => { AE.fragen.delete(+f.nr); aenderungenZeigen(); liste(); const o = DATEN.fragen.find(x => +x.nr === +f.nr); if(o) fragenEdit(o); else $("#fEdit").innerHTML = ""; };
 }
 async function fragenSpeichern(){
   const nachDatei = new Map();
   for(const [nr, a] of AE.fragen){ const d = a.neu._datei; if(!nachDatei.has(d)) nachDatei.set(d, []); nachDatei.get(d).push([nr, a]); }
   const anzahl = AE.fragen.size;
+  const FELDER = ["nr","t","l","q","a","e","m","s","img"];
+  const kern = f => { const o = {}; for(const k of FELDER) if(f && f[k] !== undefined && f[k] !== "") o[k] = f[k]; return JSON.stringify(o); };
+  let umnummeriert = [];
   await ghCommit(`Verwaltung: ${anzahl} ${anzahl === 1 ? "Frage" : "Fragen"} bearbeitet`, async () => {
-    const out = [];
+    const out = [], konflikt = []; umnummeriert = [];
+    let maxNr = (DATEN.fragen || []).reduce((m, f) => Math.max(m, +f.nr || 0), 0);
     for(const [datei, liste] of nachDatei){
       const aktuell = JSON.parse(await ghDateiText(datei));   // immer die neuste Fassung von GitHub
+      maxNr = aktuell.reduce((m, f) => Math.max(m, +f.nr || 0), maxNr);
       for(const [nr, a] of liste){
         const i = aktuell.findIndex(f => +f.nr === +nr);
+        // Wurde die Frage seit dem Laden anderswo geändert? Dann nicht überschreiben.
+        if(a.orig && i >= 0 && kern(aktuell[i]) !== kern(a.orig)){ konflikt.push(nr); continue; }
         if(a.loeschen){ if(i >= 0) aktuell.splice(i, 1); continue; }
-        const sauber = {}; for(const k of ["nr","t","l","q","a","e","m","s","img"]) if(a.neu[k] !== undefined && a.neu[k] !== "") sauber[k] = a.neu[k];
+        const sauber = {}; for(const k of FELDER) if(a.neu[k] !== undefined && a.neu[k] !== "") sauber[k] = a.neu[k];
+        // Neue Frage, deren Nummer inzwischen vergeben ist: nächste freie Nummer nehmen
+        if(!a.orig && i >= 0){ sauber.nr = ++maxNr; umnummeriert.push([nr, sauber.nr]); aktuell.push(sauber); continue; }
         if(i >= 0) aktuell[i] = sauber; else aktuell.push(sauber);
       }
       out.push({pfad: datei, text: fragenDatei(aktuell)});
     }
+    if(konflikt.length) throw new Error(`Frage ${konflikt.join(", ")} wurde inzwischen anderswo geändert. Bitte Seite neu laden und die Änderung nochmals machen. Nichts wurde gespeichert.`);
     return out;
   });
+  if(umnummeriert.length) melde(`Gespeichert. Neue Nummer vergeben: ${umnummeriert.map(([a, b]) => a + " → " + b).join(", ")}`);
   AE.fragen.clear(); DATEN.fragen = null;
 }
 

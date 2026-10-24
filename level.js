@@ -206,9 +206,9 @@ function levelUp(alt, neu){
   document.body.appendChild(el);
   if(!ruhig()) for(let i = 0; i < 22; i++){ const k = document.createElement("i"); k.className = "konf"; k.textContent = ["🎉","⭐","✨","🎊"][i % 4];
     k.style.setProperty("--x", (Math.random() * 360 - 180) + "px"); k.style.setProperty("--y", (Math.random() * -260 - 20) + "px"); el.querySelector(".box").appendChild(k); }
-  const zu = () => el.remove();
+  const zu = () => { el.remove(); removeEventListener("keydown", tast); };
   el.querySelector("button").onclick = zu; el.onclick = e => { if(e.target === el) zu(); };
-  const tast = e => { if(e.key === "Escape"){ zu(); removeEventListener("keydown", tast); } }; addEventListener("keydown", tast);
+  const tast = e => { if(e.key === "Escape") zu(); }; addEventListener("keydown", tast);
   setTimeout(() => { try{ el.querySelector("button").focus(); }catch(e){} }, 50);
 }
 function karteAktualisieren(){

@@ -129,7 +129,7 @@ function itemHTML(it, i){
   const st = `style="--i:${i}"`;
   if(it.art === "xp") return `<li class="xt-bel xt-b-xp" ${st}><span class="xt-bic" aria-hidden="true">⭐</span><span><b>+${it.xp} XP</b><small>für dein Level</small></span></li>`;
   if(it.art === "karte") return `<li class="xt-bel xt-b-karte" ${st}><span class="xt-bic" aria-hidden="true">${it.bild ? `<img src="${h(it.bild)}" alt="">` : "🃏"}</span><span><b>${h(it.titel)}</b><small>Sammelkarte${it.seltenheit ? " · " + h(it.seltenheit) : ""}</small></span>${welt("album") ? `<button type="button" class="xt-mini-btn" data-zu="album">Album</button>` : ""}</li>`;
-  if(it.art === "teil") return `<li class="xt-bel xt-b-teil" ${st}><span class="xt-bic" aria-hidden="true">${h(it.emo)}</span><span><b>${h(it.name)}</b><small>Neu für dein Profil</small></span>${welt("garderobe") ? `<button type="button" class="xt-mini-btn" data-zu="garderobe">Anziehen</button>` : ""}</li>`;
+  if(it.art === "teil") return `<li class="xt-bel xt-b-teil" ${st}><span class="xt-bic" aria-hidden="true">${h(it.emo)}</span><span><b>${h(it.name)}</b><small>Neu für dein Profil</small></span>${welt("garderobe") ? `<button type="button" class="xt-mini-btn" data-zu="garderobe">Verzieren</button>` : ""}</li>`;
   if(it.art === "fakt") return `<li class="xt-bel xt-b-fakt" ${st}><span class="xt-bic" aria-hidden="true">💡</span><span><b>Wusstest du?</b><small class="xt-fakt">${h(it.text)}</small></span><button type="button" class="xt-mini-btn" data-fakt="${h(it.t)}" aria-label="Mehr dazu in der Bibliothek">Mehr</button></li>`;
   return "";
 }
