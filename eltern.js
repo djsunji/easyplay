@@ -188,7 +188,7 @@ function abzInfo(k){
   if(art === "w") return {emo:"🏅", name:"Wochen-Abzeichen " + themaName(id)};
   return null;
 }
-function weltInfo(id){ return ({karte:["🗺️","Schweizer Karte"], album:["📒","Sammelalbum"], garderobe:["👕","Garderobe"], mathe:["➗","Mathe"], sprachen:["💬","Sprachen"]})[id] || ["✨", id]; }
+function weltInfo(id){ return ({karte:["🗺️","Schweizer Karte"], album:["📒","Sammelalbum"], garderobe:["🎨","Profil-Verzierungen"], mathe:["➗","Mathe"], sprachen:["💬","Sprachen"]})[id] || ["✨", id]; }
 function zeitraum(R){
   const a = datum(R.von), b = datum(R.bis);
   return a.getMonth() === b.getMonth() ? `${a.getDate()}. bis ${b.getDate()}. ${MONATE[b.getMonth()]} ${b.getFullYear()}`

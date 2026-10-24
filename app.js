@@ -53,6 +53,7 @@ const I = {
   medaille: '<circle cx="12" cy="15" r="6"/><path d="M8.5 10 6 3h4l2 4 2-4h4l-2.5 7"/>',
   wuerfel: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.2" fill="currentColor"/>',
   pinsel: '<path d="M14 4l6 6-9 9H5v-6z"/><path d="M12 6l6 6"/>',
+  funkel: '<path d="M12 3l2 5.5 5.5 2-5.5 2L12 18l-2-5.5-5.5-2 5.5-2z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
   hut: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',
   code: '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10v4M12 10v4M16 10v4"/>',
   lupe: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
@@ -739,6 +740,7 @@ function profilHTML(){
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}</b><span>von ${ab.alle}</span></div>
     </div>
     <nav class="glas ap-liste" aria-label="Mehr">
+      ${p ? zeile('data-x="verzieren"', I.funkel, "Verzieren") : ""}
       ${zeile('data-x="board"', I.pokal, "Rangliste")}
       ${zeile('data-x="lib"', I.buch, "Bibliothek")}
       ${zeile('data-m="set"', I.pinsel, "Hintergrund")}
@@ -783,6 +785,7 @@ function binden(wurzel){
     else if(a === "login") go("login");
     else if(a === "register") go("register");
     else if(a === "meinprofil") go("profil");
+    else if(a === "verzieren") go("x-garderobe");
     else if(a === "abmelden"){ try{ abmelden(); }catch(err){} }
     else if(ES.aktion) ES.aktion(a, b); }));
   wurzel.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { if(!menuKlick(`[data-m="${b.dataset.m}"]`)){ if(b.dataset.m === "set"){ try{ oeffneEinstellungen(); }catch(e){} } else go(b.dataset.m); } });

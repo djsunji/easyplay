@@ -82,7 +82,8 @@ function werte(){
   return { level:levelAus(D.xp), richtig:st.trainRichtig + st.testRichtig, runden:st.trainRuns + st.testRuns, serie:serie.best || 0,
     tagesquiz:Object.keys(tq).length, perfekt:Object.values(tq).filter(x => x && x.r === x.n).length,
     geuebt:+LS.get("ep-fehler-geuebt", 0) || 0, themen:Object.keys(th).filter(t => !t.startsWith("kt_") && th[t][1] >= 10).length,
-    kantone:Object.keys(th).filter(t => t.startsWith("kt_") && th[t][0] >= 10).length };
+    kantone:Object.keys(th).filter(t => t.startsWith("kt_") && th[t][0] >= 10).length,
+    artikel:(() => { try{ return window.EP_PROFIL ? window.EP_PROFIL.gelesen() : 0; }catch(e){ return 0; } })(), tests:st.testRuns };
 }
 const FAMILIEN = [
   ["lvl",  "⭐", "Aufsteiger",      "Level erreicht",                 "level",    [10, 50, 100, 250, 500, 1000]],
@@ -93,7 +94,9 @@ const FAMILIEN = [
   ["feh",  "🩹", "Fehlerjäger",     "Fehler ausgebügelt",             "geuebt",   [50, 200, 500, 1000, 2500, 5000]],
   ["run",  "🎮", "Dauerspieler",    "Runden fertig gespielt",         "runden",   [100, 250, 500, 1000, 2500, 5000]],
   ["the",  "🗺️", "Alleswisser",     "Themen mit je 10 Antworten",     "themen",   [15, 30, 45, 60, 70, 75]],
-  ["kt",   "🇨🇭", "Schweiz-Profi",   "Kantone mit je 10 richtigen",    "kantone",  [3, 8, 13, 18, 23, 26]]
+  ["kt",   "🇨🇭", "Schweiz-Profi",   "Kantone mit je 10 richtigen",    "kantone",  [3, 8, 13, 18, 23, 26]],
+  ["les",  "📚", "Leseratte",       "Artikel in der Bibliothek gelesen","artikel", [5, 25, 100, 250, 500, 1000]],
+  ["tst",  "📝", "Testprofi",       "gewertete Tests gemacht",        "tests",    [5, 25, 100, 250, 500, 1000]]
 ];
 function familien(){
   const w = werte();
@@ -345,5 +348,5 @@ if(typeof vorProfil === "function"){
 try{ abzeichenPruefen(true); }catch(e){}
 addEventListener("storage", e => { if(e.key === KEY){ D = laden(); karteAktualisieren(); } });
 
-window.EP_LEVEL = { stand, gesamtFuer, levelAus, familien, TITEL, XP, MAX_LEVEL, gib };
+window.EP_LEVEL = { stand, gesamtFuer, levelAus, familien, TITEL, XP, MAX_LEVEL, gib, pruefen:() => abzeichenPruefen(false), STUFEN };
 })();
