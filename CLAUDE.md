@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 24.10. ab 16:35, Sitzung «Hauptseite»: Fragen der Stufe Entdecker ins Französische (`welten/i18n/fr/q-5.json` ff., `welten/i18n/index.json`). Wird in Wellen über mehrere Stunden gepusht.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Französisch: alle Fragen der Stufe Entdecker übersetzt (36'485 neu, zusammen 38'026 von 38'854; ausgelassen nur Themen «Sprache» und «Französisch» sowie Fragen, die auf Französisch keinen Sinn ergeben). Dateien `welten/i18n/fr/q-5.json` bis `q-19.json`, `welten/i18n/index.json`. Werkzeuge in der Sitzung: `/home/claude/fragen-fr/` (Pakete, Anleitung, pruefe.py, einbau.py).
 - 24.10. Sitzung «Hauptseite»: Übersetzung FR/IT der neuen Oberflächentexte (Profilseite, Verzierungen, Abzeichen, Startseite, Lehrerbereich, Meldungen), 174 Einträge je Sprache in `welten/i18n/ui-fr.json` und `ui-it.json`. Neue sichtbare Texte bitte dort ergänzen.
 - 24.10. Sitzung «Hauptseite»: Sicherheit. Datenbank (`supabase/*.sql`, neu `supabase/sicherheit.sql` zum Nachrüsten): gemeinsame Mengenbremse `bremse()`, Kontaktsperre `kontakt_verdacht()`, Lehrer-Rolle nur über `admin_lehrer_setzen` (app_metadata), Duell überträgt nur Fragen-Kennungen (`duell2.js` baut die Fragen selbst), Kommentar-Namen vom Server, Live/Regionen begrenzt. Lokaler Lehrerbereich mit Lehrer-Passwort (`lehrer.js`), Lehrer-App zeigt «wird geprüft» (`lehrer/lehrer-app.js`). Verwaltung: Lehrer-Anträge freigeben, IP-Prüfung, GitHub-Schlüssel wird auf Umfang/Ablauf geprüft, Abmelden nach 30 Min. Profil verliert beim Anmelden keine Felder mehr (`index.html`). Qeels-Werbung der anderen Sitzung übernommen.
 - 24.10. Sitzung «Qeels»: Werbung von Sponsoren in Qeels, jedes 10. Qeel, angeschrieben als «Werbung», ohne Tracking. Anzeigen stehen in `werbung.json` (nur mit "aktiv": true), Vorschau mit `?werbedemo`. Anzeige und Klick zählen in der Besucherstatistik als Bereich `w-<id>-sicht` und `w-<id>-klick` (nur mit Supabase). Datenschutz Abschnitt 10 neu (`index.html`, `werbung.json`, `datenschutz.html`).
