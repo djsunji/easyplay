@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Qeels»: Tab «Für dich» mischt jetzt halb halb, Frage und Artikel wechseln sich ab (`index.html` rlNaechstes).
 - 24.10. Sitzung «Hauptseite»: Bibliothek: Links im Artikel merken sich die vorherige Seite (`LIB.verlauf`), «Zurück» geht Schritt für Schritt zurück und erst dann zum Kapitel (`index.html` vlOeffnen, `app.js` zurueck).
 - 24.10. Sitzung «Hauptseite»: Bewegte Profil-Hintergründe (reines CSS, Klassen `pa-…`, aus bei «Bewegung reduzieren»): 10 bestehende belebt, 7 neue bewegte als Belohnung für Serie, Artikel, Tests und Fragen (`garderobe.js`).
 - 24.10. Sitzung «Hauptseite»: Profil verzieren: 19 neue Verzierungen, alle 50 Level eine von Level 100 bis 1000 (`garderobe.js`).

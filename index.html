@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-06";
+window.EP_BUILD="ep-2026-10-24-07";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4697,7 +4697,7 @@ function rlNaechstes(){
   if(t==="suche"){ RL.n++; return rlSucheNaechstes(); }
   if(t==="quiz") it=rlNaechsteFrage();
   else if(t==="wissen") it=rlNaechsterArtikel();
-  else it = (RL.n%3===2 && RL.n>0) ? (rlNaechsterArtikel()||rlNaechsteFrage()) : rlNaechsteFrage();
+  else it = (RL.n%2===1) ? (rlNaechsterArtikel()||rlNaechsteFrage()) : rlNaechsteFrage();
   RL.n++; return it;
 }
 function rlEigene(s){ const t=String(s.titel).toLowerCase(); return (s.fragen||[]).filter(f=>f.a?.length===4 && String(f.s||"").replace(/ß/g,"ss").toLowerCase()===t); }
