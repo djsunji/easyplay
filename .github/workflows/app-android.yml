@@ -22,6 +22,7 @@ jobs:
       - name: Capacitor-Projekt erzeugen
         working-directory: app
         run: |
+          python3 www-bauen.py
           npm install --no-audit --no-fund
           npx cap add android
           npx capacitor-assets generate --android --iconBackgroundColor '#2B1466' --iconBackgroundColorDark '#2B1466' --splashBackgroundColor '#2B1466' --splashBackgroundColorDark '#2B1466'

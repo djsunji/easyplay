@@ -23,6 +23,7 @@ jobs:
       - name: Capacitor-Projekt erzeugen
         working-directory: app
         run: |
+          python3 www-bauen.py
           npm install --no-audit --no-fund
           npx cap add ios
           npx capacitor-assets generate --ios --splashBackgroundColor '#2B1466' --splashBackgroundColorDark '#2B1466'
@@ -31,14 +32,13 @@ jobs:
         working-directory: app/ios/App/App
         run: |
           P=Info.plist
-          /usr/libexec/PlistBuddy -c "Add :WKAppBoundDomains array" $P || true
-          /usr/libexec/PlistBuddy -c "Add :WKAppBoundDomains:0 string djsunji.github.io" $P || true
           /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" $P || true
           /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName easyplay" $P || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string easyplay" $P
           /usr/libexec/PlistBuddy -c "Add :CFBundleDevelopmentRegion string de" $P || /usr/libexec/PlistBuddy -c "Set :CFBundleDevelopmentRegion de" $P
       - name: Bauen
         working-directory: app/ios/App
         run: |
+          set -o pipefail
           if [ -d App.xcworkspace ]; then W="-workspace App.xcworkspace"; else W="-project App.xcodeproj"; fi
           if [ -z "$TEAM" ] || [ -z "$KID" ] || [ -z "$ISS" ] || [ -z "$P8" ]; then
             xcodebuild $W -scheme App -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build | tail -20

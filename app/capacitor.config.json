@@ -1,22 +1,28 @@
 {
-  "appId": "ch.easyplay.app",
-  "appName": "easyplay",
-  "webDir": "www",
-  "server": {
-    "url": "https://djsunji.github.io/easyplay/",
-    "cleartext": false,
-    "allowNavigation": ["djsunji.github.io"]
+ "appId": "ch.easyplay.app",
+ "appName": "easyplay",
+ "webDir": "www",
+ "ios": {
+  "contentInset": "never",
+  "backgroundColor": "#2B1466"
+ },
+ "android": {
+  "backgroundColor": "#2B1466"
+ },
+ "plugins": {
+  "SplashScreen": {
+   "launchShowDuration": 800,
+   "backgroundColor": "#2B1466",
+   "showSpinner": false,
+   "launchAutoHide": true
   },
-  "ios": {
-    "contentInset": "never",
-    "limitsNavigationsToAppBoundDomains": true,
-    "backgroundColor": "#2B1466"
+  "StatusBar": {
+   "style": "DARK",
+   "backgroundColor": "#2B1466",
+   "overlaysWebView": false
   },
-  "android": {
-    "backgroundColor": "#2B1466"
-  },
-  "plugins": {
-    "SplashScreen": { "launchShowDuration": 1200, "backgroundColor": "#2B1466", "showSpinner": false, "launchAutoHide": true },
-    "StatusBar": { "style": "DARK", "backgroundColor": "#2B1466", "overlaysWebView": false }
+  "LocalNotifications": {
+   "iconColor": "#2B1466"
   }
+ }
 }

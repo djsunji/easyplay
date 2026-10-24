@@ -2,12 +2,15 @@
   "name": "easyplay-app",
   "private": true,
   "version": "1.0.0",
-  "description": "easyplay als App für iPhone, iPad und Android (Capacitor). Baut über GitHub Actions, siehe ANLEITUNG-APP.md.",
+  "description": "easyplay als echte App für iPhone, iPad und Android (Capacitor, alles eingebaut). Baut über GitHub Actions, siehe ANLEITUNG-APP.md.",
   "dependencies": {
     "@capacitor/android": "^7.0.0",
     "@capacitor/app": "^7.0.0",
     "@capacitor/core": "^7.0.0",
+    "@capacitor/haptics": "^7.0.0",
     "@capacitor/ios": "^7.0.0",
+    "@capacitor/local-notifications": "^7.0.0",
+    "@capacitor/share": "^7.0.0",
     "@capacitor/splash-screen": "^7.0.0",
     "@capacitor/status-bar": "^7.0.0"
   },

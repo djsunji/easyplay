@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 24.10. Sitzung «Hauptseite»: echte App (alles eingebaut, offline): `app/`, `.github/workflows/app-*.yml`, kleine Anpassungen für `window.EP_APP` in `index.html`, `offline.js`, `lehrer.js`.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Echte App statt Website-Hülle. Alles eingebaut und offline (`app/www-bauen.py` kopiert die Website nach `app/www`, ohne `bilder/`), Bilder der Bibliothek bei Bedarf aus dem Internet und danach gespeichert, Vibration, Teilen, Erinnerungen (`app/native.js`). Wichtig für alle: «läuft in der App» heisst im Code `window.EP_NATIV` (nicht `EP_APP`, das gibt es schon in `app.js`). In der App keine Versionsprüfung, kein Service Worker, keine Welt «Offline spielen» (`index.html`, `offline.js`, `lehrer.js`). Neue Inhalte kommen erst mit einem neuen App-Bau in die App.
 - 24.10. Sitzung «Hauptseite»: App für iPhone, iPad und Android als Capacitor-Hülle um die Website (`app/`, App-Kennung `ch.easyplay.app`). Gebaut wird über GitHub Actions (`.github/workflows/app-android.yml`, `app-ios.yml`, iOS auf macOS-Runnern ohne eigenen Mac). Änderungen an der Website sind sofort in der App; neues Store-Paket nur bei Änderungen in `app/`. Android-Zurück-Taste in `app.js`. Anleitung `app/ANLEITUNG-APP.md`.
 - 24.10. Sitzung «Hauptseite»: Französisch: alle Fragen der Stufe Entdecker übersetzt (36'485 neu, zusammen 38'026 von 38'854; ausgelassen nur Themen «Sprache» und «Französisch» sowie Fragen, die auf Französisch keinen Sinn ergeben). Dateien `welten/i18n/fr/q-5.json` bis `q-19.json`, `welten/i18n/index.json`. Werkzeuge in der Sitzung: `/home/claude/fragen-fr/` (Pakete, Anleitung, pruefe.py, einbau.py).
 - 24.10. Sitzung «Hauptseite»: Übersetzung FR/IT der neuen Oberflächentexte (Profilseite, Verzierungen, Abzeichen, Startseite, Lehrerbereich, Meldungen), 174 Einträge je Sprache in `welten/i18n/ui-fr.json` und `ui-it.json`. Neue sichtbare Texte bitte dort ergänzen.

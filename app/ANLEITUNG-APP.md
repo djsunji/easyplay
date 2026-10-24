@@ -1,11 +1,20 @@
 # easyplay als App (iPhone, iPad, Android)
 
-Die App ist eine Hülle (Capacitor) um die Website https://djsunji.github.io/easyplay/. Jede Änderung an der Website ist darum sofort auch in der App, ohne neues Store-Update. Ein neues App-Paket braucht es nur bei Änderungen in `app/` (Symbol, Startbild, Einstellungen).
+Die App ist eine echte App mit allem eingebaut: alle Fragen, die ganze Bibliothek, alle Spiele und Welten. Sie läuft ohne Internet. Nur die Bilder der Bibliothek (672 MB) sind nicht dabei: sie kommen beim Anschauen aus dem Internet und bleiben danach im Gerät gespeichert.
+
+Dazu echte App-Funktionen: Vibration bei richtig und falsch, das Teilen-Fenster des Geräts und Erinnerungen (Tagesquiz um 17:30, Serie um 19:00, wenn heute noch nicht gelernt). Die Erlaubnis für Mitteilungen fragt die App erst, wenn schon einmal gespielt wurde.
+
+So entsteht die App:
+- `app/www-bauen.py` kopiert die Website nach `app/www` (ohne `bilder/`, Verwaltung, Werkzeuge, Qeels-Einzelseite), setzt `app/native.js` als erstes Skript ein und holt die Schriften von Google in die App.
+- `app/native.js` gibt es nur in der App: `window.EP_NATIV`, Bilder bei Bedarf, frische Korrekturen und Werbung von der Website, Vibration, Teilen, Erinnerungen.
+- Im Website-Code heisst «läuft in der App» immer `window.EP_NATIV` (nicht `EP_APP`, das ist etwas anderes).
+
+**Neue Inhalte kommen mit einem neuen App-Paket.** Änderungen an der Website (neue Fragen, Texte, Funktionen) sind erst nach einem neuen Bau in der App: Actions, **App iOS** oder **App Android**, **Run workflow**. Ausnahme: Korrekturen aus der Verwaltung (`korrektur/`) und die Werbung holt die App frisch von der Website, sobald Internet da ist.
 
 Gebaut wird auf den Rechnern von GitHub (GitHub Actions), auch die iPhone-App auf einem Mac von GitHub. Ein eigener Mac ist nicht nötig.
 
-- `.github/workflows/app-android.yml`: baut die Android-App (AAB-Datei für Google Play).
 - `.github/workflows/app-ios.yml`: baut die iPhone/iPad-App und lädt sie zu App Store Connect (TestFlight) hoch.
+- `.github/workflows/app-android.yml`: baut die Android-App (AAB-Datei für Google Play).
 - Beide laufen bei jeder Änderung in `app/` oder von Hand: GitHub, Repo easyplay, Reiter **Actions**, Ablauf wählen, **Run workflow**.
 - App-Kennung (Bundle ID, Package Name): **ch.easyplay.app**. Sie lässt sich nach der ersten Veröffentlichung nicht mehr ändern.
 
@@ -50,5 +59,5 @@ Die Datei `upload.jks` und das Passwort zusätzlich sicher aufbewahren (Passwort
 
 ## Wichtige Hinweise für die Prüfung
 - **Kategorie:** «Bildung» wählen, nicht «Kinder». In der Kinder-Kategorie sind Werbung (Qeels-Sponsoren) und Links nach aussen kaum erlaubt.
-- **Apple Regel 4.2 (Mindestfunktion):** Apple lehnt Apps ab, die nur eine Website zeigen. easyplay hat viel eigene Funktion (Quiz, Offline-Spielen, Fortschritt), das hilft. Kommt trotzdem eine Ablehnung, können echte App-Funktionen ergänzt werden (z. B. Mitteilungen für Tagesquiz und Serie).
+- **Apple Regel 4.2 (Mindestfunktion):** Die App ist keine Website-Hülle: alles ist eingebaut und läuft ohne Internet, dazu Mitteilungen, Vibration und Teilen. Das im Prüfungsformular kurz erwähnen.
 - **Google «Familien»-Richtlinie:** Wenn die Zielgruppe Kinder einschliesst, verlangt Google eine Datenschutzerklärung, die auf Kinder eingeht, und Werbung nur von zertifizierten Anbietern. Die eigenen Sponsoren-Qeels sind ohne Tracking, das kurz im Formular erklären.

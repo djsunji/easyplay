@@ -138,7 +138,7 @@ function fKey(f){ if(f && f.eigen && f.id) return f.id; try{ if(typeof qid==="fu
 const themaName = id => id==="eigen" ? "Eigene Fragen" : (typeof THEMA!=="undefined" && THEMA[id]?.name) || (String(id).startsWith("kt_") ? "Kanton "+String(id).slice(3) : String(id||""));
 function testBasis(){
   try{ if(window.claude && typeof ARTIFACT_URL!=="undefined" && ARTIFACT_URL) return ARTIFACT_URL; }catch(e){}
-  if(/^https?:/.test(location.protocol)) return location.href.split("#")[0];
+  if(/^https?:/.test(location.protocol) && !window.EP_NATIV) return location.href.split("#")[0];
   const c=window.EP_CONFIG||{}; return c.teilenUrl || location.href.split("#")[0];
 }
 const testLink = code => `${testBasis()}#test=${code}`;

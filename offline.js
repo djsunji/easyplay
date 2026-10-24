@@ -25,7 +25,7 @@ const idle = f => (window.requestIdleCallback || (g => setTimeout(g, 50)))(f);
 const online = () => navigator.onLine !== false;
 const sparModus = () => { try{ const c = navigator.connection; return !!(c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ""))); }catch(e){ return false; } };
 
-const SW_DA = (() => { try{ return "serviceWorker" in navigator && "caches" in window && window.isSecureContext && !window.claude; }catch(e){ return false; } })();
+const SW_DA = (() => { try{ return "serviceWorker" in navigator && "caches" in window && window.isSecureContext && !window.claude && !window.EP_NATIV; }catch(e){ return false; } })();
 const CACHE_DA = (() => { try{ return "caches" in window && window.isSecureContext; }catch(e){ return false; } })();
 
 const zahl = (x, d) => Number(x).toLocaleString("de-CH", {maximumFractionDigits:d, minimumFractionDigits:d});
@@ -674,7 +674,8 @@ function renderEinhaengen(){
 }
 
 /* ---------- Welt anmelden ---------- */
-if(window.EP_EXTRAS && typeof window.EP_EXTRAS.register === "function"){
+/* In der App ist alles eingebaut: die Welt «Offline spielen» braucht es dort nicht */
+if(window.EP_EXTRAS && typeof window.EP_EXTRAS.register === "function" && !window.EP_NATIV){
   window.EP_EXTRAS.register({
     id:"offline", titel:"Offline spielen", text:"Lade easyplay aufs Gerät und spiel ohne Internet", emo:"📴",
     farbe:"linear-gradient(135deg,#3B4BD8,#5B4BF5 55%,#0FA9A0)", reihe:90,
