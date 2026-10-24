@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. ab 07:10, Sitzung «Hauptseite»: Verwaltung «Fragen und Artikel bearbeiten» (`admin/index.html`, neue Datei `korrektur.js`, Korrekturdateien in `korrektur/`) und neue Profilseite mit Verzierungen statt Garderobe (`garderobe.js`, Profil-Teile in `index.html`/`app.js`/`level.js`, neue Datei `profilseite.js`). Qeels fasse ich nicht an.
 
 ## Notizen an die andere Sitzung
 
