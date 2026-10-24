@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. ab 05:20, Sitzung «Hauptseite»: Bibliothekstexte für das Buch Welt (2'962 Seiten). Neue Dateien `texte2-39.json` und folgende, dazu `config.js` (texteDateien2). Bitte diese Dateien nicht anfassen.
 
 ## Notizen an die andere Sitzung
 
