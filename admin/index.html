@@ -228,6 +228,7 @@ select{max-width:100%}
   <button data-t="statistik">Besucher</button>
   <div class="gr">Inhalte</div>
   <button data-t="fragen">Fragen <small id="nFragen"></small></button>
+  <button data-t="artikel">Artikel <small id="nArtikel"></small></button>
   <button data-t="bilder">Bilder <small id="nBilder"></small></button>
   <button data-t="bildwechsel" class="unter">↳ Bilder wechseln</button>
   <button data-t="welten">Welten <small id="nWelten"></small></button>
@@ -269,8 +270,8 @@ const store = {
   del(k){ try{ sessionStorage.removeItem(k); localStorage.removeItem(k); }catch(e){} }
 };
 const DATEN = { fragen:null, themen:{}, bereiche:{}, themaBereich:{}, bildindex:null, seiten:null, gesperrt:null, repo:null };
-const AE = { fragen:new Map(), bilder:new Map(), dateien:new Map(), welten:new Map() };   // offene Änderungen
-const offen = () => AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0) + AE.welten.size;
+const AE = { fragen:new Map(), bilder:new Map(), dateien:new Map(), welten:new Map(), artikel:new Map() };   // offene Änderungen
+const offen = () => AE.fragen.size + AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0) + AE.welten.size + AE.artikel.size;
 // Zahlen merken, damit die Übersicht ohne grosse Downloads sofort etwas zeigt
 const zahlenCache = () => store.get("ep-admin-zahlen", {}) || {};
 function zahlenMerken(o){ store.set("ep-admin-zahlen", {...zahlenCache(), ...o}, true); }
@@ -795,6 +796,116 @@ async function fragenSpeichern(){
     return out;
   });
   AE.fragen.clear(); DATEN.fragen = null;
+}
+
+/* ======================= Artikel (Bibliothekstexte) ======================= */
+// Bearbeitete Artikel landen in korrektur/artikel.json und ersetzen auf der Website den Text aus tx/.
+const FA = { suche:"", buch:"", nur:"", seite:0, wahl:null };
+const A_VERBOTEN = /\bsex|sexuell|fortpflanz|verhütungsmittel|kondom|schwanger|geschlechtsverkehr|vergewalt|menstru|prostitu|porno|abtreib|missbrauch/i;
+const A_MISSBRAUCH_OK = /(machtmissbrauch|datenmissbrauch|amtsmissbrauch|missbrauch von (daten|macht|geld|vertrauen|ämtern|alkohol|drogen)|rechtsmissbrauch|missbräuchlich|drogenmissbrauch|alkoholmissbrauch)/i;
+const A_KOERPER = /geschlechtsorgan|eizelle|spermi|samenzelle|\bhoden\b|penis|vagina|scheide\b|gebärmutter|eierstock|embryo|fötus|geschlechtshormon|östrogen|testosteron|eisprung|menstru|befrucht|zeugung|schwangerschaft|stillen\b|muttermilch|pubertät/i;
+async function ladeArtikelSeiten(){
+  if(!DATEN.artikel) DATEN.artikel = await fetch(B + "tools/artikelseiten.json", {cache:"no-cache"}).then(r => r.json()).catch(() => []);
+  if(!DATEN.txIndex && CFG.texteIndex) DATEN.txIndex = await fetch(B + CFG.texteIndex).then(r => r.json()).catch(() => null);
+  if(!DATEN.korr){
+    let t = null;
+    try{ t = ghToken() ? await ghDateiText("korrektur/artikel.json") : await fetch(B + "korrektur/artikel.json", {cache:"no-cache"}).then(r => r.ok ? r.text() : null); }catch(e){ if(!/404/.test(e.message)) throw e; }
+    try{ DATEN.korr = t ? JSON.parse(t) : {}; }catch(e){ DATEN.korr = {}; }
+  }
+  zahlenMerken({artikel: DATEN.artikel.length});
+  return DATEN.artikel;
+}
+const A_DATEI = {};
+async function artikelOriginal(k){
+  const i = DATEN.txIndex && DATEN.txIndex.k[k];
+  if(i != null){ const d = DATEN.txIndex.d[i]; if(!A_DATEI[d]) A_DATEI[d] = fetch(B + d).then(r => r.json()).catch(() => ({})); const v = (await A_DATEI[d])[k]; if(v && v.teile) return v.teile; }
+  for(const d of CFG.texteDateien || ["texte-1.json", "texte-2.json"]){ if(!A_DATEI[d]) A_DATEI[d] = fetch(B + d).then(r => r.json()).catch(() => ({}));
+    const v = (await A_DATEI[d])[k]; if(v){ if(v.teile) return v.teile; if(v.text) return {v:2, einleitung:v.text, wichtigste:[], abschnitte:[], gewusst:[]}; } }
+  return null;
+}
+async function artikelAktuell(k){ const a = AE.artikel.get(k); if(a) return a.weg ? await artikelOriginal(k) : a.teile; if(DATEN.korr[k] && DATEN.korr[k].teile) return DATEN.korr[k].teile; return artikelOriginal(k); }
+const istKorr = k => AE.artikel.has(k) ? !AE.artikel.get(k).weg : !!DATEN.korr[k];
+TABS.artikel = async () => {
+  const l = await ladeArtikelSeiten(); $("#nArtikel").textContent = zahl(l.length);
+  const buecher = [...new Set(l.map(s => s.b))].sort();
+  $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Artikel der Bibliothek</h2>
+    <input type="search" id="aSuche" placeholder="Titel der Seite" value="${esc(FA.suche)}" style="min-width:240px">
+    <select id="aBuch"><option value="">alle Bücher</option>${buecher.map(b => `<option${FA.buch===b?" selected":""}>${esc(b)}</option>`).join("")}</select>
+    <select id="aNur"><option value="">alle</option><option value="ae"${FA.nur==="ae"?" selected":""}>nur bearbeitete</option></select></div>
+    <p class="mu klein" style="margin-top:-4px">Bearbeitete Artikel werden in <code>korrektur/artikel.json</code> gespeichert und ersetzen auf der Website den ursprünglichen Text. «Original wiederherstellen» nimmt die Bearbeitung zurück.</p>
+    <div class="zwei"><div id="aListe" style="min-width:0"></div><div id="aEdit" style="min-width:0"><div class="box mu">Artikel in der Liste anklicken, um ihn zu bearbeiten.</div></div></div>`;
+  const neu = () => { FA.suche = $("#aSuche").value.trim(); FA.buch = $("#aBuch").value; FA.nur = $("#aNur").value; FA.seite = 0; artikelListe(); };
+  let t; $("#aSuche").oninput = () => { clearTimeout(t); t = setTimeout(neu, 200); };
+  $("#aBuch").onchange = $("#aNur").onchange = neu;
+  artikelListe();
+  if(FA.wahl){ const s = l.find(x => x.k === FA.wahl); if(s) artikelEdit(s); }
+};
+function artikelListe(){
+  const q = FA.suche.toLowerCase();
+  const l = DATEN.artikel.filter(s => (!FA.buch || s.b === FA.buch) && (FA.nur !== "ae" || istKorr(s.k)) && (!q || s.t.toLowerCase().includes(q) || s.k === q))
+    .sort((a, b) => q ? (a.t.toLowerCase().startsWith(q) ? 0 : 1) - (b.t.toLowerCase().startsWith(q) ? 0 : 1) || a.t.localeCompare(b.t, "de") : 0);
+  const pro = 100, seiten = Math.max(1, Math.ceil(l.length / pro)); FA.seite = Math.min(FA.seite, seiten - 1);
+  const teil = l.slice(FA.seite * pro, FA.seite * pro + pro);
+  $("#aListe").innerHTML = `<table><thead><tr><th>Titel</th><th>Buch</th><th>Kapitel</th></tr></thead><tbody>${teil.map(s => `<tr class="klick${FA.wahl === s.k ? " wahl" : ""}" data-k="${esc(s.k)}"><td>${esc(s.t)}${istKorr(s.k) ? ' <span class="wa">●</span>' : ""}</td><td class="mu">${esc(s.b)}</td><td class="mu klein">${esc(s.kap)}</td></tr>`).join("")}</tbody></table>
+    <div class="seiten"><button class="k" id="aZur"${FA.seite ? "" : " disabled"}>‹</button><span class="mu">${zahl(l.length)} Artikel · Seite ${FA.seite + 1} von ${seiten}</span><button class="k" id="aVor"${FA.seite < seiten - 1 ? "" : " disabled"}>›</button></div>`;
+  $("#aZur").onclick = () => { FA.seite--; artikelListe(); }; $("#aVor").onclick = () => { FA.seite++; artikelListe(); };
+  $$("#aListe tbody tr[data-k]").forEach(tr => tr.onclick = () => { FA.wahl = tr.dataset.k; $$("#aListe tr.wahl").forEach(x => x.classList.remove("wahl")); tr.classList.add("wahl"); artikelEdit(DATEN.artikel.find(s => s.k === tr.dataset.k)); });
+}
+async function artikelEdit(s){
+  $("#aEdit").innerHTML = '<div class="box mu">Lädt …</div>';
+  const T = await artikelAktuell(s.k) || {v:2, einleitung:"", wichtigste:[], abschnitte:[], gewusst:[]};
+  if(FA.wahl !== s.k) return;
+  const abs = (T.abschnitte || []).map(a => ({...a}));
+  const ae = AE.artikel.get(s.k);
+  const absHTML = () => abs.map((a, i) => `<div class="aabs" data-i="${i}" style="min-width:0;border:1px solid var(--li);border-radius:8px;padding:8px;margin:6px 0">
+      <div style="display:flex;gap:6px;align-items:center;margin:0 0 6px"><input type="text" class="aEmo" value="${esc(a.emoji||"📌")}" style="width:56px;text-align:center"><input type="text" class="aTit" value="${esc(a.titel||"")}" placeholder="Titel des Abschnitts" style="flex:1;min-width:0"><button class="k g aWeg" type="button" title="Abschnitt entfernen">✕</button></div>
+      <textarea class="aTxt" style="min-height:90px;width:100%;box-sizing:border-box">${esc(a.text||"")}</textarea></div>`).join("");
+  $("#aEdit").innerHTML = `<div class="box"><div class="leiste"><b>${esc(s.t)}</b><span class="mu klein">${esc(s.b)} · ${esc(s.kap)}</span>${ae ? '<span class="wa klein">geändert</span>' : istKorr(s.k) ? '<span class="wa klein">bearbeitet</span>' : ""}</div>
+    <div class="formular">
+      <label>Einleitung</label><textarea id="aE" style="min-height:70px">${esc(T.einleitung||"")}</textarea>
+      <label>Das Wichtigste<br><small class="mu">ein Satz pro Zeile</small></label><textarea id="aW" style="min-height:110px">${esc((T.wichtigste||[]).join("\n"))}</textarea>
+      <label>Abschnitte</label><div style="min-width:0"><div id="aAbs">${absHTML()}</div><button class="k" id="aAbsNeu" type="button">+ Abschnitt</button></div>
+      <label>Wusstest du?<br><small class="mu">ein Satz pro Zeile</small></label><textarea id="aG" style="min-height:60px">${esc([].concat(T.gewusst||[]).join("\n"))}</textarea>
+    </div>
+    <p class="mu klein">Wichtige Begriffe mit **Sternchen** fett machen.</p>
+    <p id="aPruef" class="klein"></p>
+    <div class="leiste" style="margin:0"><button class="k" id="aFr" type="button">Fragen zu dieser Seite</button><span class="rechts"></span>${ae ? '<button class="k" id="aZurueck">Änderung verwerfen</button>' : ""}${istKorr(s.k) && !(ae && ae.weg) ? '<button class="k g" id="aOrig">Original wiederherstellen</button>' : ""}<button class="k p" id="aOk">Übernehmen</button></div></div>`;
+  const absLesen = () => $$("#aAbs .aabs").map(d => ({emoji:$(".aEmo", d).value.trim() || "📌", titel:$(".aTit", d).value.trim(), text:$(".aTxt", d).value.trim()}));
+  const binden = () => { $$("#aAbs .aWeg").forEach(b => b.onclick = () => { const neu = absLesen(); neu.splice(+b.closest(".aabs").dataset.i, 1); abs.length = 0; abs.push(...neu); $("#aAbs").innerHTML = absHTML(); binden(); pruefen(); });
+    $$("#aEdit input,#aEdit textarea").forEach(el => el.oninput = pruefen); };
+  const zeilen = id => $(id).value.split("\n").map(x => x.trim()).filter(Boolean);
+  const lesen = () => ({v:2, einleitung:$("#aE").value.trim(), wichtigste:zeilen("#aW"), abschnitte:absLesen().filter(a => a.titel || a.text), gewusst:zeilen("#aG")});
+  const pruefen = () => { const n = lesen(), alles = JSON.stringify(n), p = [], w = [];
+    if(n.einleitung.length < 30) p.push("Die Einleitung fehlt oder ist zu kurz.");
+    if(n.abschnitte.some(a => !a.titel || !a.text)) p.push("Jeder Abschnitt braucht Titel und Text.");
+    if(/[–—]/.test(alles) || /\s-\s/.test(alles)) p.push("Bitte keine Gedankenstriche (– oder « - »), lieber Komma, Punkt oder Doppelpunkt.");
+    if(/<[a-z/]|https?:\/\//i.test(alles)) p.push("Keine Links und kein HTML.");
+    const m = alles.match(A_VERBOTEN); if(m && !(m[0].toLowerCase().startsWith("missbrauch") && A_MISSBRAUCH_OK.test(alles))) p.push(`Verbotenes Thema: «${m[0]}».`);
+    if(s.kap === "Körper"){ const k = alles.match(A_KOERPER); if(k && !(k[0].toLowerCase() === "pubertät" && /wachs/i.test(alles))) p.push(`Im Kapitel Körper nicht erlaubt: «${k[0]}».`); }
+    if(/ß/.test(alles)) w.push("«ß» wird beim Übernehmen durch «ss» ersetzt.");
+    if(/[„“”]/.test(alles)) w.push("Anführungszeichen werden zu «» umgewandelt.");
+    $("#aPruef").innerHTML = [...p.map(x => `<span class="fe">${esc(x)}</span>`), ...w.map(x => `<span class="wa">${esc(x)}</span>`)].join("<br>"); return p.length === 0; };
+  binden(); pruefen();
+  $("#aAbsNeu").onclick = () => { const neu = absLesen(); abs.length = 0; abs.push(...neu, {emoji:"📌", titel:"", text:""}); $("#aAbs").innerHTML = absHTML(); binden(); pruefen(); };
+  $("#aFr").onclick = () => { FF.nur = ""; FF.bereich = ""; FF.stufe = ""; FF.thema = ""; FF.suche = s.t; FF.seite = 0; zeige("fragen"); };
+  $("#aOk").onclick = async () => { if(!pruefen()) return;
+    const n = JSON.parse(JSON.stringify(lesen()).replace(/ß/g, "ss").replace(/„|“(?=\w)/g, "«").replace(/[“”]/g, "»"));
+    const vorher = DATEN.korr[s.k] ? DATEN.korr[s.k].teile : await artikelOriginal(s.k);
+    if(vorher && JSON.stringify(vorher) === JSON.stringify(n)) AE.artikel.delete(s.k); else AE.artikel.set(s.k, {teile:n, titel:s.t});
+    aenderungenZeigen(); artikelListe(); artikelEdit(s); melde("Übernommen. Zum Veröffentlichen unten «Speichern» drücken."); };
+  const zur = $("#aZurueck"); if(zur) zur.onclick = () => { AE.artikel.delete(s.k); aenderungenZeigen(); artikelListe(); artikelEdit(s); };
+  const orig = $("#aOrig"); if(orig) orig.onclick = () => { if(DATEN.korr[s.k]) AE.artikel.set(s.k, {weg:true, titel:s.t}); else AE.artikel.delete(s.k); aenderungenZeigen(); artikelListe(); artikelEdit(s); };
+}
+async function artikelSpeichern(){
+  const n = AE.artikel.size;
+  await ghCommit(`Verwaltung: ${n} ${n === 1 ? "Artikel" : "Artikel"} bearbeitet`, async () => {
+    let akt = {};
+    try{ akt = JSON.parse(await ghDateiText("korrektur/artikel.json")); }catch(e){ if(!/404/.test(e.message)) throw e; }
+    for(const [k, a] of AE.artikel){ if(a.weg) delete akt[k]; else akt[k] = {...(akt[k] || {}), teile:a.teile, titel:a.titel}; }
+    const keys = Object.keys(akt).sort();
+    return [{pfad:"korrektur/artikel.json", text: "{\n" + keys.map(k => JSON.stringify(k) + ":" + JSON.stringify(akt[k])).join(",\n") + "\n}\n"}];
+  });
+  AE.artikel.clear(); DATEN.korr = null;
 }
 
 /* ======================= Bilder ======================= */
@@ -1535,12 +1646,12 @@ TABS.zugang = async () => {
 };
 
 /* ======================= Speichern ======================= */
-$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); AE.welten.clear(); aenderungenZeigen(); zeige(TAB); };
+$("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); AE.welten.clear(); AE.artikel.clear(); aenderungenZeigen(); zeige(TAB); };
 $("#aeListe").onclick = () => { const d = $("#dlg");
-  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}${[...AE.welten.values()].map(op => `<li>${esc(op.text)} <span class="mu klein">(${esc(op.datei)})</span></li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
+  d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.artikel].map(([k, a]) => `<li>Artikel «${esc(a.titel||k)}»: ${a.weg ? "Original wiederherstellen" : "geändert"}</li>`).join("")}${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}${[...AE.welten.values()].map(op => `<li>${esc(op.text)} <span class="mu klein">(${esc(op.datei)})</span></li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
   d.showModal(); $("#dZu").onclick = () => d.close(); };
 $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disabled = true; b.textContent = "Speichert …";
-  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
+  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); if(AE.artikel.size) await artikelSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
   catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 
@@ -1557,7 +1668,7 @@ async function tokenVerschluesseln(t){ if(!SCHLUESSEL) return false; const iv = 
   try{ localStorage.setItem("ep-admin-gh-enc", JSON.stringify({iv:b64(iv), c:b64(c)})); }catch(e){} return true; }
 async function tokenEntschluesseln(){ try{ const e = JSON.parse(localStorage.getItem("ep-admin-gh-enc") || "null"); if(!e || !SCHLUESSEL) return "";
   return new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM", iv:ab64(e.iv)}, SCHLUESSEL, ab64(e.c))); }catch(e){ return ""; } }
-function abmelden(){ if(AE.fragen.size + AE.bilder.size && !confirm("Nicht gespeicherte Änderungen gehen verloren. Trotzdem abmelden?")) return;
+function abmelden(){ if(offen() && !confirm("Nicht gespeicherte Änderungen gehen verloren. Trotzdem abmelden?")) return;
   AE.fragen.clear(); AE.bilder.clear(); store.del("ep-admin-sitzung"); try{ sessionStorage.removeItem("ep-admin-gh"); }catch(e){} SCHLUESSEL = null; location.replace(location.pathname); }
 function angemeldet(){ const l = store.get("ep-admin-sitzung", null); return l && l.bis > Date.now() && KONTEN[l.name]; }
 async function anmelden(e){

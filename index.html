@@ -21,7 +21,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-01";
+window.EP_BUILD="ep-2026-10-24-02";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -5820,8 +5820,18 @@ async function ladeTexte1(){
    tx/index-….json sagt, welche Seite in welcher Datei steht. Geladen wird nur, was gerade gebraucht wird:
    die offene Bibliotheksseite mit Nachbarn, das durchsuchte Buch, der nächste Qeels-Artikel; alles nur bei Suche über alle Bücher. */
 let TEXTE_P=null;
-const TXL={idxP:null, idx:null, dateien:{}, t1:null, vorA:null};
+const TXL={idxP:null, idx:null, dateien:{}, t1:null, vorA:null, korr:{}, korrP:null};
+/* Korrekturen aus der Verwaltung (korrektur/artikel.json): bearbeitete Artikel ersetzen den Text aus tx/ */
+function korrLaden(){
+  if(!TXL.korrP) TXL.korrP=fetch("korrektur/artikel.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{
+    TXL.korr=(j&&typeof j==="object")?j:{}; if(Object.keys(TXL.korr).length){ korrAnwenden(); txNeuZeichnen(); } return TXL.korr; });
+  return TXL.korrP;
+}
+function korrAnwenden(){ try{ for(const [k,v] of Object.entries(TXL.korr||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue;
+  const flach=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,"");
+  FT.te[k]=T; FT.t[k]=flach; S.teile[k]=T; S.texte[k]=flach; if(Array.isArray(v.bilder)){ FT.bi[k]=v.bilder; S.bilder[k]=v.bilder; } } }catch(e){} }
 function txIndex(){
+  korrLaden();
   if(!TXL.idxP){ const cfg=window.EP_CONFIG||{};
     TXL.idxP = cfg.texteIndex ? fetch(cfg.texteIndex).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ TXL.idx=j; if(j){ try{ RL.aPool=null; }catch(e){} txAufraeumen(j); } return j; }) : Promise.resolve(null); }
   return TXL.idxP;
@@ -5832,7 +5842,7 @@ function txAufraeumen(j){ try{ if(!window.caches) return; const gut=new Set(j.d.
 function txDatei(i){ const d=TXL.idx&&TXL.idx.d[i]; if(!d) return Promise.resolve(); return TXL.dateien[d] || (TXL.dateien[d]=ladeTexteTeil(d)); }
 function txGrund(){ return TXL.t1 || (TXL.t1=ladeTexte1()); }
 // Seitenschlüssel hat einen Text (geladen oder laut Index vorhanden)
-function hatText(k){ return !!(S.texte[k] || (TXL.idx && TXL.idx.k[k]!=null)); }
+function hatText(k){ return !!(S.texte[k] || (TXL.idx && TXL.idx.k[k]!=null) || (TXL.korr && TXL.korr[k])); }
 async function texteFuerKeys(keys){ const j=await txIndex(); txGrund(); if(!j) return texteLaden();
   const nr=new Set(); (keys||[]).forEach(k=>{ const i=j.k[k]; if(i!=null) nr.add(i); }); await Promise.all([...nr].map(txDatei)); }
 async function texteFuerBuch(bid){ const j=await txIndex(); txGrund(); if(!j) return texteLaden(); await Promise.all((j.b[bid]||[]).map(txDatei)); }
@@ -7441,7 +7451,7 @@ function blickListe(merk,key){
 }
 /* Zusatztexte aus texte2.json (Bibliothek), ergänzen fehlende oder kurze Texte */
 const FT={t:{},bi:{},te:{}};
-function ftMischen(){ for(const k in FT.t){ if(!S.texte[k] || S.texte[k].length<1500){ S.texte[k]=FT.t[k]; if(FT.te[k]) S.teile[k]=FT.te[k]; if(FT.bi[k]) S.bilder[k]=FT.bi[k]; } } }
+function ftMischen(){ for(const k in FT.t){ if(!S.texte[k] || S.texte[k].length<1500){ S.texte[k]=FT.t[k]; if(FT.te[k]) S.teile[k]=FT.te[k]; if(FT.bi[k]) S.bilder[k]=FT.bi[k]; } }  korrAnwenden(); }
 async function ladeTexteDatei(){ const cfg=window.EP_CONFIG||{}; await Promise.all((cfg.texteDateien2||["texte2-1.json","texte2-2.json","texte2-3.json","texte2-4.json"]).map(f=>ladeTexteTeil(f))); }
 async function ladeTexteTeil(datei){ try{ const r=await fetch(datei,{cache:"force-cache"}); if(!r.ok) return; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); txNeuZeichnen(); }catch(e){} }
 function txNeuZeichnen(){ clearTimeout(TXL.zt); TXL.zt=setTimeout(()=>{ try{ RL.aPool=null; }catch(e){} if(S.screen && /^(lib|lbib)/.test(S.screen) && !document.getElementById("reels")) render(); }, 60); }
