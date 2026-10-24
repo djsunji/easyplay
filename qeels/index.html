@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-07";
+window.EP_BUILD="ep-2026-10-24-08";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -41,8 +41,8 @@ window.EP_BUILD="ep-2026-10-24-07";
       if(jetzt-letzt < 20000){ ok(); return; }        /* gerade erst neu geladen: keine Schleife */
       var schon=""; try{ schon=sessionStorage.getItem(k+"-v")||""; }catch(e){}
       if(schon===m[1]){ ok(); return; }               /* für diese Version schon einmal neu geladen: nicht wieder (sonst zuckt die Seite) */
+      if(!beimLaden && imSpiel()) return;            /* mitten im Spiel nicht neu laden; die nächste Prüfung holt es nach */
       try{ sessionStorage.setItem(k+"-v", m[1]); }catch(e){}
-      if(!beimLaden && imSpiel()) return;
       window.__epVer="neu";
       try{ sessionStorage.setItem(k, String(jetzt)); }catch(e){}
       document.documentElement.classList.add("ep-boot");
@@ -50,7 +50,7 @@ window.EP_BUILD="ep-2026-10-24-07";
       txt(); document.addEventListener("DOMContentLoaded", txt);
       var arbeit=[];
       if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations) arbeit.push(navigator.serviceWorker.getRegistrations().then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); }));
-      if(window.caches) arbeit.push(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(x){ return x.indexOf("epoff-")!==0; }).map(function(x){ return caches.delete(x); })); }));
+      if(window.caches) arbeit.push(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(x){ return x.indexOf("epoff-")!==0 && x!=="ep-bilder"; }).map(function(x){ return caches.delete(x); })); }));   /* Daten und Bilder bleiben */
       var weg=false, weiter=function(){ if(weg) return; weg=true; location.replace(location.pathname+"?v="+m[1]+location.hash); };
       Promise.all(arbeit).then(weiter, weiter); setTimeout(weiter, 4000);
     }).catch(function(){ laeuft=false; clearTimeout(zeit); ok(); });
@@ -3546,7 +3546,10 @@ const TRAIN_OPTS = [5,10,20];
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
-const store = { get(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } }, set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} } };
+/* Ist der Gerätespeicher voll, zuerst die Wikipedia-Zwischenspeicher leeren und nochmals schreiben,
+   damit Profil und Punkte nie still verloren gehen */
+function speicherPlatzMachen(){ try{ const weg=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(/^ep-(wb|ws2|wk|wiki|wb2|wsum)[:-]/.test(k||"")) weg.push(k); } weg.forEach(k=>localStorage.removeItem(k)); return weg.length; }catch(e){ return 0; } }
+const store = { get(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } }, set(k,v){ const t=JSON.stringify(v); try{ localStorage.setItem(k,t); }catch(e){ if(speicherPlatzMachen()){ try{ localStorage.setItem(k,t); }catch(e2){ console.warn("Speicher voll:", k); } } else console.warn("Speicher voll:", k); } } };
 const fmtZeit = ms => { const s=Math.round((ms||0)/1000); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), sec=s%60; return h? `${h} h ${m} min` : m? `${m} min ${sec} s` : `${sec} s`; };
 const pct = (a,b) => b? Math.round(a/b*100)+" %" : "";
 const wikiUrl = t => "https://de.wikipedia.org/w/index.php?search=" + encodeURIComponent(t);
@@ -4940,7 +4943,7 @@ function rlBinde(sec, it){
   const me=sec.querySelector("[data-mehr]"); me && (me.onclick=()=>{ const m=sec.querySelector(".rmeta"); m.classList.toggle("offen"); me.textContent=m.classList.contains("offen")?"weniger":"… mehr"; });
   const dz=sec.querySelector("[data-dazu]"); dz && (dz.onclick=()=>{
     const fr=rlEigene(it.s); if(!fr.length) return; const f=fr[Math.floor(Math.random()*fr.length)];
-    const neu={typ:"q", f, ctx:{name:it.s.titel, buch:it.B.titel, emo:it.B.emo, c1:it.B.farbe, c2:it.B.farbe2}}, idx=RL.map.size; RL.map.set(idx, neu);
+    const neu={typ:"q", f, ctx:{name:it.s.titel, buch:it.B.titel, emo:it.B.emo, c1:it.B.farbe, c2:it.B.farbe2}}, idx=RL.nextIdx++; RL.map.set(idx, neu);
     sec.insertAdjacentHTML("afterend", rlFrageHTML(neu, idx)); const ns=sec.nextElementSibling; rlBinde(ns, neu); RL.obs&&RL.obs.observe(ns);
     ns.scrollIntoView({behavior:"smooth"});
   });
@@ -5013,6 +5016,13 @@ function rlSheet(b, nr, key){
       const img=new Image(); img.alt=bi.alt||""; img.onload=()=>{ f.classList.remove("ersatz"); f.innerHTML=""; f.appendChild(img); const c=document.createElement("figcaption"); c.innerHTML=`Bild: ${bi.artist?esc(bi.artist):"Wikimedia Commons"}${bi.lizenz?`, ${esc(bi.lizenz)}`:""}`; f.appendChild(c); }; img.src=bi.src; }).catch(()=>{});
   }
   $("#rsZu").focus({preventScroll:true});
+  // Text noch nicht geladen: nachladen und den Inhalt ersetzen, sobald er da ist (Bild bleibt stehen)
+  const k0 = s.typ==="art" ? null : seiteKey(s);
+  if(k0 && !S.texte[k0] && hatText(k0)) texteFuerKeys([k0]).then(()=>{
+    if(!sh.isConnected || !S.texte[k0]) return; const art=sh.querySelector(".rsart"), fig=art&&art.querySelector(".rsbild"); if(!art) return;
+    let neu=""; try{ neu=rlSheetInhalt(B,s); }catch(e){ return; }
+    [...art.children].forEach(c=>{ if(c!==fig) c.remove(); }); art.insertAdjacentHTML("beforeend", neu); try{ rlBalken($("#rsInhalt")); }catch(e){}
+  }).catch(()=>{});
 }
 function rlAktiv(){ const f=$("#rfeed"); if(!f) return null; const h=f.clientHeight; return [...f.children].find(s=>Math.abs(s.offsetTop-f.scrollTop)<h/2)||null; }
 function rlGehe(d){ const f=$("#rfeed"); if(!f) return; f.scrollBy({top:d*f.clientHeight, behavior:"smooth"}); }
@@ -5147,7 +5157,7 @@ async function kmLoeschen(id, k){
   const all=kmLokal(); all[id]=(all[id]||[]).filter(x=>x.id!==k.id); store.set("ep-kommentare", all);
 }
 function kmZeit(z){ const d=(Date.now()-new Date(z).getTime())/1000; if(!(d>=0)) return ""; if(d<60) return "gerade eben"; if(d<3600) return `vor ${Math.floor(d/60)} Min.`; if(d<86400) return `vor ${Math.floor(d/3600)} Std.`; const t=Math.floor(d/86400); return t===1?"gestern":`vor ${t} Tagen`; }
-function kmAnzeigen(sec, n){ const sm=sec&&sec.querySelector("[data-komm] small"); if(sm) sm.textContent = n ? zahlKurz(n) : "Kommentare"; }
+function kmAnzeigen(sec, n){ const sm=sec&&sec.querySelector("[data-komm] small"); if(!sm) return; sm.textContent = n ? zahlKurz(n) : "Kommentare"; const b=sm.closest("[data-komm]"); if(b) b.setAttribute("aria-label", n ? `Kommentare, ${n}` : "Kommentare"); }
 function kmSichtbar(l){ return (l||[]).filter(k=>!KM.gemeldet[k.id] && (+k.gemeldet||0)<3); }
 async function kmZaehlen(sec){ const b=sec.querySelector("[data-komm]"); if(!b||b.dataset.geladen) return; b.dataset.geladen="1"; const l=await kmLaden(b.dataset.komm); kmAnzeigen(sec, kmSichtbar(l).length); }
 async function kmOeffnen(sec, id){
@@ -5172,7 +5182,7 @@ async function kmOeffnen(sec, id){
   let liste=KM.cache[id]||[]; zeichne(liste); liste=await kmLaden(id); if(document.body.contains(d)) zeichne(liste);
 }
 function zahlKurz(n){ return n>=1e6 ? (n/1e6).toFixed(1).replace(".0","")+" Mio." : n>=1e4 ? Math.round(n/1e3)+"k" : n>=1000 ? (n/1e3).toFixed(1).replace(".0","")+"k" : String(n); }
-function rlLikeAnzeigen(sec, n){ const sm=sec.querySelector("[data-like] small"); if(!sm) return; sm.textContent = (n==null) ? "Gefällt mir" : zahlKurz(n); }
+function rlLikeAnzeigen(sec, n){ const sm=sec.querySelector("[data-like] small"); if(!sm) return; sm.textContent = (n==null) ? "Gefällt mir" : zahlKurz(n); const b=sm.closest("[data-like]"); if(b) b.setAttribute("aria-label", n==null ? "Gefällt mir" : `Gefällt mir, ${n}`); }
 async function rlLikeLaden(sec){ const b=sec.querySelector("[data-like]"); if(!b||b.dataset.geladen) return; b.dataset.geladen="1"; const n=await likeZahl(b.dataset.like); rlLikeAnzeigen(sec, n); }
 
 /* ---------- Qeels: Teilen über WhatsApp, Telegram usw. oder als Link ---------- */
@@ -5474,7 +5484,7 @@ function renderRegister(){
     store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false);
     if(S.online){ try{
       await S.db.doc(`spieler/${S.uid}`).set(oeffentlichesProfil(S.profil));
-      await S.db.doc(`data/users/${S.uid}/privat`).set({vorname, nachname});
+      await S.db.doc(`data/users/${S.uid}/privat`).set({vorname:vor, nachname:nach});
     }catch(e){ $("#err").textContent="Speichern in der Rangliste hat nicht geklappt, dein Profil ist lokal gesichert."; } }
     const after=S.after; S.after=null;
     if(after==="mode" && S.thema) go("mode"); else if(after==="hardcoreinfo") go("hardcoreinfo"); else go("profil");
@@ -5840,19 +5850,19 @@ function korrAnwenden(){ try{ for(const [k,v] of Object.entries(TXL.korr||{})){ 
 function txIndex(){
   korrLaden();
   if(!TXL.idxP){ const cfg=window.EP_CONFIG||{};
-    TXL.idxP = cfg.texteIndex ? fetch(cfg.texteIndex).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ TXL.idx=j; if(j){ try{ RL.aPool=null; }catch(e){} txAufraeumen(j); } return j; }) : Promise.resolve(null); }
+    TXL.idxP = cfg.texteIndex ? fetch(cfg.texteIndex).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ TXL.idx=j; if(j){ try{ RL.aPool=null; }catch(e){} txAufraeumen(j); } else setTimeout(()=>{ if(!TXL.idx) TXL.idxP=null; }, 5000); return j; }) : Promise.resolve(null); }   /* Fehlschlag: nach 5 s neu versuchen statt für immer aufgeben */
   return TXL.idxP;
 }
 // alte Textdateien aus dem Datenspeicher entfernen, die der aktuelle Index nicht mehr kennt
 function txAufraeumen(j){ try{ if(!window.caches) return; const gut=new Set(j.d.map(d=>d.split("/").pop()));
-  caches.has("epoff-daten").then(h=>h && caches.open("epoff-daten").then(c=>c.keys().then(ks=>ks.forEach(r=>{ const m=/\/tx\/([^/?#]+)$/.exec(new URL(r.url).pathname); if(m && !m[1].startsWith("index-") && !gut.has(m[1])) c.delete(r); })))).catch(()=>{}); }catch(e){} }
-function txDatei(i){ const d=TXL.idx&&TXL.idx.d[i]; if(!d) return Promise.resolve(); return TXL.dateien[d] || (TXL.dateien[d]=ladeTexteTeil(d)); }
+  caches.has("epoff-daten").then(h=>h && caches.open("epoff-daten").then(c=>c.keys().then(ks=>ks.forEach(r=>{ const m=/\/tx\/([^/?#]+)$/.exec(new URL(r.url).pathname); const akt=String((window.EP_CONFIG||{}).texteIndex||"").split("/").pop(); if(m && (m[1].startsWith("index-") ? m[1]!==akt : !gut.has(m[1]))) c.delete(r); })))).catch(()=>{}); }catch(e){} }
+function txDatei(i){ const d=TXL.idx&&TXL.idx.d[i]; if(!d) return Promise.resolve(); return TXL.dateien[d] || (TXL.dateien[d]=ladeTexteTeil(d).then(ok=>{ if(ok===false) delete TXL.dateien[d]; return ok; })); }
 function txGrund(){ return TXL.t1 || (TXL.t1=ladeTexte1()); }
 // Seitenschlüssel hat einen Text (geladen oder laut Index vorhanden)
 function hatText(k){ return !!(S.texte[k] || (TXL.idx && TXL.idx.k[k]!=null) || (TXL.korr && TXL.korr[k])); }
-async function texteFuerKeys(keys){ const j=await txIndex(); txGrund(); if(!j) return texteLaden();
+async function texteFuerKeys(keys){ const j=await txIndex(); txGrund(); if(!j) return;
   const nr=new Set(); (keys||[]).forEach(k=>{ const i=j.k[k]; if(i!=null) nr.add(i); }); await Promise.all([...nr].map(txDatei)); }
-async function texteFuerBuch(bid){ const j=await txIndex(); txGrund(); if(!j) return texteLaden(); await Promise.all((j.b[bid]||[]).map(txDatei)); }
+async function texteFuerBuch(bid){ const j=await txIndex(); txGrund(); if(!j) return; await Promise.all((j.b[bid]||[]).map(txDatei)); }
 function texteLaden(){
   if(!TEXTE_P) TEXTE_P=(async()=>{ const j=await txIndex(); await Promise.all([txGrund(), ...(j ? j.d.map((d,i)=>txDatei(i)) : [ladeTexteDatei()])]); })().catch(()=>{}).then(()=>{ try{ RL.aPool=null; }catch(e){} });
   return TEXTE_P;
@@ -5873,7 +5883,7 @@ function texteBeiBedarf(){
   if(location.hash.includes("qeel=")) txIndex();
 }
 async function ladeFragenDB(){
-  if(window.claude) return;
+  if(window.claude){ try{ fragenFertig(); }catch(e){} return; }
   const cfg = window.EP_CONFIG || {};
   let rows = null;
   try{
@@ -5902,6 +5912,7 @@ async function ladeFragenDB(){
   for(let i=0;i<ok.length;i++) ok[i]=frageOhneStrich(ok[i]);
   if(!ok.length && !window.claude){ try{ await ersatzFragenLaden(); }catch(e){} }
   if(ok.length){ FRAGEN.length = 0; for(let i=0;i<ok.length;i++) FRAGEN.push(ok[i]); const da=new Set(ok.map(f=>f.img).filter(Boolean)); FRAGEN.push(...LOGOFRAGEN.filter(f=>!da.has(f.img))); render(); buecherVorwaermen(); }
+  try{ fragenFertig(); }catch(e){}
 }
 /* Bibliothek im Leerlauf vorbereiten, damit das erste Öffnen sofort geht */
 function buecherVorwaermen(){
@@ -6095,7 +6106,7 @@ function frageNr(f){
   return n;
 }
 function alleFragen(){ return [...FRAGEN, ...S.extra]; }
-function frageMap(){ const m={}; alleFragen().forEach(f=>{ m[qid(f)]=f; }); return m; }
+function frageMap(){ const m=Object.create(null); alleFragen().forEach(f=>{ m[qid(f)]=f; }); return m; }
 const b64e = o => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const b64d = s => { s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="="; return JSON.parse(decodeURIComponent(escape(atob(s)))); };
 const testLink = t => `${TEST_BASE}#t=${b64e({k:t.k,n:t.titel,c:t.von,q:t.ids})}`;
@@ -7055,8 +7066,9 @@ function seitenSuche(seiten, q){
   for(const s of seiten){
     let score=0; const t=s.titel.toLowerCase();
     if(t===q) score=100; else if(t.startsWith(q)) score=60; else if(t.includes(q)) score=40;
-    let text = s.typ==="art" ? (s.art.teaser+" "+s.art.html.replace(/<[^>]+>/g," ")) : s.fragen.map(f=>f.q+" "+f.a[0]+" "+f.e).join(" ")+" "+(S.texte[seiteKey(s)]||(s.teile?s.teile.einleitung:""));
-    if(!score && text.toLowerCase().includes(q)) score=10;
+    if(!score){ const tx = s.typ==="art" ? "" : (S.texte[seiteKey(s)]||"");
+      if(s._such===undefined || s._suchL!==tx.length){ s._such=(s.typ==="art" ? (s.art.teaser+" "+s.art.html.replace(/<[^>]+>/g," ")) : s.fragen.map(f=>f.q+" "+f.a[0]+" "+f.e).join(" ")+" "+(tx||(s.teile?s.teile.einleitung:""))).toLowerCase(); s._suchL=tx.length; }
+      if(s._such.includes(q)) score=10; }
     if(score) res.push({s,score});
   }
   return res.sort((a,b)=>b.score-a.score || a.s.nr-b.s.nr).map(x=>x.s);
@@ -7334,7 +7346,7 @@ const stripHtml = h => { const d=new DOMParser().parseFromString(String(h||""),"
 async function wikiBild(titel){
   if(window.claude || !titel || titel==="Allgemeines") return null;
   if(titel in WB_CACHE) return WB_CACHE[titel];
-  const lsKey="ep-wb:"+titel; const alt=store.get(lsKey,undefined); if(alt!==undefined){ WB_CACHE[titel]=alt; return alt; }
+  let merken=true; const lsKey="ep-wb:"+titel; const alt=store.get(lsKey,undefined); if(alt!==undefined){ WB_CACHE[titel]=alt; return alt; }
   let res=null;
   try{
     const r=await fetch(`https://de.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(titel.replace(/ /g,"_"))}`,{headers:{accept:"application/json"}});
@@ -7354,9 +7366,9 @@ async function wikiBild(titel){
           }catch(e){}
         }
       }
-    }
+    } else if(r.status!==404) merken=false;   /* Störung (429, 5xx): nicht für immer «kein Bild» merken */
   }catch(e){ return null; }
-  WB_CACHE[titel]=res; store.set(lsKey,res);
+  WB_CACHE[titel]=res; if(merken) store.set(lsKey,res);
   return res;
 }
 const BILD_SCHLECHT=/\.svg|karte|map[_ .]|locator|lage|logo|flag|flagge|wappen|coat[_ ]of[_ ]arms|signature|unterschrift|diagram|schema|icon|symbol/i;
@@ -7461,8 +7473,18 @@ function blickListe(merk,key){
 const FT={t:{},bi:{},te:{}};
 function ftMischen(){ for(const k in FT.t){ if(!S.texte[k] || S.texte[k].length<1500){ S.texte[k]=FT.t[k]; if(FT.te[k]) S.teile[k]=FT.te[k]; if(FT.bi[k]) S.bilder[k]=FT.bi[k]; } }  korrAnwenden(); }
 async function ladeTexteDatei(){ const cfg=window.EP_CONFIG||{}; await Promise.all((cfg.texteDateien2||["texte2-1.json","texte2-2.json","texte2-3.json","texte2-4.json"]).map(f=>ladeTexteTeil(f))); }
-async function ladeTexteTeil(datei){ try{ const r=await fetch(datei,{cache:"force-cache"}); if(!r.ok) return; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); txNeuZeichnen(); }catch(e){} }
-function txNeuZeichnen(){ clearTimeout(TXL.zt); TXL.zt=setTimeout(()=>{ try{ RL.aPool=null; }catch(e){} if(S.screen && /^(lib|lbib)/.test(S.screen) && !document.getElementById("reels")) render(); }, 60); }
+async function ladeTexteTeil(datei){ try{ const r=await fetch(datei,{cache:"force-cache"}); if(!r.ok) return false; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); txNeuZeichnen(Object.keys(tj||{})); return true; }catch(e){ return false; } }
+/* Nach dem Laden von Texten neu zeichnen, aber nur wenn es die offene Ansicht betrifft.
+   In der Suche das Suchfeld samt Cursor behalten (sonst schliesst sich auf dem Handy die Tastatur). */
+function txNeuZeichnen(keys){
+  try{ RL.aPool=null; }catch(e){}
+  if(!S.screen || !/^(lib|lbib)/.test(S.screen) || document.getElementById("reels")) return;
+  if(/seite$/.test(S.screen) && keys){ let k=null; try{ const s=buchDaten(LIB.buch).seiten.find(x=>x.nr===LIB.seite); if(s) k=seiteKey(s); }catch(e){} if(!k || !keys.includes(k)) return; }
+  clearTimeout(TXL.zt); TXL.zt=setTimeout(()=>{
+    const a=document.activeElement, id=a&&a.id&&a.tagName==="INPUT"?a.id:null, von=id?a.selectionStart:0, bis=id?a.selectionEnd:0, sy=scrollY;
+    render();
+    if(id){ const n=document.getElementById(id); if(n){ try{ n.focus({preventScroll:true}); n.setSelectionRange(von,bis); }catch(e){} scrollTo(0,sy); } }
+  }, /seite$/.test(S.screen) ? 60 : 400); }
 function fettHTML(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>"); }
 function satzListe(t){ return String(t).replace(/\s+/g," ").match(/[^.!?]+[.!?]+(\s|$)/g)||[String(t)]; }
 function textHTML(k){
@@ -7657,16 +7679,21 @@ let FW=null;
 function starteFeuerwerk(farben){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const c=document.createElement("canvas"); c.id="feuerwerk"; $("#eventlayer").appendChild(c);
-  const ctx=c.getContext("2d"); let W,H; const groesse=()=>{ W=c.width=innerWidth*devicePixelRatio; H=c.height=innerHeight*devicePixelRatio; }; groesse(); addEventListener("resize",groesse);
+  const ctx=c.getContext("2d"); let W,H; const dpr=Math.min(devicePixelRatio||1,1.5); const groesse=()=>{ W=c.width=innerWidth*dpr; H=c.height=innerHeight*dpr; }; groesse(); addEventListener("resize",groesse);
   const raketen=[], funken=[]; let letzt=0, aktiv=true;
   const neu=()=>raketen.push({x:W*(.1+Math.random()*.8), y:H, vy:-(H*.010+Math.random()*H*.006), ziel:H*(.12+Math.random()*.3), f:farben[Math.floor(Math.random()*farben.length)]});
   const knall=(r)=>{ const n=60+Math.floor(Math.random()*40), sp=W*.0022+Math.random()*W*.0016; const f2=farben[Math.floor(Math.random()*farben.length)];
     for(let i=0;i<n;i++){ const a=Math.PI*2*i/n, v=sp*(.6+Math.random()*.5); funken.push({x:r.x,y:r.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1,f:i%3?r.f:f2}); } };
+  let seit=null, warSc="";   /* nur auf der Startseite, jeweils 40 Sekunden lang, nicht im Spiel und nicht im Hintergrund (Akku) */
   const schritt=(t)=>{ if(!aktiv) return;
+    const sc=(typeof S!=="undefined"&&S.screen)||"";
+    if(sc!==warSc){ warSc=sc; seit=t; }
+    if(document.hidden || sc!=="home"){ ctx.clearRect(0,0,W,H); raketen.length=0; funken.length=0; setTimeout(()=>requestAnimationFrame(schritt),1000); return; }
     const dunkel=document.documentElement.dataset.theme==="dark";
-    if(t-letzt > (dunkel?520:1100)){ neu(); letzt=t; }
+    if(t-seit < 40000 && t-letzt > (dunkel?520:1100)){ neu(); letzt=t; }
+    if(t-seit >= 40000 && !raketen.length && !funken.length){ ctx.clearRect(0,0,W,H); setTimeout(()=>requestAnimationFrame(schritt),1000); return; }
     ctx.globalCompositeOperation="destination-out"; ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,0,W,H); ctx.globalCompositeOperation="lighter";
-    for(let i=raketen.length-1;i>=0;i--){ const r=raketen[i]; r.y+=r.vy; ctx.fillStyle=r.f; ctx.fillRect(r.x-2,r.y,4,10*devicePixelRatio); if(r.y<=r.ziel){ knall(r); raketen.splice(i,1); } }
+    for(let i=raketen.length-1;i>=0;i--){ const r=raketen[i]; r.y+=r.vy; ctx.fillStyle=r.f; ctx.fillRect(r.x-2,r.y,4,10*dpr); if(r.y<=r.ziel){ knall(r); raketen.splice(i,1); } }
     for(let i=funken.length-1;i>=0;i--){ const p=funken[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=H*.00006; p.vx*=.985; p.vy*=.985; p.l-=.012; if(p.l<=0){ funken.splice(i,1); continue; } ctx.globalAlpha=p.l; ctx.fillStyle=p.f; ctx.beginPath(); ctx.arc(p.x,p.y,2.2*devicePixelRatio,0,7); ctx.fill(); }
     ctx.globalAlpha=1; requestAnimationFrame(schritt); };
   requestAnimationFrame(schritt);
@@ -7714,6 +7741,8 @@ function historieSpeichern(Q){
       timeout:!!Q.timeout, tempo:Q.sumTempo||0, serie:Q.sumSerie||0, abzug:Q.sumAbzug||0, maxSerie:Q.maxSerie||0,
       log: (Q.log||[]).map(l=>({q:String(l.q).slice(0,300), ok:!!l.ok, dein:String(l.dein||"").slice(0,200), richtig:String(l.richtig||"").slice(0,200), m:String(l.m||"").slice(0,160), skip:!!l.skip})) };
     S.historie=[e, ...S.historie.filter(x=>x.id!==e.id)];
+    // begrenzen: höchstens 300 Läufe, die einzelnen Fragen nur bei den letzten 40
+    S.historie=S.historie.slice(0,300).map((x,i)=> i<40 || !x.log ? x : {...x, log:undefined});
     store.set("ep-historie", S.historie);
     if(S.online && S.db && S.uid){ S.db.doc(`data/users/${S.uid}/h_${e.id}`).set(e).catch(()=>{}); }
   }catch(err){}
@@ -8283,9 +8312,12 @@ $("#home").onclick=()=>{ if(S.libModus) setLibModus(false); else go("home"); };
 authInit();
 himmelAktualisieren();
 render();
-if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash);
-if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash);
-addEventListener("hashchange",()=>{ if(/#[tr]=/.test(location.hash)) oeffneTestLink(location.hash); if(/#[de]=/.test(location.hash)) oeffneDuellLink(location.hash); });
+/* Geteilte Test- und Duell-Links brauchen alle Fragen: erst öffnen, wenn sie geladen sind */
+let FRAGEN_DA=false; const LINK_WARTET=[];
+function linkOeffnen(h){ if(!FRAGEN_DA){ LINK_WARTET.push(h); return; } if(/#[tr]=/.test(h)) oeffneTestLink(h); if(/#[de]=/.test(h)) oeffneDuellLink(h); }
+function fragenFertig(){ FRAGEN_DA=true; LINK_WARTET.splice(0).forEach(h=>{ try{ linkOeffnen(h); }catch(e){} }); }
+if(/#[trde]=/.test(location.hash)) linkOeffnen(location.hash);
+addEventListener("hashchange",()=>{ if(/#[trde]=/.test(location.hash)) linkOeffnen(location.hash); });
 himmelAktualisieren();
 setInterval(himmelAktualisieren, 60000);
 /* Fragen und Texte erst laden, wenn die Seite steht (sonst bremsen sie das Laden der Programmteile) */
@@ -8294,7 +8326,7 @@ window.__epSpaet = function(){ if(window.__epSpaet.lief) return; window.__epSpae
     s.onload=()=>{ if(src==="daten-11.js"){ for(const k in BUCHCACHE) delete BUCHCACHE[k]; try{ if(/^(lib|lbib)/.test(S.screen)) render(); }catch(e){} } };
     document.body.appendChild(s); }); };
 window.__epDatenLos = () => { window.__epSpaet(); if(window.__epDatenLos.lief) return; window.__epDatenLos.lief = true; ladeFragenDB(); texteBeiBedarf(); };
-setTimeout(() => window.__epDatenLos(), 6000);
+setTimeout(() => window.__epDatenLos(), LINK_WARTET.length ? 0 : 6000);   /* mit geteiltem Link sofort laden */
 
 (async()=>{
   if(!window.claude || !window.claude.use) return;
