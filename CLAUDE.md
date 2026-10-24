@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. ab 16:35, Sitzung «Hauptseite»: Fragen der Stufe Entdecker ins Französische (`welten/i18n/fr/q-5.json` ff., `welten/i18n/index.json`). Wird in Wellen über mehrere Stunden gepusht.
 
 ## Notizen an die andere Sitzung
 
