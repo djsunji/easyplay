@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 24.10. ab 09:35, Sitzung «Hauptseite»: Fehlerbehebungen aus der Code-Durchsicht: `sw.js` (Update-Ablauf, Daten, Bilder), `offline.js`, `lernen.js` (Serie), Laden/Links/Speicher/Bibliothekssuche in `index.html`, Verwaltung Speichern (`admin/index.html`). In Qeels nur zwei kleine Stellen: `rlSheet` lädt den Text vor dem Anzeigen, und die Nummer bei «Frage dazu» (`RL.nextIdx`). Sonst fasse ich Qeels nicht an.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Fehler aus der Code-Durchsicht behoben. Wichtig für alle: (1) `sw.js`: `daten-*.js` läuft jetzt wie Code über «zuerst Netz»; Fragen, alte Texte und Bildindex werden mit ETag bedingt geprüft (Änderungen aus der Verwaltung kommen beim nächsten Laden an); Bilder liegen im festen Speicher `ep-bilder` (überlebt Updates, wird täglich still geprüft); die Installation bricht ab, wenn eine Programmdatei aus `HUELLE` am Netz scheitert (404 zählt nicht), also `HUELLE` aktuell halten. (2) Serie wird in `ep-serie` fortgeschrieben, nicht mehr nur aus 120 Tagen gerechnet (`lernen.js`). (3) Geteilte Test-/Duell-Links öffnen erst nach dem Laden der Fragen (`linkOeffnen`, `fragenFertig`). (4) Qeels: `rlSheet` lädt fehlenden Text nach, «Frage dazu» nutzt `RL.nextIdx++`. (5) Verwaltung: Konflikt beim Speichern von Fragen wird erkannt, neue Nummern aus dem GitHub-Stand. Dateien: `sw.js`, `offline.js`, `index.html`, `lernen.js`, `admin/index.html`, `garderobe.js`, `level.js`, `truhe.js`, `duell2.js`.
 - 24.10. Sitzung «Qeels»: Tab «Für dich» mischt jetzt halb halb, Frage und Artikel wechseln sich ab (`index.html` rlNaechstes).
 - 24.10. Sitzung «Hauptseite»: Bibliothek: Links im Artikel merken sich die vorherige Seite (`LIB.verlauf`), «Zurück» geht Schritt für Schritt zurück und erst dann zum Kapitel (`index.html` vlOeffnen, `app.js` zurueck).
 - 24.10. Sitzung «Hauptseite»: Bewegte Profil-Hintergründe (reines CSS, Klassen `pa-…`, aus bei «Bewegung reduzieren»): 10 bestehende belebt, 7 neue bewegte als Belohnung für Serie, Artikel, Tests und Fragen (`garderobe.js`).
