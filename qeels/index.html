@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-05";
+window.EP_BUILD="ep-2026-10-24-06";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6988,7 +6988,8 @@ function bibAufwaermen(){
   setTimeout(schritt,2500);
 }
 /* Bibliothek wird erst beim Öffnen aufgebaut (Tempo) */
-function vlOeffnen(b, nr){ LIB.buch=b; LIB.seite=nr; LIB.zufall=false; go("libseite"); scrollTo(0,0); }
+// Link im Artikel: aktuelle Seite merken, damit «Zurück» wieder hierher führt
+function vlOeffnen(b, nr){ if(/seite$/.test(S.screen) && LIB.buch){ (LIB.verlauf=LIB.verlauf||[]).push({b:LIB.buch, nr:LIB.seite}); if(LIB.verlauf.length>30) LIB.verlauf.shift(); } LIB.buch=b; LIB.seite=nr; LIB.zufall=false; go("libseite"); scrollTo(0,0); }
 
 /* ---------- Bibliothek: Kapitel «Die Schweizer Alpen» ---------- */
 const ALPEN_SEITEN = [
