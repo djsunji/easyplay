@@ -23,7 +23,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-24-09";
+window.EP_BUILD="ep-2026-10-24-10";
 (function(){ try{
   if(window.claude || !/^https?:$/.test(location.protocol)) return;
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4209,8 +4209,9 @@ function go(screen){ stopSpeak(); if(S.screen==="quiz" && screen!=="quiz" && S.q
 let kontoSyncT=0;
 function kontoSync(){
   const p=S.profil; if(!p?.email) return;
+  const sig=JSON.stringify(p); if(sig===kontoSync.letzt) return; kontoSync.letzt=sig;   /* nur bei echter Änderung schreiben */
   const k=lokaleKonten(); if(k[p.email]){ k[p.email].profil=p; store.set("ep-konten",k); }
-  const now=Date.now(); if(AUTH.modus==="supabase" && AUTH.user && now-kontoSyncT>8000){ kontoSyncT=now; AUTH.sb.auth.updateUser({data:{best:p.best||{}, tests:p.tests||0, avatar:p.avatar, stufe:p.stufe, kanton:p.kanton}}).catch(()=>{}); }
+  const now=Date.now(); if(AUTH.modus==="supabase" && AUTH.user && now-kontoSyncT>8000){ kontoSyncT=now; AUTH.sb.auth.updateUser({data:{best:p.best||{}, tests:p.tests||0, avatar:p.avatar, stufe:p.stufe, kanton:p.kanton, saison:p.saison||{}, hc:p.hc||null}}).catch(()=>{}); }
 }
 function abmelden(){
   if(!confirm("Möchtest du dich wirklich abmelden? Deine Punkte bleiben gespeichert.")) return;
@@ -5184,13 +5185,13 @@ async function kmLaden(id){
 async function kmSenden(id, text){
   const p=S.profil; const k={name:String(p.name||"").slice(0,30), avatar:p.avatar||"", text:String(text).trim(), zeit:new Date().toISOString(), uid:S.uid||"lokal", gemeldet:0};
   if(S.db){ await S.db.doc("kommentare/"+id).collection("liste").add(k); return; }
-  const sp=await lkSupaIch(); if(sp){ if(sp.anon) throw new Error("Zum Kommentieren musst du angemeldet sein."); const r=await fetch(`${sp.u}/rest/v1/kommentare`,{method:"POST",headers:{...sp.h,Prefer:"return=minimal"},body:JSON.stringify({qeel:id,name:k.name,avatar:k.avatar,text:k.text})}); if(!r.ok) throw new Error("senden"); return; }
+  const sp=await lkSupaIch(); if(sp){ if(sp.anon) throw new Error("Zum Kommentieren musst du angemeldet sein."); const r=await fetch(`${sp.u}/rest/v1/kommentare`,{method:"POST",headers:{...sp.h,Prefer:"return=minimal"},body:JSON.stringify({qeel:id,name:k.name,avatar:k.avatar,text:k.text})}); if(!r.ok){ let m=""; try{ m=String((await r.json()).message||""); }catch(e){} throw new Error(/kontakt/i.test(m) ? "Bitte keine Kontaktangaben (Insta, Snap, Telefon, E-Mail)." : /zu viele/i.test(m) ? "Bitte warte kurz, bevor du wieder kommentierst." : /gesperrt/i.test(m) ? "Dein Konto ist gesperrt." : "senden"); } return; }
   const all=kmLokal(); (all[id]=all[id]||[]).push({...k, id:"l"+Date.now()}); store.set("ep-kommentare", all);
 }
 async function kmMelden(id, k){
   KM.gemeldet[k.id]=1; store.set("ep-km-gemeldet", KM.gemeldet);
   try{ if(S.db) await S.db.doc("kommentare/"+id).collection("liste").doc(k.id).update({gemeldet:(+k.gemeldet||0)+1});
-    else { const sp=await lkSupaIch(); if(sp) await fetch(`${sp.u}/rest/v1/rpc/kommentar_melden`,{method:"POST",headers:sp.h,body:JSON.stringify({p_id:+k.id})}); } }catch(e){}
+    else { const sp=await lkSupaIch(); if(sp && !sp.anon) await fetch(`${sp.u}/rest/v1/rpc/kommentar_melden`,{method:"POST",headers:sp.h,body:JSON.stringify({p_id:+k.id})}); } }catch(e){}
 }
 async function kmLoeschen(id, k){
   try{ if(S.db){ await S.db.doc("kommentare/"+id).collection("liste").doc(k.id).delete(); return; } }catch(e){ throw e; }
@@ -5217,7 +5218,7 @@ async function kmOeffnen(sec, id){
     d.querySelectorAll("[data-kmeld]").forEach(b=>b.onclick=async()=>{ const k=liste.find(x=>x.id===b.dataset.kmeld); if(!k) return; await kmMelden(id,k); rlToast("Danke! Der Kommentar wurde gemeldet."); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); });
     d.querySelectorAll("[data-kdel]").forEach(b=>b.onclick=async()=>{ const k=liste.find(x=>x.id===b.dataset.kdel); if(!k) return; try{ await kmLoeschen(id,k); }catch(e){ rlToast("Löschen hat nicht geklappt"); return; } liste=await kmLaden(id); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); });
     const f=d.querySelector("form.rkform"); if(f){ const inp=f.querySelector("input"); f.onsubmit=async e=>{ e.preventDefault(); const t=inp.value; const fe=kmPruefen(t); if(fe){ zeichne(liste, fe); const n=d.querySelector("#rkInput"); n.value=t; n.focus(); return; }
-      f.querySelector(".rksend").disabled=true; try{ await kmSenden(id,t); }catch(x){ zeichne(liste,"Senden hat nicht geklappt. Versuche es nochmals."); return; } liste=await kmLaden(id); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); }; }
+      f.querySelector(".rksend").disabled=true; try{ await kmSenden(id,t); }catch(x){ zeichne(liste, x && x.message && x.message!=="senden" ? x.message : "Senden hat nicht geklappt. Versuche es nochmals."); return; } liste=await kmLaden(id); zeichne(liste); kmAnzeigen(sec, kmSichtbar(liste).length); }; }
   };
   let liste=KM.cache[id]||[]; zeichne(liste); liste=await kmLaden(id); if(document.body.contains(d)) zeichne(liste);
 }
@@ -7865,7 +7866,7 @@ async function pwHash(pw, salt){ const d=new TextEncoder().encode(salt+"|"+pw); 
 const lokaleKonten = () => store.get("ep-konten",{});
 function profilAusMeta(meta, email){
   const m=meta||{}; const vor=m.vorname||m.given_name||(m.full_name||m.name||"").split(" ")[0]||""; const nach=m.nachname||m.family_name||(m.full_name||m.name||"").split(" ").slice(1).join(" ")||"";
-  return { name: vor ? `${vor} ${(nach||" ").charAt(0).toUpperCase()}.`.replace(/ \.$/,"") : (email||"").split("@")[0], vorname:vor, nachname:nach, email, avatar:m.avatar||levelAvatare(m.stufe||S.stufe)[0], stufe:m.stufe||S.stufe, kanton:m.kanton||"", best:m.best||{}, tests:m.tests||0, erstellt:m.erstellt||new Date().toISOString() };
+  return { name: vor ? `${vor} ${(nach||" ").charAt(0).toUpperCase()}.`.replace(/ \.$/,"") : (email||"").split("@")[0], vorname:vor, nachname:nach, email, avatar:m.avatar||levelAvatare(m.stufe||S.stufe)[0], stufe:m.stufe||S.stufe, kanton:m.kanton||"", best:m.best||{}, tests:m.tests||0, saison:m.saison||{}, hc:m.hc||undefined, erstellt:m.erstellt||new Date().toISOString() };
 }
 async function authInit(){
   const cfg=window.EP_CONFIG||{};
@@ -7879,7 +7880,8 @@ async function authInit(){
       if(AUTH.user){
         const p=profilAusMeta(AUTH.user.user_metadata, AUTH.user.email);
         const lokal=store.get("ep-profil",null);
-        S.profil={...p, ...(lokal&&lokal.email===AUTH.user.email?{best:lokal.best||p.best, tests:lokal.tests||p.tests}:{})};
+        const gleich=lokal&&lokal.email===AUTH.user.email;   /* lokale Felder (Season, Hardcore, Eltern-Code, Verzierung) nie verlieren */
+        S.profil={...(gleich?lokal:{}), ...p, ...(gleich?{best:lokal.best||p.best, tests:lokal.tests||p.tests, saison:lokal.saison||p.saison, hc:lokal.hc||p.hc, code:lokal.code||p.code}:{})};
         store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false);
         if(!S.profil.kanton){ S.profilErgaenzen=true; go("register"); } else if(S.screen==="login"||S.screen==="register") go("profil"); else render();
       }
@@ -8390,7 +8392,7 @@ setTimeout(() => window.__epDatenLos(), LINK_WARTET.length ? 0 : 6000);   /* mit
   db.collection("spieler").onSnapshot(snap=>{
     S.spieler = snap.docs.map(d=>spielerSauber(d.id, d.data())).filter(p=>p.name);
     const me = S.spieler.find(p=>p.id===uid);
-    if(me && !store.get("ep-abgemeldet",false)){ const lokal=store.get("ep-profil",{})||{}; S.profil = {name:me.name, vorname:lokal.vorname, nachname:lokal.nachname, avatar:me.avatar, stufe:me.stufe, kanton:me.kanton||"", best:me.best||{}, saison:me.saison||{}, hc:me.hc, tests:me.tests||0, erstellt:me.erstellt}; store.set("ep-profil",S.profil); }
+    if(me && !store.get("ep-abgemeldet",false)){ const lokal=store.get("ep-profil",{})||{}; S.profil = {...lokal, name:me.name, vorname:lokal.vorname, nachname:lokal.nachname, avatar:me.avatar, stufe:me.stufe, kanton:me.kanton||"", best:me.best||{}, saison:me.saison||{}, hc:me.hc, tests:me.tests||0, erstellt:me.erstellt}; store.set("ep-profil",S.profil); }
     if(["home","board","profil","bereich","mode"].includes(S.screen)) render();
   }, ()=>{});
   try{
