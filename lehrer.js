@@ -175,6 +175,8 @@ function fehlerText(e){
   if(/42P01|does not exist|relation .* not exist|schema cache/i.test(m)) return "Die Lehrer-Tabellen fehlen in Supabase. Bitte lehrer.sql im SQL Editor ausführen (siehe ANLEITUNG-LEHRER.md).";
   if(/quota_exceeded/i.test(m)) return "Der Speicher ist voll. Bitte alte Tests löschen.";
   if(/invalid_argument/i.test(m)) return "Speichern nicht erlaubt. Fehlen dir die nötigen Rechte?";
+  if(/42501|row-level security|lehrperson/i.test(m)) return "Dein Lehrerkonto ist noch nicht freigegeben. Sobald es geprüft ist, kannst du Klassen anlegen.";
+  if(/lz-gesperrt/i.test(m)) return "Der Lehrerbereich ist gesperrt. Bitte gib dein Lehrer-Passwort ein.";
   return "Das hat nicht geklappt: "+(m||"unbekannter Fehler");
 }
 
@@ -202,27 +204,45 @@ async function waehleSpeicher(){
   return lokalSpeicher();
 }
 
-/* ---------- c) lokal (localStorage, gemeinsames Gerät) ---------- */
+/* ---------- c) lokal (localStorage, gemeinsames Gerät) ----------
+   Ohne Online-Konto hängt der Lehrerbereich am Profil dieses Geräts. Damit ein Kind mit gleichem Profilnamen
+   nicht Klassen, PINs und Noten sieht, schützt ein Lehrer-Passwort (PBKDF2) den Bereich; entsperrt gilt nur für diese Sitzung. */
+const LS_LZPW = "ep-lehrer-pw", SS_LZOFFEN = "ep-lz-offen";
+async function lzHash(pw, salt){
+  const key=await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
+  const bits=await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt:new TextEncoder().encode(salt), iterations:600000}, key, 256);
+  return btoa(String.fromCharCode(...new Uint8Array(bits)));
+}
 function lokalSpeicher(){
   const lese = () => { const d=lsGet(LS_DATEN,null)||{}; return {klassen:Array.isArray(d.klassen)?d.klassen:[], tests:Array.isArray(d.tests)?d.tests:[], abgaben:Array.isArray(d.abgaben)?d.abgaben:[]}; };
   const schreibe = d => { if(!lsSet(LS_DATEN,d)) throw new Error("Speichern im Browser nicht möglich (privates Fenster oder Speicher voll)."); };
   const lid = () => { const p=S.profil; if(!p) return null; return p.email ? "m:"+String(p.email).toLowerCase() : (p.name ? "n:"+p.name : null); };
+  const offen = () => { const id=lid(); try{ return !!id && sessionStorage.getItem(SS_LZOFFEN)===id; }catch(e){ return false; } };
+  const pruefOffen = () => { if(!offen()) throw new Error("lz-gesperrt"); };
   return {
     art:"lokal",
     lehrerId: lid,
     istLehrer(){ const id=lid(); return !!(id && lsGet(LS_ROLLE,{})[id]); },
-    async rolleSetzen(){ const id=lid(); if(!id) return; const r=lsGet(LS_ROLLE,{}); r[id]=true; lsSet(LS_ROLLE,r); },
-    async klassen(){ const id=lid(); return lese().klassen.filter(k=>k.lehrer===id); },
+    hatPasswort(){ const id=lid(); return !!(id && (lsGet(LS_LZPW,{})||{})[id]); },
+    entsperrt: offen,
+    async passwortSetzen(pw){ const id=lid(); if(!id) return; if(String(pw||"").length<8) throw new Error("Das Passwort braucht mindestens 8 Zeichen.");
+      const salt=crypto.getRandomValues(new Uint32Array(4)).join("-"); const m=lsGet(LS_LZPW,{})||{}; m[id]={salt, hash:await lzHash(pw, salt)}; lsSet(LS_LZPW,m);
+      try{ sessionStorage.setItem(SS_LZOFFEN, id); }catch(e){} },
+    async entsperren(pw){ const id=lid(); const e=(lsGet(LS_LZPW,{})||{})[id]; if(!e) return false;
+      const ok = (await lzHash(String(pw||""), e.salt)) === e.hash; if(ok){ try{ sessionStorage.setItem(SS_LZOFFEN, id); }catch(err){} } return ok; },
+    sperren(){ try{ sessionStorage.removeItem(SS_LZOFFEN); }catch(e){} },
+    async rolleSetzen(pw){ const id=lid(); if(!id) return; if(!this.hatPasswort()) await this.passwortSetzen(pw); const r=lsGet(LS_ROLLE,{}); r[id]=true; lsSet(LS_ROLLE,r); },
+    async klassen(){ pruefOffen(); const id=lid(); return lese().klassen.filter(k=>k.lehrer===id); },
     async klasseSpeichern(k){ const d=lese(); const x={...plain(k), lehrer:lid()}; const i=d.klassen.findIndex(y=>y.id===k.id); if(i>=0) d.klassen[i]=x; else d.klassen.push(x);
       const sids=new Set((k.schueler||[]).map(s=>s.id)); const codes=new Set(d.tests.filter(t=>t.klasseId===k.id).map(t=>t.code));
       d.abgaben=d.abgaben.filter(a=>!codes.has(a.code) || sids.has(a.sid)); schreibe(d); return x; },
     async klasseLoeschen(id){ const d=lese(); const codes=new Set(d.tests.filter(t=>t.klasseId===id).map(t=>t.code));
       d.klassen=d.klassen.filter(k=>k.id!==id); d.tests=d.tests.filter(t=>t.klasseId!==id); d.abgaben=d.abgaben.filter(a=>!codes.has(a.code)); schreibe(d); },
-    async tests(){ const id=lid(); return lese().tests.filter(t=>t.lehrer===id); },
+    async tests(){ pruefOffen(); const id=lid(); return lese().tests.filter(t=>t.lehrer===id); },
     async codeFrei(code){ return !lese().tests.some(t=>t.code===code); },
     async testSpeichern(t){ const d=lese(); const x={...plain(t), lehrer:lid()}; const i=d.tests.findIndex(y=>y.code===t.code); if(i>=0) d.tests[i]=x; else d.tests.push(x); schreibe(d); return x; },
     async testLoeschen(code){ const d=lese(); d.tests=d.tests.filter(t=>t.code!==code); d.abgaben=d.abgaben.filter(a=>a.code!==code); schreibe(d); },
-    async abgaben(){ const d=lese(); const codes=new Set(d.tests.filter(t=>t.lehrer===lid()).map(t=>t.code)); return d.abgaben.filter(a=>codes.has(a.code)); },
+    async abgaben(){ pruefOffen(); const d=lese(); const codes=new Set(d.tests.filter(t=>t.lehrer===lid()).map(t=>t.code)); return d.abgaben.filter(a=>codes.has(a.code)); },
     async abgabeLoeschen(a){ const d=lese(); d.abgaben=d.abgaben.filter(x=>x.id!==a.id); schreibe(d); },
     async kidLaden(code, pin){
       const d=lese(); const t=d.tests.find(x=>x.code===normCode(code)); if(!t) return {fehler:"code"};
@@ -255,9 +275,12 @@ function supaSpeicher(){
   return {
     art:"supabase",
     lehrerId: lid,
-    istLehrer(){ const u=AUTH.user; if(!u) return false; return u.user_metadata?.rolle==="lehrperson" || !!lsGet(LS_ROLLE,{})["s:"+u.id]; },
-    async rolleSetzen(){ const u=AUTH.user; if(!u) return; const r=lsGet(LS_ROLLE,{}); r["s:"+u.id]=true; lsSet(LS_ROLLE,r);
-      try{ const res=await sb().auth.updateUser({data:{rolle:"lehrperson"}}); if(res?.data?.user) AUTH.user=res.data.user; }catch(e){} },
+    // Lehrperson ist nur, wen die Verwaltung freigegeben hat (app_metadata, vom Konto selbst nicht änderbar)
+    istLehrer(){ const u=AUTH.user; return !!(u && u.app_metadata?.rolle==="lehrperson"); },
+    beantragt(){ const u=AUTH.user; return !!(u && u.user_metadata?.rolle==="lehrperson"); },
+    async neuPruefen(){ try{ const r=await sb().auth.refreshSession(); if(r?.data?.user) AUTH.user=r.data.user; }catch(e){} },
+    async rolleSetzen(){ const u=AUTH.user; if(!u) return;   // nur Antrag; freigeben kann nur die Verwaltung
+      const res=await sb().auth.updateUser({data:{rolle:"lehrperson"}}); if(res?.data?.user) AUTH.user=res.data.user; await this.neuPruefen(); },
     async klassen(){
       const k=chk(await sb().from("lehrer_klassen").select("id,name,schuljahr,zyklus,erstellt").order("erstellt"));
       const s=chk(await sb().from("lehrer_schueler").select("id,klasse_id,name,pin").order("name"));
@@ -579,6 +602,7 @@ function bereitFuerLehrer(titel){
   const lid=SP.lehrerId();
   if(!lid){ seiteAnmelden(); return false; }
   if(!SP.istLehrer()){ seiteRolle(); return false; }
+  if(SP.art==="lokal" && !SP.entsperrt()){ seiteEntsperren(); return false; }
   if(LZ.fehler && !LZ.laedt){ setze(lc([START,LB], titel)+`<div class="lwait"><h2>😕 Daten nicht erreichbar</h2><p>${h(LZ.fehler)}</p><div class="row"><button class="big" id="lzNochmal" type="button">Nochmals versuchen</button></div></div>`);
     $q("#lzNochmal").onclick=()=>{ LZ.fehler=""; neuLaden(); }; return false; }
   if(!datenAktuell()){ setze(lc([START], titel)+ladeAnzeige("Deine Klassen und Tests werden geladen …")); ladeDaten(); return false; }
@@ -599,15 +623,43 @@ function seiteAnmelden(){
   $q("#lzZumCode").onclick=()=>{ LZ.kid=null; go("lcode"); };
 }
 function seiteRolle(){
+  const lokal = SP.art==="lokal", supa = SP.art==="supabase", wartet = supa && SP.beantragt && SP.beantragt();
   setze(`${lc([START], "Lehrerbereich")}
     <div class="authbox lz-box">
-      <div class="authkopf"><span class="authicon">🎓</span><h1>Bist du Lehrperson?</h1>
-      <p>Im Lehrerbereich legst du Klassen an, erstellst Tests mit Code, siehst die Resultate mit Noten und eine Fehleranalyse und druckst Arbeitsblätter.</p></div>
-      <button class="big gold" id="lzRolle" type="button">🎓 Ich bin Lehrperson</button>
-      <p class="help">Die Rolle wird in deinem Konto gespeichert. Kinder brauchen kein Konto: Sie lösen Tests nur mit Test-Code und PIN.</p>
+      <div class="authkopf"><span class="authicon">🎓</span><h1>${wartet ? "Dein Lehrerkonto wird geprüft" : "Bist du Lehrperson?"}</h1>
+      <p>${wartet ? "Danke! Sobald dein Konto freigegeben ist, kannst du Klassen anlegen und Tests verteilen. Das kann etwas dauern." : "Im Lehrerbereich legst du Klassen an, erstellst Tests mit Code, siehst die Resultate mit Noten und eine Fehleranalyse und druckst Arbeitsblätter."}</p></div>
+      ${lokal ? `<label class="pick-lbl" for="lzPw1">Lehrer-Passwort (mindestens 8 Zeichen)</label><input id="lzPw1" class="sel" type="password" autocomplete="new-password">
+        <label class="pick-lbl" for="lzPw2">Passwort wiederholen</label><input id="lzPw2" class="sel" type="password" autocomplete="new-password">
+        <p class="help">Das Passwort schützt Klassen, PINs und Noten auf diesem Gerät, damit Kinder sie nicht sehen. Es lässt sich nicht wiederherstellen, bitte gut merken.</p>` : ""}
+      ${wartet ? `<button class="big" id="lzPruef" type="button">🔄 Nochmals prüfen</button>` : `<button class="big gold" id="lzRolle" type="button">🎓 ${supa ? "Als Lehrperson anmelden" : "Ich bin Lehrperson"}</button>`}
+      <p class="help">${supa && !wartet ? "Dein Konto wird danach von uns kurz geprüft und freigegeben. " : ""}Kinder brauchen kein Konto: Sie lösen Tests nur mit Test-Code und PIN.</p>
       <p class="err" id="lzRolleErr" aria-live="polite"></p>
     </div>`);
-  $q("#lzRolle").onclick=async()=>{ const b=$q("#lzRolle"); b.disabled=true; try{ await SP.rolleSetzen(); go("lehrer"); }catch(e){ $q("#lzRolleErr").textContent=fehlerText(e); b.disabled=false; } };
+  const pruef=$q("#lzPruef"); if(pruef) pruef.onclick=async()=>{ pruef.disabled=true; await SP.neuPruefen(); if(SP.istLehrer()) go("lehrer"); else { $q("#lzRolleErr").textContent="Noch nicht freigegeben."; pruef.disabled=false; } };
+  const b0=$q("#lzRolle"); if(b0) b0.onclick=async()=>{ const b=b0; b.disabled=true;
+    try{ let pw;
+      if(lokal){ pw=$q("#lzPw1").value; if(pw.length<8) throw new Error("Das Passwort braucht mindestens 8 Zeichen."); if(pw!==$q("#lzPw2").value) throw new Error("Die beiden Passwörter sind nicht gleich."); }
+      await SP.rolleSetzen(pw); go("lehrer"); }
+    catch(e){ $q("#lzRolleErr").textContent=/Passw/.test(e.message||"") ? e.message : fehlerText(e); b.disabled=false; } };
+}
+function seiteEntsperren(){
+  const neu = !SP.hatPasswort();
+  setze(`${lc([START], "Lehrerbereich")}
+    <div class="authbox lz-box">
+      <div class="authkopf"><span class="authicon">🔒</span><h1>${neu ? "Lehrer-Passwort festlegen" : "Lehrerbereich entsperren"}</h1>
+      <p>${neu ? "Neu schützt ein Passwort deine Klassen, PINs und Noten auf diesem Gerät, damit Kinder sie nicht sehen." : "Bitte gib dein Lehrer-Passwort ein."}</p></div>
+      <label class="pick-lbl" for="lzPwE">${neu ? "Neues Lehrer-Passwort (mindestens 8 Zeichen)" : "Lehrer-Passwort"}</label><input id="lzPwE" class="sel" type="password" autocomplete="${neu ? "new-password" : "current-password"}">
+      ${neu ? `<label class="pick-lbl" for="lzPwE2">Passwort wiederholen</label><input id="lzPwE2" class="sel" type="password" autocomplete="new-password">` : ""}
+      <button class="big" id="lzOffen" type="button">${neu ? "Speichern und öffnen" : "🔓 Entsperren"}</button>
+      <p class="err" id="lzPwErr" aria-live="polite"></p>
+    </div>`);
+  const los=async()=>{ const b=$q("#lzOffen"), pw=$q("#lzPwE").value; b.disabled=true; $q("#lzPwErr").textContent="";
+    try{ if(neu){ if(pw!==$q("#lzPwE2").value) throw new Error("Die beiden Passwörter sind nicht gleich."); await SP.passwortSetzen(pw); go("lehrer"); return; }
+      if(await SP.entsperren(pw)){ go("lehrer"); return; } $q("#lzPwErr").textContent="Das Passwort stimmt nicht."; }
+    catch(e){ $q("#lzPwErr").textContent=e.message||String(e); }
+    b.disabled=false; };
+  $q("#lzOffen").onclick=los; $q("#lzPwE").onkeydown=e=>{ if(e.key==="Enter") los(); };
+  setTimeout(()=>{ try{ $q("#lzPwE").focus(); }catch(e){} }, 50);
 }
 function hinweisSpeicher(){
   if(!SP) return "";
@@ -1600,7 +1652,7 @@ if(typeof window.renderProfil==="function"){
       const fertig=()=>{ const ist=SP?.istLehrer?.(); box.innerHTML=`<h2>🎓 Lehrperson</h2><p class="help">${ist?"Du bist als Lehrperson freigeschaltet.":"Bist du Lehrerin oder Lehrer? Dann schalte den Lehrerbereich frei: Klassen, Tests mit Code, Noten und Arbeitsblätter."}</p>
         <div class="row lz-links">${ist?`<button class="big" type="button" id="lzProfZu">🎓 Zum Lehrerbereich</button>`:`<button class="big gold" type="button" id="lzProfRolle">🎓 Ich bin Lehrperson</button>`}</div>`;
         const z=box.querySelector("#lzProfZu"); z&&(z.onclick=()=>zuSeite("lehrer"));
-        const ro=box.querySelector("#lzProfRolle"); ro&&(ro.onclick=async()=>{ ro.disabled=true; try{ const sp=await speicher(); if(!sp.lehrerId()){ zuSeite("lehrer"); return; } await sp.rolleSetzen(); zuSeite("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); ro.disabled=false; } }); };
+        const ro=box.querySelector("#lzProfRolle"); ro&&(ro.onclick=async()=>{ ro.disabled=true; try{ zuSeite("lehrer"); }catch(e){ toast(fehlerText(e),"bad"); ro.disabled=false; } }); };
       fertig(); app().appendChild(box); if(!SP) speicher().then(()=>{ if(document.body.contains(box)) fertig(); });
     } }catch(e){}
     ligaProfil();

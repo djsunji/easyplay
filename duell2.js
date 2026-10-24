@@ -287,22 +287,48 @@ async function rpc(name, body){
 }
 function matchStop(){ const M = DU.match; if(!M) return; clearInterval(M.poll); clearTimeout(M.timeout); clearInterval(M.bot); if(M.id && M.rolle === "host" && !M.laeuft) rpc("duell_abbrechen", {p_id:M.id, p_token:M.token}); DU.match = null; }
 function meinName(){ return (S.profil && S.profil.name) || DU.ich || "Du"; }
+/* Sicherheit: online werden nur Fragen-Kennungen (qid) übertragen, nie Texte. Der Gast baut die Fragen
+   aus seinen eigenen Fragendaten (frageMap), fremde Texte erscheinen so nie auf dem Gerät eines Kindes. */
+const ID_OK = /^[0-9a-z]{1,12}$/;
+function eindeutig(list){ const ges = new Set(); return (list || []).filter(f => f && ID_OK.test(String(f.id)) && !ges.has(f.id) && ges.add(f.id)); }
+function listeAusIds(ids){
+  if(!Array.isArray(ids)) return [];
+  let m; try{ m = frageMap(); }catch(e){ return []; }
+  const ges = new Set(), aus = [];
+  ids.forEach(x => {
+    const id = typeof x === "string" ? x : (x && typeof x.id === "string" ? x.id : "");   // alte Server schickten ganze Fragen: nur die Kennung nehmen
+    if(!ID_OK.test(id) || ges.has(id) || aus.length >= 20) return; ges.add(id);
+    const f = m[id]; if(!f || !f.q || !Array.isArray(f.a) || f.a.length < 2) return;
+    const o = shuffle(f.a.map((t, i) => ({t, ok:i === 0})));
+    aus.push({id, q:f.q, img:f.img || null, opts:o.map(y => y.t), c:o.findIndex(y => y.ok), m:f.m});
+  });
+  return aus;
+}
 async function matchStart(){
   duellLeave(); matchStop();
   if(duellPool(DU.cat, DU.stufe).length < 3){ $("#duErr").textContent = "Zu wenige Fragen für dieses Thema."; return; }
-  DU.mode = "match"; DU.run = null; DU.list = duellFragen(DU.cat, DU.stufe, DU.n);
+  DU.mode = "match"; DU.run = null; DU.list = eindeutig(duellFragen(DU.cat, DU.stufe, DU.n));
   const t = team();
   DU.match = {rolle:null, id:null, token:Math.random().toString(36).slice(2) + Date.now().toString(36), gegner:null, bot:null, poll:null, timeout:null, laeuft:false, start:Date.now()};
   go("duelllobby");
   const sp = typeof lkSupa === "function" && lkSupa();
   if(sp){
-    const arg = {p_token:DU.match.token, p_name:meinName(), p_team:t ? t.id : "", p_stufe:DU.stufe, p_cat:DU.cat, p_n:DU.n, p_list:DU.list};
+    const arg = {p_token:DU.match.token, p_name:String(meinName()).slice(0, 30), p_team:t ? t.id : "", p_stufe:DU.stufe, p_cat:DU.cat, p_n:DU.list.length, p_list:DU.list.map(f => f.id)};
     const r = (await rpc("duell_suchen", {...arg, p_elo:eloDaten().r})) || (await rpc("duell_suchen", arg));
     if(DU.mode !== "match" || !DU.match) return;
     if(r && r.id){ DU.match.id = r.id; DU.match.rolle = r.rolle;
-      if(r.rolle === "gast" && Array.isArray(r.list) && r.list.length){ DU.list = r.list; DU.match.gegner = {name:r.gegner || "Gegner", team:r.gegner_team || "", elo:+r.gegner_elo || eloDaten().r, i:0, score:0, ant:"", letzt:Date.now()}; matchLos(); return; }
+      if(r.rolle === "gast" && Array.isArray(r.list) && r.list.length){
+        const eigene = listeAusIds(r.list);
+        // Fragen, die es hier nicht gibt, fallen weg. Bleiben zu wenige, freundlich abbrechen und gegen Leni oder Ben spielen.
+        if(eigene.length < Math.max(3, Math.ceil(r.list.length * 0.8))){
+          rpc("duell_verlassen", {p_id:r.id, p_token:DU.match.token});
+          DU.match.id = null; DU.match.rolle = null;
+          DU.match.hinweis = "Dieses Duell hatte Fragen, die es bei dir nicht gibt. Darum spielst du gegen Leni oder Ben.";
+          botStart(); return;
+        }
+        DU.list = eigene; DU.match.gegner = {name:String(r.gegner || "Gegner").slice(0, 30), team:r.gegner_team || "", elo:+r.gegner_elo || eloDaten().r, i:0, score:0, ant:"", letzt:Date.now()}; matchLos(); return; }
       DU.match.poll = setInterval(async () => { const st = await rpc("duell_stand", {p_id:DU.match.id, p_token:DU.match.token, p_i:0, p_score:0, p_ant:"", p_fertig:false});
-        if(!DU.match || DU.match.laeuft) return; if(st && st.gegner){ DU.match.gegner = {name:st.gegner, team:st.gegner_team || "", elo:+st.gegner_elo || eloDaten().r, i:0, score:0, ant:"", letzt:Date.now()}; matchLos(); } }, 1500);
+        if(!DU.match || DU.match.laeuft) return; if(st && st.gegner){ DU.match.gegner = {name:String(st.gegner).slice(0, 30), team:st.gegner_team || "", elo:+st.gegner_elo || eloDaten().r, i:0, score:0, ant:"", letzt:Date.now()}; matchLos(); } }, 1500);
     }
   }
   DU.match.timeout = setTimeout(() => { if(DU.match && !DU.match.laeuft) botStart(); }, sp ? 20000 : 1200);
@@ -336,8 +362,8 @@ async function matchSync(){
   const st = await rpc("duell_stand", {p_id:M.id, p_token:M.token, p_i:R.i || 0, p_score:R.score || 0, p_ant:(R.ant || []).join(""), p_fertig:!!R.fertig});
   if(!DU.match || DU.match !== M || !st) return;
   const alt = M.gegner || {}, neuI = +st.gegner_i || 0;
-  M.gegner = {name:st.gegner || alt.name || "Gegner", team:st.gegner_team || "", elo:+st.gegner_elo || alt.elo || eloDaten().r, i:neuI, score:+st.gegner_score || 0, ant:st.gegner_ant || "", fertig:!!st.gegner_fertig,
-    letzt:(neuI !== alt.i || !alt.letzt) ? Date.now() : alt.letzt};
+  M.gegner = {name:String(st.gegner || alt.name || "Gegner").slice(0, 30), team:st.gegner_team || "", elo:+st.gegner_elo || alt.elo || eloDaten().r, i:neuI, score:+st.gegner_score || 0, ant:String(st.gegner_ant || "").replace(/[^01]/g, ""), fertig:!!st.gegner_fertig,
+    weg:st.status === "weg", letzt:(neuI !== alt.i || !alt.letzt) ? Date.now() : alt.letzt};
   gegnerZeigen();
   if(S.screen === "duellende" && (st.gegner_fertig !== !!alt.fertig || neuI !== alt.i || gegnerWeg(M.gegner))) renderDuellEnde();
   if(st.gegner_fertig && (DU.run || {}).fertig) clearInterval(M.poll);
@@ -347,7 +373,8 @@ function gegnerZeigen(){ const g = DU.match && DU.match.gegner; if(!g) return;
   const bar = document.querySelector(".du2-bars .geg i"); if(bar) bar.style.width = Math.min(100, (g.i / DU.list.length) * 100) + "%";
 }
 // echter Gegner antwortet 45 Sekunden nicht mehr, obwohl man selbst fertig ist: gilt als aufgegeben
-const gegnerWeg = g => !!(g && !g.bot && !g.fertig && DU.run && DU.run.fertig && g.letzt && Date.now() - g.letzt > 45000);
+// oder hat das Duell verlassen (status «weg», z. B. weil der Gast die Fragen nicht kennt)
+const gegnerWeg = g => !!(g && !g.bot && !g.fertig && DU.run && DU.run.fertig && (g.weg || (g.letzt && Date.now() - g.letzt > 45000)));
 const gegnerStat = g => { const r = (g.ant || "").split("").filter(x => x === "1").length, f = (g.ant || "").length - r; return `Frage ${Math.min(g.i + 1, DU.list.length)} · ✅ ${r} ❌ ${f}`; };
 
 // duGegner auch für die Zufallssuche
@@ -366,6 +393,7 @@ function renderDuellLobby2(gefunden){
     <h2>⚔️ ${gefunden ? "Gegner gefunden!" : "Suche einen Gegner …"}</h2>
     ${gefunden ? "" : `<img class="ep-kid du2-lkid" src="${KIDS}lb-denken.webp" alt=""><p class="du2-mu">Gegner in deiner Stärke: ${ligaChip(eloDaten().r)}</p><div class="du2-such"><i>🔎</i></div><p>Wer jetzt auch auf «Online» tippt, spielt gegen dich. ${M && M.id ? "Nach 20 Sekunden" : "Gleich"} spielt sonst Leni oder Ben mit dir.</p>`}
     <div class="duvs">${av(meinName(), t ? (t.id === "lumi" ? "m1.webp" : "j1.webp") : null, t && t.id)}<span class="vs">VS</span>${g ? av(g.name, g.bild || (g.team === "lumi" ? "m1.webp" : g.team === "milo" ? "j1.webp" : null), g.team) : `<div><span class="pav pfrei">?</span><b>Wartet …</b></div>`}</div>
+    ${M && M.hinweis ? `<p class="du2-mu">${h(M.hinweis)}</p>` : ""}
     ${gefunden ? `<p><b>Gleich geht es los!</b> ${DU.list.length} Fragen, ${Math.round(DUELL_ZEIT / 1000)} Sekunden pro Frage.</p>` : `<button class="du2-klein" id="duBot" type="button">Sofort gegen Leni oder Ben spielen</button>`}
     <button class="big alt" id="duAb" type="button">Abbrechen</button></div>`;
   $("#duAb").onclick = () => { matchStop(); duellLeave(); go("duell"); };

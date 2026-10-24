@@ -1,6 +1,10 @@
 -- easyplay: Adminbereich (Benutzerverwaltung, Statistik, Kommentare)
--- Im Supabase SQL Editor ausführen, NACH schema.sql (und lehrer.sql, falls genutzt).
+-- Im Supabase SQL Editor ausführen, NACH schema.sql (und lehrer.sql, falls genutzt). Darf mehrmals laufen.
 -- Danach dich selbst als Admin eintragen (ganz unten).
+--
+-- Rolle Lehrperson (Oktober 2026): Sie steht in auth.users.raw_app_meta_data (Feld rolle), das kann die Person
+-- nicht selbst ändern. Gesetzt wird sie nur über admin_lehrer_setzen oder admin_benutzer_rolle.
+-- rolle = 'lehrperson' in raw_user_meta_data (setzt die Lehrer-Registrierung selbst) gilt nur noch als Antrag.
 
 -- ---------- Admins ----------
 create table if not exists public.admins (
@@ -78,7 +82,9 @@ begin
       'unbestaetigt', (select count(*) from auth.users where email_confirmed_at is null),
       'gesperrt', (select count(*) from auth.users where banned_until > now()),
       'admins', (select count(*) from public.admins),
-      'lehrpersonen', (select count(*) from auth.users where raw_user_meta_data->>'rolle' = 'lehrperson'),
+      'lehrpersonen', (select count(*) from auth.users where raw_app_meta_data->>'rolle' = 'lehrperson'),
+      'lehrer_antraege', (select count(*) from auth.users where raw_user_meta_data->>'rolle' = 'lehrperson'
+                                                          and coalesce(raw_app_meta_data->>'rolle', '') <> 'lehrperson'),
       'neu_tage', coalesce((select jsonb_agg(jsonb_build_object('tag', tag, 'n', n) order by tag) from (select created_at::date tag, count(*) n from auth.users where created_at::date >= ab group by 1) t), '[]')
     )
   );
@@ -102,18 +108,22 @@ revoke all on function public.admin_statistik(integer) from public;
 grant execute on function public.admin_statistik(integer) to authenticated;
 
 -- ---------- Benutzerverwaltung ----------
+-- rolle: admin, lehrperson (freigegeben) oder kind. antrag: hat sich als Lehrperson registriert, ist aber noch nicht freigegeben.
+-- Neue Spalte antrag: die alte Form muss zuerst weg, weil sich die Rückgabe ändert.
+drop function if exists public.admin_benutzer();
 create or replace function public.admin_benutzer()
 returns table (id uuid, email text, erstellt timestamptz, zuletzt timestamptz, bestaetigt boolean,
-               gesperrt_bis timestamptz, rolle text, meta jsonb, anbieter text)
+               gesperrt_bis timestamptz, rolle text, meta jsonb, anbieter text, antrag boolean)
 language plpgsql security definer set search_path = public, auth as $$
 begin
   if not public.ist_admin() then raise exception 'nur fuer Admins'; end if;
   return query
     select u.id, u.email::text, u.created_at, u.last_sign_in_at, u.email_confirmed_at is not null,
            u.banned_until,
-           case when a.user_id is not null then 'admin' when u.raw_user_meta_data->>'rolle' = 'lehrperson' then 'lehrperson' else 'kind' end,
+           case when a.user_id is not null then 'admin' when u.raw_app_meta_data->>'rolle' = 'lehrperson' then 'lehrperson' else 'kind' end,
            coalesce(u.raw_user_meta_data, '{}'::jsonb) - 'pw' - 'password',
-           coalesce(u.raw_app_meta_data->>'provider', 'email')
+           coalesce(u.raw_app_meta_data->>'provider', 'email'),
+           coalesce(u.raw_user_meta_data->>'rolle' = 'lehrperson' and coalesce(u.raw_app_meta_data->>'rolle', '') <> 'lehrperson', false)
     from auth.users u left join public.admins a on a.user_id = u.id
     order by u.created_at desc;
 end $$;
@@ -127,9 +137,36 @@ begin
   if p_id = auth.uid() then raise exception 'du kannst dich nicht selbst sperren'; end if;
   update auth.users set banned_until = case when coalesce(p_tage, 0) > 0 then now() + make_interval(days => least(p_tage, 36500)) else null end
   where id = p_id;
+  if coalesce(p_tage, 0) > 0 then
+    -- sofort abmelden: Sitzungen und Erneuerungs-Token löschen. Ein schon ausgegebenes Zugangs-Token gilt
+    -- noch bis zu seinem Ablauf (Standard 1 Stunde), darum prüfen Kommentare und ist_lehrer() die Sperre zusätzlich.
+    delete from auth.sessions where user_id = p_id;
+    delete from auth.refresh_tokens where user_id = p_id::text;
+  end if;
 end $$;
 revoke all on function public.admin_benutzer_sperren(uuid, integer) from public;
 grant execute on function public.admin_benutzer_sperren(uuid, integer) to authenticated;
+
+-- Lehrperson freigeben (p_an = true) oder Freigabe entziehen (p_an = false, löscht auch den Antrag).
+-- Die Rolle steht in raw_app_meta_data, die Person sieht sie nach der nächsten Token-Erneuerung auch in
+-- session.user.app_metadata.rolle. Auf dem Server gilt sie sofort (ist_lehrer() liest auth.users).
+create or replace function public.admin_lehrer_setzen(p_id uuid, p_an boolean) returns void
+language plpgsql security definer set search_path = public, auth as $$
+begin
+  if not public.ist_admin() then raise exception 'nur fuer Admins'; end if;
+  if p_id is null then raise exception 'ungueltig'; end if;
+  if coalesce(p_an, false) then
+    update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"rolle":"lehrperson"}'::jsonb
+    where id = p_id;
+  else
+    update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) - 'rolle',
+                          raw_user_meta_data = coalesce(raw_user_meta_data, '{}'::jsonb) - 'rolle'
+    where id = p_id;
+  end if;
+  if not found then raise exception 'Konto nicht gefunden'; end if;
+end $$;
+revoke all on function public.admin_lehrer_setzen(uuid, boolean) from public, anon;
+grant execute on function public.admin_lehrer_setzen(uuid, boolean) to authenticated;
 
 create or replace function public.admin_benutzer_rolle(p_id uuid, p_rolle text) returns void
 language plpgsql security definer set search_path = public, auth as $$
@@ -141,10 +178,7 @@ begin
     insert into public.admins (user_id) values (p_id) on conflict do nothing;
   else
     delete from public.admins where user_id = p_id;
-    update auth.users set raw_user_meta_data = case when p_rolle = 'lehrperson'
-      then coalesce(raw_user_meta_data, '{}'::jsonb) || '{"rolle":"lehrperson"}'::jsonb
-      else coalesce(raw_user_meta_data, '{}'::jsonb) - 'rolle' end
-    where id = p_id;
+    perform public.admin_lehrer_setzen(p_id, p_rolle = 'lehrperson');
   end if;
 end $$;
 revoke all on function public.admin_benutzer_rolle(uuid, text) from public;
@@ -203,7 +237,30 @@ end $$;
 revoke all on function public.admin_kommentar(bigint, text) from public;
 grant execute on function public.admin_kommentar(bigint, text) to authenticated;
 
+-- ---------- Prüfen, ob aufrufer() die richtige IP erwischt ----------
+-- Gibt die Kopfzeilen zurück, aus denen aufrufer() (schema.sql) die IP liest. Einmal nach dem Einschalten
+-- in der Verwaltung oder im Browser (als Admin angemeldet) aufrufen: Der letzte Eintrag von x-forwarded-for
+-- muss die eigene öffentliche IP sein (vergleichen mit einer Seite wie «Wie ist meine IP»). Steht dort die
+-- Adresse eines Proxys, teilen sich alle Besucher ohne Konto eine Kennung, dann aufrufer() anpassen.
+create or replace function public.admin_ip_pruefen() returns jsonb
+language plpgsql stable security definer set search_path = public as $$
+declare h json := nullif(current_setting('request.headers', true), '')::json;
+begin
+  if not public.ist_admin() then raise exception 'nur fuer Admins'; end if;
+  return jsonb_build_object(
+    'x_forwarded_for', h->>'x-forwarded-for',
+    'x_real_ip', h->>'x-real-ip',
+    'cf_connecting_ip', h->>'cf-connecting-ip',
+    'genutzt', btrim(reverse(split_part(reverse(coalesce(h->>'x-forwarded-for', '')), ',', 1))));
+end $$;
+revoke all on function public.admin_ip_pruefen() from public, anon;
+grant execute on function public.admin_ip_pruefen() to authenticated;
+
 -- ---------- Dich selbst als Admin eintragen ----------
+-- Lehrpersonen aus der Zeit vor der Freigabe übernehmen: NUR nach Kontrolle der Liste, z. B.
+-- select id, email from auth.users where raw_user_meta_data->>'rolle' = 'lehrperson';
+-- update auth.users set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"rolle":"lehrperson"}'::jsonb
+--   where email in ('lehrerin@schule.ch');
 -- 1. Auf der Website mit deiner E-Mail registrieren und bestätigen.
 -- 2. Diese Zeile mit deiner E-Mail-Adresse ausführen:
 -- insert into public.admins (user_id) select id from auth.users where email = 'deine@email.ch';

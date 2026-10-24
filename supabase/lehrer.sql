@@ -8,7 +8,15 @@
 --     test_laden(test_code, pin) und abgabe_einreichen(test_code, pin, antworten, dauer_ms).
 --     Beide prüfen Test-Code und PIN auf dem Server (security definer). Die richtigen Antworten
 --     verlassen den Server erst nach der Abgabe.
---   * Nach 20 falschen PIN-Eingaben in 10 Minuten wird ein Test-Code kurz gesperrt.
+--   * Falsche PINs bremsen nur den, der sie eingibt (Kennung aus aufrufer(): Konto oder gehashte IP):
+--     20 falsche PINs pro Test-Code oder 40 Fehlversuche insgesamt in 10 Minuten, dann kurz gesperrt.
+--     Erst bei 200 falschen PINs aus allen Netzen zusammen wird ein Test-Code für alle kurz gesperrt.
+--     So kann ein einzelnes Kind nicht den Test der ganzen Klasse sperren.
+--   * Lehrperson ist nur, wer von einem Admin freigegeben wurde (raw_app_meta_data.rolle = 'lehrperson',
+--     gesetzt mit admin_lehrer_setzen in admin.sql). Die Rolle in den Benutzerdaten (user_metadata) kann jede
+--     Person selbst setzen und gilt nur noch als Antrag. Alle Regeln unten verlangen zusätzlich ist_lehrer().
+--
+-- Reihenfolge: NACH schema.sql (braucht aufrufer und bremse), vor admin.sql, lehrer2.sql und klassenliga.sql.
 
 -- ---------- Tabellen ----------
 create table if not exists public.lehrer_klassen (
@@ -59,6 +67,7 @@ create table if not exists public.lehrer_abgaben (
   unique (test_code, schueler_id)
 );
 
+-- Früher für die PIN-Sperre benutzt, heute zählt bremse_log (schema.sql). Bleibt nur für alte Datenbanken bestehen.
 create table if not exists public.lehrer_fehlversuche (
   id    bigint generated always as identity primary key,
   code  text not null,
@@ -72,7 +81,41 @@ create index if not exists lehrer_abgaben_lehrer on public.lehrer_abgaben (lehre
 create index if not exists lehrer_abgaben_test on public.lehrer_abgaben (test_code);
 create index if not exists lehrer_fehlversuche_code on public.lehrer_fehlversuche (code, zeit);
 
--- ---------- Zeilenschutz (RLS): jede Lehrperson sieht nur ihre eigenen Daten ----------
+-- ---------- Punkte für die Klassen-Liga ----------
+-- punkte_auto: die Punkte, die abgabe_einreichen auf dem Server ausgerechnet hat (Auswahlfragen).
+-- Die Lehrperson kann punkte (Korrektur offener Fragen) ändern, punkte_auto aber nicht. Die Liga zählt nur punkte_auto.
+alter table public.lehrer_abgaben add column if not exists punkte_auto numeric(6,1);
+
+create or replace function public.lehrer_abgabe_schutz() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' then
+    new.punkte_auto := new.punkte;
+  elsif old.punkte_auto is not null then
+    new.punkte_auto := old.punkte_auto;
+  end if;
+  return new;
+end $$;
+revoke all on function public.lehrer_abgabe_schutz() from public, anon, authenticated;
+drop trigger if exists lehrer_abgabe_schutz on public.lehrer_abgaben;
+create trigger lehrer_abgabe_schutz before insert or update on public.lehrer_abgaben
+  for each row execute function public.lehrer_abgabe_schutz();
+-- Bestehende Abgaben einmalig übernehmen
+update public.lehrer_abgaben set punkte_auto = punkte where punkte_auto is null;
+
+-- ---------- Rolle Lehrperson ----------
+-- Nur von einem Admin vergeben (raw_app_meta_data kann die Person nicht selbst ändern). Gesperrte Konten zählen nicht.
+create or replace function public.ist_lehrer() returns boolean
+language sql stable security definer set search_path = public, auth as $$
+  select exists (select 1 from auth.users u
+                 where u.id = auth.uid()
+                   and u.raw_app_meta_data->>'rolle' = 'lehrperson'
+                   and (u.banned_until is null or u.banned_until <= now()));
+$$;
+revoke all on function public.ist_lehrer() from public, anon;
+grant execute on function public.ist_lehrer() to authenticated;
+
+-- ---------- Zeilenschutz (RLS): jede freigegebene Lehrperson sieht nur ihre eigenen Daten ----------
 alter table public.lehrer_klassen      enable row level security;
 alter table public.lehrer_schueler     enable row level security;
 alter table public.lehrer_tests        enable row level security;
@@ -85,25 +128,25 @@ grant select, delete on public.lehrer_abgaben to authenticated;
 
 drop policy if exists "Eigene Klassen" on public.lehrer_klassen;
 create policy "Eigene Klassen" on public.lehrer_klassen for all to authenticated
-  using (lehrer = auth.uid()) with check (lehrer = auth.uid());
+  using (lehrer = auth.uid() and (select public.ist_lehrer())) with check (lehrer = auth.uid() and (select public.ist_lehrer()));
 
 drop policy if exists "Eigene Kinder" on public.lehrer_schueler;
 create policy "Eigene Kinder" on public.lehrer_schueler for all to authenticated
-  using (lehrer = auth.uid())
-  with check (lehrer = auth.uid() and exists (select 1 from public.lehrer_klassen k where k.id = klasse_id and k.lehrer = auth.uid()));
+  using (lehrer = auth.uid() and (select public.ist_lehrer()))
+  with check (lehrer = auth.uid() and (select public.ist_lehrer()) and exists (select 1 from public.lehrer_klassen k where k.id = klasse_id and k.lehrer = auth.uid()));
 
 drop policy if exists "Eigene Tests" on public.lehrer_tests;
 create policy "Eigene Tests" on public.lehrer_tests for all to authenticated
-  using (lehrer = auth.uid())
-  with check (lehrer = auth.uid() and exists (select 1 from public.lehrer_klassen k where k.id = klasse_id and k.lehrer = auth.uid()));
+  using (lehrer = auth.uid() and (select public.ist_lehrer()))
+  with check (lehrer = auth.uid() and (select public.ist_lehrer()) and exists (select 1 from public.lehrer_klassen k where k.id = klasse_id and k.lehrer = auth.uid()));
 
 drop policy if exists "Abgaben eigener Tests lesen" on public.lehrer_abgaben;
 create policy "Abgaben eigener Tests lesen" on public.lehrer_abgaben for select to authenticated
-  using (lehrer = auth.uid());
+  using (lehrer = auth.uid() and (select public.ist_lehrer()));
 
 drop policy if exists "Abgaben eigener Tests loeschen" on public.lehrer_abgaben;
 create policy "Abgaben eigener Tests loeschen" on public.lehrer_abgaben for delete to authenticated
-  using (lehrer = auth.uid());
+  using (lehrer = auth.uid() and (select public.ist_lehrer()));
 
 -- ---------- Hilfsfunktion: Code und PIN prüfen (nur intern) ----------
 create or replace function public.lehrer_pruefen(p_code text, p_pin text, out t public.lehrer_tests, out s public.lehrer_schueler, out fehler text)
@@ -113,17 +156,20 @@ declare v_code text := upper(trim(coalesce(p_code, '')));
 begin
   fehler := null;
   if v_code !~ '^[A-Z0-9]{6}$' then fehler := 'code'; return; end if;
-  -- Sperre pro Test-Code und zusätzlich für alle Codes zusammen (gegen Durchprobieren vieler Codes)
-  if (select count(*) from public.lehrer_fehlversuche f where f.code = v_code and f.zeit > now() - interval '10 minutes') >= 10
-     or (select count(*) from public.lehrer_fehlversuche f where f.zeit > now() - interval '1 minute') >= 120 then
+  -- Sperren zählen pro Aufrufer (Konto oder gehashte IP), siehe bremse in schema.sql:
+  --   20 falsche PINs für diesen Code oder 40 Fehlversuche insgesamt (auch falsche Codes) in 10 Minuten.
+  --   Für alle zusammen erst ab 200 falschen PINs für diesen Code (verteiltes Durchprobieren).
+  if public.bremse_anzahl('pin:' || v_code, interval '10 minutes') >= 20
+     or public.bremse_anzahl('pin', interval '10 minutes') >= 40
+     or public.bremse_anzahl('pin:' || v_code, interval '10 minutes', true) >= 200 then
     fehler := 'gesperrt'; return;
   end if;
   select * into t from public.lehrer_tests x where x.code = v_code;
-  if not found then insert into public.lehrer_fehlversuche (code) values (v_code); fehler := 'code'; return; end if;
+  if not found then perform public.bremse_merken('pin'); fehler := 'code'; return; end if;
   select * into s from public.lehrer_schueler y where y.klasse_id = t.klasse_id and y.pin = v_pin;
   if not found then
-    insert into public.lehrer_fehlversuche (code) values (v_code);
-    delete from public.lehrer_fehlversuche f where f.zeit < now() - interval '1 day';
+    perform public.bremse_merken('pin');
+    perform public.bremse_merken('pin:' || v_code);
     fehler := 'pin'; return;
   end if;
   if not t.aktiv then fehler := 'geschlossen'; return; end if;

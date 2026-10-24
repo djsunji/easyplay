@@ -22,7 +22,9 @@ const JSPDF_URL = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.
 const JSPDF_SRI = "sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk";
 const SUPA_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
 const SUPA_SRI = "sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug";
-const ADMIN_MAIL = "dejan.ehrbar@bluewin.ch";
+// Kontakt für Fehlermeldungen; erst beim Klick zusammengesetzt, damit Adress-Sammler sie nicht im Klartext finden
+const ADMIN_MAIL_TEILE = ["ch", "bluewin", "dejan.ehrbar"];
+const adminMail = () => ADMIN_MAIL_TEILE[2] + "@" + ADMIN_MAIL_TEILE[1] + "." + ADMIN_MAIL_TEILE[0];
 
 /* ================= 1. Schuljahre und Lehrplan 21 (wie lehrer.js) ================= */
 // Schuljahre nach HarmoS (1. bis 11. Schuljahr), angezeigt mit der üblichen Bezeichnung
@@ -266,6 +268,7 @@ function fehlerText(e){
   if(/42P01|does not exist|relation .* not exist|schema cache/i.test(m)) return "Die Lehrer-Tabellen fehlen in Supabase. Bitte supabase/lehrer.sql im SQL Editor ausführen (siehe ANLEITUNG-LEHRER.md).";
   if(/quota_exceeded|QuotaExceeded/i.test(m)) return "Der Speicher ist voll. Bitte alte Tests löschen.";
   if(/JWT|not authenticated|401/i.test(m)) return "Bitte melde dich nochmals an.";
+  if(/42501|row-level security|lehrperson/i.test(m)) return "Dein Lehrerkonto ist noch nicht freigegeben. Sobald es geprüft ist, kannst du Klassen anlegen.";
   return "Das hat nicht geklappt: "+(m||"unbekannter Fehler");
 }
 
@@ -337,9 +340,12 @@ function supaSpeicher(){
   return {
     art:"supabase",
     lehrerId: lid,
-    istLehrer(){ const u=AUTH.user; if(!u) return false; return u.user_metadata?.rolle==="lehrperson" || !!lsGet(LS_ROLLE,{})["s:"+u.id]; },
-    async rolleSetzen(){ const u=AUTH.user; if(!u) return; const r=lsGet(LS_ROLLE,{}); r["s:"+u.id]=true; lsSet(LS_ROLLE,r);
-      try{ const res=await sb().auth.updateUser({data:{rolle:"lehrperson"}}); if(res?.data?.user) AUTH.user=res.data.user; }catch(e){} },
+    // Lehrperson ist nur, wen die Verwaltung freigegeben hat (app_metadata, vom Konto selbst nicht änderbar)
+    istLehrer(){ const u=AUTH.user; return !!(u && u.app_metadata?.rolle==="lehrperson"); },
+    beantragt(){ const u=AUTH.user; return !!(u && u.user_metadata?.rolle==="lehrperson"); },
+    async neuPruefen(){ try{ const r=await AUTH.sb.auth.refreshSession(); if(r?.data?.user) AUTH.user=r.data.user; }catch(e){} },
+    async rolleSetzen(){ const u=AUTH.user; if(!u) return;   // nur Antrag
+      try{ const res=await sb().auth.updateUser({data:{rolle:"lehrperson"}}); if(res?.data?.user) AUTH.user=res.data.user; }catch(e){} await this.neuPruefen(); },
     async klassen(){
       const k=chk(await sb().from("lehrer_klassen").select("id,name,schuljahr,zyklus,erstellt").order("erstellt"));
       const s=chk(await sb().from("lehrer_schueler").select("id,klasse_id,name,pin").order("name"));
@@ -496,7 +502,7 @@ function zeigeLogin(modus, vorMail){
           const {data, error}=await AUTH.sb.auth.signUp({email:mail, password:pw, options:{data:meta, emailRedirectTo:location.origin+location.pathname}});
           if(error) throw new Error(/registered|exists/i.test(error.message)?"Mit dieser E-Mail gibt es schon ein Konto. Bitte melde dich an.":"Registrierung hat nicht geklappt: "+error.message);
           lsSet("ep-letztemail", mail);
-          if(data?.session?.user){ AUTH.user=data.session.user; kontoSupabase(); await ST.sp.rolleSetzen(); appStart(); melde("Willkommen im Lehrerbereich!"); }
+          if(data?.session?.user){ AUTH.user=data.session.user; kontoSupabase(); await ST.sp.rolleSetzen(); if(ST.sp.istLehrer()){ appStart(); melde("Willkommen im Lehrerbereich!"); } else zeigeRolle(); }
           else { zeigeLogin("anmelden", mail); $("#lFehler").textContent="Fast fertig: Bitte bestätige deine E-Mail-Adresse (Link im Mail) und melde dich dann an."; }
           return;
         }
@@ -534,13 +540,23 @@ function zeigeLogin(modus, vorMail){
 }
 function zeigeRolle(){
   $("#app").hidden=true; $("#login").hidden=false;
+  if(ST.sp && ST.sp.beantragt && ST.sp.beantragt()){
+    $("#loginKarte").innerHTML=`<h1>Dein Lehrerkonto wird geprüft</h1>
+      <p class="mu">Danke! Angemeldet als <b>${h(ST.konto.email||ST.konto.name)}</b>. Sobald dein Konto freigegeben ist, kannst du Klassen anlegen und Tests verteilen.</p>
+      <button type="button" class="k p knopfbreit" id="rollePruef">Nochmals prüfen</button>
+      <button type="button" class="k knopfbreit" id="rolleNein">Mit einem anderen Konto anmelden</button>
+      <p class="fehlertext klein" id="rolleErr" aria-live="polite"></p>`;
+    $("#rollePruef").onclick=async()=>{ const b=$("#rollePruef"); b.disabled=true; await ST.sp.neuPruefen(); if(ST.sp.istLehrer()) appStart(); else { $("#rolleErr").textContent="Noch nicht freigegeben."; b.disabled=false; } };
+    $("#rolleNein").onclick=async()=>{ try{ await AUTH.sb.auth.signOut(); }catch(e){} ST.konto=null; ST.sp=null; zeigeLogin("anmelden"); };
+    return;
+  }
   $("#loginKarte").innerHTML=`<h1>Bist du Lehrperson?</h1>
     <p class="mu">Angemeldet als <b>${h(ST.konto.email||ST.konto.name)}</b>. Im Lehrerbereich legst du Klassen an, erstellst Tests mit Code und siehst die Resultate mit Noten.</p>
     <button type="button" class="k p knopfbreit" id="rolleJa">Ja, ich bin Lehrperson</button>
     <button type="button" class="k knopfbreit" id="rolleNein">Mit einem anderen Konto anmelden</button>
     <p class="fehlertext klein" id="rolleErr" aria-live="polite"></p>
     <p class="modus">Kinder brauchen kein Konto: Sie lösen Tests in easyplay nur mit Test-Code und PIN.</p>`;
-  $("#rolleJa").onclick=async()=>{ const b=$("#rolleJa"); b.disabled=true; try{ await ST.sp.rolleSetzen(); appStart(); }catch(e){ $("#rolleErr").textContent=fehlerText(e); b.disabled=false; } };
+  $("#rolleJa").onclick=async()=>{ const b=$("#rolleJa"); b.disabled=true; try{ await ST.sp.rolleSetzen(); if(ST.sp.istLehrer()) appStart(); else zeigeRolle(); }catch(e){ $("#rolleErr").textContent=fehlerText(e); b.disabled=false; } };
   $("#rolleNein").onclick=async()=>{ if(ST.konto.art==="supabase"){ try{ await AUTH.sb.auth.signOut(); }catch(e){} } else if(ST.konto.art==="lokal"){ lsSet("ep-abgemeldet",true); } ST.konto=null; ST.sp=null; zeigeLogin("anmelden"); };
 }
 
@@ -1444,7 +1460,7 @@ SEITEN.meldungen = el => {
     </tbody></table></div>`:`<div class="box">${leer("Noch keine Meldungen. Im Fragenpool gibt es bei jeder Frage den Knopf «Fehler melden».", `<button type="button" class="k" data-ziel="fragen">Zum Fragenpool</button>`)}</div>`}`;
   zielBinden(el);
   $("#mMail").onclick=()=>{ const txt=offen.map((m,i)=>`${i+1}. ${m.art==="frage"?"Frage Nr. "+m.ref:m.ref}\n   ${m.titel}\n   Grund: ${m.grund}${m.text?"\n   "+m.text:""}`).join("\n\n");
-    location.href=`mailto:${ADMIN_MAIL}?subject=${encodeURIComponent("easyplay: "+offen.length+" Fehlermeldung"+(offen.length===1?"":"en"))}&body=${encodeURIComponent("Hallo\n\nIch habe folgende Fehler gefunden:\n\n"+txt+"\n\nFreundliche Grüsse")}`;
+    location.href=`mailto:${adminMail()}?subject=${encodeURIComponent("easyplay: "+offen.length+" Fehlermeldung"+(offen.length===1?"":"en"))}&body=${encodeURIComponent("Hallo\n\nIch habe folgende Fehler gefunden:\n\n"+txt+"\n\nFreundliche Grüsse")}`;
     lsSet(key, l.map(m=>({...m, gesendet:true}))); setTimeout(()=>neu(), 400); };
   $("#mLeer") && ($("#mLeer").onclick=async()=>{ if(!await bestaetige("Liste leeren?", "Alle Meldungen aus dieser Liste löschen?", "Leeren", true)) return; lsSet(key, []); neu(); });
   $$("[data-mdel]", el).forEach(b=>b.onclick=()=>{ lsSet(key, meldungenListe().filter(m=>m.id!==b.dataset.mdel)); neu(); });

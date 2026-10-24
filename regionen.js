@@ -61,7 +61,10 @@ function buchen(region, punkte){
   if(!REG[region]) return;
   const p = Math.max(0, Math.min(3000, Math.round(punkte || 0)));
   const L = lokal(); L[region].p += p; L[region].n += 1; LS.set(K_LOKAL, L);
-  CUP = null; rpc("region_buchen", {p_region:region, p_punkte:p});
+  // Der Server begrenzt auf 150 Punkte pro Frage, darum die Fragenzahl mitschicken.
+  // Antwortet er nicht mit true oder false (ältere Datenbank ohne diese Form), die alte Form ohne Fragenzahl nehmen.
+  const fragen = Math.max(1, Math.min(20, (Array.isArray(DU.list) && DU.list.length) || 20));
+  CUP = null; rpc("region_buchen", {p_region:region, p_punkte:p, p_fragen:fragen}).then(ok => { if(ok !== true && ok !== false && supa()) rpc("region_buchen", {p_region:region, p_punkte:p}); });
 }
 const schnitt = x => x && x.n ? Math.round(x.p / x.n) : 0;
 

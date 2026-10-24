@@ -2,6 +2,7 @@
 -- Offene Fragen (Textantworten, von der Lehrperson korrigiert) und Fehlermeldungen
 -- aus Fragendatenbank und Bibliothek.
 -- Ausführen im Supabase SQL Editor NACH schema.sql, lehrer.sql und admin.sql.
+-- Die Liga zählt nur punkte_auto (lehrer.sql), Korrekturen der Lehrperson an punkte zählen nur für die Note.
 
 -- ---------- Abgaben: Korrektur offener Fragen, halbe Punkte ----------
 alter table public.lehrer_abgaben add column if not exists korrektur jsonb not null default '{}'::jsonb;
@@ -10,7 +11,7 @@ alter table public.lehrer_abgaben alter column punkte type numeric(6,1);
 -- Die Lehrperson darf bei Abgaben ihrer Tests nur Korrektur, Punkte und Note ändern
 drop policy if exists "Abgaben eigener Tests korrigieren" on public.lehrer_abgaben;
 create policy "Abgaben eigener Tests korrigieren" on public.lehrer_abgaben for update to authenticated
-  using (lehrer = auth.uid()) with check (lehrer = auth.uid());
+  using (lehrer = auth.uid() and (select public.ist_lehrer())) with check (lehrer = auth.uid() and (select public.ist_lehrer()));
 revoke update on public.lehrer_abgaben from authenticated;
 grant update (korrektur, punkte, max, note) on public.lehrer_abgaben to authenticated;
 
@@ -102,7 +103,7 @@ returns boolean language plpgsql security definer set search_path = public as $$
 begin
   if auth.uid() is null then return false; end if;   -- nur angemeldete Lehrpersonen
   if p_art not in ('frage', 'bib') then return false; end if;
-  if (select count(*) from public.fehlermeldungen where von = auth.uid() and erstellt > now() - interval '1 hour') >= 60 then return false; end if;
+  if public.bremse('fehler_melden', 60, interval '1 hour') then return false; end if;
   insert into public.fehlermeldungen (art, ref, titel, grund, text, von)
   values (p_art, left(coalesce(p_ref, ''), 100), left(coalesce(p_titel, ''), 300), left(coalesce(p_grund, ''), 100), left(coalesce(p_text, ''), 2000), auth.uid());
   return true;

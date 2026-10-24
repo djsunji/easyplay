@@ -313,6 +313,19 @@ async function ghCommit(nachricht, bauen){
   }
 }
 
+/* Was darf der GitHub-Schlüssel? Warnen, wenn er mehr kann als nötig (alle Repos, kein Ablaufdatum) */
+async function tokenRisiko(t){
+  const w = [];
+  if(/^ghp_/.test(t)) w.push("Das ist ein klassischer Schlüssel: er gilt für <b>alle</b> deine Repos. Besser ein «Fine-grained token» nur für easyplay.");
+  try{ const r = await fetch("https://api.github.com/user/repos?per_page=10", {headers:{Authorization:"Bearer " + t, Accept:"application/vnd.github+json"}, cache:"no-store"});
+    if(r.ok){ const l = await r.json(); const andere = l.filter(x => x.full_name !== REPO); if(andere.length) w.push(`Der Schlüssel kommt auch an andere Repos (z. B. ${esc(andere[0].full_name)}). Besser «Only select repositories: easyplay».`); }
+    const ab = r.headers.get("github-authentication-token-expiration");
+    if(ab){ const tage = Math.round((Date.parse(ab) - Date.now()) / 864e5); if(tage > 120) w.push(`Läuft erst in ${tage} Tagen ab. Empfohlen: höchstens 90 Tage.`); else if(tage < 10) w.push(`Läuft in ${Math.max(0, tage)} Tagen ab, bald einen neuen erstellen.`); }
+    else if(/^github_pat_/.test(t)) w.push("Ablaufdatum nicht erkennbar. Falls der Schlüssel nie abläuft: besser einen mit 90 Tagen erstellen.");
+  }catch(e){}
+  return w.length ? `<br><span class="wa">⚠️ ${w.join("<br>⚠️ ")}</span>` : '<br><span class="ok">Der Schlüssel ist gut eingeschränkt.</span>';
+}
+
 /* ======================= Supabase ======================= */
 const SB = { url:(CFG.supabaseUrl||"").replace(/\/$/,""), key:CFG.supabaseKey||"" };
 const sbAn = () => !!(SB.url && SB.key);
@@ -1549,21 +1562,23 @@ function gefilterteBenutzer(){ return (FU.liste||[]).filter(u => { const name = 
   if(FU.suche && !name.includes(FU.suche)) return false;
   if(FU.rolle === "gesperrt") return gesperrt(u); if(FU.rolle === "unbestaetigt") return !u.bestaetigt; if(FU.rolle) return u.rolle === FU.rolle; return true; }); }
 function benutzerListe(){
-  const l = gefilterteBenutzer(); $("#uZahl").textContent = zahl(l.length) + " von " + zahl(FU.liste.length);
+  const l = gefilterteBenutzer(), antraege = FU.liste.filter(u => u.antrag).length; $("#uZahl").textContent = zahl(l.length) + " von " + zahl(FU.liste.length) + (antraege ? ` · ${antraege} ${antraege === 1 ? "Antrag" : "Anträge"} Lehrperson` : "");
   $("#uListe").innerHTML = `<table><thead><tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>St.</th><th>Registriert</th><th>Zuletzt</th><th>Status</th><th></th></tr></thead><tbody>${l.map(u => `<tr data-id="${esc(u.id)}">
     <td>${esc([u.meta?.vorname, u.meta?.nachname].filter(Boolean).join(" ") || "-")}</td><td>${esc(u.email)} <span class="mu klein">${esc(u.anbieter !== "email" ? u.anbieter : "")}</span></td>
-    <td><select data-a="rolle">${["kind","lehrperson","admin"].map(r => `<option value="${r}"${u.rolle===r?" selected":""}>${{kind:"Kind",lehrperson:"Lehrperson",admin:"Admin"}[r]}</option>`).join("")}</select></td>
+    <td>${u.antrag ? `<span class="wa klein">Antrag Lehrperson</span> <button class="k p" data-a="lfrei">Freigeben</button> <button class="k" data-a="lnein">Ablehnen</button><br>` : ""}<select data-a="rolle">${["kind","lehrperson","admin"].map(r => `<option value="${r}"${u.rolle===r?" selected":""}>${{kind:"Kind",lehrperson:"Lehrperson",admin:"Admin"}[r]}</option>`).join("")}</select></td>
     <td>${esc(u.meta?.stufe ?? "")}</td><td class="nowrap">${tag(u.erstellt)}</td><td class="nowrap">${u.zuletzt ? datum(u.zuletzt) : '<span class="mu">nie</span>'}</td>
     <td class="nowrap">${gesperrt(u) ? `<span class="fe">gesperrt bis ${tag(u.gesperrt_bis)}</span>` : u.bestaetigt ? '<span class="ok">aktiv</span>' : '<span class="wa">unbestätigt</span>'}</td>
     <td class="nowrap"><button class="k" data-a="profil">Profil</button> ${gesperrt(u) ? '<button class="k" data-a="entsperren">Entsperren</button>' : '<button class="k" data-a="sperren">Sperren</button>'} <button class="k" data-a="pw">Passwort-Mail</button> <button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || '<tr><td colspan="8" class="mu">Keine Benutzer</td></tr>'}</tbody></table>`;
   $$("#uListe tr[data-id]").forEach(tr => { const u = FU.liste.find(x => x.id === tr.dataset.id);
     const los = async (fn, ok) => { try{ await fn(); melde(ok); FU.liste = await rpc("admin_benutzer"); benutzerListe(); }catch(e){ melde(e.message, "fe"); } };
     tr.querySelector('[data-a="rolle"]').onchange = e => los(() => rpc("admin_benutzer_rolle", {p_id:u.id, p_rolle:e.target.value}), "Rolle geändert.");
-    const sp = tr.querySelector('[data-a="sperren"]'); if(sp) sp.onclick = () => { const t = prompt(`${u.email} sperren für wie viele Tage? (0 = aufheben, 36500 = dauerhaft)`, "7"); if(t == null) return; los(() => rpc("admin_benutzer_sperren", {p_id:u.id, p_tage:Math.max(0, parseInt(t)||0)}), "Gesperrt."); };
+    const sp = tr.querySelector('[data-a="sperren"]'); if(sp) sp.onclick = () => { const t = prompt(`${u.email} sperren für wie viele Tage? (0 = aufheben, 36500 = dauerhaft)`, "7"); if(t == null) return; los(() => rpc("admin_benutzer_sperren", {p_id:u.id, p_tage:Math.max(0, parseInt(t)||0)}), "Gesperrt und abgemeldet."); };
     const en = tr.querySelector('[data-a="entsperren"]'); if(en) en.onclick = () => los(() => rpc("admin_benutzer_sperren", {p_id:u.id, p_tage:0}), "Entsperrt.");
     tr.querySelector('[data-a="pw"]').onclick = () => { if(!confirm(`Link zum Zurücksetzen des Passworts an ${u.email} senden?`)) return;
       los(async () => { const r = await fetch(SB.url + "/auth/v1/recover", {method:"POST", headers:{apikey:SB.key, "Content-Type":"application/json"}, body: JSON.stringify({email:u.email})}); if(!r.ok) throw new Error("Versand fehlgeschlagen"); }, "E-Mail gesendet."); };
     tr.querySelector('[data-a="profil"]').onclick = () => benutzerProfil(u, los);
+    const lf = tr.querySelector('[data-a="lfrei"]'); if(lf) lf.onclick = () => los(() => rpc("admin_lehrer_setzen", {p_id:u.id, p_an:true}), "Als Lehrperson freigegeben.");
+    const ln = tr.querySelector('[data-a="lnein"]'); if(ln) ln.onclick = () => los(() => rpc("admin_lehrer_setzen", {p_id:u.id, p_an:false}), "Antrag abgelehnt.");
     tr.querySelector('[data-a="loeschen"]').onclick = () => { const t = prompt(`Konto ${u.email} mit allen Daten endgültig löschen?\nZum Bestätigen die E-Mail-Adresse eingeben:`); if(t == null) return;
       if(t.trim().toLowerCase() !== String(u.email).toLowerCase()){ melde("E-Mail stimmt nicht, nichts gelöscht.", "fe"); return; } los(() => rpc("admin_benutzer_loeschen", {p_id:u.id}), "Konto gelöscht."); };
   });
@@ -1620,7 +1635,7 @@ TABS.zugang = async () => {
     </div>
   </div><div>
     <div class="box"><b>Supabase (Benutzer, Statistik, Kommentare)</b>
-      ${!sbAn() ? `<p class="wa">Supabase ist in <code>config.js</code> nicht eingetragen.</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zSbAus">Abmelden</button>` :
+      ${!sbAn() ? `<p class="wa">Supabase ist in <code>config.js</code> nicht eingetragen.</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zIp">IP-Erkennung prüfen</button> <span id="zIpInfo" class="klein"></span> <button class="k" id="zSbAus">Abmelden</button>` :
       `<div class="formular"><label>E-Mail</label><input type="email" id="zMail" autocomplete="username"><label>Passwort</label><input type="password" id="zPw" autocomplete="current-password"></div><div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k p" id="zSbAn">Anmelden</button></div>`}
       <p id="zSbInfo" class="klein"></p>
       <details class="klein"${sbAn() ? "" : " open"}><summary>Einrichtung</summary><ol>
@@ -1645,7 +1660,7 @@ TABS.zugang = async () => {
     store.set("ep-admin-gh", t);
     if($("#zGhMerken").checked){ if(!SCHLUESSEL){ const pw = prompt("Zum verschlüsselten Speichern bitte dein Verwaltungs-Passwort eingeben:"); if(pw) SCHLUESSEL = await aesAusPasswort(pw); }
       if(!(await tokenVerschluesseln(t))) melde("Nicht gespeichert: Passwort fehlt.", "fe"); } else { try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} }
-    try{ const r = await gh(""); const ok = r.permissions && r.permissions.push; $("#zGhInfo").innerHTML = ok ? '<span class="ok">Verbunden, Schreibrechte vorhanden.</span>' : '<span class="fe">Verbunden, aber ohne Schreibrechte. Contents: Read and write setzen.</span>'; }
+    try{ const r = await gh(""); const ok = r.permissions && r.permissions.push; $("#zGhInfo").innerHTML = (ok ? '<span class="ok">Verbunden, Schreibrechte vorhanden.</span>' : '<span class="fe">Verbunden, aber ohne Schreibrechte. Contents: Read and write setzen.</span>') + await tokenRisiko(t); }
     catch(e){ $("#zGhInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; store.del("ep-admin-gh"); }
     statusZeigen(); };
   $("#zGok").onclick = () => { const key = $("#zGk").value.trim(), cx = $("#zGcx").value.trim(); if(key && cx){ store.set("ep-admin-google", {key, cx}, true); melde("Google-Suche gespeichert."); } else melde("Schlüssel und ID ausfüllen.", "fe"); };
@@ -1653,6 +1668,7 @@ TABS.zugang = async () => {
   $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
   const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   const aus = $("#zSbAus"); if(aus) aus.onclick = () => { store.del("ep-admin-sb"); statusZeigen(); zeige("zugang"); };
+  const ip = $("#zIp"); if(ip) ip.onclick = async () => { try{ const r = await rpc("admin_ip_pruefen"); $("#zIpInfo").innerHTML = `genutzt: <b>${esc(r && r.genutzt)}</b> · weitergeleitet: ${esc(r && r.x_forwarded_for)}<br><span class="mu">Unter «genutzt» muss deine eigene öffentliche IP stehen, sonst wirken die Mengenbremsen für alle gemeinsam.</span>`; }catch(e){ $("#zIpInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   if(s && $("#zAdmin")){ try{ const ja = await rpc("ist_admin"); $("#zAdmin").innerHTML = ja ? '<span class="ok">Admin</span>' : '<span class="fe">kein Admin (siehe Einrichtung, Schritt 4)</span>'; }catch(e){ $("#zAdmin").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } }
 };
 
@@ -1705,6 +1721,9 @@ function starten(){
   statusZeigen(); aenderungenZeigen();
   zeige(TABS[location.hash.slice(1)] ? location.hash.slice(1) : "uebersicht");
   setInterval(() => { if(!angemeldet()) abmelden(); }, 60000);
+  // Nach 30 Minuten ohne Aktivität abmelden (nur wenn nichts Ungespeichertes offen ist)
+  let aktiv = Date.now(); ["pointerdown","keydown","wheel","touchstart"].forEach(ev => addEventListener(ev, () => { aktiv = Date.now(); }, {passive:true}));
+  setInterval(() => { if(Date.now() - aktiv > 30*60000){ if(offen()) { if(!document.getElementById("ruheHinweis")) melde("Seit 30 Minuten inaktiv. Bitte Änderungen speichern, dann wirst du abgemeldet.", "fe"); } else abmelden(); } }, 60000);
   if(!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => { const f = $("#kopfFz"); if(!f) return; f.src = "../img/fragezeichen-zwinkern.webp"; setTimeout(() => f.src = "../img/fragezeichen.webp", 350); }, 7000);
 }
 

@@ -82,3 +82,10 @@ Erst ausführen, wenn die Dateien 1 bis 6 aus Abschnitt 3 gelaufen sind (es brau
    - `admin_liga_klassen()` und `admin_liga_sperren(liga_id, true/false)`: unpassende Anzeigenamen ausblenden (nur Admins, vorerst im SQL Editor, z. B. `select public.admin_liga_sperren('<liga_id>', true);` als angemeldeter Admin oder direkt `update public.liga_klassen set gesperrt = true where anzeige = '…';`).
 4. Prüfen: Im Lehrerbereich links **Klassen-Liga** öffnen. Statt der Vorschau mit Beispieldaten erscheint «Meine Klassen in der Liga». Eine Klasse mit mindestens 5 Kindern anmelden; sobald ein Kind dieser Klasse einen Test abgibt, erscheint sie in der Rangliste.
 
+
+## Sicherheit (Stand 24.10.2026)
+
+- **Neu einrichten:** Die SQL-Dateien in dieser Reihenfolge ausführen: `schema.sql`, `lehrer.sql`, `admin.sql`, `lehrer2.sql`, `klassenliga.sql`, `live.sql`, `regionen.sql`, `duell.sql`.
+- **Bestehende Datenbank nachrüsten:** einmal `supabase/sicherheit.sql` ausführen (alles in einer Transaktion, darf mehrfach laufen).
+- **Lehrpersonen:** Wer sich als Lehrperson anmeldet, stellt nur einen Antrag. Freigeben in der Verwaltung unter «Benutzer» («Freigeben» beim Antrag). Bisherige Lehrpersonen nach dem Nachrüsten einmal freigeben.
+- **Nach dem Einschalten prüfen:** In der Verwaltung unter «Zugang» auf «IP-Erkennung prüfen» klicken. Bei «genutzt» muss die eigene öffentliche IP stehen, sonst gelten die Mengenbremsen für alle Besucher gemeinsam.

@@ -4,8 +4,9 @@
 -- Das Skript darf mehrfach ausgeführt werden (es überschreibt nur Funktionen und Regeln).
 --
 -- Punkte einer Klasse pro ISO-Woche (Montag 00:00 bis Sonntag 24:00, Zeitzone Europe/Zurich):
---   Summe der Testpunkte aller Abgaben der Kinder dieser Klasse in dieser Woche
---   (Auswahlfragen: 1 Punkt pro richtige Antwort, offene Fragen: Punkte der Lehrperson),
+--   Summe der vom Server ausgerechneten Testpunkte (punkte_auto, aus abgabe_einreichen) aller Abgaben der Kinder
+--   dieser Klasse in dieser Woche (Auswahlfragen: 1 Punkt pro richtige Antwort). Punkte, die die Lehrperson
+--   nachträglich ändert (offene Fragen, Korrekturen), zählen für die Liga nicht, sonst könnte sie die Liga selbst füllen.
 --   pro Kind höchstens 150 Punkte pro Woche,
 --   geteilt durch die Anzahl der eingetragenen (aktiven) Kinder der Klasse, auf 1 Stelle gerundet.
 --   Geteilt wird durch alle eingetragenen Kinder, nicht nur durch die, die mitgemacht haben.
@@ -15,6 +16,7 @@
 --   * Öffentlich ist nur ein Aggregat pro Klasse: Anzeigename, Kanton, Zyklus, Punkte pro Kind,
 --     Anzahl Kinder und Anzahl aktiver Kinder. Keine Kindernamen, keine PINs, keine einzelnen Resultate.
 --   * Eine Klasse braucht mindestens 5 eingetragene Kinder, damit kein Wert auf ein einzelnes Kind zurückgeht.
+--   * Anmelden dürfen nur von einem Admin freigegebene Lehrpersonen (ist_lehrer() aus lehrer.sql).
 --   * Die Tabelle liga_klassen ist mit Zeilenschutz (RLS) gesperrt. Lesen dürfen Lehrpersonen nur ihre eigenen
 --     Anmeldungen; geschrieben wird ausschliesslich über die Funktionen liga_anmelden und liga_abmelden.
 --   * Die Rangliste kommt nur über die Funktion liga_rangliste (security definer), die nichts anderes herausgibt.
@@ -40,7 +42,7 @@ grant select on public.liga_klassen to authenticated;
 
 drop policy if exists "Eigene Liga-Anmeldungen lesen" on public.liga_klassen;
 create policy "Eigene Liga-Anmeldungen lesen" on public.liga_klassen for select to authenticated
-  using (lehrer = auth.uid());
+  using (lehrer = auth.uid() and (select public.ist_lehrer()));
 -- Keine Policy für insert, update, delete: Schreiben nur über die Funktionen unten.
 
 -- ---------- Lehrperson: Klasse anmelden oder Anzeigename/Kanton ändern ----------
@@ -53,6 +55,8 @@ declare v_k public.lehrer_klassen;
         v_n int;
 begin
   if auth.uid() is null then return jsonb_build_object('fehler', 'konto'); end if;
+  if not public.ist_lehrer() then return jsonb_build_object('fehler', 'lehrperson'); end if;
+  if public.bremse('liga_anmelden', 60, interval '1 hour') then return jsonb_build_object('fehler', 'viele'); end if;
   select * into v_k from public.lehrer_klassen x where x.id = p_klasse and x.lehrer = auth.uid();
   if not found then return jsonb_build_object('fehler', 'klasse'); end if;
   if char_length(v_name) < 2 or char_length(v_name) > 40 or v_name ~ '[@<>{}]' or v_name ~* '(https?:|www\.)' then
@@ -109,7 +113,7 @@ language sql stable security definer set search_path = public as $$
       and (coalesce(p_kanton, '') = '' or l.kanton = upper(p_kanton))
   ),
   pro_kind as (
-    select s.klasse_id, a.schueler_id, least(sum(a.punkte), 150) as p
+    select s.klasse_id, a.schueler_id, least(sum(coalesce(a.punkte_auto, 0)), 150) as p
     from public.lehrer_abgaben a
     join public.lehrer_schueler s on s.id = a.schueler_id
     join public.lehrer_tests t on t.code = a.test_code and t.klasse_id = s.klasse_id
