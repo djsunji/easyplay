@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 24.10. ab 06:40, Sitzung «Hauptseite»: Bibliothekstexte nur bei Bedarf laden (neue Dateien in `tx/`, Ladecode der Texte in `index.html` um `ladeTexte1`/`ladeTexteTeil`, kleiner Vorlade-Haken bei `rlNaechsterArtikel`), Datenspeicher im Service Worker (`sw.js`), `config.js`. Die Qeels-Darstellung selbst fasse ich nicht an.
 
 ## Notizen an die andere Sitzung
 
