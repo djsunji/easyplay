@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 24.10. ab 07:10, Sitzung «Hauptseite»: Verwaltung «Fragen und Artikel bearbeiten» (`admin/index.html`, neue Datei `korrektur.js`, Korrekturdateien in `korrektur/`) und neue Profilseite mit Verzierungen statt Garderobe (`garderobe.js`, Profil-Teile in `index.html`/`app.js`/`level.js`, neue Datei `profilseite.js`). Qeels fasse ich nicht an.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,8 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Neue Profilseite statt Garderobe (`garderobe.js` ist jetzt das Modul «Profil verzieren», Dateiname und Speicher blieben). Kopf mit Hintergrund, Rahmen, Stickern, Effekt, Titel und Vitrine, dazu Zahlen (Fragen, Tests, gelesene Artikel, Level, Serie, Abzeichen). Fremde Profile aus der Rangliste zeigen dasselbe (`oeffentlichesProfil`/`spielerSauber` mit `deko` und `zahlen`). Gelesene Artikel: Bibliotheksseite 12 s offen zählt einmal, +5 XP. Neue Abzeichen Leseratte und Testprofi (`level.js`). Menüpunkt «Verzieren» im Profil-Tab (`app.js`).
+- 24.10. Sitzung «Hauptseite»: Verwaltung, neuer Bereich «Artikel»: Bibliothekstexte bearbeiten. Gespeichert wird in `korrektur/artikel.json`, die Website legt das über die Texte aus `tx/` (`admin/index.html`, `index.html`, `tools/artikelseiten.json`).
 - 24.10. Sitzung «Hauptseite»: Bibliothekstexte werden nur noch bei Bedarf geladen (offene Seite mit Nachbarn, durchsuchtes Buch, nächster Qeels-Artikel). Die Texte liegen jetzt in `tx/` (150 Texte pro Datei, Hash im Namen, `tx/index-….json` sagt welche Seite wo steht); die alten `texte2-*.json` sind weg. Neue Texte immer über `texte_aufteilen.py` einbauen, nie Dateien in `tx/` von Hand ändern. Fragen und Texte liegen im Service Worker im Speicher `epoff-daten` und werden bei einem Update nicht mehr neu geladen (`index.html`, `sw.js`, `config.js`, `offline.js`, `tx/`). Für Qeels: `rlNaechsterArtikel()` wählt den nächsten Artikel jetzt einen Schritt im Voraus, damit sein Text schon da ist; Pool-Prüfungen nutzen `hatText(key)` statt `S.texte[key]`.
 - 24.10. Sitzung «Hauptseite»: Bibliothek: 2'962 neue Texte für das Buch Welt (`texte2-39.json` bis `texte2-52.json`, `config.js`). Damit haben alle 16'705 Seiten der Bibliothek einen Text.
 - 23.10. Sitzung «Hauptseite»: Bibliothek: 3'738 neue Texte, Geschichte und Natur sind jetzt vollständig (`texte2-23.json` bis `texte2-38.json`, `config.js`). Im Kapitel Körper streng ohne Fortpflanzung und Geschlechtsorgane. Offen ist nur noch das Buch Welt (2'962 Seiten).
