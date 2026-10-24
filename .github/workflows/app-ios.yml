@@ -1,0 +1,56 @@
+# easyplay als iPhone/iPad-App bauen (Capacitor) auf einem Mac von GitHub, ohne eigenen Mac.
+# Mit den Apple-Secrets wird signiert und direkt zu App Store Connect (TestFlight) hochgeladen.
+# Ohne Secrets wird nur zur Probe für den Simulator gebaut. Anleitung: app/ANLEITUNG-APP.md
+name: App iOS
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['app/**', '.github/workflows/app-ios.yml']
+concurrency: { group: app-ios, cancel-in-progress: true }
+jobs:
+  ios:
+    runs-on: macos-15
+    env:
+      TEAM: ${{ secrets.APPLE_TEAM_ID }}
+      KID: ${{ secrets.ASC_KEY_ID }}
+      ISS: ${{ secrets.ASC_ISSUER_ID }}
+      P8: ${{ secrets.ASC_KEY_P8 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Capacitor-Projekt erzeugen
+        working-directory: app
+        run: |
+          npm install --no-audit --no-fund
+          npx cap add ios
+          npx capacitor-assets generate --ios --splashBackgroundColor '#2B1466' --splashBackgroundColorDark '#2B1466'
+          npx cap sync ios
+      - name: Info.plist ergänzen
+        working-directory: app/ios/App/App
+        run: |
+          P=Info.plist
+          /usr/libexec/PlistBuddy -c "Add :WKAppBoundDomains array" $P || true
+          /usr/libexec/PlistBuddy -c "Add :WKAppBoundDomains:0 string djsunji.github.io" $P || true
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" $P || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName easyplay" $P || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string easyplay" $P
+          /usr/libexec/PlistBuddy -c "Add :CFBundleDevelopmentRegion string de" $P || /usr/libexec/PlistBuddy -c "Set :CFBundleDevelopmentRegion de" $P
+      - name: Bauen
+        working-directory: app/ios/App
+        run: |
+          if [ -d App.xcworkspace ]; then W="-workspace App.xcworkspace"; else W="-project App.xcodeproj"; fi
+          if [ -z "$TEAM" ] || [ -z "$KID" ] || [ -z "$ISS" ] || [ -z "$P8" ]; then
+            xcodebuild $W -scheme App -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build | tail -20
+            echo "Nur Probe-Bau für den Simulator (Apple-Secrets fehlen)." >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+          mkdir -p "$RUNNER_TEMP/key" && printf '%s' "$P8" > "$RUNNER_TEMP/key/AuthKey.p8"
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $RUNNER_TEMP/key/AuthKey.p8 -authenticationKeyID $KID -authenticationKeyIssuerID $ISS"
+          xcodebuild $W -scheme App -configuration Release -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic PRODUCT_BUNDLE_IDENTIFIER=ch.easyplay.app \
+            MARKETING_VERSION=1.0.0 CURRENT_PROJECT_VERSION=${{ github.run_number }} TARGETED_DEVICE_FAMILY=1,2 \
+            $AUTH archive | tail -30
+          sed "s/TEAM_ID/$TEAM/" ../../ExportOptions.plist > "$RUNNER_TEMP/ExportOptions.plist"
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export" $AUTH | tail -30
+          echo "Hochgeladen zu App Store Connect (Build ${{ github.run_number }}). In TestFlight erscheint es nach einigen Minuten." >> $GITHUB_STEP_SUMMARY

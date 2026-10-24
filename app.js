@@ -901,6 +901,15 @@ function wocheHTML(){
 }
 
 /* ---------- Kopfzeile mit Zurück auf allen Unterseiten ---------- */
+// In der App (Android): Zurück-Taste des Geräts geht in easyplay zurück, erst auf der Startseite wird die App geschlossen
+(function(){ try{ const C = window.Capacitor; if(!C || !C.isNativePlatform || !C.isNativePlatform()) return; const A = C.Plugins && C.Plugins.App; if(!A) return;
+  A.addListener("backButton", () => { try{
+    if(document.getElementById("rsheet")){ rlSheetZu(); return; }
+    if(document.getElementById("reels")){ schliesseReels(); return; }
+    const d = document.querySelector("dialog[open]"); if(d){ d.close(); return; }
+    if(S.screen === "home" && !S.libModus) A.exitApp(); else zurueck();
+  }catch(e){ try{ history.back(); }catch(e2){} } });
+}catch(e){} })();
 // Verlauf der Artikel-Links vergessen, sobald man die Artikelseiten verlässt
 let zurueckImVerlauf = false;
 (function(){ const vor = window.go; if(typeof vor !== "function") return; window.go = function(z){ try{ if(!/seite$/.test(String(z)) && typeof LIB !== "undefined") LIB.verlauf = []; }catch(e){} return vor.apply(this, arguments); }; })();
