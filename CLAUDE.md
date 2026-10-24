@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 24.10. ab 05:20, Sitzung «Hauptseite»: Bibliothekstexte für das Buch Welt (2'962 Seiten). Neue Dateien `texte2-39.json` und folgende, dazu `config.js` (texteDateien2). Bitte diese Dateien nicht anfassen.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Bibliothek: 2'962 neue Texte für das Buch Welt (`texte2-39.json` bis `texte2-52.json`, `config.js`). Damit haben alle 16'705 Seiten der Bibliothek einen Text.
 - 23.10. Sitzung «Hauptseite»: Bibliothek: 3'738 neue Texte, Geschichte und Natur sind jetzt vollständig (`texte2-23.json` bis `texte2-38.json`, `config.js`). Im Kapitel Körper streng ohne Fortpflanzung und Geschlechtsorgane. Offen ist nur noch das Buch Welt (2'962 Seiten).
 - 23.10. Sitzung «Hauptseite»: Bibliothek: 2'910 neue Texte, Politik, Geld, Leben und Alltag sind jetzt vollständig (`texte2-13.json` bis `texte2-22.json`, `config.js`). Neue Texte immer in neue Dateien, veröffentlichte Textdateien nie überschreiben (Browser speichern sie lange).
 - 22.10. Sitzung «Qeels»: Vorlesen leuchtet beim Sprechen und stoppt beim zweiten Tippen, neuer Knopf «Bild» zeigt das Bild gross, mit Zoom und quer (`index.html`, `qeels/qeels.js`, `img/qeels-sym-bild.webp`).
