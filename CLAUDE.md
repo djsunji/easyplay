@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 24.10. Sitzung «Hauptseite»: Bewegte Profil-Hintergründe (reines CSS, Klassen `pa-…`, aus bei «Bewegung reduzieren»): 10 bestehende belebt, 7 neue bewegte als Belohnung für Serie, Artikel, Tests und Fragen (`garderobe.js`).
 - 24.10. Sitzung «Hauptseite»: Profil verzieren: 19 neue Verzierungen, alle 50 Level eine von Level 100 bis 1000 (`garderobe.js`).
 - 24.10. Sitzung «Hauptseite»: Neue Profilseite statt Garderobe (`garderobe.js` ist jetzt das Modul «Profil verzieren», Dateiname und Speicher blieben). Kopf mit Hintergrund, Rahmen, Stickern, Effekt, Titel und Vitrine, dazu Zahlen (Fragen, Tests, gelesene Artikel, Level, Serie, Abzeichen). Fremde Profile aus der Rangliste zeigen dasselbe (`oeffentlichesProfil`/`spielerSauber` mit `deko` und `zahlen`). Gelesene Artikel: Bibliotheksseite 12 s offen zählt einmal, +5 XP. Neue Abzeichen Leseratte und Testprofi (`level.js`). Menüpunkt «Verzieren» im Profil-Tab (`app.js`).
 - 24.10. Sitzung «Hauptseite»: Verwaltung, neuer Bereich «Artikel»: Bibliothekstexte bearbeiten. Gespeichert wird in `korrektur/artikel.json`, die Website legt das über die Texte aus `tx/` (`admin/index.html`, `index.html`, `tools/artikelseiten.json`).
