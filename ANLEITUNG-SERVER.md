@@ -34,7 +34,7 @@ Domain: im Reiter **Hosts** `easyplay.ch` und `www.easyplay.ch` eintragen (www l
 
 | Name | Wert | Pflicht |
 |---|---|---|
-| `DATABASE_URL` | Verbindungsadresse aus Schritt 1 | ja |
+| `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD` | aus dem Reiter **Zugang** der Datenbank: FQDN, Port, Datenbankname, Benutzername, Passwort (unter «Zugangsdaten»). Alternativ eine einzige `DATABASE_URL` (`postgres://…`). | ja |
 | `JWT_SECRET` | langer Zufallstext, mindestens 32 Zeichen (z. B. `openssl rand -base64 48`). Nie ändern, sonst sind alle abgemeldet. | ja |
 | `PUBLIC_URL` | die eigene Adresse, `https://easyplay.ch` | ja |
 | `SITE_URLS` | weitere Adressen, die zum Server dürfen, mit Komma, `https://www.easyplay.ch` | nein |

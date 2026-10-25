@@ -9,14 +9,22 @@ import { fileURLToPath } from "node:url";
 const HIER = dirname(fileURLToPath(import.meta.url));
 const REPO = join(HIER, "..");
 
-export const sql = postgres(process.env.DATABASE_URL || "postgres://localhost/easyplay", {
+/* Verbindung: entweder DATABASE_URL (postgres://…) oder einzeln PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD
+   (so wie im Cockpit von Nine unter «Zugang» angezeigt, ohne Umschreiben des Passworts) */
+const URL_DB = process.env.DATABASE_URL || "";
+const MIT_SSL = /sslmode=(require|verify)/.test(URL_DB) || process.env.DB_SSL === "1" || /^(require|verify)/.test(process.env.PGSSLMODE || "")
+  || /\.nineapis\.ch$/.test(process.env.PGHOST || "") || /\.nineapis\.ch[:/]/.test(URL_DB);
+const OPTIONEN = {
   max: +process.env.DB_MAX || 10,
   idle_timeout: 30,
   connect_timeout: 15,
-  ssl: /sslmode=(require|verify)/.test(process.env.DATABASE_URL || "") || process.env.DB_SSL === "1" ? "require" : false,
+  ssl: MIT_SSL ? "require" : false,
   onnotice: () => {},
   transform: { undefined: null },
-});
+};
+export const sql = URL_DB ? postgres(URL_DB, OPTIONEN)
+  : process.env.PGHOST ? postgres({ ...OPTIONEN, host: process.env.PGHOST, port: +process.env.PGPORT || 5432, database: process.env.PGDATABASE || process.env.PGUSER, username: process.env.PGUSER, password: process.env.PGPASSWORD })
+  : postgres("postgres://localhost/easyplay", OPTIONEN);
 
 /* Reihenfolge wie in ANLEITUNG-SUPABASE.md «Neu einrichten». sicherheit.sql braucht es bei neuer Datenbank nicht. */
 export const DATEIEN = [
