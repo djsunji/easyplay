@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 25.10., Sitzung «Kacheln» (claude-34): Grafiken für die vier Bereich-Kacheln (Startseite Computer und App-Tab Themen). Dateien: `stil.js` (Block am Ende), `img/kacheln/`. Dejan will erst später veröffentlichen, darum noch nicht gepusht.
 
 ## Notizen an die andere Sitzung
 
