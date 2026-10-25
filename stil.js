@@ -686,17 +686,19 @@ anm();
 
 /* ================= Bereich-Kacheln mit gezeichneten Grafiken (Startseite Computer und App-Tab Themen) ================= */
 (function(){
-const K = "img/kacheln/bereich-";
-const H = {welt:"58%", natur:"64%", geld:"64%", alltag:"62%"};
-const sel = n => `html:root body .bereiche>.bereich[data-b=${n}],html:root body .apb:has(>.apb-kopf[data-b=${n}])`;
-const alle = Object.keys(H).map(sel).join(",");
+// Die ganze Karte wird gezeigt, nie geteilt: das Symbol schaut wie in der Zeichnung innerhalb des Rahmens herein.
+// Computer: Kachel hat fast dasselbe Seitenverhältnis wie die Zeichnung, also ganz eingepasst.
+// App: Kacheln sind höher, darum wird die Karte rechts ausgerichtet, links liegt nur der Verlauf unter dem Text.
+const K = "img/kacheln/bereich-", N = ["welt", "natur", "geld", "alltag"];
+const pc = n => `html:root body .bereiche>.bereich[data-b=${n}]`, app = n => `html:root body .apb:has(>.apb-kopf[data-b=${n}])`;
+const alle = N.map(pc).concat(N.map(app)).join(",");
 const css = document.createElement("style"); css.id = "ep-bereich-kacheln-css";
-css.textContent = Object.keys(H).map(n => `${sel(n)}{background:url(${K}${n}-symbol.webp) right bottom/auto ${H[n]} no-repeat,url(${K}${n}-grund.webp) 0 0/100% 100% no-repeat,transparent!important;animation:none!important}`).join("\n") + `
+css.textContent = N.map(n => `${pc(n)}{background:url(${K}${n}.webp) 0 0/100% 100% no-repeat,transparent!important;animation:none!important}
+${app(n)}{background:url(${K}${n}.webp) right center/cover no-repeat,transparent!important;animation:none!important}`).join("\n") + `
 :is(${alle}){border:0!important;border-radius:28px!important;color:#fff!important;box-shadow:0 16px 32px -16px rgba(20,20,70,.6)!important;overflow:hidden}
 :is(${alle})::before,:is(${alle})::after{display:none!important}
 :is(${alle}) :is(h2,p,b,small,.apn){text-shadow:0 2px 8px rgba(20,10,60,.45)}
 html:root body .apb .apwm{display:none!important}
-html:root body .apb:has(>.apb-kopf[data-b]){background-size:auto 40%,100% 100%!important}
 `;
 document.head.appendChild(css);
 })();
