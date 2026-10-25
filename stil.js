@@ -669,22 +669,23 @@ ${W}[data-a=fehler][disabled]{filter:saturate(.8)}
 ${W}.eptl .epe i{background:rgba(255,255,255,.95)!important;border-color:#fff!important}
 ${W}.eptl .epe.st-ok i{background:#2BD67B!important;border-color:#fff!important}
 ${W}.eptl .epe::before{background:rgba(255,255,255,.45)!important}
-#nav #navKonto.st-anm{width:184px;height:54px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
+html:root body #nav #navKonto.st-anm{width:188px!important;min-width:188px!important;max-width:none!important;height:54px!important;min-height:54px!important;flex:0 0 auto!important;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
   background:url(${K}anmelden.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.7)!important;transition:transform .15s}
 #nav #navKonto.st-anm *{display:none!important}
-#nav .menubtn.st-menue{width:174px;height:55px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
+html:root body #nav .menubtn.st-menue{width:170px!important;min-width:170px!important;height:54px!important;min-height:54px!important;flex:0 0 auto!important;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
   background:url(${K}menue.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s}
 #nav .menubtn.st-menue *{display:none!important}
 #nav .xs-knopf.st-ton{width:58px;height:58px;padding:0!important;border:0!important;border-radius:50%!important;color:transparent!important;font-size:0!important;
   background:url(${K}ton.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s,filter .2s}
 #nav .xs-knopf.st-ton>*{opacity:0!important}
 #nav .xs-knopf.st-ton.st-stumm{filter:grayscale(.85) opacity(.7)}
-#nav #navReels.st-qeels{width:170px;height:57px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
+html:root body #nav #navReels.st-qeels{width:160px!important;min-width:160px!important;height:54px!important;min-height:54px!important;flex:0 0 auto!important;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
   background:url(${K}qeels.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.55)!important;transition:transform .15s}
 #nav #navReels.st-qeels>*{opacity:0!important}
 #nav .xui-knopf.st-de{width:58px;height:62px;padding:0!important;border:0!important;border-radius:50%!important;color:transparent!important;font-size:0!important;
   background:url(${K}sprache-de.webp) center/contain no-repeat!important;box-shadow:none!important;transition:transform .15s}
 #nav .xui-knopf.st-de>*{opacity:0!important}
+@media (min-width:1280px){html:root body .topbar .logo:has(#wmImg){min-width:390px}}
 #nav :is(#navReels.st-qeels,.xui-knopf.st-de):hover{transform:translateY(-2px) scale(1.04)}
 #nav :is(#navReels.st-qeels,.xui-knopf.st-de):focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 #nav :is(.menubtn.st-menue,.xs-knopf.st-ton):hover{transform:translateY(-2px) scale(1.04)}
