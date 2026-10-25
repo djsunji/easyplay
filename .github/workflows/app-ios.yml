@@ -61,6 +61,12 @@ jobs:
           c,d=hol("/v1/users?limit=1")
           n(f"Admin-Recht (Benutzerliste lesen): {'ja' if c==200 else 'nein, Code '+str(c)}")
           PY
+      - name: Xcode 26 wählen
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$X" ]; then echo "::error::Kein Xcode 26 auf diesem Mac gefunden"; ls -d /Applications/Xcode*; exit 1; fi
+          sudo xcode-select -s "$X/Contents/Developer"
+          echo "::notice::Gebaut mit $(xcodebuild -version | head -1)"
       - name: Capacitor-Projekt erzeugen
         working-directory: app
         run: |
@@ -90,8 +96,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/key" && printf '%s' "$P8" > "$RUNNER_TEMP/key/AuthKey.p8"
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $RUNNER_TEMP/key/AuthKey.p8 -authenticationKeyID $KID -authenticationKeyIssuerID $ISS"
           xcodebuild $W -scheme App -configuration Release -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
-            DEVELOPMENT_TEAM="$TEAM" PRODUCT_BUNDLE_IDENTIFIER=ch.easyplay.app \
-            MARKETING_VERSION=1.0.0 CURRENT_PROJECT_VERSION=${{ github.run_number }} TARGETED_DEVICE_FAMILY=1,2 \
+            DEVELOPMENT_TEAM="$TEAM" \
+            MARKETING_VERSION=1.0.0 CURRENT_PROJECT_VERSION=${{ github.run_number }} \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             archive > "$RUNNER_TEMP/archive.log" 2>&1 || { grep -E "error:|warning: .*(sign|profile|provision)|No profiles|No Account|Signing|Provisioning|code signing" "$RUNNER_TEMP/archive.log" | sort -u | head -15 | sed 's/^/::error::Archiv: /'; tail -40 "$RUNNER_TEMP/archive.log"; exit 65; }
           tail -10 "$RUNNER_TEMP/archive.log"
