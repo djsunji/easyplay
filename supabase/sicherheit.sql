@@ -162,6 +162,40 @@ returns boolean language sql immutable as $$
 $$;
 revoke all on function public.kontakt_verdacht(text) from public, anon, authenticated;
 
+-- ---------- Einstellungen der Verwaltung und Sperrwörter für öffentliche Namen ----------
+-- einstellungen: Werte, die die Verwaltung setzt (Hinweis an alle, Themenplan, Sperrwörter). Lesen und Schreiben nur
+-- über Funktionen (supabase/verwaltung.sql). name_gesperrt() prüft Namen, die andere sehen (Kommentare, Duell, Liga).
+create table if not exists public.einstellungen (
+  schluessel text primary key,
+  wert       jsonb not null,
+  geaendert  timestamptz not null default now(),
+  von        text
+);
+alter table public.einstellungen enable row level security;  -- keine Policy: nur über die Funktionen
+revoke all on public.einstellungen from anon, authenticated;
+insert into public.einstellungen (schluessel, wert) values ('sperrwoerter',
+  '["arschloch","fick","fuck","hure","nutte","wichser","schlampe","fotze","bitch","hitler","porno","sexy","schwuchtel","spast","missgeburt","hurensohn","kacke","scheiss","pussy","cock","slut","whore","nigger","neger","kanake","schwanz","titten","vagina","penis","idiot","opfer","bastard","fresse"]'::jsonb)
+on conflict (schluessel) do nothing;
+
+-- Vergleich ohne Gross/Klein, Abstände und typische Ersatzzeichen (0 statt o, 1 statt i, 3 statt e, 4 statt a, 5 statt s, $ statt s)
+create or replace function public.name_normal(p text)
+returns text language sql immutable as $$
+  select regexp_replace(translate(lower(coalesce(p, '')), '013457$@äöüéèàß', 'oieastsaaoueeas'), '[^a-z]', '', 'g');
+$$;
+revoke all on function public.name_normal(text) from public, anon, authenticated;
+
+create or replace function public.name_gesperrt(p text)
+returns boolean language plpgsql stable security definer set search_path = public as $$
+declare v text := public.name_normal(p);
+begin
+  if public.kontakt_verdacht(p) then return true; end if;
+  if v = '' then return false; end if;
+  return exists (select 1 from public.einstellungen e, jsonb_array_elements_text(e.wert) w(x)
+                 where e.schluessel = 'sperrwoerter' and char_length(public.name_normal(w.x)) >= 3
+                   and position(public.name_normal(w.x) in v) > 0);
+end $$;
+revoke all on function public.name_gesperrt(text) from public, anon, authenticated;
+
 -- Zählen nur über diese Funktion (+1 oder -1), direktes Schreiben ist gesperrt
 create or replace function public.like_aendern(p_id text, p_delta integer)
 returns integer language plpgsql security definer set search_path = public as $$
@@ -242,7 +276,7 @@ begin
   v_nach := btrim(coalesce(v_meta->>'nachname', ''));
   new.name := case when v_vor = '' then 'Kind'
                    else left(v_vor, 26) || case when v_nach <> '' then ' ' || upper(left(v_nach, 1)) || '.' else '' end end;
-  if public.kontakt_verdacht(new.name) or new.name ~ '[<>{}]' then new.name := 'Kind'; end if;
+  if public.name_gesperrt(new.name) or new.name ~ '[<>{}]' then new.name := 'Kind'; end if;
 
   if new.avatar is not null and (new.avatar !~ '^[A-Za-z0-9_:.-]{1,40}$' or public.kontakt_verdacht(new.avatar)) then
     new.avatar := null;
@@ -981,7 +1015,7 @@ begin
   if public.bremse('liga_anmelden', 60, interval '1 hour') then return jsonb_build_object('fehler', 'viele'); end if;
   select * into v_k from public.lehrer_klassen x where x.id = p_klasse and x.lehrer = auth.uid();
   if not found then return jsonb_build_object('fehler', 'klasse'); end if;
-  if char_length(v_name) < 2 or char_length(v_name) > 40 or v_name ~ '[@<>{}]' or v_name ~* '(https?:|www\.)' then
+  if char_length(v_name) < 2 or char_length(v_name) > 40 or v_name ~ '[@<>{}]' or v_name ~* '(https?:|www\.)' or public.name_gesperrt(v_name) then
     return jsonb_build_object('fehler', 'name');
   end if;
   if v_kt <> '' and v_kt <> all (array['ZH','BE','LU','UR','SZ','OW','NW','GL','ZG','FR','SO','BS','BL','SH','AR','AI','SG','GR','AG','TG','TI','VD','VS','NE','GE','JU']) then
@@ -1310,10 +1344,10 @@ revoke all on function public.duell_liste_ok(jsonb) from public, anon, authentic
 
 -- Anzeigename: höchstens 30 Zeichen, ohne Kontaktangaben und ohne spitze Klammern, sonst «Gast»
 create or replace function public.duell_name(p_name text)
-returns text language plpgsql immutable as $$
+returns text language plpgsql stable as $$
 declare v text := left(btrim(regexp_replace(coalesce(p_name, ''), '\s+', ' ', 'g')), 30);
 begin
-  if v = '' or v ~ '[<>{}]' or public.kontakt_verdacht(v) then return 'Gast'; end if;
+  if v = '' or v ~ '[<>{}]' or public.name_gesperrt(v) then return 'Gast'; end if;
   return v;
 end $$;
 revoke all on function public.duell_name(text) from public, anon, authenticated;

@@ -61,10 +61,21 @@ async function pwPruefen(pw, gespeichert) {
 
 /* ---------- Bremse gegen Durchprobieren ---------- */
 const VERSUCHE = new Map();
+/* Gesperrte Versuche merken (nur im Speicher, für die Verwaltung): Art und Zeit, ohne IP oder Mailadresse */
+const SPERREN = [];
+function sperreMerken(schluessel) {
+  SPERREN.push({ art: String(schluessel).split(":")[0], zeit: Date.now() });
+  if (SPERREN.length > 2000) SPERREN.splice(0, SPERREN.length - 2000);
+}
+export function anmeldeSperren() {
+  const seit = Date.now() - 864e5, z = {};
+  for (const s of SPERREN) if (s.zeit > seit) z[s.art] = (z[s.art] || 0) + 1;
+  return { letzte_24h: z, zuletzt: SPERREN.length ? new Date(SPERREN[SPERREN.length - 1].zeit) : null };
+}
 function bremse(schluessel, max, fensterS) {
   max *= +E.BREMSE_FAKTOR || 1;                        // nur für Tests höher setzen
   const jetzt = Date.now(); const v = (VERSUCHE.get(schluessel) || []).filter(t => jetzt - t < fensterS * 1000);
-  if (v.length >= max) { VERSUCHE.set(schluessel, v); return false; }
+  if (v.length >= max) { VERSUCHE.set(schluessel, v); sperreMerken(schluessel); return false; }
   v.push(jetzt); VERSUCHE.set(schluessel, v);
   if (VERSUCHE.size > 50000) for (const [k, w] of VERSUCHE) if (!w.length || jetzt - w[w.length - 1] > 3600000) VERSUCHE.delete(k);
   return true;

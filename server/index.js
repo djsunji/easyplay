@@ -7,6 +7,7 @@ import { sql, einrichten } from "./db.js";
 import { authAnfrage, personAusAnfrage, sitzungGueltig } from "./auth.js";
 import { rpcAnfrage, tabellenAnfrage } from "./rest.js";
 import { statischMacher } from "./statisch.js";
+import { adminAnfrage } from "./admin.js";
 
 const E = process.env;
 const WURZEL = E.STATIC_DIR || join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -79,6 +80,10 @@ const server = createServer(async (req, res) => {
       await sql`select 1`; return res.json(200, { ok: true, app: "easyplay" });
     }
     if (!BEREIT && (req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/"))) return res.json(503, { code: "503", message: "Der Server startet noch" });
+    if (req.pfad.startsWith("/api/admin/")) {
+      if (!BEREIT) return res.json(503, { code: "503", message: "Der Server startet noch" });
+      return await adminAnfrage(req, res, req.pfad.slice(11), WURZEL);
+    }
     if (req.pfad.startsWith("/auth/v1/")) return await authAnfrage(req, res, req.pfad.slice(8));
     if (req.pfad.startsWith("/rest/v1/")) {
       const person = personAusAnfrage(req);

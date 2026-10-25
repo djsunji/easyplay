@@ -232,14 +232,23 @@ select{max-width:100%}
   <button data-t="bilder">Bilder <small id="nBilder"></small></button>
   <button data-t="bildwechsel" class="unter">↳ Bilder wechseln</button>
   <button data-t="welten">Welten <small id="nWelten"></small></button>
+  <button data-t="themenplan">Themenplan</button>
+  <button data-t="werbung">Werbung</button>
   <div class="gr">Personen</div>
   <button data-t="benutzer">Benutzer</button>
+  <button data-t="namen">Namen prüfen</button>
   <button data-t="lehrpersonen">Lehrpersonen</button>
   <button data-t="liga">Klassen-Liga</button>
   <button data-t="kommentare">Kommentare</button>
   <button data-t="fehlermeldungen">Fehlermeldungen</button>
+  <div class="gr">Spiele</div>
+  <button data-t="spiele">Live, Duell, Cup</button>
   <div class="gr">System</div>
+  <button data-t="hinweis">Hinweis an alle</button>
   <button data-t="technik">Technik</button>
+  <button data-t="sicherheit">Sicherheit</button>
+  <button data-t="protokoll">Protokoll</button>
+  <button data-t="sicherung">Sicherung</button>
   <button data-t="zugang">Zugang</button>
   <div class="fusskinder" aria-hidden="true"><img src="../img/kinder.webp" alt="" width="760" height="507" loading="lazy"></div>
 </nav>
@@ -326,7 +335,7 @@ async function tokenRisiko(t){
   return w.length ? `<br><span class="wa">⚠️ ${w.join("<br>⚠️ ")}</span>` : '<br><span class="ok">Der Schlüssel ist gut eingeschränkt.</span>';
 }
 
-/* ======================= Supabase ======================= */
+/* ======================= Eigener Server (gleiche Aufrufe wie früher Supabase) ======================= */
 const SB = { url:(CFG.supabaseUrl||"").replace(/\/$/,""), key:CFG.supabaseKey||"" };
 const sbAn = () => !!(SB.url && SB.key);
 const sbSitzung = () => store.get("ep-admin-sb", null);
@@ -344,10 +353,10 @@ async function sbToken(){
   const j = await r.json(); store.set("ep-admin-sb", {...s, token:j.access_token, refresh:j.refresh_token, bis:Date.now() + (j.expires_in||3600)*1000}); return j.access_token;
 }
 async function rpc(name, args){
-  const t = await sbToken(); if(!t) throw new Error("Nicht bei Supabase angemeldet (siehe «Zugang»).");
+  const t = await sbToken(); if(!t) throw new Error("Nicht mit dem Admin-Konto angemeldet (siehe «Zugang»).");
   const r = await fetch(SB.url + "/rest/v1/rpc/" + name, {method:"POST", headers:{apikey:SB.key, Authorization:"Bearer " + t, "Content-Type":"application/json"}, body: JSON.stringify(args||{})});
   const txt = await r.text(); let j = null; try{ j = txt ? JSON.parse(txt) : null; }catch(e){}
-  if(!r.ok) throw new Error((j && (j.message || j.hint)) || ("Supabase " + r.status));
+  if(!r.ok) throw new Error((j && (j.message || j.hint)) || ("Server " + r.status));
   return j;
 }
 
@@ -386,7 +395,7 @@ async function ladeBilder(){
 function statusZeigen(){
   const s = sbSitzung(), l = store.get("ep-admin-sitzung", null);
   $("#status").innerHTML = `<span>GitHub: ${ghToken() ? '<span class="ok">verbunden</span>' : '<a class="link" id="stGh">Schlüssel fehlt</a>'}</span>`
-    + `<span>Supabase: ${!sbAn() ? '<span class="mu">nicht eingerichtet</span>' : s ? '<span class="ok">' + esc(s.mail||"angemeldet") + '</span>' : '<span class="wa">nicht angemeldet</span>'}</span>`
+    + `<span>Server: ${!sbAn() ? '<span class="mu">nicht verbunden</span>' : s ? '<span class="ok">' + esc(s.mail||"angemeldet") + '</span>' : '<span class="wa">nicht angemeldet</span>'}</span>`
     + `<span>Angemeldet: <b>${esc(l?.name || "")}</b></span><button class="k" id="stAus">Abmelden</button>`;
   $("#stAus").onclick = abmelden; const g = $("#stGh"); if(g) g.onclick = () => zeige("zugang");
 }
@@ -473,10 +482,10 @@ async function ueDetails(){
   $("#nFragen").textContent = zahl(fr.length); $("#nBilder").textContent = zahl(mitBild);
   ueSchnell();
 }
-async function ueSupabase(){
+async function ueServer(){
   const sbBox = $("#ueSb"); if(!sbBox) return;
-  if(!sbAn()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis leerbild"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><span>Supabase ist nicht eingerichtet. Besucherzahlen und Benutzerverwaltung starten, sobald Supabase in <code>config.js</code> eingetragen und <code>supabase/admin.sql</code> ausgeführt ist. Anleitung unter «Zugang».</span></div></div>`;
-  else if(!sbSitzung()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis">Für Besucherzahlen und Benutzer unter «Zugang» bei Supabase anmelden.</div></div>`;
+  if(!sbAn()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis leerbild"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><span>${NICHT_SERVER}</span></div></div>`;
+  else if(!sbSitzung()) sbBox.innerHTML = `<div class="abschnitt"><h3>Besucher und Benutzer</h3><div class="hinweis">Für Besucherzahlen und Benutzer unter «Zugang» mit dem Admin-Konto anmelden.</div></div>`;
   else {
     try{
       const s = await rpc("admin_statistik", {p_tage:30});
@@ -541,6 +550,7 @@ TABS.uebersicht = async () => {
     <p>${z.fragen ? zahl(z.fragen) + " Fragen, " + (z.seiten ? zahl(z.seiten) + " Bibliotheksseiten" : "die Bibliothek") : z.seiten ? zahl(z.seiten) + " Bibliotheksseiten" : "Die Bibliothek"} und ${WELTEN.length} Welten zum Entdecken warten auf neugierige Köpfe. <span id="ueRot"></span></p>
     <div class="chips">${z.themen ? `<span>${zahl(z.themen)} Themen</span>` : ""}${z.seiten && z.mitBild ? `<span>${proz(z.mitBild, z.seiten)} mit Bild</span>` : ""}<span>Stand ${datum(new Date())}</span></div></div>
     <img src="../img/kinder.webp" alt="" width="760" height="507"></div>
+  <div class="abschnitt" id="ueWarn"></div>
   <div class="abschnitt"><h3>Inhalte auf einen Blick</h3><div id="ueSchnell"><p class="mu">Lädt …</p></div><p class="mu klein" id="ueSchnellInfo"></p></div>
   <div class="abschnitt"><h3>Bereiche der Website</h3><div class="welten" id="ueBereiche"></div></div>
   <div class="abschnitt"><div id="ueKpiSb"></div><div id="ueKpiTech"></div></div>
@@ -548,7 +558,7 @@ TABS.uebersicht = async () => {
   <div id="ueSb"></div><div id="ueGh"></div>`;
   ueBereiche();
   if(auto) ueDetails().catch(e => { const b = $("#ueDetails"); if(b) b.innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; }); else ueDetailsKnopf();
-  await Promise.all([ueSchnell(), ueSupabase(), ueGithub()]);
+  await Promise.all([ueSchnell(), ueServer(), ueGithub(), ueWarnungen().catch(() => {})]);
 };
 function ueDetailsKnopf(){
   const box = $("#ueDetails"); if(!box) return;
@@ -616,7 +626,9 @@ function laufTabelle(runs){ const neu = new Map(); runs.forEach(r => { if(!neu.h
 const LOGIN_MD = "https://github.com/djsunji/easyplay/blob/main/ANLEITUNG-LOGIN.md";
 TABS.technik = async () => {
   $("#inhalt").innerHTML = `<h2>Technik</h2>
-    <div class="spalten"><div class="abschnitt"><h3>Website-Grösse</h3><div id="tGroesse" class="box"><p class="mu" style="margin:0">Lädt …</p></div></div>
+    <div class="abschnitt"><h3>Eigener Server (easyplay.ch bei Nine)</h3><div id="tServer"><p class="mu">Lädt …</p></div></div>
+    <div class="abschnitt"><h3>Apps</h3><div id="tApps"><p class="mu">Lädt …</p></div></div>
+    <div class="spalten"><div class="abschnitt"><h3>Grösse auf GitHub</h3><div id="tGroesse" class="box"><p class="mu" style="margin:0">Lädt …</p></div></div>
     <div class="abschnitt"><h3>Service-Worker (Offline-Speicher)</h3><div id="tSw" class="box"><p class="mu" style="margin:0">Lädt …</p></div></div></div>
     <div class="abschnitt"><h3>Anmelde-Anbieter</h3><div id="tAnb"><p class="mu">Lädt …</p></div></div>
     <div class="spalten"><div class="abschnitt"><h3>Dateien</h3><table><tbody>
@@ -624,12 +636,12 @@ TABS.technik = async () => {
       <tr><td>Bibliothekstext-Dateien</td><td class="r">${(CFG.texteDateien || ["texte-1.json", "texte-2.json"]).length + (CFG.texteDateien2 || []).length}</td></tr>
       <tr><td>Welten (Entdecken)</td><td class="r"><a class="link" data-ziel="welten">${WELTEN.length} Welten</a></td></tr>
       <tr><td>Lehrerbereich</td><td class="r"><a class="link" href="../lehrer/" target="_blank" rel="noopener">/lehrer/ öffnen</a></td></tr>
-      <tr><td>Supabase</td><td class="r">${sbAn() ? '<span class="ok">eingerichtet</span>' : '<span class="wa">nicht eingerichtet</span>'}</td></tr>
+      <tr><td>Eigener Server</td><td class="r">${sbAn() ? '<span class="ok">verbunden (' + esc(SB.url.replace(/^https?:\/\//, "")) + ')</span>' : '<span class="wa">nicht verbunden</span>'}</td></tr>
       <tr><td>Website-Adresse für Teilen</td><td class="r klein">${esc(CFG.teilenUrl || "-")}</td></tr></tbody></table></div>
     <div class="abschnitt"><h3>GitHub</h3><div id="tGh"><p class="mu">Lädt …</p></div></div></div>
     <div id="tInhalt"></div>`;
   zielBinden();
-  await Promise.all([techSw(), techAnbieter(), techGithub()]);
+  await Promise.all([techServer(), techApps(), techSw(), techAnbieter(), techGithub()]);
 };
 async function techSw(){
   let v = "", fehler = "";
@@ -647,16 +659,16 @@ async function techAnbieter(){
   const block = html.slice(html.indexOf("const PROVIDER = ["), html.indexOf("];", html.indexOf("const PROVIDER = [")));
   const knoepfe = [...block.matchAll(/\{id:"([a-z]+)"(?:, oauth:"([a-z]+)")?[^}]*?name:"([^"]+)"/g)].map(m => ({id:m[1], sb:m[2] || m[1], name:m[3]}));
   let ext = null, fehler = "";
-  if(sbAn()){ try{ const r = await fetch(SB.url + "/auth/v1/settings", {headers:{apikey:SB.key}}); if(!r.ok) throw new Error("Supabase " + r.status); ext = (await r.json()).external || {}; }catch(e){ fehler = e.message; } }
+  if(sbAn()){ try{ const r = await fetch(SB.url + "/auth/v1/settings", {headers:{apikey:SB.key}}); if(!r.ok) throw new Error("Server " + r.status); ext = (await r.json()).external || {}; }catch(e){ fehler = e.message; } }
   const anker = {google:"#3-google", facebook:"#4-facebook", apple:"#5-apple", microsoft:"#6-microsoft", email:"#2-e-mail-best%C3%A4tigung"};
   const zeilen = [{id:"email", sb:"email", name:"E-Mail und Passwort", immer:true}, ...knoepfe];
   ["google", "microsoft", "apple", "facebook"].forEach(id => { if(!knoepfe.some(k => k.id === id)) zeilen.push({id, sb: id === "microsoft" ? "azure" : id, name: id.charAt(0).toUpperCase() + id.slice(1), fehlt:true}); });
   const box = $("#tAnb"); if(!box) return;
-  const status = z => !sbAn() ? '<span class="mu">Supabase fehlt</span>' : fehler ? '<span class="wa">unbekannt</span>' : ext[z.sb] ? '<span class="ok"><span class="ampel ok"></span>aktiv</span>' : '<span class="fe"><span class="ampel fe"></span>aus</span>';
-  box.innerHTML = `<table><thead><tr><th>Anbieter</th><th>Knopf auf der Website</th><th>Name in Supabase</th><th>In Supabase aktiv</th><th>Anleitung</th></tr></thead><tbody>${zeilen.map(z => `<tr><td><b>${esc(z.name)}</b></td>
+  const status = z => !sbAn() ? '<span class="mu">kein Server</span>' : fehler ? '<span class="wa">unbekannt</span>' : ext[z.sb] ? '<span class="ok"><span class="ampel ok"></span>aktiv</span>' : '<span class="fe"><span class="ampel fe"></span>aus</span>';
+  box.innerHTML = `<table><thead><tr><th>Anbieter</th><th>Knopf auf der Website</th><th>Kennung</th><th>Auf dem Server aktiv</th><th>Anleitung</th></tr></thead><tbody>${zeilen.map(z => `<tr><td><b>${esc(z.name)}</b></td>
       <td>${z.immer ? '<span class="ok">Formular</span>' : z.fehlt ? '<span class="wa">kein Knopf</span>' : '<span class="ok">ja</span>'}</td><td><code>${esc(z.sb)}</code></td><td>${status(z)}</td>
       <td><a class="link" href="${LOGIN_MD + (anker[z.id] || "")}" target="_blank" rel="noopener">ANLEITUNG-LOGIN.md</a></td></tr>`).join("")}</tbody></table>
-    <p class="mu klein">${!sbAn() ? "Ohne Supabase funktionieren die Knöpfe nicht: Die Website meldet dann, dass die Anmeldung noch nicht eingerichtet ist. Zuerst Supabase einrichten (siehe «Zugang»), dann die Anbieter in Supabase unter Authentication → Providers einschalten." : fehler ? "Status konnte nicht abgefragt werden: " + esc(fehler) : "Status direkt aus Supabase (Authentication → Providers). Ein Knopf ohne aktiven Anbieter zeigt Besuchern eine Fehlermeldung."} Microsoft heisst in Supabase «Azure».</p>`;
+    <p class="mu klein">${!sbAn() ? "Ohne eigenen Server funktionieren die Knöpfe nicht (z. B. auf der alten Adresse bei GitHub Pages)." : fehler ? "Status konnte nicht abgefragt werden: " + esc(fehler) : "Status direkt vom Server. Google und Apple schaltet man bei Deploio mit den Umgebungsvariablen ein (ANLEITUNG-SERVER.md, Abschnitte 4 und 5). Facebook und Microsoft bietet der eigene Server nicht an; ein Knopf ohne aktiven Anbieter zeigt Besuchern eine Fehlermeldung."}</p>`;
 }
 /* Veröffentlichte Grösse = Summe aller Dateien im aktuellen Stand (ohne Verlauf). repo.size von GitHub enthält den ganzen Verlauf. */
 async function seitenGroesseMB(){
@@ -688,7 +700,7 @@ async function techGithub(){
 
 /* ======================= Statistik ======================= */
 TABS.statistik = async () => {
-  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Statistik</h2><div class="hinweis">Die Besucherstatistik braucht Supabase und eine Admin-Anmeldung (siehe «Zugang»). Inhaltszahlen stehen in der Übersicht.</div>`; return; }
+  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Statistik</h2><div class="hinweis">Die Besucherstatistik braucht den eigenen Server und eine Admin-Anmeldung (siehe «Zugang»). Inhaltszahlen stehen in der Übersicht.</div>`; return; }
   const tage = store.get("ep-admin-tage", 30);
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Statistik</h2><span class="rechts"></span><select id="stTage">${[7,30,90,365].map(t => `<option value="${t}"${t===tage?" selected":""}>letzte ${t} Tage</option>`).join("")}</select></div><div id="stInhalt"><p class="mu">Lädt …</p></div>`;
   $("#stTage").onchange = e => { store.set("ep-admin-tage", +e.target.value, true); zeige("statistik"); };
@@ -1485,19 +1497,16 @@ async function albumAnsicht(){
 
 /* ======================= Klassen-Liga ======================= */
 const LG = { suche:"", art:"" };
-const ligaAnleitung = offen => `<details class="box klein"${offen ? " open" : ""}><summary><b>Einrichtung: Schritt 7 in ANLEITUNG-SUPABASE.md</b></summary><ol>
-  <li>Zuerst die Dateien aus Schritt 3 der Anleitung ausführen (schema, lehrer, admin, live, duell, lehrer2).</li>
-  <li>In Supabase <b>SQL Editor → New query</b> den ganzen Inhalt von <code>supabase/klassenliga.sql</code> einfügen und <b>Run</b> drücken. Mehrfaches Ausführen schadet nicht.</li>
-  <li>Das Skript legt die Tabelle <code>liga_klassen</code>, die öffentliche Rangliste und die Admin-Funktionen <code>admin_liga_klassen</code> und <code>admin_liga_sperren</code> an.</li>
-  <li>Hier unter «Zugang» mit deinem Admin-Konto bei Supabase anmelden. Danach erscheinen hier alle angemeldeten Klassen.</li>
-  <li>Prüfen: im Lehrerbereich «Klassen-Liga» öffnen und eine Klasse mit mindestens 5 Kindern anmelden.</li></ol>
-  <a class="link" href="https://github.com/djsunji/easyplay/blob/main/ANLEITUNG-SUPABASE.md" target="_blank" rel="noopener">Anleitung auf GitHub öffnen</a></details>`;
+const ligaAnleitung = offen => `<details class="box klein"${offen ? " open" : ""}><summary><b>So funktioniert die Klassen-Liga</b></summary><ol>
+  <li>Die Datenbank-Teile (<code>supabase/klassenliga.sql</code>) spielt der eigene Server beim Start automatisch ein.</li>
+  <li>Lehrpersonen melden im Lehrerbereich unter «Klassen-Liga» eine Klasse mit mindestens 5 Kindern an.</li>
+  <li>Hier erscheinen alle angemeldeten Klassen. Unpassende Anzeigenamen kannst du ausblenden; Namen mit Sperrwörtern lehnt der Server schon bei der Anmeldung ab (siehe «Namen prüfen»).</li></ol></details>`;
 const lehrerLink = `<a class="k" href="../lehrer/" target="_blank" rel="noopener">Lehrerbereich öffnen</a>`;
 const kein = (titel, text, mitZugang) => `<div class="hinweis leerbild"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><span>${text}${mitZugang ? ' <a class="link" data-ziel="zugang">Zu «Zugang»</a>' : ""}</span></div>`;
 TABS.liga = async () => {
   const kopf = `<div class="leiste"><h2 style="margin:0">Klassen-Liga</h2><span class="mu klein">Klasse gegen Klasse: Wochen-Rangliste</span><span class="rechts"></span>${lehrerLink}</div>`;
-  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", "Die Klassen-Liga braucht Supabase. Solange Supabase nicht eingerichtet ist, zeigt der Lehrerbereich nur eine Vorschau mit Beispieldaten und hier gibt es nichts zu verwalten.") + ligaAnleitung(true); return; }
-  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", "Für die Liste der angemeldeten Klassen bitte unter «Zugang» mit dem Admin-Konto bei Supabase anmelden.", true) + ligaAnleitung(false); zielBinden(); return; }
+  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_SERVER) + ligaAnleitung(true); return; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", "Für die Liste der angemeldeten Klassen bitte unter «Zugang» mit dem Admin-Konto anmelden.", true) + ligaAnleitung(false); zielBinden(); return; }
   let l;
   try{ l = await rpc("admin_liga_klassen") || []; }
   catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}. Wahrscheinlich ist <code>supabase/klassenliga.sql</code> noch nicht ausgeführt.</div>` + ligaAnleitung(true); return; }
@@ -1526,9 +1535,9 @@ TABS.liga = async () => {
 /* ======================= Lehrpersonen ======================= */
 TABS.lehrpersonen = async () => {
   const kopf = `<div class="leiste"><h2 style="margin:0">Lehrpersonen</h2><span class="mu klein">Konten mit der Rolle «Lehrperson»</span><span class="rechts"></span>${lehrerLink}</div>`;
-  const info = `<p class="mu klein">Der Lehrerbereich ist eine eigene Seite unter <code>/lehrer/</code>. Klassen, Kinder und Tests einzelner Lehrpersonen schützt Supabase mit Zeilenschutz (<code>supabase/lehrer.sql</code>): Admins sehen nur Gesamtzahlen und die Liga-Anmeldungen. Eine Liste der Klassen pro Lehrperson bräuchte eine zusätzliche Admin-Funktion in Supabase.</p>`;
-  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", "Ohne Supabase gibt es keine zentrale Liste: Lehrpersonen und Klassen liegen dann nur im Browser des jeweiligen Geräts. Anleitung unter «Zugang».", true) + info; zielBinden(); return; }
-  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", "Bitte zuerst unter «Zugang» mit dem Admin-Konto bei Supabase anmelden.", true) + info; zielBinden(); return; }
+  const info = `<p class="mu klein">Der Lehrerbereich ist eine eigene Seite unter <code>/lehrer/</code>. Klassen, Kinder und Tests einzelner Lehrpersonen schützt der Server mit Zeilenschutz (<code>supabase/lehrer.sql</code>): Admins sehen nur Gesamtzahlen und die Liga-Anmeldungen. Eine Liste der Klassen pro Lehrperson bräuchte eine zusätzliche Admin-Funktion in Supabase.</p>`;
+  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_SERVER) + info; zielBinden(); return; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_ANGEMELDET, true) + info; zielBinden(); return; }
   const alle = await rpc("admin_benutzer") || [], lp = alle.filter(u => u.rolle === "lehrperson");
   let liga = null, st = null; try{ liga = await rpc("admin_liga_klassen") || []; }catch(e){} try{ st = (await rpc("admin_statistik", {p_tage:30}) || {}).lehrer || null; }catch(e){}
   const vor30 = Date.now() - 30 * 864e5, ligaVon = id => liga ? liga.filter(k => k.lehrer === id) : [];
@@ -1544,8 +1553,8 @@ TABS.lehrpersonen = async () => {
 /* ======================= Benutzer ======================= */
 const FU = { suche:"", rolle:"", liste:null };
 TABS.benutzer = async () => {
-  if(!sbAn()){ $("#inhalt").innerHTML = `<h2>Benutzer</h2><div class="hinweis">Supabase ist nicht eingerichtet. Ohne Online-Datenbank liegen Konten nur im Browser des jeweiligen Geräts und lassen sich nicht zentral verwalten. Anleitung unter «Zugang».</div>`; return; }
-  if(!sbSitzung()){ $("#inhalt").innerHTML = `<h2>Benutzer</h2><div class="hinweis">Bitte zuerst unter «Zugang» bei Supabase anmelden.</div>`; return; }
+  if(!sbAn()){ $("#inhalt").innerHTML = `<h2>Benutzer</h2><div class="hinweis">${NICHT_SERVER}</div>`; return; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = `<h2>Benutzer</h2><div class="hinweis">${NICHT_ANGEMELDET}</div>`; return; }
   FU.liste = await rpc("admin_benutzer");
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Benutzer</h2><input type="search" id="uSuche" placeholder="Name oder E-Mail" value="${esc(FU.suche)}" style="min-width:240px">
     <select id="uRolle"><option value="">alle Rollen</option>${["kind","lehrperson","admin","gesperrt","unbestaetigt"].map(r => `<option value="${r}"${FU.rolle===r?" selected":""}>${{kind:"Kinder",lehrperson:"Lehrpersonen",admin:"Admins",gesperrt:"Gesperrte",unbestaetigt:"Unbestätigte"}[r]}</option>`).join("")}</select>
@@ -1595,7 +1604,7 @@ function benutzerProfil(u, los){
 
 /* ======================= Kommentare ======================= */
 TABS.kommentare = async () => {
-  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Kommentare</h2><div class="hinweis">Kommentare werden in Supabase gespeichert. Bitte Supabase einrichten und unter «Zugang» anmelden.</div>`; return; }
+  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Kommentare</h2><div class="hinweis">Kommentare liegen auf dem eigenen Server. ${!sbAn() ? NICHT_SERVER : NICHT_ANGEMELDET}</div>`; return; }
   const nur = store.get("ep-admin-knur", true);
   const l = await rpc("admin_kommentare", {p_nur_gemeldet: nur, p_anzahl: 300});
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Kommentare</h2><label><input type="checkbox" id="kNur"${nur?" checked":""}> nur gemeldete</label><span class="rechts mu klein">${zahl(l.length)} angezeigt · ab 3 Meldungen automatisch ausgeblendet</span></div>
@@ -1606,7 +1615,7 @@ TABS.kommentare = async () => {
 
 /* ======================= Fehlermeldungen (von Lehrpersonen) ======================= */
 TABS.fehlermeldungen = async () => {
-  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Fehlermeldungen</h2><div class="hinweis">Lehrpersonen melden Fehler in Fragen und Bibliotheksartikeln. Die Meldungen werden in Supabase gespeichert (supabase/lehrer2.sql). Ohne Supabase kommen sie per E-Mail.</div>`; return; }
+  if(!sbAn() || !sbSitzung()){ $("#inhalt").innerHTML = `<h2>Fehlermeldungen</h2><div class="hinweis">Lehrpersonen melden Fehler in Fragen und Bibliotheksartikeln. Die Meldungen liegen auf dem eigenen Server. ${!sbAn() ? NICHT_SERVER : NICHT_ANGEMELDET}</div>`; return; }
   const st = store.get("ep-admin-fmst", "offen");
   let l = []; try{ l = await rpc("admin_fehlermeldungen", {p_status: st || null}); }catch(e){ $("#inhalt").innerHTML = `<h2>Fehlermeldungen</h2><div class="hinweis">${esc(e.message)}. Bitte supabase/lehrer2.sql im SQL Editor ausführen.</div>`; return; }
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Fehlermeldungen</h2><select id="fmSt">${[["offen","offen"],["erledigt","erledigt"],["abgelehnt","abgelehnt"],["","alle"]].map(([v,n])=>`<option value="${v}"${v===st?" selected":""}>${n}</option>`).join("")}</select><span class="rechts mu klein">${zahl(l.length)} angezeigt</span></div>
@@ -1634,17 +1643,15 @@ TABS.zugang = async () => {
         <li>Token erzeugen, kopieren und hier einfügen. Niemals weitergeben.</li></ol></details>
     </div>
   </div><div>
-    <div class="box"><b>Supabase (Benutzer, Statistik, Kommentare)</b>
-      ${!sbAn() ? `<p class="wa">Supabase ist in <code>config.js</code> nicht eingetragen.</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zIp">IP-Erkennung prüfen</button> <span id="zIpInfo" class="klein"></span> <button class="k" id="zSbAus">Abmelden</button>` :
-      `<div class="formular"><label>E-Mail</label><input type="email" id="zMail" autocomplete="username"><label>Passwort</label><input type="password" id="zPw" autocomplete="current-password"></div><div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k p" id="zSbAn">Anmelden</button></div>`}
+    <div class="box"><b>Admin-Konto auf dem Server (Benutzer, Statistik, Kommentare, Spiele)</b>
+      ${!sbAn() ? `<p class="wa">${NICHT_SERVER}</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zIp">IP-Erkennung prüfen</button> <span id="zIpInfo" class="klein"></span> <button class="k" id="zSbAus">Abmelden</button>` :
+      `<p class="mu klein">Mit deinem normalen easyplay-Konto (E-Mail und Passwort), das Admin-Rechte hat.</p><div class="formular"><label>E-Mail</label><input type="email" id="zMail" autocomplete="username"><label>Passwort</label><input type="password" id="zPw" autocomplete="current-password"></div><div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k p" id="zSbAn">Anmelden</button></div>`}
       <p id="zSbInfo" class="klein"></p>
-      <details class="klein"${sbAn() ? "" : " open"}><summary>Einrichtung</summary><ol>
-        <li>Supabase-Projekt anlegen und in <code>config.js</code> Project URL und den öffentlichen Schlüssel (anon) eintragen (siehe ANLEITUNG-DATENBANK.md und ANLEITUNG-LOGIN.md).</li>
-        <li>Im Supabase SQL Editor nacheinander ausführen: <code>supabase/schema.sql</code>, <code>lehrer.sql</code>, <code>admin.sql</code>, <code>live.sql</code>, <code>duell.sql</code>, <code>lehrer2.sql</code> und für die Klassen-Liga <code>klassenliga.sql</code> (ANLEITUNG-SUPABASE.md, Schritte 3 und 7).</li>
-        <li>Auf der Website mit deiner E-Mail registrieren und bestätigen.</li>
-        <li>Im SQL Editor dich als Admin eintragen:<br><code>insert into public.admins (user_id) select id from auth.users where email = 'deine@email.ch';</code></li>
-        <li>Hier anmelden. Ab dann zählt die Website anonym die Aufrufe.</li>
-        <li>Anmeldung mit Google, Microsoft, Apple und Facebook: in Supabase unter Authentication → Providers einschalten (ANLEITUNG-LOGIN.md). Den Status zeigt «Technik».</li></ol></details>
+      <details class="klein"><summary>So wird ein Konto Admin</summary><ol>
+        <li>Auf easyplay.ch mit deiner E-Mail ein Konto erstellen und die E-Mail bestätigen.</li>
+        <li>Bei Deploio in den Einstellungen der App die Umgebungsvariable <code>ADMIN_EMAIL</code> auf deine Adresse setzen (mehrere mit Komma). Beim nächsten Start bekommt das Konto Admin-Rechte. Das klappt nur mit eingerichtetem Mailversand (siehe «Technik»).</li>
+        <li>Ohne Mailversand: in der Datenbank <code>insert into public.admins (user_id) select id from auth.users where email = 'deine@email.ch';</code> ausführen.</li>
+        <li>Hier anmelden. Die Datenbank-Dateien in <code>supabase/</code> spielt der Server beim Start selbst ein (ANLEITUNG-SERVER.md).</li></ol></details>
     </div>
     <div class="box"><b>Google-Bildersuche (optional)</b>
       <p class="mu klein">Für zusätzliche Vorschläge unter «Bilder wechseln». Braucht einen API-Schlüssel und eine Suchmaschinen-ID (Programmable Search Engine mit «Bildersuche» und «Das gesamte Web durchsuchen»). Bis 100 Suchen pro Tag gratis. Google-Bilder haben oft keine freie Lizenz.</p>
@@ -1654,7 +1661,7 @@ TABS.zugang = async () => {
       <li>Diese Seite ist nirgends verlinkt und für Suchmaschinen gesperrt. Die Adresse allein schützt aber nicht: Speichern geht nur mit dem GitHub-Schlüssel, Benutzer und Statistik nur mit einem Admin-Konto.</li>
       <li>Der Schlüssel liegt nur in diesem Browser. Mit «merken» wird er mit deinem Passwort verschlüsselt gespeichert und nach der Anmeldung automatisch geladen. Auf fremden Geräten nicht anhaken.</li>
       <li>Nach 8 Stunden wirst du automatisch abgemeldet. Nach 5 falschen Passwörtern ist die Anmeldung 5 Minuten gesperrt.</li>
-      <li>Supabase prüft bei jeder Aktion serverseitig, ob du Admin bist.</li></ul></div>
+      <li>Der Server prüft bei jeder Aktion, ob du Admin bist, und hält jede Änderung im «Protokoll» fest.</li></ul></div>
   </div></div>`;
   $("#zGhOk").onclick = async () => { const t = $("#zGh").value.trim(); if(!t){ store.del("ep-admin-gh"); statusZeigen(); return; }
     store.set("ep-admin-gh", t);
@@ -1666,11 +1673,414 @@ TABS.zugang = async () => {
   $("#zGok").onclick = () => { const key = $("#zGk").value.trim(), cx = $("#zGcx").value.trim(); if(key && cx){ store.set("ep-admin-google", {key, cx}, true); melde("Google-Suche gespeichert."); } else melde("Schlüssel und ID ausfüllen.", "fe"); };
   $("#zGweg").onclick = () => { store.del("ep-admin-google"); $("#zGk").value = ""; $("#zGcx").value = ""; melde("Google-Suche entfernt."); };
   $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
-  const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
+  const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); notiz("anmeldung", "Verwaltung"); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   const aus = $("#zSbAus"); if(aus) aus.onclick = () => { store.del("ep-admin-sb"); statusZeigen(); zeige("zugang"); };
   const ip = $("#zIp"); if(ip) ip.onclick = async () => { try{ const r = await rpc("admin_ip_pruefen"); $("#zIpInfo").innerHTML = `genutzt: <b>${esc(r && r.genutzt)}</b> · weitergeleitet: ${esc(r && r.x_forwarded_for)}<br><span class="mu">Unter «genutzt» muss deine eigene öffentliche IP stehen, sonst wirken die Mengenbremsen für alle gemeinsam.</span>`; }catch(e){ $("#zIpInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   if(s && $("#zAdmin")){ try{ const ja = await rpc("ist_admin"); $("#zAdmin").innerHTML = ja ? '<span class="ok">Admin</span>' : '<span class="fe">kein Admin (siehe Einrichtung, Schritt 4)</span>'; }catch(e){ $("#zAdmin").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } }
 };
+
+/* ======================= Eigener Server: Hilfen ======================= */
+const NICHT_SERVER = 'Das gibt es nur, wenn die Verwaltung auf dem eigenen Server läuft. Öffne sie unter <a class="link" href="https://easyplay.ch/admin/">easyplay.ch/admin</a>.';
+const NICHT_ANGEMELDET = "Bitte zuerst unter «Zugang» mit deinem Admin-Konto anmelden.";
+function onlineFehlt(kopf){
+  if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_SERVER); return true; }
+  if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_ANGEMELDET, true); zielBinden(); return true; }
+  return false;
+}
+async function api(pfad, opt){
+  opt = opt || {};
+  const t = await sbToken(); if(!t) throw new Error("Nicht angemeldet (siehe «Zugang»).");
+  const r = await fetch(SB.url + "/api/admin/" + pfad, {method: opt.method || "GET", cache:"no-store",
+    headers:{apikey:SB.key, Authorization:"Bearer " + t, "Content-Type":"application/json"}, body: opt.body ? JSON.stringify(opt.body) : undefined});
+  if(opt.roh){ if(!r.ok){ let m = "Server " + r.status; try{ m = (await r.json()).message || m; }catch(e){} throw new Error(m); } return r; }
+  const j = await r.json().catch(() => null);
+  if(!r.ok) throw new Error((j && j.message) || ("Server " + r.status + (r.status === 404 ? ": diese Funktion gibt es auf dem Server noch nicht (neuer Stand nötig)" : "")));
+  return j;
+}
+/* Admin-Aktionen ausserhalb der Datenbank (Speichern auf GitHub) im Protokoll festhalten */
+function notiz(aktion, ziel, details){ if(sbAn() && sbSitzung()) rpc("admin_notiz", {p_aktion: aktion, p_ziel: ziel || "", p_details: details || {}}).catch(() => {}); }
+const dauer = s => { s = Math.round(s || 0); const t = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60); return t ? `${t} T ${h} h` : h ? `${h} h ${m} min` : `${m} min`; };
+const vorZeit = d => { if(!d) return "-"; const s = (Date.now() - new Date(d)) / 1000; return s < 90 ? "gerade eben" : s < 3600 ? `vor ${Math.round(s / 60)} min` : s < 86400 ? `vor ${Math.round(s / 3600)} h` : `vor ${Math.round(s / 86400)} Tagen`; };
+const REGION = {ds:"Deutschschweiz", ro:"Westschweiz", ti:"Tessin"};
+const WOTAG = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+const liveName = k => { const m = /^(\d{4})-(\d{2})-(\d{2})-(\d+)$/.exec(k || ""); if(!m) return esc(k); const d = new Date(+m[1], +m[2] - 1, +m[3]); return `${WOTAG[d.getDay()]} ${m[3]}.${m[2]}. · ${m[4]} Uhr`; };
+function isoWoche(d){ const x = d ? new Date(d) : new Date(); const t = new Date(Date.UTC(x.getFullYear(), x.getMonth(), x.getDate())); const tg = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - tg); const j = new Date(Date.UTC(t.getUTCFullYear(), 0, 1)); return t.getUTCFullYear() + "-W" + String(Math.ceil(((t - j) / 864e5 + 1) / 7)).padStart(2, "0"); }
+const tagKey = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+function dialog(html, binden){ const d = $("#dlg"); d.innerHTML = html; d.showModal(); const zu = d.querySelector("[data-zu]"); if(zu) zu.onclick = () => d.close(); if(binden) binden(d); return d; }
+
+/* ======================= Namen prüfen ======================= */
+const NM = { quelle:"", nur:true, suche:"" };
+const QUELLE = {konto:"Konto", kommentar:"Kommentar", duell:"Duell", liga:"Klassen-Liga"};
+TABS.namen = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Namen prüfen</h2><span class="mu klein">Alles, was andere Kinder als Namen sehen können</span></div>`;
+  if(onlineFehlt(kopf)) return;
+  let l, ein;
+  try{ [l, ein] = await Promise.all([rpc("admin_namen"), rpc("admin_einstellungen")]); }
+  catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  l = l || []; const woerter = (ein && ein.sperrwoerter && ein.sperrwoerter.wert) || [];
+  const verd = l.filter(x => x.grund);
+  if(!verd.length && NM.nur && !NM._gesetzt) NM.nur = false;
+  const zeichnen = () => {
+    const q = NM.suche.toLowerCase();
+    const f = l.filter(x => (!NM.quelle || x.quelle === NM.quelle) && (!NM.nur || x.grund) && (!q || [x.name, x.roh, x.email].join(" ").toLowerCase().includes(q)));
+    const zeilen = f.slice(0, 400);
+    $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Verdächtige Namen", `<span class="${verd.length ? "fe" : "ok"}">${zahl(verd.length)}</span>`], ["Konten", zahl(l.filter(x => x.quelle === "konto").length)], ["Namen in Kommentaren", zahl(l.filter(x => x.quelle === "kommentar").length)], ["Duelle (letzte 2 h)", zahl(l.filter(x => x.quelle === "duell").length)], ["Klassen in der Liga", zahl(l.filter(x => x.quelle === "liga").length)], ["Sperrwörter", zahl(woerter.length)]])}</div>
+      <div class="leiste"><input type="search" id="nmSuche" placeholder="Name oder E-Mail" value="${esc(NM.suche)}" style="min-width:220px"><select id="nmQuelle" aria-label="Quelle">${[["", "alle Quellen"], ...Object.entries(QUELLE)].map(([v, t]) => `<option value="${v}"${NM.quelle === v ? " selected" : ""}>${t}</option>`).join("")}</select>
+        <label><input type="checkbox" id="nmNur"${NM.nur ? " checked" : ""}> nur verdächtige</label><span class="rechts mu klein">${zahl(f.length)} Namen${f.length > zeilen.length ? `, die ersten ${zeilen.length} angezeigt` : ""}</span></div>
+      <table><thead><tr><th>Quelle</th><th>Sichtbarer Name</th><th>Eingegeben</th><th>Konto</th><th>Zeit</th><th>Prüfung</th><th></th></tr></thead><tbody>${zeilen.map((x, i) => `<tr data-i="${l.indexOf(x)}">
+        <td class="nowrap">${QUELLE[x.quelle] || esc(x.quelle)}${x.anzahl ? ` <span class="mu klein">(${zahl(x.anzahl)})</span>` : ""}</td><td><b>${esc(x.name || "-")}</b></td><td class="klein">${x.roh && x.roh !== x.name ? esc(x.roh) : '<span class="mu">gleich</span>'}</td>
+        <td class="klein">${esc(x.email || "")}</td><td class="nowrap klein">${datum(x.zeit)}</td>
+        <td class="nowrap">${x.grund ? `<span class="fe">${esc(x.grund)}</span>` : '<span class="ok">ok</span>'}${x.gesperrt ? ' <span class="wa klein">' + (x.quelle === "duell" ? "beendet" : "gesperrt") + "</span>" : ""}</td>
+        <td class="nowrap">${(x.quelle === "konto" || (x.quelle === "kommentar" && x.id)) ? '<button class="k" data-a="aendern">Namen ändern</button>' : x.quelle === "duell" && !x.gesperrt ? '<button class="k g" data-a="beenden">Duell beenden</button>' : x.quelle === "liga" ? `<button class="k${x.gesperrt ? "" : " g"}" data-a="liga">${x.gesperrt ? "Zeigen" : "Ausblenden"}</button>` : ""}</td></tr>`).join("") || '<tr><td colspan="7" class="mu">Keine Namen gefunden.</td></tr>'}</tbody></table>
+      <div class="abschnitt" style="margin-top:18px"><h3>Sperrwörter</h3><div class="box">
+        <p class="mu klein" style="margin-top:0">Namen mit einem dieser Wörter (auch versteckt, z. B. «F_u_c_k» oder «4rsch») oder mit Kontaktangaben (@, Links, Telefonnummern, Insta, Snap, WhatsApp …) werden bei Kommentaren zu «Kind», im Duell zu «Gast», und die Klassen-Liga lehnt sie ab. Bestehende Konten werden hier oben als verdächtig markiert. Ein Wort pro Zeile oder mit Komma getrennt, mindestens 3 Buchstaben.</p>
+        <textarea id="nmWoerter" rows="5" style="width:100%">${esc(woerter.join(", "))}</textarea>
+        <div class="leiste" style="margin:8px 0 0"><span class="mu klein">${ein && ein.sperrwoerter ? "Zuletzt geändert " + datum(ein.sperrwoerter.geaendert) + (ein.sperrwoerter.von ? " von " + esc(ein.sperrwoerter.von) : "") : ""}</span><span class="rechts"></span><button class="k p" id="nmWSpeichern">Sperrwörter speichern</button></div></div></div>`;
+    let t; $("#nmSuche").oninput = e => { clearTimeout(t); t = setTimeout(() => { NM.suche = e.target.value.trim(); zeichnen(); const s = $("#nmSuche"); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 250); };
+    $("#nmQuelle").onchange = e => { NM.quelle = e.target.value; zeichnen(); };
+    $("#nmNur").onchange = e => { NM.nur = e.target.checked; NM._gesetzt = true; zeichnen(); };
+    $("#nmWSpeichern").onclick = async () => {
+      const liste = [...new Set($("#nmWoerter").value.split(/[\n,;]+/).map(w => w.trim().toLowerCase()).filter(Boolean))];
+      const kurz = liste.filter(w => w.length < 3); if(kurz.length){ melde("Zu kurz: " + kurz.join(", "), "fe"); return; }
+      try{ await rpc("admin_einstellung_setzen", {p_schluessel:"sperrwoerter", p_wert: liste}); melde("Sperrwörter gespeichert."); zeige("namen"); }catch(e){ melde(e.message, "fe"); }
+    };
+    $$("#inhalt tr[data-i] button").forEach(b => b.onclick = async () => {
+      const x = l[+b.closest("tr").dataset.i];
+      if(b.dataset.a === "aendern"){
+        const teile = String(x.roh || "").split(" ");
+        dialog(`<h2>Namen ändern</h2><p class="mu klein">Öffentlich erscheint der Vorname und die Initiale des Nachnamens. Alte Kommentare dieses Kontos bekommen den neuen Namen auch. ${x.email ? "Konto: <b>" + esc(x.email) + "</b>" : ""}</p>
+          <div class="formular"><label>Vorname</label><input id="dVor" maxlength="26" value="${esc(x.quelle === "konto" ? teile[0] || "" : "")}"><label>Nachname</label><input id="dNach" maxlength="40" value="${esc(x.quelle === "konto" ? teile.slice(1).join(" ") : "")}"></div>
+          <div class="leiste" style="margin-top:10px"><button class="k" id="dKind">Einfach «Kind»</button><span class="rechts"></span><button class="k" data-zu>Abbrechen</button><button class="k p" id="dOk">Speichern</button></div>`, d => {
+          d.querySelector("#dKind").onclick = () => { d.querySelector("#dVor").value = "Kind"; d.querySelector("#dNach").value = ""; };
+          d.querySelector("#dOk").onclick = async () => { try{ const neu = await rpc("admin_name_aendern", {p_id: x.id, p_vorname: d.querySelector("#dVor").value, p_nachname: d.querySelector("#dNach").value}); d.close(); melde("Neuer Name: " + neu); zeige("namen"); }catch(e){ melde(e.message, "fe"); } };
+        });
+      } else if(b.dataset.a === "beenden"){
+        if(!confirm(`Duell mit «${x.name}» beenden? Beide Spieler sehen dann, dass der Gegner weg ist.`)) return;
+        try{ await rpc("admin_duell_beenden", {p_id: +x.id}); melde("Duell beendet."); zeige("namen"); }catch(e){ melde(e.message, "fe"); }
+      } else if(b.dataset.a === "liga"){
+        try{ await rpc("admin_liga_sperren", {p_liga: x.id, p_gesperrt: !x.gesperrt}); melde(x.gesperrt ? "Wieder sichtbar." : "In der Rangliste ausgeblendet."); zeige("namen"); }catch(e){ melde(e.message, "fe"); }
+      }
+    });
+  };
+  zeichnen();
+};
+
+/* ======================= Spiele: Live-Quiz, Online-Duell, Regionen-Cup ======================= */
+TABS.spiele = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Live-Quiz, Duell und Regionen-Cup</h2><span class="rechts"></span><button class="k" id="spNeu">Neu laden</button></div>`;
+  if(onlineFehlt(kopf)) return;
+  let s; try{ s = await rpc("admin_spiele"); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  const lv = s.live || {runden:[], top:[]}, du = s.duell || {offen:[]}, rg = s.regionen || {verlauf:[]};
+  const wochen = {}; (rg.verlauf || []).forEach(v => { (wochen[v.woche] = wochen[v.woche] || {})[v.region] = v; });
+  const diese = wochen[rg.woche] || {};
+  const fuehrt = w => { const e = Object.entries(w || {}).sort((a, b) => b[1].punkte - a[1].punkte); return e.length && e[0][1].punkte > 0 ? REGION[e[0][0]] : "-"; };
+  const maxR = Math.max(1, ...Object.values(wochen).flatMap(w => Object.values(w).map(v => +v.punkte)));
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([
+      ["Live-Teilnahmen 7 Tage", zahl(lv.total_7)], ["Live-Runden (21 Tage)", zahl((lv.runden || []).length)],
+      ["Duelle warten jetzt", zahl(du.wartet)], ["Duelle laufen jetzt", zahl(du.laeuft)], ["Duelle heute", zahl(du.heute)],
+      ["Cup diese Woche", esc(fuehrt(diese)), esc(rg.woche || "")]])}</div>
+    <div class="spalten"><div class="abschnitt"><h3>Live-Quiz: letzte Runden</h3>
+      <table><thead><tr><th>Runde</th><th class="r">Team Lumi</th><th class="r">Team Milo</th><th>Sieg</th><th class="r">mit Konto</th><th class="r">Höchste</th></tr></thead><tbody>${(lv.runden || []).slice(0, 40).map(r => `<tr><td class="nowrap">${liveName(r.key)}</td>
+        <td class="r nowrap">${zahl(r.lumi_punkte)} P. <span class="mu klein">${zahl(r.lumi)} Kinder</span></td><td class="r nowrap">${zahl(r.milo_punkte)} P. <span class="mu klein">${zahl(r.milo)} Kinder</span></td>
+        <td>${+r.lumi_punkte === +r.milo_punkte ? "unentschieden" : +r.lumi_punkte > +r.milo_punkte ? "🩷 Lumi" : "💙 Milo"}</td><td class="r">${zahl(r.mit_konto)}</td><td class="r ${+r.max > 2500 ? "wa" : ""}">${zahl(r.max)}</td></tr>`).join("") || '<tr><td colspan="6" class="mu">Noch keine Live-Runde gespielt.</td></tr>'}</tbody></table></div>
+    <div class="abschnitt"><h3>Live-Quiz: höchste Punkte (7 Tage)</h3>
+      <p class="mu klein">Mehr als 3'000 Punkte pro Runde nimmt der Server nicht an (20 Fragen, höchstens 150 Punkte pro Frage). Wirkt ein Eintrag unecht, kann er hier gelöscht werden; die Punkte zählen dann nicht mehr für das Team.</p>
+      <table><thead><tr><th>Runde</th><th>Team</th><th class="r">Punkte</th><th class="r">Richtig</th><th>Konto</th><th></th></tr></thead><tbody>${(lv.top || []).map(t => `<tr data-live="${+t.id}"><td class="nowrap">${liveName(t.key)}</td><td>${t.team === "lumi" ? "🩷 Lumi" : "💙 Milo"}</td><td class="r">${zahl(t.punkte)}</td><td class="r">${zahl(t.richtig)} / 20</td><td class="klein">${esc(t.email || "ohne Konto")}</td><td><button class="k g">Löschen</button></td></tr>`).join("") || '<tr><td colspan="6" class="mu">Keine Einträge.</td></tr>'}</tbody></table></div></div>
+    <div class="abschnitt"><h3>Online-Duell: letzte Duelle</h3>
+      <p class="mu klein">Duelle werden nach 2 Stunden automatisch gelöscht. «Beenden» bricht ein Duell ab und ersetzt die Namen durch «Gast».</p>
+      <table><thead><tr><th>Erstellt</th><th>Spieler 1</th><th>Spieler 2</th><th>Stand</th><th>Fragen</th><th>Status</th><th>Aktiv</th><th></th></tr></thead><tbody>${(du.offen || []).map(d => `<tr data-duell="${+d.id}"><td class="nowrap">${datum(d.erstellt)}</td><td>${esc(d.host)}</td><td>${esc(d.gast || "-")}</td><td class="nowrap">${zahl(d.host_score)} : ${zahl(d.gast_score)}</td><td class="klein">${zahl(d.n)} · ${esc(d.cat)}</td>
+        <td>${{wartet:'<span class="wa">wartet</span>', laeuft:'<span class="ok">läuft</span>', weg:'<span class="mu">beendet</span>'}[d.status] || esc(d.status)}</td><td class="nowrap klein">${vorZeit(d.aktiv)}</td><td>${d.status !== "weg" ? '<button class="k g">Beenden</button>' : ""}</td></tr>`).join("") || '<tr><td colspan="8" class="mu">Gerade keine Duelle.</td></tr>'}</tbody></table></div>
+    <div class="abschnitt"><h3>Regionen-Cup: Verlauf (26 Wochen)</h3>
+      <table><thead><tr><th>Woche</th>${Object.values(REGION).map(r => `<th>${r}</th>`).join("")}<th>Sieger</th><th></th></tr></thead><tbody>${Object.keys(wochen).sort().reverse().map(w => `<tr data-woche="${esc(w)}"><td class="nowrap"><b>${esc(w)}</b>${w === rg.woche ? ' <span class="mu klein">läuft</span>' : ""}</td>
+        ${Object.keys(REGION).map(k => { const v = wochen[w][k] || {punkte:0, spiele:0}; return `<td>${balkenZelle(+v.punkte, maxR)}<span class="mu klein">${zahl(v.spiele)} Spiele</span></td>`; }).join("")}<td>${esc(fuehrt(wochen[w]))}</td><td><button class="k">Korrigieren</button></td></tr>`).join("") || '<tr><td colspan="6" class="mu">Noch keine Punkte im Cup.</td></tr>'}</tbody></table></div>`;
+  $("#spNeu").onclick = () => zeige("spiele");
+  $$("#inhalt tr[data-live] button").forEach(b => b.onclick = async () => { if(!confirm("Diesen Live-Eintrag löschen? Die Punkte zählen dann nicht mehr für das Team.")) return;
+    try{ await rpc("admin_live_loeschen", {p_id: +b.closest("tr").dataset.live}); melde("Gelöscht."); zeige("spiele"); }catch(e){ melde(e.message, "fe"); } });
+  $$("#inhalt tr[data-duell] button").forEach(b => b.onclick = async () => { if(!confirm("Duell beenden?")) return;
+    try{ await rpc("admin_duell_beenden", {p_id: +b.closest("tr").dataset.duell}); melde("Duell beendet."); zeige("spiele"); }catch(e){ melde(e.message, "fe"); } });
+  $$("#inhalt tr[data-woche] button").forEach(b => b.onclick = () => { const w = b.closest("tr").dataset.woche, v = wochen[w] || {};
+    dialog(`<h2>Regionen-Cup ${esc(w)} korrigieren</h2><p class="mu klein">Zum Beispiel nach Missbrauch. Die Werte werden genau so gesetzt.</p>
+      <table><thead><tr><th>Region</th><th>Punkte</th><th>Spiele</th></tr></thead><tbody>${Object.entries(REGION).map(([k, n]) => `<tr><td>${n}</td><td><input type="number" min="0" data-p="${k}" value="${+(v[k] || {}).punkte || 0}" style="width:120px"></td><td><input type="number" min="0" data-s="${k}" value="${+(v[k] || {}).spiele || 0}" style="width:90px"></td></tr>`).join("")}</tbody></table>
+      <div class="leiste" style="margin-top:10px"><span class="rechts"></span><button class="k" data-zu>Abbrechen</button><button class="k p" id="dOk">Speichern</button></div>`, d => {
+      d.querySelector("#dOk").onclick = async () => { try{ for(const k of Object.keys(REGION)) await rpc("admin_region_setzen", {p_woche: w, p_region: k, p_punkte: +d.querySelector(`[data-p="${k}"]`).value || 0, p_spiele: +d.querySelector(`[data-s="${k}"]`).value || 0}); d.close(); melde("Gespeichert."); zeige("spiele"); }catch(e){ melde(e.message, "fe"); } };
+    }); });
+};
+
+/* ======================= Sicherheit ======================= */
+const BREMSE_ART = {kommentar:"Kommentar schreiben", "kommentar-tag":"Kommentare pro Tag", like:"Likes", melden:"Kommentar melden", duell:"Duell suchen", liga_anmelden:"Liga-Anmeldung", fehler:"Fehler melden", fehler_melden:"Fehler melden", live:"Live-Quiz", region:"Regionen-Cup", abgabe:"Test abgeben", lehrer:"Lehrer-Code", login:"Anmelden", reg:"Registrieren", rec:"Passwort vergessen", verify:"Mail-Bestätigung", oauth:"Google/Apple", refresh:"Sitzung erneuern"};
+TABS.sicherheit = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Sicherheit</h2><span class="mu klein">Bremsen, Sperren und Fehlversuche</span><span class="rechts"></span><button class="k" id="siNeu">Neu laden</button></div>`;
+  if(onlineFehlt(kopf)) return;
+  let s, st = null;
+  try{ s = await rpc("admin_sicherheit"); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  try{ st = await api("status"); }catch(e){}
+  const lf = s.lehrer_fehlversuche || {codes:[]}, sp = (st && st.sperren && st.sperren.letzte_24h) || {};
+  const spSumme = Object.values(sp).reduce((a, n) => a + n, 0);
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt"><h3>Kennzahlen</h3>${kpiKarten([
+      ["Anmeldesperren 24 h", st ? zahl(spSumme) : "?", "wenig", st ? ampel(spSumme, 5, 30, false) : "", "Zu viele Versuche bei Anmelden, Registrieren oder Passwort vergessen (seit dem letzten Serverstart)", ""],
+      ["Fehlversuche Lehrer-Code 24 h", zahl(lf.n_24), "0", ampel(+lf.n_24 || 0, 3, 20, false), "Falsche Klassen-Codes beim Lehrerbereich, bei vielen versucht jemand zu raten", ""],
+      ["Gesperrte Konten", zahl((s.gesperrt || []).length), "", "", "", "benutzer"],
+      ["Kommentare ausgeblendet", zahl(s.ausgeblendete_kommentare), "0", ampel(+s.ausgeblendete_kommentare || 0, 0, 5, false), "Ab 3 Meldungen automatisch ausgeblendet", "kommentare"],
+      ["Konten mit verdächtigem Namen", zahl(s.gesperrte_namen), "0", ampel(+s.gesperrte_namen || 0, 0, 3, false), "Sperrwort oder Kontaktangabe im Namen", "namen"]])}</div>
+    <div class="spalten"><div class="abschnitt"><h3>Mengenbremse (48 Stunden)</h3>
+      <p class="mu klein">Jede Aktion mit Bremse wird kurz gezählt. Sehr hohe Zahlen bei wenigen Absendern deuten auf Missbrauch hin. Ohne Konto teilen sich alle Kinder hinter einem Schulnetz eine Kennung.</p>
+      <table><thead><tr><th>Aktion</th><th class="r">24 h</th><th class="r">2 h</th><th class="r">Absender</th></tr></thead><tbody>${(s.bremse_arten || []).map(b => `<tr><td>${esc(BREMSE_ART[b.art] || b.art)}</td><td class="r">${zahl(b.n_24)}</td><td class="r">${zahl(b.n_2)}</td><td class="r">${zahl(b.wer)}</td></tr>`).join("") || '<tr><td colspan="4" class="mu">Nichts gezählt.</td></tr>'}</tbody></table></div>
+    <div class="abschnitt"><h3>Aktivste Absender (24 Stunden)</h3>
+      <table><thead><tr><th>Wer</th><th class="r">Aktionen</th><th>Was</th><th>Zuletzt</th></tr></thead><tbody>${(s.vielnutzer || []).map(v => `<tr><td class="klein">${esc(v.email || v.wer)}</td><td class="r ${v.n > 300 ? "wa" : ""}">${zahl(v.n)}</td><td class="klein">${esc(String(v.arten || "").split(", ").map(a => BREMSE_ART[a] || a).join(", "))}</td><td class="nowrap klein">${vorZeit(v.zuletzt)}</td></tr>`).join("") || '<tr><td colspan="4" class="mu">Niemand.</td></tr>'}</tbody></table>
+      <p class="mu klein">IP-Adressen werden nie gespeichert, nur ein Kürzel daraus.</p></div></div>
+    <div class="spalten"><div class="abschnitt"><h3>Anmeldesperren des Servers (24 Stunden)</h3>${st ? `<table><thead><tr><th>Wobei</th><th class="r">Gesperrte Versuche</th></tr></thead><tbody>${Object.entries(sp).map(([k, n]) => `<tr><td>${esc(BREMSE_ART[k] || k)}</td><td class="r">${zahl(n)}</td></tr>`).join("") || '<tr><td colspan="2" class="mu">Keine.</td></tr>'}</tbody></table><p class="mu klein">Gezählt seit dem letzten Start des Servers (${datum(st.start)}). Zuletzt: ${st.sperren.zuletzt ? datum(st.sperren.zuletzt) : "nie"}.</p>` : '<div class="hinweis">Der Server-Status ist nicht erreichbar.</div>'}</div>
+    <div class="abschnitt"><h3>Lehrer-Codes: Fehlversuche (7 Tage)</h3><p class="mu klein">${zahl(lf.n_7)} Fehlversuche in 7 Tagen. Gezeigt werden nur die ersten Zeichen der eingegebenen Codes.</p>
+      <table><thead><tr><th>Code</th><th class="r">Versuche</th><th>Zuletzt</th></tr></thead><tbody>${(lf.codes || []).map(c => `<tr><td><code>${esc(c.code)}</code></td><td class="r">${zahl(c.n)}</td><td class="nowrap klein">${vorZeit(c.zuletzt)}</td></tr>`).join("") || '<tr><td colspan="3" class="mu">Keine.</td></tr>'}</tbody></table></div></div>
+    <div class="abschnitt"><h3>Gesperrte Konten</h3><table><thead><tr><th>Konto</th><th>Gesperrt bis</th><th></th></tr></thead><tbody>${(s.gesperrt || []).map(u => `<tr data-id="${esc(u.id)}"><td>${esc(u.email || u.id)}</td><td class="nowrap">${new Date(u.bis).getFullYear() > 2100 ? "dauerhaft" : datum(u.bis)}</td><td><button class="k">Entsperren</button></td></tr>`).join("") || '<tr><td colspan="3" class="mu">Kein Konto gesperrt.</td></tr>'}</tbody></table></div>`;
+  zielBinden();
+  $("#siNeu").onclick = () => zeige("sicherheit");
+  $$("#inhalt tr[data-id] button").forEach(b => b.onclick = async () => { try{ await rpc("admin_benutzer_sperren", {p_id: b.closest("tr").dataset.id, p_tage: 0}); melde("Entsperrt."); zeige("sicherheit"); }catch(e){ melde(e.message, "fe"); } });
+};
+
+/* ======================= Hinweis an alle ======================= */
+const HW_FARBE = { info:"linear-gradient(135deg,#7B3FE4,#3D5AFE)", wartung:"linear-gradient(135deg,#F28A1A,#E0531F)", warnung:"linear-gradient(135deg,#E0335A,#B4123E)", freude:"linear-gradient(135deg,#17B07C,#0E8E9C)" };
+const HW_SYMBOL = { info:"💬", wartung:"🛠️", warnung:"⚠️", freude:"🎉" };
+TABS.hinweis = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Hinweis an alle</h2><span class="mu klein">Erscheint oben auf der Website und in der App</span></div>`;
+  if(onlineFehlt(kopf)) return;
+  let ein; try{ ein = await rpc("admin_einstellungen"); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  const h = (ein.hinweis && ein.hinweis.wert) || {aktiv:false, text:"", art:"info", link:"", von:"", bis:""};
+  const heute = tagKey(new Date());
+  const laeuft = h.aktiv && h.text && (!h.von || h.von <= heute) && (!h.bis || h.bis >= heute);
+  $("#inhalt").innerHTML = kopf + `<div class="zwei"><div class="box">
+      <p style="margin-top:0">${laeuft ? '<span class="ok"><span class="ampel ok"></span>Wird gerade angezeigt.</span>' : h.aktiv && h.text ? '<span class="wa"><span class="ampel wa"></span>Eingeschaltet, aber ausserhalb des Zeitraums.</span>' : '<span class="mu">Zurzeit kein Hinweis.</span>'} ${ein.hinweis ? `<span class="mu klein">Geändert ${datum(ein.hinweis.geaendert)}${ein.hinweis.von ? " von " + esc(ein.hinweis.von) : ""}</span>` : ""}</p>
+      <div class="formular">
+        <label>Anzeigen</label><label><input type="checkbox" id="hwAn"${h.aktiv ? " checked" : ""}> eingeschaltet</label>
+        <label>Art</label><select id="hwArt">${[["info", "💬 Info"], ["wartung", "🛠️ Wartung"], ["warnung", "⚠️ Warnung"], ["freude", "🎉 Gute Nachricht"]].map(([v, t]) => `<option value="${v}"${h.art === v ? " selected" : ""}>${t}</option>`).join("")}</select>
+        <label>Text</label><div><textarea id="hwText" rows="3" maxlength="240" style="width:100%">${esc(h.text)}</textarea><div class="leiste" style="margin:2px 0 0"><span id="hwPruef" class="klein"></span><span class="rechts mu klein" id="hwZahl"></span></div></div>
+        <label>Link (optional)</label><input id="hwLink" placeholder="https://… oder #seite" value="${esc(h.link || "")}">
+        <label>Ab</label><input type="date" id="hwVon" value="${esc(h.von || "")}">
+        <label>Bis</label><input type="date" id="hwBis" value="${esc(h.bis || "")}">
+      </div>
+      <div class="leiste" style="margin:12px 0 0"><button class="k" id="hwAus">Ausschalten</button><span class="rechts"></span><button class="k p" id="hwOk">Speichern</button></div></div>
+    <div><div class="box"><b>Vorschau</b><div id="hwVor" style="margin:12px 0"></div>
+      <ul class="mu klein"><li>Besucherinnen und Besucher sehen den Hinweis beim nächsten Öffnen der Seite oder der App.</li><li>Wer ihn mit ✕ schliesst, sieht ihn nicht wieder. Ein geänderter Text erscheint neu.</li><li>Kurz halten: eine Zeile auf dem Handy sind etwa 40 Zeichen.</li><li>Ohne Datum gilt er, bis du ihn ausschaltest.</li></ul></div></div></div>`;
+  const vorschau = () => { const art = $("#hwArt").value, t = $("#hwText").value;
+    $("#hwZahl").textContent = t.length + " / 240";
+    pruefAnzeige($("#hwPruef"), textFehler(t));
+    $("#hwVor").innerHTML = t.trim() ? `<div style="display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;border-radius:16px;background:${HW_FARBE[art]};color:#fff;font:600 15px/1.35 system-ui,sans-serif;box-shadow:0 10px 30px rgba(20,10,60,.2)"><span>${HW_SYMBOL[art]}</span><span style="flex:1">${esc(t)}${$("#hwLink").value.trim() ? ' <u style="font-weight:800">Mehr</u>' : ""}</span><span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center">✕</span></div>` : '<p class="mu">Noch kein Text.</p>'; };
+  ["hwArt", "hwText", "hwLink"].forEach(id => $("#" + id).oninput = vorschau); vorschau();
+  const speichern = async aktiv => {
+    const wert = {aktiv, art: $("#hwArt").value, text: $("#hwText").value.replace(/ß/g, "ss").replace(/\s*[–—]\s*/g, ", ").trim(), link: $("#hwLink").value.trim(), von: $("#hwVon").value, bis: $("#hwBis").value};
+    if(aktiv && !wert.text){ melde("Bitte einen Text eingeben.", "fe"); return; }
+    if(wert.von && wert.bis && wert.bis < wert.von){ melde("«Bis» liegt vor «Ab».", "fe"); return; }
+    try{ await rpc("admin_einstellung_setzen", {p_schluessel:"hinweis", p_wert: wert}); melde(aktiv ? "Hinweis gespeichert." : "Hinweis ausgeschaltet."); zeige("hinweis"); }catch(e){ melde(e.message, "fe"); }
+  };
+  $("#hwOk").onclick = () => speichern($("#hwAn").checked);
+  $("#hwAus").onclick = () => speichern(false);
+};
+
+/* ======================= Themenplan ======================= */
+let THEMENLISTE = null;
+async function themenListeLaden(){
+  if(THEMENLISTE) return THEMENLISTE;
+  const html = await fetch(B + "index.html", {cache:"no-cache"}).then(r => r.text());
+  const raus = [], gesehen = new Set();
+  const dazu = (id, name, gruppe) => { if(!gesehen.has(id) && !/^kt_/.test(id)){ gesehen.add(id); raus.push({id, name, gruppe}); } };
+  const block = html.slice(html.indexOf("const BEREICHE = ["), html.indexOf("const THEMA = {}"));
+  let akt = "";
+  for(const z of block.split("\n")){ const m = z.match(/^( {2,4})\{id:"([a-z0-9_]+)", name:"([^"]+)"/); if(!m) continue;
+    if(m[1].length === 2) akt = m[3]; else if(!/\bmenu:/.test(z)) dazu(m[2], m[3], akt); }
+  const welt = (block.match(/^ {2}\{id:"welt", name:"([^"]+)"/m) || [])[1] || "Welt & Geschichte";
+  for(const m of html.matchAll(/\{id:"([a-z0-9_]+)", name:"([^"]+)"[^}\n]*parent:"(submenu:[a-z]+|geschmenu|chmenu)"/g)) dazu(m[1], m[2], welt);
+  THEMENLISTE = raus; return raus;
+}
+TABS.themenplan = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Themenplan</h2><span class="mu klein">Thema der Woche und Live-Quiz selbst festlegen</span></div>`;
+  if(onlineFehlt(kopf)) return;
+  let ein, themen;
+  try{ [ein, themen] = await Promise.all([rpc("admin_einstellungen"), themenListeLaden()]); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  const plan = JSON.parse(JSON.stringify((ein.themenplan && ein.themenplan.wert) || {woche:{}, live:{}}));
+  plan.woche = plan.woche || {}; plan.live = plan.live || {};
+  const name = id => (themen.find(t => t.id === id) || {}).name || id;
+  const gruppen = [...new Set(themen.map(t => t.gruppe))];
+  const auswahl = (wert, attr, live) => `<select ${attr}><option value="">automatisch</option>${gruppen.map(g => `<optgroup label="${esc(g)}">${themen.filter(t => t.gruppe === g && !(live && t.id === "bilder")).map(t => `<option value="${t.id}"${t.id === wert ? " selected" : ""}>${esc(t.name)}</option>`).join("")}</optgroup>`).join("")}${wert && !themen.some(t => t.id === wert) ? `<option value="${esc(wert)}" selected>${esc(wert)} (unbekannt)</option>` : ""}</select>`;
+  const wochen = []; for(let k = 0; k < 16; k++){ const d = new Date(); d.setDate(d.getDate() + 7 * k); const mo = new Date(d); mo.setDate(mo.getDate() - ((mo.getDay() + 6) % 7)); wochen.push({w: isoWoche(d), mo}); }
+  const tage = []; for(let k = 0; k < 14; k++){ const d = new Date(); d.setDate(d.getDate() + k); tage.push(d); }
+  $("#inhalt").innerHTML = kopf + `<div class="hinweis">Wo «automatisch» steht, wählt die Website das Thema wie bisher selbst. Ein festgelegtes Thema gilt für alle, auch in der App. Wird das Thema der laufenden Woche geändert, beginnt der Fortschritt der Wochen-Challenge für alle neu.</div>
+    <div class="spalten"><div class="abschnitt" style="grid-column:1/-1"><h3>Thema der Woche</h3><table><thead><tr><th>Woche</th><th>Ab Montag</th><th>Thema</th></tr></thead><tbody>${wochen.map((x, i) => `<tr><td class="nowrap"><b>${x.w}</b>${i === 0 ? ' <span class="mu klein">diese Woche</span>' : ""}</td><td class="nowrap">${tag(x.mo)}</td><td>${auswahl(plan.woche[x.w] || "", `data-w="${x.w}"`)}</td></tr>`).join("")}</tbody></table></div>
+    <div class="abschnitt" style="grid-column:1/-1;overflow-x:auto"><h3>Live-Quiz (8, 12, 16 und 20 Uhr)</h3><table><thead><tr><th>Tag</th>${[8, 12, 16, 20].map(s => `<th>${s} Uhr</th>`).join("")}</tr></thead><tbody>${tage.map(d => `<tr><td class="nowrap"><b>${WOTAG[d.getDay()]} ${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.</b></td>${[8, 12, 16, 20].map(s => { const k = tagKey(d) + "-" + s; return `<td>${auswahl(plan.live[k] || "", `data-l="${k}" style="width:100%;min-width:120px"`, true)}</td>`; }).join("")}</tr>`).join("")}</tbody></table></div></div>
+    <div class="leiste"><span class="mu klein">${ein.themenplan ? "Zuletzt gespeichert " + datum(ein.themenplan.geaendert) + (ein.themenplan.von ? " von " + esc(ein.themenplan.von) : "") : "Noch nichts festgelegt."} ${Object.keys(plan.woche).length + Object.keys(plan.live).length} Einträge.</span><span class="rechts"></span><button class="k" id="tpLeer">Alles auf automatisch</button><button class="k p" id="tpOk">Themenplan speichern</button></div>`;
+  $$("#inhalt select[data-w]").forEach(s => s.onchange = () => { if(s.value) plan.woche[s.dataset.w] = s.value; else delete plan.woche[s.dataset.w]; });
+  $$("#inhalt select[data-l]").forEach(s => s.onchange = () => { if(s.value) plan.live[s.dataset.l] = s.value; else delete plan.live[s.dataset.l]; });
+  const speichern = async p => {
+    const jetzt = isoWoche(new Date()), heute = tagKey(new Date());
+    const sauber = {woche: Object.fromEntries(Object.entries(p.woche).filter(([w]) => w >= jetzt)), live: Object.fromEntries(Object.entries(p.live).filter(([k]) => k.slice(0, 10) >= heute))};
+    try{ await rpc("admin_einstellung_setzen", {p_schluessel:"themenplan", p_wert: sauber}); melde("Themenplan gespeichert. Gilt beim nächsten Öffnen der Seite."); zeige("themenplan"); }catch(e){ melde(e.message, "fe"); }
+  };
+  $("#tpOk").onclick = () => speichern(plan);
+  $("#tpLeer").onclick = () => { if(confirm("Alle festgelegten Themen entfernen?")) speichern({woche:{}, live:{}}); };
+};
+
+/* ======================= Werbung in Qeels (werbung.json auf GitHub) ======================= */
+const WB = { daten:null, alt:"" };
+const wbLeer = () => ({id:"neu" + Math.random().toString(36).slice(2, 6), aktiv:false, sponsor:"", titel:"", text:"", bild:"", link:"", knopf:"Mehr erfahren", farbe:"#2A1052", von:"", bis:""});
+TABS.werbung = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Werbung in Qeels</h2><span class="mu klein">Anzeigen von Sponsoren, klar als Werbung gekennzeichnet, ohne Tracking</span><span class="rechts"></span><a class="k" href="../qeels/?werbedemo" target="_blank" rel="noopener">Vorschau in Qeels</a></div>`;
+  if(!WB.daten){
+    try{ WB.alt = ghToken() ? await ghDateiText("werbung.json") : await fetch(B + "werbung.json", {cache:"no-cache"}).then(r => r.text()); WB.daten = JSON.parse(WB.alt); }
+    catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">werbung.json nicht lesbar: ${esc(e.message)}</div>`; return; }
+  }
+  let klicks = {};
+  if(sbAn() && sbSitzung()){ try{ const s = await rpc("admin_statistik", {p_tage:30}); (s.bereiche || []).forEach(b => { const m = /^w-([a-z0-9]+)-(sicht|klick)$/.exec(b.k); if(m){ (klicks[m[1]] = klicks[m[1]] || {sicht:0, klick:0})[m[2]] += +b.n; } }); }catch(e){} }
+  const d = WB.daten; d.anzeigen = d.anzeigen || [];
+  const heute = tagKey(new Date());
+  const zustand = a => !a.aktiv ? '<span class="mu">aus</span>' : a.von && a.von > heute ? '<span class="wa">geplant</span>' : a.bis && a.bis < heute ? '<span class="mu">abgelaufen</span>' : '<span class="ok">läuft</span>';
+  const geaendert = JSON.stringify(d) !== JSON.stringify(JSON.parse(WB.alt));
+  const bildUrl = b => !b ? "" : /^https:\/\//.test(b) ? b : B + b;
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Anzeigen", zahl(d.anzeigen.length)], ["Laufen gerade", zahl(d.anzeigen.filter(a => a.aktiv && (!a.von || a.von <= heute) && (!a.bis || a.bis >= heute)).length)], ["Gesehen (30 Tage)", zahl(Object.values(klicks).reduce((a, x) => a + x.sicht, 0))], ["Geklickt (30 Tage)", zahl(Object.values(klicks).reduce((a, x) => a + x.klick, 0))]])}</div>
+    <div class="box leiste" style="align-items:center"><label>Jedes <input type="number" id="wbJedes" min="3" max="100" value="${+d.jedes || 10}" style="width:70px">. Qeel ist eine Anzeige</label><span class="rechts"></span><button class="k" id="wbNeu">Neue Anzeige</button>${geaendert ? '<button class="k" id="wbVerwerfen">Verwerfen</button>' : ""}<button class="k p" id="wbSpeichern"${geaendert ? "" : " disabled"}>Auf GitHub speichern</button></div>
+    ${!ghToken() ? '<div class="hinweis">Zum Speichern braucht es den GitHub-Schlüssel (siehe «Zugang»).</div>' : ""}
+    ${d.anzeigen.map((a, i) => `<div class="box" data-i="${i}"><div class="zwei"><div class="formular">
+      <label>Kennung</label><input data-f="id" value="${esc(a.id)}" pattern="[a-z0-9]+" title="nur Kleinbuchstaben und Zahlen">
+      <label>Status</label><label><input type="checkbox" data-f="aktiv"${a.aktiv ? " checked" : ""}> eingeschaltet · ${zustand(a)}${klicks[a.id] ? ` · <span class="mu">${zahl(klicks[a.id].sicht)}× gesehen, ${zahl(klicks[a.id].klick)}× geklickt (30 Tage)</span>` : ""}</label>
+      <label>Sponsor</label><input data-f="sponsor" value="${esc(a.sponsor)}">
+      <label>Titel</label><input data-f="titel" maxlength="60" value="${esc(a.titel)}">
+      <label>Text</label><textarea data-f="text" rows="3" maxlength="220">${esc(a.text)}</textarea>
+      <label>Bild</label><input data-f="bild" placeholder="img/… oder https://…" value="${esc(a.bild)}">
+      <label>Link</label><input data-f="link" placeholder="https://… oder mailto:…" value="${esc(a.link)}">
+      <label>Knopf</label><input data-f="knopf" maxlength="30" value="${esc(a.knopf)}">
+      <label>Farbe</label><input type="color" data-f="farbe" value="${esc(/^#[0-9a-fA-F]{6}$/.test(a.farbe || "") ? a.farbe : "#2A1052")}">
+      <label>Ab / bis</label><div class="leiste" style="margin:0"><input type="date" data-f="von" value="${esc(a.von || "")}"><input type="date" data-f="bis" value="${esc(a.bis || "")}"></div>
+      </div><div><div style="border-radius:18px;overflow:hidden;background:${esc(a.farbe || "#2A1052")};color:#fff;max-width:320px;margin:0 auto;box-shadow:0 10px 30px rgba(20,10,60,.25)">
+        ${a.bild ? `<img src="${esc(bildUrl(a.bild))}" alt="" style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block">` : ""}
+        <div style="padding:14px"><small style="opacity:.8;text-transform:uppercase;letter-spacing:.06em;font-size:11px">Werbung · ${esc(a.sponsor || "Sponsor")}</small><b style="display:block;font-size:18px;margin:4px 0">${esc(a.titel || "Titel")}</b><p style="margin:0 0 12px;font-size:14px;opacity:.92">${esc(a.text || "")}</p>
+        <span style="display:inline-block;background:#fff;color:${esc(a.farbe || "#2A1052")};border-radius:999px;padding:8px 16px;font-weight:800">${esc(a.knopf || "Mehr erfahren")}</span></div></div>
+        <p id="wbPruef${i}" class="klein"></p><div class="leiste" style="justify-content:center"><button class="k g" data-weg>Anzeige löschen</button></div></div></div></div>`).join("") || '<div class="hinweis">Noch keine Anzeige.</div>'}
+    <p class="mu klein">Anzeigen erscheinen nur mit «eingeschaltet» und im Zeitraum. Zählen von Sicht und Klick läuft anonym über die Besucherstatistik. Nach dem Speichern sind Änderungen in 1 bis 2 Minuten auf der Website; in der App erst mit dem nächsten App-Bau.</p>`;
+  const pruefen = (a, i) => { const p = [];
+    if(!/^[a-z0-9]{1,30}$/.test(a.id)) p.push("Kennung: nur Kleinbuchstaben und Zahlen.");
+    if(d.anzeigen.filter(x => x.id === a.id).length > 1) p.push("Kennung kommt doppelt vor.");
+    if(a.link && !/^(https:\/\/|mailto:)/.test(a.link)) p.push("Link muss mit https:// oder mailto: beginnen.");
+    if(a.bild && !/^(https:\/\/|img\/)/.test(a.bild)) p.push("Bild muss mit img/ oder https:// beginnen.");
+    if(a.aktiv && (!a.titel || !a.link)) p.push("Eingeschaltete Anzeige braucht Titel und Link.");
+    p.push(...textFehler([a.titel, a.text, a.knopf].join(" ")));
+    const el = $("#wbPruef" + i); if(el) pruefAnzeige(el, p); return p.filter(x => !/ersetzt|empfohlen/.test(x)); };
+  d.anzeigen.forEach(pruefen);
+  $("#wbJedes").onchange = e => { d.jedes = Math.max(3, Math.min(100, +e.target.value || 10)); zeige("werbung"); };
+  $("#wbNeu").onclick = () => { d.anzeigen.push(wbLeer()); zeige("werbung"); };
+  const vw = $("#wbVerwerfen"); if(vw) vw.onclick = () => { WB.daten = JSON.parse(WB.alt); zeige("werbung"); };
+  $$("#inhalt .box[data-i]").forEach(box => { const a = d.anzeigen[+box.dataset.i];
+    box.querySelectorAll("[data-f]").forEach(el => el.onchange = () => { const f = el.dataset.f; a[f] = el.type === "checkbox" ? el.checked : el.value.trim(); zeige("werbung"); });
+    box.querySelector("[data-weg]").onclick = () => { if(confirm(`Anzeige «${a.titel || a.id}» löschen?`)){ d.anzeigen.splice(+box.dataset.i, 1); zeige("werbung"); } }; });
+  $("#wbSpeichern").onclick = async () => {
+    const fehler = d.anzeigen.flatMap((a, i) => pruefen(a, i)); if(fehler.length){ melde("Bitte zuerst korrigieren: " + fehler[0], "fe"); return; }
+    const neu = ohneSz(d); neu.anzeigen.forEach(a => ["titel", "text", "knopf", "sponsor"].forEach(f => a[f] = String(a[f] || "").replace(/\s*[–—]\s*/g, ", ")));
+    const b = $("#wbSpeichern"); b.disabled = true; b.textContent = "Speichert …";
+    try{ await ghCommit("Verwaltung: Werbung in Qeels geändert", async () => [{pfad:"werbung.json", text: JSON.stringify(neu, null, 2) + "\n"}]);
+      WB.alt = JSON.stringify(neu, null, 2) + "\n"; WB.daten = JSON.parse(WB.alt);
+      notiz("github_werbung", "werbung.json", {anzeigen: neu.anzeigen.length, aktiv: neu.anzeigen.filter(a => a.aktiv).map(a => a.id)});
+      melde("Gespeichert. In 1 bis 2 Minuten auf der Website."); zeige("werbung"); }
+    catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); b.disabled = false; b.textContent = "Auf GitHub speichern"; }
+  };
+};
+
+/* ======================= Protokoll ======================= */
+const AKTION = {admin_benutzer_sperren:"Konto gesperrt/entsperrt", admin_benutzer_loeschen:"Konto gelöscht", admin_benutzer_rolle:"Rolle geändert", admin_lehrer_setzen:"Lehrperson freigegeben/entzogen",
+  admin_kommentar:"Kommentar bearbeitet", admin_fehlermeldung_status:"Fehlermeldung bearbeitet", admin_liga_sperren:"Liga-Klasse gesperrt/entsperrt", admin_einstellung_setzen:"Einstellung geändert",
+  admin_name_aendern:"Name geändert", admin_live_loeschen:"Live-Eintrag gelöscht", admin_duell_beenden:"Duell beendet", admin_region_setzen:"Regionen-Cup korrigiert",
+  sicherung:"Sicherung heruntergeladen", testmail:"Testmail geschickt", github:"Inhalte auf GitHub gespeichert", github_werbung:"Werbung gespeichert", anmeldung:"In der Verwaltung angemeldet"};
+TABS.protokoll = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Protokoll</h2><span class="mu klein">Wer hat wann was geändert (2 Jahre aufbewahrt)</span><span class="rechts"></span><input type="search" id="prSuche" placeholder="Suchen" style="min-width:180px"></div>`;
+  if(onlineFehlt(kopf)) return;
+  let l; try{ l = await rpc("admin_protokoll_lesen", {p_anzahl: 1000}) || []; }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  const zeichnen = q => { q = (q || "").toLowerCase();
+    const f = l.filter(x => !q || [x.email, x.aktion, AKTION[x.aktion], x.ziel, JSON.stringify(x.details)].join(" ").toLowerCase().includes(q));
+    $("#prListe").innerHTML = `<table><thead><tr><th>Zeit</th><th>Wer</th><th>Was</th><th>Betrifft</th><th>Einzelheiten</th></tr></thead><tbody>${f.map(x => `<tr><td class="nowrap">${datum(x.zeit)}</td><td class="klein">${esc(x.email || "-")}</td><td>${esc(AKTION[x.aktion] || x.aktion)}</td><td class="klein">${esc(x.ziel)}</td>
+      <td class="klein mu" style="max-width:420px;word-break:break-word">${esc(Object.entries(typeof x.details === "object" && x.details ? x.details : {}).filter(([k]) => !["p_id"].includes(k)).map(([k, v]) => k.replace(/^p_/, "") + ": " + (typeof v === "object" ? JSON.stringify(v) : v)).join(" · ").slice(0, 300))}</td></tr>`).join("") || '<tr><td colspan="5" class="mu">Noch keine Einträge.</td></tr>'}</tbody></table>`; };
+  $("#inhalt").innerHTML = kopf + `<p class="mu klein">Festgehalten werden alle Änderungen aus der Verwaltung: an Konten, Kommentaren, Klassen, Spielen und Einstellungen (vom Server selbst) und Speichern auf GitHub. Anzeigen und Suchen wird nicht festgehalten.</p><div id="prListe"></div>`;
+  zeichnen(""); let t; $("#prSuche").oninput = e => { clearTimeout(t); t = setTimeout(() => zeichnen(e.target.value.trim()), 200); };
+};
+
+/* ======================= Sicherung ======================= */
+TABS.sicherung = async () => {
+  const kopf = `<h2>Sicherung</h2>`;
+  if(onlineFehlt(kopf)) return;
+  let ein = {}, st = null; try{ ein = await rpc("admin_einstellungen"); }catch(e){} try{ st = await api("status"); }catch(e){}
+  const letzte = ein.letzte_sicherung, alter = letzte ? (Date.now() - new Date(letzte.geaendert)) / 864e5 : null;
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kpiKarten([
+      ["Letzte Sicherung von dir", letzte ? datum(letzte.geaendert) : "noch nie", "höchstens 7 Tage", letzte ? ampel(alter, 7, 30, false) : "fe", letzte && letzte.von ? "von " + letzte.von : "", ""],
+      ["Datenbank", st && st.db.ok ? groesse(st.db.groesse) : "?", "", st && st.db.ok ? "ok" : "", st && st.db.version ? st.db.version : "", ""]])}</div>
+    <div class="zwei"><div class="box"><b>Sicherung herunterladen</b>
+      <p>Lädt alle Daten der Datenbank als eine JSON-Datei herunter: Konten (ohne Passwörter), Klassen, Tests, Abgaben, Liga, Kommentare, Likes, Statistik, Live, Duell, Cup, Einstellungen und Protokoll.</p>
+      <p class="mu klein">Die Datei enthält persönliche Daten von Kindern (E-Mail, Namen, Ergebnisse). Nur auf einem eigenen, geschützten Gerät speichern, nie weitergeben und alte Sicherungen löschen.</p>
+      <button class="k p" id="sgLos">Sicherung jetzt herunterladen</button> <span id="sgInfo" class="klein"></span></div>
+    <div class="box klein"><b>Automatische Sicherung bei Nine</b><ul>
+      <li>Die Datenbank bei Nine (Deploio, «easyplay-db») wird von Nine täglich automatisch gesichert. Wiederherstellen geht im Cockpit von Nine unter der Datenbank, Bereich «Backups».</li>
+      <li>Diese Sicherung hier ist zusätzlich: falls du zu einem anderen Anbieter wechselst oder etwas Bestimmtes wiederfinden willst.</li>
+      <li>Fragen, Bibliothek, Bilder und Welten liegen nicht in der Datenbank, sondern auf GitHub. Dort ist jede Version im Verlauf gesichert.</li>
+      <li>Empfehlung: einmal pro Woche und vor grösseren Umbauten herunterladen.</li></ul></div></div>`;
+  $("#sgLos").onclick = async () => { const b = $("#sgLos"); b.disabled = true; $("#sgInfo").textContent = "Wird erstellt …";
+    try{ const r = await api("sicherung", {roh:true}); const blob = await r.blob();
+      const name = (/filename="([^"]+)"/.exec(r.headers.get("content-disposition") || "") || [])[1] || "easyplay-sicherung.json";
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+      $("#sgInfo").innerHTML = `<span class="ok">${esc(name)}, ${groesse(blob.size)}</span>`; setTimeout(() => { if(TAB === "sicherung") zeige("sicherung"); }, 1500); }
+    catch(e){ $("#sgInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; }
+    finally{ b.disabled = false; } };
+};
+
+/* ======================= Technik: eigener Server und Apps ======================= */
+async function techServer(){
+  const box = $("#tServer"); if(!box) return;
+  if(!sbAn()){ box.innerHTML = kein("", NICHT_SERVER); return; }
+  if(!sbSitzung()){ box.innerHTML = kein("", "Für den Zustand des Servers bitte unter «Zugang» mit dem Admin-Konto anmelden.", true); zielBinden(); return; }
+  let s; try{ s = await api("status"); }catch(e){ box.innerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  let ghV = null; try{ ghV = (await ghDateiText("sw.js")).match(/const VERSION\s*=\s*"([^"]+)"/)[1]; }catch(e){}
+  const mailSt = s.mail.an ? "ok" : "fe";
+  box.innerHTML = kpiKarten([
+      ["Server", s.db.ok ? "läuft" : "Datenbank-Fehler", "", s.db.ok ? "ok" : "fe", "seit " + dauer(s.laufzeit_s) + " · Node " + s.node, ""],
+      ["Version auf dem Server", `<span style="font-size:15px">${esc(s.version || "?")}</span>`, "", s.version ? "ok" : "wa", "Nach jedem Push baut Deploio in etwa 5 Minuten neu", ""],
+      ["Mailversand", s.mail.an ? "eingerichtet" : "fehlt", "eingerichtet", mailSt, s.mail.an ? "Absender " + s.mail.absender : "Ohne Mail gelten neue Konten sofort als bestätigt und «Passwort vergessen» geht nicht", ""],
+      ["Datenbank", s.db.ok ? groesse(s.db.groesse) : "-", "", s.db.ok ? "ok" : "fe", s.db.ok ? s.db.version + ", " + s.db.verbindungen + " Verbindungen" : esc(s.db.fehler || ""), ""],
+      ["Registrierung", s.registrierung ? "offen" : "geschlossen", "", s.registrierung ? "ok" : "wa", "Umgebungsvariable SIGNUP", ""],
+      ["Speicher", s.speicher_mb + " MB", "< 400 MB", ampel(s.speicher_mb, 400, 700, false), "Arbeitsspeicher des Servers", ""]])
+    + `<div class="spalten" style="margin-top:12px"><div><table><tbody>
+      <tr><td>Adresse (PUBLIC_URL)</td><td class="r">${esc(s.public_url || "fehlt")}</td></tr>
+      <tr><td>Weitere Adressen (SITE_URLS)</td><td class="r klein">${esc(s.site_urls.join(", ") || "-")}</td></tr>
+      <tr><td>Mailserver</td><td class="r">${s.mail.host ? esc(s.mail.host + ":" + s.mail.port) : '<span class="fe">SMTP_HOST fehlt</span>'}${s.mail.test ? ' <span class="wa">Testablage</span>' : ""}</td></tr>
+      <tr><td>Admin per E-Mail (ADMIN_EMAIL)</td><td class="r">${s.admin_email ? '<span class="ok">gesetzt</span>' : '<span class="mu">nicht gesetzt</span>'}</td></tr>
+      <tr><td>IP hinter Deploio (TRUST_PROXY)</td><td class="r">${s.trust_proxy ? '<span class="ok">an</span>' : '<span class="wa">aus</span>'}</td></tr>
+      <tr><td>Umgebung</td><td class="r">${esc(s.umgebung || "-")}</td></tr>
+      <tr><td>Version auf GitHub</td><td class="r">${esc(ghV || "?")} ${ghV && s.version && ghV !== s.version ? '<span class="wa">Server noch nicht nachgezogen</span>' : ghV ? '<span class="ok">gleich</span>' : ""}</td></tr></tbody></table>
+      <div class="leiste" style="margin-top:8px"><button class="k" id="tMail"${s.mail.an ? "" : " disabled"}>Testmail an mich schicken</button><span id="tMailInfo" class="klein"></span></div></div>
+      <div><table><thead><tr><th>Grösste Tabellen</th><th class="r">Zeilen</th><th class="r">Grösse</th></tr></thead><tbody>${(s.db.tabellen || []).slice(0, 10).map(t => `<tr><td><code>${esc(t.name)}</code></td><td class="r">${zahl(Math.max(0, +t.zeilen))}</td><td class="r">${groesse(+t.groesse)}</td></tr>`).join("")}</tbody></table>
+      <details class="klein"><summary>Eingespielte Datenbank-Dateien</summary><table><tbody>${(s.db.migrationen || []).map(m => `<tr><td><code>${esc(m.datei)}</code></td><td class="r nowrap">${datum(m.zeit)}</td></tr>`).join("")}</tbody></table></details></div></div>`;
+  const tm = $("#tMail"); if(tm) tm.onclick = async () => { tm.disabled = true; try{ const r = await api("testmail", {method:"POST", body:{}}); $("#tMailInfo").innerHTML = `<span class="ok">Geschickt an ${esc(r.an)}. Bitte Posteingang (und Spam) prüfen.</span>`; }catch(e){ $("#tMailInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } finally{ tm.disabled = false; } };
+}
+async function techApps(){
+  const box = $("#tApps"); if(!box) return;
+  let runs = []; try{ runs = (await gh("/actions/runs?per_page=60")).workflow_runs || []; }catch(e){ box.innerHTML = `<div class="hinweis">${esc(e.message)}. ${ghToken() ? "" : "Mit GitHub-Schlüssel (unter «Zugang») klappt es zuverlässig."}</div>`; return; }
+  const app = [["App iOS", "iPhone und iPad", "https://appstoreconnect.apple.com/", "App Store Connect / TestFlight"], ["App Android", "Android", "https://play.google.com/console/", "Google Play Console"]];
+  box.innerHTML = `<table><thead><tr><th>App</th><th>Letzter Bau</th><th>Status</th><th>Auslöser</th><th>Store</th></tr></thead><tbody>${app.map(([n, g, url, store]) => { const r = runs.find(x => x.name === n); const ok = r && r.conclusion === "success";
+      return `<tr><td><b>${g}</b></td><td class="nowrap">${r ? `<a class="link" href="${esc(r.html_url)}" target="_blank" rel="noopener">${datum(r.created_at)}</a>` : '<span class="mu">noch nie</span>'}</td>
+      <td>${r ? `<span class="ampel ${ok ? "ok" : r.conclusion ? "fe" : "wa"}"></span>${esc({success:"erfolgreich", failure:"fehlgeschlagen", cancelled:"abgebrochen"}[r.conclusion] || (r.status === "in_progress" ? "läuft" : r.status === "queued" ? "wartet" : r.conclusion || r.status))}` : "-"}</td>
+      <td class="klein mu">${r ? esc((r.head_commit && r.head_commit.message || "").split("\n")[0].slice(0, 70)) : ""}</td><td><a class="link" href="${url}" target="_blank" rel="noopener">${store}</a></td></tr>`; }).join("")}</tbody></table>
+    <p class="mu klein">Die Apps werden bei Änderungen über GitHub Actions gebaut (<code>.github/workflows/app-ios.yml</code>, <code>app-android.yml</code>). Neue Inhalte kommen erst mit einem neuen App-Bau in die App. Ein erfolgreicher iOS-Bau landet in TestFlight; dort muss der Build noch der Testgruppe zugewiesen werden.</p>`;
+}
+
+/* ======================= Übersicht: Was braucht Aufmerksamkeit? ======================= */
+async function ueWarnungen(){
+  const box = $("#ueWarn"); if(!box || !sbAn() || !sbSitzung()) return;
+  const w = [];
+  const [st, si, ein, km, fm] = await Promise.all([api("status").catch(() => null), rpc("admin_sicherheit").catch(() => null), rpc("admin_einstellungen").catch(() => null),
+    rpc("admin_kommentare", {p_nur_gemeldet:true, p_anzahl:100}).catch(() => null), rpc("admin_fehlermeldungen", {p_status:"offen"}).catch(() => null)]);
+  if(!$("#ueWarn")) return;
+  if(st && !st.mail.an) w.push(["fe", "Der Mailversand fehlt: neue Konten gelten sofort als bestätigt, «Passwort vergessen» geht nicht.", "technik"]);
+  if(st && !st.db.ok) w.push(["fe", "Die Datenbank meldet einen Fehler.", "technik"]);
+  if(si && +si.gesperrte_namen) w.push(["wa", `${si.gesperrte_namen} Konto${+si.gesperrte_namen === 1 ? "" : "en"} mit verdächtigem Namen.`, "namen"]);
+  if(km && km.length) w.push(["wa", `${km.length} gemeldete Kommentare warten.`, "kommentare"]);
+  if(fm && fm.length) w.push(["wa", `${fm.length} offene Fehlermeldungen von Lehrpersonen.`, "fehlermeldungen"]);
+  if(si && si.lehrer_fehlversuche && +si.lehrer_fehlversuche.n_24 > 20) w.push(["wa", `${si.lehrer_fehlversuche.n_24} falsche Lehrer-Codes in 24 Stunden.`, "sicherheit"]);
+  if(ein){ const l = ein.letzte_sicherung; if(!l || (Date.now() - new Date(l.geaendert)) / 864e5 > 7) w.push(["wa", l ? "Die letzte Sicherung ist älter als 7 Tage." : "Noch nie eine Sicherung heruntergeladen.", "sicherung"]);
+    const h = ein.hinweis && ein.hinweis.wert; if(h && h.aktiv && h.text) w.push(["ok", "Gerade aktiver Hinweis an alle: «" + h.text.slice(0, 80) + "»", "hinweis"]); }
+  box.innerHTML = w.length ? `<h3>Was Aufmerksamkeit braucht</h3>${w.map(([c, t, z]) => `<div class="hinweis ${c === "fe" ? "fe" : ""}" style="cursor:pointer;${c === "ok" ? "border-left-color:var(--ok)" : ""}" data-ziel="${z}"><span class="ampel ${c}"></span>${esc(t)}</div>`).join("")}` : `<div class="hinweis" style="border-left-color:var(--ok)"><span class="ampel ok"></span>Alles in Ordnung: nichts wartet auf dich.</div>`;
+  zielBinden();
+}
 
 /* ======================= Speichern ======================= */
 $("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); AE.welten.clear(); AE.artikel.clear(); aenderungenZeigen(); zeige(TAB); };
@@ -1678,7 +2088,8 @@ $("#aeListe").onclick = () => { const d = $("#dlg");
   d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.artikel].map(([k, a]) => `<li>Artikel «${esc(a.titel||k)}»: ${a.weg ? "Original wiederherstellen" : "geändert"}</li>`).join("")}${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}${[...AE.welten.values()].map(op => `<li>${esc(op.text)} <span class="mu klein">(${esc(op.datei)})</span></li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
   d.showModal(); $("#dZu").onclick = () => d.close(); };
 $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disabled = true; b.textContent = "Speichert …";
-  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); if(AE.artikel.size) await artikelSpeichern(); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
+  const was = {fragen: AE.fragen.size, bilder: AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0), welten: AE.welten.size, artikel: AE.artikel.size};
+  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); if(AE.artikel.size) await artikelSpeichern(); notiz("github", Object.entries(was).filter(([k, n]) => n).map(([k, n]) => n + " " + k).join(", "), was); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
   catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 

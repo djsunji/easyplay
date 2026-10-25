@@ -59,7 +59,7 @@ begin
   if public.bremse('liga_anmelden', 60, interval '1 hour') then return jsonb_build_object('fehler', 'viele'); end if;
   select * into v_k from public.lehrer_klassen x where x.id = p_klasse and x.lehrer = auth.uid();
   if not found then return jsonb_build_object('fehler', 'klasse'); end if;
-  if char_length(v_name) < 2 or char_length(v_name) > 40 or v_name ~ '[@<>{}]' or v_name ~* '(https?:|www\.)' then
+  if char_length(v_name) < 2 or char_length(v_name) > 40 or v_name ~ '[@<>{}]' or v_name ~* '(https?:|www\.)' or public.name_gesperrt(v_name) then
     return jsonb_build_object('fehler', 'name');
   end if;
   if v_kt <> '' and v_kt <> all (array['ZH','BE','LU','UR','SZ','OW','NW','GL','ZG','FR','SO','BS','BL','SH','AR','AI','SG','GR','AG','TG','TI','VD','VS','NE','GE','JU']) then

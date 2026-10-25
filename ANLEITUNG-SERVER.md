@@ -98,3 +98,10 @@ Sobald `https://easyplay.ch/api/health` antwortet, leitet die alte Adresse `djsu
   - Der Server läuft dabei mit `MAIL_TEST_DATEI`, `SMTP_HOST=x`, `MAIL_FROM=x` und `BREMSE_FAKTOR=100`.
 - Neue SQL-Funktion für die Website: in eine Datei in `supabase/` schreiben, mit `grant execute on function … to anon, authenticated` (oder nur `authenticated`). Nur so freigegebene Funktionen kann die Website aufrufen.
 - Neue Tabelle, die die Website direkt liest oder schreibt: Regel in `server/rest.js` (`REGELN`) ergänzen. Ohne Regel ist die Tabelle von aussen nicht erreichbar.
+
+## Verwaltung (easyplay.ch/admin)
+
+- Anmelden unter «Zugang» mit einem Konto, das Admin ist (`ADMIN_EMAIL`, siehe oben, oder Eintrag in `public.admins`).
+- Die Datenbank-Teile der Verwaltung stehen in `supabase/verwaltung.sql` (Protokoll, Hinweis an alle, Themenplan, Namen prüfen, Spiele, Sicherheit). Der Server spielt sie beim Start ein.
+- Nur für Admins gibt es `/api/admin/status` (Zustand von Server, Datenbank, Mail, Anmelde-Anbietern), `/api/admin/testmail` und `/api/admin/sicherung` (alle Daten als JSON, ohne Passwörter).
+- Jede Änderung über eine `admin_…`-Funktion hält der Server in `public.admin_protokoll` fest (Bereich «Protokoll»).

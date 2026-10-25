@@ -44,10 +44,10 @@ revoke all on function public.duell_liste_ok(jsonb) from public, anon, authentic
 
 -- Anzeigename: höchstens 30 Zeichen, ohne Kontaktangaben und ohne spitze Klammern, sonst «Gast»
 create or replace function public.duell_name(p_name text)
-returns text language plpgsql immutable as $$
+returns text language plpgsql stable as $$
 declare v text := left(btrim(regexp_replace(coalesce(p_name, ''), '\s+', ' ', 'g')), 30);
 begin
-  if v = '' or v ~ '[<>{}]' or public.kontakt_verdacht(v) then return 'Gast'; end if;
+  if v = '' or v ~ '[<>{}]' or public.name_gesperrt(v) then return 'Gast'; end if;
   return v;
 end $$;
 revoke all on function public.duell_name(text) from public, anon, authenticated;

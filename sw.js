@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-25-19";
+const VERSION = "ep-2026-10-25-20";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 // Bilder in einem festen Speicher: überlebt Updates (nur bilder/, img/, flags/), wird täglich still geprüft
 const CACHE_BILDER = "ep-bilder";
@@ -21,6 +21,7 @@ const HUELLE = [
   "hardcore.js",
   "lernen.js",
   "level.js",
+  "hinweis.js",
   "startseite.js",
   "app.js", "stil.js", "img/kacheln/tag-grund.webp", "img/kacheln/tag-symbol.webp", "img/kacheln/serie-grund.webp", "img/kacheln/serie-symbol.webp", "img/kacheln/level-grund.webp", "img/kacheln/level-symbol.webp", "img/kacheln/live-grund.webp", "img/kacheln/live-symbol.webp", "img/kacheln/abzeichen-grund.webp", "img/kacheln/abzeichen-symbol.webp", "img/kacheln/wissen-grund.webp", "img/kacheln/wissen-symbol.webp", "img/kacheln/fehler-grund.webp", "img/kacheln/fehler-symbol.webp", "img/kacheln/truhe-grund.webp", "img/kacheln/truhe-symbol.webp", "img/kacheln/anmelden.webp", "img/kacheln/ton.webp", "img/kacheln/menue.webp", "img/kacheln/qeels.webp", "img/kacheln/sprache-de.webp", "img/kacheln/bereich-welt.webp", "img/kacheln/bereich-natur.webp", "img/kacheln/bereich-geld.webp", "img/kacheln/bereich-alltag.webp", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "hilfen.js", "mathe.js", "sprachen.js", "familie.js", "forscher.js", "eltern.js", "offline.js", "i18n.js", "regionen.js", "img/logo.webp", "img/kinder.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
   "img/kids/duo-jubel.webp",

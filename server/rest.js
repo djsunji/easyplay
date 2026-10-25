@@ -4,6 +4,7 @@
 //  /rest/v1/<tabelle>       Lesen und Schreiben für die wenigen Tabellen, die die Website direkt nutzt.
 //                           Die Regeln unten entsprechen den «create policy»-Regeln in supabase/*.sql.
 import { sql, alsPerson, FREIGABE } from "./db.js";
+import { adminAktionMerken } from "./admin.js";
 
 const NAME = /^[a-z_][a-z0-9_]{0,62}$/;
 const LEHRER = "{t}.lehrer = auth.uid() and public.ist_lehrer()";
@@ -100,6 +101,7 @@ export async function rpcAnfrage(req, res, name, person) {
     : `select to_jsonb(${aufruf}) as r`;
   try {
     const zeilen = await alsPerson(person, req.ip, tx => tx.unsafe(abfrage, params));
+    adminAktionMerken(name, person, args);
     if (v.rueck === "void" && !v.menge) return res.json(200, null);
     return res.json(200, zeilen[0]?.r ?? null);
   } catch (e) { return pgFehler(res, e, person); }

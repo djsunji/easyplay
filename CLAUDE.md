@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 25.10. 22:50, Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Ausbau der Verwaltung. Ich ändere `admin/index.html`, `server/` (db.js, index.js, rest.js, neu admin.js), `supabase/` (neu verwaltung.sql; kleine Änderungen in schema.sql, sicherheit.sql, duell.sql, klassenliga.sql: Sperrwörter für Namen), `startseite.js` (nur liveThema und wocheThemaFuer: Themenplan), neue Datei `hinweis.js` mit Eintrag in `index.html` und `sw.js`. Bitte bis zum Eintrag unter «Erledigt» nicht anfassen.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 25.10. Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Verwaltung ausgebaut. Neue Bereiche Themenplan, Werbung (bearbeitet `werbung.json` über GitHub), Namen prüfen, Live/Duell/Cup, Hinweis an alle, Sicherheit, Protokoll, Sicherung; Technik zeigt den eigenen Server (Mail, Version, Datenbank, Testmail) und die App-Bauten; Übersicht zeigt, was Aufmerksamkeit braucht; alle Supabase-Texte ersetzt (`admin/index.html`). Datenbank: neu `supabase/verwaltung.sql` (läuft automatisch, steht in `server/db.js`), Tabelle `einstellungen` und `name_gesperrt()` (Sperrwörter) in `schema.sql`/`sicherheit.sql`, genutzt in `kommentar_vorher`, `duell_name` (`duell.sql`) und `liga_anmelden` (`klassenliga.sql`). Server: neu `server/admin.js` (`/api/admin/status`, `testmail`, `sicherung`), jede `admin_…`-Änderung landet in `admin_protokoll` (`rest.js`), Anmeldesperren werden gezählt (`auth.js`), Test `server/test/verwaltung.test.mjs`. Website: neue Datei `hinweis.js` (vor `startseite.js`, in `sw.js`) zeigt den Hinweis an alle und setzt `window.EP_PLAN`; `startseite.js` nimmt Thema der Woche und Live-Thema aus dem Plan, sonst automatisch. Wichtig für alle: Neue Namen, die andere sehen, mit `public.name_gesperrt()` prüfen. Version ep-2026-10-25-20.
 - 25.10. Sitzung «Hauptseite»: Verwaltung: neues Passwort für dejan (`admin/index.html`, KONTEN). Der gemerkte GitHub-Schlüssel war mit dem alten Passwort verschlüsselt und muss neu eingegeben werden. Version ep-2026-10-25-19.
 - 25.10. Sitzung «Hauptseite»: App (iPhone): Bibliothek zeigte überall «Beschreibung folgt bald». `app/native.js` holt eigene Dateien jetzt ohne `cache`-Angabe (WKWebView liefert `force-cache` ans App-Schema nicht zuverlässig) und lädt `tx/`, `texte-*`, `fragen*`, `bildindex`, `welten/` bei Fehlschlag von easyplay.ch; `ladeTexteTeil` in `index.html` versucht es ohne Cache-Angabe nochmals. Version ep-2026-10-25-18, App-Bau läuft dadurch neu.
 - 25.10. Sitzung «App»: Neues App-Symbol (Lumi und Milo auf EP mit Buch) für iPhone/iPad (`app/assets/icon-only.png`), Android (`icon-foreground.png`, `icon-background.png` #2B1466) und Website (`img/app-192.png`, `app-512.png`, `app-maskable-512.png`, `apple-touch-icon.png`, `favicon-48.png`). iOS-Bau läuft jetzt bis TestFlight: Xcode 26, Archiv unsigniert, signiert wird beim Export (`.github/workflows/app-ios.yml`, Schritt «Schlüssel bei Apple prüfen» meldet falsche Apple-Secrets). Version ep-2026-10-25-17.

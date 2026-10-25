@@ -52,7 +52,9 @@ function teamWahl(danach, titel){
 /* ---------- Live-Quiz: alle 4 Stunden (8, 12, 16, 20 Uhr), jedes Mal ein anderes Thema ---------- */
 const LIVE = { slots:[8, 12, 16, 20], fragen:20, sek:25, pause:5, vor:120 };   // vor: Lobby öffnet 2 Minuten vorher
 LIVE.dauer = LIVE.fragen * (LIVE.sek + LIVE.pause);
-function liveThema(d){ const l = themenListe(); if(!l.length) return null; return THEMA[l[(tagNr(d) * 7 + Math.floor(d.getHours() / 4) * 5 + 3) % l.length]]; }
+/* Themenplan aus der Verwaltung (hinweis.js setzt window.EP_PLAN), sonst automatisch */
+const planThema = (art, k) => { try{ const id = ((window.EP_PLAN || {})[art] || {})[k]; return id && THEMA[id] ? THEMA[id] : null; }catch(e){ return null; } };
+function liveThema(d){ const p = planThema("live", heute(d) + "-" + d.getHours()); if(p) return p; const l = themenListe(); if(!l.length) return null; return THEMA[l[(tagNr(d) * 7 + Math.floor(d.getHours() / 4) * 5 + 3) % l.length]]; }
 function liveSlots(){
   const jetzt = new Date(), aus = [];
   for(const tagOffset of [0, 1]) for(const st of LIVE.slots){
@@ -207,6 +209,7 @@ function wochenPlan(){
 }
 function montag(d){ const x = new Date(d || Date.now()); x.setHours(12, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
 function wocheThemaFuer(d){
+  const p = planThema("woche", isoWoche(d)); if(p) return p;
   const l = wochenPlan(); if(!l.length) return null;
   const anker = Math.max(0, l.indexOf("ethik"));                       // Woche ab Montag, 12. Oktober 2026 = Ethik
   const k = Math.round((montag(d) - montag(new Date(2026, 9, 12))) / 6048e5);
@@ -219,8 +222,9 @@ function wocheZiel(th){ if(!th) return WOCHE_ZIEL; let n = 0; try{ n = (typeof a
 function wocheVorschau(anzahl){ const raus = []; for(let k = 1; k <= (anzahl || 3); k++){ const d = new Date(); d.setDate(d.getDate() + 7 * k); const w = isoWoche(d); raus.push({w, thema:wocheThemaFuer(d)}); } return raus; }
 function woche(){
   const w = isoWoche(); let d = LS.get(K.woche, null);
-  let th = d && d.w === w && THEMA[d.t] ? THEMA[d.t] : wocheThema();
-  if(!d || d.w !== w){ d = {w, t:th ? th.id : "", n:0, r:0, fertig:false}; LS.set(K.woche, d); }
+  const plan = planThema("woche", w);
+  let th = d && d.w === w && THEMA[d.t] && (!plan || plan.id === d.t) ? THEMA[d.t] : wocheThema();
+  if(!d || d.w !== w || (plan && d.t !== plan.id)){ d = {w, t:th ? th.id : "", n:0, r:0, fertig:false}; LS.set(K.woche, d); }
   const so = new Date(); so.setDate(so.getDate() + (7 - (so.getDay() || 7))); so.setHours(23, 59, 59, 999);
   return {...d, thema:th, ziel:wocheZiel(th), ende:so};
 }
