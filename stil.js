@@ -736,3 +736,40 @@ const app = document.getElementById("app");
 if(app) new MutationObserver(suchen).observe(app, {childList:true, subtree:true});
 suchen();
 })();
+
+/* ================= Kacheln der Startseite Handy und iPad (App-Ansicht .ap-heute) mit gezeichneten Grafiken ================= */
+(function(){
+// Grund als Neun-Teile-Bild (Ecken und Rand unverzerrt), Symbol bündig rechts unten im selben Massstab wie der Rahmen,
+// so liegen die Rahmen genau aufeinander und nichts wird abgeschnitten. --s = Massstab je Kachel (unten per ResizeObserver).
+const K = "img/kacheln/", T = "html:root body .ap-heute";
+const G = {serie:[269,301], wissen:[288,337], level:[325,288], tag:[252,344], live:[252,287], fehler:[336,324], abzeichen:[290,358]};
+const M = {zufall:"serie", lib:"wissen", profil:"level", chat:"tag", live:"live", fehler:"fehler"};
+const s = "var(--s,.25)";
+const grund = n => `border-image:url(${K}${n}-grund.webp) 60 60 66 60 fill/calc(60px*${s}) calc(60px*${s}) calc(66px*${s}) calc(60px*${s}) stretch!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;background:transparent!important`;
+const sym = n => `content:""!important;display:block!important;position:absolute!important;right:0!important;bottom:0!important;top:auto!important;left:auto!important;width:calc(${G[n][0]}px*${s})!important;height:calc(${G[n][1]}px*${s})!important;background:url(${K}${n}-symbol.webp) 0 0/100% 100% no-repeat!important;border-radius:0!important;opacity:1!important;transform:none!important;filter:none!important;animation:none!important;pointer-events:none;z-index:0!important`;
+const A = `${T} :is(.ap-tag>.apf,.ap-woche,.ap-fakt)`;
+const css = document.createElement("style"); css.id = "ep-app-kacheln-css";
+css.textContent = Object.entries(M).map(([x, n]) => `${T} .ap-tag>.apf[data-x=${x}]{${grund(n)}}\n${T} .ap-tag>.apf[data-x=${x}]::after{${sym(n)}}`).join("\n") + `
+${T} .ap-woche{${grund("serie")}}
+${T} .ap-woche::after{${sym("abzeichen")}}
+${T} .ap-fakt{${grund("wissen")}}
+${T} .ap-fakt::after{${sym("wissen")}}
+${A}{position:relative!important;border-radius:calc(40px*${s})!important;box-shadow:0 10px 22px -12px rgba(20,20,70,.55)!important;color:#fff!important;animation:none!important;overflow:visible!important}
+${T} .ap-tag>.apf .apico,${T} :is(.ap-fakt,.ap-woche)>svg{display:none!important}
+${A}::before{display:none!important}
+${A} :is(b,small,p,em,span){text-shadow:0 2px 6px rgba(20,10,60,.5);position:relative;z-index:1}
+${T} :is(.ap-woche,.ap-fakt) .aptx{max-width:68%}
+${T} .ap-tag>.apf[disabled]{filter:saturate(.8)}
+`;
+document.head.appendChild(css);
+const name = e => e.classList.contains("ap-woche") ? "abzeichen" : e.classList.contains("ap-fakt") ? "wissen" : M[e.dataset.x];
+function mass(e){ const g = G[name(e)]; if(!g) return; const r = e.getBoundingClientRect(); if(!r.height) return;
+  const breit = e.classList.contains("ap-woche") || e.classList.contains("ap-fakt");
+  const v = Math.min(r.height * (breit ? .92 : .58) / g[1], r.width * (breit ? .3 : .5) / g[0]);
+  e.style.setProperty("--s", v.toFixed(4)); }
+const ro = window.ResizeObserver ? new ResizeObserver(l => l.forEach(x => mass(x.target))) : null;
+function suchen(){ document.querySelectorAll(".ap-heute .ap-tag>.apf,.ap-heute .ap-woche,.ap-heute .ap-fakt").forEach(e => { if(e.dataset.ks) return; e.dataset.ks = "1"; mass(e); if(ro) ro.observe(e); }); }
+const app = document.getElementById("app") || document.body;
+new MutationObserver(suchen).observe(app, {childList:true, subtree:true});
+suchen();
+})();
