@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 25.10. Sitzung «Hauptseite»: Verwaltung: neues Passwort für dejan (`admin/index.html`, KONTEN). Der gemerkte GitHub-Schlüssel war mit dem alten Passwort verschlüsselt und muss neu eingegeben werden. Version ep-2026-10-25-19.
 - 25.10. Sitzung «Hauptseite»: App (iPhone): Bibliothek zeigte überall «Beschreibung folgt bald». `app/native.js` holt eigene Dateien jetzt ohne `cache`-Angabe (WKWebView liefert `force-cache` ans App-Schema nicht zuverlässig) und lädt `tx/`, `texte-*`, `fragen*`, `bildindex`, `welten/` bei Fehlschlag von easyplay.ch; `ladeTexteTeil` in `index.html` versucht es ohne Cache-Angabe nochmals. Version ep-2026-10-25-18, App-Bau läuft dadurch neu.
 - 25.10. Sitzung «App»: Neues App-Symbol (Lumi und Milo auf EP mit Buch) für iPhone/iPad (`app/assets/icon-only.png`), Android (`icon-foreground.png`, `icon-background.png` #2B1466) und Website (`img/app-192.png`, `app-512.png`, `app-maskable-512.png`, `apple-touch-icon.png`, `favicon-48.png`). iOS-Bau läuft jetzt bis TestFlight: Xcode 26, Archiv unsigniert, signiert wird beim Export (`.github/workflows/app-ios.yml`, Schritt «Schlüssel bei Apple prüfen» meldet falsche Apple-Secrets). Version ep-2026-10-25-17.
 - 25.10. Sitzung «Hauptseite»: Bereich-Kacheln Computer (Welt, Natur, Schweiz, Alltag) hatten Nähte und abgeschnittene Symbole durch die Neun-Teile-Skalierung. Jetzt füllt die ganze Grafik die Kachel und die Kachel hat das Seitenverhältnis der Datei (`aspect-ratio:900/515`), Block «Bereich-Kacheln» in `stil.js`. Version ep-2026-10-25-16.
