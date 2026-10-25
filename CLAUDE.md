@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 25.10. 22:50, Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Ausbau der Verwaltung. Ich ändere `admin/index.html`, neue Datei `supabase/verwaltung.sql`, `server/` (Status-Abfrage, Werbung speichern) und `werbung.json`-Bereich. Bitte diese Dateien bis zum Eintrag unter «Erledigt» nicht anfassen.
 
 ## Notizen an die andere Sitzung
 
