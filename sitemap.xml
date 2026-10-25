@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://djsunji.github.io/easyplay/</loc>
+    <loc>https://easyplay.ch/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://djsunji.github.io/easyplay/impressum.html</loc>
+    <loc>https://easyplay.ch/impressum.html</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://djsunji.github.io/easyplay/datenschutz.html</loc>
+    <loc>https://easyplay.ch/datenschutz.html</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>

@@ -28,6 +28,7 @@ function antworten(req, res) {
     "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'" }); res.end(t); };
   res.leer = status => { res.writeHead(status, { "Cache-Control": "no-store" }); res.end(); };
   res.weiter = ziel => { res.writeHead(302, { Location: ziel, "Cache-Control": "no-store" }); res.end(); };
+  res.umleiten = ziel => { res.writeHead(301, { Location: ziel, "Cache-Control": "public, max-age=86400" }); res.end(); };
 }
 
 async function koerper(req) {
@@ -53,6 +54,11 @@ const server = createServer(async (req, res) => {
     /* Der letzte Eintrag stammt vom Eingang bei Deploio, die vorderen kann der Browser selbst setzen */
     req.ip = (E.TRUST_PROXY === "0" ? "" : fw.split(",").map(x => x.trim()).filter(Boolean).pop()) || req.socket.remoteAddress || "";
 
+    /* www.easyplay.ch und andere Nebenadressen auf die Hauptadresse (PUBLIC_URL) */
+    try {
+      const haupt = E.PUBLIC_URL ? new URL(E.PUBLIC_URL) : null, host = String(req.headers.host || "").toLowerCase();
+      if (haupt && host === "www." + haupt.host) return res.umleiten(haupt.origin + req.pfad + req.suche);
+    } catch (e) {}
     const api = req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/");
     if (api) {
       const o = req.headers.origin;
@@ -65,7 +71,8 @@ const server = createServer(async (req, res) => {
       if (req.method === "OPTIONS") return res.leer(o && herkunftErlaubt(o) ? 204 : 403);
     }
 
-    if (req.pfad === "/api/health") { await sql`select 1`; return res.json(200, { ok: true }); }
+    /* Gesundheit: auch von fremden Seiten lesbar, die alte Adresse (GitHub Pages) prüft damit, ob der Umzug bereit ist */
+    if (req.pfad === "/api/health") { res.setHeader("Access-Control-Allow-Origin", "*"); await sql`select 1`; return res.json(200, { ok: true, app: "easyplay" }); }
     if (req.pfad.startsWith("/auth/v1/")) return await authAnfrage(req, res, req.pfad.slice(8));
     if (req.pfad.startsWith("/rest/v1/")) {
       const person = personAusAnfrage(req);

@@ -46,6 +46,7 @@ export function statischMacher(wurzel) {
     const h = {
       "Content-Type": TYP[ext] || "application/octet-stream", ETag: etag, "Last-Modified": st.mtime.toUTCString(),
       "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Access-Control-Allow-Origin": "*",            // öffentliche Dateien: die App lädt Bilder und Korrekturen von hier
       "Cache-Control": ext === ".html" || rel === "sw.js" ? "no-cache" : /^(bilder|img|flags|musik|tx)\//.test(rel) ? "public, max-age=86400" : "public, max-age=600",
     };
     if (ext === ".html") { h["X-Frame-Options"] = "SAMEORIGIN"; h["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"; }

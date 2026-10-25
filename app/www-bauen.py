@@ -7,7 +7,7 @@ import os, re, shutil, sys
 
 QUELLE = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ZIEL = os.path.join(QUELLE, "app", "www")
-WEB = "https://djsunji.github.io"
+WEB = "https://easyplay.ch https://djsunji.github.io"
 
 # Ordner und Dateien, die nicht in die App gehören
 ORDNER_WEG = {".git", ".github", "app", "bilder", "admin", "tools", "supabase", "qeels", "node_modules", "server"}

@@ -10,7 +10,8 @@
 (function(){
 "use strict";
 window.EP_NATIV = true;
-var WEB = "https://djsunji.github.io/easyplay/";
+var WEB = "https://easyplay.ch/", WEB_ALT = "https://djsunji.github.io/easyplay/";   /* zuerst easyplay.ch, sonst die alte Adresse */
+var holenWeb = function(pfad, opt){ return fetch(WEB + pfad, opt).then(function(r){ if(r.ok) return r; throw new Error(r.status); }).catch(function(){ return fetch(WEB_ALT + pfad, opt); }); };
 var P = function(){ return (window.Capacitor && window.Capacitor.Plugins) || {}; };
 var nativ = function(){ try{ return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()); }catch(e){ return false; } };
 document.documentElement.classList.add("ep-app");
@@ -45,7 +46,7 @@ function bildAdresse(pfad){
   if(LAEUFT[pfad]) return LAEUFT[pfad];
   LAEUFT[pfad] = holen(pfad).then(function(b){
     if(b) return b;
-    return fetch(WEB + pfad, {mode:"cors"}).then(function(r){
+    return holenWeb(pfad, {mode:"cors"}).then(function(r){
       if(!r.ok) throw new Error(r.status);
       return r.blob();
     }).then(function(b){ ablegen(pfad, b); return b; });
@@ -91,7 +92,8 @@ window.fetch = function(input, init){
     if(FRISCH.test(rel) && navigator.onLine !== false){
       var ctl = window.AbortController ? new AbortController() : null;
       var t = setTimeout(function(){ try{ ctl && ctl.abort(); }catch(e){} }, 5000);
-      return fetchAlt(WEB + rel.replace(/^\.\//, ""), {cache:"no-cache", signal:ctl ? ctl.signal : undefined}).then(function(r){
+      var rp = rel.replace(/^\.\//, "");
+      return fetchAlt(WEB + rp, {cache:"no-cache", signal:ctl ? ctl.signal : undefined}).then(function(r){ return r.ok ? r : fetchAlt(WEB_ALT + rp, {cache:"no-cache"}); }).then(function(r){
         clearTimeout(t); if(r.ok) return r; return fetchAlt(input, init);
       }, function(){ clearTimeout(t); return fetchAlt(input, init); });
     }

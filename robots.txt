@@ -7,4 +7,4 @@ Disallow: /easyplay/tools/
 Disallow: /easyplay/werkstatt/
 Disallow: /easyplay/supabase/
 
-Sitemap: https://djsunji.github.io/easyplay/sitemap.xml
+Sitemap: https://easyplay.ch/sitemap.xml

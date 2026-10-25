@@ -28,7 +28,7 @@ Im Cockpit eine neue **App** anlegen:
 - Grösse: «micro» genügt für den Anfang.
 - Gesundheitsprüfung: `/api/health`, Port 8080.
 
-Eigene Domain: im Reiter **Hosts** eintragen. Beim Domain-Anbieter einen TXT-Eintrag (Wert aus dem Cockpit) und einen CNAME auf die Adresse mit `deploio.app` setzen (für die Domain ohne «www» ein ALIAS-Eintrag). AAAA-Einträge löschen. Das Zertifikat holt Deploio selbst.
+Domain: im Reiter **Hosts** `easyplay.ch` und `www.easyplay.ch` eintragen (www leitet der Server auf easyplay.ch um). Beim Domain-Anbieter einen TXT-Eintrag (Wert aus dem Cockpit) und einen CNAME auf die Adresse mit `deploio.app` setzen (für die Domain ohne «www» ein ALIAS-Eintrag). AAAA-Einträge löschen. Das Zertifikat holt Deploio selbst.
 
 ## 3. Einstellungen (Umgebungsvariablen der App)
 
@@ -36,8 +36,8 @@ Eigene Domain: im Reiter **Hosts** eintragen. Beim Domain-Anbieter einen TXT-Ein
 |---|---|---|
 | `DATABASE_URL` | Verbindungsadresse aus Schritt 1 | ja |
 | `JWT_SECRET` | langer Zufallstext, mindestens 32 Zeichen (z. B. `openssl rand -base64 48`). Nie ändern, sonst sind alle abgemeldet. | ja |
-| `PUBLIC_URL` | die eigene Adresse, z. B. `https://easyplay.ch` | ja |
-| `SITE_URLS` | weitere Adressen, die zum Server dürfen, mit Komma, z. B. `https://www.easyplay.ch,https://djsunji.github.io/easyplay` | nein |
+| `PUBLIC_URL` | die eigene Adresse, `https://easyplay.ch` | ja |
+| `SITE_URLS` | weitere Adressen, die zum Server dürfen, mit Komma, `https://www.easyplay.ch` | nein |
 | `ADMIN_EMAIL` | E-Mail-Adresse(n) der Verwaltung, mit Komma. Sobald das Konto existiert, bekommt es beim nächsten Start Admin-Rechte. | ja |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Postausgang deines Mail-Anbieters (meist Port 587 oder 465) | für Mails |
 | `MAIL_FROM` | Absender, z. B. `easyplay <noreply@easyplay.ch>` | für Mails |
@@ -49,10 +49,10 @@ Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofo
 ## 4. Anmeldung mit Google
 
 1. console.cloud.google.com, neues Projekt «easyplay».
-2. **APIs und Dienste**, **OAuth-Zustimmungsbildschirm**: extern, App-Name easyplay, Support-Mail, Logo, Datenschutz-Link `https://DEINE-DOMAIN/datenschutz.html`.
+2. **APIs und Dienste**, **OAuth-Zustimmungsbildschirm**: extern, App-Name easyplay, Support-Mail, Logo, Datenschutz-Link `https://easyplay.ch/datenschutz.html`.
 3. **Anmeldedaten**, **OAuth-Client-ID**, Typ **Webanwendung**.
-   - Autorisierte JavaScript-Quelle: `https://DEINE-DOMAIN`
-   - Autorisierte Weiterleitungs-URI: `https://DEINE-DOMAIN/auth/v1/callback`
+   - Autorisierte JavaScript-Quelle: `https://easyplay.ch`
+   - Autorisierte Weiterleitungs-URI: `https://easyplay.ch/auth/v1/callback`
 4. Client-ID und Clientschlüssel als `GOOGLE_CLIENT_ID` und `GOOGLE_CLIENT_SECRET` eintragen.
 
 ## 5. Anmeldung mit Apple
@@ -60,8 +60,8 @@ Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofo
 1. developer.apple.com, **Certificates, Identifiers & Profiles**, **Identifiers**, **+**, **Services IDs**. Beschreibung «easyplay Web», Kennung z. B. `ch.easyplay.web`. Das ist `APPLE_CLIENT_ID`.
 2. Die Services ID öffnen, **Sign in with Apple** einschalten, **Configure**:
    - Primary App ID: `ch.easyplay.app`
-   - Domain: `DEINE-DOMAIN`
-   - Return URL: `https://DEINE-DOMAIN/auth/v1/callback`
+   - Domain: `easyplay.ch`
+   - Return URL: `https://easyplay.ch/auth/v1/callback`
 3. **Keys**, **+**, Name «easyplay Anmeldung», **Sign in with Apple** anhaken (Primary App ID `ch.easyplay.app`). Die Datei `AuthKey_….p8` herunterladen (geht nur einmal).
 4. Eintragen:
    - `APPLE_KEY_ID`: die Key ID.
@@ -77,10 +77,18 @@ Wie bei ATPLReady:
 - Die richtige App baut nur einen festen Stand, zum Beispiel einen Zweig `produktiv` oder eine Version `v…`.
 - Freigeben heisst dann: den geprüften Stand auf diesen Zweig schieben.
 
-## 7. Prüfen
+## 7. Umzug von GitHub Pages
 
-- `https://DEINE-DOMAIN/api/health` zeigt `{"ok":true}`.
-- `https://DEINE-DOMAIN/auth/v1/settings` zeigt, welche Anmeldungen an sind.
+Sobald `https://easyplay.ch/api/health` antwortet, leitet die alte Adresse `djsunji.github.io/easyplay` jeden Besuch nach easyplay.ch weiter und nimmt den Spielstand einmal mit (`index.html`, Skript «Umzug nach easyplay.ch»).
+- Übernommen wird er nur auf einem Gerät, das auf easyplay.ch noch keinen Spielstand hat.
+- Lehrer-Passwort, Anmeldung und Zwischenspeicher gehen nicht mit.
+- Die alte Seite bleibt mit `?bleiben` erreichbar.
+- GitHub Pages darum eingeschaltet lassen, solange alte Links und Startbildschirm-Symbole im Umlauf sind.
+
+## 8. Prüfen
+
+- `https://easyplay.ch/api/health` zeigt `{"ok":true}`.
+- `https://easyplay.ch/auth/v1/settings` zeigt, welche Anmeldungen an sind.
 - Konto registrieren, Bestätigungsmail öffnen, anmelden. In der Verwaltung (`/admin/`) unter «Zugang» mit dem Konto aus `ADMIN_EMAIL` anmelden.
 
 ## Für Entwickler
