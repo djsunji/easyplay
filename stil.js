@@ -645,3 +645,38 @@ if(typeof vor === "function"){
     return r; };
 }
 })();
+
+/* ================= Kacheln der Startseite mit gezeichneten Grafiken (Computer) ================= */
+(function(){
+const K = "img/kacheln/";
+const T = [
+  [".eptl", "tag"], ["[data-a=zufall]", "serie"], [":has(.epring)", "level"], ["[data-a=live]", "live"],
+  [":has(.epabz)", "abzeichen"], [":has(.epfakt)", "wissen"], ["[data-a=fehler]", "fehler"], [".xt-ein", "truhe"]];
+const POS = {truhe:"right 30%"};
+const W = "html:root body .ep-wg>.ep-w";
+const css = document.createElement("style"); css.id = "ep-kacheln-css";
+css.textContent = T.map(([s, n]) => `${W}${s}{background:url(${K}${n}.webp) ${POS[n] || "right bottom"}/cover no-repeat,#5B3FE0!important;animation:none!important}`).join("\n") + `
+${W}:is(${T.map(t => t[0]).join(",")}){border:0!important;border-radius:28px!important;color:#fff!important;box-shadow:0 14px 30px -14px rgba(20,20,70,.55)!important;overflow:hidden}
+${W}:is(${T.map(t => t[0]).join(",")})::after{display:none!important}
+${W}:is(${T.map(t => t[0]).join(",")}) :is(small,b,p,span,div,time,h4){text-shadow:0 2px 8px rgba(20,10,60,.45)}
+${W}:is(${T.map(t => t[0]).join(",")}) :is(.ep-btn,button,.epmini){text-shadow:none}
+${W}.xt-ein .xt-ein-truhe{display:none!important}
+${W}.xt-ein.xt-o{filter:saturate(.75) brightness(.92)}
+${W}[data-a=fehler][disabled]{filter:saturate(.8)}
+${W}.eptl .epe i{background:rgba(255,255,255,.95)!important;border-color:#fff!important}
+${W}.eptl .epe.st-ok i{background:#2BD67B!important;border-color:#fff!important}
+${W}.eptl .epe::before{background:rgba(255,255,255,.45)!important}
+#nav #navKonto.st-anm{width:184px;height:54px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
+  background:url(${K}anmelden.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.7)!important;transition:transform .15s}
+#nav #navKonto.st-anm *{display:none!important}
+#nav #navKonto.st-anm:hover{transform:translateY(-2px) scale(1.03)}
+#nav #navKonto.st-anm:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+`;
+document.head.appendChild(css);
+function anm(){ const b = document.getElementById("navKonto"); if(!b) return;
+  const t = (b.querySelector(".tlab") || b).textContent.trim(); const an = t === "Anmelden";
+  if(b.classList.contains("st-anm") !== an){ b.classList.toggle("st-anm", an); if(an) b.setAttribute("aria-label", "Anmelden"); } }
+const nav = document.getElementById("nav") || document.body;
+new MutationObserver(anm).observe(nav, {childList:true, subtree:true, characterData:true});
+anm();
+})();
