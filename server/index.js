@@ -12,6 +12,7 @@ const E = process.env;
 const WURZEL = E.STATIC_DIR || join(dirname(fileURLToPath(import.meta.url)), "..");
 const statisch = statischMacher(WURZEL);
 const MAX_BODY = 2 * 1024 * 1024;
+let BEREIT = false, FEHLER = "";
 
 /* Wer darf die Schnittstelle aus dem Browser aufrufen (CORS)? Eigene Adresse, SITE_URLS, die App. */
 function herkunftErlaubt(o) {
@@ -72,7 +73,12 @@ const server = createServer(async (req, res) => {
     }
 
     /* Gesundheit: auch von fremden Seiten lesbar, die alte Adresse (GitHub Pages) prüft damit, ob der Umzug bereit ist */
-    if (req.pfad === "/api/health") { res.setHeader("Access-Control-Allow-Origin", "*"); await sql`select 1`; return res.json(200, { ok: true, app: "easyplay" }); }
+    if (req.pfad === "/api/health") {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      if (!BEREIT) return res.json(503, { ok: false, app: "easyplay", zustand: FEHLER ? "Datenbank-Fehler: " + FEHLER : "startet" });
+      await sql`select 1`; return res.json(200, { ok: true, app: "easyplay" });
+    }
+    if (!BEREIT && (req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/"))) return res.json(503, { code: "503", message: "Der Server startet noch" });
     if (req.pfad.startsWith("/auth/v1/")) return await authAnfrage(req, res, req.pfad.slice(8));
     if (req.pfad.startsWith("/rest/v1/")) {
       const person = personAusAnfrage(req);
@@ -94,7 +100,12 @@ const server = createServer(async (req, res) => {
 const PORT = +E.PORT || 8080;
 if (!E.JWT_SECRET || E.JWT_SECRET.length < 32) { console.error("JWT_SECRET fehlt oder ist kürzer als 32 Zeichen (siehe ANLEITUNG-SERVER.md)"); process.exit(1); }
 if (!E.PUBLIC_URL) console.warn("Achtung: PUBLIC_URL fehlt, Links in Mails und die Anmeldung mit Google/Apple gehen dann nicht.");
-await einrichten();
 server.headersTimeout = 30000; server.requestTimeout = 60000;
+/* Zuerst lauschen (Website geht sofort), dann die Datenbank einrichten. Klappt das nicht, alle 30 s nochmals. */
 server.listen(PORT, () => console.log(`easyplay-Server läuft auf Port ${PORT}`));
+async function starten() {
+  try { await einrichten(); BEREIT = true; FEHLER = ""; console.log("Datenbank bereit"); }
+  catch (e) { FEHLER = String(e.message || e).split("\n")[0].slice(0, 200); console.error("Datenbank nicht bereit:", e.message); setTimeout(starten, 30000); }
+}
+starten();
 for (const sig of ["SIGTERM", "SIGINT"]) process.on(sig, () => { server.close(); sql.end({ timeout: 5 }).finally(() => process.exit(0)); });
