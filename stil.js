@@ -652,12 +652,15 @@ const K = "img/kacheln/";
 const T = [
   [".eptl", "tag"], ["[data-a=zufall]", "serie"], [":has(.epring)", "level"], ["[data-a=live]", "live"],
   [":has(.epabz)", "abzeichen"], [":has(.epfakt)", "wissen"], ["[data-a=fehler]", "fehler"], [".xt-ein", "truhe"]];
-const POS = {truhe:"right 30%"};
+// Symbol: Höhe in % der Kachel und Lage; der Grund wird ganz eingepasst, das Symbol nie verzerrt oder abgeschnitten
+const SYM = {tag:["right bottom","60%"], serie:["right bottom","86%"], level:["right bottom","82%"], live:["right bottom","74%"],
+  abzeichen:["right bottom","63%"], wissen:["right bottom","82%"], fehler:["right bottom","80%"], truhe:["right top 6%","54%"]};
 const W = "html:root body .ep-wg>.ep-w";
 const css = document.createElement("style"); css.id = "ep-kacheln-css";
-css.textContent = T.map(([s, n]) => `${W}${s}{background:url(${K}${n}.webp) ${POS[n] || "right bottom"}/cover no-repeat,#5B3FE0!important;animation:none!important}`).join("\n") + `
+css.textContent = T.map(([s, n]) => `${W}${s}{background:url(${K}${n}-symbol.webp) ${SYM[n][0]}/auto ${SYM[n][1]} no-repeat,url(${K}${n}-grund.webp) 0 0/100% 100% no-repeat,transparent!important;animation:none!important}`).join("\n") + `
 ${W}:is(${T.map(t => t[0]).join(",")}){border:0!important;border-radius:28px!important;color:#fff!important;box-shadow:0 14px 30px -14px rgba(20,20,70,.55)!important;overflow:hidden}
 ${W}:is(${T.map(t => t[0]).join(",")})::after{display:none!important}
+@media (max-width:860px){${W}.xt-ein{background-position:right center,0 0!important;background-size:auto 88%,100% 100%!important}}
 ${W}:is(${T.map(t => t[0]).join(",")}) :is(small,b,p,span,div,time,h4){text-shadow:0 2px 8px rgba(20,10,60,.45)}
 ${W}:is(${T.map(t => t[0]).join(",")}) :is(.ep-btn,button,.epmini){text-shadow:none}
 ${W}.xt-ein .xt-ein-truhe{display:none!important}

@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 25.10., Sitzung «Kacheln» (claude-34): Kacheln der Startseite, Grafiken sollen nicht mehr abgeschnitten werden. Dateien: `stil.js` (Block am Ende), `img/kacheln/`, `sw.js`/`index.html` nur Version.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 25.10. Sitzung «Kacheln» (claude-34): Kachel-Grafiken werden nicht mehr abgeschnitten. Jede Grafik ist geteilt in Grund (`img/kacheln/<name>-grund.webp`, ganz eingepasst) und Symbol (`<name>-symbol.webp`, unverzerrt rechts unten), Block am Ende von `stil.js`. Version ep-2026-10-25-04.
 - 25.10. Sitzung «Hauptseite»: Domain easyplay.ch. Geteilte Links, Vorschaubild, Sitemap und App zeigen auf easyplay.ch (`config.js`, `index.html`, `sitemap.xml`, `robots.txt`, `app/native.js`). Umzug: Sobald `https://easyplay.ch/api/health` antwortet, leitet GitHub Pages weiter und nimmt den Spielstand einmal mit (Skript «Umzug nach easyplay.ch» oben in `index.html`; `?bleiben` zeigt die alte Seite). Server: www.easyplay.ch auf easyplay.ch, Dateien mit CORS für die App.
 - 25.10. Sitzung «Hauptseite»: Eigener Server statt Supabase (`server/`, Node mit PostgreSQL, für Deploio bei Nine, `Dockerfile`). Er liefert die Website aus und versteht dieselben Aufrufe wie Supabase (`/auth/v1`, `/rest/v1`), Anmeldung mit E-Mail, Google und Apple, Mails über SMTP. Die Website nutzt `datenbank.js` statt supabase-js vom CDN. Wichtig für alle: (1) Online ist automatisch an, wenn die Seite auf dem eigenen Server läuft (`config.js`), auf GitHub Pages aus. (2) Neue SQL-Funktion für die Website nur mit `grant execute … to anon/authenticated` in `supabase/*.sql`, sonst ist sie nicht erreichbar. Neue Tabelle für direkten Zugriff: Regel in `server/rest.js` (`REGELN`). (3) `sw.js` lässt `/auth/v1/`, `/rest/v1/` und `/api/` durch. (4) Fragen kommen weiter aus `fragen-*.json` (`fragenAusDatenbank` nur bei Bedarf). Tests: `server/test/`. Anleitung: `ANLEITUNG-SERVER.md`.
 - 25.10. Sitzung «Kacheln» (claude-34): Startseite Computer, die Kacheln Dein Tag, Serie, Level, Live-Quiz, Truhe, Abzeichen, Wusstest du und Fehler üben haben Dejans gezeichnete Grafiken als Hintergrund (`img/kacheln/`, Block «Kacheln der Startseite» am Ende von `stil.js`, überschreibt die Verläufe und Emoji aus `extras.js`). Knopf «Anmelden» oben als Grafik, nur wenn der Text deutsch «Anmelden» ist. Version ep-2026-10-25-01.
