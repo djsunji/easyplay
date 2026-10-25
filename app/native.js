@@ -97,6 +97,17 @@ window.fetch = function(input, init){
         clearTimeout(t); if(r.ok) return r; return fetchAlt(input, init);
       }, function(){ clearTimeout(t); return fetchAlt(input, init); });
     }
+    /* Eigene Dateien der App (capacitor://localhost): ohne Cache-Angabe holen. Der iPhone-WebView liefert
+       Anfragen mit cache:"force-cache" an das App-Schema nicht zuverlässig aus (Bibliothekstexte fehlten).
+       Klappt es trotzdem nicht, kommen Texte und Fragen von der Website. */
+    var lokal = typeof input === "string" && !/^[a-z][a-z0-9+.-]*:/i.test(rel);
+    if(lokal){
+      var i2 = init ? Object.assign({}, init) : undefined; if(i2) delete i2.cache;
+      var rp2 = rel.replace(/^\.\//, "");
+      var p2 = fetchAlt(input, i2);
+      if(/^(tx\/|texte-|fragen|bildindex|welten\/)/.test(rp2)) return p2.then(function(r){ return r.ok ? r : holenWeb(rp2, {}); }, function(){ return holenWeb(rp2, {}); });
+      return p2;
+    }
   }catch(e){}
   return fetchAlt(input, init);
 };
