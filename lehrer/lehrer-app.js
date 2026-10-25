@@ -500,7 +500,7 @@ function zeigeLogin(modus, vorMail){
           if(!AUTH.sb) throw new Error("Die Online-Datenbank ist nicht erreichbar.");
           const meta={vorname:vor, nachname:nach, avatar:"fuchs", stufe:3, kanton:kt, best:{}, tests:0, erstellt:new Date().toISOString(), rolle:"lehrperson"};
           const {data, error}=await AUTH.sb.auth.signUp({email:mail, password:pw, options:{data:meta, emailRedirectTo:location.origin+location.pathname}});
-          if(error) throw new Error(/registered|exists/i.test(error.message)?"Mit dieser E-Mail gibt es schon ein Konto. Bitte melde dich an.":"Registrierung hat nicht geklappt: "+error.message);
+          if(error) throw new Error(/registered|exists/i.test(error.message)?"Mit dieser E-Mail gibt es schon ein Konto. Bitte melde dich an.":/geschlossen/i.test(error.message)?error.message:"Registrierung hat nicht geklappt: "+error.message);
           lsSet("ep-letztemail", mail);
           if(data?.session?.user){ AUTH.user=data.session.user; kontoSupabase(); await ST.sp.rolleSetzen(); if(ST.sp.istLehrer()){ appStart(); melde("Willkommen im Lehrerbereich!"); } else zeigeRolle(); }
           else { zeigeLogin("anmelden", mail); $("#lFehler").textContent="Fast fertig: Bitte bestätige deine E-Mail-Adresse (Link im Mail) und melde dich dann an."; }

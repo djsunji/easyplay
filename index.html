@@ -2,7 +2,7 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta name="robots" content="index, follow, noai, noimageai">
+<meta name="robots" content="index, nofollow, noarchive, nosnippet, noimageindex, max-image-preview:none, notranslate, noai, noimageai">
 <meta name="tdm-reservation" content="1">
 <meta name="tdm-policy" content="https://easyplay.ch/impressum.html">
 <meta http-equiv="Cache-Control" content="no-cache">
@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-25-08";
+window.EP_BUILD="ep-2026-10-25-09";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -5559,7 +5559,7 @@ function renderRegister(){
         if(AUTH.modus==="supabase"){
           const meta={vorname:vor, nachname:nach, avatar:av, stufe:S.stufe, kanton:kt, best:{}, tests:0, erstellt:S.profil.erstellt};
           const {error}=await AUTH.sb.auth.signUp({email:mail, password:pw, options:{data:meta, emailRedirectTo:location.origin+location.pathname}});
-          if(error) throw new Error(/registered|exists/i.test(error.message)?"Mit dieser E-Mail gibt es schon ein Profil. Melde dich an.":"Registrierung hat nicht geklappt: "+error.message);
+          if(error) throw new Error(/registered|exists/i.test(error.message)?"Mit dieser E-Mail gibt es schon ein Profil. Melde dich an.":error.code==="403"||/geschlossen/i.test(error.message)?error.message:"Registrierung hat nicht geklappt: "+error.message);
           S.regMail=mail;
         } else {
           const konten=lokaleKonten(); if(konten[mail]) throw new Error("Mit dieser E-Mail gibt es auf diesem Gerät schon ein Profil. Melde dich an.");

@@ -105,7 +105,9 @@ export async function einrichten(log = console.log) {
   });
   // Wer ist Admin? ADMIN_EMAIL (Komma-Liste) bekommt beim Start Admin-Rechte, sobald das Konto existiert.
   for (const mail of String(process.env.ADMIN_EMAIL || "").split(",").map(x => x.trim().toLowerCase()).filter(Boolean)) {
-    await sql`insert into public.admins (user_id) select id from auth.users where lower(email) = ${mail} on conflict do nothing`.catch(() => {});
+    /* nur mit echtem Mailversand: sonst könnte jemand die Adresse vorher selbst registrieren */
+    if (!(process.env.SMTP_HOST && process.env.MAIL_FROM)) continue;
+    await sql`insert into public.admins (user_id) select id from auth.users where lower(email) = ${mail} and email_confirmed_at is not null on conflict do nothing`.catch(() => {});
   }
 }
 

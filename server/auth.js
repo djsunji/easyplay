@@ -218,6 +218,7 @@ async function kontoFuerAnbieter(anbieter, d, nameApple) {
     if (schon && schon.email_confirmed_at) throw Object.assign(new Error("Mit dieser E-Mail gibt es schon ein Konto. Melde dich mit E-Mail und Passwort an."), { anzeigen: true });
     if (schon) await sql`delete from auth.users where id = ${schon.id} and email_confirmed_at is null`;   // nie bestätigt: Platz machen
   }
+  if (!u && !anmeldungOffen()) throw Object.assign(new Error(GESCHLOSSEN), { anzeigen: true });
   if (!u) {
     const vor = d.given_name || nameApple?.firstName || "", nach = d.family_name || nameApple?.lastName || "";
     const meta = { full_name: d.name || [vor, nach].filter(Boolean).join(" "), given_name: vor, family_name: nach, avatar_url: d.picture || undefined, email: mail };
@@ -229,6 +230,11 @@ async function kontoFuerAnbieter(anbieter, d, nameApple) {
   return u;
 }
 
+/* Neue Konten nur, wenn Mails bestätigt werden können (sonst könnte jemand fremde Adressen benutzen).
+   SIGNUP=0 schliesst immer, SIGNUP=1 öffnet auch ohne Mailversand (nur für Tests). */
+const anmeldungOffen = () => E.SIGNUP === "1" || (E.SIGNUP !== "0" && mailAn());
+const GESCHLOSSEN = "Die Registrierung ist im Moment geschlossen. Bitte versuche es in ein paar Tagen nochmals.";
+
 /* ---------- Anfragen ---------- */
 const fehler = (res, status, code, text) => res.json(status, { code: status, error_code: code, msg: text, error: code, error_description: text });
 const mailOk = m => /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/.test(m);
@@ -239,10 +245,11 @@ export async function authAnfrage(req, res, pfad) {
 
   if (pfad === "/settings" && m === "GET") {
     return res.json(200, { external: { email: true, google: !!ANBIETER.google(), apple: !!ANBIETER.apple(), facebook: false, azure: false },
-      disable_signup: false, mailer_autoconfirm: !mailAn() });
+      disable_signup: !anmeldungOffen(), mailer_autoconfirm: !mailAn() });
   }
 
   if (pfad === "/signup" && m === "POST") {
+    if (!anmeldungOffen()) return fehler(res, 403, "signup_disabled", GESCHLOSSEN);
     if (!bremse("reg:" + ip, 10, 3600)) return fehler(res, 429, "over_request_rate_limit", "Zu viele Versuche. Bitte später nochmals.");
     const b = await req.body();
     const mail = String(b.email || "").trim().toLowerCase(), pw = String(b.password || "");
