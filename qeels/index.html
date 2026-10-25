@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-25-09";
+window.EP_BUILD="ep-2026-10-25-10";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -5484,6 +5484,16 @@ function renderDone(){
 /* ---------- Registrieren ---------- */
 function renderRegister(){
   const p=S.profil, edit=!!p;
+  if(!edit && !S.profilErgaenzen && AUTH.regZu){
+    $("#app").innerHTML = `${crumbs()}
+      <div class="authbox"><div class="authkopf"><span class="authicon">🔒</span><h1>Registrieren</h1>
+        <p>Die Registrierung ist im Moment geschlossen. Bitte versuche es in ein paar Tagen nochmals.</p>
+        <p>Du kannst trotzdem ohne Profil spielen, lernen und lesen. Dein Fortschritt bleibt auf diesem Gerät gespeichert.</p></div>
+        <button class="big" id="regZuWeiter" type="button" style="width:100%">Weiterspielen</button>
+        <p class="authwechsel">Schon ein Profil? <button type="button" class="linkbtn" id="zuLogin">Hier anmelden</button></p></div>`;
+    $("#regZuWeiter").onclick=()=>go("home"); $("#zuLogin").onclick=()=>go("login");
+    return;
+  }
   let av = p?.avatar && (AVATAR_IMG[p.avatar]||ALT_AVATAR[p.avatar]||AVATARE.includes(p.avatar)) ? (ALT_AVATAR[p.avatar]||p.avatar) : levelAvatare(S.stufe)[0];
   let kt = p?.kanton || "";
   const titel = S.profilErgaenzen? "Profil vervollständigen" : edit? "Profil bearbeiten" : "Registrieren";
@@ -7896,7 +7906,7 @@ function ohneStrich(t){ if(typeof t!=="string") return t; return t.replace(/(\d)
 function frageOhneStrich(f){ return {...f, q:ohneStrich(f.q), a:Array.isArray(f.a)?f.a.map(ohneStrich):f.a, e:ohneStrich(f.e), m:ohneStrich(f.m)}; }
 /* ================= Konten: E-Mail + Passwort, Google, Facebook, Apple, Microsoft ================= */
 /* Microsoft heisst bei Supabase "azure" (Feld oauth). Azure braucht zusätzlich scopes:"email", sonst fehlt die E-Mail-Adresse. */
-const AUTH = { sb:null, bereit:false, modus:"lokal", user:null };
+const AUTH = { sb:null, bereit:false, modus:"lokal", user:null, regZu:false };
 const PROVIDER = [
   {id:"google", name:"Google", icon:'<svg viewBox="0 0 48 48" width="22" height="22"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>'},
   {id:"apple", name:"Apple", icon:'<svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.7c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg>'},
@@ -7926,7 +7936,7 @@ async function authInit(){
     /* Eigener Server: erst fragen, ob er da ist und welche Anmeldungen er anbietet */
     const st=await fetch(cfg.supabaseUrl.replace(/\/$/,"")+"/auth/v1/settings",{headers:{apikey:cfg.supabaseKey}, signal:AbortSignal.timeout?AbortSignal.timeout(8000):undefined});
     if(!st.ok) throw new Error("Server "+st.status);
-    AUTH.anbieter=(await st.json()).external||{};
+    const einst=await st.json(); AUTH.anbieter=einst.external||{}; AUTH.regZu=!!einst.disable_signup;
     if(!window.supabase?.createClient) await new Promise((ok,err)=>{ const sc=document.createElement("script"); sc.src="datenbank.js?v="+(window.EP_BUILD||""); sc.onload=ok; sc.onerror=err; document.head.appendChild(sc); });
     AUTH.sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
     if(window.EP_ANMELDEFEHLER) setTimeout(()=>{ try{ alert(window.EP_ANMELDEFEHLER); }catch(e){} window.EP_ANMELDEFEHLER=""; }, 600);
@@ -7942,7 +7952,7 @@ async function authInit(){
         if(!S.profil.kanton){ S.profilErgaenzen=true; go("register"); } else if(S.screen==="login"||S.screen==="register") go("profil"); else render();
       }
     });
-  }catch(e){ AUTH.modus="lokal"; }
+  }catch(e){ AUTH.modus="lokal"; AUTH.regZu=true; }   /* eigener Server nicht erreichbar: keine neuen Konten nur auf diesem Gerät */
   AUTH.bereit=true;
 }
 function socialHTML(){
