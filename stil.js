@@ -697,21 +697,20 @@ new MutationObserver(() => { anm(); knoepfe(); }).observe(nav, {childList:true, 
 anm(); knoepfe();
 })();
 
-/* ================= Bereich-Kacheln mit gezeichneten Grafiken (Startseite Computer und App-Tab Themen) ================= */
+/* ================= Bereich-Kacheln mit gezeichneten Grafiken (nur Startseite Computer, Handy und iPad vorerst ohne) ================= */
 (function(){
 // Neun-Teile-Skalierung (border-image): Ecken mit Rahmen und das Symbol rechts unten bleiben unverzerrt und ganz,
 // nur die ruhigen Flächen dazwischen werden gedehnt. So passt die Grafik in jede Kachelgrösse, ohne abzuschneiden.
 // Masse in Pixeln der Datei (900 x 515): oben, rechts, unten, links. Rechts/unten umschliessen das ganze Symbol.
 const K = "img/kacheln/bereich-";
 const S = {welt:[52,380,342,54], natur:[52,200,384,54], geld:[52,398,404,54], alltag:[52,254,388,54]};
-const pc = n => `html:root body .bereiche>.bereich[data-b=${n}]`, ap = n => `html:root body .apb:has(>.apb-kopf[data-b=${n}])`;
-const N = Object.keys(S), alle = N.map(pc).concat(N.map(ap)).join(",");
+const pc = n => `html:root body:not(.ep-app) .bereiche>.bereich[data-b=${n}]`;
+const N = Object.keys(S), alle = N.map(pc).join(",");
 const css = document.createElement("style"); css.id = "ep-bereich-kacheln-css";
-css.textContent = N.map(n => `:is(${pc(n)},${ap(n)}){border-image:url(${K}${n}.webp) ${S[n].join(" ")} fill/var(--kb,${S[n].map(x => Math.round(x * .5) + "px").join(" ")}) stretch!important}`).join("\n") + `
+css.textContent = N.map(n => `${pc(n)}{border-image:url(${K}${n}.webp) ${S[n].join(" ")} fill/var(--kb,${S[n].map(x => Math.round(x * .5) + "px").join(" ")}) stretch!important}`).join("\n") + `
 :is(${alle}){background:transparent!important;animation:none!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;border-radius:0!important;color:#fff!important;box-shadow:none!important;overflow:visible;filter:drop-shadow(0 14px 22px rgba(20,20,70,.35))}
 :is(${alle})::before,:is(${alle})::after{display:none!important}
 :is(${alle}) :is(h2,p,b,small,.apn){text-shadow:0 2px 8px rgba(20,10,60,.5)}
-html:root body .apb .apwm{display:none!important}
 `;
 document.head.appendChild(css);
 // Massstab je Kachel: Symbol höchstens halb so breit wie die Kachel, Ecken passen immer hinein
@@ -722,7 +721,7 @@ function einpassen(el){
   el.style.setProperty("--kb", s.map(x => (x * k).toFixed(1) + "px").join(" "));
 }
 const ro = typeof ResizeObserver === "function" ? new ResizeObserver(e => e.forEach(x => einpassen(x.target))) : null;
-function suchen(){ document.querySelectorAll(".bereiche>.bereich[data-b], .apb").forEach(el => { if(el.dataset.kb9) return; const n = el.dataset.b || (el.querySelector(":scope>.apb-kopf[data-b]") || {}).dataset?.b; if(!S[n]) return; el.dataset.kb9 = "1"; einpassen(el); if(ro) ro.observe(el); }); }
+function suchen(){ document.querySelectorAll(".bereiche>.bereich[data-b]").forEach(el => { if(el.dataset.kb9) return; const n = el.dataset.b; if(!S[n]) return; el.dataset.kb9 = "1"; einpassen(el); if(ro) ro.observe(el); }); }
 const app = document.getElementById("app");
 if(app) new MutationObserver(suchen).observe(app, {childList:true, subtree:true});
 suchen();
