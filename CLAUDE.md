@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 25.10. Sitzung «Hauptseite»: Bereich-Kacheln Computer (Welt, Natur, Schweiz, Alltag) hatten Nähte und abgeschnittene Symbole durch die Neun-Teile-Skalierung. Jetzt füllt die ganze Grafik die Kachel und die Kachel hat das Seitenverhältnis der Datei (`aspect-ratio:900/515`), Block «Bereich-Kacheln» in `stil.js`. Version ep-2026-10-25-16.
 - 25.10. Sitzung «Qeels-App»: Qeels: Knöpfe rechts bleiben beim Wischen stehen (`rlRailFest` in `index.html`, verschiebt jede `.rrail` per CSS-Variable `--rfix` um den Scrollweg). Version ep-2026-10-25-14.
 - 25.10. Sitzung «Qeels-App»: Qeels: Knöpfe rechts wie angenagelt. Statt Verschieben per `--rfix` liegt jetzt eine feste Ebene `#rrailfest` über dem Feed (`rlRailPlatz`), in die `rlRailKopie` die Knöpfe des aktiven Qeels kopiert (Klicks gehen an die versteckten Originale, Höhe festgepinnt in `RL.railOben`). Version ep-2026-10-25-15.
 - 25.10. Sitzung «Hauptseite»: Startseite Handy und iPad (App-Ansicht `.ap-heute`): Kacheln Zufällige Fragen, Bibliothek, Mein Level, Tagesquiz, Live, Fehler üben, Wochen-Challenge und Wusstest du mit Dejans Grafiken (Grund als Neun-Teile-Bild, Symbol bündig rechts unten im gleichen Massstab, `--s` per ResizeObserver), neuer Block am Ende von `stil.js`. Schwarzer Saum am Rand aller `img/kacheln/*-grund.webp` und `*-symbol.webp` entfernt (sah aus wie abgeschnitten, betrifft auch den Computer). Version ep-2026-10-25-13.

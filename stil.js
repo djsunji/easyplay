@@ -709,32 +709,18 @@ anm(); knoepfe();
 
 /* ================= Bereich-Kacheln mit gezeichneten Grafiken (nur Startseite Computer, Handy und iPad vorerst ohne) ================= */
 (function(){
-// Neun-Teile-Skalierung (border-image): Ecken mit Rahmen und das Symbol rechts unten bleiben unverzerrt und ganz,
-// nur die ruhigen Flächen dazwischen werden gedehnt. So passt die Grafik in jede Kachelgrösse, ohne abzuschneiden.
-// Masse in Pixeln der Datei (900 x 515): oben, rechts, unten, links. Rechts/unten umschliessen das ganze Symbol.
-const K = "img/kacheln/bereich-";
-const S = {welt:[52,380,342,54], natur:[52,200,384,54], geld:[52,398,404,54], alltag:[52,254,388,54]};
+// Die ganze Grafik füllt die Kachel (nichts geschnitten, keine Nähte), die Kachel hat dafür das Seitenverhältnis
+// der Datei (900 x 515). Nur wenn der Text mehr Platz braucht, wird die Kachel höher und die Grafik leicht gedehnt.
+const K = "img/kacheln/bereich-", N = ["welt", "natur", "geld", "alltag"];
 const pc = n => `html:root body:not(.ep-app) .bereiche>.bereich[data-b=${n}]`;
-const N = Object.keys(S), alle = N.map(pc).join(",");
+const alle = N.map(pc).join(",");
 const css = document.createElement("style"); css.id = "ep-bereich-kacheln-css";
-css.textContent = N.map(n => `${pc(n)}{border-image:url(${K}${n}.webp) ${S[n].join(" ")} fill/var(--kb,${S[n].map(x => Math.round(x * .5) + "px").join(" ")}) stretch!important}`).join("\n") + `
-:is(${alle}){background:transparent!important;animation:none!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;border-radius:0!important;color:#fff!important;box-shadow:none!important;overflow:visible;filter:drop-shadow(0 14px 22px rgba(20,20,70,.35))}
+css.textContent = N.map(n => `${pc(n)}{background:url(${K}${n}.webp) 0 0/100% 100% no-repeat!important}`).join("\n") + `
+:is(${alle}){border-image:none!important;animation:none!important;border:0!important;border-radius:4.5%/7.8%!important;aspect-ratio:900/515;height:auto!important;color:#fff!important;box-shadow:none!important;overflow:visible;filter:drop-shadow(0 14px 22px rgba(20,20,70,.35))}
 :is(${alle})::before,:is(${alle})::after{display:none!important}
 :is(${alle}) :is(h2,p,b,small,.apn){text-shadow:0 2px 8px rgba(20,10,60,.5)}
 `;
 document.head.appendChild(css);
-// Massstab je Kachel: Symbol höchstens halb so breit wie die Kachel, Ecken passen immer hinein
-function einpassen(el){
-  const b = el.querySelector("[data-b]") || el, n = el.dataset.b || (b && b.dataset.b); const s = S[n]; if(!s) return;
-  const W = el.clientWidth, H = el.clientHeight; if(!W || !H) return;
-  const k = Math.min(H / (s[0] + s[2]), W / (s[1] + s[3]), .42 * W / s[1], 1);
-  el.style.setProperty("--kb", s.map(x => (x * k).toFixed(1) + "px").join(" "));
-}
-const ro = typeof ResizeObserver === "function" ? new ResizeObserver(e => e.forEach(x => einpassen(x.target))) : null;
-function suchen(){ document.querySelectorAll(".bereiche>.bereich[data-b]").forEach(el => { if(el.dataset.kb9) return; const n = el.dataset.b; if(!S[n]) return; el.dataset.kb9 = "1"; einpassen(el); if(ro) ro.observe(el); }); }
-const app = document.getElementById("app");
-if(app) new MutationObserver(suchen).observe(app, {childList:true, subtree:true});
-suchen();
 })();
 
 /* ================= Kacheln der Startseite Handy und iPad (App-Ansicht .ap-heute) mit gezeichneten Grafiken ================= */
