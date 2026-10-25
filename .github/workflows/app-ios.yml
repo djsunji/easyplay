@@ -20,6 +20,39 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      - name: Schlüssel bei Apple prüfen
+        if: env.TEAM != ''
+        run: |
+          pip3 install -q --break-system-packages pyjwt cryptography 2>/dev/null || pip3 install -q pyjwt cryptography
+          python3 - <<'PY'
+          import os, re, time, json, urllib.request, urllib.error
+          kid=os.environ["KID"]; iss=os.environ["ISS"]; p8=os.environ["P8"]; team=os.environ["TEAM"]
+          def n(t): print("::notice::"+t)
+          def e(t): print("::error::"+t)
+          n(f"Key ID: {len(kid)} Zeichen, Format {'ok' if re.fullmatch(r'[A-Z0-9]{10}',kid) else 'FALSCH (10 Grossbuchstaben/Ziffern erwartet, Leerzeichen?)'}")
+          n(f"Issuer ID: Format {'ok' if re.fullmatch(r'[0-9a-f-]{36}',iss) else 'FALSCH'}")
+          n(f"Team ID: Format {'ok' if re.fullmatch(r'[A-Z0-9]{10}',team) else 'FALSCH'}")
+          zeilen=[z for z in p8.strip().splitlines() if z.strip()]
+          n(f"P8: {len(zeilen)} Zeilen, BEGIN {'ok' if zeilen and 'BEGIN PRIVATE KEY' in zeilen[0] else 'FEHLT'}, END {'ok' if zeilen and 'END PRIVATE KEY' in zeilen[-1] else 'FEHLT'}")
+          import jwt
+          try:
+              tok=jwt.encode({"iss":iss,"iat":int(time.time()),"exp":int(time.time())+600,"aud":"appstoreconnect-v1"},p8.strip()+"\n",algorithm="ES256",headers={"kid":kid,"typ":"JWT"})
+          except Exception as x:
+              e(f"P8 lässt sich nicht lesen: {type(x).__name__}"); raise SystemExit(0)
+          def hol(u):
+              r=urllib.request.Request("https://api.appstoreconnect.apple.com"+u,headers={"Authorization":"Bearer "+tok})
+              try:
+                  with urllib.request.urlopen(r) as a: return a.status, json.load(a)
+              except urllib.error.HTTPError as h:
+                  return h.code, h.read().decode()[:300]
+          c,d=hol("/v1/apps?filter[bundleId]=ch.easyplay.app")
+          if c!=200: e(f"Apple-API antwortet {c}: {d}")
+          else: n(f"Apple-API ok. App mit ch.easyplay.app in App Store Connect: {len(d['data'])}")
+          c,d=hol("/v1/bundleIds?filter[identifier]=ch.easyplay.app")
+          if c==200: n(f"Bundle ID ch.easyplay.app registriert: {len(d['data'])}")
+          c,d=hol("/v1/users?limit=1")
+          n(f"Admin-Recht (Benutzerliste lesen): {'ja' if c==200 else 'nein, Code '+str(c)}")
+          PY
       - name: Capacitor-Projekt erzeugen
         working-directory: app
         run: |
