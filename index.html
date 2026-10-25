@@ -2,6 +2,9 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="index, follow, noai, noimageai">
+<meta name="tdm-reservation" content="1">
+<meta name="tdm-policy" content="https://easyplay.ch/impressum.html">
 <meta http-equiv="Cache-Control" content="no-cache">
 <script>/* Beim Start nichts Halbfertiges zeigen: #app erst sichtbar, wenn alle Teile geladen sind */
 document.documentElement.classList.add("ep-boot");
@@ -71,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-25-07";
+window.EP_BUILD="ep-2026-10-25-08";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite

@@ -1,10 +1,84 @@
-# Hinweis: Auf GitHub Pages (Projektseite) wird robots.txt nur an der
-# Domain-Wurzel gelesen. Diese Datei schadet hier aber nicht.
+# robots.txt für easyplay.ch
+#
+# Alle Inhalte von easyplay (Fragen, Erklärungen, Bibliothekstexte, Bilder, Figuren, Gestaltung) sind
+# urheberrechtlich geschützt. Automatisches Kopieren, Sammeln (Scraping), Text- und Data-Mining und die
+# Verwendung für das Training von KI-Modellen sind nicht erlaubt (Vorbehalt nach Art. 4 Abs. 3 der
+# EU-Richtlinie 2019/790). Ausnahmen nur mit schriftlicher Zustimmung: dejan.ehrbar@bluewin.ch
+#
+# Suchmaschinen dürfen nur die Seiten selbst lesen, damit easyplay gefunden wird, nicht die Daten.
+
+# ---------- KI-Crawler und Datensammler: komplett gesperrt ----------
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: GoogleOther
+User-agent: GoogleOther-Image
+User-agent: Google-CloudVertexBot
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Meta-ExternalAgent
+User-agent: Meta-ExternalFetcher
+User-agent: FacebookBot
+User-agent: Bytespider
+User-agent: Amazonbot
+User-agent: cohere-ai
+User-agent: cohere-training-data-crawler
+User-agent: Diffbot
+User-agent: ImagesiftBot
+User-agent: Omgilibot
+User-agent: Omgili
+User-agent: YouBot
+User-agent: AI2Bot
+User-agent: Ai2Bot-Dolma
+User-agent: PetalBot
+User-agent: Timpibot
+User-agent: Webzio-Extended
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: Kangaroo Bot
+User-agent: Scrapy
+User-agent: magpie-crawler
+User-agent: img2dataset
+User-agent: SemrushBot
+User-agent: AhrefsBot
+User-agent: MJ12bot
+User-agent: DotBot
+User-agent: DataForSeoBot
+User-agent: BLEXBot
+User-agent: Barkrowler
+User-agent: archive.org_bot
+User-agent: ia_archiver
+Disallow: /
+
+# ---------- Suchmaschinen: nur die Seiten, keine Daten ----------
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: DuckDuckBot
+User-agent: Applebot
+User-agent: Slurp
+User-agent: YandexBot
+User-agent: Qwantbot
+User-agent: Ecosia
+Allow: /$
+Allow: /index.html
+Allow: /impressum.html
+Allow: /datenschutz.html
+Allow: /img/
+Allow: /manifest.webmanifest
+Allow: /*.js$
+Allow: /*.css$
+Disallow: /
+
+# ---------- Alle anderen: gesperrt ----------
 User-agent: *
-Allow: /
-Disallow: /easyplay/admin/
-Disallow: /easyplay/tools/
-Disallow: /easyplay/werkstatt/
-Disallow: /easyplay/supabase/
+Disallow: /
 
 Sitemap: https://easyplay.ch/sitemap.xml

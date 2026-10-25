@@ -46,6 +46,9 @@ export function statischMacher(wurzel) {
     const h = {
       "Content-Type": TYP[ext] || "application/octet-stream", ETag: etag, "Last-Modified": st.mtime.toUTCString(),
       "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin",
+      /* Kein Text- und Data-Mining, kein KI-Training; Daten (JSON, Bilder der Bibliothek) nicht in Suchmaschinen */
+      "TDM-Reservation": "1", "TDM-Policy": "https://easyplay.ch/impressum.html",
+      "X-Robots-Tag": ext === ".html" ? "noai, noimageai" : "noindex, noai, noimageai",
       "Access-Control-Allow-Origin": "*",            // öffentliche Dateien: die App lädt Bilder und Korrekturen von hier
       "Cache-Control": ext === ".html" || rel === "sw.js" ? "no-cache" : /^(bilder|img|flags|musik|tx)\//.test(rel) ? "public, max-age=86400" : "public, max-age=600",
     };
