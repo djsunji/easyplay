@@ -4,6 +4,10 @@
 name: App iOS
 on:
   workflow_dispatch:
+    inputs:
+      kid:
+        description: "Erwartete Key ID (nur zur Kontrolle)"
+        default: ""
   push:
     branches: [main]
     paths: ['app/**', '.github/workflows/app-ios.yml']
@@ -22,6 +26,8 @@ jobs:
         with: { node-version: 22 }
       - name: Schlüssel bei Apple prüfen
         if: env.TEAM != ''
+        env:
+          KID_SOLL: ${{ github.event.inputs.kid }}
         run: |
           pip3 install -q --break-system-packages pyjwt cryptography 2>/dev/null || pip3 install -q pyjwt cryptography
           python3 - <<'PY'
@@ -30,6 +36,8 @@ jobs:
           def n(t): print("::notice::"+t)
           def e(t): print("::error::"+t)
           n(f"Key ID: {len(kid)} Zeichen, Format {'ok' if re.fullmatch(r'[A-Z0-9]{10}',kid) else 'FALSCH (10 Grossbuchstaben/Ziffern erwartet, Leerzeichen?)'}")
+          soll=os.environ.get("KID_SOLL","")
+          if soll: n(f"Key ID gleich wie erwartet ({soll}): {'ja' if kid==soll else 'NEIN'}")
           n(f"Issuer ID: Format {'ok' if re.fullmatch(r'[0-9a-f-]{36}',iss) else 'FALSCH'}")
           n(f"Team ID: Format {'ok' if re.fullmatch(r'[A-Z0-9]{10}',team) else 'FALSCH'}")
           zeilen=[z for z in p8.strip().splitlines() if z.strip()]
