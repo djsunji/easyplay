@@ -1,3 +1,5 @@
+> **Hinweis (Oktober 2026):** Supabase wird nicht mehr gebraucht. easyplay hat jetzt einen eigenen Server mit PostgreSQL bei Nine, siehe `ANLEITUNG-SERVER.md`. Die SQL-Dateien in `supabase/` bleiben die Grundlage: Der Server spielt sie beim Start selbst ein. Diese Anleitung gilt nur noch, falls jemand doch Supabase nutzen will.
+
 # Supabase einrichten (rund 15 Minuten)
 
 Mit Supabase bekommt easyplay eine Online-Datenbank. Danach funktionieren:

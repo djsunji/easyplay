@@ -10,8 +10,8 @@ ZIEL = os.path.join(QUELLE, "app", "www")
 WEB = "https://djsunji.github.io"
 
 # Ordner und Dateien, die nicht in die App gehören
-ORDNER_WEG = {".git", ".github", "app", "bilder", "admin", "tools", "supabase", "qeels", "node_modules"}
-DATEIEN_WEG = {"CLAUDE.md", "README.md", "schema.sql", "sitemap.xml", "robots.txt", "sw.js"}
+ORDNER_WEG = {".git", ".github", "app", "bilder", "admin", "tools", "supabase", "qeels", "node_modules", "server"}
+DATEIEN_WEG = {"CLAUDE.md", "README.md", "schema.sql", "sitemap.xml", "robots.txt", "sw.js", "Dockerfile", ".dockerignore"}
 ENDUNG_WEG = (".md", ".py", ".sh", ".sql")
 
 def weg(pfad, name, ist_ordner):

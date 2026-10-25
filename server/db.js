@@ -1,0 +1,111 @@
+// easyplay-Server: Verbindung zur PostgreSQL-Datenbank, Einrichtung (Migrationen) und Anfragen
+// «im Namen» einer Person (auth.uid() in den SQL-Funktionen).
+import postgres from "postgres";
+import { readFileSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const HIER = dirname(fileURLToPath(import.meta.url));
+const REPO = join(HIER, "..");
+
+export const sql = postgres(process.env.DATABASE_URL || "postgres://localhost/easyplay", {
+  max: +process.env.DB_MAX || 10,
+  idle_timeout: 30,
+  connect_timeout: 15,
+  ssl: /sslmode=(require|verify)/.test(process.env.DATABASE_URL || "") || process.env.DB_SSL === "1" ? "require" : false,
+  onnotice: () => {},
+  transform: { undefined: null },
+});
+
+/* Reihenfolge wie in ANLEITUNG-SUPABASE.md «Neu einrichten». sicherheit.sql braucht es bei neuer Datenbank nicht. */
+export const DATEIEN = [
+  "server/sql/00-auth.sql",
+  "supabase/schema.sql", "supabase/lehrer.sql", "supabase/admin.sql", "supabase/lehrer2.sql",
+  "supabase/klassenliga.sql", "supabase/live.sql", "supabase/regionen.sql", "supabase/duell.sql",
+  "server/sql/90-server.sql",
+];
+
+// SQL in einzelne Befehle teilen (beachtet Texte, Namen in Anführungszeichen, $$-Körper und Kommentare)
+export function teilen(text) {
+  const out = []; let start = 0, i = 0; const n = text.length;
+  while (i < n) {
+    const c = text[i], d = text[i + 1];
+    if (c === "-" && d === "-") { const e = text.indexOf("\n", i); i = e < 0 ? n : e + 1; continue; }
+    if (c === "/" && d === "*") { const e = text.indexOf("*/", i + 2); i = e < 0 ? n : e + 2; continue; }
+    if (c === "'") { i++; while (i < n) { if (text[i] === "'" && text[i + 1] === "'") { i += 2; continue; } if (text[i] === "'") { i++; break; } i++; } continue; }
+    if (c === '"') { const e = text.indexOf('"', i + 1); i = e < 0 ? n : e + 1; continue; }
+    if (c === "$") {
+      const m = /^\$([A-Za-z_][A-Za-z0-9_]*)?\$/.exec(text.slice(i, i + 64));
+      if (m) { const tag = m[0]; const e = text.indexOf(tag, i + tag.length); i = e < 0 ? n : e + tag.length; continue; }
+    }
+    if (c === ";") { const s = text.slice(start, i).trim(); if (s) out.push(s); start = i + 1; }
+    i++;
+  }
+  const rest = text.slice(start).trim(); if (rest && rest.replace(/--[^\n]*|\s+/g, "")) out.push(rest);
+  return out;
+}
+const ohneKommentar = s => s.replace(/^(\s*(--[^\n]*\n|\/\*[\s\S]*?\*\/))*\s*/, "");
+const ROLLEN_BEFEHL = /^(grant|revoke|create\s+policy|drop\s+policy|alter\s+policy|alter\s+default\s+privileges)\b/i;
+
+/* Freigaben aus den grant/revoke-Befehlen: welche Funktion und Tabelle anon bzw. authenticated nutzen darf */
+export const FREIGABE = { fn: new Map() };   // name -> {anon:bool, auth:bool}
+function freigabeLesen(befehl) {
+  const s = ohneKommentar(befehl).replace(/\s+/g, " ");
+  let m = /^(grant|revoke) (?:execute|all)(?: privileges)? on function ([^;]+?) (to|from) (.+)$/i.exec(s);
+  if (!m) return;
+  const gib = m[1].toLowerCase() === "grant";
+  const wer = m[4].toLowerCase().split(",").map(x => x.trim());
+  const namen = [...m[2].matchAll(/(?:public\.)?([a-z_][a-z0-9_]*)\s*\(/gi)].map(x => x[1].toLowerCase());
+  for (const name of namen) {
+    const f = FREIGABE.fn.get(name) || { anon: false, auth: false };
+    if (wer.includes("anon") || wer.includes("public")) f.anon = gib;
+    if (wer.includes("authenticated") || wer.includes("public")) f.auth = gib;
+    FREIGABE.fn.set(name, f);
+  }
+}
+
+export async function einrichten(log = console.log) {
+  for (const datei of DATEIEN) {
+    const pfad = join(REPO, datei);
+    if (!existsSync(pfad)) continue;
+    const text = readFileSync(pfad, "utf8");
+    const befehle = teilen(text);
+    for (const b of befehle) if (/^(grant|revoke)/i.test(ohneKommentar(b))) freigabeLesen(b);
+    const hash = createHash("sha256").update(text).digest("hex");
+    let alt = null;
+    try { [alt] = await sql`select hash from public.ep_migrationen where datei = ${datei}`; } catch (e) { /* Tabelle gibt es noch nicht */ }
+    if (alt && alt.hash === hash) continue;
+    const laufen = befehle.filter(b => !ROLLEN_BEFEHL.test(ohneKommentar(b)));
+    await sql.begin(async tx => {
+      for (const b of laufen) {
+        try { await tx.savepoint(sp => sp.unsafe(b)); }
+        catch (e) {
+          /* Rechte-Befehle in DO-Blöcken (grant ... to authenticated): ohne Supabase-Rollen überspringen */
+          if (e.code === "42704" && /role "(anon|authenticated|service_role)"/.test(e.message)) continue;
+          e.message = `${datei}: ${e.message}\n--- Befehl:\n${b.slice(0, 400)}`; throw e;
+        }
+      }
+      await tx`insert into public.ep_migrationen (datei, hash) values (${datei}, ${hash})
+               on conflict (datei) do update set hash = excluded.hash, zeit = now()`;
+    });
+    log(`Datenbank: ${datei} eingespielt (${laufen.length} Befehle)`);
+  }
+  // Wer ist Admin? ADMIN_EMAIL (Komma-Liste) bekommt beim Start Admin-Rechte, sobald das Konto existiert.
+  for (const mail of String(process.env.ADMIN_EMAIL || "").split(",").map(x => x.trim().toLowerCase()).filter(Boolean)) {
+    await sql`insert into public.admins (user_id) select id from auth.users where lower(email) = ${mail} on conflict do nothing`.catch(() => {});
+  }
+}
+
+/* Eine Anfrage im Namen einer Person: auth.uid(), auth.jwt() und die IP stehen den SQL-Funktionen zur Verfügung */
+export function alsPerson(person, ip, arbeit) {
+  return sql.begin(async tx => {
+    const claims = person ? { sub: person.sub, role: "authenticated", email: person.email || "", aal: "aal1" } : { role: "anon" };
+    await tx`select set_config('statement_timeout', '8s', true),
+                    set_config('request.jwt.claim.sub', ${person ? person.sub : ""}, true),
+                    set_config('request.jwt.claim.role', ${claims.role}, true),
+                    set_config('request.jwt.claims', ${JSON.stringify(claims)}, true),
+                    set_config('request.headers', ${JSON.stringify({ "x-forwarded-for": ip || "" })}, true)`;
+    return arbeit(tx);
+  });
+}

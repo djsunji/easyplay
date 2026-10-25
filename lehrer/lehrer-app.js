@@ -20,7 +20,7 @@ const TEST_MAIL = "test@easyplay.ch", TEST_PW = "Lehrer-Test-2026", TEST_LID = "
 const MAX_FRAGEN = 50, LIGA_MIN = 5;
 const JSPDF_URL = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 const JSPDF_SRI = "sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk";
-const SUPA_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+const SUPA_JS = "../datenbank.js";   // eigener Server (server/), ersetzt supabase-js
 const SUPA_SRI = "sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug";
 // Kontakt für Fehlermeldungen; erst beim Klick zusammengesetzt, damit Adress-Sammler sie nicht im Klartext finden
 const ADMIN_MAIL_TEILE = ["ch", "bluewin", "dejan.ehrbar"];
@@ -265,7 +265,7 @@ function bestaetige(titel, text, ok, gefahr){
 const laden = text => `<div class="laden"><div class="spinner" aria-hidden="true"></div><span>${h(text||"Wird geladen …")}</span></div>`;
 function fehlerText(e){
   const m=String(e?.message||e?.code||e||"");
-  if(/42P01|does not exist|relation .* not exist|schema cache/i.test(m)) return "Die Lehrer-Tabellen fehlen in Supabase. Bitte supabase/lehrer.sql im SQL Editor ausführen (siehe ANLEITUNG-LEHRER.md).";
+  if(/42P01|does not exist|relation .* not exist|schema cache/i.test(m)) return "Die Lehrer-Tabellen fehlen auf dem Server. Bitte den easyplay-Server neu starten, er richtet sie selbst ein (siehe ANLEITUNG-LEHRER.md).";
   if(/quota_exceeded|QuotaExceeded/i.test(m)) return "Der Speicher ist voll. Bitte alte Tests löschen.";
   if(/JWT|not authenticated|401/i.test(m)) return "Bitte melde dich nochmals an.";
   if(/42501|row-level security|lehrperson/i.test(m)) return "Dein Lehrerkonto ist noch nicht freigegeben. Sobald es geprüft ist, kannst du Klassen anlegen.";
@@ -393,7 +393,7 @@ const lokaleKonten = () => lsGet("ep-konten",{}) || {};
 const ST = { konto:null, sp:null, daten:null, laedt:false, fehler:"", tab:"uebersicht", param:"", neu:null, ki:{klasse:"", q:""}, te:{klasse:""}, fq:{thema:"", stufe:0, q:"", seite:0} };
 
 function ladeSupabase(){
-  return new Promise((ok,err)=>{ if(window.supabase?.createClient) return ok(); const s=document.createElement("script"); s.src=SUPA_JS; s.integrity=SUPA_SRI; s.crossOrigin="anonymous"; s.onload=ok; s.onerror=()=>err(new Error("Supabase konnte nicht geladen werden.")); document.head.appendChild(s); });
+  return new Promise((ok,err)=>{ if(window.supabase?.createClient) return ok(); const s=document.createElement("script"); s.src=SUPA_JS; s.onload=ok; s.onerror=()=>err(new Error("Die Verbindung zum Server konnte nicht geladen werden.")); document.head.appendChild(s); });
 }
 async function authInit(){
   if(!SUPA){ AUTH.bereit=true; return; }
@@ -476,7 +476,7 @@ function zeigeLogin(modus, vorMail){
     <button type="button" id="testKnopf"><span aria-hidden="true">🧪</span> Test-Zugang ausprobieren</button>
     <p class="zugang">Zugangsdaten: Benutzer <code>${TEST_MAIL}</code> · Passwort <code>${TEST_PW}</code><br>Testzugang mit Beispielklassen. Daten nur auf diesem Gerät.</p>
     <p class="kinder">Bist du ein Kind und hast einen Test-Code? <a class="link" href="../">Zu easyplay, dort «Test mit Code»</a></p>
-    <p class="modus">${SUPA ? (AUTH.sb ? "Anmeldung über die easyplay-Datenbank (Supabase)." : "Die Online-Datenbank ist im Moment nicht erreichbar. Der Testzugang funktioniert trotzdem.") : "Ohne Online-Datenbank: Konten, Klassen und Resultate bleiben in diesem Browser."}</p>`;
+    <p class="modus">${SUPA ? (AUTH.sb ? "Anmeldung über den easyplay-Server." : "Die Online-Datenbank ist im Moment nicht erreichbar. Der Testzugang funktioniert trotzdem.") : "Ohne Online-Datenbank: Konten, Klassen und Resultate bleiben in diesem Browser."}</p>`;
   $$("[data-lm]").forEach(b=>b.onclick=()=>zeigeLogin(b.dataset.lm, ($("#lMail")||$("#rMail"))?.value));
   $$("[data-zeig]").forEach(b=>b.onclick=()=>{ const i=$("#"+b.dataset.zeig); i.type=i.type==="password"?"text":"password"; b.textContent=i.type==="password"?"zeigen":"verbergen"; });
   $("#testKnopf").onclick=testStarten;
@@ -580,7 +580,7 @@ function appStart(){
 function kopfZeichnen(){
   const k=ST.konto, test=k.art==="test";
   $("#testPill").hidden=!test;
-  const sp = test ? "Testzugang, nur dieses Gerät" : k.art==="supabase" ? "Supabase" : "dieses Gerät";
+  const sp = test ? "Testzugang, nur dieses Gerät" : k.art==="supabase" ? "easyplay-Server" : "dieses Gerät";
   $("#status").innerHTML=`<span class="nurgross">Speicher: <b>${h(sp)}</b></span><span class="nurgross">Angemeldet: <b>${h(k.name||k.email)}</b></span><a class="k nurgross" href="../">Zu easyplay</a><button type="button" class="k" id="stAus">Abmelden</button>`;
   $("#stAus").onclick=abmelden;
   $("#zurStart").onclick=()=>zeige("uebersicht");
@@ -1299,7 +1299,7 @@ const MEDAILLE = {1:"Gold", 2:"Silber", 3:"Bronze"};
 const LIGA_FEHLER = {konto:"Bitte melde dich zuerst an.", klasse:"Diese Klasse gehört nicht zu deinem Konto.", name:"Der Anzeigename braucht 2 bis 40 Zeichen, ohne E-Mail-Adresse oder Link.",
   kanton:"Bitte einen Kanton aus der Liste wählen.", klein:`Für die Liga braucht die Klasse mindestens ${LIGA_MIN} eingetragene Kinder.`, viele:"Du hast schon 30 Klassen in der Liga.", daten:"Das hat nicht geklappt."};
 function ligaFehlerText(e){ const m=String(e?.message||e||"");
-  if(/PGRST202|42883|42P01|could not find the function|liga_klassen|does not exist|schema cache/i.test(m)) return "Die Klassen-Liga ist in Supabase noch nicht eingerichtet. Bitte supabase/klassenliga.sql im SQL Editor ausführen (ANLEITUNG-SUPABASE.md, Schritt 7).";
+  if(/PGRST202|42883|42P01|could not find the function|liga_klassen|does not exist|schema cache/i.test(m)) return "Die Klassen-Liga ist auf dem Server noch nicht eingerichtet. Bitte supabase/klassenliga.sql im SQL Editor ausführen (ANLEITUNG-SUPABASE.md, Schritt 7).";
   return fehlerText(e); }
 // Erfundene Vergleichsklassen für die Vorschau ohne Online-Datenbank (klar als Beispiel markiert)
 const LIGA_BSP = {
@@ -1452,7 +1452,7 @@ function meldenDialog(m){
 }
 SEITEN.meldungen = el => {
   const test=ST.konto.art==="test", key=test?LT_MELD:LS_MELD; const l=meldungenListe(), offen=l.filter(m=>!m.gesendet);
-  el.innerHTML=`<div class="kopfzeile"><div><h1>Fehlermeldungen</h1><p>Fehler, die du im Fragenpool gemeldet hast. ${SUPA&&!test?"Mit Supabase gehen sie direkt an die Verwaltung.":"Ohne Online-Datenbank kannst du sie hier per E-Mail an die Verwaltung senden."}</p></div>
+  el.innerHTML=`<div class="kopfzeile"><div><h1>Fehlermeldungen</h1><p>Fehler, die du im Fragenpool gemeldet hast. ${SUPA&&!test?"Mit dem easyplay-Server gehen sie direkt an die Verwaltung.":"Ohne Online-Datenbank kannst du sie hier per E-Mail an die Verwaltung senden."}</p></div>
       <div class="leiste"><button type="button" class="k p" id="mMail" ${offen.length&&!test?"":"disabled"}>Offene per E-Mail senden (${offen.length})</button><button type="button" class="k" data-ziel="fragen">Zum Fragenpool</button>${l.length?`<button type="button" class="k g" id="mLeer">Liste leeren</button>`:""}</div></div>
     ${test?`<div class="hinweis ak">Im Testzugang werden Meldungen nicht an die Verwaltung gesendet.</div>`:""}
     ${l.length?`<div class="tabwrap"><table><thead><tr><th>Datum</th><th>Wo</th><th>Frage</th><th>Grund und Beschreibung</th><th>Status</th><th class="r">Aktion</th></tr></thead><tbody>
@@ -1469,7 +1469,7 @@ SEITEN.meldungen = el => {
 /* ---------- Einstellungen ---------- */
 SEITEN.einstellungen = el => {
   const k=ST.konto, test=k.art==="test", D=ST.daten;
-  const art = test ? "Testzugang (nur dieses Gerät)" : k.art==="supabase" ? "easyplay-Konto (Supabase)" : "Konto auf diesem Gerät";
+  const art = test ? "Testzugang (nur dieses Gerät)" : k.art==="supabase" ? "easyplay-Konto (Server)" : "Konto auf diesem Gerät";
   el.innerHTML=`<div class="kopfzeile"><div><h1>Einstellungen</h1><p>Konto, Speicher und Daten.</p></div></div>
     <div class="spalten">
       <div class="box"><h2>Konto</h2><div class="formular"><span class="mu">Name</span><span>${h(k.name||"")}</span><span class="mu">E-Mail</span><span>${h(k.email||"")}</span><span class="mu">Art</span><span>${h(art)}</span><span class="mu">Rolle</span><span>Lehrperson</span>${k.kanton?`<span class="mu">Kanton</span><span>${h(ktName(k.kanton))}</span>`:""}</div>

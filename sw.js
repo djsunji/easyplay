@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-10-25-01";
+const VERSION = "ep-2026-10-25-02";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 // Bilder in einem festen Speicher: überlebt Updates (nur bilder/, img/, flags/), wird täglich still geprüft
 const CACHE_BILDER = "ep-bilder";
@@ -376,6 +376,8 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
   // Admin-Bereich nie cachen
   if (url.pathname.includes("/admin/")) return;
+  // Eigener Server (Anmeldung, Daten, Zustand): immer direkt, nie aus dem Speicher, Weiterleitungen normal
+  if (/\/(auth|rest)\/v1\/|\/api\//.test(url.pathname)) return;
   // Teilanfragen (z.B. Video/Audio) nicht anfassen
   if (anfrage.headers.has("range")) return;
   // Downloads der Paketverwaltung (offline.js) direkt übers Netz

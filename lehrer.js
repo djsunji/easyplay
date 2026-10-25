@@ -565,7 +565,7 @@ const NAV_AKTIV = {lklasse:"lehrer", ltest:"lehrer", lkind:"lkinder", lbibseite:
 function shell(html){
   const akt = NAV_AKTIV[S.screen] || S.screen;
   const ich = S.profil ? (S.profil.name || S.profil.email || "") : "";
-  const sp = SP ? (SP.art==="supabase" ? "Supabase" : SP.art==="claude" ? "claude.ai" : "dieses Gerät") : "";
+  const sp = SP ? (SP.art==="supabase" ? "easyplay-Server" : SP.art==="claude" ? "claude.ai" : "dieses Gerät") : "";
   const nm = meldungenLokal().filter(m=>!m.gesendet).length;
   return `<div class="lza">
     <header class="lza-kopf"><button type="button" class="lza-marke" data-lnav="lehrer"><img src="img/fragezeichen.webp" alt="" width="30" height="28"><b>Lehrerbereich</b></button>

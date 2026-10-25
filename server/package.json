@@ -1,0 +1,14 @@
+{
+  "name": "easyplay-server",
+  "private": true,
+  "version": "1.0.0",
+  "description": "easyplay: eigener Server mit PostgreSQL (Anmeldung, Lehrerbereich, Liga, Duell, Live, Kommentare). Ersetzt Supabase. Anleitung: ANLEITUNG-SERVER.md",
+  "type": "module",
+  "main": "index.js",
+  "engines": { "node": ">=22" },
+  "scripts": { "start": "node index.js", "test": "node --test test/" },
+  "dependencies": {
+    "nodemailer": "^7.0.10",
+    "postgres": "^3.4.7"
+  }
+}

@@ -1,0 +1,9 @@
+.git
+.github
+app
+node_modules
+server/node_modules
+server/test
+**/__pycache__
+*.md
+!server/*.md
