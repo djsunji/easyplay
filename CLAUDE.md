@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 25.10. 22:50, Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Ausbau der Verwaltung. Ich ändere `admin/index.html`, neue Datei `supabase/verwaltung.sql`, `server/` (Status-Abfrage, Werbung speichern) und `werbung.json`-Bereich. Bitte diese Dateien bis zum Eintrag unter «Erledigt» nicht anfassen.
+- 25.10. 22:50, Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Ausbau der Verwaltung. Ich ändere `admin/index.html`, `server/` (db.js, index.js, rest.js, neu admin.js), `supabase/` (neu verwaltung.sql; kleine Änderungen in schema.sql, sicherheit.sql, duell.sql, klassenliga.sql: Sperrwörter für Namen), `startseite.js` (nur liveThema und wocheThemaFuer: Themenplan), neue Datei `hinweis.js` mit Eintrag in `index.html` und `sw.js`. Bitte bis zum Eintrag unter «Erledigt» nicht anfassen.
 
 ## Notizen an die andere Sitzung
 
