@@ -672,6 +672,15 @@ ${W}.eptl .epe::before{background:rgba(255,255,255,.45)!important}
 #nav #navKonto.st-anm{width:184px;height:54px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
   background:url(${K}anmelden.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.7)!important;transition:transform .15s}
 #nav #navKonto.st-anm *{display:none!important}
+#nav .menubtn.st-menue{width:174px;height:55px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
+  background:url(${K}menue.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s}
+#nav .menubtn.st-menue *{display:none!important}
+#nav .xs-knopf.st-ton{width:58px;height:58px;padding:0!important;border:0!important;border-radius:50%!important;color:transparent!important;font-size:0!important;
+  background:url(${K}ton.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s,filter .2s}
+#nav .xs-knopf.st-ton>*{opacity:0!important}
+#nav .xs-knopf.st-ton.st-stumm{filter:grayscale(.85) opacity(.7)}
+#nav :is(.menubtn.st-menue,.xs-knopf.st-ton):hover{transform:translateY(-2px) scale(1.04)}
+#nav :is(.menubtn.st-menue,.xs-knopf.st-ton):focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 #nav #navKonto.st-anm:hover{transform:translateY(-2px) scale(1.03)}
 #nav #navKonto.st-anm:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 `;
@@ -679,26 +688,42 @@ document.head.appendChild(css);
 function anm(){ const b = document.getElementById("navKonto"); if(!b) return;
   const t = (b.querySelector(".tlab") || b).textContent.trim(); const an = t === "Anmelden";
   if(b.classList.contains("st-anm") !== an){ b.classList.toggle("st-anm", an); if(an) b.setAttribute("aria-label", "Anmelden"); } }
+function knoepfe(){
+  const m = document.getElementById("navMenu"); if(m){ const t = (m.querySelector(".tlab") || m).textContent.trim(); m.classList.toggle("st-menue", t === "Menü"); if(t === "Menü" && !m.getAttribute("aria-label")) m.setAttribute("aria-label", "Menü"); }
+  const t = document.querySelector("#nav .xs-knopf"); if(t){ t.classList.add("st-ton"); const l = (t.getAttribute("aria-label") || "").toLowerCase(); t.classList.toggle("st-stumm", /töne aus/.test(l) && !/musik an/.test(l)); }
+}
 const nav = document.getElementById("nav") || document.body;
-new MutationObserver(anm).observe(nav, {childList:true, subtree:true, characterData:true});
-anm();
+new MutationObserver(() => { anm(); knoepfe(); }).observe(nav, {childList:true, subtree:true, characterData:true, attributes:true, attributeFilter:["aria-label"]});
+anm(); knoepfe();
 })();
 
 /* ================= Bereich-Kacheln mit gezeichneten Grafiken (Startseite Computer und App-Tab Themen) ================= */
 (function(){
-// Die ganze Karte wird gezeigt, nie geteilt: das Symbol schaut wie in der Zeichnung innerhalb des Rahmens herein.
-// Computer: Kachel hat fast dasselbe Seitenverhältnis wie die Zeichnung, also ganz eingepasst.
-// App: Kacheln sind höher, darum wird die Karte rechts ausgerichtet, links liegt nur der Verlauf unter dem Text.
-const K = "img/kacheln/bereich-", N = ["welt", "natur", "geld", "alltag"];
-const pc = n => `html:root body .bereiche>.bereich[data-b=${n}]`, app = n => `html:root body .apb:has(>.apb-kopf[data-b=${n}])`;
-const alle = N.map(pc).concat(N.map(app)).join(",");
+// Neun-Teile-Skalierung (border-image): Ecken mit Rahmen und das Symbol rechts unten bleiben unverzerrt und ganz,
+// nur die ruhigen Flächen dazwischen werden gedehnt. So passt die Grafik in jede Kachelgrösse, ohne abzuschneiden.
+// Masse in Pixeln der Datei (900 x 515): oben, rechts, unten, links. Rechts/unten umschliessen das ganze Symbol.
+const K = "img/kacheln/bereich-";
+const S = {welt:[52,380,342,54], natur:[52,200,384,54], geld:[52,398,404,54], alltag:[52,254,388,54]};
+const pc = n => `html:root body .bereiche>.bereich[data-b=${n}]`, ap = n => `html:root body .apb:has(>.apb-kopf[data-b=${n}])`;
+const N = Object.keys(S), alle = N.map(pc).concat(N.map(ap)).join(",");
 const css = document.createElement("style"); css.id = "ep-bereich-kacheln-css";
-css.textContent = N.map(n => `${pc(n)}{background:url(${K}${n}.webp) 0 0/100% 100% no-repeat,transparent!important;animation:none!important}
-${app(n)}{background:url(${K}${n}.webp) right center/cover no-repeat,transparent!important;animation:none!important}`).join("\n") + `
-:is(${alle}){border:0!important;border-radius:28px!important;color:#fff!important;box-shadow:0 16px 32px -16px rgba(20,20,70,.6)!important;overflow:hidden}
+css.textContent = N.map(n => `:is(${pc(n)},${ap(n)}){border-image:url(${K}${n}.webp) ${S[n].join(" ")} fill/var(--kb,${S[n].map(x => Math.round(x * .5) + "px").join(" ")}) stretch!important}`).join("\n") + `
+:is(${alle}){background:transparent!important;animation:none!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;border-radius:0!important;color:#fff!important;box-shadow:none!important;overflow:visible;filter:drop-shadow(0 14px 22px rgba(20,20,70,.35))}
 :is(${alle})::before,:is(${alle})::after{display:none!important}
-:is(${alle}) :is(h2,p,b,small,.apn){text-shadow:0 2px 8px rgba(20,10,60,.45)}
+:is(${alle}) :is(h2,p,b,small,.apn){text-shadow:0 2px 8px rgba(20,10,60,.5)}
 html:root body .apb .apwm{display:none!important}
 `;
 document.head.appendChild(css);
+// Massstab je Kachel: Symbol höchstens halb so breit wie die Kachel, Ecken passen immer hinein
+function einpassen(el){
+  const b = el.querySelector("[data-b]") || el, n = el.dataset.b || (b && b.dataset.b); const s = S[n]; if(!s) return;
+  const W = el.clientWidth, H = el.clientHeight; if(!W || !H) return;
+  const k = Math.min(H / (s[0] + s[2]), W / (s[1] + s[3]), .42 * W / s[1], 1);
+  el.style.setProperty("--kb", s.map(x => (x * k).toFixed(1) + "px").join(" "));
+}
+const ro = typeof ResizeObserver === "function" ? new ResizeObserver(e => e.forEach(x => einpassen(x.target))) : null;
+function suchen(){ document.querySelectorAll(".bereiche>.bereich[data-b], .apb").forEach(el => { if(el.dataset.kb9) return; const n = el.dataset.b || (el.querySelector(":scope>.apb-kopf[data-b]") || {}).dataset?.b; if(!S[n]) return; el.dataset.kb9 = "1"; einpassen(el); if(ro) ro.observe(el); }); }
+const app = document.getElementById("app");
+if(app) new MutationObserver(suchen).observe(app, {childList:true, subtree:true});
+suchen();
 })();
