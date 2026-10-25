@@ -15,15 +15,15 @@ const TYP = {
 };
 const PACKEN = new Set([".html", ".js", ".mjs", ".css", ".json", ".webmanifest", ".svg", ".txt", ".xml"]);
 /* Nicht ausliefern: Server, Werkzeuge, Datenbank-Dateien, Abläufe, App-Bau, versteckte Dateien, Anleitungen */
-const GESPERRT = /^(server|tools|supabase|app|node_modules|\.github|\.git)(\/|$)|(^|\/)\.|\.(md|py|sh|sql|mjs\.map)$|^(CLAUDE|README|Dockerfile)/i;
+const GESPERRT = /^(server|tools|supabase|app|node_modules|\.github|\.git)(\/|$)|(^|\/)\.|\.(md|py|sh|sql|mjs\.map|br|gz)$|^(CLAUDE|README|Dockerfile)/i;
 
-const PUFFER = new Map(); let pufferBytes = 0; const PUFFER_MAX = 150 * 1024 * 1024;
+const PUFFER = new Map(); let pufferBytes = 0; const PUFFER_MAX = (+process.env.PUFFER_MB || 24) * 1024 * 1024;   // klein halten (micro: 256 MB)
 async function gepackt(pfad, groesse, mtime, art) {
   const k = `${pfad}|${mtime}|${art}`;
   if (PUFFER.has(k)) return PUFFER.get(k);
   const roh = await readFile(pfad);
   const daten = art === "br" ? await brotli(roh, { params: { [Z.BROTLI_PARAM_QUALITY]: 6, [Z.BROTLI_PARAM_SIZE_HINT]: groesse } }) : await gzip(roh, { level: 6 });
-  if (daten.length < 20 * 1024 * 1024) {
+  if (daten.length < 2 * 1024 * 1024) {
     PUFFER.set(k, daten); pufferBytes += daten.length;
     while (pufferBytes > PUFFER_MAX) { const [ak, av] = PUFFER.entries().next().value; PUFFER.delete(ak); pufferBytes -= av.length; }
   }
@@ -56,8 +56,12 @@ export function statischMacher(wurzel) {
     if (PACKEN.has(ext) && st.size > 1024) {
       const art = /\bbr\b/.test(enc) ? "br" : /\bgzip\b/.test(enc) ? "gzip" : null;
       if (art) {
-        const daten = await gepackt(pfad, st.size, st.mtimeMs, art);
-        res.writeHead(200, { ...h, "Content-Encoding": art, "Content-Length": daten.length, Vary: "Accept-Encoding" });
+        /* Vorgepackt beim Bau (server/vorpacken.js)? Sonst einmal packen und kleine Dateien merken */
+        let daten = null;
+        try { const v = await stat(pfad + (art === "br" ? ".br" : ".gz")); if (v.mtimeMs >= st.mtimeMs - 1000) daten = await readFile(pfad + (art === "br" ? ".br" : ".gz")); } catch (e) {}
+        if (!daten) daten = await gepackt(pfad, st.size, st.mtimeMs, st.size > 512 * 1024 ? "gzip" : art);
+        const artIst = daten && daten[0] === 0x1f && daten[1] === 0x8b ? "gzip" : art;
+        res.writeHead(200, { ...h, "Content-Encoding": artIst, "Content-Length": daten.length, Vary: "Accept-Encoding" });
         res.end(req.method === "HEAD" ? undefined : daten); return true;
       }
     }

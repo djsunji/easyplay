@@ -66,6 +66,9 @@ function freigabeLesen(befehl) {
 }
 
 export async function einrichten(log = console.log) {
+  /* Mehrere Kopien starten gleichzeitig: nur eine richtet ein, die anderen warten (Sperre in der Datenbank) */
+  await sql.begin(async haupt => {
+  await haupt`select pg_advisory_xact_lock(7272401)`;
   for (const datei of DATEIEN) {
     const pfad = join(REPO, datei);
     if (!existsSync(pfad)) continue;
@@ -74,10 +77,10 @@ export async function einrichten(log = console.log) {
     for (const b of befehle) if (/^(grant|revoke)/i.test(ohneKommentar(b))) freigabeLesen(b);
     const hash = createHash("sha256").update(text).digest("hex");
     let alt = null;
-    try { [alt] = await sql`select hash from public.ep_migrationen where datei = ${datei}`; } catch (e) { /* Tabelle gibt es noch nicht */ }
+    try { [alt] = await haupt.savepoint(sp => sp`select hash from public.ep_migrationen where datei = ${datei}`); } catch (e) { /* Tabelle gibt es noch nicht */ }
     if (alt && alt.hash === hash) continue;
     const laufen = befehle.filter(b => !ROLLEN_BEFEHL.test(ohneKommentar(b)));
-    await sql.begin(async tx => {
+    await haupt.savepoint(async tx => {
       for (const b of laufen) {
         try { await tx.savepoint(sp => sp.unsafe(b)); }
         catch (e) {
@@ -91,6 +94,7 @@ export async function einrichten(log = console.log) {
     });
     log(`Datenbank: ${datei} eingespielt (${laufen.length} Befehle)`);
   }
+  });
   // Wer ist Admin? ADMIN_EMAIL (Komma-Liste) bekommt beim Start Admin-Rechte, sobald das Konto existiert.
   for (const mail of String(process.env.ADMIN_EMAIL || "").split(",").map(x => x.trim().toLowerCase()).filter(Boolean)) {
     await sql`insert into public.admins (user_id) select id from auth.users where lower(email) = ${mail} on conflict do nothing`.catch(() => {});

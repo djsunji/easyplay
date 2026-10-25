@@ -6,6 +6,7 @@ WORKDIR /app
 COPY server/package.json server/
 RUN cd server && npm install --omit=dev --no-audit --no-fund && npm cache clean --force
 COPY . .
+RUN node server/vorpacken.js /app
 USER node
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s CMD wget -qO- http://127.0.0.1:8080/api/health || exit 1
