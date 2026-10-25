@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-25-14";
+window.EP_BUILD="ep-2026-10-25-15";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -2216,8 +2216,10 @@ body.reelsauf{overflow:hidden}
 #reels .rsticker b{display:block;margin-bottom:3px;color:#D62976}
 #reels .rsticker p{margin:0}
 #reels .rrail{position:absolute;right:8px;bottom:110px;display:flex;flex-direction:column;align-items:center;gap:14px;z-index:3}
-/* Knöpfe rechts bleiben beim Wischen stehen: rlRailFest schiebt sie um den Scrollweg zurück */
-#reels .rrail{translate:0 var(--rfix,0px)}
+/* Knöpfe rechts wie angenagelt: die echte Leiste jedes Qeels ist unsichtbar, eine feste Kopie liegt über dem Feed (rlRailFest) */
+#reels .reel > .rrail{visibility:hidden!important;pointer-events:none!important}
+#reels #rrailfest{position:fixed;z-index:4;pointer-events:none}
+#reels #rrailfest > .rrail{pointer-events:auto}
 #reels .rbtn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;color:#fff;cursor:pointer;padding:0;width:60px}
 #reels .rbtn .rbi{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:1.45rem;background:rgba(0,0,0,.3);backdrop-filter:blur(8px);font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
 #reels .rbtn:hover .rbi{background:rgba(0,0,0,.45)}
@@ -5116,12 +5118,32 @@ function rlSheet(b, nr, key){
     [...art.children].forEach(c=>{ if(c!==fig) c.remove(); }); art.insertAdjacentHTML("beforeend", neu); try{ rlBalken($("#rsInhalt")); }catch(e){}
   }).catch(()=>{});
 }
-/* Knöpfe rechts fest: jede Leiste wird um den Abstand ihres Qeels zum Bildschirm verschoben.
-   Beim Wischen zeigt so das alte Qeel den oberen und das neue den unteren Teil, die Leiste bleibt stehen. */
+/* Knöpfe rechts wie angenagelt: Kopie der Leiste des sichtbaren Qeels in einer festen Ebene über dem Feed.
+   Ein Tipp auf die Kopie drückt den echten Knopf; ändert sich der echte Knopf (Like, Vorlesen), wird neu kopiert. */
+function rlRailPlatz(){
+  const f=$("#rfeed"), h=$("#rrailfest"); if(!f||!h) return; const r=f.getBoundingClientRect(); RL.railOben=null;
+  Object.assign(h.style,{left:r.left+"px",top:r.top+"px",width:r.width+"px",height:r.height+"px"});
+}
+function rlRailKopie(){
+  const h=$("#rrailfest"), sec=RL.railSec; if(!h) return; h.innerHTML="";
+  const echt=sec && sec.querySelector(":scope > .rrail"); if(!echt) return;
+  h.className=sec.classList.contains("rw")?"rw":"";
+  const kopie=echt.cloneNode(false); kopie.removeAttribute("style");
+  for(const b of echt.children){
+    if(getComputedStyle(b).display==="none") continue;
+    const k=b.cloneNode(true); k.removeAttribute("id"); k.onclick=e=>{ e.preventDefault(); b.click(); }; kopie.appendChild(k);
+  }
+  h.appendChild(kopie);
+  // gleiche Höhe für alle Qeels, auch wenn eine Leiste mehr Knöpfe hat (sonst rutscht die Mitte)
+  if(RL.railOben==null){ const z=parseFloat(getComputedStyle(kopie).zoom)||1; RL.railOben=(kopie.getBoundingClientRect().top-h.getBoundingClientRect().top)/z; }
+  kopie.style.setProperty("top", RL.railOben+"px", "important"); kopie.style.setProperty("bottom", "auto", "important"); kopie.style.setProperty("transform", "none", "important");
+}
 function rlRailFest(){
-  const f=$("#rfeed"); if(!f) return; const st=f.scrollTop, h=f.clientHeight;
-  for(const sec of f.children){ const r=sec.querySelector(":scope > .rrail"); if(!r) continue; const d=sec.offsetTop-st;
-    const z=parseFloat(getComputedStyle(r).zoom)||1; r.style.setProperty("--rfix", Math.abs(d)<h*1.2 ? (-d/z)+"px" : "0px"); }
+  const sec=rlAktiv(); if(!sec || sec===RL.railSec) return;
+  RL.railSec=sec; RL.railObs?.disconnect();
+  const echt=sec.querySelector(":scope > .rrail");
+  if(echt){ RL.railObs=new MutationObserver(()=>{ if(!RL.railK) RL.railK=requestAnimationFrame(()=>{ RL.railK=0; rlRailKopie(); }); }); RL.railObs.observe(echt,{subtree:true,attributes:true,childList:true,characterData:true}); }
+  rlRailKopie();
 }
 function rlAktiv(){ const f=$("#rfeed"); if(!f) return null; const h=f.clientHeight; return [...f.children].find(s=>Math.abs(s.offsetTop-f.scrollTop)<h/2)||null; }
 function rlGehe(d){ const f=$("#rfeed"); if(!f) return; f.scrollBy({top:d*f.clientHeight, behavior:"smooth"}); }
@@ -5167,7 +5189,7 @@ function oeffneReels(tab){
   document.body.appendChild(o);
   RL.obs=new IntersectionObserver(es=>es.forEach(en=>{
     const sec=en.target; if(en.isIntersecting && en.intersectionRatio>.6){
-      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); stopSpeak(); rlNurBild(false); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
+      document.querySelectorAll("#rfeed .reel.aktiv").forEach(x=>x!==sec&&x.classList.remove("aktiv")); sec.classList.add("aktiv"); rlRailFest(); stopSpeak(); rlNurBild(false); rlLikeLaden(sec); kmZaehlen(sec); const nx2=sec.nextElementSibling; nx2&&rlLikeLaden(nx2);
       const i=+sec.dataset.i, it=RL.map.get(i); if(it?.laden){ it.laden(); it.laden=null; }
       if(it?.typ==="w" && !it.gezaehlt){ it.gezaehlt=true; rwZaehlen(it.w.id, "sicht"); }
       if(window.EP_NUR_QEELS && it && it.typ!=="w" && !window.QEEL_WARTET){ try{ const h=qeelLink(it).split("#")[1]; if(h && location.hash!=="#"+h) history.replaceState(null,"",location.pathname+location.search+"#"+h); }catch(e){} }
@@ -5176,7 +5198,9 @@ function oeffneReels(tab){
       setTimeout(rlAufraeumen, 350);
     }
   }),{root:o.querySelector("#rfeed"), threshold:[.6]});
-  o.querySelector("#rfeed").addEventListener("scroll", ()=>{ if(!RL.railT) RL.railT=requestAnimationFrame(()=>{ RL.railT=0; rlRailFest(); }); }, {passive:true});
+  { const h=document.createElement("div"); h.id="rrailfest"; o.appendChild(h); RL.railSec=null; rlRailPlatz();
+    o.querySelector("#rfeed").addEventListener("scroll", ()=>{ if(!RL.railT) RL.railT=requestAnimationFrame(()=>{ RL.railT=0; rlRailFest(); }); }, {passive:true});
+    addEventListener("resize", ()=>{ rlRailPlatz(); rlRailKopie(); }); setTimeout(()=>{ rlRailPlatz(); rlRailFest(); }, 300); }
   o.querySelectorAll("[data-rtab]").forEach(b=>b.onclick=()=>{ $("#rsuchfeld")?.remove(); $("#rschip")?.remove(); RL.suche=null; rlTab(b.dataset.rtab); });
   $("#rLupe").onclick=rlSucheOeffnen;
   $("#rZu").onclick=schliesseReels;
