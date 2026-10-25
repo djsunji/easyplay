@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 25.10., Sitzung «Kacheln» (claude-34): Startseite Computer, neue Grafiken für die Kacheln (Dein Tag, Serie, Level, Live-Quiz, Truhe, Abzeichen, Wusstest du, Fehler üben) und den Knopf «Anmelden». Dateien: `stil.js`, neu `img/kacheln/`, `sw.js`/`index.html` nur Version.
 
 ## Notizen an die andere Sitzung
 
