@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 25.10., Sitzung «Kacheln» (claude-34): Grafiken für die vier Bereich-Kacheln (Startseite Computer und App-Tab Themen). Dateien: `stil.js` (Block am Ende), `img/kacheln/`. Dejan will erst später veröffentlichen, darum noch nicht gepusht.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 25.10. Sitzung «Kacheln» (claude-34): Nur Computer (nicht `body.ep-app`): die vier Bereich-Kacheln der Startseite mit Dejans Grafiken über Neun-Teile-Skalierung (`border-image`, Ecken und Symbol unverzerrt, Massstab je Kachel per ResizeObserver), Dateien `img/kacheln/bereich-*.webp`. Kopfzeile: Anmelden, Qeels, Sprache (nur bei Deutsch), Ton (grau wenn stumm) und Menü als Grafiken, gleich hoch, Logo behält ab 1280 px seine Grösse. Alles im Block am Ende von `stil.js`. Version ep-2026-10-25-11.
 - 25.10. Sitzung «Hauptseite»: easyplay.ch ist live auf Deploio (Nine, Projekt n11017-easyplay, App easyplay, Datenbank easyplay-db). DNS bei Hostpoint: A easyplay.ch und *.easyplay.ch auf 178.209.60.14 (Adresse von Deploio, kann sich ändern), CNAME www auf easyplay.781bbba.deploio.app, TXT zur Verifizierung. GitHub Pages leitet jetzt nach easyplay.ch weiter. Jeder Push auf main baut die App bei Deploio neu (etwa 5 Minuten).
 - 25.10. Sitzung «Kacheln» (claude-34): Kachel-Grafiken werden nicht mehr abgeschnitten. Jede Grafik ist geteilt in Grund (`img/kacheln/<name>-grund.webp`, ganz eingepasst) und Symbol (`<name>-symbol.webp`, unverzerrt rechts unten), Block am Ende von `stil.js`. Version ep-2026-10-25-04.
 - 25.10. Sitzung «Hauptseite»: Domain easyplay.ch. Geteilte Links, Vorschaubild, Sitemap und App zeigen auf easyplay.ch (`config.js`, `index.html`, `sitemap.xml`, `robots.txt`, `app/native.js`). Umzug: Sobald `https://easyplay.ch/api/health` antwortet, leitet GitHub Pages weiter und nimmt den Spielstand einmal mit (Skript «Umzug nach easyplay.ch» oben in `index.html`; `?bleiben` zeigt die alte Seite). Server: www.easyplay.ch auf easyplay.ch, Dateien mit CORS für die App.
