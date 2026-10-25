@@ -679,6 +679,14 @@ ${W}.eptl .epe::before{background:rgba(255,255,255,.45)!important}
   background:url(${K}ton.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s,filter .2s}
 #nav .xs-knopf.st-ton>*{opacity:0!important}
 #nav .xs-knopf.st-ton.st-stumm{filter:grayscale(.85) opacity(.7)}
+#nav #navReels.st-qeels{width:170px;height:57px;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
+  background:url(${K}qeels.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.55)!important;transition:transform .15s}
+#nav #navReels.st-qeels>*{opacity:0!important}
+#nav .xui-knopf.st-de{width:58px;height:62px;padding:0!important;border:0!important;border-radius:50%!important;color:transparent!important;font-size:0!important;
+  background:url(${K}sprache-de.webp) center/contain no-repeat!important;box-shadow:none!important;transition:transform .15s}
+#nav .xui-knopf.st-de>*{opacity:0!important}
+#nav :is(#navReels.st-qeels,.xui-knopf.st-de):hover{transform:translateY(-2px) scale(1.04)}
+#nav :is(#navReels.st-qeels,.xui-knopf.st-de):focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 #nav :is(.menubtn.st-menue,.xs-knopf.st-ton):hover{transform:translateY(-2px) scale(1.04)}
 #nav :is(.menubtn.st-menue,.xs-knopf.st-ton):focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 #nav #navKonto.st-anm:hover{transform:translateY(-2px) scale(1.03)}
@@ -690,6 +698,8 @@ function anm(){ const b = document.getElementById("navKonto"); if(!b) return;
   if(b.classList.contains("st-anm") !== an){ b.classList.toggle("st-anm", an); if(an) b.setAttribute("aria-label", "Anmelden"); } }
 function knoepfe(){
   const m = document.getElementById("navMenu"); if(m){ const t = (m.querySelector(".tlab") || m).textContent.trim(); m.classList.toggle("st-menue", t === "Menü"); if(t === "Menü" && !m.getAttribute("aria-label")) m.setAttribute("aria-label", "Menü"); }
+  const q = document.getElementById("navReels"); if(q) q.classList.add("st-qeels");
+  const sp = document.querySelector("#nav .xui-knopf"); if(sp) sp.classList.toggle("st-de", /Deutsch\s*$|: Deutsch/.test(sp.getAttribute("aria-label") || ""));
   const t = document.querySelector("#nav .xs-knopf"); if(t){ t.classList.add("st-ton"); const l = (t.getAttribute("aria-label") || "").toLowerCase(); t.classList.toggle("st-stumm", /töne aus/.test(l) && !/musik an/.test(l)); }
 }
 const nav = document.getElementById("nav") || document.body;
