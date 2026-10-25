@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 25.10., Sitzung «Kacheln» (claude-34): Kacheln der Startseite, Grafiken sollen nicht mehr abgeschnitten werden. Dateien: `stil.js` (Block am Ende), `img/kacheln/`, `sw.js`/`index.html` nur Version.
 
 ## Notizen an die andere Sitzung
 
