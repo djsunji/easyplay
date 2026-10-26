@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 26.10. Sitzung «App» (session_01CH4WnahjonENTvFnuUJF8q): App-Ansicht Handy/iPad (`body.ep-app`): Heute-Kacheln, Kopfzeile, Bibliothek, Themen-Regler, Zeitreise, Politik, Impressum/Datenschutz nur im Profil, Ladebild. Dateien vor allem `app.js`, `stil.js`.
 
 ## Notizen an die andere Sitzung
 
