@@ -760,31 +760,38 @@ new MutationObserver(suchen).observe(app, {childList:true, subtree:true});
 suchen();
 })();
 
-/* ================= Themen-Kacheln «Welt & Geschichte» im neuen Stil (nur Computer) ================= */
+/* ================= Themen-Kacheln der vier Bereiche im neuen Stil (nur Computer) ================= */
 (function(){
-// Grund: gezeichnete blaue Karte mit Wellen (img/kacheln/thema-welt.webp, 935 x 381) als Neun-Teile-Bild,
-// Ecken und Unterkante bleiben unverzerrt. Symbol oben links, Text links, grosses helles Wasserzeichen rechts unten.
-const T = "html:root body:not(.ep-app) #app .themen>.thema[style*='--welt']";
-const WZ = {geschichte:"🏰", politik:"🏛️", geografie:"🌍", religion:"🕊️", bilder:"🖼️"};
+// Grund: gezeichnete Karte mit Wellen in der Farbe des Bereichs (img/kacheln/thema-<bereich>.webp, 935 x 381) als Neun-Teile-Bild,
+// Ecken, Unterkante und Wellen bleiben unverzerrt. Symbol oben links, Text links, grosses helles Wasserzeichen rechts unten (data-wz).
+const B = {welt:"30,50,160", natur:"10,90,60", geld:"140,20,30", alltag:"150,80,0"};
+const WZ = {geschichte:"🏰", politik:"🏛️", geografie:"🌍", religion:"🕊️", bilder:"🖼️",
+  natur:"🌳", tiere:"🦊", wissenschaft:"🧪", koerper:"💪", physik:"⚡", weltall:"🔭", erde:"🌋", chemie:"⚗️", mathe:"🔢", technik:"🤖", informatik:"💻",
+  geld:"🪙", banken:"🏦", steuern:"🧾", krankenkasse:"🩺", medien:"📱", beruf:"🧰", haushalt:"🍳", schweiz:"🏔️", wirtschaft:"💰", logos:"🏷️",
+  alltag:"🏠", sprache:"🔤", fremdsprachen:"💬", franzoesisch:"🥐", englisch:"💂", kunst:"🎨", musik:"🎵", sport:"⚽", unterhaltung:"🎬", allgemein:"🧩", ethik:"⚖️"};
+const sel = n => `html:root body:not(.ep-app) #app .themen>.thema[style*='--${n}']`;
+const A = Object.keys(B).map(sel).join(",");
 const css = document.createElement("style"); css.id = "ep-thema-welt-css";
-css.textContent = `
-${T}{border-image:url(img/kacheln/thema-welt.webp?v=1) 56 56 210 56 fill/20px 20px 76px 20px stretch!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;
-  background:transparent!important;box-shadow:none!important;filter:drop-shadow(0 16px 22px rgba(30,50,160,.35));border-radius:0!important;
+css.textContent = Object.entries(B).map(([n, rgb]) => `${sel(n)}{border-image:url(img/kacheln/thema-${n}.webp?v=2) 56 56 210 56 fill/20px 20px 76px 20px stretch!important;filter:drop-shadow(0 16px 22px rgba(${rgb},.35))}
+${sel(n)} b{text-shadow:0 2px 10px rgba(${rgb},.45)!important}
+${sel(n)} span.n{background:rgba(${rgb},.5)!important}`).join("\n") + `
+:is(${A}){border-style:solid!important;border-width:0!important;border-color:transparent!important;
+  background:transparent!important;box-shadow:none!important;border-radius:0!important;
   display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;text-align:left!important;gap:12px!important;
   padding:26px 28px 30px!important;min-height:230px;overflow:hidden;isolation:isolate}
-${T}::before{display:none!important}
-${T}::after{content:attr(data-wz);position:absolute;right:-6px;bottom:-14px;z-index:-1;font-size:118px;line-height:1;pointer-events:none;
-  filter:brightness(0) invert(1);opacity:.13;transform:rotate(-6deg)}
-${T} .emo{margin:0!important;width:78px!important;height:78px!important;border-radius:24px!important;background:linear-gradient(160deg,#fff,#E9EEFF)!important;box-shadow:0 12px 22px -10px rgba(10,20,90,.55),inset 0 -3px 0 rgba(40,70,200,.12)!important}
-${T}>span:not(.emo){display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:72%;position:relative;z-index:1}
-${T} b{font-size:1.45rem!important;text-shadow:0 2px 10px rgba(10,20,90,.35)!important}
-${T} span.t{font-size:1rem;line-height:1.35;text-shadow:0 1px 6px rgba(10,20,90,.3)}
-${T} span.n{margin-top:6px!important;background:rgba(14,24,90,.45)!important;padding:5px 14px!important;border-radius:999px!important}
-${T}:hover{transform:translateY(-4px)}
-${T}:active{transform:translateY(3px)}
+:is(${A})::before{display:none!important}
+:is(${A})::after{content:attr(data-wz);position:absolute;right:-6px;bottom:-14px;z-index:-1;font-size:118px;line-height:1;pointer-events:none;
+  filter:brightness(0) invert(1);opacity:.14;transform:rotate(-6deg)}
+:is(${A}) .emo{margin:0!important;width:78px!important;height:78px!important;border-radius:24px!important;background:linear-gradient(160deg,#fff,#EEF1FF)!important;box-shadow:0 12px 22px -10px rgba(10,20,60,.5),inset 0 -3px 0 rgba(0,0,0,.06)!important}
+:is(${A})>span:not(.emo){display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:72%;position:relative;z-index:1}
+:is(${A}) b{font-size:1.45rem!important}
+:is(${A}) span.t{font-size:1rem;line-height:1.35;text-shadow:0 1px 6px rgba(0,0,0,.18)}
+:is(${A}) span.n{margin-top:6px!important;padding:5px 14px!important;border-radius:999px!important}
+:is(${A}):hover{transform:translateY(-4px)}
+:is(${A}):active{transform:translateY(3px)}
 `;
 document.head.appendChild(css);
-function setzen(){ document.querySelectorAll("#app .themen>.thema[style*='--welt']").forEach(e => { const z = WZ[e.dataset.t] || "🌍"; if(e.dataset.wz !== z) e.dataset.wz = z; }); }
+function setzen(){ document.querySelectorAll("#app .themen>.thema[data-t]").forEach(e => { const z = WZ[e.dataset.t]; if(z && e.dataset.wz !== z) e.dataset.wz = z; }); }
 const app = document.getElementById("app");
 if(app) new MutationObserver(setzen).observe(app, {childList:true, subtree:true});
 setzen();
