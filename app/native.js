@@ -105,7 +105,18 @@ window.fetch = function(input, init){
       var i2 = init ? Object.assign({}, init) : undefined; if(i2) delete i2.cache;
       var rp2 = rel.replace(/^\.\//, "");
       var p2 = fetchAlt(input, i2);
-      if(/^(tx\/|texte-|fragen|bildindex|welten\/)/.test(rp2)) return p2.then(function(r){ return r.ok ? r : holenWeb(rp2, {}); }, function(){ return holenWeb(rp2, {}); });
+      /* Texte, Fragen, Index: Antwort der App prüfen (Status, lesbares JSON, höchstens 6 s).
+         Sonst dieselbe Datei von easyplay.ch. So fehlt auf dem iPhone kein Bibliothekstext mehr. */
+      if(/^(tx\/|texte-|fragen|bildindex|welten\/)/.test(rp2)){
+        var json = /\.json(\?|$)/i.test(rp2);
+        var pruefen = function(r){ if(!r || !r.ok) throw new Error("lokal " + (r && r.status));
+          if(!json) return r;
+          return r.text().then(function(t){ if(!t || t.length < 2) throw new Error("leer"); JSON.parse(t);
+            return new Response(t, {status:200, headers:{"Content-Type":"application/json"}}); }); };
+        var frist = new Promise(function(o, f){ setTimeout(function(){ f(new Error("Zeit")); }, 6000); });
+        var web = function(){ return holenWeb(rp2, {cache:"no-cache"}).then(function(r){ if(!r.ok) throw new Error("web " + r.status); return r; }); };
+        return Promise.race([p2.then(pruefen), frist]).catch(function(e){ try{ console.warn("easyplay App: " + rp2 + " aus der App nicht lesbar (" + e.message + "), hole von easyplay.ch"); }catch(x){} return web(); });
+      }
       return p2;
     }
   }catch(e){}
