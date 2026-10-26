@@ -529,6 +529,19 @@ function testKarte(){
     <span class="eptk-knoepfe"><button type="button" class="ep-btn gelb klein" data-a="test" data-t="${h(t.id)}">▶ Test starten</button><button type="button" class="ep-btn weiss klein" data-a="testneu">🎲 Anderes Thema</button></span>
     <img src="${KIDS}spring1.webp" alt=""></div>`;
 }
+/* Bibliothek-Kachel auf der Startseite (ersetzt den gewerteten Test) */
+function bibKarte(){
+  let n = 0; try{ n = typeof bibSeitenZahl === "function" ? bibSeitenZahl() : 0; }catch(e){}
+  let nb = 0; try{ nb = BUECHER.length; }catch(e){}
+  const ic = ["📜","🌍","🌿","🔬","🇨🇭","🏛️","💰","🧭","🎨"];
+  return `<div class="ep-w epm ep-bibk"><small>📚 Bibliothek</small>
+    <div class="eptk-thema"><span class="eptk-ic" aria-hidden="true">📖</span><b class="epgross">Lesen und entdecken</b></div>
+    <span class="epzufalltext">${n ? zahl(n) + " Seiten" : "Tausende Seiten"}${nb ? ` in ${nb} Büchern` : ""}: Tiere, Geschichte, die Schweiz und vieles mehr</span>
+    <span class="epbib-buecher" aria-hidden="true">${ic.map((x, i) => `<i style="--i:${i}">${x}</i>`).join("")}</span>
+    <span class="eptk-knoepfe"><button type="button" class="ep-btn gelb klein" data-a="lib">📖 Bibliothek öffnen</button><button type="button" class="ep-btn weiss klein" data-a="libzufall">🎲 Zufällige Seite</button></span>
+    <span class="epbib-funken" aria-hidden="true"><i>✦</i><i>✧</i><i>★</i><i>✦</i></span>
+    <img src="${KIDS}lumi-staunen.webp" alt=""></div>`;
+}
 const TACHO = [{id:1, n:"Entdecker", c:"#2BD67B", ic:"🌱"}, {id:2, n:"Könner", c:"#4D7CFF", ic:"🚀"}, {id:3, n:"Profis", c:"#FFC23A", ic:"🏅"}, {id:4, n:"Alle Stufen", c:"#FF5FD2", ic:"🌍"}];
 const TC = {cx:120, cy:122, r:92};
 const tcWinkel = st => 180 - (st - .5) * 45;               // Grad, 180 = links, 0 = rechts
@@ -606,7 +619,7 @@ function widgets(){
   const wt = []; for(let i = 6; i >= 0; i--){ wt.push((LS.get("ep-lerntage", {})[heute(Date.now() - i * 864e5)] || 0) >= 5); }
   return `<div class="ep-wg">
     ${zeitstrahl()}
-    ${testKarte()}
+    ${bibKarte()}
     <button type="button" class="ep-w orange" data-a="zufall"><small>Serie</small><div class="epzahl">${s.n} 🔥</div><div class="eptage">${wt.map(x => `<i class="${x ? "an" : ""}"></i>`).join("")}</div></button>
     <button type="button" class="ep-w" data-a="profil" style="--c:${lv ? lv.titel.farbe : "#8A3FE0"}"><small>Level</small>${lv ? `<span class="epring" style="--p:${Math.round(lv.anteil * 100)}"><b>${lv.level}</b></span><div class="epzahl k">${lv.titel.emo} ${h(lv.titel.name)}</div><span style="font-weight:700;font-size:.85rem;color:var(--ep-mut)">+${zahl(lv.heute)} XP heute</span>` : `<div class="epzahl k">Level 1</div>`}</button>
     <button type="button" class="ep-w epm ${nl && liveStatus(nl) === "jetzt" ? "rot" : "lila"}" data-a="live"><small>⚡ Live-Quiz ${nl ? "· " + slotLabel(nl) + " Uhr" : ""}</small><div class="epcd">${nl ? (liveStatus(nl) === "jetzt" ? `<b>LÄUFT JETZT</b><span>${h(nl.thema ? nl.thema.name : "")}</span>` : `<b id="epLiveCd">${dauerText(nl.start - Date.now())}</b><span>bis zum Start · ${h(nl.thema ? nl.thema.name : "")}</span>`) : ""}</div><span class="epmini">${nl && liveStatus(nl) === "jetzt" ? "Mitspielen ⚡" : "Team wählen"}</span></button>
@@ -681,6 +694,7 @@ function aktion(a, el){
   else if(a === "themen"){ const z = document.getElementById("bereiche") || document.querySelector("#app .bereiche"); if(z) z.scrollIntoView({behavior:ruhig() ? "auto" : "smooth", block:"start"}); }
   else if(a === "test"){ const t = THEMA[el && el.dataset.t]; if(!t) return; S.thema = t; if(!S.profil){ S.after = "mode"; go("register"); } else { try{ startQuiz(t.id, "test"); }catch(e){ go("mode"); } } }
   else if(a === "testneu"){ testThema(true); render(); }
+  else if(a === "libzufall"){ try{ zufallArtikel(); }catch(e){ try{ setLibModus(true); }catch(e2){} } }
   else if(a === "weiter"){ const z = LS.get(K.zuletzt, null); if(z && THEMA[z.t]){ const l = (typeof alleFragen === "function" ? alleFragen() : FRAGEN).filter(f => f.t === z.t && Array.isArray(f.a) && f.a.length === 4); if(l.length){ startListe(l, THEMA[z.t].name); return; } } aktion("zufall"); }
   else if(a === "fakt"){ const t = el && el.dataset.t; if(t && THEMA[t]){ try{ LIB.thema = t; LIB.buch = (THEMA[t].bereich && THEMA[t].bereich.id) || LIB.buch; }catch(e){} S.libModus = true; document.documentElement.dataset.mode = "lib"; go("libthema"); return; } aktion("zufall"); }
 }

@@ -485,6 +485,28 @@ css.textContent = `
 .eptk-knoepfe{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;position:relative;z-index:2}
 .ep-testk .ep-btn.weiss{background:rgba(255,255,255,.18)!important;color:#fff!important;border:1px solid rgba(255,255,255,.35)!important;box-shadow:none!important}
 .ep-testk img{z-index:1}
+/* Bibliothek */
+.ep-w.ep-bibk{background:radial-gradient(120% 80% at 85% 110%,rgba(255,214,102,.45),transparent 60%),radial-gradient(circle at 2px 2px,rgba(255,255,255,.12) 1.5px,transparent 0) 0 0/18px 18px,linear-gradient(140deg,#7A3E12,#C26A1A 50%,#F2A23A)!important;color:#fff;gap:6px;justify-content:flex-start!important;overflow:hidden;isolation:isolate}
+.ep-bibk>small{color:rgba(255,255,255,.88);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem}
+.ep-bibk .epgross{max-width:none!important}
+.ep-bibk .epzufalltext{max-width:62%;font-size:.85rem;color:rgba(255,255,255,.92);line-height:1.35}
+.ep-bibk .eptk-ic{animation:epBibBlatt 3.6s ease-in-out infinite}
+.ep-bibk .ep-btn.weiss{background:rgba(255,255,255,.18)!important;color:#fff!important;border:1px solid rgba(255,255,255,.35)!important;box-shadow:none!important}
+.ep-bibk img{z-index:1}
+.epbib-buecher{display:flex;gap:4px;max-width:62%;flex-wrap:wrap;margin:2px 0}
+.epbib-buecher i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);font-size:.95rem;animation:epBibHuepf 4s ease-in-out infinite;animation-delay:calc(var(--i) * .25s)}
+.epbib-funken{position:absolute;inset:0;pointer-events:none;z-index:0}
+.epbib-funken i{position:absolute;font-style:normal;color:#FFE7A3;opacity:0;font-size:14px;animation:epBibFunke 4.5s ease-in-out infinite}
+.epbib-funken i:nth-child(1){right:34%;top:18%}.epbib-funken i:nth-child(2){right:22%;top:10%;animation-delay:1.1s;font-size:18px}
+.epbib-funken i:nth-child(3){right:40%;top:42%;animation-delay:2.2s}.epbib-funken i:nth-child(4){right:12%;top:34%;animation-delay:3.3s;font-size:12px}
+.ep-w.ep-bibk::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%) 0 0/250% 100% no-repeat;animation:epBibGlanz 6s ease-in-out infinite}
+.ep-w.ep-bibk::after{content:"📚";position:absolute;right:-10px;bottom:-22px;font-size:120px;opacity:.12;z-index:0;pointer-events:none;transform:rotate(-10deg)}
+.ep-bibk>*:not(img):not(.epbib-funken){position:relative;z-index:2}
+@keyframes epBibBlatt{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(4deg) translateY(-3px)}}
+@keyframes epBibHuepf{0%,80%,100%{transform:translateY(0)}88%{transform:translateY(-5px)}}
+@keyframes epBibFunke{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:.95;transform:scale(1.15)}}
+@keyframes epBibGlanz{0%,60%{background-position:150% 0}100%{background-position:-60% 0}}
+@media (prefers-reduced-motion:reduce){.ep-bibk *,.ep-w.ep-bibk::before{animation:none!important}}
 /* Tacho */
 .ep-w.ep-tacho{align-items:stretch;justify-content:flex-start!important;gap:4px;padding:14px 14px 14px!important;border:0!important;color:#fff!important;
   background:radial-gradient(120% 90% at 50% 100%,color-mix(in srgb,var(--tc) 35%,transparent),transparent 65%),radial-gradient(circle at 2px 2px,rgba(255,255,255,.08) 1.5px,transparent 0) 0 0/16px 16px,linear-gradient(160deg,#232A63,#11152F)!important;
