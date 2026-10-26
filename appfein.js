@@ -129,6 +129,91 @@ html body.ep-app.ep-s-mode #app .modes .mode.test > p:not(:nth-of-type(1)){font-
 html body.ep-app.ep-s-mode .st-kopf{padding:12px 14px!important;margin-bottom:0!important}
 html body.ep-app.ep-s-mode .st-kopf .st-kids{display:none!important}
 html body.ep-app.ep-s-mode .st-kopf .bhead{margin-bottom:8px!important}
+/* ---- Scrollen nur, wenn der Inhalt wirklich länger ist als der Bildschirm ---- */
+html.af-fest,html.af-fest body{overflow:hidden!important;overscroll-behavior:none!important;height:100%!important}
+html.af-fest body.ep-app{padding-bottom:0!important;min-height:0!important}
+html.af-fest body.ep-app #app{min-height:0!important;padding-bottom:0!important}
+html.af-fest body.ep-app .wrap{min-height:0!important}
+html body.ep-app{box-sizing:border-box}
+html body.ep-app #app > .ap-duell,html body.ep-app #app > .ap-profil{overflow:visible!important}
+
+/* ---- Themenauswahl in einem Bereich: farbige Knöpfe, Symbol und Text mittig, 3 pro Reihe ---- */
+html body.ep-app .ap-tp .ap-tpage{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important}
+html body.ep-app .ap-tp .thema{all:unset;box-sizing:border-box;position:relative;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:5px;min-height:104px;padding:12px 6px 10px!important;border-radius:20px!important;cursor:pointer;-webkit-tap-highlight-color:transparent;color:#fff!important;
+  background:radial-gradient(120% 80% at 20% 0%,rgba(255,255,255,.28),transparent 55%),linear-gradient(160deg,color-mix(in srgb,var(--c,#5B6CFF) 82%,#fff),var(--c,#5B6CFF) 55%,color-mix(in srgb,var(--c,#5B6CFF) 78%,#000))!important;
+  border:1.5px solid rgba(255,255,255,.45)!important;box-shadow:0 4px 0 color-mix(in srgb,var(--c,#5B6CFF) 60%,#000),0 12px 20px -12px rgba(20,15,60,.55)!important;transition:transform .12s}
+html body.ep-app .ap-tp .thema:active{transform:translateY(2px) scale(.98)}
+html body.ep-app .ap-tp .thema::before,html body.ep-app .ap-tp .thema::after{display:none!important}
+html body.ep-app .ap-tp .thema .emo{all:unset;display:grid!important;place-items:center;width:44px!important;height:44px!important;border-radius:14px!important;background:rgba(255,255,255,.95)!important;box-shadow:0 4px 10px -4px rgba(0,0,0,.35)!important;font-size:24px!important;line-height:1;margin:0!important;flex:none}
+html body.ep-app .ap-tp .thema .emo .ic{font-size:24px!important;line-height:1!important;margin:0!important}
+html body.ep-app .ap-tp .thema .emo svg,html body.ep-app .ap-tp .thema .emo img{width:26px!important;height:26px!important}
+html body.ep-app .ap-tp .thema > span:not(.emo){display:flex!important;flex-direction:column;align-items:center;gap:4px;min-width:0;width:100%}
+html body.ep-app .ap-tp .thema b{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font:800 13px/1.15 "Lexend","Fredoka",system-ui,sans-serif!important;color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.25);hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere;max-width:100%}
+html body.ep-app .ap-tp .thema span.t,html body.ep-app .ap-tp .thema .step{display:none!important}
+html body.ep-app .ap-tp .thema span.n{all:unset;font:700 10.5px/1 "Lexend",system-ui,sans-serif!important;color:#fff!important;padding:3px 8px!important;border-radius:999px!important;background:rgba(15,20,48,.28)!important;white-space:nowrap}
+html body.ep-app .ap-tp.af-eng1 .thema{min-height:88px;padding:9px 5px 8px!important;gap:4px}
+html body.ep-app .ap-tp.af-eng1 .thema .emo{width:36px!important;height:36px!important;font-size:20px!important;border-radius:12px!important}
+html body.ep-app .ap-tp.af-eng1 .thema .emo .ic{font-size:20px!important}
+html body.ep-app .ap-tp.af-eng2 .thema span.n{display:none!important}
+html body.ep-app .ap-tp.af-eng2 .thema{min-height:76px}
+@media (min-width:700px){html body.ep-app .ap-tp .ap-tpage{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}html body.ep-app .ap-tp .thema{min-height:140px;gap:8px}html body.ep-app .ap-tp .thema .emo{width:60px!important;height:60px!important;font-size:32px!important;border-radius:18px!important}html body.ep-app .ap-tp .thema .emo .ic{font-size:32px!important}html body.ep-app .ap-tp .thema b{font-size:17px!important}html body.ep-app .ap-tp .thema span.n{font-size:12.5px!important}}
+@media (max-width:359px){html body.ep-app .ap-tp .thema b{font-size:11.5px!important}}
+
+/* ---- Kopf der Bereich-Seiten kompakter ---- */
+html body.ep-app.ep-s-bereich .st-kopf,html body.ep-app.ep-s-submenu .st-kopf,html body.ep-app.ep-s-geschmenu .st-kopf,html body.ep-app.ep-s-chmenu .st-kopf{padding:12px 14px!important;margin-bottom:10px!important}
+html body.ep-app.ep-s-bereich .st-kopf .st-kids,html body.ep-app.ep-s-submenu .st-kopf .st-kids,html body.ep-app.ep-s-geschmenu .st-kopf .st-kids,html body.ep-app.ep-s-chmenu .st-kopf .st-kids{display:none!important}
+html body.ep-app.ep-s-bereich .bhead{margin-bottom:8px!important}
+html body.ep-app.ep-s-bereich .bhead h1{font-size:22px!important;line-height:1.1!important}
+html body.ep-app.ep-s-bereich .bhead .emo{width:46px!important;height:46px!important;font-size:26px!important}
+html body.ep-app.ep-s-bereich .bdesc{display:none!important}
+
+/* ---- Kleine Bildschirme (wenig Höhe): alles enger, damit nichts scrollt ---- */
+@media (max-height:760px) and (max-width:699px){
+  html body.ep-app .st-kopf{padding:8px 10px!important;margin-bottom:8px!important}
+  html body.ep-app .st-kopf .bhead,html body.ep-app.ep-s-bereich .bhead{margin-bottom:6px!important}
+  html body.ep-app .st-kopf .bhead h1,html body.ep-app.ep-s-bereich .bhead h1,html body.ep-app.ep-s-geschmenu .bhead h1,html body.ep-app.ep-s-submenu .bhead h1,html body.ep-app.ep-s-mode .bhead h1{font-size:18px!important}
+  html body.ep-app .st-kopf .bhead .emo,html body.ep-app.ep-s-bereich .bhead .emo,html body.ep-app.ep-s-mode .bhead .emo{width:36px!important;height:36px!important;font-size:20px!important;border-radius:11px!important}
+  html body.ep-app .sbar .sbtns > button,html body.ep-app .ap-stufen > button{min-height:40px!important;padding:4px 2px!important}
+  html body.ep-app .sbar .sbtns > button .ic,html body.ep-app .ap-stufen > button .af-se{font-size:15px!important;margin:0!important}
+  html body.ep-app .sbar .sinfo{display:none!important}
+  html body.ep-app .ap-kz{min-height:0!important}
+  html body.ep-app .ap-tp .ap-tpage{gap:7px!important}
+  html body.ep-app .ap-tp .thema{min-height:84px;padding:8px 4px 7px!important;gap:4px;border-radius:16px!important}
+  html body.ep-app .ap-tp .thema .emo{width:34px!important;height:34px!important;font-size:19px!important;border-radius:11px!important}
+  html body.ep-app .ap-tp .thema .emo .ic{font-size:19px!important}
+  html body.ep-app .ap-tp .thema b{font-size:11.5px!important}
+  html body.ep-app .ap-tp.af-eng1 .thema{min-height:70px}
+  html body.ep-app .ap-tp.af-eng1 .thema .emo{width:28px!important;height:28px!important;font-size:16px!important}
+  html body.ep-app .ap-tp.af-eng1 .thema .emo .ic{font-size:16px!important}
+  html body.ep-app .ap-tp.af-eng2 .thema{min-height:60px}
+  /* Training und Test */
+  html body.ep-app.ep-s-mode #app .modes .mode{padding:10px 12px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > h2 + p{display:none!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > .em{grid-row:1;width:36px!important;height:36px!important;font-size:20px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .slider{margin-top:6px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts .cnt{height:30px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .big{padding:9px 12px!important;font-size:15px!important;margin-top:8px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test .punkteinfo{display:none!important}
+  html body.ep-app.ep-s-mode #app .modes{gap:8px!important;margin-top:6px!important}
+  /* Zeitreise */
+  html body.ep-app.ep-s-geschmenu .epochs .thema{padding:8px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema .emo{width:34px!important;height:34px!important;min-width:34px;font-size:19px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema b{font-size:12.5px!important}
+  html body.ep-app.ep-s-geschmenu p.label{margin:8px 0 6px!important}
+  html body.ep-app.ep-s-geschmenu p.label small{display:none!important}
+  /* Duell und Profil */
+  html body.ep-app .ap-duell,html body.ep-app .ap-profil{gap:8px!important}
+  html body.ep-app .ap-duell .ap-bereit{min-height:200px!important;padding:14px!important}
+  html body.ep-app .ap-duell .ap-bereit p{display:none!important}
+  html body.ep-app .ap-duell > .apf,html body.ep-app .ap-duell .ap-zwei > .apf{padding-top:10px!important;padding-bottom:10px!important}
+  html body.ep-app .ap-duell .ap-zwei{min-height:0!important}
+  html body.ep-app .ap-duell .ap-zwei > .apf{min-height:84px!important}
+  html body.ep-app .ap-profil .ap-konto{min-height:0!important;padding:12px 14px!important}
+  html body.ep-app .ap-profil .ap-konto p{font-size:12px!important}
+  html body.ep-app .ap-profil .ap-stats > *{padding:8px 10px!important;min-height:0!important}
+  html body.ep-app .ap-profil .ap-liste > *{padding-top:6px!important;padding-bottom:6px!important;min-height:0!important}
+}
+
 `;
 document.head.appendChild(css);
 
@@ -161,12 +246,35 @@ function libSperre(){
   document.documentElement.classList.toggle("ep-af-lib", an);
   if(an) scrollTo(0, 0);
 }
+
+/* Scrollen sperren, wenn alles Platz hat; Themenknöpfe zuerst verkleinern, damit sie Platz haben */
+function unten(){ const t = document.getElementById("epTabs"); let quer = false; try{ quer = matchMedia("(min-width: 1000px) and (orientation: landscape)").matches; }catch(e){}
+  if(t && !quer && getComputedStyle(t).display !== "none" && !document.body.classList.contains("ep-ohne")){ const r = t.getBoundingClientRect(); if(r.height) return r.top - 8; }
+  return innerHeight - 8; }
+function inhaltEnde(){ const a = document.getElementById("app"); if(!a) return 0; let m = 0;
+  const geh = el => { for(const k of el.children){ const c = getComputedStyle(k); if(c.display === "none" || c.position === "absolute" || c.position === "fixed") continue;
+    const r = k.getBoundingClientRect(); if(r.height) m = Math.max(m, r.bottom + scrollY); } };
+  geh(a); return m; }
+function themenEinpassen(){
+  const tp = document.querySelector("#app .ap-tp"); if(!tp) return;
+  tp.classList.remove("af-eng1", "af-eng2");
+  const platz = unten() + scrollY;
+  if(inhaltEnde() > platz){ tp.classList.add("af-eng1"); if(inhaltEnde() > platz) tp.classList.add("af-eng2"); }
+}
+function scrollWaechter(){
+  const h = document.documentElement;
+  if(!app() || document.getElementById("reels")){ h.classList.remove("af-fest"); return; }
+  const y = scrollY; h.classList.remove("af-fest");
+  try{ themenEinpassen(); }catch(e){}
+  const passt = inhaltEnde() <= unten() + scrollY + 1;
+  if(passt){ h.classList.add("af-fest"); if(scrollY) scrollTo(0, 0); } else if(y && scrollY !== y) scrollTo(0, y);
+}
 function alles(){
-  if(!app()) { document.documentElement.classList.remove("ep-af-lib"); return; }
+  if(!app()) { document.documentElement.classList.remove("ep-af-lib", "af-fest"); return; }
   try{ gruss(); }catch(e){}
   try{ themen(); }catch(e){}
   try{ libSperre(); }catch(e){}
-  requestAnimationFrame(() => { try{ heuteEinpassen(); }catch(e){} });
+  requestAnimationFrame(() => { try{ heuteEinpassen(); }catch(e){} try{ scrollWaechter(); }catch(e){} });
 }
 let zeit = 0;
 const bald = () => { clearTimeout(zeit); zeit = setTimeout(alles, 60); };
@@ -176,7 +284,7 @@ if(typeof vorRender === "function"){
   window.render = function(){ const r = vorRender.apply(this, arguments); try{ alles(); bald(); setTimeout(alles, 400); }catch(e){} return r; };
 }
 const appEl = document.getElementById("app");
-if(appEl) new MutationObserver(bald).observe(appEl, {childList:true});
+if(appEl){ new MutationObserver(bald).observe(appEl, {childList:true}); try{ new ResizeObserver(() => { clearTimeout(zeit); zeit = setTimeout(() => { try{ scrollWaechter(); }catch(e){} }, 80); }).observe(appEl); }catch(e){} }
 addEventListener("resize", bald);
 addEventListener("orientationchange", bald);
 try{ alles(); setTimeout(alles, 500); }catch(e){}

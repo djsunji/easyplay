@@ -951,7 +951,7 @@ function themenSeiten(){
   const quer = QUER.matches, tabs = document.getElementById("epTabs"); const tr = tabs && !quer && getComputedStyle(tabs).display !== "none" ? tabs.getBoundingClientRect() : null;
   const ende = tr ? tr.top - 10 : innerHeight - 16;
   const wrap = document.createElement("div"); wrap.className = "ap-tp"; th.before(wrap); th.remove();
-  const spalten = innerWidth >= 700 ? 3 : 2;
+  const spalten = innerWidth >= 700 ? 4 : 3;
   const probe = document.createElement("div"); probe.className = "ap-tpage"; wrap.appendChild(probe); probe.appendChild(kacheln[0]);
   const top = wrap.getBoundingClientRect().top + scrollY, hoehe = Math.max(140, ende - top - 22), kh = kacheln[0].getBoundingClientRect().height + 10;
   const zeilen = Math.max(2, Math.floor(hoehe / kh)), proSeite = zeilen * spalten;
