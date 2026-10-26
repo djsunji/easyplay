@@ -96,12 +96,39 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
     await protokoll(p, "sicherung", name, { tabellen: Object.keys(zahlen).length });
     return;
   }
+  /* Rundmail an alle freigegebenen Lehrpersonen (oder als Probe nur an mich). Jede Mail einzeln, keine Adresse sieht die anderen. */
+  if (pfad === "rundmail" && req.method === "POST") {
+    if (!mailAn()) return res.json(400, { code: "mail", message: "Mailversand ist nicht eingerichtet (SMTP_HOST und MAIL_FROM fehlen)." });
+    const b = await req.body();
+    const betreff = String(b.betreff || "").replace(/[\r\n]+/g, " ").trim().slice(0, 150), text = String(b.text || "").trim().slice(0, 8000);
+    if (betreff.length < 3 || text.length < 10) return res.json(400, { code: "leer", message: "Bitte Betreff und Text ausfüllen." });
+    let an = [];
+    if (b.an === "ich") an = [p.email].filter(Boolean);
+    else if (b.an === "lehrpersonen") {
+      an = (await sql`select email from auth.users where raw_app_meta_data->>'rolle' = 'lehrperson' and email_confirmed_at is not null
+                      and (banned_until is null or banned_until <= now()) and email is not null order by email`).map(r => r.email);
+    } else return res.json(400, { code: "an", message: "Unbekannte Empfänger." });
+    if (!an.length) return res.json(400, { code: "an", message: "Keine Empfänger gefunden." });
+    if (an.length > 500) return res.json(400, { code: "an", message: "Mehr als 500 Empfänger: bitte über einen Newsletter-Dienst verschicken." });
+    const fuss = `\n\n--\nDiese Nachricht kommt von easyplay (${E.PUBLIC_URL || "easyplay.ch"}), weil Sie dort als Lehrperson registriert sind.`;
+    let ok = 0; const fehler = [];
+    for (const mail of an) {
+      try { await mailSenden(mail, betreff, text + fuss); ok++; } catch (e) { fehler.push(mail); }
+    }
+    await protokoll(p, "rundmail", b.an === "ich" ? "Probe an mich" : `${ok} Lehrpersonen`, { betreff, gesendet: ok, fehler: fehler.length });
+    return res.json(200, { ok: true, gesendet: ok, fehler });
+  }
+  if (pfad === "rundmail" && req.method === "GET") {
+    const [r] = await sql`select count(*)::int n from auth.users where raw_app_meta_data->>'rolle' = 'lehrperson' and email_confirmed_at is not null and (banned_until is null or banned_until <= now())`;
+    return res.json(200, { lehrpersonen: r.n, mail: mailAn() });
+  }
   return res.json(404, { code: "404", message: "Nicht gefunden" });
 }
 
 /* Protokoll für Admin-Funktionen, die etwas ändern (aufgerufen aus rest.js nach Erfolg) */
 const NUR_LESEN = new Set(["admin_benutzer", "admin_benutzer_profil", "admin_fehlermeldungen", "admin_kommentare", "admin_liga_klassen",
-  "admin_statistik", "admin_ip_pruefen", "admin_namen", "admin_spiele", "admin_sicherheit", "admin_einstellungen", "admin_protokoll_lesen", "admin_notiz"]);
+  "admin_statistik", "admin_ip_pruefen", "admin_namen", "admin_spiele", "admin_sicherheit", "admin_einstellungen", "admin_protokoll_lesen", "admin_notiz",
+  "admin_rangliste", "admin_vorschlaege", "admin_antworten", "admin_antworten_summe", "admin_lehrer_detail", "admin_qeels_top"]);
 export function adminAktionMerken(name, person, args) {
   if (!person || !/^admin_/.test(name) || NUR_LESEN.has(name)) return;
   const d = {}; for (const [k, v] of Object.entries(args || {})) d[k] = typeof v === "string" ? v.slice(0, 300) : v;

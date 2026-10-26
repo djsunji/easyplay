@@ -124,8 +124,8 @@ function hcInfo(){
 
 function hcBoard(){
   hcStop();
-  const meId = S.online ? S.uid : "me";
-  let list = S.online ? (S.spieler||[]) : (S.profil ? [{...S.profil, id:"me"}] : []);
+  const meId = (S.online||S.rang) ? S.uid : "me";
+  let list = (S.online||S.rang) ? (S.spieler||[]) : (S.profil ? [{...S.profil, id:"me"}] : []);
   list = list.filter(p=>hcBest(p)>0).sort((a,b)=>hcBest(b)-hcBest(a) || ((a.hc.zeit||Infinity)-(b.hc.zeit||Infinity)));
   const sek = ms => ms ? (ms/1000).toLocaleString("de-CH",{maximumFractionDigits:1})+" s" : "";
   $("#app").innerHTML = `<div class="hcwrap">
@@ -139,7 +139,7 @@ function hcBoard(){
         <span class="rname"><b>${esc(p.name)}${p.id===meId?" (du)":""}</b><span>${p.kanton? wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||"")+" · ":""}${sek(p.hc.zeit)}</span></span>
         <span class="rpts">${hcBest(p)}<small>${hcBest(p)===1?"Frage":"Fragen"}</small></span></div>`).join("")
       : `<div class="empty">Noch niemand auf der Hardcore-Rangliste. Sei die erste Person!</div>`}</div></div>
-    ${S.online? "" : `<p class="note">In dieser Ansicht gibt es keine gemeinsame Rangliste, du siehst nur dein eigenes Ergebnis.</p>`}
+    ${(S.online||S.rang)? "" : `<p class="note">In dieser Ansicht gibt es keine gemeinsame Rangliste, du siehst nur dein eigenes Ergebnis.</p>`}
   </div>`;
   $("#hcLos3").onclick=hcStart; $("#hcZurRl").onclick=()=>go("board");
   document.querySelectorAll("[data-pid]").forEach(el=>{ const auf=()=>{ S.spielerId=el.dataset.pid; go("spieler"); }; el.onclick=auf; el.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); auf(); } }; });

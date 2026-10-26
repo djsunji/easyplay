@@ -30,7 +30,7 @@ export const sql = URL_DB ? postgres(URL_DB, OPTIONEN)
 export const DATEIEN = [
   "server/sql/00-auth.sql",
   "supabase/schema.sql", "supabase/lehrer.sql", "supabase/admin.sql", "supabase/lehrer2.sql",
-  "supabase/klassenliga.sql", "supabase/live.sql", "supabase/regionen.sql", "supabase/duell.sql", "supabase/verwaltung.sql",
+  "supabase/klassenliga.sql", "supabase/live.sql", "supabase/regionen.sql", "supabase/duell.sql", "supabase/verwaltung.sql", "supabase/spiel.sql",
   "server/sql/90-server.sql", "server/sql/91-admin-konto.sql",
 ];
 

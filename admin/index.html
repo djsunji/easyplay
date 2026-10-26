@@ -232,15 +232,20 @@ select{max-width:100%}
   <button data-t="bilder">Bilder <small id="nBilder"></small></button>
   <button data-t="bildwechsel" class="unter">↳ Bilder wechseln</button>
   <button data-t="welten">Welten <small id="nWelten"></small></button>
+  <button data-t="vorschlaege">Vorschläge</button>
+  <button data-t="schwierig">Schwierige Fragen</button>
+  <button data-t="qeels">Beliebte Qeels</button>
   <button data-t="themenplan">Themenplan</button>
   <button data-t="werbung">Werbung</button>
   <div class="gr">Personen</div>
   <button data-t="benutzer">Benutzer</button>
   <button data-t="namen">Namen prüfen</button>
+  <button data-t="rangliste">Rangliste</button>
   <button data-t="lehrpersonen">Lehrpersonen</button>
   <button data-t="liga">Klassen-Liga</button>
   <button data-t="kommentare">Kommentare</button>
   <button data-t="fehlermeldungen">Fehlermeldungen</button>
+  <button data-t="rundmail">Mitteilung an Lehrpersonen</button>
   <div class="gr">Spiele</div>
   <button data-t="spiele">Live, Duell, Cup</button>
   <div class="gr">System</div>
@@ -1535,7 +1540,7 @@ TABS.liga = async () => {
 /* ======================= Lehrpersonen ======================= */
 TABS.lehrpersonen = async () => {
   const kopf = `<div class="leiste"><h2 style="margin:0">Lehrpersonen</h2><span class="mu klein">Konten mit der Rolle «Lehrperson»</span><span class="rechts"></span>${lehrerLink}</div>`;
-  const info = `<p class="mu klein">Der Lehrerbereich ist eine eigene Seite unter <code>/lehrer/</code>. Klassen, Kinder und Tests einzelner Lehrpersonen schützt der Server mit Zeilenschutz (<code>supabase/lehrer.sql</code>): Admins sehen nur Gesamtzahlen und die Liga-Anmeldungen. Eine Liste der Klassen pro Lehrperson bräuchte eine zusätzliche Admin-Funktion in Supabase.</p>`;
+  const info = `<p class="mu klein">Der Lehrerbereich ist eine eigene Seite unter <code>/lehrer/</code>. «Klassen und Tests» zeigt pro Lehrperson Klassen, Anzahl Kinder, Tests und Abgaben, ohne Namen der Kinder, PINs und Antworten.</p>`;
   if(!sbAn()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_SERVER) + info; zielBinden(); return; }
   if(!sbSitzung()){ $("#inhalt").innerHTML = kopf + kein("", NICHT_ANGEMELDET, true) + info; zielBinden(); return; }
   const alle = await rpc("admin_benutzer") || [], lp = alle.filter(u => u.rolle === "lehrperson");
@@ -1545,9 +1550,10 @@ TABS.lehrpersonen = async () => {
     <table><thead><tr><th>Name</th><th>E-Mail</th><th>Registriert</th><th>Zuletzt</th><th>Liga-Klassen</th><th>Status</th><th></th></tr></thead><tbody>${lp.map(u => { const k = ligaVon(u.id);
       return `<tr><td>${esc([u.meta?.vorname, u.meta?.nachname].filter(Boolean).join(" ") || "-")}${u.meta?.schule ? `<br><span class="mu klein">${esc(u.meta.schule)}</span>` : ""}</td><td>${esc(u.email)} <span class="mu klein">${esc(u.anbieter !== "email" ? u.anbieter : "")}</span></td><td class="nowrap">${tag(u.erstellt)}</td><td class="nowrap">${u.zuletzt ? datum(u.zuletzt) : '<span class="mu">nie</span>'}</td>
         <td class="klein">${k.length ? k.map(x => esc(x.anzeige) + (x.gesperrt ? ' <span class="fe">(gesperrt)</span>' : "")).join(", ") : '<span class="mu">-</span>'}</td>
-        <td class="nowrap">${gesperrt(u) ? `<span class="fe">gesperrt bis ${tag(u.gesperrt_bis)}</span>` : u.bestaetigt ? '<span class="ok">aktiv</span>' : '<span class="wa">unbestätigt</span>'}</td><td><button type="button" class="k" data-mail="${esc(u.email)}">Verwalten</button></td></tr>`; }).join("") || '<tr><td colspan="7" class="mu">Noch keine Lehrpersonen registriert.</td></tr>'}</tbody></table>` + info;
+        <td class="nowrap">${gesperrt(u) ? `<span class="fe">gesperrt bis ${tag(u.gesperrt_bis)}</span>` : u.bestaetigt ? '<span class="ok">aktiv</span>' : '<span class="wa">unbestätigt</span>'}</td><td class="nowrap"><button type="button" class="k p" data-detail="${esc(u.id)}">Klassen und Tests</button> <button type="button" class="k" data-mail="${esc(u.email)}">Verwalten</button></td></tr>`; }).join("") || '<tr><td colspan="7" class="mu">Noch keine Lehrpersonen registriert.</td></tr>'}</tbody></table>` + info;
   zielBinden();
   $$("#inhalt button[data-mail]").forEach(b => b.onclick = () => { FU.suche = b.dataset.mail.toLowerCase(); FU.rolle = ""; zeige("benutzer"); });
+  $$("#inhalt button[data-detail]").forEach(b => b.onclick = () => lehrerDetail(lp.find(u => u.id === b.dataset.detail)));
 };
 
 /* ======================= Benutzer ======================= */
@@ -1577,7 +1583,7 @@ function benutzerListe(){
     <td>${u.antrag ? `<span class="wa klein">Antrag Lehrperson</span> <button class="k p" data-a="lfrei">Freigeben</button> <button class="k" data-a="lnein">Ablehnen</button><br>` : ""}<select data-a="rolle">${["kind","lehrperson","admin"].map(r => `<option value="${r}"${u.rolle===r?" selected":""}>${{kind:"Kind",lehrperson:"Lehrperson",admin:"Admin"}[r]}</option>`).join("")}</select></td>
     <td>${esc(u.meta?.stufe ?? "")}</td><td class="nowrap">${tag(u.erstellt)}</td><td class="nowrap">${u.zuletzt ? datum(u.zuletzt) : '<span class="mu">nie</span>'}</td>
     <td class="nowrap">${gesperrt(u) ? `<span class="fe">gesperrt bis ${tag(u.gesperrt_bis)}</span>` : u.bestaetigt ? '<span class="ok">aktiv</span>' : '<span class="wa">unbestätigt</span>'}</td>
-    <td class="nowrap"><button class="k" data-a="profil">Profil</button> ${gesperrt(u) ? '<button class="k" data-a="entsperren">Entsperren</button>' : '<button class="k" data-a="sperren">Sperren</button>'} <button class="k" data-a="pw">Passwort-Mail</button> <button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || '<tr><td colspan="8" class="mu">Keine Benutzer</td></tr>'}</tbody></table>`;
+    <td class="nowrap"><button class="k" data-a="profil">Profil</button> ${gesperrt(u) ? '<button class="k" data-a="entsperren">Entsperren</button>' : '<button class="k" data-a="sperren">Sperren</button>'} <button class="k" data-a="pw">Passwort-Mail</button> <button class="k" data-a="auskunft" title="Alle gespeicherten Daten dieses Kontos herunterladen (Datenschutz)">Auskunft</button> <button class="k g" data-a="loeschen">Löschen</button></td></tr>`).join("") || '<tr><td colspan="8" class="mu">Keine Benutzer</td></tr>'}</tbody></table>`;
   $$("#uListe tr[data-id]").forEach(tr => { const u = FU.liste.find(x => x.id === tr.dataset.id);
     const los = async (fn, ok) => { try{ await fn(); melde(ok); FU.liste = await rpc("admin_benutzer"); benutzerListe(); }catch(e){ melde(e.message, "fe"); } };
     tr.querySelector('[data-a="rolle"]').onchange = e => los(() => rpc("admin_benutzer_rolle", {p_id:u.id, p_rolle:e.target.value}), "Rolle geändert.");
@@ -1586,6 +1592,7 @@ function benutzerListe(){
     tr.querySelector('[data-a="pw"]').onclick = () => { if(!confirm(`Link zum Zurücksetzen des Passworts an ${u.email} senden?`)) return;
       los(async () => { const r = await fetch(SB.url + "/auth/v1/recover", {method:"POST", headers:{apikey:SB.key, "Content-Type":"application/json"}, body: JSON.stringify({email:u.email})}); if(!r.ok) throw new Error("Versand fehlgeschlagen"); }, "E-Mail gesendet."); };
     tr.querySelector('[data-a="profil"]').onclick = () => benutzerProfil(u, los);
+    tr.querySelector('[data-a="auskunft"]').onclick = () => auskunft(u);
     const lf = tr.querySelector('[data-a="lfrei"]'); if(lf) lf.onclick = () => los(() => rpc("admin_lehrer_setzen", {p_id:u.id, p_an:true}), "Als Lehrperson freigegeben.");
     const ln = tr.querySelector('[data-a="lnein"]'); if(ln) ln.onclick = () => los(() => rpc("admin_lehrer_setzen", {p_id:u.id, p_an:false}), "Antrag abgelehnt.");
     tr.querySelector('[data-a="loeschen"]').onclick = () => { const t = prompt(`Konto ${u.email} mit allen Daten endgültig löschen?\nZum Bestätigen die E-Mail-Adresse eingeben:`); if(t == null) return;
@@ -1984,7 +1991,8 @@ TABS.werbung = async () => {
 const AKTION = {admin_benutzer_sperren:"Konto gesperrt/entsperrt", admin_benutzer_loeschen:"Konto gelöscht", admin_benutzer_rolle:"Rolle geändert", admin_lehrer_setzen:"Lehrperson freigegeben/entzogen",
   admin_kommentar:"Kommentar bearbeitet", admin_fehlermeldung_status:"Fehlermeldung bearbeitet", admin_liga_sperren:"Liga-Klasse gesperrt/entsperrt", admin_einstellung_setzen:"Einstellung geändert",
   admin_name_aendern:"Name geändert", admin_live_loeschen:"Live-Eintrag gelöscht", admin_duell_beenden:"Duell beendet", admin_region_setzen:"Regionen-Cup korrigiert",
-  sicherung:"Sicherung heruntergeladen", testmail:"Testmail geschickt", github:"Inhalte auf GitHub gespeichert", github_werbung:"Werbung gespeichert", anmeldung:"In der Verwaltung angemeldet"};
+  sicherung:"Sicherung heruntergeladen", testmail:"Testmail geschickt", github:"Inhalte auf GitHub gespeichert", github_werbung:"Werbung gespeichert", anmeldung:"In der Verwaltung angemeldet", rundmail:"Mitteilung an Lehrpersonen", admin_konto_auskunft:"Auskunft heruntergeladen",
+  admin_rangliste_aus:"Rangliste ein/aus", admin_punkte_loeschen:"Punkte gelöscht", admin_vorschlag_status:"Vorschlag bearbeitet"};
 TABS.protokoll = async () => {
   const kopf = `<div class="leiste"><h2 style="margin:0">Protokoll</h2><span class="mu klein">Wer hat wann was geändert (2 Jahre aufbewahrt)</span><span class="rechts"></span><input type="search" id="prSuche" placeholder="Suchen" style="min-width:180px"></div>`;
   if(onlineFehlt(kopf)) return;
@@ -2075,6 +2083,7 @@ async function ueWarnungen(){
   if(si && +si.gesperrte_namen) w.push(["wa", `${si.gesperrte_namen} Konto${+si.gesperrte_namen === 1 ? "" : "en"} mit verdächtigem Namen.`, "namen"]);
   if(km && km.length) w.push(["wa", `${km.length} gemeldete Kommentare warten.`, "kommentare"]);
   if(fm && fm.length) w.push(["wa", `${fm.length} offene Fehlermeldungen von Lehrpersonen.`, "fehlermeldungen"]);
+  try{ const vs = await rpc("admin_vorschlaege", {p_status:"neu"}); if(vs && vs.length && $("#ueWarn")) w.push(["wa", `${vs.length} neue Fragen-Vorschläge von Kindern.`, "vorschlaege"]); }catch(e){}
   if(si && si.lehrer_fehlversuche && +si.lehrer_fehlversuche.n_24 > 20) w.push(["wa", `${si.lehrer_fehlversuche.n_24} falsche Lehrer-Codes in 24 Stunden.`, "sicherheit"]);
   if(ein){ const l = ein.letzte_sicherung; if(!l || (Date.now() - new Date(l.geaendert)) / 864e5 > 7) w.push(["wa", l ? "Die letzte Sicherung ist älter als 7 Tage." : "Noch nie eine Sicherung heruntergeladen.", "sicherung"]);
     const h = ein.hinweis && ein.hinweis.wert; if(h && h.aktiv && h.text) w.push(["ok", "Gerade aktiver Hinweis an alle: «" + h.text.slice(0, 80) + "»", "hinweis"]); }
@@ -2082,14 +2091,183 @@ async function ueWarnungen(){
   zielBinden();
 }
 
+/* ======================= Rangliste ======================= */
+const RGV = { suche:"", nur:"", liste:null };
+const MAX_TEST = 9400;   // höchstens möglich pro Test: 25 Fragen x (100 + 100 Tempo + 50 Serie) x 1,5
+TABS.rangliste = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Rangliste</h2><span class="mu klein">Was alle in der Rangliste sehen</span><span class="rechts"></span><button class="k" id="rvNeu">Neu laden</button></div>`;
+  if(onlineFehlt(kopf)) return;
+  try{ RGV.liste = await rpc("admin_rangliste") || []; }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  const l = RGV.liste, auff = u => +u.max_wert > MAX_TEST || u.verdacht;
+  const zeichnen = () => {
+    const q = RGV.suche.toLowerCase();
+    const f = l.filter(u => (!RGV.nur || (RGV.nur === "auff" ? auff(u) : RGV.nur === "aus" ? u.aus : RGV.nur === "hc" ? +u.hc > 0 : true)) && (!q || [u.name, u.roh, u.email].join(" ").toLowerCase().includes(q)));
+    const sortiert = RGV.nur === "hc" ? [...f].sort((a, b) => b.hc - a.hc) : f;
+    $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kpiKarten([
+        ["In der Rangliste", zahl(l.filter(u => !u.aus && !u.gesperrt && +u.punkte > 0).length), "", "", "Konten mit Punkten, ohne ausgeblendete und gesperrte", ""],
+        ["Im Hardcore-Modus", zahl(l.filter(u => +u.hc > 0).length), "", "", "", ""],
+        ["Auffällig", zahl(l.filter(auff).length), "0", ampel(l.filter(auff).length, 0, 2, false), `Mehr als ${zahl(MAX_TEST)} Punkte in einem Thema (unmöglich) oder verdächtiger Name`, ""],
+        ["Ausgeblendet", zahl(l.filter(u => u.aus).length), "", "", "Von dir aus der Rangliste genommen", ""]])}</div>
+      <div class="leiste"><input type="search" id="rvSuche" placeholder="Name oder E-Mail" value="${esc(RGV.suche)}" style="min-width:220px"><select id="rvNur">${[["", "alle"], ["auff", "nur auffällige"], ["aus", "nur ausgeblendete"], ["hc", "Hardcore"]].map(([v, t]) => `<option value="${v}"${RGV.nur === v ? " selected" : ""}>${t}</option>`).join("")}</select><span class="rechts mu klein">${zahl(f.length)} Konten</span></div>
+      <table><thead><tr><th class="r">Platz</th><th>Name in der Rangliste</th><th>Konto</th><th class="r">Punkte</th><th class="r">Themen</th><th class="r">Höchster Wert</th><th class="r">Tests</th><th class="r">Hardcore</th><th>Status</th><th></th></tr></thead><tbody>${sortiert.slice(0, 500).map((u, i) => `<tr data-id="${esc(u.id)}">
+        <td class="r">${i + 1}</td><td><b>${esc(u.verdacht ? "Kind" : u.name || "Kind")}</b>${u.verdacht ? ` <span class="fe klein">eingegeben: ${esc(u.roh)}</span>` : ""}</td><td class="klein">${esc(u.email)}</td>
+        <td class="r">${zahl(Math.round(u.punkte))}</td><td class="r">${zahl(u.themen)}</td><td class="r ${+u.max_wert > MAX_TEST ? "fe" : ""}">${zahl(Math.round(u.max_wert || 0))}</td><td class="r">${zahl(u.tests)}</td><td class="r">${+u.hc ? zahl(u.hc) : '<span class="mu">-</span>'}</td>
+        <td class="nowrap">${u.gesperrt ? '<span class="fe">gesperrt</span>' : u.aus ? '<span class="wa">ausgeblendet</span>' : '<span class="ok">sichtbar</span>'}</td>
+        <td class="nowrap"><button class="k" data-a="aus">${u.aus ? "Zeigen" : "Ausblenden"}</button> <button class="k g" data-a="null">Punkte löschen</button> <button class="k" data-a="name">Name</button></td></tr>`).join("") || '<tr><td colspan="10" class="mu">Noch niemand mit Punkten.</td></tr>'}</tbody></table>
+      <p class="mu klein">Die Punkte rechnet die Website auf dem Gerät des Kindes, der Server kann sie nicht nachprüfen. Unmögliche Werte werden rot markiert. «Ausblenden» nimmt ein Konto aus der Rangliste, die Person merkt nichts. «Punkte löschen» setzt Bestwerte, Season und Hardcore auf null, auch auf dem Gerät beim nächsten Öffnen.</p>`;
+    let t; $("#rvSuche").oninput = e => { clearTimeout(t); t = setTimeout(() => { RGV.suche = e.target.value.trim(); zeichnen(); const s = $("#rvSuche"); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 250); };
+    $("#rvNur").onchange = e => { RGV.nur = e.target.value; zeichnen(); };
+    $("#rvNeu").onclick = () => zeige("rangliste");
+    $$("#inhalt tr[data-id] button").forEach(b => b.onclick = async () => { const u = l.find(x => x.id === b.closest("tr").dataset.id);
+      try{
+        if(b.dataset.a === "aus"){ await rpc("admin_rangliste_aus", {p_id:u.id, p_aus:!u.aus}); u.aus = !u.aus; melde(u.aus ? "Aus der Rangliste genommen." : "Wieder sichtbar."); zeichnen(); }
+        else if(b.dataset.a === "null"){ if(!confirm(`Alle Punkte von ${u.email} löschen? Das lässt sich nicht rückgängig machen.`)) return; await rpc("admin_punkte_loeschen", {p_id:u.id}); melde("Punkte gelöscht."); zeige("rangliste"); }
+        else if(b.dataset.a === "name"){ NM.suche = u.email; NM.nur = false; NM._gesetzt = true; NM.quelle = "konto"; zeige("namen"); }
+      }catch(e){ melde(e.message, "fe"); } });
+  };
+  zeichnen();
+};
+
+/* ======================= Auskunft über ein Konto (Datenschutz) ======================= */
+async function auskunft(u){
+  try{
+    const d = await rpc("admin_konto_auskunft", {p_id:u.id});
+    const name = "easyplay-auskunft-" + String(u.email || u.id).replace(/[^a-z0-9.@_-]/gi, "_") + "-" + new Date().toISOString().slice(0, 10) + ".json";
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(d, null, 2)], {type:"application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+    const teile = [["Kommentare", (d.kommentare || []).length], ["Likes", (d.likes || []).length], ["Live-Quiz", (d.live_quiz || []).length], ["Vorschläge", (d.fragen_vorschlaege || []).length], ["Klassen", ((d.lehrerbereich || {}).klassen || []).length], ["Tests", ((d.lehrerbereich || {}).tests || []).length]];
+    dialog(`<h2>Auskunft für ${esc(u.email)}</h2><p>Die Datei <b>${esc(name)}</b> wurde heruntergeladen. Sie enthält alles, was der Server über dieses Konto speichert:</p>
+      <ul>${teile.map(([t, n]) => `<li>${t}: ${zahl(n)}</li>`).join("")}<li>Profil, Anmeldungen, Geräte der offenen Sitzungen und der öffentliche Eintrag in der Rangliste</li></ul>
+      <p class="mu klein">Nicht auf dem Server, sondern nur auf dem Gerät des Kindes: Spielstand ohne Konto, Fehler-Training, Einstellungen. Die anonyme Besucher- und Antwortstatistik lässt sich keiner Person zuordnen. Die Datei enthält persönliche Daten: nur an die berechtigte Person (Kind oder Eltern) schicken und danach löschen. Wer das verlangt hat und wann, steht im Protokoll.</p>
+      <div class="leiste"><span class="rechts"></span><button class="k p" data-zu>Fertig</button></div>`);
+  }catch(e){ melde(e.message, "fe"); }
+}
+
+/* ======================= Lehrperson im Detail ======================= */
+async function lehrerDetail(u){
+  let d; try{ d = await rpc("admin_lehrer_detail", {p_id:u.id}); }catch(e){ melde(e.message, "fe"); return; }
+  const k = d.klassen || [], t = d.tests || [];
+  dialog(`<h2>${esc([u.meta?.vorname, u.meta?.nachname].filter(Boolean).join(" ") || u.email)}</h2><p class="mu">${esc(u.email)}${u.meta?.schule ? " · " + esc(u.meta.schule) : ""} · registriert ${tag(u.erstellt)} · zuletzt ${u.zuletzt ? datum(u.zuletzt) : "nie"}</p>
+    ${kacheln([["Klassen", zahl(k.length)], ["Kinder", zahl(k.reduce((a, x) => a + +x.kinder, 0))], ["Tests", zahl(t.length)], ["Abgaben", zahl(t.reduce((a, x) => a + +x.abgaben, 0))]])}
+    <h3>Klassen</h3><table><thead><tr><th>Klasse</th><th class="r">Kinder</th><th class="r">Tests</th><th>Klassen-Liga</th><th>Erstellt</th></tr></thead><tbody>${k.map(x => `<tr><td><b>${esc(x.name)}</b></td><td class="r">${zahl(x.kinder)}</td><td class="r">${zahl(x.tests)}</td><td>${x.liga ? esc(x.liga) : '<span class="mu">-</span>'}</td><td class="nowrap">${tag(x.erstellt)}</td></tr>`).join("") || '<tr><td colspan="5" class="mu">Keine Klassen.</td></tr>'}</tbody></table>
+    <h3>Tests</h3><table><thead><tr><th>Titel</th><th>Code</th><th>Klasse</th><th class="r">Abgaben</th><th>Letzte Abgabe</th><th>Erstellt</th></tr></thead><tbody>${t.map(x => `<tr><td>${esc(x.titel || "-")}</td><td><code>${esc(x.code)}</code></td><td>${esc(x.klasse || "-")}</td><td class="r">${zahl(x.abgaben)}</td><td class="nowrap">${x.letzte ? datum(x.letzte) : '<span class="mu">-</span>'}</td><td class="nowrap">${tag(x.erstellt)}</td></tr>`).join("") || '<tr><td colspan="6" class="mu">Keine Tests.</td></tr>'}</tbody></table>
+    <p class="mu klein">Namen der Kinder, PINs und Antworten werden hier nicht gezeigt. Braucht die Lehrperson ihre Daten, hilft «Auskunft».</p>
+    <div class="leiste"><button class="k" id="ldAusk">Auskunft herunterladen</button><span class="rechts"></span><button class="k p" data-zu>Schliessen</button></div>`, dlg => { dlg.querySelector("#ldAusk").onclick = () => { dlg.close(); auskunft(u); }; });
+}
+
+/* ======================= Fragen-Vorschläge ======================= */
+const VS = { status:"neu", uebernahme:new Map() };   // uebernahme: Fragen-Nr -> Vorschlag-Id (wird beim Speichern auf «ok» gesetzt)
+TABS.vorschlaege = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Fragen-Vorschläge</h2><span class="mu klein">Eigene Fragen von Kindern</span><span class="rechts"></span><select id="vsSt">${[["neu", "neu"], ["ok", "übernommen"], ["abgelehnt", "abgelehnt"], ["", "alle"]].map(([v, t]) => `<option value="${v}"${VS.status === v ? " selected" : ""}>${t}</option>`).join("")}</select></div>`;
+  if(onlineFehlt(kopf)) return;
+  let l; try{ l = await rpc("admin_vorschlaege", {p_status: VS.status}) || []; }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  let themen = {}; try{ const tl = await themenListeLaden(); tl.forEach(t => themen[t.id] = t.name); }catch(e){}
+  $("#inhalt").innerHTML = kopf + `<p class="mu klein">Angemeldete Kinder können im Profil eine Frage vorschlagen (höchstens 10 pro Tag, ohne Links und Kontaktangaben). «Übernehmen» öffnet sie im Bereich «Fragen» als neue Frage; dort kannst du sie verbessern. Erst beim Speichern auf GitHub wird der Vorschlag als übernommen markiert, und das Kind sieht «im Spiel».</p>
+    ${l.map(v => `<div class="box" data-id="${+v.id}"><div class="leiste" style="margin-bottom:6px"><b>${esc(themen[v.thema] || v.thema)}</b><span class="mu klein">Stufe ${+v.stufe} · ${esc(v.name)} · ${esc(v.email || "")} · ${datum(v.erstellt)}</span><span class="rechts">${{neu:'<span class="wa">neu</span>', ok:`<span class="ok">übernommen${v.nr ? " als Nr. " + +v.nr : ""}</span>`, abgelehnt:'<span class="mu">abgelehnt</span>'}[v.status] || ""}</span></div>
+      <p style="margin:0 0 6px;font-size:15px"><b>${esc(v.frage)}</b></p>
+      <ol style="margin:0 0 6px;padding-left:20px">${(v.antworten || []).map((a, i) => `<li class="${i === 0 ? "ok" : ""}">${esc(a)}${i === 0 ? " ✓" : ""}</li>`).join("")}</ol>
+      ${v.erklaerung ? `<p class="mu" style="margin:0 0 6px">${esc(v.erklaerung)}</p>` : ""}${v.notiz ? `<p class="klein wa" style="margin:0 0 6px">Notiz: ${esc(v.notiz)}</p>` : ""}
+      <p class="klein" data-pruef></p>
+      <div class="leiste" style="margin:0">${v.status !== "ok" ? '<button class="k p" data-a="ueber">Übernehmen</button>' : ""}${v.status !== "abgelehnt" ? '<button class="k" data-a="ab">Ablehnen</button>' : ""}${v.status !== "neu" ? '<button class="k" data-a="neu">Wieder offen</button>' : ""}<span class="rechts"></span><button class="k g" data-a="weg">Löschen</button></div></div>`).join("") || '<div class="hinweis">Keine Vorschläge.</div>'}`;
+  $("#vsSt").onchange = e => { VS.status = e.target.value; zeige("vorschlaege"); };
+  $$("#inhalt .box[data-id]").forEach(box => { const v = l.find(x => +x.id === +box.dataset.id);
+    pruefAnzeige(box.querySelector("[data-pruef]"), textFehler([v.frage, ...(v.antworten || []), v.erklaerung].join(" ")).concat(A_VERBOTEN.test([v.frage, ...(v.antworten || []), v.erklaerung].join(" ").toLowerCase()) ? ["Achtung: enthält ein Wort aus der Liste der verbotenen Themen."] : []));
+    box.querySelectorAll("button[data-a]").forEach(b => b.onclick = async () => {
+      try{
+        if(b.dataset.a === "ueber"){ vorschlagUebernehmen(v); return; }
+        if(b.dataset.a === "ab"){ const n = prompt("Grund (nur für dich, das Kind sieht «nicht übernommen»):", ""); if(n == null) return; await rpc("admin_vorschlag_status", {p_id:v.id, p_status:"abgelehnt", p_notiz:n}); }
+        if(b.dataset.a === "neu") await rpc("admin_vorschlag_status", {p_id:v.id, p_status:"neu"});
+        if(b.dataset.a === "weg"){ if(!confirm("Vorschlag endgültig löschen?")) return; await rpc("admin_vorschlag_status", {p_id:v.id, p_status:"loeschen"}); }
+        melde("Gespeichert."); zeige("vorschlaege");
+      }catch(e){ melde(e.message, "fe"); } }); });
+};
+function vorschlagUebernehmen(v){
+  zeige("fragen");
+  let n = 0; const t = setInterval(() => { n++;
+    if($("#fNeu") && DATEN.fragen){ clearInterval(t);
+      const fr = DATEN.fragen, max = [...fr.map(f => +f.nr || 0), ...[...AE.fragen.values()].map(a => +a.neu?.nr || 0)].reduce((m, x) => Math.max(m, x), 0);
+      const nr = max + 1, letzte = (CFG.fragenDateien || []).slice(-1)[0];
+      VS.uebernahme.set(nr, v.id);
+      fragenEdit({nr, t:v.thema, l:+v.stufe, q:v.frage, a:[...(v.antworten || [])], e:v.erklaerung || "", m:"", s:"", _datei:letzte, _neu:true});
+      melde("Vorschlag als neue Frage geöffnet. Prüfen, Merksatz ergänzen, «Übernehmen» und unten «Speichern» drücken.");
+    } else if(n > 120) clearInterval(t); }, 250);
+}
+
+/* ======================= Schwierige Fragen ======================= */
+const SF = { min:20, nur:"" };
+TABS.schwierig = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Schwierige Fragen</h2><span class="mu klein">Anonym gezählt: wie oft richtig und falsch</span><span class="rechts"></span><label class="klein">mindestens <input type="number" id="sfMin" value="${SF.min}" min="1" style="width:70px"> Antworten</label></div>`;
+  if(onlineFehlt(kopf)) return;
+  let l, s; try{ [l, s] = await Promise.all([rpc("admin_antworten", {p_min:SF.min}), rpc("admin_antworten_summe")]); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  l = l || [];
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Gezählte Antworten", zahl(s.antworten)], ["Davon richtig", pz(s.antworten ? s.richtig / s.antworten * 100 : null)], ["Fragen mit Antworten", zahl(s.fragen)], [`Mit mindestens ${SF.min} Antworten`, zahl(l.length)], ["Über 70 % falsch", `<span class="${l.filter(x => +x.quote > 70).length ? "wa" : ""}">${zahl(l.filter(x => +x.quote > 70).length)}</span>`]])}</div>
+    <div id="sfListe"><p class="mu">Lädt Fragentexte …</p></div>
+    <p class="mu klein">Gezählt wird bei Training und Test auf der Website, nur die Nummer der Frage und ob die Antwort richtig war, ohne Person. Sehr oft falsch heisst nicht immer, dass die Frage falsch ist: Manchmal ist sie einfach schwer oder eine falsche Antwort klingt zu richtig. Ein Klick öffnet die Frage im Bereich «Fragen».</p>`;
+  $("#sfMin").onchange = e => { SF.min = Math.max(1, +e.target.value || 20); zeige("schwierig"); };
+  try{ await ladeFragen(); }catch(e){}
+  const nachNr = new Map((DATEN.fragen || []).map(f => [+f.nr, f]));
+  if(!$("#sfListe")) return;
+  $("#sfListe").innerHTML = `<table><thead><tr><th class="r">Nr.</th><th>Frage</th><th>Richtige Antwort</th><th>Thema</th><th class="r">St.</th><th class="r">Richtig</th><th class="r">Falsch</th><th>Falsch-Anteil</th></tr></thead><tbody>${l.slice(0, 400).map(x => { const f = nachNr.get(+x.nr);
+    return `<tr data-nr="${+x.nr}" style="cursor:pointer"><td class="r">${+x.nr}</td><td>${f ? esc(f.q) : '<span class="mu">nicht mehr vorhanden</span>'}</td><td class="klein">${f ? esc((f.a || [])[0]) : ""}</td><td class="klein">${f ? esc(themaName(f.t)) : ""}</td><td class="r">${f ? +f.l : ""}</td>
+      <td class="r">${zahl(x.richtig)}</td><td class="r">${zahl(x.falsch)}</td><td style="min-width:140px">${balkenZelle(Math.round(+x.quote), 100)}<span class="klein ${+x.quote > 70 ? "fe" : +x.quote > 50 ? "wa" : "mu"}">${pz(+x.quote)}</span></td></tr>`; }).join("") || `<tr><td colspan="8" class="mu">Noch keine Frage mit mindestens ${SF.min} Antworten.</td></tr>`}</tbody></table>`;
+  $$("#sfListe tr[data-nr]").forEach(tr => tr.onclick = () => { FF.nur = ""; FF.bereich = ""; FF.stufe = ""; FF.thema = ""; FF.suche = ""; FF.wahl = +tr.dataset.nr; zeige("fragen"); });
+};
+
+/* ======================= Beliebte Qeels ======================= */
+TABS.qeels = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Beliebte Qeels</h2><span class="mu klein">Nach Likes und Kommentaren</span><span class="rechts"></span><a class="k" href="../qeels/" target="_blank" rel="noopener">Qeels öffnen</a></div>`;
+  if(onlineFehlt(kopf)) return;
+  let l; try{ l = await rpc("admin_qeels_top", {p_anzahl:200}) || []; }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Qeels mit Likes", zahl(l.filter(x => +x.likes > 0).length)], ["Likes total", zahl(l.reduce((a, x) => a + +x.likes, 0))], ["Qeels mit Kommentaren", zahl(l.filter(x => +x.kommentare > 0).length)], ["Kommentare total", zahl(l.reduce((a, x) => a + +x.kommentare, 0))]])}</div><div id="qtListe"><p class="mu">Lädt Titel …</p></div>`;
+  let art = []; try{ art = await ladeArtikelSeiten(); }catch(e){}
+  const nachK = new Map(art.map(a => [a.k, a]));
+  const titel = id => { let m = /^q(\d+)$/.exec(id); if(m){ const f = (DATEN.fragen || []).find(x => +x.nr === +m[1]); return {art:"Frage", text: f ? f.q : "Frage Nr. " + m[1], nr:+m[1]}; }
+    m = /^a([a-z]+)-(t[a-z0-9]+)$/.exec(id); if(m){ const a = nachK.get(m[2]); return {art:"Artikel", text: a ? a.t : id, zusatz: a ? a.kap : ""}; } return {art:"", text:id}; };
+  const max = Math.max(1, ...l.map(x => +x.likes));
+  const zeichnen = () => { if(!$("#qtListe")) return; $("#qtListe").innerHTML = `${!DATEN.fragen ? '<div class="leiste"><span class="mu klein">Bei Fragen steht nur die Nummer.</span><button class="k" id="qtFr">Fragentexte laden (rund 60 MB)</button></div>' : ""}
+    <table><thead><tr><th class="r">#</th><th>Art</th><th>Qeel</th><th>Likes</th><th class="r">Kommentare</th><th class="r">Gemeldet</th><th>Letzter Kommentar</th></tr></thead><tbody>${l.map((x, i) => { const t = titel(x.id);
+      return `<tr${t.nr ? ` data-nr="${t.nr}" style="cursor:pointer"` : ""}><td class="r">${i + 1}</td><td class="klein">${esc(t.art)}</td><td>${esc(t.text)}${t.zusatz ? ` <span class="mu klein">${esc(t.zusatz)}</span>` : ""}</td><td style="min-width:150px">${balkenZelle(+x.likes, max)}</td><td class="r">${zahl(x.kommentare)}</td><td class="r ${+x.gemeldet ? "wa" : ""}">${zahl(x.gemeldet)}</td><td class="nowrap klein">${x.zuletzt ? vorZeit(x.zuletzt) : ""}</td></tr>`; }).join("") || '<tr><td colspan="7" class="mu">Noch keine Likes oder Kommentare.</td></tr>'}</tbody></table>`;
+    const b = $("#qtFr"); if(b) b.onclick = async () => { b.disabled = true; b.textContent = "Lädt …"; await ladeFragen().catch(() => {}); zeichnen(); };
+    $$("#qtListe tr[data-nr]").forEach(tr => tr.onclick = () => { FF.nur = ""; FF.bereich = ""; FF.stufe = ""; FF.thema = ""; FF.suche = ""; FF.wahl = +tr.dataset.nr; zeige("fragen"); }); };
+  zeichnen();
+};
+
+/* ======================= Rundmail an Lehrpersonen ======================= */
+TABS.rundmail = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Mitteilung an Lehrpersonen</h2><span class="mu klein">E-Mail an alle freigegebenen Lehrpersonen</span></div>`;
+  if(onlineFehlt(kopf)) return;
+  let info; try{ info = await api("rundmail"); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  const entwurf = store.get("ep-admin-rundmail", {betreff:"", text:""}) || {};
+  $("#inhalt").innerHTML = kopf + `${!info.mail ? '<div class="hinweis fe">Der Mailversand ist nicht eingerichtet (siehe «Technik»). Erst dann kann die Mitteilung verschickt werden.</div>' : ""}
+    <div class="zwei"><div class="box"><div class="formular">
+      <label>An</label><span style="padding-top:6px"><b>${zahl(info.lehrpersonen)}</b> freigegebene Lehrpersonen mit bestätigter E-Mail</span>
+      <label>Betreff</label><input id="rmBetreff" maxlength="150" value="${esc(entwurf.betreff || "")}" placeholder="Neu im Lehrerbereich: …">
+      <label>Text</label><textarea id="rmText" rows="12" maxlength="8000" placeholder="Liebe Lehrpersonen&#10;&#10;…&#10;&#10;Herzliche Grüsse&#10;Dejan von easyplay">${esc(entwurf.text || "")}</textarea></div>
+      <p id="rmPruef" class="klein"></p>
+      <div class="leiste" style="margin:10px 0 0"><button class="k" id="rmProbe"${info.mail ? "" : " disabled"}>Probe an mich</button><span class="rechts"></span><button class="k p" id="rmLos"${info.mail && info.lehrpersonen ? "" : " disabled"}>An ${zahl(info.lehrpersonen)} Lehrpersonen senden</button></div><p id="rmInfo" class="klein"></p></div>
+    <div class="box klein"><b>Gut zu wissen</b><ul><li>Jede Lehrperson bekommt eine eigene Mail, niemand sieht die anderen Adressen.</li><li>Unten steht automatisch, warum die Mail kommt (Registrierung als Lehrperson bei easyplay).</li><li>Nur für Mitteilungen zum Dienst (neue Funktionen, Wartung), keine Werbung.</li><li>Zuerst eine Probe an dich schicken und prüfen.</li><li>Der Entwurf bleibt in diesem Browser gespeichert. Jede Rundmail steht im Protokoll.</li></ul></div></div>`;
+  const pruefen = () => { const t = $("#rmBetreff").value + " " + $("#rmText").value; pruefAnzeige($("#rmPruef"), textFehler(t)); store.set("ep-admin-rundmail", {betreff:$("#rmBetreff").value, text:$("#rmText").value}, true); };
+  $("#rmBetreff").oninput = $("#rmText").oninput = pruefen; pruefen();
+  const senden = async an => {
+    const betreff = $("#rmBetreff").value.replace(/ß/g, "ss").trim(), text = $("#rmText").value.replace(/ß/g, "ss").replace(/\s*[–—]\s*/g, ", ").trim();
+    if(an === "lehrpersonen" && !confirm(`Mitteilung «${betreff}» jetzt an ${info.lehrpersonen} Lehrpersonen senden?`)) return;
+    $("#rmInfo").textContent = "Wird gesendet …";
+    try{ const r = await api("rundmail", {method:"POST", body:{an, betreff, text}});
+      $("#rmInfo").innerHTML = `<span class="ok">${zahl(r.gesendet)} Mail${r.gesendet === 1 ? "" : "s"} gesendet.</span>${r.fehler && r.fehler.length ? ` <span class="fe">Fehlgeschlagen: ${esc(r.fehler.join(", "))}</span>` : ""}`;
+      if(an === "lehrpersonen") store.del("ep-admin-rundmail"); }
+    catch(e){ $("#rmInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
+  $("#rmProbe").onclick = () => senden("ich");
+  $("#rmLos").onclick = () => senden("lehrpersonen");
+};
+
 /* ======================= Speichern ======================= */
 $("#aeVerwerfen").onclick = () => { if(!confirm("Alle nicht gespeicherten Änderungen verwerfen?")) return; AE.fragen.clear(); AE.bilder.clear(); if(AE.freigabe) AE.freigabe.clear(); AE.welten.clear(); AE.artikel.clear(); aenderungenZeigen(); zeige(TAB); };
 $("#aeListe").onclick = () => { const d = $("#dlg");
   d.innerHTML = `<h2>Nicht gespeicherte Änderungen</h2><ul>${[...AE.artikel].map(([k, a]) => `<li>Artikel «${esc(a.titel||k)}»: ${a.weg ? "Original wiederherstellen" : "geändert"}</li>`).join("")}${[...AE.fragen].map(([nr, a]) => `<li>Frage ${nr}: ${a.loeschen ? "löschen" : a.neu._neu && !DATEN.fragen.some(f => +f.nr === nr) ? "neu" : "geändert"} · ${esc((a.neu.q||"").slice(0,80))}</li>`).join("")}${AE.freigabe && AE.freigabe.size ? `<li>${AE.freigabe.size} Bilder als passend markiert</li>` : ""}${[...AE.bilder].map(([k, a]) => `<li>Bild «${esc((DATEN.seiten||[]).find(s => s.k === k)?.t || k)}»: ${a.entfernen ? "entfernen" : a.upload ? "eigenes Bild" : "ersetzen"}</li>`).join("")}${[...AE.welten.values()].map(op => `<li>${esc(op.text)} <span class="mu klein">(${esc(op.datei)})</span></li>`).join("")}</ul><div class="leiste"><span class="rechts"></span><button class="k" id="dZu">Schliessen</button></div>`;
   d.showModal(); $("#dZu").onclick = () => d.close(); };
 $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disabled = true; b.textContent = "Speichert …";
+  const vsNr = [...AE.fragen.keys()].filter(nr => VS.uebernahme.has(nr) && !AE.fragen.get(nr).loeschen);
   const was = {fragen: AE.fragen.size, bilder: AE.bilder.size + (AE.freigabe ? AE.freigabe.size : 0), welten: AE.welten.size, artikel: AE.artikel.size};
-  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); if(AE.artikel.size) await artikelSpeichern(); notiz("github", Object.entries(was).filter(([k, n]) => n).map(([k, n]) => n + " " + k).join(", "), was); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
+  try{ if(AE.fragen.size) await fragenSpeichern(); if(AE.bilder.size || (AE.freigabe && AE.freigabe.size)) await bilderSpeichern(); if(AE.welten.size) await weltenSpeichern(); if(AE.artikel.size) await artikelSpeichern(); for(const nr of vsNr){ try{ await rpc("admin_vorschlag_status", {p_id: VS.uebernahme.get(nr), p_status:"ok", p_notiz:"", p_nr:nr}); VS.uebernahme.delete(nr); }catch(e){} } notiz("github", Object.entries(was).filter(([k, n]) => n).map(([k, n]) => n + " " + k).join(", "), was); melde("Gespeichert. In 1 bis 2 Minuten auf der Website; Bilder werden danach automatisch lokal kopiert."); aenderungenZeigen(); zeige(TAB); }
   catch(e){ melde("Speichern fehlgeschlagen: " + e.message, "fe"); }
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 
