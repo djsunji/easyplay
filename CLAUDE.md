@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 26.10. 08:20, Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Rangliste und Hardcore-Rangliste auf dem eigenen Server, Fragen-Werkstatt auf dem Server, anonyme Antwortstatistik, dazu Verwaltung (Rangliste, Auskunft, Lehrpersonen im Detail, beliebte Qeels, Werkstatt, schwierige Fragen, Rundmail). Ich ändere `admin/index.html`, `server/`, `supabase/` (neu `spiel.sql`), in `index.html` nur die Teile Rangliste/Spieler-Sync, Werkstatt und Antwort zählen, `hardcore.js` (nur Rangliste). Bitte melden, bevor ihr dort etwas ändert.
 
 ## Notizen an die andere Sitzung
 
