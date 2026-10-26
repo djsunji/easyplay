@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-26-02";
+window.EP_BUILD="ep-2026-10-26-03";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4481,7 +4481,7 @@ function renderMode(){
   const t=S.thema, c=t.bereich.c, n=pool(t.id).length, bp=myBest(t.id), canTest=n>=TEST_MIN;
   $("#app").innerHTML = `
     ${crumbs()}
-    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(t)}</span><h1>${esc(t.id==="politik"||t.id==="religion"? t.name+"alles gemischt" : t.name)}</h1></div>
+    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(t)}</span><h1>${esc(t.id==="politik"||t.id==="religion"? t.name+": alles gemischt" : t.name)}</h1></div>
     ${stufeBar(`${countThema(t.id,S.stufe)} von ${n} Fragen für diese Stufe`)}
     <div class="modes">
       <div class="mode" style="--c:var(${c})"><span class="em" aria-hidden="true">${ico("dumbbell")}</span><h2>Training</h2>
@@ -7249,7 +7249,7 @@ function renderLibBuch(){
       <div class="seite rechts">${rechts}</div>
     </div>`;
   bindSuchfeld("buchSuche", v=>LIB.q=v);
-  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{ LIB.tab=b.dataset.tab; LIB.q=""; render(); });
+  document.querySelectorAll("#app [data-tab]").forEach(b=>b.onclick=()=>{ LIB.tab=b.dataset.tab; LIB.q=""; render(); });
   document.querySelectorAll(".kapitel[data-kap]").forEach(b=>b.onclick=()=>{ LIB.kap=b.dataset.kap; go("libkapitel"); scrollTo(0,0); });
   document.querySelectorAll(".regitem").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
   bindTreffer();
@@ -9041,5 +9041,6 @@ if("serviceWorker" in navigator && !window.claude && !window.EP_NATIV && (locati
   })();
 }
 </script>
+<script src="appfein.js"></script>
 </body>
 </html>

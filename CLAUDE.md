@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 26.10. Sitzung «App» (session_01CH4WnahjonENTvFnuUJF8q): App-Ansicht Handy/iPad (`body.ep-app`): Heute-Kacheln, Kopfzeile, Bibliothek, Themen-Regler, Zeitreise, Politik, Impressum/Datenschutz nur im Profil, Ladebild. Dateien vor allem `app.js`, `stil.js`.
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 26.10. Sitzung «App»: App-Ansicht Handy/iPad, neue Datei `appfein.js` (lädt als letztes Skript, in `sw.js`): Begrüssung «Hoi Name» ohne Logo, Ton und Sprache ganz rechts, Karussell-Text und Knöpfe kleiner, Startseite ohne Scrollen (blendet unten Karten aus, wenn zu wenig Platz), Bilder nicht per langem Drücken speicherbar, Entdecken und Themen mit Dejans Grafiken (`img/app2/`), Impressum/Datenschutz nur im Profil (`footer.eplegal` in der App aus), Bibliothek ohne Kinder und Scrollen, neue Stufenwahl (Themen und `.sbar`), Zeitreise, Politik und Training/Test kompakt. Fehler behoben: Bibliothek setzte mit `[data-tab]` die Tab-Leiste ausser Kraft (`index.html`, jetzt `#app [data-tab]`). Titel «Politik: alles gemischt». Neues App-Startbild (`app/assets/splash*.png`). Version ep-2026-10-26-03.
 - 26.10. Sitzung «Hauptseite»: Bereich-Kacheln Computer: schwarze Ecken entfernt, `img/kacheln/bereich-*.webp` mit sauberer runder Maske (Radius 74 px auf 900 x 515). Kachel-Bilder in `stil.js` mit `?v=2`, damit Browser die bereinigten Bilder sofort holen. Version ep-2026-10-26-02.
 - 26.10. Sitzung «Verwaltung»: Admin-Konto für Dejan (dejan.ehrbar@bluewin.ch). Neue Datei `server/sql/91-admin-konto.sql` (in `server/db.js`) legt es beim Start einmalig an, bestätigt und mit Admin-Rechten (nur Prüfwert des Passworts, Passwort hat Dejan im Chat). Bestehende Konten werden nicht verändert. Version ep-2026-10-26-01.
 - 25.10. Sitzung «Verwaltung» (session_0129QSvEpHyQivLCa4gCvJjN): Verwaltung ausgebaut. Neue Bereiche Themenplan, Werbung (bearbeitet `werbung.json` über GitHub), Namen prüfen, Live/Duell/Cup, Hinweis an alle, Sicherheit, Protokoll, Sicherung; Technik zeigt den eigenen Server (Mail, Version, Datenbank, Testmail) und die App-Bauten; Übersicht zeigt, was Aufmerksamkeit braucht; alle Supabase-Texte ersetzt (`admin/index.html`). Datenbank: neu `supabase/verwaltung.sql` (läuft automatisch, steht in `server/db.js`), Tabelle `einstellungen` und `name_gesperrt()` (Sperrwörter) in `schema.sql`/`sicherheit.sql`, genutzt in `kommentar_vorher`, `duell_name` (`duell.sql`) und `liga_anmelden` (`klassenliga.sql`). Server: neu `server/admin.js` (`/api/admin/status`, `testmail`, `sicherung`), jede `admin_…`-Änderung landet in `admin_protokoll` (`rest.js`), Anmeldesperren werden gezählt (`auth.js`), Test `server/test/verwaltung.test.mjs`. Website: neue Datei `hinweis.js` (vor `startseite.js`, in `sw.js`) zeigt den Hinweis an alle und setzt `window.EP_PLAN`; `startseite.js` nimmt Thema der Woche und Live-Thema aus dem Plan, sonst automatisch. Wichtig für alle: Neue Namen, die andere sehen, mit `public.name_gesperrt()` prüfen. Version ep-2026-10-25-20.
