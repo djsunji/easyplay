@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-26-04";
+window.EP_BUILD="ep-2026-10-26-05";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4360,9 +4360,9 @@ function spielerSauber(id, d){
 }
 function totalPts(p){ const b=(p&&p.best)||{}; return Object.values(b).reduce((n,v)=>n+(+v||0),0); }
 function homeTop10(){
-  const list = (S.online ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []))
+  const list = ((S.online||S.rang) ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []))
     .map(p=>({...p, pts:totalPts(p)})).filter(p=>p.pts>0).sort((a,b)=>b.pts-a.pts).slice(0,10);
-  const meId = S.online ? S.uid : "me";
+  const meId = (S.online||S.rang) ? S.uid : "me";
   return `<section class="top10">
     <div class="top10head"><h2>${ico("trophy")} Top 10 der Schweiz</h2><button class="big alt small" id="top10all" type="button">Ganze Rangliste</button></div>
     ${list.length ? `<ol class="t10">${list.map((p,i)=>{ return `<li class="${p.id===meId?"me":""}">
@@ -4378,7 +4378,7 @@ const SCHULE = {1:"Primarschule 1. bis 3. Klasse", 2:"Primar- bis Oberstufe 4. b
 function punkteFolien(){
   const p=S.profil, pts=p?totalPts(p):0; const f=[];
   if(p && pts>0){
-    const liste=(S.online?S.spieler:[p]).map(x=>totalPts(x)).filter(x=>x>0).sort((a,b)=>b-a); const rang=liste.indexOf(pts)+1;
+    const liste=((S.online||S.rang)?S.spieler:[p]).map(x=>totalPts(x)).filter(x=>x>0).sort((a,b)=>b-a); const rang=liste.indexOf(pts)+1;
     f.push([`${pts.toLocaleString("de-CH")} Punkte`, rang>0?`Rang ${rang} in der Schweiz, weiter so!`:"Deine Ranglistenpunkte"]);
   } else if(p){ f.push(["Hol dir deine ersten Punkte!","Mach einen gewerteten Test"]); }
   f.push(["Bis zu 350 Punkte","pro Frage im gewerteten Test"],
@@ -5567,7 +5567,7 @@ function renderRegister(){
         <button class="big alt" id="cancel" type="button">Abbrechen</button>
         <button class="big gold" id="save" type="button">${edit? "Speichern" : "Registrieren"}</button>
       </div>
-      ${S.online? "" : `<p class="note">Hinweis: In dieser Ansicht wird dein Profil nur auf diesem Gerät gespeichert.</p>`}
+      ${(S.online||AUTH.modus==="supabase")? "" : `<p class="note">Hinweis: In dieser Ansicht wird dein Profil nur auf diesem Gerät gespeichert.</p>`}
       ${!edit ? `<p class="authwechsel">Schon ein Profil? <button type="button" class="linkbtn" id="zuLogin">Hier anmelden</button></p>` : ""}
     </div></div>`;
   const zeichneAv=()=>{ const liste=levelAvatare(S.stufe); const extra = liste.includes(av) ? [] : [av];
@@ -5659,7 +5659,7 @@ function renderProfil(){
         <div class="num"><b>${st.bestTest||0}</b><span>bester Test (Punkte)</span></div>
         <div class="num"><b>${total}</b><span>Ranglistenpunkte</span></div></div></div>
     </div>
-    ${pokaleHTML({...p, id:S.online?S.uid:"me"})}${erfolgeHTML({...p, id:S.online?S.uid:"me"})}
+    ${pokaleHTML({...p, id:(S.online||S.rang)?S.uid:"me"})}${erfolgeHTML({...p, id:(S.online||S.rang)?S.uid:"me"})}
     ${historieHTML()}
     <div class="statcard" style="margin-top:22px"><h2>${ico("voice")} Vorlesestimme</h2>
       <p class="help" style="margin-top:0">Wähle eine deutsche Stimme. Stimmen mit «Natural» oder «Online» im Namen klingen besonders natürlich, welche es gibt, hängt von deinem Gerät und Browser ab.</p>
@@ -5691,14 +5691,14 @@ function renderBoard(){
   const sMod=S.boardModus==="season", sid=S.boardSeason||aktuelleSeason().id, seA=alleSeasons().find(x=>x.id===sid)||aktuelleSeason();
   const ptsVon=p=> sMod ? seasonPunkte(p,sid,stufe||0) : stufe===0 ? [1,2,3].reduce((n,l)=>n+sumBest(p,l),0) : sumBest(p,stufe);
   const thVon=p=> stufe===0 ? [1,2,3].reduce((n,l)=>n+themenGespielt(p,l),0) : themenGespielt(p,stufe);
-  let list = S.online ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []);
+  let list = (S.online||S.rang) ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []);
   if(kf) list = list.filter(p=>p.kanton===kf);
   list = list.map(p=>({...p, pts:ptsVon(p), th:thVon(p)})).filter(p=>p.pts>0).sort((a,b)=>b.pts-a.pts);
   list.forEach((p,i)=>p.rang=i+1);
   const bq=(S.boardQ||"").trim().toLowerCase();
   const zeilen = bq ? list.filter(p=>String(p.name).toLowerCase().includes(bq)) : list.slice(3);
-  const meinRang = list.find(p=>p.id===(S.online?S.uid:"me"))?.rang;
-  const meId = S.online ? S.uid : "me";
+  const meinRang = list.find(p=>p.id===((S.online||S.rang)?S.uid:"me"))?.rang;
+  const meId = (S.online||S.rang) ? S.uid : "me";
   const medal = i => medalSvg(i);
   $("#app").innerHTML = `
     <div class="rlkopf">
@@ -5730,7 +5730,7 @@ function renderBoard(){
         <span class="rname"><b>${esc(p.name)}${p.id===meId?" (du)":""}</b><span>${p.kanton? wappen(p.kanton)+" "+esc(KANTONE.find(k=>k.kuerzel===p.kanton)?.kurz||"")+" · ":""}${p.th} ${p.th===1?"Thema":"Themen"} getestet</span></span>
         <span class="rpts">${p.pts.toLocaleString("de-CH")}<small>Punkte</small></span></div>`; }).join("")
       : bq ? `<div class="empty">Niemand mit «${esc(S.boardQ)}» gefunden.</div>` : list.length ? `<div class="empty">Ab Platz 4 erscheinen hier alle weiteren Ränge.</div>` : `<div class="empty">Noch niemand in dieser Stufe. Mach einen gewerteten Test und sei die erste Person auf der Liste!</div>`}</div></div>
-    ${S.online? "" : `<p class="note">In dieser Ansicht gibt es keine gemeinsame Rangliste, du siehst nur deine eigenen Punkte.</p>`}
+    ${(S.online||S.rang)? "" : `<p class="note">In dieser Ansicht gibt es keine gemeinsame Rangliste, du siehst nur deine eigenen Punkte.</p>`}
 `;
   document.querySelectorAll(".rlsegs .seg").forEach(b=>b.onclick=()=>{ S.boardStufe=+b.dataset.s; render(); });
   document.querySelectorAll("[data-bm]").forEach(b=>b.onclick=()=>{ S.boardModus=b.dataset.bm; render(); });
@@ -5778,7 +5778,7 @@ function crumbPath(){
     case "resinfo": cur="Resultat"; break;
     case "duell": cur="⚔️ Duell"; break;
     case "duellplay": case "duelllobby": case "duellende": case "duellannahme": case "duellresultat": P.push(["⚔️ Duell",()=>{ duellLeave(); go("duell"); }]); cur=S.screen==="duellplay"?"Spiel":S.screen==="duelllobby"?"Warten":S.screen==="duellannahme"?"Herausforderung":"Ergebnis"; break;
-    case "spieler": P.push(["Rangliste",()=>go("board")]); cur=(S.online?S.spieler.find(x=>x.id===S.spielerId)?.name:S.profil?.name)||"Profil"; break;
+    case "spieler": P.push(["Rangliste",()=>go("board")]); cur=((S.online||S.rang)?S.spieler.find(x=>x.id===S.spielerId)?.name:S.profil?.name)||"Profil"; break;
     case "login": P.push(["Anmelden",()=>go("konto")]); cur="Mit Profil anmelden"; break;
     case "konto": cur="Anmelden"; break;
     case "register": if(S.profil){ P.push(["Mein Profil",()=>go("profil")]); cur="Profil bearbeiten"; } else { P.push(["Anmelden",()=>go("konto")]); cur="Registrieren"; } break;
@@ -8198,8 +8198,8 @@ function seasonBannerHTML(klein){
   return `<div class="seasonband phase${p.mult} ${klein?"klein":""}"><span class="stier">${se.tier.e}</span><div class="sbtext"><span class="sbname">${esc(se.name)} · ${esc(se.zeitraum)}</span><div class="sbinfo">${info}</div></div>${klein?`<button class="big small" id="zurSeason" type="button">🏆 Season-Rangliste</button>`:""}</div>`;
 }
 function seasonListe(sid, stufe){
-  const meId=S.online?S.uid:"me";
-  let list=S.online ? S.spieler.map(p=>({...p})) : (S.profil?[{...S.profil,id:"me"}]:[]);
+  const meId=(S.online||S.rang)?S.uid:"me";
+  let list=(S.online||S.rang) ? S.spieler.map(p=>({...p})) : (S.profil?[{...S.profil,id:"me"}]:[]);
   return list.map(p=>({...p, pts:seasonPunkte(p,sid,stufe)})).filter(p=>p.pts>0).sort((a,b)=>b.pts-a.pts).map((p,i)=>({...p,rang:i+1, ich:p.id===meId}));
 }
 function pokaleVon(p){
@@ -8230,7 +8230,7 @@ function erfolgeHTML(p){
   return `<div class="statcard" style="margin-top:22px"><h2>🎖️ Erfolge <small>(${n} von ${E.length})</small></h2><div class="erfolge">${E.map(x=>`<div class="erfolg ${x.ok?"ok":""}" title="${esc(x.d)}"><span>${x.e}</span><b>${esc(x.n)}</b><small>${esc(x.d)}</small></div>`).join("")}</div></div>`;
 }
 function renderSpieler(){
-  const id=S.spielerId; const p = (S.online?S.spieler.find(x=>x.id===id):null) || (S.profil&&(id==="me"||id===S.uid)?{...S.profil,id}:null);
+  const id=S.spielerId; const p = ((S.online||S.rang)?S.spieler.find(x=>x.id===id):null) || (S.profil&&(id==="me"||id===S.uid)?{...S.profil,id}:null);
   if(!p){ go("board"); return; }
   const se=aktuelleSeason();
   $("#app").innerHTML = `${crumbs()}
@@ -8532,7 +8532,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="forscher.js"></script>
 <script src="eltern.js"></script>
 <script src="offline.js"></script>
-<script src="i18n.js"></script><script src="regionen.js"></script>
+<script src="i18n.js"></script><script src="regionen.js"></script><script src="online.js"></script>
 <script>try{ render(); }catch(e){} window.__epGerendert=true; try{ window.__epBootEnde(); }catch(e){} setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 30);</script>
 <script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
 (function(){
