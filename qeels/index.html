@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-26-08";
+window.EP_BUILD="ep-2026-10-26-09";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -9040,7 +9040,10 @@ if("serviceWorker" in navigator && !window.claude && !window.EP_NATIV && (locati
     const ruhig=()=>{ try{ return !["quiz","duellplay","duellsplit","liveplay","livehost","hardcore","check","fremdtest"].includes(S.screen) && !document.querySelector(".hlf-vl.an:focus"); }catch(e){ return true; } };
     const t0=Date.now();
     const neu=()=>{ if(geladen || Date.now()-t0>25000) return; if(ruhig()){ geladen=true; location.reload(); } else setTimeout(neu, 3000); };
-    navigator.serviceWorker.addEventListener("controllerchange", ()=>{ if(hatteAlten) neu(); });
+    /* Nur neu laden, wenn diese Seite älter ist als der neue Service Worker. Kam die Seite schon frisch vom Netz
+       (gleiche Version), wäre das ein unnötiges zweites Laden, das wie ein Absturz aussieht. */
+    navigator.serviceWorker.addEventListener("controllerchange", ()=>{ if(!hatteAlten) return;
+      fetch("sw.js?nocache="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.text():"").then(t=>{ const m=/VERSION = "([^"]+)"/.exec(t||""); if(!m || m[1]!==window.EP_BUILD) neu(); }).catch(()=>{}); });
   })();
 }
 </script>
