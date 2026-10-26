@@ -14,7 +14,7 @@ on:
 concurrency: { group: app-ios, cancel-in-progress: true }
 jobs:
   ios:
-    runs-on: macos-15
+    runs-on: macos-26
     env:
       TEAM: ${{ secrets.APPLE_TEAM_ID }}
       KID: ${{ secrets.ASC_KEY_ID }}
