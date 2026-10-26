@@ -657,7 +657,7 @@ const SYM = {tag:["right bottom","60%"], serie:["right bottom","86%"], level:["r
   abzeichen:["right bottom","63%"], wissen:["right bottom","82%"], fehler:["right bottom","80%"], truhe:["right top 6%","54%"]};
 const W = "html:root body .ep-wg>.ep-w";
 const css = document.createElement("style"); css.id = "ep-kacheln-css";
-css.textContent = T.map(([s, n]) => `${W}${s}{background:url(${K}${n}-symbol.webp) ${SYM[n][0]}/auto ${SYM[n][1]} no-repeat,url(${K}${n}-grund.webp) 0 0/100% 100% no-repeat,transparent!important;animation:none!important}`).join("\n") + `
+css.textContent = T.map(([s, n]) => `${W}${s}{background:url(${K}${n}-symbol.webp?v=2) ${SYM[n][0]}/auto ${SYM[n][1]} no-repeat,url(${K}${n}-grund.webp?v=2) 0 0/100% 100% no-repeat,transparent!important;animation:none!important}`).join("\n") + `
 ${W}:is(${T.map(t => t[0]).join(",")}){border:0!important;border-radius:28px!important;color:#fff!important;box-shadow:0 14px 30px -14px rgba(20,20,70,.55)!important;overflow:hidden}
 ${W}:is(${T.map(t => t[0]).join(",")})::after{display:none!important}
 @media (max-width:860px){${W}.xt-ein{background-position:right center,0 0!important;background-size:auto 88%,100% 100%!important}}
@@ -715,7 +715,7 @@ const K = "img/kacheln/bereich-", N = ["welt", "natur", "geld", "alltag"];
 const pc = n => `html:root body:not(.ep-app) .bereiche>.bereich[data-b=${n}]`;
 const alle = N.map(pc).join(",");
 const css = document.createElement("style"); css.id = "ep-bereich-kacheln-css";
-css.textContent = N.map(n => `${pc(n)}{background:url(${K}${n}.webp) 0 0/100% 100% no-repeat!important}`).join("\n") + `
+css.textContent = N.map(n => `${pc(n)}{background:url(${K}${n}.webp?v=2) 0 0/100% 100% no-repeat!important}`).join("\n") + `
 :is(${alle}){border-image:none!important;animation:none!important;border:0!important;border-radius:4.5%/7.8%!important;aspect-ratio:900/515;height:auto!important;color:#fff!important;box-shadow:none!important;overflow:visible;filter:drop-shadow(0 14px 22px rgba(20,20,70,.35))}
 :is(${alle})::before,:is(${alle})::after{display:none!important}
 :is(${alle}) :is(h2,p,b,small,.apn){text-shadow:0 2px 8px rgba(20,10,60,.5)}
@@ -731,8 +731,8 @@ const K = "img/kacheln/", T = "html:root body .ap-heute";
 const G = {serie:[269,301], wissen:[288,337], level:[325,288], tag:[252,344], live:[252,287], fehler:[336,324], abzeichen:[290,358]};
 const M = {zufall:"serie", lib:"wissen", profil:"level", chat:"tag", live:"live", fehler:"fehler"};
 const s = "var(--s,.25)";
-const grund = n => `border-image:url(${K}${n}-grund.webp) 60 60 66 60 fill/calc(60px*${s}) calc(60px*${s}) calc(66px*${s}) calc(60px*${s}) stretch!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;background:transparent!important`;
-const sym = n => `content:""!important;display:block!important;position:absolute!important;right:0!important;bottom:0!important;top:auto!important;left:auto!important;width:calc(${G[n][0]}px*${s})!important;height:calc(${G[n][1]}px*${s})!important;background:url(${K}${n}-symbol.webp) 0 0/100% 100% no-repeat!important;border-radius:0!important;opacity:1!important;transform:none!important;filter:none!important;animation:none!important;pointer-events:none;z-index:0!important`;
+const grund = n => `border-image:url(${K}${n}-grund.webp?v=2) 60 60 66 60 fill/calc(60px*${s}) calc(60px*${s}) calc(66px*${s}) calc(60px*${s}) stretch!important;border-style:solid!important;border-width:0!important;border-color:transparent!important;background:transparent!important`;
+const sym = n => `content:""!important;display:block!important;position:absolute!important;right:0!important;bottom:0!important;top:auto!important;left:auto!important;width:calc(${G[n][0]}px*${s})!important;height:calc(${G[n][1]}px*${s})!important;background:url(${K}${n}-symbol.webp?v=2) 0 0/100% 100% no-repeat!important;border-radius:0!important;opacity:1!important;transform:none!important;filter:none!important;animation:none!important;pointer-events:none;z-index:0!important`;
 const A = `${T} :is(.ap-tag>.apf,.ap-woche,.ap-fakt)`;
 const css = document.createElement("style"); css.id = "ep-app-kacheln-css";
 css.textContent = Object.entries(M).map(([x, n]) => `${T} .ap-tag>.apf[data-x=${x}]{${grund(n)}}\n${T} .ap-tag>.apf[data-x=${x}]::after{${sym(n)}}`).join("\n") + `
