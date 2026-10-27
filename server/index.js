@@ -61,6 +61,10 @@ const server = createServer(async (req, res) => {
       const haupt = E.PUBLIC_URL ? new URL(E.PUBLIC_URL) : null, host = String(req.headers.host || "").toLowerCase();
       if (haupt && host === "www." + haupt.host) return res.umleiten(haupt.origin + req.pfad + req.suche);
     } catch (e) {}
+    /* qeels.ch: Startseite ist die Landing Page aus qeels-ch/, alles andere (z.B. /qeels/) wie auf easyplay.ch */
+    const qhost = String(req.headers.host || "").toLowerCase().replace(/:\d+$/, "");
+    if (qhost === "www.qeels.ch") return res.umleiten("https://qeels.ch" + req.pfad + req.suche);
+    if (qhost === "qeels.ch" && (req.pfad === "/" || req.pfad === "/index.html")) req.pfad = "/qeels-ch/index.html";
     const api = req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/");
     if (api) {
       const o = req.headers.origin;

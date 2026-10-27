@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 27.10. Sitzung «Qeels-Seite»: Landing Page für qeels.ch, neuer Ordner `qeels-ch/`, kleine Weiche in `server/index.js` (Host qeels.ch), `server/statisch.js` (Robots).
+_(leer)_
 
 ## Notizen an die andere Sitzung
 
@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 27.10. Sitzung «Qeels-Seite»: Landing Page für qeels.ch im Stil der App, neuer Ordner `qeels-ch/` (eigene Bilder in `qeels-ch/img/`, Pfade absolut `/qeels-ch/…`). `server/index.js`: Host qeels.ch zeigt auf `/` die Landing Page, www.qeels.ch leitet auf qeels.ch, alle anderen Pfade wie auf easyplay.ch (Knopf «Im Browser spielen» geht auf `/qeels/`). Vorschau auch unter easyplay.ch/qeels-ch/. `statisch.js` und `robots.txt`: Suchmaschinen dürfen die Seite lesen. `app/www-bauen.py` lässt `qeels-ch/` weg. Damit qeels.ch läuft, muss Dejan bei Hostpoint DNS und bei Deploio die Domain eintragen. Version ep-2026-10-27-01.
 - 26.10. Sitzung «Hauptseite»: Startseite Computer: Kachel «Gewerteter Test · zufälliges Thema» durch eine gleich grosse Bibliothek-Kachel ersetzt (`bibKarte()` in `startseite.js`, Knöpfe «Bibliothek öffnen» `data-a=lib` und «Zufällige Seite» `data-a=libzufall` → `zufallArtikel()`), verziert mit Buch-Symbolen, Funkeln, Glanz und Lumi (CSS `.ep-bibk` im Block «ep-start2» in `stil.js`). `testKarte()` bleibt, wird aber nicht mehr gezeigt. Version ep-2026-10-26-10.
 - 26.10. Sitzung «Hauptseite»: Seite lud nach jedem Push zweimal (nach ca. 5 s ein zweites Mal, sah aus wie ein Absturz): Der neue Service Worker übernahm und `controllerchange` lud neu, obwohl die Seite schon die neue Version vom Netz hatte. Jetzt wird nur neu geladen, wenn `VERSION` in `sw.js` von `EP_BUILD` der Seite abweicht (`index.html`, Block «Service Worker»). Version ep-2026-10-26-09.
 - 26.10. Sitzung «App»: iOS-Bau läuft jetzt auf `macos-15-intel` (`.github/workflows/app-ios.yml`), weil die Apple-Silicon-Rechner von GitHub (macos-15, macos-26) mehrmals «not acquired» meldeten. Build 26 mit ep-2026-10-26-08 ist in TestFlight. Kann zurück auf `macos-15`, sobald GitHub wieder Kapazität hat.

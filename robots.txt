@@ -72,6 +72,7 @@ Allow: /index.html
 Allow: /impressum.html
 Allow: /datenschutz.html
 Allow: /img/
+Allow: /qeels-ch/
 Allow: /manifest.webmanifest
 Allow: /*.js$
 Allow: /*.css$

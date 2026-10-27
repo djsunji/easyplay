@@ -49,7 +49,7 @@ export function statischMacher(wurzel) {
       /* Kein Text- und Data-Mining, kein KI-Training; Daten (JSON, Bilder der Bibliothek) nicht in Suchmaschinen */
       "TDM-Reservation": "1", "TDM-Policy": "https://easyplay.ch/impressum.html",
       /* Suchmaschinen: Startseite, Impressum und Datenschutz finden und anschauen, mehr nicht */
-      "X-Robots-Tag": /^(index|impressum|datenschutz)\.html$/.test(rel) ? "index, nofollow, noarchive, nosnippet, noimageindex, max-image-preview:none, notranslate, noai, noimageai"
+      "X-Robots-Tag": /^(index|impressum|datenschutz|qeels-ch\/index)\.html$/.test(rel) ? "index, nofollow, noarchive, nosnippet, noimageindex, max-image-preview:none, notranslate, noai, noimageai"
         : "noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai",
       "Access-Control-Allow-Origin": "*",            // öffentliche Dateien: die App lädt Bilder und Korrekturen von hier
       "Cache-Control": ext === ".html" || rel === "sw.js" ? "no-cache" : /^(bilder|img|flags|musik|tx)\//.test(rel) ? "public, max-age=86400" : "public, max-age=600",

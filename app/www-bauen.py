@@ -10,7 +10,7 @@ ZIEL = os.path.join(QUELLE, "app", "www")
 WEB = "https://easyplay.ch https://djsunji.github.io"
 
 # Ordner und Dateien, die nicht in die App gehören
-ORDNER_WEG = {".git", ".github", "app", "bilder", "admin", "tools", "supabase", "qeels", "node_modules", "server"}
+ORDNER_WEG = {".git", ".github", "app", "bilder", "admin", "tools", "supabase", "qeels", "qeels-ch", "node_modules", "server"}
 DATEIEN_WEG = {"CLAUDE.md", "README.md", "schema.sql", "sitemap.xml", "robots.txt", "sw.js", "Dockerfile", ".dockerignore"}
 ENDUNG_WEG = (".md", ".py", ".sh", ".sql")
 
