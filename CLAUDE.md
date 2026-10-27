@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 27.10. Sitzung «Qeels-Seite»: Landing Page für qeels.ch, neuer Ordner `qeels-ch/`, kleine Weiche in `server/index.js` (Host qeels.ch), `server/statisch.js` (Robots).
 
 ## Notizen an die andere Sitzung
 
