@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 28.10. Sitzung «Hauptseite»: Frage Nr. 78956 (Wissenschaft, Entdecker, fairer Versuch) war unverständlich, neu mit Beispiel Licht und klaren Antworten, dazu die französische Fassung (`fragen-11.json`, `welten/i18n/fr/q-13.json`). Version ep-2026-10-28-01.
 - 27.10. Sitzung «Qeels-App»: `datenschutz.html` Abschnitt 10 ergänzt: Qeels-App mit Google AdMob (nur nicht personalisiert, an Kinder gerichtet), Speicherung nur auf dem Gerät, jedes 8. Qeel. Stand 27.10. Version ep-2026-10-27-03.
 - 27.10. Sitzung «Qeels-App»: `app-ads.txt` neu (AdMob-Konto pub-5703614426299622, für die Qeels-App), `werbung.json` «jedes» von 10 auf 8 (jedes 8. Qeel eine Anzeige, Seite und App). Version ep-2026-10-27-02.
 - 27.10. Sitzung «Qeels-Seite»: Landing Page für qeels.ch im Stil der App, neuer Ordner `qeels-ch/` (eigene Bilder in `qeels-ch/img/`, Pfade absolut `/qeels-ch/…`). `server/index.js`: Host qeels.ch zeigt auf `/` die Landing Page, www.qeels.ch leitet auf qeels.ch, alle anderen Pfade wie auf easyplay.ch (Knopf «Im Browser spielen» geht auf `/qeels/`). Vorschau auch unter easyplay.ch/qeels-ch/. `statisch.js` und `robots.txt`: Suchmaschinen dürfen die Seite lesen. `app/www-bauen.py` lässt `qeels-ch/` weg. Damit qeels.ch läuft, muss Dejan bei Hostpoint DNS und bei Deploio die Domain eintragen. Version ep-2026-10-27-01.
