@@ -12,6 +12,24 @@ Alle 129'033 Fragen in `fragen-*.json` prüfen:
 
 Dejans Hauptanliegen: Auf der Stufe Profis gibt es Fragen, die nur Fachleute lösen können, zum Beispiel Physiker oder Wissenschaftler. Profis heisst ab 15 Jahre. Eine Frage soll mit guter Allgemeinbildung oder Gymnasialwissen lösbar sein.
 
+## Ergebnis des grossen Laufs (30.10.2026, Sitzung «Fragen-Rework»)
+
+Alle drei Stufen sind geprüft und eingebaut. Die Nummern (`nr`) sind gleich geblieben.
+
+| Stufe | umgeschrieben | Stufe geändert | gelöscht | unsicher |
+|---|---:|---:|---:|---:|
+| Profis | 6'795 | 232 | 209 | 32 |
+| Könner | 8'810 | 568 | 813 | 57 |
+| Entdecker | 4'274 | 7'522 | 372 | 121 |
+
+- Gelöscht wurden nur Doppelte und Regelverstösse (Weg A).
+- Entdecker: Viele Fragen waren Könner-Stoff und sind jetzt Stufe 2 (davon 1'090 zusätzlich umgeschrieben). Bilder-Fragen behalten ihre Stufe (103 Vorschläge nicht übernommen, stehen bei «unsicher»).
+- Fragen danach: Entdecker 31'292, Könner 53'794, Profis 42'553, zusammen 127'639.
+- Französisch und Italienisch: geänderte Fragen neu übersetzt (Entdecker 4'218 FR, 138 IT), gelöschte entfernt.
+- Unsichere Fälle und Doppelte je Stufe: `berichte/profis.json`, `koenner.json`, `entdecker.json` (Felder `unsicher`, `doppel`).
+- Bewusst nicht geändert: ß in `s` (Titel des Wikipedia-Artikels, sonst stimmt der Quellenlink nicht).
+- In die App kommen die neuen Fragen erst mit einem neuen App-Bau.
+
 ## Stand (29.10.2026, Sitzung «Hauptseite»)
 
 Probelauf mit 600 zufälligen Fragen:

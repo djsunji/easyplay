@@ -11,15 +11,15 @@
   "m": "Nell'arcobaleno di solito si contano sette colori."
  },
  "77": {
-  "q": "Cosa fai se il semaforo pedonale è rosso?",
+  "q": "Che cosa fai quando il semaforo pedonale è rosso?",
   "a": [
    "Mi fermo e aspetto",
-   "Corro veloce",
-   "Guardo e basta e attraverso",
-   "Chiudo gli occhi"
+   "Attraverso di corsa",
+   "Passo se non arriva nessuna auto",
+   "Parto piano piano"
   ],
-  "e": "Rosso vuol dire fermarsi. Solo con il verde puoi attraversare, e anche allora guardi prima a sinistra e a destra se tutte le auto si fermano davvero.",
-  "m": "Con il rosso ti fermi, con il verde guardi e attraversi."
+  "e": "Rosso vuol dire fermarsi. Solo con il verde puoi passare, e anche allora guardi bene a sinistra e a destra se tutte le auto si fermano davvero.",
+  "m": "Con il rosso ti fermi, con il verde guardi e passi."
  },
  "168": {
   "q": "Cosa fai con il codice PIN della tua carta?",
@@ -44,26 +44,15 @@
   "m": "🥖 sta per la panetteria."
  },
  "3470": {
-  "q": "Quale animale salta con le forti zampe posteriori e porta i suoi piccoli in un marsupio?",
+  "q": "Quale animale salta con le forti zampe posteriori e porta i suoi piccoli in una tasca?",
   "a": [
-   "Canguro",
-   "Lepre",
-   "Rana",
-   "Wallaby"
+   "Il canguro",
+   "La lepre",
+   "La rana",
+   "Lo scoiattolo"
   ],
-  "e": "Il canguro vive in Australia e con le sue zampe forti può saltare molto lontano. I piccoli crescono nel marsupio della mamma.",
-  "m": "Il canguro porta i piccoli nel marsupio."
- },
- "26640": {
-  "q": "Quanto è alto più o meno il Cervino?",
-  "a": [
-   "Circa 4478 metri",
-   "Circa 2478 metri",
-   "Circa 6478 metri",
-   "Circa 1478 metri"
-  ],
-  "e": "Il Cervino è alto 4478 metri ed è una delle montagne più famose del mondo.",
-  "m": "Il Cervino è alto 4478 metri."
+  "e": "Il canguro vive in Australia e con le sue zampe forti può saltare molto lontano. I piccoli crescono nella tasca della mamma.",
+  "m": "Il canguro porta i piccoli nella tasca."
  },
  "84352": {
   "q": "Com'è lo stagno puro?",
@@ -198,14 +187,14 @@
   "m": "La pizza Margherita porta il nome di una regina."
  },
  "52124": {
-  "q": "Quale treno sale sul Niesen?",
+  "q": "Quale impianto sale sul Niesen?",
   "a": [
    "Una funicolare",
-   "Una metropolitana",
-   "Un tram",
+   "Una ferrovia a cremagliera",
+   "Una cabinovia",
    "Una seggiovia"
   ],
-  "e": "La ferrovia del Niesen è una funicolare. I suoi vagoni vengono tirati su per il ripido pendio con una fune.",
+  "e": "La Niesenbahn è una funicolare. Le sue vetture viaggiano su binari e sono tirate su per il ripido pendio da una fune.",
   "m": "Sul Niesen sale una funicolare."
  },
  "49856": {
@@ -264,15 +253,15 @@
   "m": "Se sei malato, vai dalla dottoressa o dal dottore."
  },
  "95231": {
-  "q": "Per che cosa è famosa la città di Baden, nel Canton Argovia, già dai tempi dei Romani?",
+  "q": "Per che cosa è famosa la città di Baden nel Canton Argovia?",
   "a": [
-   "Per le sue sorgenti calde",
-   "Per il suo porto sul mare",
-   "Per i suoi ghiacciai",
-   "Per i suoi vulcani"
+   "Per l'acqua termale calda in cui fare il bagno",
+   "Per una grande cascata",
+   "Per un ghiacciaio",
+   "Per una fabbrica di cioccolato"
   ],
-  "e": "A Baden dal terreno sgorga acqua minerale calda. Già i Romani facevano il bagno lì, per questo la città si chiama Baden, che in tedesco vuol dire «fare il bagno».",
-  "m": "A Baden si fa il bagno nell'acqua calda di sorgente."
+  "e": "A Baden esce dal suolo acqua calda. Già i Romani ci facevano il bagno, per questo la città si chiama Baden, che in tedesco vuol dire «fare il bagno».",
+  "m": "A Baden si fa il bagno nell'acqua termale calda."
  },
  "95251": {
   "q": "Come votano le persone alla Landsgemeinde di Appenzello Interno?",
@@ -330,15 +319,15 @@
   "m": "Lo zoo di Basilea si chiama «Zolli»."
  },
  "95361": {
-  "q": "Che cosa si mangia volentieri con le meringhe nella Gruyère, nel Canton Friburgo?",
+  "q": "Che cos'è la crème double della Gruyère nel Canton Friburgo?",
   "a": [
-   "Doppia panna",
-   "Ketchup",
-   "Senape",
-   "Maionese"
+   "Una panna densissima",
+   "Un formaggio morbido",
+   "Una salsa al cioccolato",
+   "Uno yogurt"
   ],
-  "e": "La «Crème double de la Gruyère» è una panna molto densa. Con le meringhe è un dessert molto amato.",
-  "m": "Meringhe con doppia panna sono un dessert friburghese."
+  "e": "La «Crème double de la Gruyère» è una panna molto densa. Si mangia volentieri con le meringhe.",
+  "m": "Le meringhe con la doppia panna sono un dessert friburghese."
  },
  "663": {
   "q": "Quale festa ginevrina si intende qui?",
@@ -420,13 +409,13 @@
  "95532": {
   "q": "Che cosa si vede sullo stemma del Canton Obvaldo?",
   "a": [
-   "Una chiave, con lo sfondo rosso sopra e bianco sotto",
-   "Un orso nero",
-   "Una testa di toro",
-   "Un'aquila"
+   "Una chiave su rosso e bianco",
+   "Un orso nero su bianco",
+   "Una testa di toro su giallo",
+   "Uno stambecco su bianco"
   ],
-  "e": "Lo stemma di Obvaldo è rosso sopra e bianco sotto. Sopra c'è una doppia chiave, sempre del colore opposto.",
-  "m": "Obvaldo: rosso sopra, bianco sotto, con la chiave."
+  "e": "Lo stemma di Obvaldo è rosso sopra e bianco sotto. Sopra c'è una doppia chiave, che ha ogni volta l'altro colore.",
+  "m": "Obvaldo: sopra rosso, sotto bianco, con la chiave."
  },
  "95554": {
   "q": "Quale salsiccia è una famosa specialità del Canton San Gallo?",
@@ -451,25 +440,25 @@
   "m": "La Bölletünne è la torta alle cipolle di Sciaffusa."
  },
  "5898": {
-  "q": "Come si chiama il bel castello barocco vicino a Soletta, che si può visitare?",
+  "q": "Come si chiama il bel castello antico con un grande giardino vicino a Soletta?",
   "a": [
    "Castello di Waldegg",
    "Castello di Chillon",
-   "Castello di Neuschwanstein",
-   "Reggia di Versailles"
+   "Castello di Lenzburg",
+   "Castello di Thun"
   ],
   "e": "Il castello di Waldegg si trova su una collina vicino a Feldbrunnen ed è stato costruito tanto tempo fa per un signore ricco. Oggi si possono visitare il bel giardino e le sale.",
   "m": "Il castello di Waldegg si trova su una collina vicino a Soletta."
  },
  "95602": {
-  "q": "Quale grande specchio d'acqua si trova vicino a Einsiedeln, nel Canton Svitto, ed è il lago artificiale più esteso della Svizzera?",
+  "q": "Quale grande lago artificiale si trova vicino a Einsiedeln nel Canton Svitto?",
   "a": [
    "Il Sihlsee",
-   "Il lago della Gruyère",
    "Il Grimselsee",
-   "Il lago di Vogorno"
+   "Il Lac de la Gruyère",
+   "Il Lago di Vogorno"
   ],
-  "e": "Il Sihlsee è stato creato con una diga circa 90 anni fa. Con la sua acqua si produce corrente elettrica, e d'estate ci si può fare il bagno.",
+  "e": "Il Sihlsee è stato creato con una diga circa 90 anni fa. Con la sua acqua si produce corrente e d'estate ci si può fare il bagno.",
   "m": "Il Sihlsee è il lago artificiale più grande della Svizzera."
  },
  "95623": {
@@ -550,12 +539,12 @@
   "m": "La montagna di casa di Zurigo è l'Uetliberg."
  },
  "21434": {
-  "q": "Oltre a essere pittore, che cosa era anche Leonardo da Vinci?",
+  "q": "Oltre che pittore, che cos'era anche Leonardo da Vinci?",
   "a": [
    "Inventore",
-   "Calciatore",
-   "Pilota",
-   "Astronauta"
+   "Navigatore",
+   "Re",
+   "Panettiere"
   ],
   "e": "Leonardo inventò molte macchine e studiò la natura e il corpo umano.",
   "m": "Leonardo da Vinci era pittore e inventore."
@@ -652,9 +641,9 @@
   "q": "Come si chiamano in cinese le buste rosse portafortuna?",
   "a": [
    "Hongbao",
-   "Origami",
-   "Sushi",
-   "Kimono"
+   "Dim Sum",
+   "Kung Fu",
+   "Tai Chi"
   ],
   "e": "Hongbao significa «pacchetto rosso». In alcune regioni si chiamano anche Lai See.",
   "m": "Le buste rosse portafortuna si chiamano Hongbao."
@@ -814,15 +803,15 @@
   "m": "Un conto in banca è un posto sicuro per i soldi."
  },
  "214": {
-  "q": "Chi ripara le auto in garage?",
+  "q": "Chi ripara le automobili in garage?",
   "a": [
-   "Le meccatroniche e i meccatronici d'automobili",
-   "Le panettiere e i panettieri",
-   "Le giardiniere e i giardinieri",
-   "Le parrucchiere e i parrucchieri"
+   "La meccanica o il meccanico d'automobili",
+   "La panettiera o il panettiere",
+   "La giardiniera o il giardiniere",
+   "La parrucchiera o il parrucchiere"
   ],
-  "e": "In garage le meccatroniche e i meccatronici d'automobili controllano e riparano motori, freni ed elettronica. È un tirocinio di quattro anni con AFC.",
-  "m": "Le auto le riparano gli specialisti di meccatronica d'automobili."
+  "e": "In garage le meccaniche e i meccanici controllano e riparano motori e freni. Oggi la professione si chiama meccatronico d'automobili.",
+  "m": "Le automobili le riparano i meccanici."
  },
  "76462": {
   "q": "Quale giocattolo formano insieme queste immagini?",
@@ -1232,15 +1221,15 @@
   "m": "A Sciaffusa si parla tedesco."
  },
  "2914": {
-  "q": "Come si chiama il bell'edificio antico sulla riva dell'Aar dove si incontrano i politici del Canton Soletta?",
+  "q": "Su quale fiume si trova l'antico Landhaus nella città di Soletta?",
   "a": [
-   "Landhaus",
-   "Municipio di Zurigo",
-   "Palazzo federale",
-   "Palazzo comunale di Ginevra"
+   "Sull'Aar",
+   "Sul Reno",
+   "Sulla Reuss",
+   "Sulla Limmat"
   ],
-  "e": "Il Landhaus di Soletta si trova proprio sul fiume Aar ed è un edificio molto antico e grazioso. Lì si riunisce il Gran Consiglio, il parlamento del Canton Soletta.",
-  "m": "Nel Landhaus si riunisce il parlamento di Soletta."
+  "e": "Il Landhaus è un vecchio edificio proprio sulla riva dell'Aar. Un tempo vi si depositavano le merci delle barche, oggi ci si fanno feste e concerti.",
+  "m": "Il Landhaus si trova a Soletta sull'Aar."
  },
  "301": {
   "q": "Quale cantone ha dato il nome a tutta la Svizzera?",
@@ -1331,15 +1320,15 @@
   "m": "Zurigo ha uno stemma diviso in obliquo, bianco e blu."
  },
  "75716": {
-  "q": "Su quale disco che gira si modellano le ciotole di argilla?",
+  "q": "Su quale disco che gira si modellano le ciotole d'argilla?",
   "a": [
    "Tornio da vasaio",
-   "Ruota della bici",
-   "Disco del telefono",
-   "Bersaglio"
+   "Mola",
+   "Disco da tessitura",
+   "Disco per impastare"
   ],
-  "e": "Sul tornio da vasaio l'argilla gira veloce in cerchio. Con le mani bagnate si modellano recipienti rotondi.",
-  "m": "Sul tornio l'argilla gira in cerchio."
+  "e": "Sul tornio da vasaio l'argilla gira veloce in tondo. Con le mani bagnate se ne fanno recipienti rotondi.",
+  "m": "Sul tornio l'argilla gira in tondo."
  },
  "70009": {
   "q": "La colonna di luglio è alta 12 quadretti, quella di gennaio solo 3. Quanti quadretti mancano alla colonna di gennaio per arrivare all'altezza di quella di luglio?",
@@ -1498,12 +1487,12 @@
  "179": {
   "q": "Anche i bambini a volte pagano le imposte?",
   "a": [
-   "Sì, per esempio l'IVA quando fanno acquisti",
-   "No, mai",
-   "Solo il giorno del compleanno",
-   "Solo durante le vacanze"
+   "Sì, per esempio l'IVA quando si fa la spesa",
+   "No, i bambini ne sono esonerati",
+   "Solo con una propria dichiarazione d'imposta",
+   "Solo quando hanno un conto"
   ],
-  "e": "Quando compri qualcosa in negozio, l'IVA, l'imposta sul valore aggiunto, è già compresa nel prezzo. Così tutti pagano un pochino, anche i bambini.",
+  "e": "Quando compri qualcosa in un negozio, l'IVA è già compresa nel prezzo. Così tutti pagano un pochino, anche i bambini.",
   "m": "Quando si fa la spesa si paga anche l'IVA."
  },
  "82554": {
@@ -1694,15 +1683,15 @@
   "m": "«L'œil» è l'occhio."
  },
  "20899": {
-  "q": "Come si dice «agosto» in inglese?",
+  "q": "Come si dice «giugno» in inglese?",
   "a": [
-   "August",
-   "April",
    "June",
-   "March"
+   "July",
+   "January",
+   "May"
   ],
-  "e": "Agosto in inglese si dice «August». Il 1° agosto la Svizzera festeggia la sua festa nazionale.",
-  "m": "Agosto in inglese si dice «August»."
+  "e": "Giugno in inglese si dice «June». È il sesto mese dell'anno.",
+  "m": "Giugno in inglese si dice «June»."
  },
  "23762": {
   "q": "Come si chiama un gruppo di mercanti che viaggia con i cammelli?",
@@ -1749,15 +1738,15 @@
   "m": "Il salvadanaio aiuta a risparmiare per piccoli obiettivi."
  },
  "50674": {
-  "q": "Con che cosa viene pagata la costruzione della Sagrada Família?",
+  "q": "Con che cosa si pagano i lavori per finire la Sagrada Família?",
   "a": [
-   "Con donazioni e biglietti d'ingresso",
-   "Con vincite della lotteria",
-   "Con multe",
+   "Con donazioni e biglietti d'entrata",
+   "Con i soldi del re",
+   "Con i soldi del papa",
    "Solo con le imposte"
   ],
-  "e": "La chiesa viene costruita con donazioni e con i soldi dei biglietti d'ingresso. Era previsto così già all'inizio.",
-  "m": "Chi visita la Sagrada Família aiuta a costruirla con il biglietto."
+  "e": "La chiesa si continua a costruire con le donazioni e con i soldi dei biglietti d'entrata. Era già previsto così fin dall'inizio.",
+  "m": "Con il loro biglietto i visitatori della Sagrada Família aiutano a costruirla."
  },
  "51839": {
   "q": "Quale piatto grigionese viene avvolto in foglie di bietola?",
@@ -1903,14 +1892,14 @@
   "m": "Friburgo è il capoluogo del Canton Friburgo."
  },
  "95382": {
-  "q": "Di che cosa è fatto il famoso grande orologio nel Giardino Inglese di Ginevra?",
+  "q": "Di che cosa è fatto il famoso grande orologio del Jardin Anglais a Ginevra?",
   "a": [
    "Di fiori",
-   "Di cioccolato",
-   "Di ghiaccio",
-   "Di Lego"
+   "Di pietre",
+   "Di legno",
+   "Di vetro"
   ],
-  "e": "L'orologio fiorito nel Jardin Anglais è piantato con migliaia di fiori. Ricorda l'arte degli orologiai ginevrini.",
+  "e": "L'orologio fiorito nel Jardin Anglais è piantato con migliaia di fiori. Ricorda che a Ginevra si fabbricano tanti orologi.",
   "m": "A Ginevra c'è un orologio fatto di fiori."
  },
  "95407": {
@@ -2079,14 +2068,14 @@
   "m": "Nel Vaud si parla francese."
  },
  "95707": {
-  "q": "Che cosa ha di speciale la località turistica vallesana di Zermatt?",
+  "q": "Che cosa c'è di speciale nella località di vacanza vallesana di Zermatt?",
   "a": [
-   "È senza auto",
-   "Si trova sul mare",
-   "Ha un aeroporto per i jumbo jet",
-   "Si trova in un deserto"
+   "In paese non circolano auto normali",
+   "Lì non nevica mai",
+   "Lì non arriva nessun treno",
+   "Il paese si trova su un grande lago"
   ],
-  "e": "A Zermatt le auto normali non possono circolare. Si arriva in treno e in paese ci si sposta con piccoli veicoli elettrici.",
+  "e": "A Zermatt non possono circolare auto normali. Si arriva in treno e in paese ci si sposta con piccoli veicoli elettrici.",
   "m": "Zermatt è senza auto."
  },
  "313": {
@@ -2519,14 +2508,14 @@
   "m": "1 franco ha 100 centesimi."
  },
  "51481": {
-  "q": "Quale sciroppo dolce del Canada mettono volentieri alcuni sui waffel?",
+  "q": "Quale sciroppo dolce del Canada piace a tanti mettere sui waffle?",
   "a": [
    "Sciroppo d'acero",
-   "Aceto",
-   "Senape",
-   "Ketchup"
+   "Sciroppo di sambuco",
+   "Sciroppo di lampone",
+   "Sciroppo di menta"
   ],
-  "e": "Lo sciroppo d'acero si fa con la linfa degli aceri. È dolce e sta bene con i waffel.",
+  "e": "Lo sciroppo d'acero si fa con la linfa degli aceri. Tanti aceri crescono in Canada.",
   "m": "Lo sciroppo d'acero è uno sciroppo dolce degli aceri."
  },
  "51676": {
@@ -2838,15 +2827,15 @@
   "m": "Il capoluogo di Uri si chiama Altdorf."
  },
  "95685": {
-  "q": "Quale famoso attore del cinema muto visse fino alla sua morte a Corsier-sur-Vevey, nel Canton Vaud?",
+  "q": "Quale famoso comico del cinema con bombetta, bastone e baffi visse fino alla morte nel Canton Vaud?",
   "a": [
    "Charlie Chaplin",
-   "Walt Disney",
-   "Topolino",
-   "Elvis Presley"
+   "Buster Keaton",
+   "Harold Lloyd",
+   "Stan Laurel"
   ],
-  "e": "Charlie Chaplin visse più di 20 anni a Corsier-sur-Vevey. Oggi la sua casa è un museo che si chiama «Chaplin's World».",
-  "m": "Charlie Chaplin abitava sul lago Lemano, nel Vaud."
+  "e": "Charlie Chaplin visse più di 20 anni a Corsier-sur-Vevey sul Lago Lemano. Oggi la sua casa è un museo chiamato «Chaplin's World».",
+  "m": "Charlie Chaplin abitava sul Lago Lemano, nel Canton Vaud."
  },
  "95704": {
   "q": "Quale specialità al formaggio, che si fa sciogliere e si raschia, viene dal Vallese?",
@@ -2992,15 +2981,15 @@
   "m": "La Germania si affaccia sul Mare del Nord e sul Mar Baltico."
  },
  "64534": {
-  "q": "Che cosa portano i monaci in Thailandia per le strade al mattino?",
+  "q": "Che cosa raccolgono la mattina i monaci in Thailandia nella loro ciotola?",
   "a": [
-   "Una ciotola per le offerte",
-   "Un cesto di mele",
-   "Un ombrello",
-   "Un tamburo"
+   "Cibo",
+   "Soldi",
+   "Fiori",
+   "Pietre"
   ],
-  "e": "Al mattino i monaci camminano per le strade con una ciotola. Le persone regalano loro del cibo.",
-  "m": "I monaci raccolgono il cibo in una ciotola per le offerte."
+  "e": "La mattina i monaci girano per le strade con una ciotola. Le persone regalano loro del cibo.",
+  "m": "La mattina i monaci raccolgono cibo in una ciotola."
  },
  "63565": {
   "q": "Quanti pesci ci sono quando Gesù sfama le cinquemila persone?",
@@ -3124,14 +3113,14 @@
   "m": "Il profumo della pioggia sulla terra asciutta si chiama petricore."
  },
  "22643": {
-  "q": "Quale mese ha 28 giorni?",
+  "q": "Indovinello: quali mesi hanno almeno 28 giorni?",
   "a": [
    "Tutti i mesi",
    "Solo febbraio",
    "Nessun mese",
    "Solo gennaio"
   ],
-  "e": "Ogni mese ha almeno 28 giorni. Febbraio ne ha solo 28 o 29, gli altri ne hanno di più.",
+  "e": "Ogni mese ha almeno 28 giorni. Febbraio ne ha 28 o 29, gli altri mesi 30 o 31.",
   "m": "Ogni mese ha almeno ventotto giorni."
  },
  "76": {
@@ -3171,12 +3160,12 @@
   "q": "Che cos'è il Patto federale?",
   "a": [
    "Un accordo per un'alleanza",
-   "Una lettera d'amore",
-   "Un vecchio libro di cucina",
-   "Una carta geografica"
+   "Una lettera all'imperatore",
+   "Un libro di leggi per i cavalieri",
+   "Un documento per l'acquisto di un terreno"
   ],
   "e": "Nel Patto federale Uri, Svitto e Untervaldo si promisero aiuto. È quindi un accordo.",
-  "m": "Il Patto federale è un accordo di alleanza."
+  "m": "Il Patto federale è un patto di alleanza."
  },
  "82401": {
   "q": "Di che cosa sono fatti la maggior parte dei palloncini?",
@@ -3248,22 +3237,22 @@
   "q": "Come si chiama il gruppo che nel teatro greco cantava e ballava insieme?",
   "a": [
    "Coro",
-   "Band",
-   "Orchestra",
+   "Consiglio",
+   "Seguito",
    "Squadra"
   ],
   "e": "Nel teatro greco c'era un coro. Cantava, ballava e spiegava al pubblico che cosa succedeva nella storia.",
   "m": "Il coro cantava e ballava nel teatro greco."
  },
  "24597": {
-  "q": "Come si chiama una gru che le persone facevano funzionare camminando dentro una grande ruota?",
+  "q": "Come facevano girare gli operai la grande ruota di una gru a ruota?",
   "a": [
-   "Gru a ruota",
-   "Gru a torre",
-   "Autogru",
-   "Gru portuale"
+   "Camminandoci dentro",
+   "Girando una manovella",
+   "La tiravano dei cavalli",
+   "La muoveva l'acqua"
   ],
-  "e": "Nella gru a ruota gli operai camminavano dentro una grande ruota di legno. Così la facevano girare, come un criceto nella sua ruota.",
+  "e": "Nella gru a ruota gli operai camminavano dentro una grande ruota di legno. Così la facevano girare come un criceto la sua ruota.",
   "m": "Una gru a ruota è mossa da persone che camminano nella ruota."
  },
  "26135": {
@@ -3630,15 +3619,15 @@
   "m": "La pecora dal naso nero viene dal Vallese."
  },
  "95729": {
-  "q": "Come si chiama il secondo Comune più grande del Canton Zugo?",
+  "q": "Come si chiama il secondo comune più grande del Canton Zugo?",
   "a": [
    "Baar",
-   "Altdorf",
-   "Sursee",
-   "Wädenswil"
+   "Cham",
+   "Steinhausen",
+   "Unterägeri"
   ],
-  "e": "Baar si trova proprio accanto alla città di Zugo ed è, dopo di lei, il Comune più grande del cantone.",
-  "m": "Baar è il secondo Comune più grande di Zugo."
+  "e": "Baar si trova proprio accanto alla città di Zugo ed è il comune più grande del cantone dopo di essa.",
+  "m": "Baar è il secondo comune più grande di Zugo."
  },
  "95744": {
   "q": "Come si chiama il capoluogo del Canton Zurigo?",
@@ -3696,15 +3685,15 @@
   "m": "Sullo Schwyzerörgeli si suona con i bottoni."
  },
  "101887": {
-  "q": "Quale pacciamatura si ottiene dalla corteccia degli alberi sminuzzata?",
+  "q": "Che cosa c'è spesso come strato marrone sotto i cespugli nei parchi?",
   "a": [
-   "Pacciamatura di corteccia",
-   "Pacciamatura di paglia",
-   "Pacciamatura d'erba",
-   "Pacciamatura di foglie"
+   "Pacciame di corteccia",
+   "Segatura",
+   "Fondi di caffè",
+   "Sabbia"
   ],
-  "e": "La pacciamatura di corteccia è fatta di corteccia d'albero tritata. La si vede spesso sotto i cespugli.",
-  "m": "La pacciamatura di corteccia è fatta di corteccia d'albero."
+  "e": "Il pacciame di corteccia è fatto di corteccia d'albero sminuzzata. Lo si vede spesso sotto i cespugli.",
+  "m": "Il pacciame di corteccia è fatto di corteccia d'albero."
  },
  "99374": {
   "q": "Perché il disco continua a girare quando smetti di spingerlo?",
@@ -4202,14 +4191,14 @@
   "m": "Sullo stemma di Glarona c'è san Fridolino."
  },
  "342": {
-  "q": "Qual è il cantone svizzero più grande per superficie?",
+  "q": "Quale cantone svizzero ha la superficie più grande?",
   "a": [
    "Grigioni",
    "Berna",
    "Vallese",
    "Zurigo"
   ],
-  "e": "I Grigioni sono grandi quasi come un sesto della Svizzera. Hanno circa 150 valli e tantissime cime.",
+  "e": "I Grigioni sono circa un sesto di tutta la Svizzera. Ci sono tantissime valli e cime di montagna.",
   "m": "I Grigioni sono il cantone più grande per superficie."
  },
  "95445": {

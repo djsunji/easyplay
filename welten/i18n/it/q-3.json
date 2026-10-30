@@ -187,14 +187,14 @@
   "m": "In inglese la mamma si dice «mother»."
  },
  "13168": {
-  "q": "Secondo la leggenda, con che cosa i Greci riuscirono a entrare nella città di Troia?",
+  "q": "Secondo la leggenda, con che cosa i Greci entrarono nella città di Troia?",
   "a": [
    "Con un cavallo di legno",
-   "Con una mongolfiera",
-   "Con un ponte",
-   "Con un tunnel"
+   "Con scale sopra le mura",
+   "Attraverso una galleria",
+   "Con un ariete"
   ],
-  "e": "Secondo la leggenda, alcuni guerrieri si nascosero dentro un grande cavallo di legno. Furono i Troiani stessi a portarlo in città.",
+  "e": "Secondo la leggenda, alcuni guerrieri si nascosero in un grande cavallo di legno. Furono i Troiani stessi a trascinarlo in città.",
   "m": "Nella leggenda un cavallo di legno aiutò i Greci a conquistare Troia."
  },
  "24615": {
@@ -484,15 +484,15 @@
   "m": "Il Controllo di sicurezza in acqua comprende anche l'uscita dall'acqua."
  },
  "86416": {
-  "q": "Come si dice aliscafo in inglese?",
+  "q": "Che cos'è un aliscafo?",
   "a": [
-   "Hydrofoil",
-   "Hovercraft",
-   "Speedboat",
-   "Ferry"
+   "Una barca che va veloce sollevata sopra l'acqua",
+   "Una barca che vola in aria",
+   "Una barca che va sott'acqua",
+   "Una barca con le ruote per la terraferma"
   ],
-  "e": "In inglese si dice «hydrofoil». «Hydro» significa acqua, «foil» ala.",
-  "m": "In inglese l'aliscafo si chiama «hydrofoil»."
+  "e": "Sotto la barca ci sono piccole ali nell'acqua. Quando va veloce, sollevano lo scafo fuori dall'acqua.",
+  "m": "Quando va veloce, l'aliscafo si solleva sopra l'acqua."
  },
  "684": {
   "q": "Nei leoni, chi è di solito più grande e più pesante, il maschio o la femmina?",
@@ -681,17 +681,6 @@
   "e": "Nel 1968 la televisione svizzera cominciò a trasmettere a colori. All'inizio c'erano solo poche trasmissioni a colori.",
   "m": "In Svizzera la TV a colori c'è dal 1968."
  },
- "23330": {
-  "q": "Perché il fuoco era importante per gli uomini della preistoria?",
-  "a": [
-   "Per il calore e la luce",
-   "Per guardare la televisione",
-   "Per telefonare",
-   "Per andare in bicicletta"
-  ],
-  "e": "Il fuoco scaldava, faceva luce di notte, proteggeva dagli animali selvatici e serviva a cuocere il cibo.",
-  "m": "Il fuoco dava calore, luce e protezione."
- },
  "1315": {
   "q": "La tua famiglia organizza una gita e pensa a quanti soldi ci sono a disposizione. Come si chiama un piano così?",
   "a": [
@@ -773,11 +762,11 @@
   "q": "Come si chiama una famosa torre antica nel centro storico di Soletta?",
   "a": [
    "Riedholzturm",
-   "Torre Eiffel",
-   "Torre della televisione di Berlino",
-   "Faro di Alessandria"
+   "Zytglogge",
+   "Käfigturm",
+   "Munot"
   ],
-  "e": "La Riedholzturm è una delle antiche torri di difesa che un tempo facevano parte delle mura di Soletta. Si trova ancora oggi in mezzo al centro storico.",
+  "e": "La Riedholzturm è una delle vecchie torri di difesa che un tempo facevano parte delle mura di Soletta. La Zytglogge e la Käfigturm sono a Berna, il Munot a Sciaffusa.",
   "m": "La Riedholzturm faceva parte delle antiche mura."
  },
  "21403": {
@@ -894,11 +883,11 @@
   "q": "Che cosa si porta spesso come offerta durante una puja?",
   "a": [
    "Fiori",
-   "Sassi",
+   "Pietre",
    "Giocattoli",
-   "Monete di carta"
+   "Piume"
   ],
-  "e": "Durante una puja si offrono agli dèi fiori, frutta o dolci. È un segno di ringraziamento.",
+  "e": "Durante una puja si offrono agli dei fiori, frutta o dolci. È un segno di ringraziamento.",
   "m": "Durante la puja si offrono spesso fiori."
  },
  "63694": {
@@ -957,15 +946,15 @@
   "m": "Si lavano tutti i lati dei denti."
  },
  "5993": {
-  "q": "Quanto veloce può nuotare una foca comune in acqua?",
+  "q": "Quanto veloce può nuotare una foca nell'acqua?",
   "a": [
    "Fino a 35 chilometri all'ora",
    "Solo 2 chilometri all'ora",
    "Più di 100 chilometri all'ora",
-   "Non sa nuotare per niente"
+   "Più di 200 chilometri all'ora"
   ],
-  "e": "In acqua la foca è molto più veloce e agile che sulla terraferma. Con le sue pinne potenti arriva fino a 35 chilometri all'ora.",
-  "m": "In acqua la foca è velocissima."
+  "e": "Nell'acqua la foca è molto più veloce e agile che sulla terraferma. Con le sue forti pinne arriva fino a 35 chilometri all'ora.",
+  "m": "Nell'acqua la foca è velocissima."
  },
  "22338": {
   "q": "Che cosa indica il numero PEGI sulla confezione di un gioco?",
@@ -1034,14 +1023,14 @@
   "m": "La pulce sa saltare molto lontano."
  },
  "26738": {
-  "q": "Chi è Uli nel libro di Gotthelf «Uli il servo»?",
+  "q": "Dove lavora Uli nel libro di Gotthelf «Uli il servo»?",
   "a": [
-   "Un servo di fattoria",
-   "Un re",
-   "Un maestro",
-   "Un mercante"
+   "In una fattoria",
+   "In un mulino",
+   "In una fucina",
+   "In un'osteria"
   ],
-  "e": "Uli lavora come servo in una fattoria. Nel libro impara a essere diligente e risparmiatore.",
+  "e": "Uli lavora come servo in una fattoria. Nel libro impara a essere diligente e parsimonioso.",
   "m": "Nel libro Uli è un servo in una fattoria."
  },
  "19134": {
@@ -1124,13 +1113,13 @@
  "25153": {
   "q": "Perché il castello di Himeji è così famoso?",
   "a": [
-   "È ben conservato",
-   "È nuovissimo",
-   "È fatto d'oro",
-   "Galleggia nel mare"
+   "È conservato molto bene",
+   "È il castello più nuovo del Giappone",
+   "Si trova su un'isola in mezzo al mare",
+   "È il castello più piccolo del Giappone"
   ],
-  "e": "Il castello non è mai stato distrutto, nemmeno in guerra. Per questo lo si vede quasi come ai tempi dei samurai.",
-  "m": "Il castello di Himeji è molto ben conservato."
+  "e": "Il castello non è mai stato distrutto, neanche durante la guerra. Per questo lo si vede quasi come ai tempi dei samurai.",
+  "m": "Il castello di Himeji è conservato molto bene."
  },
  "25681": {
   "q": "Quale automobile fece costruire Henry Ford alla catena di montaggio?",
@@ -1619,13 +1608,13 @@
  "4463": {
   "q": "Come possono i bambini guadagnare da soli un po' di soldi?",
   "a": [
-   "Per esempio con piccoli lavoretti come tagliare l'erba o fare da babysitter",
-   "Prelevandoli semplicemente al bancomat",
+   "Con piccoli aiuti, per esempio annaffiare i fiori dei vicini",
+   "Prendendoli semplicemente al bancomat",
    "Chiedendoli al Comune",
-   "Fabbricandosi da soli le monete"
+   "Fabbricando da soli le monete"
   ],
-  "e": "Con piccoli lavoretti in casa o nel vicinato i bambini possono guadagnare qualche soldo. È una bella esperienza.",
-  "m": "Piccoli lavoretti portano soldi propri."
+  "e": "Con piccoli aiuti a casa o nel vicinato i bambini possono guadagnare qualche soldo. Ma prima chiedi ai tuoi genitori.",
+  "m": "Piccoli aiuti portano soldi propri."
  },
  "50556": {
   "q": "In quale campionato di calcio gioca l'FC Vaduz?",
@@ -1650,15 +1639,15 @@
   "m": "Nella cupola di vetro di Palazzo federale brillano gli stemmi dei cantoni."
  },
  "48403": {
-  "q": "Su quale isola si trova il monte Fuji?",
+  "q": "Si può salire sul monte Fuji?",
   "a": [
-   "Honshu",
-   "Islanda",
-   "Sicilia",
-   "Madagascar"
+   "Sì, d'estate in tanti salgono a piedi",
+   "No, è vietato",
+   "Solo con un treno fino in cima",
+   "Solo d'inverno con gli sci"
   ],
-  "e": "Il Giappone è formato da molte isole. Il Fuji si trova su Honshu, l'isola più grande.",
-  "m": "Il Fuji si trova sull'isola di Honshu."
+  "e": "D'estate tante persone salgono a piedi sul Fuji. In cima guardano spesso il sorgere del sole.",
+  "m": "D'estate si può salire a piedi sul Fuji."
  },
  "73449": {
   "q": "Quando ci sono in Svizzera le ciliegie fresche dall'albero?",
@@ -1694,15 +1683,15 @@
   "m": "La salsa di soia ha il gusto umami."
  },
  "3761": {
-  "q": "Come si chiama la regione collinare del canton Soletta con tanti piccoli villaggi?",
+  "q": "Come si chiama la regione collinare del Canton Soletta con tanti piccoli villaggi?",
   "a": [
    "Bucheggberg",
-   "Engadina",
    "Emmental",
-   "Ticino"
+   "Seeland",
+   "Toggenburgo"
   ],
-  "e": "Il Bucheggberg è una zona di campagna del canton Soletta con campi, boschi e piccoli villaggi. Lì vivono molte famiglie contadine.",
-  "m": "Il Bucheggberg è una regione di campagna del canton Soletta."
+  "e": "Il Bucheggberg è una regione di campagna nel Canton Soletta con campi, boschi e piccoli villaggi. L'Emmental e il Seeland sono nel Canton Berna, il Toggenburgo nel Canton San Gallo.",
+  "m": "Il Bucheggberg è una regione rurale nel Canton Soletta."
  },
  "21476": {
   "q": "In quale festa si dipingono spesso le uova?",
@@ -1727,14 +1716,14 @@
   "m": "Mezza giornata dura 12 ore."
  },
  "20288": {
-  "q": "Si può bloccare una persona in una chat?",
+  "q": "Si può bloccare una persona nella chat?",
   "a": [
    "Sì, se dà fastidio",
    "No, mai",
-   "Solo gli adulti",
-   "Solo nel fine settimana"
+   "Solo gli adulti possono farlo",
+   "Solo se la si conosce"
   ],
-  "e": "Chi è cattivo o dà fastidio può essere bloccato. Così la persona non può più scrivere.",
+  "e": "Chi è cattivo o dà fastidio può essere bloccato. Così quella persona non può più scrivere.",
   "m": "Chi mi dà fastidio lo posso bloccare."
  },
  "75165": {
@@ -1837,15 +1826,15 @@
   "m": "Il Mercoledì delle Ceneri si riceve una croce di cenere sulla fronte."
  },
  "63971": {
-  "q": "Come si chiama in arabo il tappeto per la preghiera?",
+  "q": "In quale direzione i musulmani mettono il tappeto per pregare?",
   "a": [
-   "Sajjada",
-   "Salat",
-   "Sura",
-   "Sultano"
+   "Verso la Mecca",
+   "Verso nord",
+   "Verso il sole",
+   "Verso la finestra"
   ],
-  "e": "Il nome arabo del tappeto per la preghiera è sajjada. La parola è legata alla prosternazione durante la preghiera.",
-  "m": "In arabo il tappeto per la preghiera si chiama sajjada."
+  "e": "I musulmani pregano rivolti verso la Kaaba alla Mecca. Per questo mettono il tappeto della preghiera in modo che punti in quella direzione.",
+  "m": "Il tappeto della preghiera è rivolto verso la Mecca."
  },
  "18507": {
   "q": "Su quale lago si trova la città di Zurigo?",
@@ -1881,15 +1870,15 @@
   "m": "Il Golden Gate Bridge di San Francisco è rosso."
  },
  "1726": {
-  "q": "Come si chiama una nota razza svizzera di mucche con il pelo marrone?",
+  "q": "Quale mucca è una tipica razza bovina svizzera?",
   "a": [
-   "Razza Bruna",
-   "Razza Bianca",
-   "Razza Nera",
-   "Razza Rossa"
+   "La Bruna",
+   "La Highland",
+   "La Longhorn",
+   "La bufala d'acqua"
   ],
-  "e": "La Bruna è una nota razza svizzera di mucche con il pelo marrone. Queste mucche danno tanto latte buono.",
-  "m": "La Bruna è una razza svizzera di mucche."
+  "e": "La Bruna è una nota razza bovina svizzera con il mantello marrone. Queste mucche danno molto latte buono.",
+  "m": "La Bruna è una razza bovina svizzera."
  },
  "22352": {
   "q": "Come si chiamano i film sui cowboy del Far West?",
@@ -1995,11 +1984,11 @@
   "a": [
    "Sì, in moltissimo tempo",
    "No, mai più alte di un dito",
-   "Sì, in un anno",
-   "Solo nei frigoriferi"
+   "Sì, in un solo anno",
+   "Sì, ma solo d'inverno"
   ],
-  "e": "Siccome crescono molto lentamente, le stalagmiti alte hanno spesso bisogno di molte migliaia di anni. Alcune sono alte diversi metri.",
-  "m": "Le stalagmiti alte sono molto antiche."
+  "e": "Siccome crescono molto lentamente, le stalagmiti alte hanno bisogno spesso di molte migliaia di anni. Alcune sono alte diversi metri.",
+  "m": "Le stalagmiti alte sono molto vecchie."
  },
  "74016": {
   "q": "Qual è il contrario di coraggioso?",
@@ -2038,9 +2027,9 @@
   "q": "Con che cosa cominciava spesso un banchetto romano?",
   "a": [
    "Con le uova",
-   "Con la torta",
-   "Con il gelato",
-   "Con il caffè"
+   "Con la frutta",
+   "Con le focacce al miele",
+   "Con l'arrosto"
   ],
   "e": "L'antipasto era spesso fatto di uova, olive o insalata. Alla fine c'era spesso la frutta.",
   "m": "Un banchetto romano cominciava spesso con le uova."
@@ -2070,13 +2059,13 @@
  "23257": {
   "q": "Con che cosa si poteva soffiare il colore sulla parete?",
   "a": [
-   "Con un osso cavo",
-   "Con una cannuccia di plastica",
-   "Con un imbuto di vetro",
-   "Con un tubo da giardino"
+   "Attraverso un osso cavo",
+   "Attraverso un buco in una pietra",
+   "Attraverso un cucchiaio di legno",
+   "Attraverso una conchiglia"
   ],
-  "e": "Un osso cavo di uccello o uno stelo di pianta serviva come tubicino per spruzzare.",
-  "m": "Un osso cavo poteva servire da tubicino per il colore."
+  "e": "Un osso cavo di uccello o il gambo di una pianta serviva da cannuccia per spruzzare.",
+  "m": "Un osso cavo poteva servire da cannuccia per il colore."
  },
  "2964": {
   "q": "Come si chiamano in Svizzera le monete che valgono meno di un franco?",
@@ -2103,12 +2092,12 @@
  "51647": {
   "q": "Con che cosa si sale da Kriens sul Pilatus?",
   "a": [
-   "Con la cabinovia e la funivia",
-   "Con una nave",
-   "Con la metropolitana",
-   "Con un ascensore dentro la montagna"
+   "Con cabinovia e funivia",
+   "Con una ferrovia a cremagliera",
+   "Con una funicolare",
+   "Con una seggiovia"
   ],
-  "e": "Da Kriens si sale prima con una cabinovia e poi con una funivia sul Pilatus. Dall'altra parte c'è la ferrovia a cremagliera.",
+  "e": "Da Kriens si prende prima una cabinovia e poi una funivia fino al Pilatus. La ferrovia a cremagliera parte dall'altro lato, da Alpnachstad.",
   "m": "Da Kriens si sale sul Pilatus con gli impianti a fune."
  },
  "48244": {
@@ -2156,15 +2145,15 @@
   "m": "Il grande gluteo è uno dei muscoli più grandi."
  },
  "4069": {
-  "q": "In quale parte della Svizzera si trova il canton Soletta?",
+  "q": "In quale parte della Svizzera si trova il Canton Soletta?",
   "a": [
-   "Nell'Altopiano",
-   "In alto nelle Alpi",
-   "Tutto a sud sul Lago Maggiore",
-   "Su un'isola nel lago Lemano"
+   "Sull'Altopiano",
+   "Nelle Alpi",
+   "In Ticino",
+   "In Engadina"
   ],
-  "e": "Il canton Soletta si trova nell'Altopiano svizzero, tra il Giura e le Alpi. Ha molte colline e boschi.",
-  "m": "Soletta si trova nell'Altopiano svizzero."
+  "e": "Il Canton Soletta si trova sull'Altopiano svizzero, tra il Giura e le Alpi. Ha molte colline e boschi.",
+  "m": "Soletta si trova sull'Altopiano svizzero."
  },
  "75700": {
   "q": "Con che cosa si fa oggi di solito la carta?",
@@ -2277,14 +2266,14 @@
   "m": "Edward Jenner è considerato il padre del vaccino contro il vaiolo."
  },
  "65035": {
-  "q": "Dove si trovano in Svizzera tante piccole cappelle?",
+  "q": "Dove si trovano in Svizzera tantissime piccole cappelle?",
   "a": [
    "In montagna",
-   "Negli aeroporti",
-   "Nelle fabbriche",
-   "Nelle stazioni"
+   "Nelle grotte",
+   "Sottoterra",
+   "Sulle barche"
   ],
-  "e": "In montagna la gente costruiva cappelle lungo i sentieri e sugli alpeggi. Lì si poteva pregare.",
+  "e": "In montagna le persone costruivano cappelle lungo i sentieri e sugli alpeggi. Lì potevano pregare.",
   "m": "In montagna ci sono tante piccole cappelle."
  },
  "63248": {
@@ -2390,11 +2379,11 @@
   "q": "Quale soprannome ricevette Edison per il suo laboratorio di Menlo Park?",
   "a": [
    "Il mago di Menlo Park",
-   "Il re d'America",
-   "Il signore degli anelli",
-   "L'uomo nella luna"
+   "Il re degli inventori",
+   "Il padre della luce",
+   "Il maestro di New York"
   ],
-  "e": "Siccome nel suo laboratorio nascevano tante invenzioni sorprendenti, lo chiamavano «il mago di Menlo Park».",
+  "e": "Siccome nel suo laboratorio nascevano così tante invenzioni sorprendenti, lo chiamavano «il mago di Menlo Park».",
   "m": "Edison era chiamato il mago di Menlo Park."
  },
  "22575": {
@@ -2522,9 +2511,9 @@
   "q": "Quale cibo portò James Cook sulle sue navi contro lo scorbuto?",
   "a": [
    "Crauti",
-   "Cioccolato",
-   "Gelato",
-   "Torta al formaggio"
+   "Gallette",
+   "Carne salata",
+   "Fagioli secchi"
   ],
   "e": "Cook fece caricare a bordo tanti crauti. Si conservano a lungo e contengono un po' di vitamina C.",
   "m": "Cook portò i crauti contro lo scorbuto."
@@ -2563,15 +2552,15 @@
   "m": "A Maiorca i mandorli fioriscono già in inverno."
  },
  "52023": {
-  "q": "Come si chiama un villaggio piuttosto grande in Vallemaggia?",
+  "q": "Che lingua parlano le persone in Valle Maggia?",
   "a": [
-   "Cevio",
-   "Sonogno",
-   "Gandria",
-   "Mesocco"
+   "L'italiano",
+   "Il francese",
+   "Il tedesco",
+   "Il romancio"
   ],
-  "e": "Cevio si trova in mezzo alla Vallemaggia. Lì c'è il Museo di Valmaggia.",
-  "m": "Cevio è un villaggio della Vallemaggia."
+  "e": "La Valle Maggia si trova in Ticino. Lì si parla italiano.",
+  "m": "In Valle Maggia si parla italiano."
  },
  "73487": {
   "q": "Che cosa è meglio portare con sé quando si va a fare la spesa?",
@@ -2640,12 +2629,12 @@
   "m": "Le quattro e mezza sono 30 minuti dopo le 4."
  },
  "20225": {
-  "q": "È vero tutto quello che c'è scritto su Internet?",
+  "q": "È vero tutto quello che c'è su Internet?",
   "a": [
    "No, non sempre",
    "Sì, sempre",
-   "Solo al mattino",
-   "Solo per le immagini"
+   "Sì, se è lungo",
+   "Sì, se c'è un'immagine"
   ],
   "e": "Su Internet chiunque può scrivere qualcosa. Per questo ci sono anche errori e bugie.",
   "m": "Non tutto quello che c'è su Internet è vero."
@@ -2829,12 +2818,12 @@
  "19977": {
   "q": "Perché si risparmiano i soldi?",
   "a": [
-   "Per un desiderio grande",
-   "Perché spariscano",
-   "Perché ammuffiscano",
-   "Perché i soldi puzzano"
+   "Per un grande desiderio",
+   "Perché la banca li tenga",
+   "Per non averne mai più bisogno",
+   "Perché le monete sono troppo pesanti"
   ],
-  "e": "Alcune cose costano troppo per comprarle in una volta. Chi risparmia può comprarle più tardi.",
+  "e": "Certe cose costano troppo per comprarle in una volta. Chi risparmia può comprarle più tardi.",
   "m": "Risparmiando si realizzano desideri più grandi."
  },
  "82932": {
@@ -2869,17 +2858,6 @@
   ],
   "e": "Le nuvolette e le immagini nei riquadri fanno parte di un fumetto.",
   "m": "In un fumetto i personaggi parlano nelle nuvolette."
- },
- "82367": {
-  "q": "Quando asciuga più in fretta il bucato bagnato steso fuori?",
-  "a": [
-   "In una giornata calda e ventosa",
-   "In una giornata fredda e nebbiosa",
-   "In una notte di pioggia",
-   "In una mattina umida"
-  ],
-  "e": "Il caldo e il vento aiutano l'acqua a evaporare. Il vento porta via l'aria umida.",
-  "m": "Caldo e vento fanno asciugare in fretta il bucato."
  },
  "71904": {
   "q": "Che cosa significa la parola inglese «glue»?",
@@ -2937,26 +2915,26 @@
   "m": "In francese la madre si dice «la mère»."
  },
  "24423": {
-  "q": "Quale località di oggi si chiamava Tenedo al tempo dei Romani?",
+  "q": "Quale località di oggi si trova dove c'era la città romana di Augusta Raurica?",
   "a": [
-   "Bad Zurzach",
-   "Bad Ragaz",
-   "Bad Säckingen",
-   "Bad Ems"
+   "Augst",
+   "Aarau",
+   "Arosa",
+   "Altdorf"
   ],
-  "e": "Tenedo si trovava sul Reno e aveva un importante passaggio sul fiume. Oggi la località si chiama Bad Zurzach.",
-  "m": "Tenedo è l'odierna Bad Zurzach."
+  "e": "Augusta Raurica era una grande città romana sul Reno vicino a Basilea. Oggi lì si trovano i paesi di Augst e Kaiseraugst.",
+  "m": "Augusta Raurica si trovava vicino all'odierna Augst."
  },
  "25232": {
-  "q": "Come si chiamavano in Africa occidentale i narratori che tramandavano a memoria la storia dell'Impero del Mali?",
+  "q": "Come si chiamavano in Africa occidentale i narratori che tramandavano a memoria la storia del regno del Mali?",
   "a": [
    "Griot",
-   "Cavalieri",
-   "Monaci",
-   "Pirati"
+   "Scaldi",
+   "Bardi",
+   "Menestrelli"
   ],
-  "e": "I griot sono cantori e narratori. Hanno tramandato a voce storie e canzoni per molte generazioni.",
-  "m": "I griot raccontavano la storia del Mali."
+  "e": "I griot sono cantori e narratori dell'Africa occidentale. Scaldi, bardi e menestrelli c'erano in Europa.",
+  "m": "I griot tramandavano la storia del Mali."
  },
  "25841": {
   "q": "A quale Paese appartengono le isole Galápagos?",
@@ -2970,15 +2948,15 @@
   "m": "Le isole Galápagos appartengono all'Ecuador."
  },
  "12997": {
-  "q": "Come si fa il fuoco anche senza pietre?",
+  "q": "Come si accende il fuoco anche senza pietre?",
   "a": [
-   "Strofinando velocemente il legno",
-   "Scuotendo l'acqua",
-   "Lanciando sabbia",
-   "Gridando forte"
+   "Sfregando in fretta il legno",
+   "Scuotendo forte il legno",
+   "Battendo il legno per terra",
+   "Mettendo il legno nell'acqua"
   ],
-  "e": "Se si fa girare velocemente un bastoncino di legno su un'asse, il legno si scalda. Così si forma una piccola brace.",
-  "m": "Strofinando velocemente il legno si può formare una brace."
+  "e": "Se si fa girare in fretta un bastoncino di legno su un'asse, il legno diventa caldissimo. Così nasce una piccola brace.",
+  "m": "Sfregando in fretta il legno può nascere una brace."
  },
  "157": {
   "q": "In un gioco sul telefonino puoi pagare per dei «gioielli». Che cosa è vero?",
@@ -3069,15 +3047,15 @@
   "m": "Il Passwang è un passo del Giura vicino a Soletta."
  },
  "75489": {
-  "q": "Su che cosa dipingeva Albert Anker, oltre che sulla tela, anche piccoli quadri per un laboratorio di Parigi?",
+  "q": "Albert Anker non dipingeva solo sulla tela. Su che cos'altro dipinse molte immagini?",
   "a": [
-   "Sulla ceramica",
-   "Su bottiglie di vetro",
+   "Su piatti di ceramica",
+   "Sui vetri delle finestre",
    "Su zoccoli di legno",
    "Su gusci d'uovo"
   ],
-  "e": "Anker dipinse molti piatti e vassoi di maiolica per il ceramista Théodore Deck.",
-  "m": "Anker dipingeva anche la ceramica."
+  "e": "Anker decorò molti piatti e vassoi di ceramica per una bottega di Parigi.",
+  "m": "Anker dipingeva anche piatti."
  },
  "69782": {
   "q": "Quanto fa 3 per 30?",
@@ -3172,10 +3150,10 @@
   "a": [
    "Una scuola",
    "Un cinema",
-   "Un parco divertimenti",
+   "Una piscina coperta",
    "Uno zoo"
   ],
-  "e": "Le organizzazioni umanitarie allestiscono scuole nei campi. Così i bambini possono continuare a imparare nonostante la fuga.",
+  "e": "Le organizzazioni umanitarie aprono scuole nei campi. Così i bambini possono continuare a imparare nonostante la fuga.",
   "m": "Anche nel campo profughi i bambini possono andare a scuola."
  },
  "64952": {
@@ -3498,25 +3476,25 @@
   "m": "Nell'intestino i batteri aiutano a digerire."
  },
  "6889": {
-  "q": "Quale cittadina del canton Soletta si trova ai piedi del Giura?",
+  "q": "Quale cittadina del Canton Soletta si trova ai piedi del Giura?",
   "a": [
    "Balsthal",
-   "Coira",
-   "Lugano",
-   "Sion"
+   "Burgdorf",
+   "Langenthal",
+   "Zofingen"
   ],
-  "e": "Balsthal si trova nel Thal, una bella valle del canton Soletta ai piedi della catena del Giura. È circondata da boschi e colline.",
+  "e": "Balsthal si trova nel Thal, una bella valle del Canton Soletta ai piedi della catena del Giura. Burgdorf e Langenthal appartengono a Berna, Zofingen all'Argovia.",
   "m": "Balsthal si trova nel Thal ai piedi del Giura."
  },
  "75737": {
   "q": "Che cosa aiuta quando si taglia una curva con le forbici?",
   "a": [
    "Girare piano la carta",
-   "Scuotere veloce le forbici",
-   "Chiudere gli occhi",
-   "Accartocciare la carta"
+   "Girare in fretta le forbici",
+   "Tagliare velocissimo",
+   "Tagliare solo con la punta delle forbici"
   ],
-  "e": "In una curva le forbici restano ferme e con l'altra mano si gira la carta. Così la linea viene bella rotonda.",
+  "e": "In una curva le forbici restano ferme e si gira la carta con l'altra mano. Così la linea viene bella rotonda.",
   "m": "Nelle curve si gira la carta, non le forbici."
  },
  "81602": {
@@ -3538,7 +3516,7 @@
    "Con la fotocamera",
    "Con la sveglia"
   ],
-  "e": "Un browser è un programma per mostrare le pagine web. In alto si scrive l'indirizzo.",
+  "e": "Il browser è un programma che mostra le pagine web. In alto si scrive l'indirizzo.",
   "m": "Le pagine web si guardano con un browser."
  },
  "75185": {
@@ -3685,14 +3663,14 @@
   "m": "Una mazza è molto pesante."
  },
  "3847": {
-  "q": "Più o meno quanti lombrichi possono vivere in un metro quadrato di prato sano?",
+  "q": "Quanti lombrichi possono vivere in un buon terreno di prato, su un pezzo grande come un asciugamano da bagno?",
   "a": [
-   "Fino a 100",
+   "Più di cento",
    "Solo uno",
-   "Fino a 1000000",
+   "Circa tre",
    "Nessuno"
   ],
-  "e": "In un buon terreno possono vivere insieme moltissimi lombrichi. Spesso sono fino a cento in un solo metro quadrato.",
+  "e": "In un buon terreno di prato vivono tantissimi lombrichi. Su un pezzo così piccolo possono essere più di cento, a volte persino diverse centinaia.",
   "m": "Nel terreno buono vivono tanti lombrichi."
  },
  "22329": {
@@ -3842,11 +3820,11 @@
   "q": "Che cosa sostenevano le colonne dei templi greci?",
   "a": [
    "Il tetto",
-   "Le campane",
-   "Le bandiere",
-   "Le finestre"
+   "Il pavimento",
+   "Le statue degli dei",
+   "Le scale"
   ],
-  "e": "Le colonne stanno tutt'intorno al tempio e sostengono il pesante tetto con le travi di pietra.",
+  "e": "Le colonne stanno tutto intorno al tempio e sostengono il pesante tetto con le travi di pietra.",
   "m": "Nei templi greci le colonne sostengono il tetto."
  },
  "24992": {
@@ -3905,15 +3883,15 @@
   "m": "Gozo è la seconda isola più grande di Malta."
  },
  "52604": {
-  "q": "Quale mucca porta spesso gli ornamenti più belli alla discesa dall'alpe?",
+  "q": "Quale mucca porta spesso gli ornamenti più belli durante la discesa dall'alpe?",
   "a": [
    "La mucca capofila",
    "Il vitello più giovane",
-   "La mucca più piccola",
-   "La mucca più stanca"
+   "L'ultima mucca della mandria",
+   "La mucca più piccola"
   ],
-  "e": "La mucca capofila guida la mandria. Porta spesso l'ornamento sulla testa più grande e un grande campanaccio.",
-  "m": "La mucca capofila va davanti ed è ben addobbata."
+  "e": "La mucca capofila guida la mandria. Porta spesso l'ornamento più grande sulla testa e un grande campanaccio.",
+  "m": "La mucca capofila va davanti ed è ben decorata."
  },
  "49373": {
   "q": "Di che colori è il famoso pesce pagliaccio?",
@@ -3960,15 +3938,15 @@
   "m": "Con il mento sul petto si guarda in basso."
  },
  "75476": {
-  "q": "Quale albero scuro si alza davanti verso il cielo nella «Notte stellata» di van Gogh?",
+  "q": "Che cosa brilla nel cielo nel quadro «Notte stellata» di Vincent van Gogh?",
   "a": [
-   "Un cipresso",
-   "Una palma",
-   "Una betulla",
-   "Una quercia"
+   "Stelle e una luna",
+   "Il sole di mezzogiorno",
+   "Un arcobaleno",
+   "Fulmini durante un temporale"
   ],
-  "e": "A sinistra in primo piano c'è un cipresso scuro. Sembra una grande fiamma.",
-  "m": "Nella Notte stellata c'è un cipresso."
+  "e": "Van Gogh dipinse un cielo notturno con stelle che girano e brillano e una luna luminosa.",
+  "m": "Nella Notte stellata brillano le stelle e la luna."
  },
  "69710": {
   "q": "Quante centinaia intere ci sono nel numero 890?",
@@ -4136,15 +4114,15 @@
   "m": "La B sulla matita significa una mina morbida e scura."
  },
  "3371": {
-  "q": "Più o meno per quanto tempo i maschi di pinguino imperatore possono restare senza cibo mentre scaldano l'uovo?",
+  "q": "Per quanto tempo un pinguino imperatore maschio può stare senza cibo mentre scalda l'uovo?",
   "a": [
    "Diverse settimane",
    "Solo un giorno",
-   "Un decennio intero",
+   "Un anno intero",
    "Un'ora"
   ],
-  "e": "Mentre il maschio scalda l'uovo, non mangia niente e vive delle sue riserve di grasso. Può durare molte settimane, finché la femmina torna.",
-  "m": "I maschi di pinguino imperatore digiunano per settimane per l'uovo."
+  "e": "Mentre scalda l'uovo, il maschio non mangia niente e vive del suo grasso. Possono passare molte settimane prima che la femmina ritorni.",
+  "m": "Il pinguino imperatore maschio digiuna per settimane per l'uovo."
  },
  "22353": {
   "q": "Come si chiamano i film sul futuro e sui viaggi nello spazio?",
@@ -4224,14 +4202,14 @@
   "m": "Lindt e Sprüngli stanno insieme dal 1899."
  },
  "82408": {
-  "q": "Che cosa fanno le piante verdi con l'anidride carbonica dell'aria?",
+  "q": "Che cosa danno all'aria le piante verdi, che a noi serve per respirare?",
   "a": [
-   "Ne fanno nutrimento e ossigeno",
-   "Ne fanno pietre",
-   "La trasformano in sale",
-   "La bruciano in fumo"
+   "Ossigeno",
+   "Fumo",
+   "Polvere",
+   "Nebbia"
   ],
-  "e": "Con l'aiuto della luce del sole le piante trasformano anidride carbonica e acqua in zucchero. Intanto liberano ossigeno.",
+  "e": "Con l'aiuto della luce del sole le piante trasformano aria e acqua in nutrimento. Così liberano ossigeno, che noi respiriamo.",
   "m": "Le piante danno ossigeno all'aria."
  },
  "72003": {

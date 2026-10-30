@@ -23,7 +23,8 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- 30.10. Sitzung «Fragen-Rework» (session_017onfQKmX8s6LM1vDpDdiyt): alle `fragen-*.json` und `welten/i18n/fr/q-*.json` (Fragen prüfen und umschreiben, Stufe für Stufe, zuerst Profis). Bitte diese Dateien bis auf Weiteres nicht ändern, sonst hier melden.
+_(leer)_
+
 
 ## Notizen an die andere Sitzung
 
@@ -32,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 30.10. Sitzung «Fragen-Rework»: Fragen-Rework abgeschlossen, Entdecker geprüft: 4'274 umgeschrieben, 7'522 Stufe geändert (meist auf Könner), 372 Doppelte und Regelverstösse entfernt, FR/IT nachgeführt (`fragen-*.json`, `welten/i18n/fr|it/q-*.json`). Zusammenfassung aller Stufen in `tools/fragen-pruefung/README.md`. `fragen-*.json` sind wieder frei. Version ep-2026-10-30-40.
 - 30.10. Sitzung «Hauptseite»: (1) Neue Startseite: Klick auf einen Bereich führt wieder zur Themenseite; auf jeder Themenseite (Computer und App) zuoberst goldener Knopf «Aus allen Themen spielen» (`.np-allethemen`, Hülle um `renderBereich` in `neustart.js`), der zu Training/Test für den ganzen Bereich führt (`bx_<bereich>`). (2) Pausen-Erinnerung («Du spielst schon … Minuten») ganz entfernt: `pauseAn()` immer aus, kein Timer, Schalter in der Truhe und Tipp in der Eltern-Ecke weg (`truhe.js`, `eltern.js`). Version ep-2026-10-30-39.
 - 30.10. Sitzung «Hauptseite»: 11 Qeels-Icons neu von Dejan (politik, wissenschaft, technik, wirtschaft, geo_schweiz, g_neuzeit, g_mittelalter, rel_islam, kt_alle, ethik, informatik) in `img/qeels-icons/themen/` (PNG und WebP, 160 px). `QERSATZ` leer, Bilder mit `?v=2` (`index.html`). Die Qeels-App hat noch die alten Dateien. Version ep-2026-10-30-38.
 - 30.10. Sitzung «Hauptseite»: Bereichswahl der neuen Startseite: Kopfzeile (Logo, Menü) und «Zurück» genau über den vier Kacheln ausgerichtet (Klasse `ep-np-wahl` an `body`, `.wrap` 972 px), `neustart.js`. Version ep-2026-10-30-37.

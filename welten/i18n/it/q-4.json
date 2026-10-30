@@ -66,26 +66,26 @@
   "m": "Senza inchiostro non si stampa."
  },
  "25720": {
-  "q": "Che cosa sostituisce spesso oggi la vecchia lampadina, perché consuma meno corrente?",
+  "q": "Quale lampada sostituisce oggi quasi sempre la vecchia lampadina?",
   "a": [
    "La lampada LED",
    "La candela",
    "La lampada a olio",
-   "Il lampione a gas"
+   "La lanterna a gas"
   ],
   "e": "Le lampade LED fanno tanta luce e consumano poca corrente. Le vecchie lampadine invece diventano molto calde e sprecano energia.",
-  "m": "Le lampade LED risparmiano tanta corrente."
+  "m": "Le lampade LED fanno risparmiare tanta corrente."
  },
  "23044": {
-  "q": "Come si chiama il luogo dove i ricercatori scavano per trovare i fossili?",
+  "q": "Come si chiama il luogo dove i ricercatori cercano con attenzione i fossili?",
   "a": [
-   "Sito di scavo",
-   "Stazione",
-   "Parco giochi",
-   "Fattoria"
+   "Scavo archeologico",
+   "Cantiere",
+   "Officina",
+   "Biblioteca"
   ],
-  "e": "In un sito di scavo il terreno viene tolto con cura, strato dopo strato. Spesso uno scavo dura diverse settimane.",
-  "m": "Nel sito di scavo i ricercatori cercano fossili."
+  "e": "In uno scavo il terreno viene tolto con cura strato dopo strato. Spesso uno scavo dura diverse settimane.",
+  "m": "Nello scavo i ricercatori cercano i fossili."
  },
  "6643": {
   "q": "Che cosa significa 'donare soldi'?",
@@ -187,15 +187,15 @@
   "m": "Un quadrato di fiammiferi ne richiede 4."
  },
  "20234": {
-  "q": "Come si chiama spesso la pagina iniziale di un sito web?",
+  "q": "Come si chiama la prima pagina che si vede su un sito web?",
   "a": [
-   "Homepage",
-   "Endpage",
-   "Backpage",
-   "Sidepage"
+   "Pagina iniziale",
+   "Pagina finale",
+   "Retro della pagina",
+   "Margine della pagina"
   ],
-  "e": "La homepage è la prima pagina di un sito web. Da lì si arriva alle altre pagine.",
-  "m": "La prima pagina di un sito web si chiama homepage."
+  "e": "La pagina iniziale è la prima pagina di un sito web. In inglese si chiama homepage. Da lì si arriva alle altre pagine.",
+  "m": "La prima pagina di un sito web si chiama pagina iniziale."
  },
  "88675": {
   "q": "Che cosa succede a una radura se la si lascia in pace?",
@@ -297,15 +297,15 @@
   "m": "Maometto è nato alla Mecca."
  },
  "18567": {
-  "q": "Su quale prato si sarebbe svolto il Giuramento del Grütli?",
+  "q": "Il prato del Rütli è un luogo importante per il 1° agosto. Su quale lago si trova?",
   "a": [
-   "Sul Grütli",
-   "Sul Gurten",
-   "Sull'Uetliberg",
-   "Sul Säntis"
+   "Sul Lago dei Quattro Cantoni",
+   "Sul Lago di Zurigo",
+   "Sul Lago Lemano",
+   "Sul Lago di Costanza"
   ],
-  "e": "Secondo la leggenda, sul Grütli uomini di tre valli si giurarono fedeltà eterna. Il prato si trova nel Canton Uri.",
-  "m": "Secondo la leggenda il giuramento avvenne sul Grütli."
+  "e": "Il prato del Rütli si trova nel Canton Uri, in alto sopra il Lago dei Quattro Cantoni. Molte persone lo visitano il giorno della festa nazionale.",
+  "m": "Il Rütli si trova sul Lago dei Quattro Cantoni."
  },
  "22068": {
   "q": "Che cosa si fa con l'avversario dopo la partita?",
@@ -542,23 +542,23 @@
   "q": "Quale punto speciale si trova in Algarve, presso Capo San Vincenzo?",
   "a": [
    "L'angolo sud-ovest dell'Europa",
-   "Il Polo Nord",
-   "La montagna più alta d'Europa",
+   "La punta nord dell'Europa",
+   "La montagna più alta del Portogallo",
    "Il centro dell'Europa"
   ],
-  "e": "Capo San Vincenzo è il punto più a sud-ovest dell'Europa continentale. Oltre c'è solo l'Atlantico.",
-  "m": "A Capo San Vincenzo si trova l'angolo sud-ovest dell'Europa."
+  "e": "Capo San Vincenzo è il punto più a sud-ovest dell'Europa continentale. Dopo c'è solo l'Atlantico.",
+  "m": "A Capo San Vincenzo c'è l'angolo sud-ovest dell'Europa."
  },
  "52598": {
-  "q": "Quale razza di mucche del Vallese è famosa per le lotte tra mucche?",
+  "q": "Che cosa fanno le mucche d'Hérens in Vallese durante una festa speciale?",
   "a": [
-   "Eringer",
-   "Holstein",
-   "Jersey",
-   "Angus"
+   "Lottano con la testa",
+   "Ballano in cerchio",
+   "Fanno una gara di corsa",
+   "Saltano sopra i recinti"
   ],
-  "e": "Le mucche d'Hérens (Eringer) sono nere o marrone scuro e robuste. Nel Vallese misurano la loro forza nelle lotte, e la vincitrice si chiama regina.",
-  "m": "Le mucche d'Hérens del Vallese lottano per il titolo di regina."
+  "e": "Le mucche d'Hérens sono forti. Nei combattimenti delle mucche spingono la testa una contro l'altra. La mucca più forte diventa regina.",
+  "m": "Le mucche d'Hérens misurano la loro forza nei combattimenti."
  },
  "17037": {
   "q": "Qual è la capitale della Spagna?",
@@ -627,15 +627,15 @@
   "m": "Al nove manca solo uno per arrivare a dieci."
  },
  "20305": {
-  "q": "Che cosa mostra a volte un influencer perché viene pagato per farlo?",
+  "q": "Che cosa mostrano a volte le persone nei video su Internet perché ricevono soldi?",
   "a": [
-   "Prodotti",
-   "Compiti",
-   "Pagelle",
-   "Orari scolastici"
+   "Giocattoli e altre cose da comprare",
+   "I loro compiti",
+   "La loro pagella",
+   "Il loro orario scolastico"
   ],
-  "e": "Gli influencer mostrano spesso cose per cui vengono pagati. Anche questa è pubblicità.",
-  "m": "Anche gli influencer a volte fanno pubblicità."
+  "e": "Alcune persone nei loro video mostrano cose per cui una ditta paga. Anche questa è pubblicità.",
+  "m": "Anche nei video c'è pubblicità nascosta."
  },
  "21691": {
   "q": "Da quale parte della tastiera del pianoforte suonano le note basse?",
@@ -715,15 +715,15 @@
   "m": "La capitale del Brasile è Brasília."
  },
  "64498": {
-  "q": "Che cosa capì Siddhartha quando vide una persona malata?",
+  "q": "Che cosa capì Siddharta quando vide una persona malata?",
   "a": [
    "Tutti possono ammalarsi",
-   "La malattia è un gioco",
-   "Si ammalano solo i poveri",
-   "I malati sono cattivi"
+   "Solo i poveri si ammalano",
+   "Solo gli anziani si ammalano",
+   "Solo i bambini si ammalano"
   ],
-  "e": "Nel palazzo non aveva mai visto malati. Allora capì che ogni persona può ammalarsi.",
-  "m": "Siddhartha capì che ogni persona può ammalarsi."
+  "e": "Nel palazzo non aveva mai visto malati. Ora capì che ogni persona può ammalarsi.",
+  "m": "Siddharta capì che ogni persona può ammalarsi."
  },
  "63391": {
   "q": "Da che cosa i due discepoli di Emmaus riconobbero Gesù risorto?",
@@ -938,9 +938,9 @@
   "q": "Da quali due nomi di lettere è formata la parola alfabeto?",
   "a": [
    "Alfa e beta",
-   "A e Z",
    "Alfa e omega",
-   "Abc e def"
+   "Alfa e gamma",
+   "Beta e gamma"
   ],
   "e": "Alfa e beta sono le prime due lettere greche. Insieme formano la parola alfabeto.",
   "m": "La parola alfabeto viene da alfa e beta."
@@ -1089,15 +1089,15 @@
   "m": "Il Do basso in chiave di violino sta su un taglio addizionale."
  },
  "83055": {
-  "q": "Quante punte ha un normale tappo a corona?",
+  "q": "Che cosa si apre con un apribottiglie?",
   "a": [
-   "21",
-   "12",
-   "30",
-   "8"
+   "Il tappo di metallo di una bottiglia",
+   "Il tappo di sughero di una bottiglia di vino",
+   "Una scatola di conserva",
+   "Un tappo a vite"
   ],
-  "e": "Un tappo a corona di oggi ha 21 punte. I primissimi tappi a corona ne avevano qualcuna in più.",
-  "m": "Un tappo a corona ha 21 punte."
+  "e": "Un apribottiglie solleva dalla bottiglia il tappo di metallo dentellato, il tappo a corona. Per il sughero serve un cavatappi.",
+  "m": "Con l'apribottiglie si tolgono i tappi di metallo."
  },
  "35840": {
   "q": "Un bambino non mangia carne di maiale. Che cosa vuol dire essere tolleranti?",
@@ -1214,10 +1214,10 @@
   "a": [
    "La distruzione della foresta",
    "Troppa pioggia",
-   "Temperature troppo fredde",
-   "Troppi amici"
+   "Notti troppo fredde",
+   "Troppi frutti"
   ],
-  "e": "Quando le foreste vengono abbattute, gli scimpanzé perdono il loro ambiente. Così per loro è molto difficile sopravvivere.",
+  "e": "Quando le foreste vengono abbattute, gli scimpanzé perdono la loro casa. Per loro diventa molto difficile sopravvivere.",
   "m": "Il disboscamento minaccia gli scimpanzé selvatici."
  },
  "22316": {
@@ -1474,15 +1474,15 @@
   "m": "In Svizzera le persone anziane ricevono una rendita AVS."
  },
  "75453": {
-  "q": "In quale materiale morbido si incide nella linoleografia?",
+  "q": "Con che cosa si incidono i solchi nella lastra morbida per la stampa su linoleum?",
   "a": [
-   "Nel linoleum",
-   "Nel vetro",
-   "Nella pietra",
-   "Nel metallo"
+   "Con una piccola sgorbia",
+   "Con le forbici",
+   "Con una sega",
+   "Con una matita"
   ],
-  "e": "Il linoleum è un rivestimento morbido per pavimenti. Con piccoli coltelli ci si incidono dei solchi.",
-  "m": "Nella linoleografia si incide il linoleum."
+  "e": "Con una piccola sgorbia si incidono solchi nel linoleum morbido. Questi punti restano bianchi quando si stampa.",
+  "m": "Per la stampa su linoleum si incide con una sgorbia."
  },
  "70042": {
   "q": "Quale numero per 3 fa 21?",
@@ -1498,12 +1498,12 @@
  "204": {
   "q": "Perché le pause dallo schermo fanno bene?",
   "a": [
-   "Fanno bene a occhi, testa e corpo",
-   "Perché altrimenti il cellulare esplode",
+   "Fanno bene agli occhi, alla testa e al corpo",
+   "Così il gioco si carica più in fretta",
    "Perché gli schermi sono vietati",
    "Le pause non sono importanti"
   ],
-  "e": "Dopo aver guardato a lungo lo schermo gli occhi si stancano e ci si concentra peggio. Giocare all'aperto, muoversi e vedere gli amici fa bene a tutto il corpo.",
+  "e": "Dopo aver guardato a lungo lo schermo, gli occhi si stancano e ci si concentra meno bene. Giocare fuori, muoversi e incontrare gli amici fa bene a tutto il corpo.",
   "m": "Le pause dallo schermo ti fanno bene."
  },
  "75173": {
@@ -1518,15 +1518,15 @@
   "m": "La tarantella è una danza veloce italiana."
  },
  "101839": {
-  "q": "Quali foglie si decompongono particolarmente lentamente?",
+  "q": "Che cosa diventa terra più in fretta: le foglie morbide o un ramo grosso?",
   "a": [
-   "Le foglie di quercia",
-   "Le foglie di tiglio",
-   "Le foglie di ontano",
-   "Le foglie di frassino"
+   "Le foglie morbide",
+   "Un ramo grosso",
+   "Tutti e due alla stessa velocità",
+   "Nessuno dei due"
   ],
-  "e": "Le foglie di quercia sono dure e contengono molti tannini. Per questo ci vuole molto tempo prima che si decompongano.",
-  "m": "Le foglie di quercia si decompongono lentamente."
+  "e": "Le foglie morbide si decompongono in fretta. Un ramo grosso è duro e ha bisogno di molti anni per marcire.",
+  "m": "Le foglie morbide marciscono più in fretta del legno."
  },
  "102864": {
   "q": "Che cosa si mette nella lampada lava perché salgano le bolle?",
@@ -1661,12 +1661,12 @@
   "m": "I pompieri prendono l'acqua all'idrante."
  },
  "6371": {
-  "q": "Come si chiama il viaggio di una trota che dal mare torna nel fiume per deporre le uova?",
+  "q": "Come si chiama il viaggio di una trota che torna dal mare al fiume per deporre le uova?",
   "a": [
    "Migrazione riproduttiva",
-   "Letargo",
-   "Vacanze estive",
-   "Trasloco"
+   "Riposo invernale",
+   "Muta della pelle",
+   "Muta delle piume"
   ],
   "e": "Alcune trote, come la trota di mare, tornano da lontano nei fiumi per deporre le uova. Questo viaggio si chiama migrazione riproduttiva.",
   "m": "Il viaggio per deporre le uova si chiama migrazione riproduttiva."
@@ -1815,12 +1815,12 @@
   "m": "Il cuore restava nella mummia perché serviva nell'aldilà."
  },
  "24872": {
-  "q": "Che cosa raccontava Ildegarda di Bingen di aver avuto già da bambina?",
+  "q": "Come si chiamano le immagini speciali che Ildegarda, secondo le sue parole, vedeva dentro di sé?",
   "a": [
    "Visioni",
-   "Un cavallo",
-   "Un castello",
-   "Una corona"
+   "Parabole",
+   "Prediche",
+   "Leggende"
   ],
   "e": "Ildegarda raccontava di immagini speciali che vedeva dentro di sé. Si chiamano visioni.",
   "m": "Ildegarda di Bingen aveva delle visioni."
@@ -1835,17 +1835,6 @@
   ],
   "e": "La Terra gira su sé stessa una volta al giorno. La parte rivolta verso il Sole ha il giorno.",
   "m": "Il giorno e la notte nascono perché la Terra gira."
- },
- "13012": {
-  "q": "In quale Paese si trova la famosa grotta di Lascaux?",
-  "a": [
-   "Francia",
-   "Svizzera",
-   "Italia",
-   "Austria"
-  ],
-  "e": "La grotta di Lascaux si trova nel sud-ovest della Francia. È famosa per le sue tante pitture colorate di animali.",
-  "m": "La grotta di Lascaux con le sue pitture di animali si trova in Francia."
  },
  "51285": {
   "q": "In quale Paese si trovano quasi interamente gli Urali?",
@@ -1969,14 +1958,14 @@
   "m": "L'astro alpino fiorisce viola."
  },
  "88015": {
-  "q": "Quanto pesa una giacca di piumino rispetto a quanto scalda?",
+  "q": "Come sembra una spessa giacca di piumino quando la si solleva?",
   "a": [
-   "Pochissimo",
-   "Moltissimo",
-   "Quanto un sasso",
-   "Quanto una bicicletta"
+   "Molto leggera",
+   "Molto pesante",
+   "Durissima",
+   "Tutta bagnata"
   ],
-  "e": "Le piume pesano quasi niente e scaldano comunque molto bene. Per questo una giacca di piumino è leggera.",
+  "e": "Le piume quasi non pesano niente eppure scaldano molto bene. Per questo una giacca di piumino è leggera.",
   "m": "Una giacca di piumino è leggera e calda."
  },
  "35160": {
@@ -2101,12 +2090,12 @@
   "m": "Nel sottomarino si respira aria normale."
  },
  "7516": {
-  "q": "Quali animali in Svizzera possono a volte cacciare i cinghiali?",
+  "q": "Quale animale in Svizzera a volte può cacciare i cinghiali?",
   "a": [
-   "I lupi",
-   "Le farfalle",
-   "I pesci rossi",
-   "I pappagallini ondulati"
+   "Il lupo",
+   "Il cervo",
+   "Il camoscio",
+   "Il castoro"
   ],
   "e": "In alcune regioni della Svizzera vivono lupi che possono cacciare cinghiali giovani o deboli. I cinghiali adulti però hanno pochi nemici naturali.",
   "m": "I lupi possono cacciare i cinghiali."
@@ -2269,11 +2258,11 @@
   "q": "Di che cosa erano fatte le pareti di molte case contadine?",
   "a": [
    "Di legno e argilla",
-   "Di cemento",
-   "Di vetro",
-   "Di acciaio"
+   "Di marmo",
+   "Di mattoni cotti",
+   "Di blocchi di pietra"
   ],
-  "e": "Molte case avevano una struttura di legno. Gli spazi vuoti si riempivano con argilla e rami.",
+  "e": "Molte case avevano una struttura di legno. I vuoti si riempivano con argilla e rami. La pietra e i mattoni costavano troppo per i contadini.",
   "m": "Molte case contadine erano di legno e argilla."
  },
  "26192": {
@@ -2288,25 +2277,25 @@
   "m": "Un'IA impara da molti esempi."
  },
  "23092": {
-  "q": "Su quante zampe camminava il Plateosaurus secondo le conoscenze di oggi?",
+  "q": "Secondo quello che sappiamo oggi, come camminava il Plateosauro?",
   "a": [
-   "Su due zampe",
-   "Su quattro zampe",
-   "Su sei zampe",
-   "Su otto zampe"
+   "Sulle due zampe posteriori",
+   "Su tutte e quattro le zampe",
+   "Strisciando come un coccodrillo",
+   "Saltando come un canguro"
   ],
-  "e": "Un tempo si pensava che camminasse su quattro zampe. Oggi i ricercatori pensano che camminasse sempre sulle zampe posteriori.",
-  "m": "Il Plateosaurus camminava su due zampe."
+  "e": "Un tempo si pensava che camminasse su quattro zampe. Oggi i ricercatori pensano che andasse sempre sulle zampe posteriori.",
+  "m": "Il Plateosauro camminava su due zampe."
  },
  "51156": {
-  "q": "Attraverso quali monti con strane rocce di arenaria scorre l'Elba?",
+  "q": "Tra la Cechia e Dresda l'Elba scorre vicino a tante alte torri di roccia. Di che roccia sono fatte?",
   "a": [
-   "Monti di arenaria dell'Elba",
-   "Foresta Nera",
-   "Giura",
-   "Harz"
+   "Arenaria",
+   "Granito",
+   "Marmo",
+   "Basalto"
   ],
-  "e": "Tra la Cechia e Dresda l'Elba attraversa i Monti di arenaria dell'Elba. Lì ci sono molte alte torri di roccia arenaria.",
+  "e": "Le torri di roccia lungo l'Elba sono di arenaria. Per questo la zona si chiama Monti di arenaria dell'Elba.",
   "m": "L'Elba scorre attraverso i Monti di arenaria dell'Elba."
  },
  "51831": {
@@ -2332,15 +2321,15 @@
   "m": "Su molte cime c'è una croce di vetta."
  },
  "73450": {
-  "q": "Che cosa si mangia spesso caldo d'inverno in Svizzera, comprato alla bancarella dei marroni?",
+  "q": "Che cosa si arrostisce d'inverno a una bancarella per strada e si mangia caldo?",
   "a": [
-   "Marroni",
-   "Fragole",
-   "Ciliegie",
-   "Albicocche"
+   "Le castagne",
+   "Le ciliegie",
+   "Le fragole",
+   "Le albicocche"
   ],
-  "e": "I marroni sono castagne. Si arrostiscono in autunno e in inverno e si mangiano caldi.",
-  "m": "I marroni caldi sono una bontà invernale."
+  "e": "Le castagne arrostite si chiamano anche marroni. Si arrostiscono in autunno e in inverno e si mangiano calde.",
+  "m": "Le castagne calde sono una delizia d'inverno."
  },
  "82737": {
   "q": "Che cosa succede quando molte persone condividono una notizia falsa?",
@@ -2392,7 +2381,7 @@
    "Sì, con prudenza",
    "No, è vietato",
    "Solo da adulti",
-   "Solo con gli animali"
+   "Sì, e si racconta loro tutto"
   ],
   "e": "Online si può giocare in modo simpatico con gli altri. Però non si rivelano dati personali.",
   "m": "Anche online posso avere amici, ma resto prudente."
@@ -2574,15 +2563,15 @@
   "m": "I primi film erano film muti."
  },
  "85180": {
-  "q": "In quale giorno si celebra ogni anno la Giornata internazionale degli asteroidi?",
+  "q": "Che cosa si forma quando un grande masso dallo spazio si schianta sul suolo?",
   "a": [
-   "Il 30 giugno",
-   "Il 1° agosto",
-   "Il 24 dicembre",
-   "Il 1° gennaio"
+   "Un cratere",
+   "Una montagna",
+   "Una grotta",
+   "Un fiume"
   ],
-  "e": "La Giornata degli asteroidi ricorda l'evento di Tunguska del 30 giugno 1908. Vuole mostrare quanto è importante proteggersi dagli asteroidi.",
-  "m": "La Giornata degli asteroidi è il 30 giugno."
+  "e": "Nell'urto viene scagliata via tanta terra. Resta una buca rotonda, un cratere. Anche sulla Luna si vedono tanti crateri.",
+  "m": "Un impatto lascia un cratere."
  },
  "19950": {
   "q": "Come si chiama la moneta della Svizzera?",
@@ -2640,15 +2629,15 @@
   "m": "Morat è una città degli Zähringen."
  },
  "84316": {
-  "q": "Come si chiama il periodo in cui le persone impararono a produrre il ferro?",
+  "q": "Che cosa succede al ferro quando resta a lungo fuori sotto la pioggia?",
   "a": [
-   "Età del ferro",
-   "Età della pietra",
-   "Era glaciale",
-   "Età moderna"
+   "Arrugginisce",
+   "Diventa morbido",
+   "Brilla di più",
+   "Diventa più leggero"
   ],
-  "e": "In Europa centrale l'età del ferro cominciò circa 2800 anni fa. Allora le persone facevano attrezzi e armi di ferro.",
-  "m": "Nell'età del ferro le persone usavano il ferro per gli attrezzi."
+  "e": "L'acqua e l'aria attaccano il ferro. Si forma la ruggine marrone.",
+  "m": "Il ferro arrugginisce sotto la pioggia."
  },
  "72050": {
   "q": "In quale giorno in Inghilterra i bambini aprono tradizionalmente i regali di Natale?",
@@ -2719,13 +2708,13 @@
  "24435": {
   "q": "Che cosa faceva lo scudiero davanti al suo signore durante l'investitura a cavaliere?",
   "a": [
-   "Si inginocchiava.",
-   "Ballava in cerchio.",
-   "Saliva su un albero.",
-   "Cantava una canzoncina."
+   "Si inginocchiava",
+   "Saliva a cavallo",
+   "Si sedeva su un trono",
+   "Si sdraiava per terra"
   ],
   "e": "Lo scudiero si inginocchiava davanti al suo signore. Così mostrava il suo rispetto.",
-  "m": "All'investitura lo scudiero si inginocchia."
+  "m": "Durante l'investitura lo scudiero si inginocchia."
  },
  "25552": {
   "q": "Che cosa introdusse Maria Teresa nel 1774 per tutti i bambini?",
@@ -3025,15 +3014,15 @@
   "m": "Biancaneve abita con i sette nani."
  },
  "85191": {
-  "q": "Come si chiamava la sonda spaziale che portò sulla Terra polvere di una cometa?",
+  "q": "Che cosa ha portato una volta una sonda spaziale sulla Terra da una cometa?",
   "a": [
-   "Stardust",
-   "Voyager",
-   "Pioneer",
-   "Sputnik"
+   "Granelli di polvere minuscoli",
+   "Un grande masso",
+   "Un pezzo della coda",
+   "Un intero blocco di ghiaccio"
   ],
-  "e": "La sonda della NASA Stardust raccolse polvere di cometa. Nel 2006 una capsula con la polvere atterrò sulla Terra.",
-  "m": "La sonda Stardust portò sulla Terra polvere di cometa."
+  "e": "La sonda spaziale Stardust passò vicino a una cometa e catturò minuscoli granelli di polvere. Nel 2006 una capsula con la polvere atterrò sulla Terra.",
+  "m": "Una sonda spaziale ha portato polvere di cometa sulla Terra."
  },
  "20011": {
   "q": "Che cosa si può fare in banca prima delle vacanze?",
@@ -3080,15 +3069,15 @@
   "m": "Le zebre hanno strisce bianche e nere."
  },
  "13535": {
-  "q": "È dimostrato che il Giuramento del Grütli sia davvero avvenuto così?",
+  "q": "È dimostrato che il giuramento del Rütli si è svolto davvero così?",
   "a": [
    "No, è una leggenda",
-   "Sì, c'è un video",
-   "Sì, lo mostra una foto",
-   "Sì, gli uomini scrissero un libro"
+   "Sì, c'è una lettera di quel tempo",
+   "Sì, c'è un'immagine di quel tempo",
+   "Sì, gli uomini hanno scritto tutto"
   ],
-  "e": "Per il Giuramento del Grütli non c'è nessuna fonte di quell'epoca. La storia fu scritta solo molto più tardi.",
-  "m": "Il Giuramento del Grütli è una leggenda e non è dimostrato."
+  "e": "Per il giuramento del Rütli non c'è nessuna fonte di quell'epoca. La storia è stata scritta solo molto più tardi.",
+  "m": "Il giuramento del Rütli è una leggenda e non è dimostrato."
  },
  "82426": {
   "q": "Quali strati si usano spesso per un filtro dell'acqua fatto in casa?",
@@ -3157,15 +3146,15 @@
   "m": "Con «How are you?» si chiede come sta qualcuno."
  },
  "24144": {
-  "q": "Che cosa indossavano i senatori romani?",
+  "q": "Che vestito portavano i senatori romani?",
   "a": [
    "una toga",
    "un'armatura",
-   "dei pantaloni di cuoio",
-   "un kimono"
+   "un mantello di pelliccia",
+   "un grembiule di cuoio"
   ],
-  "e": "Nelle occasioni ufficiali i senatori indossavano la toga. Sotto portavano una tunica con una larga striscia colorata.",
-  "m": "I senatori romani indossavano la toga."
+  "e": "Nelle occasioni ufficiali i senatori portavano la toga. Sotto avevano una tunica con una larga striscia colorata.",
+  "m": "I senatori romani portavano la toga."
  },
  "25231": {
   "q": "Quali due merci si commerciavano moltissimo nell'Impero del Mali?",
@@ -3234,14 +3223,14 @@
   "m": "Le alte montagne tengono la pioggia lontana dal Gobi."
  },
  "73499": {
-  "q": "Quanto deve fare freddo più o meno nel frigorifero?",
+  "q": "Più o meno quanto freddo deve fare nel frigorifero?",
   "a": [
    "Circa 5 gradi",
-   "Circa 50 gradi",
-   "Circa 25 gradi",
-   "Circa 100 gradi"
+   "Circa 20 gradi",
+   "Circa meno 18 gradi",
+   "Circa 15 gradi"
   ],
-  "e": "Nel frigorifero devono esserci al massimo circa 5 gradi Celsius. Così gli alimenti restano freschi.",
+  "e": "Nel frigorifero devono esserci al massimo circa 5 gradi Celsius. Così il cibo resta fresco. Meno 18 gradi ci sono nel congelatore.",
   "m": "Nel frigorifero ci sono circa 5 gradi."
  },
  "81726": {
@@ -3278,15 +3267,15 @@
   "m": "Rosso con nero diventa rosso scuro."
  },
  "82594": {
-  "q": "Quanti occhi ha una persona, cioè un paio?",
+  "q": "Ogni bambino ha un paio di orecchie. Quante orecchie hanno 3 bambini insieme?",
   "a": [
-   "2",
-   "1",
+   "6",
    "3",
-   "4"
+   "5",
+   "9"
   ],
-  "e": "Abbiamo un paio di occhi, cioè due. Anche orecchie e mani le abbiamo a paia.",
-  "m": "Abbiamo un paio di occhi."
+  "e": "Un paio sono due orecchie. 3 per 2 fa 6 orecchie.",
+  "m": "Abbiamo un paio di orecchie."
  },
  "20231": {
   "q": "Dove si digita l'indirizzo di un sito web?",
@@ -3553,14 +3542,14 @@
   "m": "Tanti bambini in inglese si dicono «children»."
  },
  "83285": {
-  "q": "In che cosa fanno il bagno molti visitatori sull'isola di Vulcano?",
+  "q": "In che cosa fanno il bagno tanti visitatori sull'isola di Vulcano?",
   "a": [
    "Nel fango caldo",
    "Nella lava liquida",
-   "Nel latte",
-   "Nel cioccolato"
+   "In un lago salato",
+   "In un lago di montagna"
   ],
-  "e": "A Vulcano c'è una vasca con fango caldo che viene dal vulcano. Molte persone ci fanno il bagno.",
+  "e": "A Vulcano c'è una vasca di fango caldo che viene dal vulcano. Tante persone ci fanno il bagno.",
   "m": "A Vulcano si può fare il bagno nel fango caldo."
  },
  "73986": {
@@ -3652,15 +3641,15 @@
   "m": "Il parlamento del Liechtenstein si chiama Landtag."
  },
  "52182": {
-  "q": "Quale città con un castello si trova all'estremità nord-ovest del Lago di Thun?",
+  "q": "Che cosa si trova nella città di Thun su una collina sopra il centro storico?",
   "a": [
-   "Thun",
-   "Brienz",
-   "Sion",
-   "Coira"
+   "Un castello",
+   "Un convento",
+   "Un mulino",
+   "Una fattoria"
   ],
-  "e": "La città di Thun si trova dove il fiume esce dal lago. Dà il nome al Lago di Thun.",
-  "m": "La città di Thun si trova alla fine del Lago di Thun."
+  "e": "In alto sopra il centro storico di Thun c'è un castello con una grande torre. La città si trova alla fine del Lago di Thun.",
+  "m": "A Thun c'è un castello sopra il centro storico."
  },
  "49679": {
   "q": "Dove crescono le palme da dattero nel deserto?",
@@ -3755,8 +3744,8 @@
   "a": [
    "Perché lì non c'è aria da respirare",
    "Perché nello spazio piove sempre",
-   "Perché lì fa troppo caldo per avere freddo",
-   "Perché altrimenti dovrebbero fluttuare"
+   "Perché lì c'è tanto rumore",
+   "Perché lì c'è tanta polvere"
   ],
   "e": "Nello spazio non c'è aria e non c'è ossigeno. La tuta spaziale dà aria agli astronauti e li protegge dal freddo e dal caldo.",
   "m": "Nello spazio non c'è aria da respirare."
@@ -3839,15 +3828,15 @@
   "m": "Caino era un agricoltore."
  },
  "63981": {
-  "q": "Come si chiama il drappo che copre la Kaaba?",
+  "q": "Con che cosa è ricamato il telo nero della Kaaba?",
   "a": [
-   "Kiswa",
-   "Caffettano",
-   "Velo",
-   "Turbante"
+   "Con una scritta d'oro",
+   "Con fiori rossi",
+   "Con stelle bianche",
+   "Con cerchi colorati"
   ],
-  "e": "Il drappo sopra la Kaaba si chiama kiswa. È fatto di seta e ricamato con scritte.",
-  "m": "Il drappo della Kaaba si chiama kiswa."
+  "e": "Il telo sopra la Kaaba si chiama Kiswa. È fatto di seta e ricamato con una scritta d'oro.",
+  "m": "Il telo della Kaaba è ricamato con una scritta d'oro."
  },
  "18501": {
   "q": "In quale città si riunisce il Parlamento svizzero?",
@@ -4026,14 +4015,14 @@
   "m": "Il colore giallo in inglese si dice «yellow»."
  },
  "23809": {
-  "q": "Quale numero significano per i Maya due linee e un punto?",
+  "q": "Per i Maya una linea vale 5 e un punto vale 1. Che numero sono due linee e un punto?",
   "a": [
    "11",
    "3",
    "7",
    "12"
   ],
-  "e": "Ogni linea vale 5 e il punto vale 1. Quindi 5 più 5 più 1 fa 11.",
+  "e": "Ogni linea vale 5 e il punto vale 1. Quindi 5 più 5 più 1, fa 11.",
   "m": "Per i Maya due linee e un punto fanno undici."
  },
  "13402": {
