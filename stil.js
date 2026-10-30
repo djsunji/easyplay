@@ -1005,3 +1005,30 @@ ${N} #alpen,${N} #himmel,${N} #flocken,${N} #clouds,${N} #pattern{display:none!i
 `;
 document.head.appendChild(c);
 })();
+
+/* ================= Quiz-Knöpfe als farbige Pillen mit Symbol (Dejans Bilder, img/grafik/neu/knopf-*-symbol.webp) ================= */
+(function(){
+// Die Bilder haben das Symbol schon drin: ganzes Bild als Hintergrund, Text und kleines Symbol ausblenden (bleibt für Vorleser lesbar).
+const K = n => `url("img/grafik/neu/knopf-${n}-symbol.webp?v=1") center/contain no-repeat`;
+const B = "html body #app";
+const pille = (sel, n, h) => `${sel}{--gh:${h}px;height:var(--gh)!important;width:calc(var(--gh)*2.24)!important;min-width:calc(var(--gh)*2.24)!important;flex:none!important;margin:0 2px!important;padding:0!important;border:0!important;border-image:none!important;border-radius:999px!important;background:${K(n)}!important;box-shadow:none!important;font-size:0!important;color:transparent!important;text-shadow:none!important;position:relative;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22))}
+${sel} > :not(.hlf-n){display:none!important}`;
+const css = document.createElement("style"); css.id = "ep-quiz-pillen-css";
+css.textContent = [
+  pille(`${B} .qnav button#qPrev.qnbtn`, "zurueck", 46),
+  pille(`${B} .qnav button#qNext.qnbtn`, "weiter", 46),
+  pille(`${B} .qnav button#qMark.qnbtn`, "markieren", 46),
+  pille(`${B} .qnav button#qAbgabe.qnbtn:has(.gki)`, "beenden", 46),
+  pille(`${B} button.hlf-j[data-hj=f50]`, "5050", 44),
+  pille(`${B} button.hlf-vl.hlf-vl`, "vorlesen", 40),
+].join("\n") + `
+${B} .qnav button#qMark.qnbtn:not(.on){filter:saturate(.55) drop-shadow(0 4px 6px rgba(20,20,60,.22))}
+${B} .qnav button#qMark.qnbtn.on{outline:3px solid #FFD34D;outline-offset:1px}
+${B} button.hlf-vl.hlf-vl:not(.an){filter:saturate(.35) opacity(.8) drop-shadow(0 4px 6px rgba(20,20,60,.22))}
+${B} button.hlf-j[data-hj=f50] .hlf-n{position:absolute;right:-6px;top:-6px;font-size:.78rem!important;color:#1B2240!important}
+@media (max-width:640px){${B} .qnav button.qnbtn.qnbtn:is(#qPrev,#qNext,#qMark,#qAbgabe:has(.gki)){--gh:28px;margin:0!important}
+${B} .qnav.qnav{grid-template-columns:auto auto minmax(0,1fr) auto auto!important;gap:4px!important}
+${B} .qnav.qnav #qGrid{min-width:0!important;width:auto!important;padding:0 8px!important}}
+`;
+document.head.appendChild(css);
+})();
