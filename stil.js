@@ -1037,29 +1037,30 @@ document.head.appendChild(css);
 
 /* ================= Frage in einer Sprechblase (Quiz, Duell und weitere Stellen mit h2.question) ================= */
 (function(){
-// Helle Blase mit Rand und Spitze links; am Computer schaut Leni links daneben und «stellt» die Frage, am Handy zeigt die Spitze nach unten.
+// Gelbe Blase mit weissem Rand; links daneben nur Lenis Kopf (unten ausgeblendet), die Spitze zeigt zu ihr.
 const Q = "html body #app h2.question";
 const css = document.createElement("style"); css.id = "ep-sprechblase-css";
 css.textContent = `
-${Q}{position:relative;isolation:isolate;overflow:visible;background:linear-gradient(160deg,#A78BFA 0%,#7C3AED 45%,#5B21B6 100%)!important;border:4px solid #fff!important;border-radius:30px!important;padding:20px 28px!important;margin:10px 0 24px 104px!important;color:#fff!important;text-shadow:0 2px 3px rgba(40,10,90,.45)!important;
-  box-shadow:0 0 0 3px #C4B5FD,0 8px 0 #4C1D95,0 16px 26px -8px rgba(76,29,149,.55)!important}
+${Q}{position:relative;isolation:isolate;overflow:visible;background:linear-gradient(160deg,#FFEB85 0%,#FFD43B 50%,#F7B500 100%)!important;border:4px solid #fff!important;border-radius:30px!important;padding:20px 28px!important;margin:10px 0 24px 112px!important;color:#3A2400!important;text-shadow:0 1px 0 rgba(255,255,255,.55)!important;
+  box-shadow:0 0 0 3px #FFE58A,0 8px 0 #C99A00,0 16px 26px -8px rgba(150,100,0,.45)!important}
 /* Glanz oben wie bei den Knöpfen */
-${Q} > .ep-blase-glanz{position:absolute;left:14px;right:14px;top:6px;height:42%;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0));pointer-events:none}
-/* Spitze: gedrehtes Quadrat mit weissem Rand, liegt hinter der Blase */
-${Q}::before{content:"";position:absolute;left:-17px;top:50%;width:30px;height:30px;margin-top:-15px;background:#7C3AED;border:4px solid #fff;border-right:0;border-top:0;border-radius:0 0 0 8px;transform:rotate(45deg);box-shadow:-3px 3px 0 0 #C4B5FD;z-index:-1}
+${Q} > .ep-blase-glanz{position:absolute;left:14px;right:14px;top:6px;height:42%;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0));pointer-events:none;z-index:-1}
+/* Spitze: gedrehtes Quadrat mit weissem Rand, zeigt zum Kopf */
+${Q}::before{content:"";position:absolute;left:-17px;top:50%;width:30px;height:30px;margin-top:-15px;background:#FFD43B;border:4px solid #fff;border-right:0;border-top:0;border-radius:0 0 0 8px;transform:rotate(45deg);box-shadow:-3px 3px 0 0 #FFE58A;z-index:-2}
 ${Q}::after{display:none}
-${Q} > .ep-blase-kind{position:absolute;left:-106px;bottom:-14px;width:auto;height:124px;pointer-events:none;filter:drop-shadow(0 4px 6px rgba(20,20,60,.25))}
+/* Nur der Kopf des Kindes, unten ausgeblendet, als ob es die Frage stellt */
+${Q} > .ep-blase-kind{position:absolute;left:-118px;top:50%;width:auto;height:104px;transform:translateY(-50%);pointer-events:none;filter:drop-shadow(0 3px 4px rgba(20,20,60,.18))}
 @media (max-width:640px){
-  ${Q}{margin:6px 0 26px!important;padding:16px 18px!important;border-radius:24px!important}
-  ${Q}::before{left:36px;top:auto;bottom:-17px;margin-top:0;border:4px solid #fff;border-left:0;border-top:0;border-radius:0 0 8px 0;box-shadow:3px 3px 0 0 #C4B5FD;background:#5B21B6}
-  ${Q} > .ep-blase-kind{display:none}
+  ${Q}{margin:6px 0 22px 64px!important;padding:14px 16px!important;border-radius:22px!important}
+  ${Q}::before{left:-14px;width:24px;height:24px;margin-top:-12px}
+  ${Q} > .ep-blase-kind{left:-74px;height:66px}
 }`;
 document.head.appendChild(css);
 // Kind neben jede neue Frage setzen
 const kind = () => document.querySelectorAll("#app h2.question:not([data-blase])").forEach(h => {
   h.dataset.blase = "1";
   const g = document.createElement("span"); g.className = "ep-blase-glanz"; g.setAttribute("aria-hidden", "true"); h.prepend(g);
-  const i = document.createElement("img"); i.className = "ep-blase-kind"; i.src = "img/kids/leni-denken.webp"; i.alt = ""; i.setAttribute("aria-hidden", "true");
+  const i = document.createElement("img"); i.className = "ep-blase-kind"; i.src = "img/kids/leni-kopf.webp"; i.alt = ""; i.setAttribute("aria-hidden", "true");
   h.appendChild(i);
 });
 const app = document.getElementById("app") || document.body;
