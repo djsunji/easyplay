@@ -1144,3 +1144,22 @@ const balken = () => document.querySelectorAll("#app .qtop").forEach(top => {
 new MutationObserver(balken).observe(document.getElementById("app") || document.body, {childList:true, subtree:true});
 balken();
 })();
+
+/* ===== Quiz: weisse Fragen-Box mit Dejans Rahmen (img/grafik/frage-box.webp, Neun-Teile-Bild), nur am Computer.
+   Handy und iPad behalten das Qeels-Design aus quizstil.js (Dejans Entscheid 30.10.). ===== */
+(function(){ const c = document.createElement("style"); c.id = "ep-frage-box-css";
+const D = "html body:not(.ep-app) #app > .card.card:has(> .tabs, .answers, .qnav)";
+c.textContent = `${D}{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url("img/grafik/frage-box.webp?v=1") 210 250 215 240 fill / 62px 74px 64px 72px stretch!important;filter:drop-shadow(0 16px 26px rgba(30,40,120,.22));
+  padding:30px 44px 34px!important;--ink:#1B2240;--soft:#5A6386;--mut:#5A6386;--surface:#FFFFFF;--bg:#F5F7FF;--line:#E3E7F5;color:#1B2240!important}
+${D}::before,${D}::after{display:none!important}
+html body.dark:not(.ep-app) #app > .card.card:has(> .tabs, .answers, .qnav){filter:drop-shadow(0 16px 26px rgba(0,0,0,.45))}
+${D} .qq-titel,${D} .modebadge{color:#6A3FC8!important}
+${D} .hlf-hinweis{background:#EEF1FB!important;color:#3A4366!important;border:1px solid #DDE2F2!important}
+${D} .qnr,${D} .tasthinweis{color:#7A82A3!important}
+${D} .tasthinweis kbd{background:#fff!important;color:#3A4366!important;border-color:#D5DAEC!important}
+${D} .feedback,${D} .dufb{background:transparent!important;border:0!important;color:#1B2240!important}
+${D} .feedback p,${D} .feedback *:not(button){color:#1B2240!important}
+${D} .explain,${D} .erkl,${D} [data-panel="erklaerung"]{color:#1B2240!important}
+${D} #toExplain{background:#fff!important;border:2px solid #DDE2F2!important;color:#28304A!important}`;
+document.head.appendChild(c); })();
