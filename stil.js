@@ -1034,3 +1034,31 @@ ${B} .qnav.qnav #qGrid{min-width:0!important;width:auto!important;padding:0 8px!
 `;
 document.head.appendChild(css);
 })();
+
+/* ================= Frage in einer Sprechblase (Quiz, Duell und weitere Stellen mit h2.question) ================= */
+(function(){
+// Helle Blase mit Rand und Spitze links; am Computer schaut Leni links daneben und «stellt» die Frage, am Handy zeigt die Spitze nach unten.
+const Q = "html body #app h2.question";
+const css = document.createElement("style"); css.id = "ep-sprechblase-css";
+css.textContent = `
+${Q}{position:relative;background:linear-gradient(180deg,#FFFFFF,#F1F3FF)!important;border:3px solid #C9D2FF!important;border-radius:26px!important;padding:18px 24px!important;margin:6px 0 22px 96px!important;box-shadow:0 6px 0 #DCE2FF,0 12px 24px -10px rgba(40,50,140,.35)!important;color:#1B2240!important}
+${Q}::before{content:"";position:absolute;left:-19px;top:50%;margin-top:-14px;width:0;height:0;border-top:14px solid transparent;border-bottom:14px solid transparent;border-right:19px solid #C9D2FF}
+${Q}::after{content:"";position:absolute;left:-13px;top:50%;margin-top:-10px;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:14px solid #F8F9FF}
+${Q} > .ep-blase-kind{position:absolute;left:-92px;bottom:-12px;width:auto;height:112px;pointer-events:none;filter:drop-shadow(0 4px 6px rgba(20,20,60,.2))}
+@media (max-width:640px){
+  ${Q}{margin:4px 0 24px!important;padding:14px 16px!important;border-radius:22px!important}
+  ${Q}::before{left:34px;top:auto;bottom:-19px;margin-top:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:19px solid #C9D2FF;border-bottom:0}
+  ${Q}::after{left:38px;top:auto;bottom:-13px;margin-top:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:14px solid #F3F5FF;border-bottom:0}
+  ${Q} > .ep-blase-kind{display:none}
+}`;
+document.head.appendChild(css);
+// Kind neben jede neue Frage setzen
+const kind = () => document.querySelectorAll("#app h2.question:not([data-blase])").forEach(h => {
+  h.dataset.blase = "1";
+  const i = document.createElement("img"); i.className = "ep-blase-kind"; i.src = "img/kids/leni-denken.webp"; i.alt = ""; i.setAttribute("aria-hidden", "true");
+  h.appendChild(i);
+});
+const app = document.getElementById("app") || document.body;
+new MutationObserver(kind).observe(app, {childList:true, subtree:true});
+kind();
+})();
