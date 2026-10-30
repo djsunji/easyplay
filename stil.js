@@ -887,3 +887,9 @@ document.head.appendChild(css);
 (function(){ const c = document.createElement("style"); c.id = "ep-startlbl-fix";
 c.textContent = `html body #app .modes .mode.test .startlbl.big.gold,html body #app .modes .mode.test:hover .startlbl.big.gold{background-color:transparent!important;background-image:none!important;box-shadow:none!important}`;
 document.head.appendChild(c); })();
+
+/* Gezeichnete Themen-Symbole (ico() mit GICO in index.html) */
+(function(){ const c = document.createElement("style"); c.id = "ep-gico-css";
+c.textContent = `.ic.gico{display:inline-flex!important;align-items:center;justify-content:center;line-height:1}
+.ic.gico img{width:1.15em;height:1.15em;object-fit:contain;display:block;-webkit-user-drag:none;user-select:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}`;
+document.head.appendChild(c); })();

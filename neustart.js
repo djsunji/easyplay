@@ -65,7 +65,8 @@ body.ep-neustart .wrap{max-width:1360px}
 .np-k.woche{border-image-source:url(${K}serie-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(190,60,40,.3))}
 .np-k.duell{border-image-source:url(${K}live-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(140,40,170,.3))}
 .np-k.forscher{border-image-source:url(${K}tag-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(20,110,140,.3))}
-.np-k.forscher img{height:86%;right:2px;bottom:0}
+.np-k.forscher img.np-fo{height:auto;width:46%;right:10px;bottom:50%;transform:translateY(50%) rotate(-4deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.np-k.forscher b,.np-k.forscher span{max-width:52%}
 .np-wahl{display:flex;flex-direction:column;gap:18px;padding-top:6px}
 .np-wahl-kopf{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .np-wahl-kopf h1{margin:0;font:700 40px/1.05 Fredoka,Lexend,system-ui,sans-serif;color:#2B1A73;text-shadow:0 2px 0 #fff}
@@ -126,7 +127,7 @@ function html(){
       <button type="button" class="np-k entdecken" data-np="entdecken"><small>${welten} Welten</small><b>Entdecken</b><span>Karte, Album, Abenteuer</span><img src="${K}level-symbol.webp" alt=""></button>
       <button type="button" class="np-k woche" data-np="woche"><small>Thema der Woche</small><b class="${(wo && wo.thema ? wo.thema.name : "Wochen-Challenge").length > 14 ? "lang" : ""}">${h(wo && wo.thema ? wo.thema.name : "Wochen-Challenge")}</b><span>${wo && wo.thema ? `${wo.r} von ${wo.ziel} richtig` : "Jede Woche ein neues Thema"}</span><img src="${K}serie-symbol.webp" alt=""></button>
       <button type="button" class="np-k duell" data-np="duell"><small>Gegeneinander</small><b>Duell</b><span>Freunde, Familie, Klasse</span><img src="${K}live-symbol.webp" alt=""></button>
-      <button type="button" class="np-k forscher" data-np="forscher"><small>Forscher-Auftrag</small><b${fo.length > 14 ? ' class="lang"' : ""}>${esc(fo)}</b><span>${foNeu ? "Neu für heute" : "Kleine Mission"}</span><img src="img/kids/duo-bereit.webp" alt=""></button>
+      <button type="button" class="np-k forscher" data-np="forscher"><small>Forscher-Auftrag</small><b${fo.length > 14 ? ' class="lang"' : ""}>${esc(fo)}</b><span>${foNeu ? "Neu für heute" : "Kleine Mission"}</span><img class="np-fo" src="img/grafik/karte-forscher.webp" alt=""></button>
     </section>
   </div>`;
 }
