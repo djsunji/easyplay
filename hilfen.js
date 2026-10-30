@@ -341,7 +341,7 @@ function quizErgaenzen(nurZeichnen){
     if(jokerErlaubt(Q) && !answered){
       const bar = document.createElement("div"); bar.className = "hlf-joker"; bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "Joker");
       const f50weg = !!(qs.weg && qs.weg.length), tippDa = !!qs.tipp;
-      bar.innerHTML = `<button type="button" class="hlf-j" data-hj="f50" ${st.f50 <= 0 || f50weg ? "disabled" : ""} aria-label="Joker 50:50, zwei falsche Antworten wegnehmen, noch ${st.f50}"><span class="hlf-ji" aria-hidden="true">½</span>50:50<span class="hlf-n" aria-hidden="true">${st.f50}</span></button>`
+      bar.innerHTML = `<button type="button" class="hlf-j" data-hj="f50" ${st.f50 <= 0 || f50weg ? "disabled" : ""} aria-label="Joker 50:50, zwei falsche Antworten wegnehmen, noch ${st.f50}"><span class="hlf-ji" aria-hidden="true"><img src="img/grafik/sym-5050.webp" alt=""></span>50:50<span class="hlf-n" aria-hidden="true">${st.f50}</span></button>`
         /* «Tipp von Milo» auf Wunsch von Dejan entfernt (30.10.) */;
       answers.insertAdjacentElement("afterend", bar);
       if(tippDa){
@@ -372,7 +372,7 @@ function quizErgaenzen(nurZeichnen){
   /* Schalter «Vorlesen» an/aus (ersetzt den alten Vorlese-Knopf) */
   card.querySelectorAll(".hlf-vlrow").forEach(row => {
     const an = hoerenAn();
-    row.innerHTML = `<button type="button" class="hlf-vl${an ? " an" : ""}" role="switch" aria-checked="${an}" aria-label="Vorlesen ${an ? "an" : "aus"}"><span class="hlf-vli" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor"/>${an ? `<path d="M15.5 9a4.5 4.5 0 0 1 0 6"/><path d="M18 6.5a8 8 0 0 1 0 11"/>` : `<path d="M16 9.5l5 5M21 9.5l-5 5"/>`}</svg></span><span class="hlf-vlt">Vorlesen</span><span class="hlf-vls" aria-hidden="true"><i></i></span></button>`;
+    row.innerHTML = `<button type="button" class="hlf-vl${an ? " an" : ""}" role="switch" aria-checked="${an}" aria-label="Vorlesen ${an ? "an" : "aus"}"><span class="hlf-vli" aria-hidden="true"><img src="img/grafik/sym-vorlesen.webp" alt=""${an ? "" : ' style="opacity:.55;filter:grayscale(1)"'}></span><span class="hlf-vlt">Vorlesen</span><span class="hlf-vls" aria-hidden="true"><i></i></span></button>`;
     row.querySelector(".hlf-vl").onclick = () => {
       const jetzt = !hoerenAn(); setze("hoeren", jetzt);
       try{ window.EP_SOUND?.play("klick"); }catch(e){}

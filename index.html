@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-05";
+window.EP_BUILD="ep-2026-10-30-06";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4249,7 +4249,7 @@ function countBereich(b,l){ return b.themen.reduce((n,t)=>n+countThema(t.id,l),0
 function allCountL(l){ const P = poolIdx(), k = "*|" + (l||0); if(P.counts.has(k)) return P.counts.get(k); const n = byL(P.all,l).length; P.counts.set(k, n); return n; }
 const STUFE_ALLE = {id:4, name:"Alle Stufen", alter:"alle Fragen"};
 function stufeObj(id){ const k=id??S.stufe; if(k===4) return STUFE_ALLE; return STUFEN.find(s=>s.id===k) || STUFEN[0]; }
-const STUFE_EMO = {1:ico("sprout"),2:ico("rocket"),3:ico("medal"),4:ico("globe")};
+const STUFE_EMO = {1:'<img class="gstufe" src="img/grafik/stufe-entdecker.webp" alt="">',2:'<img class="gstufe" src="img/grafik/stufe-koenner.webp" alt="">',3:'<img class="gstufe" src="img/grafik/stufe-profis.webp" alt="">',4:'<img class="gstufe" src="img/grafik/stufe-alle.webp" alt="">'};
 
 function speakBtn(text){ return ("speechSynthesis" in window) ? `<span class="speakrow"><button class="speak" type="button" data-say="${esc(text)}">${ico("speaker")} Vorlesen</button></span>` : ""; }
 function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} try{ clearInterval(RL.vorT); rlVorlesenAus(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>{ b.classList.remove("on"); b.innerHTML=`${ico("speaker")} Vorlesen`; }); }
@@ -4484,7 +4484,7 @@ function renderMode(){
     <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(t)}</span><h1>${esc(t.id==="politik"||t.id==="religion"? t.name+": alles gemischt" : t.name)}</h1></div>
     ${stufeBar(`${countThema(t.id,S.stufe)} von ${n} Fragen für diese Stufe`)}
     <div class="modes">
-      <div class="mode" style="--c:var(${c})"><span class="em" aria-hidden="true">${ico("dumbbell")}</span><h2>Training</h2>
+      <div class="mode" style="--c:var(${c})"><span class="em em-bild" aria-hidden="true"><img src="img/grafik/karte-training.webp" alt=""></span><h2>Training</h2>
         <p>In deinem Tempo, ohne Zeitlimit. Nach jeder Antwort gibt es eine Erklärung.</p>
         <label class="pick-lbl" for="anz">Wie viele Fragen?</label>
         <div class="slider">
@@ -4495,7 +4495,7 @@ function renderMode(){
         </div>
         <div class="counts">${[5,10,20,50,100].filter(k=>k<=Math.min(100,n)).map(k=>`<button class="cnt quick" type="button" data-q="${k}">${k}</button>`).join("")}</div>
         <button class="big" id="startTrain" type="button" style="margin-top:12px">${ico("dumbbell")} Training starten</button></div>
-      <button class="mode test" id="mTest" type="button" ${canTest?"":"disabled"}><span class="em" aria-hidden="true">${ico("trophy")}</span><h2>Gewerteter Test</h2>
+      <button class="mode test" id="mTest" type="button" ${canTest?"":"disabled"}><span class="em em-bild" aria-hidden="true"><img src="img/grafik/karte-test.webp" alt=""></span><h2>Gewerteter Test</h2>
         <p>${canTest ? `${Math.min(TEST_LEN,n)} Fragen, Zeitlimit 30 Minuten.${bp? " Dein Bestwert: "+bp+" Punkte.":""}</p>
           <details class="punkteinfo"><summary>🏅 So bekommst du Punkte</summary><ul>
             <li>✅ <b>Richtig:</b> 100 Punkte</li>
@@ -4663,8 +4663,8 @@ function renderQuiz(){
     ${quizNavHTML(Q)}
     <div class="card" style="--c:var(${c})">
       ${test? "" : `<div class="tabs" role="tablist">
-        <button class="tabbtn" role="tab" type="button" data-tab="frage" aria-selected="${Q.tab==="frage"}">${ico("question")} Frage</button>
-        <button class="tabbtn" role="tab" type="button" data-tab="erklaerung" aria-selected="${Q.tab==="erklaerung"}">${ico("bulb")} Erklärung${answered && Q.tab==="frage" ? '<span class="new" aria-label="neu"></span>':""}</button>
+        <button class="tabbtn" role="tab" type="button" data-tab="frage" aria-selected="${Q.tab==="frage"}"><img class="gki" src="img/grafik/sym-frage.webp" alt=""> Frage</button>
+        <button class="tabbtn" role="tab" type="button" data-tab="erklaerung" aria-selected="${Q.tab==="erklaerung"}"><img class="gki" src="img/grafik/sym-erklaerung.webp" alt=""> Erklärung${answered && Q.tab==="frage" ? '<span class="new" aria-label="neu"></span>':""}</button>
       </div>`}
       ${body}
       <p class="qnr">Nr. ${frageNr(f)}</p>
@@ -5406,11 +5406,11 @@ function abgeben(){
 function quizNavHTML(Q){
   const st=qStatus(Q), beantw=st.filter(x=>x.picked!=null).length, mark=st.filter(x=>x.mark).length, cur=st[Q.i];
   return `<div class="qnav">
-    <button class="qnbtn" id="qPrev" type="button" ${Q.i===0?"disabled":""} aria-label="Vorherige Frage">← <span class="tlab">Zurück</span></button>
-    <button class="qnbtn mark ${cur.mark?"on":""}" id="qMark" type="button" aria-pressed="${cur.mark}">🚩 <span class="tlab">${cur.mark?"Markiert":"Markieren"}</span></button>
+    <button class="qnbtn" id="qPrev" type="button" ${Q.i===0?"disabled":""} aria-label="Vorherige Frage"><img class="gki" src="img/grafik/sym-zurueck.webp" alt=""> <span class="tlab">Zurück</span></button>
+    <button class="qnbtn mark ${cur.mark?"on":""}" id="qMark" type="button" aria-pressed="${cur.mark}"><img class="gki" src="img/grafik/sym-markieren.webp" alt=""> <span class="tlab">${cur.mark?"Markiert":"Markieren"}</span></button>
     <button class="qnbtn" id="qGrid" type="button" aria-expanded="${!!Q.gridOffen}">🧭 <span>${beantw}/${Q.list.length}</span>${mark?` <span class="qnm">🚩${mark}</span>`:""}</button>
-    <button class="qnbtn" id="qNext" type="button" ${Q.i===Q.list.length-1?"disabled":""} aria-label="Nächste Frage"><span class="tlab">Weiter</span> →</button>
-    <button class="qnbtn abgabe" id="qAbgabe" type="button">${Q.mode==="test"?"✅ Abgeben":"🏁 Beenden"}</button>
+    <button class="qnbtn" id="qNext" type="button" ${Q.i===Q.list.length-1?"disabled":""} aria-label="Nächste Frage"><span class="tlab">Weiter</span> <img class="gki" src="img/grafik/sym-weiter.webp" alt=""></button>
+    <button class="qnbtn abgabe" id="qAbgabe" type="button">${Q.mode==="test"?"✅ Abgeben":`<img class="gki" src="img/grafik/sym-beenden.webp" alt=""> Beenden`}</button>
   </div>
   ${Q.gridOffen ? `<div class="qgrid" role="group" aria-label="Zu Frage springen">${st.map((x,k)=>{ const cls=[k===Q.i?"jetzt":"", x.picked!=null?(x.ok?"rok":"rbad"):"", x.mark?"mk":""].join(" ");
       return `<button type="button" class="qg ${cls}" data-qg="${k}" aria-label="Frage ${k+1}${x.picked!=null?", beantwortet":", offen"}${x.mark?", markiert":""}">${k+1}${x.mark?"<i>🚩</i>":""}</button>`; }).join("")}
