@@ -1043,16 +1043,20 @@ const Q = "html body #app h2.question";
 const RAND = "#3A2400";
 const css = document.createElement("style"); css.id = "ep-sprechblase-css";
 css.textContent = `
-${Q}{position:relative;isolation:isolate;overflow:visible;display:flex;align-items:center;justify-content:center;text-align:center;min-height:150px;background:linear-gradient(160deg,#FFEB85 0%,#FFD43B 50%,#F7B500 100%)!important;border:4px solid ${RAND}!important;border-radius:44px!important;padding:36px 44px!important;margin:12px 0 30px 176px!important;color:${RAND}!important;font-size:34px!important;line-height:1.2!important;text-shadow:none!important;box-shadow:6px 8px 0 ${RAND}!important}
+${Q}{position:relative;isolation:isolate;overflow:visible;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto;display:flex;align-items:center;justify-content:center;text-align:center;min-height:150px;background:linear-gradient(160deg,#FFEB85 0%,#FFD43B 50%,#F7B500 100%)!important;border:4px solid ${RAND}!important;border-radius:44px!important;padding:36px 44px!important;margin:12px 0 30px 176px!important;color:${RAND}!important;font-size:34px!important;line-height:1.2!important;text-shadow:none!important;box-shadow:6px 8px 0 ${RAND}!important}
 /* Spitze: gedrehtes Quadrat mit dunklem Rand, zeigt zum Kopf */
 ${Q}::before{content:"";position:absolute;left:-23px;top:50%;width:40px;height:40px;margin-top:-20px;background:#FFD43B;border:4px solid ${RAND};border-right:0;border-top:0;border-radius:0 0 0 10px;transform:rotate(45deg);z-index:-1}
 ${Q}::after{display:none}
-/* Kopf des Kids */
-${Q} > .ep-blase-kind{position:absolute;left:-184px;top:50%;width:auto;height:165px;transform:translateY(-50%);pointer-events:none;filter:drop-shadow(0 3px 4px rgba(20,20,60,.18))}
+/* Kopf des Kids: feste Box links neben der Spitze, damit breite Köpfe nie in die Blase ragen */
+${Q} > .ep-blase-kind{position:absolute;left:-180px;top:50%;width:150px;height:165px;object-fit:contain;object-position:right center;transform:translateY(-50%);pointer-events:none;filter:drop-shadow(0 3px 4px rgba(20,20,60,.18))}
 @media (max-width:640px){
-  ${Q}{min-height:110px;margin:8px 0 24px 84px!important;padding:22px 18px!important;border-radius:28px!important;font-size:23px!important;box-shadow:4px 5px 0 ${RAND}!important}
+  ${Q}{min-height:110px;margin:8px 0 24px 96px!important;padding:22px 18px!important;border-radius:28px!important;font-size:23px!important;box-shadow:4px 5px 0 ${RAND}!important}
   ${Q}::before{left:-17px;width:28px;height:28px;margin-top:-14px}
-  ${Q} > .ep-blase-kind{left:-100px;height:94px}
+  ${Q} > .ep-blase-kind{left:-102px;width:76px;height:90px}
+}
+@media (max-width:360px){
+  ${Q}{margin-left:78px!important;padding:18px 14px!important;font-size:20px!important}
+  ${Q} > .ep-blase-kind{left:-86px;width:60px;height:74px}
 }`;
 document.head.appendChild(css);
 const KOEPFE = ["ben-denken","ben-denken2","ben-staunen","leni-denken","leni-denken2","leni-staunen","lumi-denken","lumi-staunen","milo-denken","milo-staunen"];
