@@ -913,6 +913,9 @@ html body #app .st-kopf.ep-kopf-welt::after{content:"";position:absolute;right:2
 html body #app .st-kopf.ep-kopf-welt>*{position:relative;z-index:1}
 html body #app .st-kopf.ep-kopf-natur{background:url("${G}kopf-natur.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(10,90,50,.3));padding-right:30%!important}
 html body #app .st-kopf.ep-kopf-natur::before{display:none!important}
+html body #app .st-kopf.ep-kopf-geld{background:url("${G}kopf-geld.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(120,10,20,.3));padding-right:30%!important}
+html body #app .st-kopf.ep-kopf-geld::before,html body #app .st-kopf.ep-kopf-geld .st-kids{display:none!important}
+html body.ep-app #app .st-kopf.ep-kopf-geld{padding-right:24%!important;border-radius:20px!important}
 html body #app .st-kopf.ep-kopf-natur .st-kids{display:none!important}
 html body.ep-app #app .st-kopf.ep-kopf-natur{padding-right:24%!important;border-radius:20px!important}
 html body.ep-app #app .st-kopf.ep-kopf-welt{padding-right:14px!important}
@@ -927,6 +930,7 @@ function markieren(){
     const bid = S.screen === "mode" && S.thema && S.thema.bereich ? S.thema.bereich.id : "";
     k.classList.toggle("ep-kopf-welt", bid === "welt");
     k.classList.toggle("ep-kopf-natur", bid === "natur");
+    k.classList.toggle("ep-kopf-geld", bid === "geld");
   }catch(e){}
 }
 const app = document.getElementById("app");
