@@ -32,6 +32,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 30.10. Sitzung «Hauptseite»: Bereichswahl der neuen Startseite: Kopfzeile (Logo, Menü) und «Zurück» genau über den vier Kacheln ausgerichtet (Klasse `ep-np-wahl` an `body`, `.wrap` 972 px), `neustart.js`. Version ep-2026-10-30-37.
 - 30.10. Sitzung «Hauptseite»: Neue Startseite, Bereichswahl nach «Jetzt spielen»: Überschrift «Was willst du spielen?» und Stufenwahl entfernt (Stufe kommt von der Startseite), «Zurück» als weisser Grafik-Knopf mit Pfeil (`neustart.js`). Version ep-2026-10-30-36.
 - 30.10. Sitzung «Hauptseite»: Quiz-Sprechblase mit Dejans 10 neuen fragenden Posen von Lumi und Milo (`img/kids/lumi-frage1..5.webp`, `milo-frage1..5.webp`, Köpfe mit weichem Rand in `img/kids/koepfe/`), ersetzt lumi-denken/milo-denken in `KOEPFE` (`stil.js`). Reiter «Frage» jetzt weisse Pille, gewählt mit violettem Schein. Version ep-2026-10-30-35.
 - 30.10. Sitzung «Hauptseite»: Quiz: Reiter «Frage» mit Dejans Regenbogen-Fragezeichen `img/grafik/sym-frage-regenbogen.webp` (`index.html`). Sprechblase wieder auch mit Lumi und Milo, nur in fragender Pose: neue Köpfe `img/kids/koepfe/lumi-denken.webp` und `milo-denken.webp` (Ränder weich), `KOEPFE` in `stil.js`; in der App das ganze Kind (`img/kids/lumi-denken.webp`, `milo-denken.webp`). Version ep-2026-10-30-34.

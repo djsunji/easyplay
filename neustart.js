@@ -22,6 +22,8 @@ let WAHL = false;   /* nach «Jetzt spielen»: zuerst Bereich wählen, dann im B
 const css = document.createElement("style"); css.id = "ep-neustart-css";
 css.textContent = `
 body.ep-neustart .wrap{max-width:1360px}
+body.ep-neustart.ep-np-wahl .wrap{max-width:972px}
+body.ep-np-wahl .np-wahl{padding-top:0}
 .np{display:flex;flex-direction:column;gap:22px;padding-top:16px;font-family:Nunito,system-ui,sans-serif}
 .np a,.np button{font-family:inherit}
 .np-tueren{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
@@ -222,12 +224,13 @@ window.renderHome = function(){
   const r = vorHome.apply(this, arguments);
   const neu = an();
   document.body.classList.toggle("ep-neustart", neu);
+  document.body.classList.toggle("ep-np-wahl", !!(neu && WAHL));
   if(!neu) return r;
   try{ const app = document.getElementById("app"); if(app){ app.innerHTML = WAHL ? wahlHTML() : html(); binden(); } }catch(e){ console.warn("neustart", e); }
   return r;
 };
 /* Beim Verlassen der Startseite die breitere Seite wieder zurücksetzen */
 const vorRender = window.render;
-if(typeof vorRender === "function") window.render = function(){ const r = vorRender.apply(this, arguments); try{ if(S.screen !== "home"){ document.body.classList.remove("ep-neustart"); WAHL = false; } }catch(e){} return r; };
+if(typeof vorRender === "function") window.render = function(){ const r = vorRender.apply(this, arguments); try{ if(S.screen !== "home"){ document.body.classList.remove("ep-neustart"); document.body.classList.remove("ep-np-wahl"); WAHL = false; } }catch(e){} return r; };
 window.EP_NEUSTART = { an, ein(){ try{ localStorage.setItem(SCHLUESSEL, "1"); }catch(e){} render(); }, aus(){ try{ localStorage.removeItem(SCHLUESSEL); }catch(e){} render(); } };
 })();
