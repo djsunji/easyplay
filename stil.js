@@ -960,14 +960,14 @@ c.textContent = `.ic.qico img{width:1.25em;height:1.25em;filter:drop-shadow(0 2p
 .bemo2 .ic.qico img{width:1.4em;height:1.4em}`;
 document.head.appendChild(c); })();
 
-/* ===== Drei weitere Hintergründe (Einstellungen › Hintergrund): Unterwasser, Sommerwiese, Weltall ===== */
+/* ===== Drei weitere Hintergründe (Einstellungen › Hintergrund): Unterwasser, Farbbänder, Formen-Muster ===== */
 (function(){ if(document.getElementById("bgneu")) return;
 const L = document.createElement("div"); L.id = "bgneu"; L.setAttribute("aria-hidden", "true");
 let fx = ""; for(let i = 0; i < 14; i++) fx += `<i style="--x:${(i * 7.3 + 3) % 100}%;--d:${9 + (i * 3.7) % 9}s;--v:${-(i * 1.9) % 12}s;--g:${6 + (i * 5) % 14}px"></i>`;
 L.innerHTML = `<div class="bgn-fx">${fx}</div><div class="bgn-szene"></div>`;
 (document.body || document.documentElement).appendChild(L);
 const c = document.createElement("style"); c.id = "ep-bgneu-css";
-const N = ':root:is([data-bg="unterwasser"],[data-bg="wiese"],[data-bg="weltall"])';
+const N = ':root:is([data-bg="unterwasser"],[data-bg="baender"],[data-bg="formen"])';
 c.textContent = `
 #bgneu{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
 ${N} #bgneu{display:block}
@@ -982,29 +982,26 @@ ${N} #alpen,${N} #himmel,${N} #flocken,${N} #clouds,${N} #pattern{display:none!i
 :root[data-bg="unterwasser"] #bgneu .bgn-fx i{left:var(--x);bottom:-30px;width:var(--g);height:var(--g);border-radius:50%;border:2px solid rgba(255,255,255,.75);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),rgba(255,255,255,.1) 60%);animation:bgnBlase var(--d) linear infinite;animation-delay:var(--v)}
 @keyframes bgnBlase{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(14px,-55vh)}100%{transform:translate(-6px,-110vh);opacity:.2}}
 @keyframes bgnLicht{to{transform:translateX(-80px)}}
-/* Sommerwiese */
-:root[data-bg="wiese"] body{background:linear-gradient(180deg,#BFE6FF 0%,#E4F5FF 60%,#F3FBEF 100%) fixed!important}
-:root[data-bg="wiese"] body.dark{background:linear-gradient(180deg,#0F1E3D,#1B2F55 60%,#203B2A) fixed!important}
-:root[data-bg="wiese"] #bgneu .bgn-szene{background-image:url("img/hg/wiese.svg")}
-:root[data-bg="wiese"] #bgneu::before{content:"";position:absolute;right:7vw;top:12vh;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#FFE680 0 45%,#FFD43B 46% 58%,rgba(255,212,59,.0) 72%);box-shadow:0 0 80px 30px rgba(255,220,90,.45)}
-:root[data-bg="wiese"].dark #bgneu::before,:root[data-bg="wiese"][data-theme="dark"] #bgneu::before{background:radial-gradient(circle at 40% 40%,#FFFBE8 0 50%,rgba(255,255,255,0) 60%);box-shadow:0 0 60px 10px rgba(255,255,230,.25)}
-:root[data-bg="wiese"] #bgneu .bgn-fx i:nth-child(n+5){display:none}
-:root[data-bg="wiese"] #bgneu .bgn-fx i{top:calc(8vh + var(--x) / 4);left:-220px;width:180px;height:56px;border-radius:40px;background:#fff;opacity:.85;box-shadow:40px -22px 0 6px #fff,90px -6px 0 0 #fff;animation:bgnWolke calc(var(--d) * 9) linear infinite;animation-delay:calc(var(--v) * 9)}
-:root[data-bg="wiese"][data-theme="dark"] #bgneu .bgn-fx i{opacity:.08}
-@keyframes bgnWolke{to{transform:translateX(calc(100vw + 440px))}}
-/* Weltall */
-:root[data-bg="weltall"] body{background:radial-gradient(1200px 600px at 20% 10%,#EDE8FF,transparent 60%),linear-gradient(180deg,#D9D2FF 0%,#C6BCFA 60%,#B3A7F0 100%) fixed!important}
-:root[data-bg="weltall"] body.dark{background:linear-gradient(180deg,#0B0A26,#17124A 60%,#241A63) fixed!important}
-:root[data-bg="weltall"] #bgneu .bgn-szene{background-image:url("img/hg/weltall.svg")}
-:root[data-bg="weltall"] #bgneu::before{content:"";position:absolute;inset:0;background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 140px 90px,#FFF6C8,transparent),radial-gradient(1.5px 1.5px at 80px 160px,#fff,transparent),radial-gradient(2.5px 2.5px at 200px 200px,#fff,transparent),radial-gradient(1.5px 1.5px at 260px 60px,#E9E3FF,transparent);background-size:300px 240px;opacity:.9}
-:root[data-bg="weltall"] #bgneu .bgn-fx i{top:calc(var(--x) * .6);left:calc(var(--x) * .97);width:calc(var(--g) * .7);height:calc(var(--g) * .7);background:#fff;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:bgnFunkel calc(var(--d) / 3) ease-in-out infinite;animation-delay:var(--v)}
-@keyframes bgnFunkel{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.1)}}
+/* Farbbänder */
+:root[data-bg="baender"] body{background:#F6F4FF!important}
+:root[data-bg="baender"] body.dark{background:#0F1230!important}
+:root[data-bg="baender"] #bgneu::before{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 0 18%,rgba(61,90,254,.28) 24%,transparent 32%,transparent 40%,rgba(224,67,184,.26) 47%,transparent 55%,transparent 62%,rgba(255,179,0,.26) 69%,transparent 77%,rgba(23,163,90,.22) 84%,transparent 92%);filter:blur(28px);animation:bgnBand 26s ease-in-out infinite alternate}
+:root[data-bg="baender"] #bgneu::after{content:"";position:absolute;inset:-40%;background:linear-gradient(65deg,transparent 0 30%,rgba(138,63,224,.2) 38%,transparent 48%,transparent 60%,rgba(0,184,212,.2) 68%,transparent 78%);filter:blur(34px);animation:bgnBand 34s ease-in-out infinite alternate-reverse}
+:root[data-bg="baender"] body.dark #bgneu::before,:root[data-bg="baender"] body.dark #bgneu::after{opacity:.6}
+@keyframes bgnBand{0%{transform:translate(-6%,-3%) rotate(0deg)}100%{transform:translate(6%,4%) rotate(6deg)}}
+/* Formen-Muster */
+:root[data-bg="formen"] body{background:#F7F8FF!important}
+:root[data-bg="formen"] body.dark{background:#10152C!important}
+:root[data-bg="formen"] #bgneu::before{content:"";position:absolute;inset:-240px;background:url("img/hg/formen.svg") 0 0/280px 280px;opacity:.6;animation:bgnWander 90s linear infinite}
+:root[data-bg="formen"] body.dark #bgneu::before{opacity:.45}
+@keyframes bgnWander{to{transform:translate(280px,280px)}}
+:root:is([data-bg="baender"],[data-bg="formen"]) #bgneu .bgn-fx,:root:is([data-bg="baender"],[data-bg="formen"]) #bgneu .bgn-szene{display:none}
 @media (prefers-reduced-motion:reduce){#bgneu *,#bgneu::before{animation:none!important}}
 @media (max-width:640px){#bgneu .bgn-szene{height:26vh}}
 /* Vorschau in den Einstellungen */
 .prev-unterwasser{background:url("img/hg/unterwasser.svg") bottom/cover no-repeat,linear-gradient(180deg,#D7F5FF,#6CC2E6)}
-.prev-wiese{background:url("img/hg/wiese.svg") bottom/cover no-repeat,linear-gradient(180deg,#BFE6FF,#F3FBEF)}
-.prev-weltall{background:url("img/hg/weltall.svg") bottom/cover no-repeat,radial-gradient(1.5px 1.5px at 20px 20px,#fff,transparent) 0 0/40px 30px,linear-gradient(180deg,#D9D2FF,#B3A7F0)}
+.prev-baender{background:linear-gradient(115deg,#F6F4FF 10%,#C9D2FF 30%,#F6F4FF 42%,#F7C8EA 55%,#F6F4FF 66%,#FFE3A6 80%,#F6F4FF)}
+.prev-formen{background:url("img/hg/formen.svg") 0 0/90px 90px,#F7F8FF}
 `;
 document.head.appendChild(c);
 })();

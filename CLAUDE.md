@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Hauptseite»: Hintergründe Sommerwiese und Weltall ersetzt durch Farbbänder (wogende Farbstreifen) und Formen-Muster (`img/hg/formen.svg`, wandert langsam), Unterwasser bleibt. `HINTERGRUENDE` in `index.html`, Block «Drei weitere Hintergründe» in `stil.js`. Version ep-2026-10-30-17.
 - 30.10. Sitzung «Hauptseite»: Drei neue Hintergründe in Menü › Hintergrund: Unterwasser (Blasen steigen, Lichtstreifen), Sommerwiese (Sonne, ziehende Wolken), Weltall (funkelnde Sterne). `HINTERGRUENDE` in `index.html`, Szenen `img/hg/*.svg`, Ebene `#bgneu` und CSS im Block «Drei weitere Hintergründe» am Ende von `stil.js` (aus bei «Bewegung reduzieren»). Version ep-2026-10-30-16.
 - 30.10. Sitzung «Hauptseite»: Qeels-Icons geprüft: `themen/politik` (Säulen abgeschnitten) und `themen/wissenschaft` (Mikroskop zerrissen) sind unsauber; die Hauptseite nimmt dort `buecher/politik` (Rednerpult) und `buecher/wissen` (Mikroskop), `QERSATZ` in `index.html`. Version ep-2026-10-30-15.
 - 30.10. Sitzung «Hauptseite»: Qeels-Icons überall auf der Hauptseite: `themaIcon()` in `index.html` nimmt bei allen Themen aus `img/qeels-icons/icons.json` das Bild `img/qeels-icons/themen/<id>.webp` (`QICON`, auch Zufall), Buchdeckel der Bibliothek `buecher/<id>.webp` (`buchEmo()`), Stufen Entdecker/Könner/Profis `stufen/*.webp` (`STUFE_EMO`). Neben den PNG liegen jetzt WebP-Kopien (756 KB statt 2,8 MB). CSS `.ic.qico` in `stil.js`. Version ep-2026-10-30-14.
