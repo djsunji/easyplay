@@ -82,6 +82,12 @@ html body #app .np-wahl .bereiche{max-width:940px!important;width:100%;margin:0 
 html body #app .np-wahl .bereiche>.bereich h2{font-size:1.75rem!important;line-height:1.1}
 html body #app .np-wahl .bereiche>.bereich p{font-size:.95rem!important}
 html body #app .np-wahl .bereiche>.bereich .emo{width:64px!important;height:64px!important;font-size:2.2rem!important}
+html body #app .np-allethemen{--gh:66px;display:flex;align-items:center;justify-content:center;gap:12px;width:min(560px,100%);margin:6px auto 18px;height:var(--gh);box-sizing:border-box;cursor:pointer;padding:0 8px;background:none;border:0 solid transparent;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5);border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch;color:#3A1C00;font:700 22px Fredoka,Lexend,system-ui,sans-serif;text-shadow:0 1px 0 rgba(255,255,255,.5);filter:drop-shadow(0 6px 10px rgba(20,20,60,.25));transition:transform .12s}
+html body #app .np-allethemen img{width:38px;height:38px;object-fit:contain}
+html body #app .np-allethemen:hover{transform:translateY(-2px)}
+html body #app .np-allethemen:focus-visible{outline:3px solid #8A3FE0;outline-offset:3px}
+html body.ep-app #app .np-allethemen{--gh:46px;font-size:16px;margin:2px auto 8px}
+html body.ep-app #app .np-allethemen img{width:26px;height:26px}
 html body #app .np-themenlink{text-align:center;margin:18px 0 0}
 html body #app .np-themenlink button{border:0;cursor:pointer;padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.92);color:#3A1F9E;font:800 16px Nunito,system-ui,sans-serif;box-shadow:0 4px 0 rgba(58,31,158,.25)}
 html body #app .np-themenlink button:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
@@ -181,7 +187,7 @@ function binden(){
   const app = document.getElementById("app"); if(!app) return;
   app.querySelectorAll("[data-np-stufe]").forEach(b => b.onclick = () => stufe(+b.dataset.npStufe));
   app.querySelectorAll("[data-np]").forEach(b => b.onclick = () => los(b.dataset.np));
-  app.querySelectorAll(".np-wahl .bereich[data-b]").forEach(b => b.onclick = () => { WAHL = false; bereichSpielen(b.dataset.b); });
+  app.querySelectorAll(".np-wahl .bereich[data-b]").forEach(b => b.onclick = () => { WAHL = false; S.bereich = BEREICHE.find(x => x.id === b.dataset.b); go("bereich"); });
   const f = app.querySelector("[data-np-suche]");
   if(f) f.onsubmit = e => { e.preventDefault(); const v = (f.querySelector("input").value || "").trim(); try{ LIB.qa = v; setLibModus(true); }catch(err){} };
 }
@@ -214,6 +220,22 @@ if(typeof vorMode === "function") window.renderMode = function(){
         d.querySelector("button").onclick = () => { S.bereich = t.bereich; go("bereich"); };
         m.insertAdjacentElement("afterend", d);
       }
+    }
+  }catch(e){ console.warn("neustart", e); }
+  return r;
+};
+
+/* Themenseite eines Bereichs: zuoberst Knopf «Aus allen Themen spielen» (führt zu Training/Test für den ganzen Bereich) */
+const vorBereich = window.renderBereich;
+if(typeof vorBereich === "function") window.renderBereich = function(){
+  const r = vorBereich.apply(this, arguments);
+  try{
+    const th = document.querySelector("#app .themen");
+    if(th && S.bereich && !document.querySelector("#app .np-allethemen")){
+      const k = document.createElement("button"); k.type = "button"; k.className = "np-allethemen";
+      k.innerHTML = `<img src="img/qeels-icons/themen/zufall.webp?v=2" alt=""><span>Aus allen Themen spielen</span>`;
+      k.onclick = () => bereichSpielen(S.bereich.id);
+      th.insertAdjacentElement("beforebegin", k);
     }
   }catch(e){ console.warn("neustart", e); }
   return r;

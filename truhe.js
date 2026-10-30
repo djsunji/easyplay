@@ -163,8 +163,7 @@ function seite(box){
       </section>
       <div class="xt-seite">
         <section class="xt-karte xt-k-kal"><h2>Deine letzten 7 Tage</h2>${kalenderHTML()}${fortschrittHTML()}</section>
-        <section class="xt-karte xt-k-pause"><div><h2 id="xtPauseT">Pausen-Erinnerung</h2><p>Nach 30 Minuten Spielen erinnern Lumi und Milo dich an eine kurze Pause.</p></div>
-          <button type="button" class="xt-schalter" role="switch" aria-checked="${pauseAn()}" aria-labelledby="xtPauseT" id="xtPause"><span class="xt-sch-k" aria-hidden="true"></span><span class="xt-sch-t" aria-hidden="true">${pauseAn() ? "An" : "Aus"}</span></button></section>
+
       </div>
     </div></div>`;
   binden(box);
@@ -250,7 +249,7 @@ function beobachten(){ const app = document.getElementById("app"); if(!app) retu
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", beobachten); else beobachten();
 
 /* ---------- B) Pausen-Erinnerung ---------- */
-function pauseAn(){ return LS.get(K.pause, true) !== false; }
+function pauseAn(){ return false; }   // Pausen-Erinnerung auf Dejans Wunsch ganz entfernt (30.10.)
 function pauseSetzen(an){ LS.set(K.pause, !!an); if(an) aktivSetzen(0); }
 function schwelle(){ const t = +LS.get(K.test, 0); return (t > 0 ? t : 30) * 60000; }
 let letzteAktion = Date.now(), letzterTick = Date.now(), wartet = false, fensterOffen = false;
@@ -276,7 +275,7 @@ function tick(){
   if(aktivMs >= schwelle()) wartet = true;
   if(wartet && !gesperrt()) erinnern();
 }
-setInterval(tick, 5000);
+/* setInterval(tick, 5000); Pausen-Erinnerung aus */
 document.addEventListener("visibilitychange", () => { letzterTick = Date.now(); });
 
 let vorFokus = null;

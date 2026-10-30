@@ -338,8 +338,6 @@ function tippsHTML(lesen, zu){
       <li><b>Gemeinsam lesen.</b> Lasst euch eine Wissenskarte vorlesen und erzählt euch, was ihr Neues gelernt habt.</li>
       <li><b>Neugier loben.</b> Ein «Erzähl mir mehr darüber!» motiviert oft mehr als Punkte.</li>
       <li><b>Fehler sind Lernchancen.</b> Unter «Fehler üben» kommen falsche Fragen wieder, bis sie zweimal richtig sitzen.</li>
-      <li><b>Pausen.</b> easyplay erinnert nach 30 Minuten aktiver Nutzung freundlich an eine Pause${lesen || pause === null ? "." : pause ? `. Die Erinnerung ist auf diesem Gerät <b>eingeschaltet</b>.` : `. Die Erinnerung ist auf diesem Gerät <b>ausgeschaltet</b>.`}
-        ${!lesen && pause === false ? `<br><button type="button" class="xel-btn klein" data-xel-pause="1">Pausen-Erinnerung einschalten</button>` : ""}</li>
       <li><b>Lesehilfen.</b> ${hilfe ? `In der Welt «${h(hilfe.titel)}» lässt sich das Lesen leichter machen.` : "Fragen und Wissenskarten lassen sich mit dem Knopf «Vorlesen» anhören."}
         ${!lesen && hilfe ? `<br><button type="button" class="xel-btn klein" data-xel-welt="hilfen">${h(hilfe.titel)} öffnen</button>` : ""}</li>
     </ul>
