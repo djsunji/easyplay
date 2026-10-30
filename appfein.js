@@ -214,6 +214,54 @@ html body.ep-app.ep-s-bereich .bdesc{display:none!important}
   html body.ep-app .ap-profil .ap-liste > *{padding-top:6px!important;padding-bottom:6px!important;min-height:0!important}
 }
 
+/* ---- 30.10.: Dejans neue Knopf-Grafiken auf dem Handy sauber skalieren ---- */
+/* Quiz-Leiste: alle fünf Knöpfe passen in die Breite, Grafiken unverzerrt (gleiches Verhältnis der Ränder) */
+html body.ep-app.ep-s-quiz #app .qnav{display:flex!important;align-items:center;gap:4px!important;padding:5px!important;flex-wrap:nowrap!important;overflow:hidden}
+html body.ep-app.ep-s-quiz #app .qnav .qnbtn,html body.ep-app.ep-s-quiz #app .qnav #qNext,html body.ep-app.ep-s-quiz #app .qnav #qMark,html body.ep-app.ep-s-quiz #app .qnav .abgabe{--gh:42px!important;flex:0 0 auto;min-width:0!important;gap:5px!important;font-size:14px!important}
+html body.ep-app.ep-s-quiz #app .qnav #qGrid{flex:1 1 auto!important;min-width:0!important}
+html body.ep-app.ep-s-quiz #app .qnav .abgabe{flex:0 1 auto!important}
+html body.ep-app.ep-s-quiz #app .qnav .gki{width:22px!important;height:22px!important}
+@media (max-width:440px){
+  html body.ep-app.ep-s-quiz #app .qnav .abgabe .tlab,html body.ep-app.ep-s-quiz #app .qnav .abgabe > span:not(.gki){display:none!important}
+  html body.ep-app.ep-s-quiz #app .qnav .abgabe:has(.gki){font-size:0!important;gap:0!important}
+  html body.ep-app.ep-s-quiz #app .qnav .abgabe:not(:has(.gki)){font-size:13px!important}
+  html body.ep-app.ep-s-quiz #app .qnav #qGrid .gki{display:none!important}
+}
+@media (max-width:370px){html body.ep-app.ep-s-quiz #app .qnav .qnbtn,html body.ep-app.ep-s-quiz #app .qnav #qNext,html body.ep-app.ep-s-quiz #app .qnav #qMark,html body.ep-app.ep-s-quiz #app .qnav .abgabe{--gh:38px!important}}
+/* Reiter Frage/Erklärung und 50:50 etwas niedriger */
+html body.ep-app #app .card .tabs .tabbtn,html body.ep-app #app .card .tabs .tabbtn[aria-selected="true"]{--gh:46px!important;font-size:15px!important}
+html body.ep-app #app .card .tabs .gki{width:28px!important;height:28px!important}
+html body.ep-app #app .hlf-j{--gh:42px!important}
+
+/* Köpfe mit Grafik (Bereich, Training/Test): Titel weicht der Grafik aus, Stufenwahl über die volle Breite */
+html body.ep-app #app .st-kopf.ep-kopf-natur,html body.ep-app #app .st-kopf.ep-kopf-geld,html body.ep-app #app .st-kopf.ep-kopf-alltag,html body.ep-app #app .st-kopf.ep-kopf-welt{padding:12px!important;border-radius:20px!important}
+html body.ep-app #app .st-kopf.ep-kopf-natur .bhead,html body.ep-app #app .st-kopf.ep-kopf-geld .bhead,html body.ep-app #app .st-kopf.ep-kopf-alltag .bhead{padding-right:34%!important;min-height:52px;margin-bottom:10px!important;box-sizing:border-box}
+html body.ep-app #app .st-kopf .bhead h1{font-size:clamp(17px,5.2vw,24px)!important;line-height:1.1!important;overflow-wrap:normal;hyphens:manual}
+html body.ep-app #app .st-kopf .sbar,html body.ep-app #app .st-kopf .sbar .sbtns{width:100%!important;max-width:100%!important}
+html body.ep-app #app .st-kopf.ep-kopf-natur .sbar .sbtns,html body.ep-app #app .st-kopf.ep-kopf-geld .sbar .sbtns,html body.ep-app #app .st-kopf.ep-kopf-alltag .sbar .sbtns,html body.ep-app #app .st-kopf.ep-kopf-welt .sbar .sbtns{background:rgba(18,12,60,.62)!important;border-color:rgba(255,255,255,.35)!important}
+html body.ep-app #app .st-kopf .sbar .sbtns > button{white-space:nowrap!important;font-size:12px!important}
+@media (max-width:370px){html body.ep-app #app .st-kopf .sbar .sbtns > button{font-size:10.5px!important}}
+@media (min-width:700px){html body.ep-app #app .st-kopf .bhead h1{font-size:28px!important}html body.ep-app #app .st-kopf.ep-kopf-natur .bhead,html body.ep-app #app .st-kopf.ep-kopf-geld .bhead,html body.ep-app #app .st-kopf.ep-kopf-alltag .bhead{padding-right:40%!important}}
+
+/* Training/Test mit Dejans Wellen-Boxen: auf dem Handy auf einen Bildschirm (Ränder und goldene Knöpfe im gleichen Verhältnis kleiner) */
+@media (max-width:699px){
+  html body.ep-app #app .modes>.mode.mode.mode{border-image-width:22px!important;padding:6px 6px!important}
+  html body.ep-app #app #startTrain,html body.ep-app #app .startlbl{--gh:48px!important;font-size:16px!important;margin-top:8px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts{margin-top:6px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts .cnt{height:32px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test .punkteinfo summary{padding:4px 10px!important;font-size:12px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test > p{margin:4px 0 0!important;font-size:12px!important;line-height:1.3!important}
+  html body.ep-app.ep-s-mode #app .modes{gap:6px!important;margin-top:8px!important}
+}
+@media (max-width:699px) and (max-height:900px){
+  html body.ep-app.ep-s-mode #app .modes .mode:not(.test) > h2 + p{display:none!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > .em{grid-row:1!important}
+}
+@media (max-width:699px) and (max-height:760px){
+  html body.ep-app.ep-s-mode #app .modes .mode.test > h2 + p{display:none!important}
+  html body.ep-app.ep-s-mode #app .st-kopf .bhead{min-height:40px!important;margin-bottom:6px!important}
+}
+
 `;
 document.head.appendChild(css);
 
