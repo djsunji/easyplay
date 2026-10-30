@@ -1073,3 +1073,29 @@ const app = document.getElementById("app") || document.body;
 new MutationObserver(kind).observe(app, {childList:true, subtree:true});
 kind();
 })();
+
+/* ================= Vorlesen klein unten rechts neben dem 50:50, gleich grosse Frage/Erklärung-Knöpfe am Handy ================= */
+(function(){
+// Der Vorlese-Schalter wandert hinter die Antworten (bzw. hinter die Joker-Leiste) und sitzt rechts auf deren Höhe.
+// hilfen.js setzt die Joker-Leiste immer direkt hinter .answers ein, also bleibt sie vor dem Schalter.
+const B = "html body #app";
+const css = document.createElement("style"); css.id = "ep-vorlesen-unten-css";
+css.textContent = `
+${B} .card .answers ~ .hlf-vlrow{display:flex!important;justify-content:flex-end!important;align-items:center;margin:12px 0 0!important;min-height:44px}
+${B} .card .hlf-joker + .hlf-vlrow{margin-top:-44px!important;pointer-events:none;position:relative}
+${B} .card .answers ~ .hlf-vlrow button.hlf-vl.hlf-vl{--gh:32px;pointer-events:auto}
+@media (max-width:640px){
+  ${B} .card .tabs{gap:8px!important}
+  ${B} .card .tabs .tabbtn.tabbtn{--gh:42px!important;flex:1 1 0!important;min-width:0!important;width:auto!important;font-size:.95rem!important;gap:6px!important}
+  ${B} .card .tabs .tabbtn.tabbtn .gki{width:24px!important;height:24px!important}
+}`;
+document.head.appendChild(css);
+const schieben = () => document.querySelectorAll("#app .card").forEach(card => {
+  const row = card.querySelector(":scope > .hlf-vlrow"), ans = card.querySelector(":scope > .answers");
+  if(!row || !ans) return;
+  const ziel = ans.nextElementSibling?.classList.contains("hlf-joker") ? ans.nextElementSibling : ans;
+  if(ziel.nextElementSibling !== row) ziel.insertAdjacentElement("afterend", row);
+});
+new MutationObserver(schieben).observe(document.getElementById("app") || document.body, {childList:true, subtree:true});
+schieben();
+})();

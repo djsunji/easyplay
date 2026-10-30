@@ -32,6 +32,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 2026-10-30 (v27): Vorlese-Schalter klein unten rechts auf Höhe 50:50 (stil.js verschiebt .hlf-vlrow hinter .answers/.hlf-joker). Köpfe ringsum weich ausgeblendet. Handy: Frage/Erklärung gleich breit und kleiner (42px).
 - 2026-10-30 (v26): Sprechblase zeigt nur noch Ben und Leni (je denken, denken2, staunen); Lumi- und Milo-Köpfe entfernt.
 - 2026-10-30 (v25): Sprechblase: Kopf in fester Box (object-fit), ragt nie in die Blase; lange Wörter werden getrennt (hyphens); eigene Grössen unter 360px. Alle 10 Köpfe bei 1280, 820, 640, 390 und 320px geprüft.
 - 2026-10-30 (v24): Sprechblase gross im Comic-Stil (gelb, dunkler Rand und Schatten). Daneben bei jeder Frage zufällig ein anderer Kopf (Ben, Leni, Lumi, Milo; denken oder staunen) aus `img/kids/koepfe/`, unten ausgeblendet. leni-kopf.webp entfernt.
