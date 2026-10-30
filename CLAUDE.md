@@ -32,6 +32,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 2026-10-30 (v24): Sprechblase gross im Comic-Stil (gelb, dunkler Rand und Schatten). Daneben bei jeder Frage zufällig ein anderer Kopf (Ben, Leni, Lumi, Milo; denken oder staunen) aus `img/kids/koepfe/`, unten ausgeblendet. leni-kopf.webp entfernt.
 - 2026-10-30 (v23): Sprechblase gelb; daneben nur Lenis Kopf (`img/kids/leni-kopf.webp`, aus leni-staunen ausgeschnitten, unten ausgeblendet), auch am Handy, Spitze zeigt zum Kopf.
 - 2026-10-30 (v22): Sprechblase der Frage lila glänzend mit weissem Rand, Glanz und sichtbarer Spitze (vorher hell).
 
