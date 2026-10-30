@@ -93,7 +93,7 @@ html body.ep-app.ep-s-geschmenu .epochs .thema .step{top:6px!important;right:9px
 html body.ep-app.ep-s-geschmenu .epochs .thema > span:last-child{min-width:0}
 html body.ep-app.ep-s-geschmenu p.label{margin:12px 0 8px!important;display:flex!important;align-items:baseline;gap:8px;flex-wrap:wrap}
 html body.ep-app.ep-s-geschmenu p.label span{font-size:17px!important;padding:6px 14px!important}
-html body.ep-app.ep-s-geschmenu p.label small{font-size:12px!important;padding:3px 10px!important}
+html body.ep-app.ep-s-geschmenu p.label small{font-size:12px!important;padding:3px 10px!important;color:#1B2240!important;background:rgba(255,255,255,.9)!important}
 html body.ep-app.ep-s-geschmenu .bereiche .bereich,html body.ep-app.ep-s-submenu #mixAll{min-height:0!important;padding:12px 14px!important;display:grid!important;grid-template-columns:44px 1fr auto;grid-template-areas:"e h c" "e p p";align-items:center;column-gap:12px;row-gap:2px;text-align:left!important;border-radius:20px!important}
 html body.ep-app.ep-s-geschmenu .bereiche .bereich .emo,html body.ep-app.ep-s-submenu #mixAll .emo{grid-area:e;width:44px!important;height:44px!important;margin:0!important;font-size:24px!important;border-radius:13px!important;display:grid!important;place-items:center}
 html body.ep-app.ep-s-geschmenu .bereiche .bereich h2,html body.ep-app.ep-s-submenu #mixAll h2{grid-area:h;font-size:17px!important;margin:0!important;line-height:1.15!important}
@@ -406,3 +406,6 @@ addEventListener("resize", bald);
 addEventListener("orientationchange", bald);
 try{ alles(); setTimeout(alles, 500); }catch(e){}
 })();
+
+/* Gewerteter Test: Hinweis «Registriere dich zuerst» gleich eingerückt wie der übrige Text */
+(function(){ const c=document.createElement("style"); c.textContent=`html body.ep-app .ep-regtipp{padding:0 6px 0 56px;margin:6px 0 10px;font-size:13px;line-height:1.35}`; document.head.appendChild(c); })();

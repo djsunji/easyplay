@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-43";
+window.EP_BUILD="ep-2026-10-31-01";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4521,7 +4521,7 @@ function renderMode(){
             <li>❌ <b>Falsch:</b> −20 Punkte und die Serie ist weg</li></ul></details><p style="display:none">` :
           t.id.startsWith("kt_") ? `Für einzelne Kantone gibt es noch nicht genug Fragen. Den gewerteten Test findest du unter «Alle Kantone».` :
           `Für einen Test braucht es mindestens ${TEST_MIN} Fragen, hier sind es erst ${n}.`}</p>
-        ${canTest && !S.profil ? `<p style="color:var(--ink);font-weight:600">Registriere dich zuerst, um in die Rangliste zu kommen.</p>` : ""}
+        ${canTest && !S.profil ? `<p class="ep-regtipp" style="color:var(--ink);font-weight:600">Registriere dich zuerst, um in die Rangliste zu kommen.</p>` : ""}
         ${canTest ? `<span class="big gold startlbl">${S.profil? "Test starten" : "Registrieren und starten"}</span>` : ""}</button>
     </div>`;
   
@@ -5825,20 +5825,16 @@ function renderSubMenu(){
   const m=THEMA[S.menu]; if(!m){ go("home"); return; } const b=m.bereich;
   $("#app").innerHTML = `
     ${crumbs()}
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico(m.emo)}</span><h1>${esc(m.name)}</h1></div>
+    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(m)}</span><h1>${esc(m.name)}</h1></div>
     ${stufeBar(`${countThema(m.id,S.stufe)} Fragen in ${m.kids.length} Unterkategorien`)}
     <div class="themen">
       ${m.kids.map(id=>{ const t=THEMA[id], st=trainStars(id), bp=myBest(id); return `<button class="thema" type="button" data-t="${id}" style="--c:var(${b.c})">
-        <span class="emo" aria-hidden="true">${ico(t.emo)}</span>
+        <span class="emo" aria-hidden="true">${themaIcon(t)}</span>
         <span><b>${esc(t.name)}</b><span class="t">${st!=null ? stars(st) : esc(t.text)}${bp? " · Test: "+bp+" P." : ""}</span>
         <span class="n">${countThema(id,S.stufe)} Fragen</span></span></button>`; }).join("")}
     </div>
-    <div class="bereiche" style="grid-template-columns:1fr;margin-top:18px">
-      <button class="bereich" type="button" id="mixAll" style="--c:var(${b.c});min-height:150px"><span class="count-pill">${countThema(m.id,S.stufe)} Fragen</span>
-        <span class="emo" aria-hidden="true">${ico("sparkle")}</span><h2>Alles gemischt</h2><p>Fragen aus allen Unterkategorien, auch als gewerteter Test</p></button>
-    </div>`;
+    `;
   document.querySelectorAll(".thema[data-t]").forEach(x=>x.onclick=()=>{ S.thema=THEMA[x.dataset.t]; go("mode"); });
-  $("#mixAll").onclick=()=>{ S.thema=m; go("mode"); };
 }
 
 /* ---------- Geschichte ---------- */
@@ -5846,7 +5842,7 @@ function renderGeschMenu(){
   const b=THEMA.geschichte.bereich;
   $("#app").innerHTML = `
     ${crumbs()}
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico("castle")}</span><h1>Geschichte</h1></div>
+    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(THEMA.geschichte)}</span><h1>Geschichte</h1></div>
     ${stufeBar(`${countThema("geschichte",S.stufe)} Fragen · vom Urknall bis heute`)}
     <p class="label"><span>Die Zeitreise</span><small>in zeitlicher Reihenfolge</small></p>
     <div class="themen epochs">
@@ -5857,7 +5853,7 @@ function renderGeschMenu(){
     <p class="label" style="margin-top:30px"><span>Spezial</span></p>
     <div class="bereiche" style="grid-template-columns:1fr">
       <button class="bereich" type="button" id="toCh" style="--c:var(--geld)"><span class="count-pill">${countIds(CH_IDS,S.stufe)} Fragen</span>
-        <span class="emo" aria-hidden="true">${ico("flag")}</span><h2>Schweizer Geschichte</h2><p>Allgemein und alle 26 Kantone</p></button>
+        <span class="emo" aria-hidden="true">${qicon("themen","ch_geschichte")}</span><h2>Schweizer Geschichte</h2><p>Allgemein und alle 26 Kantone</p></button>
     </div>`;
   ($("#backB")||{}).onclick=()=>{ S.bereich=b; go("bereich"); };
   document.querySelectorAll(".epochs .thema").forEach(x=>x.onclick=()=>{ S.thema=THEMA[x.dataset.t]; go("mode"); });
@@ -5866,15 +5862,15 @@ function renderGeschMenu(){
 function renderChMenu(){
   $("#app").innerHTML = `
     ${crumbs()}
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico("flag")}</span><h1>Schweizer Geschichte</h1></div>
+    <div class="bhead"><span class="emo" aria-hidden="true">${qicon("themen","ch_geschichte")}</span><h1>Schweizer Geschichte</h1></div>
     ${stufeBar(`${countIds(CH_IDS,S.stufe)} Fragen · 26 Kantone`)}
     <div class="bereiche" style="grid-template-columns:1fr">
       <button class="bereich" type="button" data-t="${CH_ALLG.id}" style="--c:var(--geld);min-height:150px"><span class="count-pill">${countThema(CH_ALLG.id,S.stufe)} Fragen</span>
-        <span class="emo" aria-hidden="true">${ico("flag")}</span><h2>Schweizer Geschichte</h2><p>Von 1291 über 1848 bis heute</p></button>
+        <span class="emo" aria-hidden="true">${qicon("themen","ch_geschichte")}</span><h2>Schweizer Geschichte</h2><p>Von 1291 über 1848 bis heute</p></button>
     </div>
     <div class="bereiche" style="grid-template-columns:1fr;margin-top:16px">
       <button class="bereich" type="button" data-t="kt_alle" style="--c:var(--welt);min-height:160px"><span class="count-pill">${countThema("kt_alle",S.stufe)} Fragen</span>
-        <span class="emo" aria-hidden="true">${ico("flag")}</span><h2>Alle Kantone</h2><p>Gemischt aus allen 26 Kantonen, auch als gewerteter Test</p></button>
+        <span class="emo" aria-hidden="true">${qicon("themen","kt_alle")}</span><h2>Alle Kantone</h2><p>Gemischt aus allen 26 Kantonen, auch als gewerteter Test</p></button>
     </div>
     <p class="label" style="margin-top:30px"><span>Die Kantone</span><small>Training pro Kanton</small></p>
     <div class="kantone">
@@ -5890,7 +5886,7 @@ function renderBerufMenu(){
   const b=THEMA.beruf.bereich; S.thema=THEMA.beruf;
   $("#app").innerHTML = `
     ${crumbs()}
-    <div class="bhead"><span class="emo" aria-hidden="true">${ico("toolbox")}</span><h1>Berufswahl & Lehre</h1></div>
+    <div class="bhead"><span class="emo" aria-hidden="true">${themaIcon(THEMA.beruf)}</span><h1>Berufswahl & Lehre</h1></div>
     ${stufeBar(`${countThema("beruf",S.stufe)} Fragen · ${AUSSAGEN.length} Aussagen im Berufs-Check`)}
     <div class="bereiche">
       <button class="bereich" type="button" id="goCheck" style="--c:var(${b.c})"><span class="emo" aria-hidden="true">${ico("compass")}</span><h2>Berufs-Check</h2><p>Finde Berufsfelder und Lehren, die zu dir passen</p></button>

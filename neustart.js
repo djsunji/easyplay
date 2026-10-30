@@ -263,3 +263,25 @@ const vorRender = window.render;
 if(typeof vorRender === "function") window.render = function(){ const r = vorRender.apply(this, arguments); try{ if(S.screen !== "home"){ document.body.classList.remove("ep-neustart"); document.body.classList.remove("ep-np-wahl"); WAHL = false; } }catch(e){} return r; };
 window.EP_NEUSTART = { an, ein(){ try{ localStorage.setItem(SCHLUESSEL, "1"); }catch(e){} render(); }, aus(){ try{ localStorage.removeItem(SCHLUESSEL); }catch(e){} render(); } };
 })();
+
+/* Unterseiten am Computer: weisser «Zurück»-Knopf über dem Kopf, führt eine Stufe zurück (Brotkrumen) */
+(function(){
+const SEITEN = ["bereich", "submenu", "geschmenu", "chmenu", "berufmenu", "mode"];
+function setzen(){
+  try{
+    if(document.body.classList.contains("ep-app") || !SEITEN.includes(S.screen)) return;
+    const app = document.getElementById("app"); if(!app || app.querySelector(":scope > .np-zurueck-unter")) return;
+    const kopf = app.querySelector(":scope > .st-kopf") || app.querySelector(":scope > .bhead"); if(!kopf) return;
+    const b = document.createElement("button"); b.type = "button"; b.className = "np-zurueck np-zurueck-unter";
+    b.innerHTML = `<img src="img/grafik/sym-zurueck.webp" alt=""> Zurück`; b.setAttribute("aria-label", "Zurück");
+    b.onclick = () => { try{ const c = S._crumbs || []; const f = c[c.length - 1]; if(typeof f === "function") f(); else go("home"); }catch(e){ go("home"); } };
+    kopf.insertAdjacentElement("beforebegin", b);
+  }catch(e){}
+}
+const app = document.getElementById("app");
+if(app) new MutationObserver(setzen).observe(app, {childList:true});
+setzen();
+const c = document.createElement("style"); c.id = "np-zurueck-unter-css";
+c.textContent = `html body #app > .np-zurueck-unter{display:inline-flex;margin:0 0 12px}`;
+document.head.appendChild(c);
+})();
