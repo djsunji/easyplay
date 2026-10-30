@@ -417,17 +417,6 @@
   "e": "Accanto al pupazzo di neve ci sono tre palle bianche: grande in basso, media in mezzo, piccola in alto.",
   "m": "Un pupazzo di neve ha spesso tre palle."
  },
- "26760": {
-  "q": "Qual era il vero nome di battesimo di Le Corbusier?",
-  "a": [
-   "Charles-Édouard",
-   "Jean-Jacques",
-   "Pierre-Louis",
-   "Henri-Paul"
-  ],
-  "e": "Il suo vero nome era Charles-Édouard Jeanneret. Le Corbusier era un nome d'arte.",
-  "m": "Le Corbusier si chiamava in realtà Charles-Édouard Jeanneret."
- },
  "79494": {
   "q": "Perché dopo la cottura si mettono le uova nell'acqua fredda?",
   "a": [
@@ -517,14 +506,14 @@
   "m": "Una cotta di maglia è fatta di tanti piccoli anelli di ferro."
  },
  "25934": {
-  "q": "Quale Paese entrò in guerra dopo l'attacco a Pearl Harbor nel 1941?",
+  "q": "Quale paese entrò in guerra dopo l'attacco a Pearl Harbor nel 1941?",
   "a": [
    "Gli Stati Uniti",
-   "La Svizzera",
    "La Svezia",
-   "La Spagna"
+   "La Spagna",
+   "Il Portogallo"
   ],
-  "e": "Nel dicembre 1941 il Giappone attaccò il porto di Pearl Harbor, alle Hawaii. Dopo, gli Stati Uniti combatterono nella guerra.",
+  "e": "Nel dicembre 1941 il Giappone attaccò il porto di Pearl Harbor alle Hawaii. In seguito gli Stati Uniti parteciparono alla guerra.",
   "m": "Dopo Pearl Harbor gli Stati Uniti entrarono nella Seconda guerra mondiale."
  },
  "23133": {
@@ -2742,9 +2731,9 @@
   "q": "Che cosa introdusse Maria Teresa nel 1774 per tutti i bambini?",
   "a": [
    "L'obbligo scolastico",
-   "Le vacanze",
-   "La paghetta",
-   "Il calcio"
+   "L'assicurazione malattia",
+   "Il diritto di voto",
+   "Il servizio militare obbligatorio"
   ],
   "e": "Nel 1774 Maria Teresa introdusse l'obbligo scolastico generale. I bambini dovevano andare a scuola almeno sei anni.",
   "m": "Maria Teresa introdusse l'obbligo scolastico."
@@ -3366,15 +3355,15 @@
   "m": "Lech Wałęsa ricevette nel 1983 il premio Nobel per la pace."
  },
  "38080": {
-  "q": "Quale frase gridavano le persone nel 1989 durante le manifestazioni nella RDT?",
+  "q": "Quale frase gridavano le persone nel 1989 durante le manifestazioni nella DDR?",
   "a": [
-   "«Noi siamo il popolo»",
-   "«Vogliamo le vacanze»",
-   "«Più cioccolato»",
-   "«Tutti allo zoo»"
+   "Noi siamo il popolo",
+   "Tutto il potere al partito",
+   "Restiamo nella DDR",
+   "Viva il muro"
   ],
-  "e": "Durante le manifestazioni del lunedì, per esempio a Lipsia, migliaia di persone gridavano «Wir sind das Volk», cioè «Noi siamo il popolo». Volevano libertà e poter decidere anche loro.",
-  "m": "«Noi siamo il popolo» era il grido delle manifestazioni nella RDT."
+  "e": "Durante le manifestazioni del lunedì, per esempio a Lipsia, migliaia di persone gridavano «Noi siamo il popolo». Volevano libertà e poter decidere.",
+  "m": "«Noi siamo il popolo» era il grido delle manifestazioni nella DDR."
  },
  "37480": {
   "q": "Che cosa stabilisce l'UIT anche per i satelliti?",
@@ -3883,15 +3872,15 @@
   "m": "Senza pista ciclabile i bambini sotto i 12 anni possono andare sul marciapiede."
  },
  "82537": {
-  "q": "Quale inventore scoprì nel 1866 come produrre molta corrente con una macchina che gira?",
+  "q": "A che cosa serve la dinamo della bicicletta?",
   "a": [
-   "Werner Siemens",
-   "Thomas Edison",
-   "Alexander Graham Bell",
-   "Gottlieb Daimler"
+   "Produce corrente per la luce mentre si pedala",
+   "Gonfia le gomme",
+   "Frena la bicicletta automaticamente",
+   "Conserva acqua per il viaggio"
   ],
-  "e": "Nel 1866 Werner Siemens scoprì il principio dinamoelettrico e costruì una dinamo. Da lì viene il nome dinamo.",
-  "m": "La dinamo risale a Werner Siemens."
+  "e": "La ruota fa girare un magnete nella dinamo. Così nasce la corrente che accende la lampada. Più si va veloci, più la luce è forte.",
+  "m": "La dinamo della bici trasforma il movimento in corrente."
  },
  "22314": {
   "q": "Che cosa mangia più volentieri l'orso Paddington?",

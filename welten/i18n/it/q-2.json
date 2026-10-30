@@ -913,14 +913,14 @@
   "m": "Un tempo si poteva votare solo a 20 anni."
  },
  "37846": {
-  "q": "In quale città si svolse nel 1988 la famosa «manifestazione delle candele» per la libertà di religione?",
+  "q": "Per che cosa manifestarono con le candele migliaia di persone a Bratislava nel 1988?",
   "a": [
-   "Bratislava",
-   "Vienna",
-   "Berna",
-   "Parigi"
+   "Per la libertà di religione",
+   "Per vacanze più lunghe",
+   "Per affitti più bassi",
+   "Per un nuovo stadio"
   ],
-  "e": "Migliaia di persone stavano in una piazza di Bratislava, che allora faceva parte della Cecoslovacchia, con delle candele. La polizia le scacciò con gli idranti.",
+  "e": "Bratislava faceva allora parte della Cecoslovacchia comunista. Le persone stavano in silenzio con le candele in una piazza, la polizia le disperse con gli idranti.",
   "m": "La manifestazione delle candele di Bratislava fu una protesta coraggiosa contro la dittatura."
  },
  "38136": {
@@ -935,15 +935,15 @@
   "m": "La East Side Gallery è il pezzo di muro più lungo ancora in piedi."
  },
  "36980": {
-  "q": "In quale anno fu fondata la Scuola internazionale di Ginevra?",
+  "q": "Per chi fu fondata nel 1924 la Scuola internazionale di Ginevra?",
   "a": [
-   "1924",
-   "1824",
-   "1974",
-   "2004"
+   "Per i figli degli impiegati della Società delle Nazioni",
+   "Per i figli di contadini di montagna",
+   "Per giovani sportivi professionisti",
+   "Per le reclute dell'esercito"
   ],
   "e": "La Scuola internazionale di Ginevra fu fondata nel 1924. Era pensata per i figli degli impiegati della Società delle Nazioni.",
-  "m": "La Scuola internazionale di Ginevra esiste dal 1924."
+  "m": "La Scuola internazionale di Ginevra nacque per i figli degli impiegati della Società delle Nazioni."
  },
  "64830": {
   "q": "Chi era un fratello di Poseidone?",
@@ -3124,15 +3124,15 @@
   "m": "In francese si ringrazia con «merci»."
  },
  "24260": {
-  "q": "Chi diede fuoco al tempio di Artemide nel 356 avanti Cristo?",
+  "q": "Che cosa accadde nel 356 a.C. al tempio di Artemide a Efeso?",
   "a": [
-   "Erostrato",
-   "Fidia",
-   "Mausolo",
-   "Alessandro"
+   "Un uomo lo incendiò per diventare famoso",
+   "Un terremoto lo fece sprofondare in mare",
+   "I Romani lo trasformarono in un teatro",
+   "Fu portato pietra per pietra ad Atene"
   ],
-  "e": "Erostrato appiccò il fuoco al tempio nel 356 avanti Cristo. Il grande edificio bruciò completamente.",
-  "m": "Erostrato diede fuoco al tempio di Artemide."
+  "e": "Un uomo di nome Erostrato appiccò il fuoco perché voleva diventare famoso a ogni costo. Il tempio bruciò e fu ricostruito più tardi.",
+  "m": "Erostrato incendiò il tempio di Artemide per diventare famoso."
  },
  "24637": {
   "q": "Oltre che sul grano, su che cosa si doveva spesso pagare anche la decima?",
@@ -3971,15 +3971,15 @@
   "m": "Quando arriva una visita, suona il campanello."
  },
  "26404": {
-  "q": "Chi convinse Calvino a restare a Ginevra?",
+  "q": "Che cosa aveva in mente Calvino quando arrivò a Ginevra nel 1536?",
   "a": [
-   "Guillaume Farel",
-   "Martin Lutero",
-   "Ulrico Zwingli",
-   "Thomas Platter"
+   "Solo passare",
+   "Diventare re di Ginevra",
+   "Fondare una fabbrica di orologi",
+   "Conquistare la città"
   ],
-  "e": "Nel 1536 Calvino voleva solo passare da Ginevra. Il predicatore Guillaume Farel lo convinse a restare e ad aiutare.",
-  "m": "Farel portò Calvino a Ginevra."
+  "e": "Calvino voleva fermarsi una sola notte. Ma il predicatore Guillaume Farel lo convinse a restare a Ginevra per aiutare.",
+  "m": "Farel trattenne Calvino a Ginevra."
  },
  "84356": {
   "q": "Con quale materiale si fondono molte campane delle chiese?",
@@ -4112,17 +4112,6 @@
   ],
   "e": "In tutto il re abitò nel castello solo circa 170 giorni. Poco dopo morì.",
   "m": "Il re abitò a Neuschwanstein solo per poco tempo."
- },
- "52406": {
-  "q": "In quale anno fu aperta la moderna strada del Susten?",
-  "a": [
-   "1946",
-   "1846",
-   "1996",
-   "2016"
-  ],
-  "e": "La strada del Susten fu costruita a partire dal 1938 e aperta al traffico nel 1946. Fu una delle prime strade di passo progettate apposta per le automobili.",
-  "m": "La strada del Susten è aperta dal 1946."
  },
  "49657": {
   "q": "Il Kazakistan è il Paese più grande del mondo senza ...?",

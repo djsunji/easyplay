@@ -121,14 +121,14 @@
   "m": "Albert Anker dipinse la Zuppa di latte di Kappel."
  },
  "79485": {
-  "q": "Quale latticino si ottiene anche grazie ai batteri lattici?",
+  "q": "Quale latticino si produce con l'aiuto dei batteri lattici?",
   "a": [
    "Lo yogurt",
    "Il latte condensato",
    "Il latte in polvere",
    "La panna intera"
   ],
-  "e": "Per fare lo yogurt si mettono batteri lattici nel latte tiepido. Rendono il latte acido e denso.",
+  "e": "Per fare lo yogurt si aggiungono batteri lattici al latte caldo. Rendono il latte acido e denso.",
   "m": "Lo yogurt si fa con i batteri lattici."
  },
  "71927": {
@@ -869,15 +869,15 @@
   "m": "Nel 1956 molte persone fuggirono dall'Ungheria in Svizzera."
  },
  "38199": {
-  "q": "Per che cosa è famosa la Piana delle Giare in Laos?",
+  "q": "Per che cosa è famoso in tutto il mondo un altopiano del Laos?",
   "a": [
-   "Per tante antiche giare di pietra",
+   "Per centinaia di enormi giare di pietra antichissime",
    "Per un grande deserto di sabbia",
-   "Per tanti vulcani",
+   "Per molti vulcani",
    "Per un grande ghiacciaio"
   ],
-  "e": "Su questa piana ci sono centinaia di enormi giare di pietra, molto antiche. A che cosa servissero non è ancora del tutto chiaro.",
-  "m": "In Laos su una piana ci sono tante antiche giare di pietra."
+  "e": "Sulla cosiddetta Piana delle Giare si trovano centinaia di enormi giare di pietra molto antiche. A che cosa servissero non è ancora del tutto chiaro.",
+  "m": "In Laos su una piana si trovano molte antiche giare di pietra."
  },
  "37231": {
   "q": "Come mostra di solito un cane da soccorso di aver trovato una persona?",
@@ -2573,17 +2573,6 @@
   "e": "Cevio si trova in mezzo alla Vallemaggia. Lì c'è il Museo di Valmaggia.",
   "m": "Cevio è un villaggio della Vallemaggia."
  },
- "50323": {
-  "q": "In che anno sono state aperte le nuove chiuse più grandi del Canale di Panama?",
-  "a": [
-   "2016",
-   "1950",
-   "1970",
-   "1999"
-  ],
-  "e": "Siccome le navi diventavano sempre più grandi, si costruirono nuove chiuse. Sono entrate in funzione nel 2016.",
-  "m": "Dal 2016 il Canale di Panama ha chiuse più grandi."
- },
  "73487": {
   "q": "Che cosa è meglio portare con sé quando si va a fare la spesa?",
   "a": [
@@ -2880,17 +2869,6 @@
   ],
   "e": "Le nuvolette e le immagini nei riquadri fanno parte di un fumetto.",
   "m": "In un fumetto i personaggi parlano nelle nuvolette."
- },
- "26844": {
-  "q": "In che anno le donne in Svizzera ottennero il diritto di voto per tutta la Svizzera?",
-  "a": [
-   "1971",
-   "1848",
-   "1918",
-   "2002"
-  ],
-  "e": "Il 7 febbraio 1971 fu approvato il diritto di voto delle donne a livello federale. Da allora le donne possono partecipare alle votazioni federali.",
-  "m": "Dal 1971 le donne in Svizzera possono votare ed eleggere."
  },
  "82367": {
   "q": "Quando asciuga più in fretta il bucato bagnato steso fuori?",
@@ -3331,17 +3309,6 @@
   ],
   "e": "Le galline sono uccelli e depongono le uova. Mucca, cavallo e pecora fanno nascere piccoli vivi.",
   "m": "La gallina depone le uova."
- },
- "26541": {
-  "q": "Chi nel 1848 non poteva ancora votare a livello federale?",
-  "a": [
-   "Le donne",
-   "I contadini",
-   "I maestri",
-   "I soldati"
-  ],
-  "e": "Nel 1848 solo gli uomini potevano eleggere e votare. Le donne ottennero il diritto di voto federale solo nel 1971.",
-  "m": "Nel 1848 le donne non potevano ancora votare."
  },
  "81431": {
   "q": "Che cosa si fa alla lana per farne un filo?",

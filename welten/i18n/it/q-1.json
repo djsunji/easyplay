@@ -1430,15 +1430,15 @@
   "m": "I sampietrini nel terreno mostrano dove c'era il Muro."
  },
  "36698": {
-  "q": "In quale anno il nome «Nazioni Unite» fu usato per la prima volta in una dichiarazione comune di più Paesi?",
+  "q": "Che cosa esprime il nome «Nazioni Unite»?",
   "a": [
-   "1942",
-   "1918",
-   "1965",
-   "1991"
+   "Molti paesi si sono uniti",
+   "Un paese governa tutti gli altri",
+   "Tutti i paesi parlano la stessa lingua",
+   "Non ci sono più confini"
   ],
-  "e": "Il 1° gennaio 1942, durante la Seconda guerra mondiale, 26 Paesi firmarono la «Dichiarazione delle Nazioni Unite». Tre anni dopo da lì nacque l'ONU.",
-  "m": "Il nome «Nazioni Unite» si usava già nel 1942."
+  "e": "Le nazioni sono paesi, e unite significa riunite. All'ONU quasi tutti i paesi del mondo lavorano insieme.",
+  "m": "Nelle Nazioni Unite molti paesi si sono uniti."
  },
  "64527": {
   "q": "Dove si tengono spesso le mani quando si medita nella posizione del loto?",
@@ -2013,15 +2013,15 @@
   "m": "Canton Sciaffusa, capoluogo Sciaffusa."
  },
  "3173": {
-  "q": "Quando Soletta entrò nell'antica Confederazione, che è stata l'antenata della Svizzera?",
+  "q": "In che anno Soletta divenne membro dell'antica Confederazione?",
   "a": [
-   "Nel 1481",
-   "Solo nel 2000",
-   "Già 3000 anni fa",
-   "Mai, Soletta restò da sola"
+   "1481",
+   "1291",
+   "1803",
+   "1848"
   ],
-  "e": "Soletta entrò nell'antica Confederazione nel 1481, insieme alla città di Friburgo. Fu un momento importante nella storia dell'attuale cantone.",
-  "m": "Nel 1481 Soletta entrò nella Confederazione."
+  "e": "Soletta entrò nell'antica Confederazione nel 1481, insieme alla città di Friburgo.",
+  "m": "Nel 1481 Soletta entrò a far parte della Confederazione."
  },
  "95600": {
   "q": "Di quale gruppo di cantoni fa parte Svitto insieme a Uri e Untervaldo?",
@@ -2211,15 +2211,15 @@
   "m": "Il Mekong è il fiume più importante del Laos."
  },
  "36596": {
-  "q": "Chi ha disegnato la bandiera arcobaleno nel 1978?",
+  "q": "Di che cosa è simbolo la bandiera arcobaleno?",
   "a": [
-   "Gilbert Baker",
-   "Andy Warhol",
-   "Elvis Presley",
-   "Neil Armstrong"
+   "Della diversità e della tolleranza",
+   "Del brutto tempo",
+   "Di un pericolo sulla strada",
+   "Della partenza di una gara"
   ],
-  "e": "L'artista Gilbert Baker cucì le prime bandiere arcobaleno. Voleva creare un segno allegro per la diversità.",
-  "m": "Gilbert Baker ha disegnato la bandiera arcobaleno."
+  "e": "La bandiera arcobaleno fu creata nel 1978 negli Stati Uniti. I suoi tanti colori rappresentano la diversità e il rispetto per tutte le persone.",
+  "m": "La bandiera arcobaleno rappresenta la diversità."
  },
  "64524": {
   "q": "Dove stanno i piedi nella posizione del loto completa?",
@@ -3729,15 +3729,15 @@
   "m": "A Uri si parla tedesco."
  },
  "37671": {
-  "q": "Quanti partiti comandano in un sistema a partito unico?",
+  "q": "Quale di questi paesi ha oggi un sistema a partito unico?",
   "a": [
-   "Uno solo",
-   "Due",
-   "Tre",
-   "Molti"
+   "La Corea del Nord",
+   "La Svizzera",
+   "L'Italia",
+   "L'Austria"
   ],
-  "e": "In un sistema a partito unico solo un partito ha il potere. Decide da solo sul Paese.",
-  "m": "In un sistema a partito unico comanda un solo partito."
+  "e": "In Corea del Nord decide un solo partito. Le persone non possono scegliere tra diversi partiti.",
+  "m": "La Corea del Nord ha un sistema a partito unico."
  },
  "38056": {
   "q": "In quale momento della giornata cominciò la chiusura del confine il 13 agosto 1961?",

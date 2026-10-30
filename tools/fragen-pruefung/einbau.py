@@ -71,7 +71,11 @@ for nr, e in meldungen.items():
     if nr in geloescht: continue
     a = e.get('aktion')
     if a == 'stufe' and e.get('stufe') in (1, 2, 3):
-        stufe[nr] = e['stufe']; bericht['stufe'] += 1
+        if alle[nr].get('img'):
+            bericht['stufe bei Bilder-Frage nicht übernommen'] += 1
+            unsicher.append((nr, f"Bilder-Frage: Stufe {e['stufe']} vorgeschlagen, nicht übernommen", e.get('grund', '')))
+        else:
+            stufe[nr] = e['stufe']; bericht['stufe'] += 1
     elif a == 'umschreiben':
         n = e.get('neu') or {}
         if not n.get('q') or len(n.get('a', [])) != 4 or len(set(map(norm, n['a']))) != 4 or not n.get('e'):
