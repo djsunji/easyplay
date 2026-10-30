@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Hauptseite»: Quiz-Antworten nach der Antwort wieder in ihrer eigenen Farbe (Dejans Wunsch), nur grünes/rotes Leuchten mit Haken/Kreuz; die Bilder `img/quiz-antwort-richtig|falsch.webp` werden nicht mehr verwendet (`stil.js`). Version ep-2026-10-30-08.
 - 30.10. Sitzung «Hauptseite»: Dejans gezeichnete Themen-Symbole statt Emoji: `ico()` in `index.html` nimmt bei den Schlüsseln aus `GICO` (ballot, bank, bike, castle, chains, coin, columns, globe, health, house, microscope, numbers, tree→leaf) `img/grafik/ic-*.webp`, CSS `.ic.gico` in `stil.js`. Forscher-Kachel der neuen Startseite mit `img/grafik/karte-forscher.webp` (`neustart.js`). Version ep-2026-10-30-07.
 - 30.10. Sitzung «Hauptseite»: Quiz nach der Antwort: richtige Antwort wird ganz grün, falsch gewählte ganz rot (neue Bilder `img/quiz-antwort-richtig.webp` und `-falsch.webp`, Buchstabe bleibt), Haken und Kreuz mittig rechts (`stil.js`, Block «Quiz: Antworten im Glanz-Stil der Qeels»). Dazu Dejans neue Knopf-Grafiken in `img/grafik/` (Quiz-Leiste, Reiter, 50:50, Vorlesen, goldene Knöpfe, Training/Test-Karten, Stufen; Block «Neue Knopf-Grafiken von Dejan» in `stil.js`, Bilder in `index.html` und `hilfen.js`). Version ep-2026-10-30-06.
 - 30.10. Sitzung «Hauptseite»: Neue Startseite (`?neu`): Kachel «Truhe öffnen» unten rechts durch «Forscher-Auftrag» ersetzt (Titel des Tagesauftrags aus `ep-x-forscher-heute`, öffnet `x-forscher`, Grund `tag-grund.webp`, vorläufig Bild `img/kids/duo-bereit.webp`), `neustart.js`. Version ep-2026-10-30-05.

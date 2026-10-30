@@ -840,8 +840,8 @@ ${A}:hover:not([disabled]){filter:brightness(1.08) drop-shadow(0 8px 14px rgba(0
 ${A}:active:not([disabled]){filter:brightness(.95) drop-shadow(0 2px 6px rgba(0,0,0,.25));transform:translateY(2px) scale(.985)}
 ${A}:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 ${A}[disabled]:not(.right):not(.wrong){opacity:.5;filter:saturate(.6) drop-shadow(0 4px 8px rgba(0,0,0,.2))}
-${A}.right{--ab:url("img/quiz-antwort-richtig.webp");opacity:1!important;outline:0;filter:drop-shadow(0 0 12px rgba(59,255,142,.75))!important}
-${A}.wrong{--ab:url("img/quiz-antwort-falsch.webp");opacity:1!important;filter:drop-shadow(0 0 12px rgba(255,59,59,.7))!important}
+${A}.right{opacity:1!important;outline:0;filter:drop-shadow(0 0 12px rgba(59,255,142,.75))!important}
+${A}.wrong{opacity:1!important;filter:drop-shadow(0 0 12px rgba(255,59,59,.7))!important}
 ${A}.right::after,${A}.wrong::after{content:"✓";margin-left:auto;flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#16A35A;color:#fff;font-weight:900;font-size:1rem;box-shadow:0 0 0 2px #fff;text-shadow:none;position:static!important;top:auto!important;right:auto!important;transform:none!important;align-self:center}
 ${A}.wrong::after{content:"✗";background:#D6362E}
 html body.ep-app #app .answers .ans{--ah:56px}
