@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-16";
+window.EP_BUILD="ep-2026-10-30-17";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6139,8 +6139,8 @@ const HINTERGRUENDE = [
   {id:"wolken", emo:"🌈", name:"Farbwolken", text:"Sanfte Farben aus dem Logo"},
   {id:"muster", emo:"✏️", name:"Lern-Muster", text:"Verspielt wie ein Schulheft"},
   {id:"unterwasser", emo:"🐠", name:"Unterwasser", text:"Blubberblasen, Seegras und Sand"},
-  {id:"wiese", emo:"🌼", name:"Sommerwiese", text:"Hügel, Blumen und Sonnenschein"},
-  {id:"weltall", emo:"🪐", name:"Weltall", text:"Sterne, Planeten und eine Rakete"}
+  {id:"baender", emo:"🎀", name:"Farbbänder", text:"Sanft wogende Farbstreifen"},
+  {id:"formen", emo:"🔷", name:"Formen-Muster", text:"Kreise, Sterne und Wellen"}
 ];
 function segRow(name, opts, cur){ return `<div class="segs setsegs" role="radiogroup" aria-label="${esc(name)}">${opts.map(([v,l])=>`<button type="button" role="radio" class="seg" data-v="${v}" aria-checked="${cur===v}" aria-pressed="${cur===v}">${l}</button>`).join("")}</div>`; }
 function einstellungenHTML(){
