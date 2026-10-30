@@ -217,9 +217,9 @@ html body.ep-app.ep-s-bereich .bdesc{display:none!important}
 /* ---- 30.10.: Dejans neue Knopf-Grafiken auf dem Handy sauber skalieren ---- */
 /* Quiz-Leiste: alle fünf Knöpfe passen in die Breite, Grafiken unverzerrt (gleiches Verhältnis der Ränder) */
 html body.ep-app.ep-s-quiz #app .qnav{display:flex!important;align-items:center;gap:4px!important;padding:5px!important;flex-wrap:nowrap!important;overflow:hidden}
-html body.ep-app.ep-s-quiz #app .qnav .qnbtn,html body.ep-app.ep-s-quiz #app .qnav #qNext,html body.ep-app.ep-s-quiz #app .qnav #qMark,html body.ep-app.ep-s-quiz #app .qnav .abgabe{--gh:42px!important;flex:0 0 auto;min-width:0!important;gap:5px!important;font-size:14px!important}
+html body.ep-app.ep-s-quiz #app .qnav #qGrid,html body.ep-app.ep-s-quiz #app .qnav .abgabe:not(:has(.gki)){--gh:42px!important;flex:0 0 auto;min-width:0!important;gap:5px!important;font-size:14px!important}
 html body.ep-app.ep-s-quiz #app .qnav #qGrid{flex:1 1 auto!important;min-width:0!important}
-html body.ep-app.ep-s-quiz #app .qnav .abgabe{flex:0 1 auto!important}
+html body.ep-app.ep-s-quiz #app .qnav .abgabe:not(:has(.gki)){flex:0 1 auto!important}
 html body.ep-app.ep-s-quiz #app .qnav .gki{width:22px!important;height:22px!important}
 @media (max-width:440px){
   html body.ep-app.ep-s-quiz #app .qnav .abgabe .tlab,html body.ep-app.ep-s-quiz #app .qnav .abgabe > span:not(.gki){display:none!important}
@@ -227,7 +227,7 @@ html body.ep-app.ep-s-quiz #app .qnav .gki{width:22px!important;height:22px!impo
   html body.ep-app.ep-s-quiz #app .qnav .abgabe:not(:has(.gki)){font-size:13px!important}
   html body.ep-app.ep-s-quiz #app .qnav #qGrid .gki{display:none!important}
 }
-@media (max-width:370px){html body.ep-app.ep-s-quiz #app .qnav .qnbtn,html body.ep-app.ep-s-quiz #app .qnav #qNext,html body.ep-app.ep-s-quiz #app .qnav #qMark,html body.ep-app.ep-s-quiz #app .qnav .abgabe{--gh:38px!important}}
+@media (max-width:370px){html body.ep-app.ep-s-quiz #app .qnav #qGrid,html body.ep-app.ep-s-quiz #app .qnav .abgabe:not(:has(.gki)){--gh:38px!important}}
 /* Reiter Frage/Erklärung und 50:50 etwas niedriger */
 html body.ep-app #app .card .tabs .tabbtn,html body.ep-app #app .card .tabs .tabbtn[aria-selected="true"]{--gh:46px!important;font-size:15px!important}
 html body.ep-app #app .card .tabs .gki{width:28px!important;height:28px!important}
