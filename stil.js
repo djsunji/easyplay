@@ -788,7 +788,7 @@ suchen();
 // Ecken, Unterkante und Wellen bleiben unverzerrt. Symbol oben links, Text links, grosses helles Wasserzeichen rechts unten (data-wz).
 const B = {welt:"30,50,160", natur:"10,90,60", geld:"140,20,30", alltag:"150,80,0"};
 const WZ = {
-  geldalles:"💰", alltagalles:"🏠", sprachenalles:"💬",geschichte:"🏰", politik:"🏛️", geografie:"🌍", religion:"🕊️", bilder:"🖼️",
+  geldalles:"💰", alltagalles:"🏠", sprachenalles:"💬", naturalles:"🦊", wissenalles:"🧪", technikalles:"🤖",geschichte:"🏰", politik:"🏛️", geografie:"🌍", religion:"🕊️", bilder:"🖼️",
   natur:"🌳", tiere:"🦊", wissenschaft:"🧪", koerper:"💪", physik:"⚡", weltall:"🔭", erde:"🌋", chemie:"⚗️", mathe:"🔢", technik:"🤖", informatik:"💻",
   geld:"🪙", banken:"🏦", steuern:"🧾", krankenkasse:"🩺", medien:"📱", beruf:"🧰", haushalt:"🍳", schweiz:"🏔️", wirtschaft:"💰", logos:"🏷️",
   alltag:"🏠", sprache:"🔤", fremdsprachen:"💬", franzoesisch:"🥐", englisch:"💂", kunst:"🎨", musik:"🎵", sport:"⚽", unterhaltung:"🎬", allgemein:"🧩", ethik:"⚖️"};

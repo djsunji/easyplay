@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-41";
+window.EP_BUILD="ep-2026-10-30-42";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -2805,17 +2805,20 @@ const BEREICHE = [
     {id:"religion", name:"Religion", emo:"dove", text:"Christentum, Islam und weitere Religionen", menu:"submenu", kids:["rel_christentum","rel_islam","rel_andere"]},
     {id:"bilder", name:"Bilder-Quiz", emo:"image", text:"Wappen, Flaggen und Tiere erkennen"}]},
   {id:"natur", name:"Natur & Wissen", emo:"microscope", c:"--natur", text:"Tiere, Pflanzen, Körper, Weltall", desc:"Wie funktioniert die Welt? Hier geht es um Pflanzen, Tiere und das Wetter, um Planeten und Klima, um deinen eigenen Körper und um spannende Entdeckungen aus Wissenschaft und Physik.", themen:[
-    {id:"natur", name:"Natur & Pflanzen", emo:"tree", text:"Pflanzen, Wald und Ökologie"},
-    {id:"tiere", name:"Tiere", emo:"fox", text:"Säugetiere, Vögel, Insekten und mehr"},
-    {id:"wissenschaft", name:"Wissenschaft", emo:"flask", text:"Forschung, Chemie und Erfindungen"},
+    {id:"naturalles", name:"Natur & Tiere", emo:"tree", text:"Pflanzen, Wald, Säugetiere, Vögel und Insekten", kids:["natur","tiere"], sammel:true},
+    {id:"natur", name:"Natur & Pflanzen", emo:"tree", text:"Pflanzen, Wald und Ökologie", versteckt:true},
+    {id:"tiere", name:"Tiere", emo:"fox", text:"Säugetiere, Vögel, Insekten und mehr", versteckt:true},
+    {id:"wissenalles", name:"Wissenschaft, Physik & Chemie", emo:"flask", text:"Forschung, Kräfte, Energie, Stoffe und Atome", kids:["wissenschaft","physik","chemie"], sammel:true},
+    {id:"wissenschaft", name:"Wissenschaft", emo:"flask", text:"Forschung, Chemie und Erfindungen", versteckt:true},
     {id:"koerper", name:"Körper", emo:"muscle", text:"Organe, Sinne und Gesundheit"},
-    {id:"physik", name:"Physik", emo:"bolt", text:"Kräfte, Licht, Strom und Energie"},
+    {id:"physik", name:"Physik", emo:"bolt", text:"Kräfte, Licht, Strom und Energie", versteckt:true},
     {id:"weltall", name:"Weltall & Astronomie", emo:"telescope", text:"Planeten, Sterne und Raumfahrt"},
     {id:"erde", name:"Erde & Naturphänomene", emo:"volcano", text:"Wetter, Vulkane, Erdbeben, Klima"},
-    {id:"chemie", name:"Chemie", emo:"testtube", text:"Stoffe, Atome und Reaktionen"},
+    {id:"chemie", name:"Chemie", emo:"testtube", text:"Stoffe, Atome und Reaktionen", versteckt:true},
     {id:"mathe", name:"Mathematik & Logik", emo:"numbers", text:"Rechnen, Geometrie und Rätsel"},
-    {id:"technik", name:"Technik & Erfindungen", emo:"robot", text:"Maschinen, Computer und Erfinder"},
-    {id:"informatik", name:"Informatik", emo:"laptop", text:"Programmieren, Daten und Netzwerke"}]},
+    {id:"technikalles", name:"Technik & Informatik", emo:"robot", text:"Maschinen, Erfinder, Computer und Programmieren", kids:["technik","informatik"], sammel:true},
+    {id:"technik", name:"Technik & Erfindungen", emo:"robot", text:"Maschinen, Computer und Erfinder", versteckt:true},
+    {id:"informatik", name:"Informatik", emo:"laptop", text:"Programmieren, Daten und Netzwerke", versteckt:true}]},
   {id:"geld", name:"Schweiz, Geld & Leben", emo:"flag", c:"--geld", text:"Was man fürs Leben in der Schweiz wissen muss", desc:"Alles, was man als junger Mensch in der Schweiz wissen sollte: klug mit Geld umgehen, Bankkonto und Karten, Steuern und Krankenkasse, Social Media, und welche Lehre zu dir passt.", themen:[
     {id:"geldalles", name:"Geld, Banken & Steuern", emo:"coin", text:"Sparen, Banken, Steuern und Wirtschaft", kids:["geld","banken","steuern","wirtschaft"], sammel:true},
     {id:"geld", name:"Umgang mit Geld", emo:"coin", text:"Sparen, Budget, Schulden", versteckt:true},
@@ -4231,7 +4234,7 @@ const QBUCH = new Set(["alltag", "geld", "geschichte", "leben", "natur", "politi
 const qicon = (ordner, id) => `<span class="ic emo-i gico qico" aria-hidden="true"><img src="img/qeels-icons/${ordner}/${id}.webp?v=2" alt="" draggable="false"></span>`;
 const buchEmo = b => b && QBUCH.has(b.id) ? qicon("buecher", b.id) : (b ? b.emo : "");
 /* Einzelne Qeels-Bilder sind unsauber ausgeschnitten: dort das passende Buch-Bild nehmen */
-const QERSATZ = {geldalles:["themen","geld"], alltagalles:["themen","alltag"], sprachenalles:["themen","fremdsprachen"]};
+const QERSATZ = {naturalles:["themen","tiere"], wissenalles:["themen","wissenschaft"], technikalles:["themen","technik"], geldalles:["themen","geld"], alltagalles:["themen","alltag"], sprachenalles:["themen","fremdsprachen"]};
 const themaIcon = t => t && t.kuerzel ? wappen(t.kuerzel) : (t && QERSATZ[t.id] ? qicon(...QERSATZ[t.id]) : t && QICON.has(t.id) ? qicon("themen", t.id) : ico(t?.emo));
 
 const S = { stufe: store.get("ep-stufe",1), screen:"home", bereich:null, thema:null, quiz:null, extra:store.get("ep-extra",[]),
