@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-13";
+window.EP_BUILD="ep-2026-10-30-14";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4222,7 +4222,12 @@ function renderLivePlay(){
 }
 function myPeer(){ return (L.sub?.peers()||[]).find(p=>p.sameTab)?.peer; }
 
-const themaIcon = t => t && t.kuerzel ? wappen(t.kuerzel) : ico(t?.emo);
+/* Gezeichnete Themen-Symbole aus Qeels (img/qeels-icons, siehe icons.json) */
+const QICON = new Set(["zufall", "allgemein", "alltag", "banken", "beruf", "bilder", "ch_geschichte", "chemie", "englisch", "erde", "ethik", "franzoesisch", "fremdsprachen", "g_antike", "g_mittelalter", "g_neuzeit", "g_urzeit", "geld", "geo_europa", "geo_schweiz", "geo_welt", "geografie", "geschichte", "haushalt", "informatik", "koerper", "krankenkasse", "kt_alle", "kunst", "logos", "mathe", "medien", "musik", "natur", "physik", "pol_demokratie", "pol_diktatur", "pol_kommunismus", "pol_welt", "politik", "rel_andere", "rel_christentum", "rel_islam", "religion", "schweiz", "sport", "sprache", "steuern", "technik", "tiere", "unterhaltung", "weltall", "wirtschaft", "wissenschaft"]);
+const QBUCH = new Set(["alltag", "geld", "geschichte", "leben", "natur", "politik", "schweiz", "welt", "wissen"]);
+const qicon = (ordner, id) => `<span class="ic emo-i gico qico" aria-hidden="true"><img src="img/qeels-icons/${ordner}/${id}.webp" alt="" draggable="false"></span>`;
+const buchEmo = b => b && QBUCH.has(b.id) ? qicon("buecher", b.id) : (b ? b.emo : "");
+const themaIcon = t => t && t.kuerzel ? wappen(t.kuerzel) : (t && QICON.has(t.id) ? qicon("themen", t.id) : ico(t?.emo));
 
 const S = { stufe: store.get("ep-stufe",1), screen:"home", bereich:null, thema:null, quiz:null, extra:store.get("ep-extra",[]),
   sample:null, db:null, uid:null, online:false, profil:store.get("ep-profil",null), stats:store.get("ep-stats",{...LEER}),
@@ -4252,7 +4257,7 @@ function countBereich(b,l){ return b.themen.reduce((n,t)=>n+countThema(t.id,l),0
 function allCountL(l){ const P = poolIdx(), k = "*|" + (l||0); if(P.counts.has(k)) return P.counts.get(k); const n = byL(P.all,l).length; P.counts.set(k, n); return n; }
 const STUFE_ALLE = {id:4, name:"Alle Stufen", alter:"alle Fragen"};
 function stufeObj(id){ const k=id??S.stufe; if(k===4) return STUFE_ALLE; return STUFEN.find(s=>s.id===k) || STUFEN[0]; }
-const STUFE_EMO = {1:'<img class="gstufe" src="img/grafik/stufe-entdecker.webp" alt="">',2:'<img class="gstufe" src="img/grafik/stufe-koenner.webp" alt="">',3:'<img class="gstufe" src="img/grafik/stufe-profis.webp" alt="">',4:'<img class="gstufe" src="img/grafik/stufe-alle.webp" alt="">'};
+const STUFE_EMO = {1:'<img class="gstufe" src="img/qeels-icons/stufen/entdecker.webp" alt="">',2:'<img class="gstufe" src="img/qeels-icons/stufen/koenner.webp" alt="">',3:'<img class="gstufe" src="img/qeels-icons/stufen/profis.webp" alt="">',4:'<img class="gstufe" src="img/grafik/stufe-alle.webp" alt="">'};
 
 function speakBtn(text){ return ("speechSynthesis" in window) ? `<span class="speakrow"><button class="speak" type="button" data-say="${esc(text)}">${ico("speaker")} Vorlesen</button></span>` : ""; }
 function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} try{ clearInterval(RL.vorT); rlVorlesenAus(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>{ b.classList.remove("on"); b.innerHTML=`${ico("speaker")} Vorlesen`; }); }
@@ -6600,7 +6605,7 @@ function renderLib(){
         <div class="sdeko"><div class="spines"><i style="height:76%;width:1.5cqw;background:#D8452F"></i><i style="height:67%;width:1.7cqw;background:#C0392B"></i><i style="height:75%;width:1.7cqw;background:#3D8BFD"></i><i style="height:78%;width:1.9cqw;background:#C0392B"></i><i style="height:96%;width:1.5cqw;background:#2F4BD8"></i><i style="height:91%;width:1.7cqw;background:#17915A"></i><i style="height:83%;width:1.7cqw;background:#2F4BD8"></i></div><span class="sd globus">🌍</span><span class="sd eule">🦉</span><span class="sd sanduhr">⏳</span><div class="spines r"><i style="height:91%;width:1.7cqw;background:#D8452F"></i><i style="height:78%;width:1.3cqw;background:#5A3E1B"></i><i style="height:88%;width:1.3cqw;background:#6B3FA0"></i><i style="height:69%;width:1.3cqw;background:#E09A12"></i><i style="height:72%;width:1.7cqw;background:#17915A"></i><i style="height:88%;width:1.5cqw;background:#D8452F"></i></div><span class="sd pflanze">🪴</span></div>
         <div class="sbrett"></div>
         <div class="buecher">${BUECHER.map((b,i)=>`<button type="button" class="buch ${b.gross?"gross":""}" data-buch="${b.id}" style="--bf:${b.farbe};--bf2:${b.farbe2};--i:${i}" aria-label="Buch ${esc(b.titel)} öffnen">
-          <span class="bcover"><span class="bemo2">${b.emo}</span><span class="btitel">${esc(b.titel)}</span><span class="bunter">${esc(b.untertitel)}</span><span class="btop">★ ${esc(buchTop(b.id)[0]?.titel||"")}</span></span>
+          <span class="bcover"><span class="bemo2">${buchEmo(b)}</span><span class="btitel">${esc(b.titel)}</span><span class="bunter">${esc(b.untertitel)}</span><span class="btop">★ ${esc(buchTop(b.id)[0]?.titel||"")}</span></span>
           <span class="bruecken"></span></button>`).join("")}</div>
         <div class="sbrett"></div>
         <div class="sunten"><div class="spines"><i style="height:70%;width:1.9cqw;background:#8E1B2F"></i><i style="height:74%;width:1.9cqw;background:#D8452F"></i><i style="height:77%;width:1.5cqw;background:#8E1B2F"></i><i style="height:69%;width:1.9cqw;background:#3D8BFD"></i><i style="height:75%;width:1.9cqw;background:#17915A"></i><i style="height:67%;width:1.5cqw;background:#2F4BD8"></i><i style="height:84%;width:1.3cqw;background:#3D8BFD"></i><i style="height:94%;width:1.5cqw;background:#E09A12"></i><i style="height:96%;width:1.7cqw;background:#17915A"></i><i style="height:83%;width:1.9cqw;background:#5A3E1B"></i><i style="height:88%;width:1.9cqw;background:#E09A12"></i></div><span class="sd kiste">🧸</span><div class="spines r"><i style="height:84%;width:1.5cqw;background:#8E1B2F"></i><i style="height:93%;width:1.3cqw;background:#1B6E7A"></i><i style="height:72%;width:1.5cqw;background:#E09A12"></i><i style="height:78%;width:1.7cqw;background:#E09A12"></i><i style="height:79%;width:1.7cqw;background:#5A3E1B"></i><i style="height:84%;width:1.5cqw;background:#6B3FA0"></i><i style="height:89%;width:1.3cqw;background:#8E1B2F"></i><i style="height:81%;width:1.7cqw;background:#6B3FA0"></i><i style="height:83%;width:1.5cqw;background:#1B6E7A"></i><i style="height:92%;width:1.7cqw;background:#E09A12"></i><i style="height:78%;width:1.3cqw;background:#D8452F"></i></div></div>
@@ -7244,7 +7249,7 @@ function renderLibBuch(){
   }
   $("#app").innerHTML = `${crumbs()}
     <div class="offen" style="--bf:${B.farbe};--bf2:${B.farbe2}">
-      <div class="seite links"><div class="minicover"><span class="bemo2">${B.emo}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div>
+      <div class="seite links"><div class="minicover"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div>
         <p class="libdesc">${esc(B.desc ? B.desc : B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
         <p class="bstat">📄 ${D.seiten.length} Seiten · ${D.kap.length} Kapitel</p>
         ${suchfeldHTML("buchSuche", LIB.q, "🔎 In diesem Buch suchen …")}
@@ -7431,7 +7436,7 @@ function zauberOeffnen(btn, B, fertig){
     <div class="zbuch" style="--bf:${B.farbe};--bf2:${B.farbe2}">
       <div class="zhinten"></div>
       <div class="zseiten"><div class="zlicht"></div><div class="zseite l"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="zseite r"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-      <div class="zdeckel"><div class="zvorne"><span class="bemo2">${B.emo}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div><div class="zinnen"></div></div>
+      <div class="zdeckel"><div class="zvorne"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div><div class="zinnen"></div></div>
     </div><p class="zskip">Tippen zum Überspringen</p>`;
   document.body.appendChild(ov);
   const buch=ov.querySelector(".zbuch"), deckel=ov.querySelector(".zdeckel"), licht=ov.querySelector(".zlicht"), glow=ov.querySelector(".zglow");

@@ -953,3 +953,9 @@ markieren();
 c.textContent = `html body:not(.ep-app) #app .st-kopf:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag) .bdesc{max-width:min(58ch,100%)!important}
 html body:not(.ep-app) #app .st-kopf:is(.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){padding-right:40%!important}`;
 document.head.appendChild(c); })();
+
+/* Qeels-Symbole (img/qeels-icons) in Themen, Büchern und Stufen */
+(function(){ const c = document.createElement("style"); c.id = "ep-qico-css";
+c.textContent = `.ic.qico img{width:1.25em;height:1.25em;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+.bemo2 .ic.qico img{width:1.4em;height:1.4em}`;
+document.head.appendChild(c); })();
