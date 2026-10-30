@@ -32,6 +32,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 2026-10-30 (v22): Sprechblase der Frage lila glänzend mit weissem Rand, Glanz und sichtbarer Spitze (vorher hell).
 
 - 30.10. Sitzung «Qeels-App»: Frage (`h2.question`) steht in einer Sprechblase, am Computer mit Leni (`img/kids/leni-denken.webp`) links daneben, am Handy Spitze nach unten. Block «Frage in einer Sprechblase» am Ende von `stil.js`. Version ep-2026-10-30-21.
 - 30.10. Sitzung «Qeels-App»: Joker 50:50 wieder mit Text «50:50» und kleinem Symbol auf türkiser Pille (`img/grafik/neu/knopf-5050-leer.webp`, Symbol aus Dejans Knopf entfernt). Version ep-2026-10-30-20.

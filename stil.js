@@ -1041,20 +1041,24 @@ document.head.appendChild(css);
 const Q = "html body #app h2.question";
 const css = document.createElement("style"); css.id = "ep-sprechblase-css";
 css.textContent = `
-${Q}{position:relative;background:linear-gradient(180deg,#FFFFFF,#F1F3FF)!important;border:3px solid #C9D2FF!important;border-radius:26px!important;padding:18px 24px!important;margin:6px 0 22px 96px!important;box-shadow:0 6px 0 #DCE2FF,0 12px 24px -10px rgba(40,50,140,.35)!important;color:#1B2240!important}
-${Q}::before{content:"";position:absolute;left:-19px;top:50%;margin-top:-14px;width:0;height:0;border-top:14px solid transparent;border-bottom:14px solid transparent;border-right:19px solid #C9D2FF}
-${Q}::after{content:"";position:absolute;left:-13px;top:50%;margin-top:-10px;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:14px solid #F8F9FF}
-${Q} > .ep-blase-kind{position:absolute;left:-92px;bottom:-12px;width:auto;height:112px;pointer-events:none;filter:drop-shadow(0 4px 6px rgba(20,20,60,.2))}
+${Q}{position:relative;isolation:isolate;overflow:visible;background:linear-gradient(160deg,#A78BFA 0%,#7C3AED 45%,#5B21B6 100%)!important;border:4px solid #fff!important;border-radius:30px!important;padding:20px 28px!important;margin:10px 0 24px 104px!important;color:#fff!important;text-shadow:0 2px 3px rgba(40,10,90,.45)!important;
+  box-shadow:0 0 0 3px #C4B5FD,0 8px 0 #4C1D95,0 16px 26px -8px rgba(76,29,149,.55)!important}
+/* Glanz oben wie bei den Knöpfen */
+${Q} > .ep-blase-glanz{position:absolute;left:14px;right:14px;top:6px;height:42%;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0));pointer-events:none}
+/* Spitze: gedrehtes Quadrat mit weissem Rand, liegt hinter der Blase */
+${Q}::before{content:"";position:absolute;left:-17px;top:50%;width:30px;height:30px;margin-top:-15px;background:#7C3AED;border:4px solid #fff;border-right:0;border-top:0;border-radius:0 0 0 8px;transform:rotate(45deg);box-shadow:-3px 3px 0 0 #C4B5FD;z-index:-1}
+${Q}::after{display:none}
+${Q} > .ep-blase-kind{position:absolute;left:-106px;bottom:-14px;width:auto;height:124px;pointer-events:none;filter:drop-shadow(0 4px 6px rgba(20,20,60,.25))}
 @media (max-width:640px){
-  ${Q}{margin:4px 0 24px!important;padding:14px 16px!important;border-radius:22px!important}
-  ${Q}::before{left:34px;top:auto;bottom:-19px;margin-top:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:19px solid #C9D2FF;border-bottom:0}
-  ${Q}::after{left:38px;top:auto;bottom:-13px;margin-top:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:14px solid #F3F5FF;border-bottom:0}
+  ${Q}{margin:6px 0 26px!important;padding:16px 18px!important;border-radius:24px!important}
+  ${Q}::before{left:36px;top:auto;bottom:-17px;margin-top:0;border:4px solid #fff;border-left:0;border-top:0;border-radius:0 0 8px 0;box-shadow:3px 3px 0 0 #C4B5FD;background:#5B21B6}
   ${Q} > .ep-blase-kind{display:none}
 }`;
 document.head.appendChild(css);
 // Kind neben jede neue Frage setzen
 const kind = () => document.querySelectorAll("#app h2.question:not([data-blase])").forEach(h => {
   h.dataset.blase = "1";
+  const g = document.createElement("span"); g.className = "ep-blase-glanz"; g.setAttribute("aria-hidden", "true"); h.prepend(g);
   const i = document.createElement("img"); i.className = "ep-blase-kind"; i.src = "img/kids/leni-denken.webp"; i.alt = ""; i.setAttribute("aria-hidden", "true");
   h.appendChild(i);
 });
