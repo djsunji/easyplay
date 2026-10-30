@@ -1019,13 +1019,15 @@ css.textContent = [
   pille(`${B} .qnav button#qNext.qnbtn`, "weiter", 46),
   pille(`${B} .qnav button#qMark.qnbtn`, "markieren", 46),
   pille(`${B} .qnav button#qAbgabe.qnbtn:has(.gki)`, "beenden", 46),
-  pille(`${B} button.hlf-j[data-hj=f50]`, "5050", 44),
   pille(`${B} button.hlf-vl.hlf-vl`, "vorlesen", 40),
 ].join("\n") + `
 ${B} .qnav button#qMark.qnbtn:not(.on){filter:saturate(.55) drop-shadow(0 4px 6px rgba(20,20,60,.22))}
 ${B} .qnav button#qMark.qnbtn.on{outline:3px solid #FFD34D;outline-offset:1px}
 ${B} button.hlf-vl.hlf-vl:not(.an){filter:saturate(.35) opacity(.8) drop-shadow(0 4px 6px rgba(20,20,60,.22))}
-${B} button.hlf-j[data-hj=f50] .hlf-n{position:absolute;right:-6px;top:-6px;font-size:.78rem!important;color:#1B2240!important}
+${B} button.hlf-j.hlf-j[data-hj=f50]{--gh:44px;height:var(--gh)!important;min-height:0!important;padding:0 calc(var(--gh)*.5)!important;border:0 solid transparent!important;border-width:calc(var(--gh)*.28) calc(var(--gh)*.45)!important;border-image:url("img/grafik/neu/knopf-5050-leer.webp?v=1") 70 120 fill / calc(var(--gh)*.28) calc(var(--gh)*.45) stretch!important;border-radius:999px!important;background:none!important;box-shadow:none!important;display:inline-flex!important;align-items:center;justify-content:center;gap:6px;position:relative;color:#fff!important;font-size:17px!important;font-weight:800!important;letter-spacing:.5px;text-shadow:0 1px 2px rgba(0,40,80,.45)!important;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22))}
+${B} button.hlf-j.hlf-j[data-hj=f50] .hlf-ji{display:inline-grid!important;width:24px!important;height:24px!important;background:none!important}
+${B} button.hlf-j.hlf-j[data-hj=f50] .hlf-ji img{width:24px!important;height:24px!important}
+${B} button.hlf-j.hlf-j[data-hj=f50] .hlf-n{position:absolute;right:-6px;top:-8px;font-size:.78rem!important;color:#1B2240!important;text-shadow:none!important}
 @media (max-width:640px){${B} .qnav button.qnbtn.qnbtn:is(#qPrev,#qNext,#qMark,#qAbgabe:has(.gki)){--gh:28px;margin:0!important}
 ${B} .qnav.qnav{grid-template-columns:auto auto minmax(0,1fr) auto auto!important;gap:4px!important}
 ${B} .qnav.qnav #qGrid{min-width:0!important;width:auto!important;padding:0 8px!important}}

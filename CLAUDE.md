@@ -33,6 +33,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Qeels-App»: Joker 50:50 wieder mit Text «50:50» und kleinem Symbol auf türkiser Pille (`img/grafik/neu/knopf-5050-leer.webp`, Symbol aus Dejans Knopf entfernt). Version ep-2026-10-30-20.
 - 30.10. Sitzung «Qeels-App»: Quiz-Knöpfe Zurück, Markieren, Weiter, Beenden, 50:50 und Vorlesen sind jetzt Dejans farbige Pillen mit Symbol (`img/grafik/neu/knopf-*-symbol.webp`), ohne Text; Block «Quiz-Knöpfe als farbige Pillen» am Ende von `stil.js`, Handy kleiner. Version ep-2026-10-30-19.
 - 30.10. Sitzung «Qeels-App»: Quiz-Symbole `img/grafik/sym-{5050,beenden,erklaerung,frage,markieren,vorlesen,weiter,zurueck}.webp` durch Dejans neue Bilder ersetzt (gleiche Namen). Seine Knöpfe mit eingebautem Symbol liegen in `img/grafik/neu/knopf-*-symbol.webp`, noch nicht verwendet (die bisherigen `knopf-*.webp` sind leere Neun-Teile-Hintergründe mit Text). Version ep-2026-10-30-18.
 - 30.10. Sitzung «App»: App neu gebaut mit Stand ep-2026-10-30-17 (Qeels-Icons, gezeichnete Themen-Symbole, neue Köpfe Bereich und Training/Test, neue Quiz-Knöpfe, Hintergründe). iOS Build 28 in TestFlight, Android `easyplay-android-12`. Fragen-Dateien im Stand, in dem die Sitzung «Fragen-Rework» sie gerade hat.
