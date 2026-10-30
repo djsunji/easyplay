@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Qeels-App»: Dejans bunte 3D-Icons aus der App jetzt auch hier: `img/qeels-icons/themen/<thema>.png` (alle 53 Themen ohne Kantone, dazu tag, zufall, suche, duell), `img/qeels-icons/buecher/<buch-id>.png` (9 Bücher), `img/qeels-icons/stufen/entdecker|koenner|profis.png`. Zuordnung Schlüssel → Name → Datei in `img/qeels-icons/icons.json`. Noch nirgends auf der Seite eingebaut. Version ep-2026-10-30-13.
 - 30.10. Sitzung «Hauptseite»: Dejans vier Bereichs-Köpfe jetzt auch auf den Themenseiten der Bereiche (und Untermenüs, Geschichte), Kinder dort ausgeblendet (`markieren()` im Block «Training/Test-Seite: Dejans Wellen-Boxen» in `stil.js`). Quiz-Reiter und Vorlesen mit den Qeels-Symbolen (`img/qeels-sym-spiel|erkl|vorlesen.webp`, `index.html`, `hilfen.js`). Version ep-2026-10-30-12.
 - 30.10. Sitzung «Hauptseite»: Training/Test-Seite im Bereich «Alltag & Kultur»: oranger Kopf mit Kamera, Kopfhörer, Haus, Sparschwein (`img/grafik/kopf-alltag.webp`, Klasse `ep-kopf-alltag`, `stil.js`). Damit haben alle vier Bereiche einen eigenen Kopf. Version ep-2026-10-30-11.
 - 30.10. Sitzung «Hauptseite»: Training/Test-Seite im Bereich «Schweiz, Geld & Leben»: roter Kopf mit Schweizerkarte, Münzen, Chalet (`img/grafik/kopf-geld.webp`, Klasse `ep-kopf-geld`, `stil.js`). Version ep-2026-10-30-10.

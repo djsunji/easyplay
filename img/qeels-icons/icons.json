@@ -1,0 +1,265 @@
+{
+ "themen": {
+  "allgemein": {
+   "name": "Allgemeinwissen",
+   "bild": "img/qeels-icons/themen/allgemein.png"
+  },
+  "alltag": {
+   "name": "Alltägliches",
+   "bild": "img/qeels-icons/themen/alltag.png"
+  },
+  "banken": {
+   "name": "Banken",
+   "bild": "img/qeels-icons/themen/banken.png"
+  },
+  "beruf": {
+   "name": "Berufswahl & Lehre",
+   "bild": "img/qeels-icons/themen/beruf.png"
+  },
+  "bilder": {
+   "name": "Bilder-Quiz",
+   "bild": "img/qeels-icons/themen/bilder.png"
+  },
+  "ch_geschichte": {
+   "name": "Schweizer Geschichte",
+   "bild": "img/qeels-icons/themen/ch_geschichte.png"
+  },
+  "chemie": {
+   "name": "Chemie",
+   "bild": "img/qeels-icons/themen/chemie.png"
+  },
+  "englisch": {
+   "name": "Englisch",
+   "bild": "img/qeels-icons/themen/englisch.png"
+  },
+  "erde": {
+   "name": "Erde & Naturphänomene",
+   "bild": "img/qeels-icons/themen/erde.png"
+  },
+  "ethik": {
+   "name": "Ethik",
+   "bild": "img/qeels-icons/themen/ethik.png"
+  },
+  "franzoesisch": {
+   "name": "Französisch",
+   "bild": "img/qeels-icons/themen/franzoesisch.png"
+  },
+  "fremdsprachen": {
+   "name": "Fremdsprachen",
+   "bild": "img/qeels-icons/themen/fremdsprachen.png"
+  },
+  "g_antike": {
+   "name": "Antike",
+   "bild": "img/qeels-icons/themen/g_antike.png"
+  },
+  "g_mittelalter": {
+   "name": "Mittelalter & Entdeckungen",
+   "bild": "img/qeels-icons/themen/g_mittelalter.png"
+  },
+  "g_neuzeit": {
+   "name": "Neuzeit bis heute",
+   "bild": "img/qeels-icons/themen/g_neuzeit.png"
+  },
+  "g_urzeit": {
+   "name": "Vom Urknall zur Steinzeit",
+   "bild": "img/qeels-icons/themen/g_urzeit.png"
+  },
+  "geld": {
+   "name": "Umgang mit Geld",
+   "bild": "img/qeels-icons/themen/geld.png"
+  },
+  "geo_europa": {
+   "name": "Europa",
+   "bild": "img/qeels-icons/themen/geo_europa.png"
+  },
+  "geo_schweiz": {
+   "name": "Geografie der Schweiz",
+   "bild": "img/qeels-icons/themen/geo_schweiz.png"
+  },
+  "geo_welt": {
+   "name": "Welt & Kontinente",
+   "bild": "img/qeels-icons/themen/geo_welt.png"
+  },
+  "geografie": {
+   "name": "Geografie",
+   "bild": "img/qeels-icons/themen/geografie.png"
+  },
+  "geschichte": {
+   "name": "Geschichte",
+   "bild": "img/qeels-icons/themen/geschichte.png"
+  },
+  "haushalt": {
+   "name": "Haushalt & Ernährung",
+   "bild": "img/qeels-icons/themen/haushalt.png"
+  },
+  "informatik": {
+   "name": "Informatik",
+   "bild": "img/qeels-icons/themen/informatik.png"
+  },
+  "koerper": {
+   "name": "Körper",
+   "bild": "img/qeels-icons/themen/koerper.png"
+  },
+  "krankenkasse": {
+   "name": "Krankenkasse",
+   "bild": "img/qeels-icons/themen/krankenkasse.png"
+  },
+  "kt_alle": {
+   "name": "Alle Kantone",
+   "bild": "img/qeels-icons/themen/kt_alle.png"
+  },
+  "kunst": {
+   "name": "Kunst & Kultur",
+   "bild": "img/qeels-icons/themen/kunst.png"
+  },
+  "logos": {
+   "name": "Logo-Quiz",
+   "bild": "img/qeels-icons/themen/logos.png"
+  },
+  "mathe": {
+   "name": "Mathematik & Logik",
+   "bild": "img/qeels-icons/themen/mathe.png"
+  },
+  "medien": {
+   "name": "Medien & Social Media",
+   "bild": "img/qeels-icons/themen/medien.png"
+  },
+  "musik": {
+   "name": "Musik",
+   "bild": "img/qeels-icons/themen/musik.png"
+  },
+  "natur": {
+   "name": "Natur & Pflanzen",
+   "bild": "img/qeels-icons/themen/natur.png"
+  },
+  "physik": {
+   "name": "Physik",
+   "bild": "img/qeels-icons/themen/physik.png"
+  },
+  "pol_demokratie": {
+   "name": "Demokratie",
+   "bild": "img/qeels-icons/themen/pol_demokratie.png"
+  },
+  "pol_diktatur": {
+   "name": "Diktatur",
+   "bild": "img/qeels-icons/themen/pol_diktatur.png"
+  },
+  "pol_kommunismus": {
+   "name": "Kommunismus",
+   "bild": "img/qeels-icons/themen/pol_kommunismus.png"
+  },
+  "pol_welt": {
+   "name": "Weltpolitik",
+   "bild": "img/qeels-icons/themen/pol_welt.png"
+  },
+  "politik": {
+   "name": "Politik",
+   "bild": "img/qeels-icons/themen/politik.png"
+  },
+  "rel_andere": {
+   "name": "Weitere Religionen",
+   "bild": "img/qeels-icons/themen/rel_andere.png"
+  },
+  "rel_christentum": {
+   "name": "Christentum",
+   "bild": "img/qeels-icons/themen/rel_christentum.png"
+  },
+  "rel_islam": {
+   "name": "Islam",
+   "bild": "img/qeels-icons/themen/rel_islam.png"
+  },
+  "religion": {
+   "name": "Religion",
+   "bild": "img/qeels-icons/themen/religion.png"
+  },
+  "schweiz": {
+   "name": "Die Schweiz",
+   "bild": "img/qeels-icons/themen/schweiz.png"
+  },
+  "sport": {
+   "name": "Sport",
+   "bild": "img/qeels-icons/themen/sport.png"
+  },
+  "sprache": {
+   "name": "Sprache & Deutsch",
+   "bild": "img/qeels-icons/themen/sprache.png"
+  },
+  "steuern": {
+   "name": "Steuern",
+   "bild": "img/qeels-icons/themen/steuern.png"
+  },
+  "technik": {
+   "name": "Technik & Erfindungen",
+   "bild": "img/qeels-icons/themen/technik.png"
+  },
+  "tiere": {
+   "name": "Tiere",
+   "bild": "img/qeels-icons/themen/tiere.png"
+  },
+  "unterhaltung": {
+   "name": "Medien & Unterhaltung",
+   "bild": "img/qeels-icons/themen/unterhaltung.png"
+  },
+  "weltall": {
+   "name": "Weltall & Astronomie",
+   "bild": "img/qeels-icons/themen/weltall.png"
+  },
+  "wirtschaft": {
+   "name": "Geld & Wirtschaft",
+   "bild": "img/qeels-icons/themen/wirtschaft.png"
+  },
+  "wissenschaft": {
+   "name": "Wissenschaft",
+   "bild": "img/qeels-icons/themen/wissenschaft.png"
+  }
+ },
+ "spezial": {
+  "tag": "img/qeels-icons/themen/tag.png",
+  "zufall": "img/qeels-icons/themen/zufall.png",
+  "suche": "img/qeels-icons/themen/suche.png",
+  "duell": "img/qeels-icons/themen/duell.png"
+ },
+ "buecher": {
+  "geschichte": {
+   "name": "Geschichte",
+   "bild": "img/qeels-icons/buecher/geschichte.png"
+  },
+  "welt": {
+   "name": "Welt",
+   "bild": "img/qeels-icons/buecher/welt.png"
+  },
+  "natur": {
+   "name": "Natur",
+   "bild": "img/qeels-icons/buecher/natur.png"
+  },
+  "wissen": {
+   "name": "Wissen",
+   "bild": "img/qeels-icons/buecher/wissen.png"
+  },
+  "schweiz": {
+   "name": "Schweiz",
+   "bild": "img/qeels-icons/buecher/schweiz.png"
+  },
+  "politik": {
+   "name": "Politik",
+   "bild": "img/qeels-icons/buecher/politik.png"
+  },
+  "geld": {
+   "name": "Geld",
+   "bild": "img/qeels-icons/buecher/geld.png"
+  },
+  "leben": {
+   "name": "Leben",
+   "bild": "img/qeels-icons/buecher/leben.png"
+  },
+  "alltag": {
+   "name": "Alltag",
+   "bild": "img/qeels-icons/buecher/alltag.png"
+  }
+ },
+ "stufen": {
+  "1": "img/qeels-icons/stufen/entdecker.png",
+  "2": "img/qeels-icons/stufen/koenner.png",
+  "3": "img/qeels-icons/stufen/profis.png"
+ }
+}
