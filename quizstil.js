@@ -1,6 +1,6 @@
 /* easyplay: Quiz und Duell im Design der Qeels-App (Duell-Ansicht, Stand 30.10.)
    Frage-Karte mit Verlauf Pink, Lila, Blau, Kopfzeile «FRAGE 3 VON 10», Frage in weisser fetter Schrift
-   (statt Sprechblase), Antworten als Qeels-Glanzknöpfe A bis D, nach der Antwort die übrigen blass,
+   (in der gelben Sprechblase), Antworten als Qeels-Glanzknöpfe A bis D, nach der Antwort die übrigen blass,
    gelber Knopf «Weiter», gelber Fortschrittsbalken, im Duell Spielerkärtchen wie in Qeels.
    Lädt nach appfein.js. Aktiv nur, wenn eine Quiz- oder Duellfrage offen ist (Klasse qq-an an <html>). */
 (function(){
@@ -15,11 +15,7 @@ ${A} > .card{background:linear-gradient(155deg,#FF5FA2 0%,#7C3AED 50%,#2563EB 10
 ${A} > .card::before,${A} > .card::after{display:none!important}
 ${A} > .card .qq-titel,${A} > .card .modebadge{display:block!important;background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:6px 4px 2px!important;
   color:#FFE4F1!important;font:900 12px/1.2 "Lexend","Fredoka",system-ui,sans-serif!important;letter-spacing:.06em;text-transform:uppercase}
-/* Frage: weisse fette Schrift statt Sprechblase */
-${A} > .card h2.question.question{all:unset;display:block!important;position:static!important;margin:4px 4px 12px!important;padding:0!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;
-  color:#fff!important;font:900 clamp(19px,5.3vw,26px)/1.25 "Lexend","Fredoka",system-ui,sans-serif!important;text-align:left!important;text-shadow:0 1.5px 3px rgba(0,0,0,.35)!important;max-width:none!important;min-height:0!important}
-${A} > .card h2.question.question::before,${A} > .card h2.question.question::after{display:none!important;content:none!important}
-${A} > .card h2.question .ep-blase-kind,${A} > .card h2.question .ep-blase-glanz,${A} > .card .ep-blase-kind{display:none!important}
+/* Frage: bleibt in Dejans gelber Sprechblase mit Ben oder Leni (stil.js) */
 /* Antworten: Qeels-Glanzknöpfe (Bilder kommen aus stil.js), nach der Antwort die übrigen blass */
 ${A} > .card .answers{gap:9px!important;margin-top:4px!important}
 ${A} > .card .answers .ans{min-height:52px!important;color:#fff!important;font-weight:900!important;text-shadow:0 1.5px 3px rgba(0,0,0,.35)!important}
@@ -59,7 +55,7 @@ html.qq-an body #app .du2-bars div{height:8px!important;border-radius:999px!impo
 html.qq-an body #app .du2-bars i{background:linear-gradient(90deg,#FFE27A,#FFC21F)!important;border-radius:999px!important}
 html.qq-an body #app .du2-bars .geg i{background:linear-gradient(90deg,#FF8FC0,#FF5FA2)!important}
 /* Computer: Frage grösser */
-@media (min-width:900px){ ${A} > .card h2.question.question{font-size:30px!important} ${A} > .card .qq-titel,${A} > .card .modebadge{font-size:14px!important} }
+@media (min-width:900px){ ${A} > .card .qq-titel,${A} > .card .modebadge{font-size:14px!important} }
 /* Handy etwas enger */
 @media (max-width:440px){
   ${A} > .card{padding:10px 12px 12px!important;border-radius:22px!important}

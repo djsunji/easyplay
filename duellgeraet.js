@@ -106,7 +106,7 @@ function spielHTML(){
     <div class="dg-balken"><i style="width:${G.nr / G.zuege.length * 100}%"></i></div>
     <div class="card dg-karte">
       <span class="dg-titel">⚔️ FRAGE ${G.nr + 1} VON ${G.zuege.length}</span>
-      ${bild}<h2 class="dg-frage">${h(z.q)}</h2>
+      ${bild}<h2 class="question dg-frage">${h(z.q)}</h2>
       <div class="answers">${z.opts.map((o, i) => { let cls = ""; if(fertig){ if(i === z.c) cls = " right"; else if(G.gewaehlt === i) cls = " wrong"; }
         return `<button type="button" class="ans${cls}" data-ant="${i}" ${fertig ? "disabled" : ""}><span class="key">${"ABCD"[i]}</span><span>${h(o)}</span></button>`; }).join("")}</div>
       ${fertig && z.m ? `<p class="dg-merk">💡 ${h(z.m)}</p>` : ""}
@@ -255,7 +255,6 @@ ${A} .dg-balken i{display:block;height:100%;background:#FFD43B;transition:width 
 ${A} .card.dg-karte{background:linear-gradient(155deg,#FF5FA2 0%,#7C3AED 50%,#2563EB 100%)!important;border:1px solid rgba(255,255,255,.3)!important;border-radius:24px!important;padding:10px 12px 12px!important;margin:0!important;box-shadow:0 18px 34px -18px rgba(60,20,140,.75)!important;color:#fff}
 ${A} .card.dg-karte::before,${A} .card.dg-karte::after{display:none!important}
 ${A} .dg-titel{display:block;margin:6px 6px 0;color:#FFE4F1;font:900 12px "Lexend",system-ui;letter-spacing:.05em}
-${A} .dg-frage{margin:6px 6px 12px;color:#fff;font:900 clamp(19px,5.3vw,24px)/1.25 "Lexend","Fredoka",system-ui,sans-serif;text-shadow:0 1.5px 3px rgba(0,0,0,.35)}
 ${A} .dg-karte .answers{gap:8px!important}
 ${A} .dg-karte .answers .ans[disabled]:not(.right):not(.wrong){opacity:.4!important}
 ${A} .dg-merk{margin:10px 4px 0;padding:8px 12px;border-radius:14px;background:rgba(20,10,70,.35);border:1px solid rgba(255,255,255,.25);font:700 13px/1.4 "Lexend",system-ui}
@@ -277,8 +276,7 @@ ${A} .dg-vierter span{font:800 13px "Lexend",system-ui}
 /* App-Ansicht: Platz für die Tab-Leiste, iPad grösser */
 html.dg-an body.ep-app #app > .dg-start{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 html.dg-an body.ep-app #app > .dg-start .dg-unten{bottom:calc(84px + env(safe-area-inset-bottom))}
-@media (min-width:700px){ ${A} > .dg{max-width:640px;gap:12px} ${A} .dg-kopf h1{font-size:30px} ${A} .dg-wahl{min-height:48px;font-size:15px} ${A} .dg-frage{font-size:28px} ${A} .dg-kachel span{font-size:16px} }
-`;
+@media (min-width:700px){ ${A} > .dg{max-width:640px;gap:12px} ${A} .dg-kopf h1{font-size:30px} ${A} .dg-wahl{min-height:48px;font-size:15px} `;
 document.head.appendChild(css);
 try{ if(S.screen === SEITE) render(); }catch(e){}
 })();
