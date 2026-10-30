@@ -1059,7 +1059,7 @@ ${Q} > .ep-blase-kind{position:absolute;left:-180px;top:50%;width:150px;height:1
   ${Q} > .ep-blase-kind{left:-86px;width:60px;height:74px}
 }`;
 document.head.appendChild(css);
-const KOEPFE = ["ben-denken","ben-denken2","ben-staunen","leni-denken","leni-denken2","leni-staunen"];
+const KOEPFE = ["ben-denken","ben-denken2","ben-staunen","leni-denken","leni-denken2","leni-staunen","lumi-denken","milo-denken"];
 let letzter = -1;
 // Kopf neben jede neue Frage setzen, nie zweimal hintereinander der gleiche
 const kind = () => document.querySelectorAll("#app h2.question:not([data-blase])").forEach(h => {
