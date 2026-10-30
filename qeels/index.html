@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-32";
+window.EP_BUILD="ep-2026-10-30-33";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4676,7 +4676,7 @@ function renderQuiz(){
     ${quizNavHTML(Q)}
     <div class="card" style="--c:var(${c})">
       ${test? "" : `<div class="tabs" role="tablist">
-        <button class="tabbtn" role="tab" type="button" data-tab="frage" aria-selected="${Q.tab==="frage"}"><img class="gki" src="img/qeels-sym-spiel.webp" alt=""> Frage</button>
+        <button class="tabbtn" role="tab" type="button" data-tab="frage" aria-selected="${Q.tab==="frage"}"><img class="gki" src="img/grafik/sym-frage.webp" alt=""> Frage</button>
         <button class="tabbtn" role="tab" type="button" data-tab="erklaerung" aria-selected="${Q.tab==="erklaerung"}"><img class="gki" src="img/qeels-sym-erkl.webp" alt=""> Erklärung${answered && Q.tab==="frage" ? '<span class="new" aria-label="neu"></span>':""}</button>
       </div>`}
       ${body}
@@ -8884,7 +8884,7 @@ html body #reels .rbtn:is([data-like],[data-komm],[data-erkl],[data-teilen],[dat
 html body #reels .rbtn[data-like]{--rsym:url("img/qeels-sym-like.webp")}
 html body #reels .rbtn[data-komm]{--rsym:url("img/qeels-sym-komm.webp")}
 html body #reels .rbtn[data-lesen],html body #reels .rbtn[data-qart]{--rsym:url("img/qeels-sym-buch.webp")}
-html body #reels .rbtn[data-dazu]{--rsym:url("img/qeels-sym-spiel.webp")}
+html body #reels .rbtn[data-dazu]{--rsym:url("img/grafik/sym-frage.webp")}
 html body #reels .rbtn[data-erkl],html body #reels .rbtn[data-qart]:has([data-birne]){--rsym:url("img/qeels-sym-erkl.webp")}
 html body #reels .rbtn[data-teilen]{--rsym:url("img/qeels-sym-teilen.webp")}
 html body #reels .rbtn[data-vorlesen]{--rsym:url("img/qeels-sym-vorlesen.webp")}
