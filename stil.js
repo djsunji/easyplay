@@ -959,3 +959,52 @@ document.head.appendChild(c); })();
 c.textContent = `.ic.qico img{width:1.25em;height:1.25em;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
 .bemo2 .ic.qico img{width:1.4em;height:1.4em}`;
 document.head.appendChild(c); })();
+
+/* ===== Drei weitere Hintergründe (Einstellungen › Hintergrund): Unterwasser, Sommerwiese, Weltall ===== */
+(function(){ if(document.getElementById("bgneu")) return;
+const L = document.createElement("div"); L.id = "bgneu"; L.setAttribute("aria-hidden", "true");
+let fx = ""; for(let i = 0; i < 14; i++) fx += `<i style="--x:${(i * 7.3 + 3) % 100}%;--d:${9 + (i * 3.7) % 9}s;--v:${-(i * 1.9) % 12}s;--g:${6 + (i * 5) % 14}px"></i>`;
+L.innerHTML = `<div class="bgn-fx">${fx}</div><div class="bgn-szene"></div>`;
+(document.body || document.documentElement).appendChild(L);
+const c = document.createElement("style"); c.id = "ep-bgneu-css";
+const N = ':root:is([data-bg="unterwasser"],[data-bg="wiese"],[data-bg="weltall"])';
+c.textContent = `
+#bgneu{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+${N} #bgneu{display:block}
+${N} #alpen,${N} #himmel,${N} #flocken,${N} #clouds,${N} #pattern{display:none!important}
+#bgneu .bgn-szene{position:absolute;left:0;right:0;bottom:0;height:34vh;min-height:180px;background:bottom center/cover no-repeat}
+#bgneu .bgn-fx i{position:absolute;display:block}
+/* Unterwasser */
+:root[data-bg="unterwasser"] body{background:linear-gradient(180deg,#D7F5FF 0%,#9FDDF3 55%,#6CC2E6 100%) fixed!important}
+:root[data-bg="unterwasser"] body.dark{background:linear-gradient(180deg,#0B2A44,#0A3A5C 60%,#0C4E74) fixed!important}
+:root[data-bg="unterwasser"] #bgneu .bgn-szene{background-image:url("img/hg/unterwasser.svg")}
+:root[data-bg="unterwasser"] #bgneu::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(100deg,rgba(255,255,255,.18) 0 40px,transparent 40px 160px);mask:linear-gradient(180deg,#000,transparent 55%);-webkit-mask:linear-gradient(180deg,#000,transparent 55%);animation:bgnLicht 14s ease-in-out infinite alternate}
+:root[data-bg="unterwasser"] #bgneu .bgn-fx i{left:var(--x);bottom:-30px;width:var(--g);height:var(--g);border-radius:50%;border:2px solid rgba(255,255,255,.75);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),rgba(255,255,255,.1) 60%);animation:bgnBlase var(--d) linear infinite;animation-delay:var(--v)}
+@keyframes bgnBlase{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(14px,-55vh)}100%{transform:translate(-6px,-110vh);opacity:.2}}
+@keyframes bgnLicht{to{transform:translateX(-80px)}}
+/* Sommerwiese */
+:root[data-bg="wiese"] body{background:linear-gradient(180deg,#BFE6FF 0%,#E4F5FF 60%,#F3FBEF 100%) fixed!important}
+:root[data-bg="wiese"] body.dark{background:linear-gradient(180deg,#0F1E3D,#1B2F55 60%,#203B2A) fixed!important}
+:root[data-bg="wiese"] #bgneu .bgn-szene{background-image:url("img/hg/wiese.svg")}
+:root[data-bg="wiese"] #bgneu::before{content:"";position:absolute;right:7vw;top:12vh;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#FFE680 0 45%,#FFD43B 46% 58%,rgba(255,212,59,.0) 72%);box-shadow:0 0 80px 30px rgba(255,220,90,.45)}
+:root[data-bg="wiese"].dark #bgneu::before,:root[data-bg="wiese"][data-theme="dark"] #bgneu::before{background:radial-gradient(circle at 40% 40%,#FFFBE8 0 50%,rgba(255,255,255,0) 60%);box-shadow:0 0 60px 10px rgba(255,255,230,.25)}
+:root[data-bg="wiese"] #bgneu .bgn-fx i:nth-child(n+5){display:none}
+:root[data-bg="wiese"] #bgneu .bgn-fx i{top:calc(8vh + var(--x) / 4);left:-220px;width:180px;height:56px;border-radius:40px;background:#fff;opacity:.85;box-shadow:40px -22px 0 6px #fff,90px -6px 0 0 #fff;animation:bgnWolke calc(var(--d) * 9) linear infinite;animation-delay:calc(var(--v) * 9)}
+:root[data-bg="wiese"][data-theme="dark"] #bgneu .bgn-fx i{opacity:.08}
+@keyframes bgnWolke{to{transform:translateX(calc(100vw + 440px))}}
+/* Weltall */
+:root[data-bg="weltall"] body{background:radial-gradient(1200px 600px at 20% 10%,#EDE8FF,transparent 60%),linear-gradient(180deg,#D9D2FF 0%,#C6BCFA 60%,#B3A7F0 100%) fixed!important}
+:root[data-bg="weltall"] body.dark{background:linear-gradient(180deg,#0B0A26,#17124A 60%,#241A63) fixed!important}
+:root[data-bg="weltall"] #bgneu .bgn-szene{background-image:url("img/hg/weltall.svg")}
+:root[data-bg="weltall"] #bgneu::before{content:"";position:absolute;inset:0;background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 140px 90px,#FFF6C8,transparent),radial-gradient(1.5px 1.5px at 80px 160px,#fff,transparent),radial-gradient(2.5px 2.5px at 200px 200px,#fff,transparent),radial-gradient(1.5px 1.5px at 260px 60px,#E9E3FF,transparent);background-size:300px 240px;opacity:.9}
+:root[data-bg="weltall"] #bgneu .bgn-fx i{top:calc(var(--x) * .6);left:calc(var(--x) * .97);width:calc(var(--g) * .7);height:calc(var(--g) * .7);background:#fff;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:bgnFunkel calc(var(--d) / 3) ease-in-out infinite;animation-delay:var(--v)}
+@keyframes bgnFunkel{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){#bgneu *,#bgneu::before{animation:none!important}}
+@media (max-width:640px){#bgneu .bgn-szene{height:26vh}}
+/* Vorschau in den Einstellungen */
+.prev-unterwasser{background:url("img/hg/unterwasser.svg") bottom/cover no-repeat,linear-gradient(180deg,#D7F5FF,#6CC2E6)}
+.prev-wiese{background:url("img/hg/wiese.svg") bottom/cover no-repeat,linear-gradient(180deg,#BFE6FF,#F3FBEF)}
+.prev-weltall{background:url("img/hg/weltall.svg") bottom/cover no-repeat,radial-gradient(1.5px 1.5px at 20px 20px,#fff,transparent) 0 0/40px 30px,linear-gradient(180deg,#D9D2FF,#B3A7F0)}
+`;
+document.head.appendChild(c);
+})();
