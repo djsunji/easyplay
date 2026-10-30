@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Hauptseite»: Dejans vier Bereichs-Köpfe jetzt auch auf den Themenseiten der Bereiche (und Untermenüs, Geschichte), Kinder dort ausgeblendet (`markieren()` im Block «Training/Test-Seite: Dejans Wellen-Boxen» in `stil.js`). Quiz-Reiter und Vorlesen mit den Qeels-Symbolen (`img/qeels-sym-spiel|erkl|vorlesen.webp`, `index.html`, `hilfen.js`). Version ep-2026-10-30-12.
 - 30.10. Sitzung «Hauptseite»: Training/Test-Seite im Bereich «Alltag & Kultur»: oranger Kopf mit Kamera, Kopfhörer, Haus, Sparschwein (`img/grafik/kopf-alltag.webp`, Klasse `ep-kopf-alltag`, `stil.js`). Damit haben alle vier Bereiche einen eigenen Kopf. Version ep-2026-10-30-11.
 - 30.10. Sitzung «Hauptseite»: Training/Test-Seite im Bereich «Schweiz, Geld & Leben»: roter Kopf mit Schweizerkarte, Münzen, Chalet (`img/grafik/kopf-geld.webp`, Klasse `ep-kopf-geld`, `stil.js`). Version ep-2026-10-30-10.
 - 30.10. Sitzung «Hauptseite»: Training/Test-Seite mit Dejans Wellen-Boxen: Karte Training `img/grafik/box-blau.webp`, Test `box-lila.webp` (Neun-Teile-Bild). Kopf der Seite im Bereich Welt mit Globus/Büchern/Kompass (`kopf-welt-deko.webp`, Klasse `ep-kopf-welt`), im Bereich Natur grüner Kopf mit Mikroskop (`kopf-natur.webp`, Klasse `ep-kopf-natur`). Block «Training/Test-Seite: Dejans Wellen-Boxen» am Ende von `stil.js`. Version ep-2026-10-30-09.

@@ -865,7 +865,7 @@ html body #app .qnav .gki{width:26px;height:26px;object-fit:contain;flex:none}
 html body #app .card .tabs .tabbtn{--gh:58px;height:var(--gh)!important;min-height:0!important;box-sizing:border-box!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5)!important;border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch!important;border-radius:0!important;box-shadow:none!important;padding:0 calc(var(--gh)*.05)!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22));transition:transform .12s,filter .12s;color:#28304A!important;font-weight:800;flex:1;width:100%}
 html body #app .card .tabs .tabbtn[data-tab="frage"][aria-selected="true"]{--gh:58px;height:var(--gh)!important;min-height:0!important;box-sizing:border-box!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5)!important;border-image:url("img/grafik/knopf-orange.webp?v=1") 44 72 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch!important;border-radius:0!important;box-shadow:none!important;padding:0 calc(var(--gh)*.05)!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22));transition:transform .12s,filter .12s;color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.35)}
 html body #app .card .tabs .tabbtn[data-tab="erklaerung"][aria-selected="true"]{--gh:58px;height:var(--gh)!important;min-height:0!important;box-sizing:border-box!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5)!important;border-image:url("img/grafik/knopf-blau.webp?v=1") 44 73 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch!important;border-radius:0!important;box-shadow:none!important;padding:0 calc(var(--gh)*.05)!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22));transition:transform .12s,filter .12s;color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.35)}
-html body #app .card .tabs .gki{width:30px;height:30px;object-fit:contain}
+html body #app .card .tabs .gki{width:34px;height:34px;object-fit:contain}
 html body #app .hlf-j{--gh:48px;height:var(--gh)!important;min-height:0!important;box-sizing:border-box!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5)!important;border-image:url("img/grafik/knopf-5050.webp?v=1") 70 116 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch!important;border-radius:0!important;box-shadow:none!important;padding:0 calc(var(--gh)*.05)!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22));transition:transform .12s,filter .12s;color:#fff!important;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.35)}
 html body #app .hlf-j .hlf-ji{background:none!important;width:28px!important;height:28px!important;box-shadow:none!important}html body #app .hlf-j .hlf-ji img{width:28px;height:28px;object-fit:contain}
 html body #app .hlf-vl{--gh:44px;height:var(--gh)!important;min-height:0!important;box-sizing:border-box!important;background:none!important;border:0 solid transparent!important;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5)!important;border-image:url("img/grafik/knopf-5050.webp?v=1") 70 116 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch!important;border-radius:0!important;box-shadow:none!important;padding:0 calc(var(--gh)*.05)!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;filter:drop-shadow(0 4px 6px rgba(20,20,60,.22));transition:transform .12s,filter .12s;color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
@@ -931,7 +931,12 @@ function markieren(){
   try{
     const k = document.querySelector("#app .st-kopf");
     if(!k) return;
-    const bid = S.screen === "mode" && S.thema && S.thema.bereich ? S.thema.bereich.id : "";
+    const sc = S.screen;
+    let bid = "";
+    if(sc === "mode" && S.thema && S.thema.bereich) bid = S.thema.bereich.id;
+    else if(sc === "bereich" && S.bereich) bid = S.bereich.id;
+    else if(sc === "submenu" && S.menu && THEMA[S.menu] && THEMA[S.menu].bereich) bid = THEMA[S.menu].bereich.id;
+    else if(sc === "geschmenu" || sc === "chmenu") bid = "welt";
     k.classList.toggle("ep-kopf-welt", bid === "welt");
     k.classList.toggle("ep-kopf-natur", bid === "natur");
     k.classList.toggle("ep-kopf-geld", bid === "geld");
@@ -942,3 +947,9 @@ const app = document.getElementById("app");
 if(app) new MutationObserver(markieren).observe(app, {childList:true, subtree:false});
 markieren();
 })();
+
+/* Bereichsseiten mit Dejans Köpfen: Beschreibung nicht unter die Grafik laufen lassen */
+(function(){ const c = document.createElement("style"); c.id = "ep-kopf-bdesc";
+c.textContent = `html body:not(.ep-app) #app .st-kopf:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag) .bdesc{max-width:min(58ch,100%)!important}
+html body:not(.ep-app) #app .st-kopf:is(.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){padding-right:40%!important}`;
+document.head.appendChild(c); })();

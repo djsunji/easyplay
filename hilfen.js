@@ -372,7 +372,7 @@ function quizErgaenzen(nurZeichnen){
   /* Schalter «Vorlesen» an/aus (ersetzt den alten Vorlese-Knopf) */
   card.querySelectorAll(".hlf-vlrow").forEach(row => {
     const an = hoerenAn();
-    row.innerHTML = `<button type="button" class="hlf-vl${an ? " an" : ""}" role="switch" aria-checked="${an}" aria-label="Vorlesen ${an ? "an" : "aus"}"><span class="hlf-vli" aria-hidden="true"><img src="img/grafik/sym-vorlesen.webp" alt=""${an ? "" : ' style="opacity:.55;filter:grayscale(1)"'}></span><span class="hlf-vlt">Vorlesen</span><span class="hlf-vls" aria-hidden="true"><i></i></span></button>`;
+    row.innerHTML = `<button type="button" class="hlf-vl${an ? " an" : ""}" role="switch" aria-checked="${an}" aria-label="Vorlesen ${an ? "an" : "aus"}"><span class="hlf-vli" aria-hidden="true"><img src="img/qeels-sym-vorlesen.webp" alt=""${an ? "" : ' style="opacity:.55;filter:grayscale(1)"'}></span><span class="hlf-vlt">Vorlesen</span><span class="hlf-vls" aria-hidden="true"><i></i></span></button>`;
     row.querySelector(".hlf-vl").onclick = () => {
       const jetzt = !hoerenAn(); setze("hoeren", jetzt);
       try{ window.EP_SOUND?.play("klick"); }catch(e){}
