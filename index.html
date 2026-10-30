@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-14";
+window.EP_BUILD="ep-2026-10-30-15";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4227,7 +4227,9 @@ const QICON = new Set(["zufall", "allgemein", "alltag", "banken", "beruf", "bild
 const QBUCH = new Set(["alltag", "geld", "geschichte", "leben", "natur", "politik", "schweiz", "welt", "wissen"]);
 const qicon = (ordner, id) => `<span class="ic emo-i gico qico" aria-hidden="true"><img src="img/qeels-icons/${ordner}/${id}.webp" alt="" draggable="false"></span>`;
 const buchEmo = b => b && QBUCH.has(b.id) ? qicon("buecher", b.id) : (b ? b.emo : "");
-const themaIcon = t => t && t.kuerzel ? wappen(t.kuerzel) : (t && QICON.has(t.id) ? qicon("themen", t.id) : ico(t?.emo));
+/* Einzelne Qeels-Bilder sind unsauber ausgeschnitten: dort das passende Buch-Bild nehmen */
+const QERSATZ = {politik:["buecher","politik"], wissenschaft:["buecher","wissen"]};
+const themaIcon = t => t && t.kuerzel ? wappen(t.kuerzel) : (t && QERSATZ[t.id] ? qicon(...QERSATZ[t.id]) : t && QICON.has(t.id) ? qicon("themen", t.id) : ico(t?.emo));
 
 const S = { stufe: store.get("ep-stufe",1), screen:"home", bereich:null, thema:null, quiz:null, extra:store.get("ep-extra",[]),
   sample:null, db:null, uid:null, online:false, profil:store.get("ep-profil",null), stats:store.get("ep-stats",{...LEER}),
