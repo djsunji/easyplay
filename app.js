@@ -689,7 +689,7 @@ function themenHTML(){
     <div class="glas ap-stufen" role="group" aria-label="Deine Stufe">${[...STUFEN, STUFE_ALLE].map(s => `<button type="button" data-s="${s.id}" aria-pressed="${S.stufe === s.id}"><b>${h(s.name)}</b><small>${h(s.alter)}</small></button>`).join("")}</div>
     <p class="ap-info pille">${h(so.name)}: ${zahl(anz)} Fragen, ${h(SCH[S.stufe] || "")}</p>
     <div class="ap-ber">${BEREICHE.map(b => { let c = 0; try{ c = countBereich(b, S.stufe); }catch(e){} let em = ""; try{ em = ico(b.emo); }catch(e){}
-      const th = b.themen.filter(t => { try{ return t.menu || [1,2,3].some(l => countThema(t.id, l)); }catch(e){ return true; } });
+      const th = b.themen.filter(t => { if(t.versteckt) return false; try{ return t.menu || [1,2,3].some(l => countThema(t.id, l)); }catch(e){ return true; } });
       const chips = th.map(t => { let n = 0, ic = ""; try{ n = countThema(t.id, S.stufe); }catch(e){} try{ ic = themaIcon(t); }catch(e){}
         return `<button type="button" class="apc${n ? "" : " leer"}" data-tt="${h(t.id)}" data-bb="${b.id}"><span class="apci" aria-hidden="true">${ic}</span><span class="apcn">${h(t.name)}</span><small>${n ? zahl(n) : "0"}</small></button>`; }).join("");
       return `<div class="apb" style="--c:var(${b.c})"><span class="apwm" aria-hidden="true">${em}</span><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)}<i> Fragen</i></span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>

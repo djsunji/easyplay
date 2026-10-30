@@ -82,12 +82,18 @@ html body #app .np-wahl .bereiche{max-width:940px!important;width:100%;margin:0 
 html body #app .np-wahl .bereiche>.bereich h2{font-size:1.75rem!important;line-height:1.1}
 html body #app .np-wahl .bereiche>.bereich p{font-size:.95rem!important}
 html body #app .np-wahl .bereiche>.bereich .emo{width:64px!important;height:64px!important;font-size:2.2rem!important}
-html body #app .np-allethemen{--gh:66px;display:flex;align-items:center;justify-content:center;gap:12px;width:min(560px,100%);margin:6px auto 18px;height:var(--gh);box-sizing:border-box;cursor:pointer;padding:0 8px;background:none;border:0 solid transparent;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5);border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch;color:#3A1C00;font:700 22px Fredoka,Lexend,system-ui,sans-serif;text-shadow:0 1px 0 rgba(255,255,255,.5);filter:drop-shadow(0 6px 10px rgba(20,20,60,.25));transition:transform .12s}
-html body #app .np-allethemen img{width:38px;height:38px;object-fit:contain}
-html body #app .np-allethemen:hover{transform:translateY(-2px)}
-html body #app .np-allethemen:focus-visible{outline:3px solid #8A3FE0;outline-offset:3px}
-html body.ep-app #app .np-allethemen{--gh:46px;font-size:16px;margin:2px auto 8px}
-html body.ep-app #app .np-allethemen img{width:26px;height:26px}
+html body #app .np-allethemen{display:flex;align-items:center;justify-content:flex-start;gap:16px;width:100%;margin:0 0 16px;min-height:104px;box-sizing:border-box;cursor:pointer;padding:6px 10px;background:none;border:0 solid transparent;border-radius:0;
+  border-image:var(--kb) 56 56 210 56 fill / 20px 20px 40px 20px stretch;filter:drop-shadow(0 10px 16px rgba(27,34,64,.3));color:#fff;font:800 1.5rem Lexend,system-ui,sans-serif;text-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .12s;position:relative}
+html body #app .np-allethemen[data-b="welt"]{--kb:url("img/kacheln/thema-welt.webp?v=2")}
+html body #app .np-allethemen[data-b="natur"]{--kb:url("img/kacheln/thema-natur.webp?v=2")}
+html body #app .np-allethemen[data-b="geld"]{--kb:url("img/kacheln/thema-geld.webp?v=2")}
+html body #app .np-allethemen[data-b="alltag"]{--kb:url("img/kacheln/thema-alltag.webp?v=2")}
+html body #app .np-allethemen img{width:62px;height:62px;object-fit:contain;padding:8px;box-sizing:border-box;background:linear-gradient(160deg,#fff,#EEF1FF);border-radius:20px;box-shadow:0 10px 18px -10px rgba(10,20,60,.5)}
+html body #app .np-allethemen:hover{transform:translateY(-3px)}
+html body #app .np-allethemen:active{transform:translateY(3px)}
+html body #app .np-allethemen:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+html body.ep-app #app .np-allethemen{min-height:0;padding:9px 14px;margin:0 0 10px;border-image:none;border-radius:18px;font-size:16px;gap:10px;justify-content:center;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 82%,#fff),var(--c));box-shadow:0 4px 0 color-mix(in srgb,var(--c) 60%,#000)}
+html body.ep-app #app .np-allethemen img{width:32px;height:32px;padding:3px;border-radius:10px}
 html body #app .np-themenlink{text-align:center;margin:18px 0 0}
 html body #app .np-themenlink button{border:0;cursor:pointer;padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.92);color:#3A1F9E;font:800 16px Nunito,system-ui,sans-serif;box-shadow:0 4px 0 rgba(58,31,158,.25)}
 html body #app .np-themenlink button:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
@@ -197,7 +203,7 @@ function bereichThema(id){
   const b = BEREICHE.find(x => x.id === id); if(!b) return null;
   const tid = "bx_" + id;
   if(!THEMA[tid]){
-    const kids = b.themen.map(t => t.id).filter(t => t !== "bilder");
+    const kids = b.themen.filter(t => !t.sammel).map(t => t.id).filter(t => t !== "bilder");
     THEMA[tid] = { id: tid, name: b.name + ": alles gemischt", emo: b.emo, text: "Fragen aus allen Themen", menu: "mix", kids, bereich: b };
   }
   return THEMA[tid];
@@ -233,6 +239,7 @@ if(typeof vorBereich === "function") window.renderBereich = function(){
     const th = document.querySelector("#app .themen");
     if(th && S.bereich && !document.querySelector("#app .np-allethemen")){
       const k = document.createElement("button"); k.type = "button"; k.className = "np-allethemen";
+      k.dataset.b = S.bereich.id; k.style.setProperty("--c", `var(${S.bereich.c})`);
       k.innerHTML = `<img src="img/qeels-icons/themen/zufall.webp?v=2" alt=""><span>Aus allen Themen spielen</span>`;
       k.onclick = () => bereichSpielen(S.bereich.id);
       th.insertAdjacentElement("beforebegin", k);
