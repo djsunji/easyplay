@@ -1,7 +1,7 @@
 /* easyplay: Hilfen «Lesen & Hören»
    1. Hör-Modus: Fragen und Antworten im Quiz automatisch vorlesen (Standard an für Stufe 1, solange nie eingestellt),
       Lautsprecher-Knopf an jeder Antwort, nach dem Antworten Rückmeldung und kurze Erklärung vorlesen.
-   2. Joker im Training: pro Quiz-Runde 2× «50:50» und 2× «Tipp von Milo» (nie im Test, Duell, Live oder Hardcore).
+   2. Joker im Training: pro Quiz-Runde 2× «50:50» («Tipp von Milo» entfernt) (nie im Test, Duell, Live oder Hardcore).
    3. Lesehilfen: gut lesbare Schrift (Atkinson Hyperlegible, SIL OFL, lokal in welten/hilfen/), Schriftgrösse,
       stärkerer Kontrast, ruhiger Modus, Vorlese-Tempo. Einstellungs-Seite als Welt «x-hilfen».
    Nutzt die Vorlese-Logik der Seite (bestVoice, germanVoices, stopSpeak). Ergänzt das Quiz nach dem Rendern.
@@ -342,7 +342,7 @@ function quizErgaenzen(nurZeichnen){
       const bar = document.createElement("div"); bar.className = "hlf-joker"; bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "Joker");
       const f50weg = !!(qs.weg && qs.weg.length), tippDa = !!qs.tipp;
       bar.innerHTML = `<button type="button" class="hlf-j" data-hj="f50" ${st.f50 <= 0 || f50weg ? "disabled" : ""} aria-label="Joker 50:50, zwei falsche Antworten wegnehmen, noch ${st.f50}"><span class="hlf-ji" aria-hidden="true">½</span>50:50<span class="hlf-n" aria-hidden="true">${st.f50}</span></button>`
-        + `<button type="button" class="hlf-j" data-hj="tipp" ${st.tipp <= 0 || tippDa ? "disabled" : ""} aria-label="Joker Tipp von Milo, noch ${st.tipp}"><span class="hlf-ji" aria-hidden="true"><img src="img/kids/j1.webp" alt=""></span>Tipp von Milo<span class="hlf-n" aria-hidden="true">${st.tipp}</span></button>`;
+        /* «Tipp von Milo» auf Wunsch von Dejan entfernt (30.10.) */;
       answers.insertAdjacentElement("afterend", bar);
       if(tippDa){
         const t = document.createElement("div"); t.className = "hlf-tipp"; t.setAttribute("role", "status");
@@ -359,7 +359,7 @@ function quizErgaenzen(nurZeichnen){
         try{ window.EP_SOUND?.play("wisch"); }catch(e){}
         quizErgaenzen(true); fokus(ev);
       };
-      bar.querySelector('[data-hj="tipp"]').onclick = ev => {
+      const tippKn = bar.querySelector('[data-hj="tipp"]'); if(tippKn) tippKn.onclick = ev => {
         if(st.tipp <= 0 || qs.tipp || Q.picked != null) return;
         qs.tipp = tippText(f, qs.weg); st.tipp--;
         try{ window.EP_SOUND?.play("klick"); }catch(e){}
@@ -499,7 +499,7 @@ function seiteHTML(){
     <button type="button" class="hlf-btn" id="hlfReset">↺ Zurücksetzen</button>
   </div>
   ${stimme ? "" : `<p style="margin:8px 0 0"><span class="hlf-pille" role="note">🔇 Dieses Gerät bietet keine deutsche Vorlesestimme an. Der Hör-Modus bleibt dann still.</span></p>`}
-  <p style="margin:8px 0 0"><span class="hlf-pille">🃏 Im Training gibt es pro Runde 2× 50:50 und 2× Tipp von Milo. In Tests gibt es keine Joker.</span></p>
+  <p style="margin:8px 0 0"><span class="hlf-pille">🃏 Im Training gibt es pro Runde 2× 50:50. In Tests gibt es keine Joker.</span></p>
 </div>`;
 }
 function seiteZeichnen(box){

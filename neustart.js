@@ -77,6 +77,9 @@ html body #app .np-wahl .bereiche{max-width:940px!important;width:100%;margin:0 
 html body #app .np-wahl .bereiche>.bereich h2{font-size:1.75rem!important;line-height:1.1}
 html body #app .np-wahl .bereiche>.bereich p{font-size:.95rem!important}
 html body #app .np-wahl .bereiche>.bereich .emo{width:64px!important;height:64px!important;font-size:2.2rem!important}
+html body #app .np-themenlink{text-align:center;margin:18px 0 0}
+html body #app .np-themenlink button{border:0;cursor:pointer;padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.92);color:#3A1F9E;font:800 16px Nunito,system-ui,sans-serif;box-shadow:0 4px 0 rgba(58,31,158,.25)}
+html body #app .np-themenlink button:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
 .np-mix{align-self:center;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:linear-gradient(180deg,#FFE680,#FFC81E);color:#3A1C00;font:700 20px Fredoka,Lexend,system-ui,sans-serif;box-shadow:0 5px 0 #D99A00}
 .np-zurueck:focus-visible,.np-mix:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 @media (max-width:1100px){.np-tueren{gap:20px}.np-tuer{padding:28px 28px}.np-kacheln{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -176,10 +179,43 @@ function binden(){
   const app = document.getElementById("app"); if(!app) return;
   app.querySelectorAll("[data-np-stufe]").forEach(b => b.onclick = () => stufe(+b.dataset.npStufe));
   app.querySelectorAll("[data-np]").forEach(b => b.onclick = () => los(b.dataset.np));
-  app.querySelectorAll(".np-wahl .bereich[data-b]").forEach(b => b.onclick = () => { WAHL = false; S.bereich = BEREICHE.find(x => x.id === b.dataset.b); go("bereich"); });
+  app.querySelectorAll(".np-wahl .bereich[data-b]").forEach(b => b.onclick = () => { WAHL = false; bereichSpielen(b.dataset.b); });
   const f = app.querySelector("[data-np-suche]");
   if(f) f.onsubmit = e => { e.preventDefault(); const v = (f.querySelector("input").value || "").trim(); try{ LIB.qa = v; setLibModus(true); }catch(err){} };
 }
+
+/* Ganzer Bereich gemischt: eigenes Thema «bx_<bereich>», damit Training und Test mit Anzahl wie bei einem Thema laufen */
+function bereichThema(id){
+  const b = BEREICHE.find(x => x.id === id); if(!b) return null;
+  const tid = "bx_" + id;
+  if(!THEMA[tid]){
+    const kids = b.themen.map(t => t.id).filter(t => t !== "bilder");
+    THEMA[tid] = { id: tid, name: b.name + ": alles gemischt", emo: b.emo, text: "Fragen aus allen Themen", menu: "mix", kids, bereich: b };
+  }
+  return THEMA[tid];
+}
+function bereichSpielen(id){
+  const t = bereichThema(id); if(!t) return;
+  S.bereich = t.bereich; S.thema = t; go("mode");
+}
+/* Auf der Wahl-Seite des Bereichs: Weg zu den einzelnen Themen */
+const vorMode = window.renderMode;
+if(typeof vorMode === "function") window.renderMode = function(){
+  const r = vorMode.apply(this, arguments);
+  try{
+    const t = S.thema;
+    if(t && String(t.id).startsWith("bx_")){
+      const m = document.querySelector("#app .modes");
+      if(m && !document.querySelector("#app .np-themenlink")){
+        const d = document.createElement("p"); d.className = "np-themenlink";
+        d.innerHTML = `<button type="button">Lieber ein bestimmtes Thema wählen</button>`;
+        d.querySelector("button").onclick = () => { S.bereich = t.bereich; go("bereich"); };
+        m.insertAdjacentElement("afterend", d);
+      }
+    }
+  }catch(e){ console.warn("neustart", e); }
+  return r;
+};
 
 const vorHome = window.renderHome;
 window.renderHome = function(){
