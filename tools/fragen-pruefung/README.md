@@ -34,7 +34,12 @@ Dateien hier:
 - `probelauf-paket-1..3.json`: die 600 geprüften Fragen.
 - `probelauf-ergebnis.json`: die 138 Meldungen mit Originalfrage (`alt`) und Vorschlag (`neu` bzw. `stufe`).
 
-## Offen: Entscheide von Dejan, bevor der grosse Lauf startet
+## Entscheide von Dejan (30.10.2026)
+
+- Massstab Profis: lösbar für eine interessierte Person von 16 Jahren (Gymnasium oder Lehre), nicht trivial für 12-Jährige.
+- Zu schwere Fragen immer umschreiben, nicht löschen (Weg A). Eine neue Frage zum gleichen Stichwort ist erlaubt.
+
+## Damals offen (erledigt)
 
 1. **Massstab:** Stimmt das Niveau der Profi-Vorschläge, oder sind die neuen Fragen schon zu leicht?
 2. **Umschreiben oder löschen:** Beim Umschreiben entsteht oft eine ganz neue Frage zum gleichen Thema, zum Beispiel Gasturbine statt Joule-Prozess. Soll das so bleiben, oder sollen zu schwere Fragen eher gelöscht werden?

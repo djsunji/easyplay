@@ -23,7 +23,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 30.10. Sitzung «Fragen-Rework» (session_017onfQKmX8s6LM1vDpDdiyt): alle `fragen-*.json` und `welten/i18n/fr/q-*.json` (Fragen prüfen und umschreiben, Stufe für Stufe, zuerst Profis). Bitte diese Dateien bis auf Weiteres nicht ändern, sonst hier melden.
 
 ## Notizen an die andere Sitzung
 
