@@ -893,3 +893,43 @@ document.head.appendChild(c); })();
 c.textContent = `.ic.gico{display:inline-flex!important;align-items:center;justify-content:center;line-height:1}
 .ic.gico img{width:1.15em;height:1.15em;object-fit:contain;display:block;-webkit-user-drag:none;user-select:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}`;
 document.head.appendChild(c); })();
+
+/* ===== Training/Test-Seite: Dejans Wellen-Boxen (blau/lila) und Kopf «Welt» mit Globus, Büchern und Kompass ===== */
+(function(){ if(document.getElementById("ep-modus-boxen-css")) return;
+const c = document.createElement("style"); c.id = "ep-modus-boxen-css";
+const G = "img/grafik/";
+c.textContent = `
+html body #app .modes>.mode.mode.mode{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url("${G}box-blau.webp?v=3") 64 fill / 34px stretch!important;filter:drop-shadow(0 12px 18px rgba(20,40,120,.28))}
+html body #app .modes>.mode.test.test{border-image-source:url("${G}box-lila.webp?v=3")!important;filter:drop-shadow(0 12px 18px rgba(110,30,150,.3))}
+html body #app .modes>.mode.test[disabled]{filter:grayscale(.5) drop-shadow(0 8px 12px rgba(0,0,0,.2))}
+html body #app .modes>.mode::before,html body #app .modes>.mode::after{display:none!important}
+html body #app .st-kopf.ep-kopf-welt{background:none!important;box-shadow:none!important;border:0 solid transparent!important;
+  border-image:url("${G}box-blau.webp?v=3") 64 fill / 36px stretch!important;filter:drop-shadow(0 14px 22px rgba(20,40,120,.3));padding-right:34%!important}
+html body #app .st-kopf.ep-kopf-welt::before{display:none!important}
+html body #app .st-kopf.ep-kopf-welt .st-kids{display:none!important}
+html body #app .st-kopf.ep-kopf-welt::after{content:"";position:absolute;right:20px;top:16px;bottom:16px;aspect-ratio:607/340;max-width:42%;z-index:0;pointer-events:none;
+  background:url("${G}kopf-welt-deko.webp?v=2") right center/contain no-repeat}
+html body #app .st-kopf.ep-kopf-welt>*{position:relative;z-index:1}
+html body #app .st-kopf.ep-kopf-natur{background:url("${G}kopf-natur.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(10,90,50,.3));padding-right:30%!important}
+html body #app .st-kopf.ep-kopf-natur::before{display:none!important}
+html body #app .st-kopf.ep-kopf-natur .st-kids{display:none!important}
+html body.ep-app #app .st-kopf.ep-kopf-natur{padding-right:24%!important;border-radius:20px!important}
+html body.ep-app #app .st-kopf.ep-kopf-welt{padding-right:14px!important}
+html body.ep-app #app .st-kopf.ep-kopf-welt::after{display:none}
+`;
+document.head.appendChild(c);
+/* Kopf der Training/Test-Seite im Bereich Welt markieren */
+function markieren(){
+  try{
+    const k = document.querySelector("#app .st-kopf");
+    if(!k) return;
+    const bid = S.screen === "mode" && S.thema && S.thema.bereich ? S.thema.bereich.id : "";
+    k.classList.toggle("ep-kopf-welt", bid === "welt");
+    k.classList.toggle("ep-kopf-natur", bid === "natur");
+  }catch(e){}
+}
+const app = document.getElementById("app");
+if(app) new MutationObserver(markieren).observe(app, {childList:true, subtree:false});
+markieren();
+})();
