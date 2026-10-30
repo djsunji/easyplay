@@ -314,6 +314,12 @@ html body.ep-app #app .st-kopf .sbar .sbtns > button{white-space:nowrap!importan
   html body.ep-app.ep-s-mode #app .modes .mode.test > p{font-size:15px!important;margin-top:12px!important}
 }
 
+/* Welt-Kopf: Deko-Grafik (Globus, Bücher, Kompass) auch in der App, rechts neben dem Titel wie bei den anderen drei Köpfen */
+html body.ep-app #app .st-kopf.ep-kopf-welt{position:relative!important;border-image-width:24px!important}
+html body.ep-app #app .st-kopf.ep-kopf-welt::after{display:block!important;content:""!important;position:absolute!important;right:10px!important;top:4px!important;bottom:auto!important;height:62%!important;width:44%!important;max-width:none!important;aspect-ratio:auto!important;z-index:0!important;pointer-events:none;background:url("img/grafik/kopf-welt-deko.webp?v=2") right top/contain no-repeat!important}
+html body.ep-app #app .st-kopf.ep-kopf-welt .bhead{padding-right:40%!important;min-height:52px;margin-bottom:10px!important;box-sizing:border-box}
+@media (min-width:700px){html body.ep-app #app .st-kopf.ep-kopf-welt::after{height:70%!important;width:40%!important;right:18px!important;top:6px!important}}
+
 `;
 document.head.appendChild(css);
 
