@@ -16,6 +16,11 @@ ${A} > .card::before,${A} > .card::after{display:none!important}
 ${A} > .card .qq-titel,${A} > .card .modebadge{display:block!important;background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:6px 4px 2px!important;
   color:#FFE4F1!important;font:900 12px/1.2 "Lexend","Fredoka",system-ui,sans-serif!important;letter-spacing:.06em;text-transform:uppercase}
 /* Frage: bleibt in Dejans gelber Sprechblase mit Ben oder Leni (stil.js) */
+/* Handy und iPad: neben der Sprechblase das ganze Kind statt nur den Kopf (Computer bleibt beim Kopf) */
+html body.ep-app #app h2.question.af-ganz{margin-left:112px!important;min-height:170px!important}
+html body.ep-app #app h2.question.af-ganz > .ep-blase-kind{left:-118px!important;width:96px!important;height:200px!important;object-fit:contain!important;object-position:center bottom!important;top:auto!important;bottom:-18px!important;transform:none!important}
+@media (max-width:360px){ html body.ep-app #app h2.question.af-ganz{margin-left:92px!important} html body.ep-app #app h2.question.af-ganz > .ep-blase-kind{left:-96px!important;width:80px!important;height:170px!important} }
+@media (min-width:700px){ html body.ep-app #app h2.question.af-ganz{margin-left:150px!important;min-height:200px!important;margin-top:36px!important} html body.ep-app #app h2.question.af-ganz > .ep-blase-kind{left:-160px!important;width:130px!important;height:250px!important;bottom:-22px!important} }
 /* Antworten: Qeels-Glanzknöpfe (Bilder kommen aus stil.js), nach der Antwort die übrigen blass */
 ${A} > .card .answers{gap:9px!important;margin-top:4px!important}
 ${A} > .card .answers .ans{min-height:52px!important;color:#fff!important;font-weight:900!important;text-shadow:0 1.5px 3px rgba(0,0,0,.35)!important}
@@ -75,6 +80,16 @@ function titel(){
   if(!el){ el = document.createElement("span"); el.className = "qq-titel"; el.setAttribute("aria-hidden", "true"); q.before(el); }
   const t = "🎯 " + c.textContent.trim(); if(el.textContent !== t) el.textContent = t;
 }
+
+/* Ganzes Kind auf Handy und iPad: Bild von img/kids/koepfe/<name> auf img/kids/<name> umstellen */
+function ganzesKind(){
+  const app = document.body.classList.contains("ep-app");
+  document.querySelectorAll("#app h2.question > .ep-blase-kind").forEach(i => {
+    const s = i.getAttribute("src") || ""; const h = i.parentElement;
+    if(app){ if(s.includes("/koepfe/")){ i.dataset.kopf = s; i.setAttribute("src", s.replace("/koepfe/", "/")); } h.classList.add("af-ganz"); }
+    else { if(i.dataset.kopf){ i.setAttribute("src", i.dataset.kopf); delete i.dataset.kopf; } h.classList.remove("af-ganz"); }
+  });
+}
 function an(){
   let sc = ""; try{ sc = S.screen; }catch(e){}
   const ja = SEITEN.includes(sc) && !!document.querySelector("#app > .card");
@@ -84,6 +99,6 @@ function an(){
 const vor = window.render;
 if(typeof vor === "function") window.render = function(){ const r = vor.apply(this, arguments); try{ an(); }catch(e){} return r; };
 const app = document.getElementById("app");
-if(app) new MutationObserver(() => { try{ an(); }catch(e){} }).observe(app, {childList:true, subtree:true});
+if(app) new MutationObserver(() => { try{ an(); ganzesKind(); }catch(e){} }).observe(app, {childList:true, subtree:true});
 try{ an(); }catch(e){}
 })();
