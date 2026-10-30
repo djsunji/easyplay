@@ -818,3 +818,34 @@ const app = document.getElementById("app");
 if(app) new MutationObserver(setzen).observe(app, {childList:true, subtree:true});
 setzen();
 })();
+
+/* ================= Quiz: Antworten im Glanz-Stil der Qeels (A bis D als Bild, Knopf mit Buchstabe) ================= */
+(function(){
+const A = "html body #app .answers .ans";
+const css = document.createElement("style"); css.id = "ep-antworten-qeels-css";
+css.textContent = `
+${A}{--ah:66px;--ab:url("img/qeels-antwort-a.webp");--ak:url("img/qeels-antwort-a-knopf.webp");position:relative;display:flex!important;align-items:center;justify-content:flex-start!important;gap:12px;
+  min-height:var(--ah)!important;padding:2px calc(var(--ah) * .3) 2px calc(var(--ah) * .1)!important;box-sizing:border-box;
+  background:none!important;border:0 solid transparent!important;border-width:calc(var(--ah) * .3) calc(var(--ah) * .5)!important;
+  border-image:var(--ab) 48 80 fill / calc(var(--ah) * .3) calc(var(--ah) * .5) stretch!important;border-radius:0!important;box-shadow:none!important;
+  color:#fff!important;text-align:left!important;font-weight:800;line-height:1.22;text-shadow:0 1px 3px rgba(0,0,0,.45);
+  filter:drop-shadow(0 5px 10px rgba(0,0,0,.25));transition:transform .12s,filter .12s}
+${A}:nth-child(2){--ab:url("img/qeels-antwort-b.webp");--ak:url("img/qeels-antwort-b-knopf.webp")}
+${A}:nth-child(3){--ab:url("img/qeels-antwort-c.webp");--ak:url("img/qeels-antwort-c-knopf.webp")}
+${A}:nth-child(4){--ab:url("img/qeels-antwort-d.webp");--ak:url("img/qeels-antwort-d-knopf.webp")}
+${A} .key{position:static!important;transform:none!important;flex:none;width:calc(var(--ah) * .8)!important;height:calc(var(--ah) * .8)!important;margin:calc(var(--ah) * -.3) 0 calc(var(--ah) * -.3) calc(var(--ah) * -.5)!important;
+  background:center/contain no-repeat var(--ak)!important;border:0!important;box-shadow:none!important;border-radius:50%;color:transparent!important;font-size:0!important}
+${A} > span:not(.key){flex:1;min-width:0;text-align:left}
+${A}:hover:not([disabled]){filter:brightness(1.08) drop-shadow(0 8px 14px rgba(0,0,0,.3));transform:translateY(-2px)}
+${A}:active:not([disabled]){filter:brightness(.95) drop-shadow(0 2px 6px rgba(0,0,0,.25));transform:translateY(2px) scale(.985)}
+${A}:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+${A}[disabled]:not(.right):not(.wrong){opacity:.5;filter:saturate(.6) drop-shadow(0 4px 8px rgba(0,0,0,.2))}
+${A}.right{opacity:1!important;outline:0;filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #3BFF8E)!important}
+${A}.wrong{opacity:1!important;filter:grayscale(.55) brightness(.85) drop-shadow(0 0 12px #FF3B3B)!important}
+${A}.right::after,${A}.wrong::after{content:"✓";margin-left:auto;flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#16A35A;color:#fff;font-weight:900;font-size:1rem;box-shadow:0 0 0 2px #fff;text-shadow:none;position:static}
+${A}.wrong::after{content:"✗";background:#D6362E}
+html body.ep-app #app .answers .ans{--ah:56px}
+@media (prefers-reduced-motion:reduce){${A}{transition:none}}
+`;
+document.head.appendChild(css);
+})();

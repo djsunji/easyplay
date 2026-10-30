@@ -17,6 +17,7 @@ const zahl = n => { try{ return Number(n).toLocaleString("de-CH"); }catch(e){ re
 const K = "img/kacheln/", KIDS = "img/kids/";
 const STUFEN = [[1, "Entdecker", "bis 9 Jahre"], [2, "Könner", "10 bis 14 Jahre"], [3, "Profis", "ab 15 Jahre"], [4, "Alle Stufen", "alles gemischt"]];
 const E = () => window.EP_START || {};
+let WAHL = false;   /* nach «Jetzt spielen»: zuerst Bereich wählen, dann im Bereich das Thema */
 
 const css = document.createElement("style"); css.id = "ep-neustart-css";
 css.textContent = `
@@ -65,6 +66,19 @@ body.ep-neustart .wrap{max-width:1360px}
 .np-k.duell{border-image-source:url(${K}live-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(140,40,170,.3))}
 .np-k.truhe{border-image-source:url(${K}truhe-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(190,130,0,.3))}
 .np-k.truhe.offen{filter:saturate(.7) drop-shadow(0 10px 14px rgba(190,130,0,.25))}
+.np-wahl{display:flex;flex-direction:column;gap:18px;padding-top:6px}
+.np-wahl-kopf{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.np-wahl-kopf h1{margin:0;font:700 40px/1.05 Fredoka,Lexend,system-ui,sans-serif;color:#2B1A73;text-shadow:0 2px 0 #fff}
+.np-zurueck{border:0;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:#fff;color:#2B1A73;font-weight:800;font-size:15px;box-shadow:0 4px 10px -4px rgba(40,30,110,.35)}
+.np-wahl .np-stufen{width:auto;display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.np-wahl .np-stufe{background:rgba(255,255,255,.75);color:#2B1A73}
+.np-wahl .np-stufe[aria-pressed="true"]{background:#5B3FE0;color:#fff;box-shadow:0 4px 0 #3E27B0}
+html body #app .np-wahl .bereiche{max-width:940px!important;width:100%;margin:0 auto}
+html body #app .np-wahl .bereiche>.bereich h2{font-size:1.75rem!important;line-height:1.1}
+html body #app .np-wahl .bereiche>.bereich p{font-size:.95rem!important}
+html body #app .np-wahl .bereiche>.bereich .emo{width:64px!important;height:64px!important;font-size:2.2rem!important}
+.np-mix{align-self:center;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:linear-gradient(180deg,#FFE680,#FFC81E);color:#3A1C00;font:700 20px Fredoka,Lexend,system-ui,sans-serif;box-shadow:0 5px 0 #D99A00}
+.np-zurueck:focus-visible,.np-mix:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 @media (max-width:1100px){.np-tueren{gap:20px}.np-tuer{padding:28px 28px}.np-kacheln{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:820px){.np-tueren{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.np *{transition:none!important}}
@@ -114,14 +128,38 @@ function html(){
   </div>`;
 }
 
+function wahlHTML(){
+  const st = [1, 2, 3, 4].includes(S.stufe) ? S.stufe : 1;
+  const zaehl = b => { try{ return countBereich(b, S.stufe); }catch(e){ return ""; } };
+  const icon = e => { try{ return ico(e); }catch(x){ return ""; } };
+  return `<div class="np-wahl">
+    <div class="np-wahl-kopf">
+      <button type="button" class="np-zurueck" data-np="zurueck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Zurück</button>
+      <h1>Was willst du spielen?</h1>
+      <div class="np-stufen" role="group" aria-label="Schwierigkeit wählen">
+        ${STUFEN.map(([n, name]) => `<button type="button" class="np-stufe" data-np-stufe="${n}" aria-pressed="${n === st}"><b>${name}</b></button>`).join("")}
+      </div>
+    </div>
+    <div class="bereiche">
+      ${BEREICHE.map(b => `<button class="bereich" type="button" data-b="${b.id}" style="--c:var(${b.c})">
+        <span class="count-pill">${zaehl(b)} Fragen</span>
+        <span class="emo" aria-hidden="true">${icon(b.emo)}</span><h2>${h(b.name)}</h2><p>${h(b.text)}</p></button>`).join("")}
+    </div>
+    <button type="button" class="np-mix" data-np="mix"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Oder einfach losspielen: Fragen aus allen Bereichen</button>
+  </div>`;
+}
 function stufe(n){
   S.stufe = n; try{ store.set("ep-stufe", n); }catch(e){ try{ localStorage.setItem("ep-stufe", JSON.stringify(n)); }catch(e2){} }
   document.querySelectorAll("#app .np-stufe").forEach(b => b.setAttribute("aria-pressed", +b.dataset.npStufe === n));
+  try{ document.querySelectorAll("#app .np-wahl .bereich[data-b]").forEach(el => { const b = BEREICHE.find(x => x.id === el.dataset.b), p = el.querySelector(".count-pill"); if(b && p) p.textContent = countBereich(b, n) + " Fragen"; }); }catch(e){}
 }
 function los(was){
   const A = E().aktion;
   try{
-    if(was === "spielen"){
+    if(was === "spielen"){ WAHL = true; render(); scrollTo(0, 0); return; }
+    if(was === "zurueck"){ WAHL = false; render(); return; }
+    if(was === "mix"){
+      WAHL = false;
       const alle = typeof alleFragen === "function" ? alleFragen() : FRAGEN;
       startListe(alle.filter(f => (S.stufe === 4 || f.l === S.stufe) && Array.isArray(f.a) && f.a.length === 4), "Zufällige Fragen");
     }
@@ -138,6 +176,7 @@ function binden(){
   const app = document.getElementById("app"); if(!app) return;
   app.querySelectorAll("[data-np-stufe]").forEach(b => b.onclick = () => stufe(+b.dataset.npStufe));
   app.querySelectorAll("[data-np]").forEach(b => b.onclick = () => los(b.dataset.np));
+  app.querySelectorAll(".np-wahl .bereich[data-b]").forEach(b => b.onclick = () => { WAHL = false; S.bereich = BEREICHE.find(x => x.id === b.dataset.b); go("bereich"); });
   const f = app.querySelector("[data-np-suche]");
   if(f) f.onsubmit = e => { e.preventDefault(); const v = (f.querySelector("input").value || "").trim(); try{ LIB.qa = v; setLibModus(true); }catch(err){} };
 }
@@ -148,11 +187,11 @@ window.renderHome = function(){
   const neu = an();
   document.body.classList.toggle("ep-neustart", neu);
   if(!neu) return r;
-  try{ const app = document.getElementById("app"); if(app){ app.innerHTML = html(); binden(); } }catch(e){ console.warn("neustart", e); }
+  try{ const app = document.getElementById("app"); if(app){ app.innerHTML = WAHL ? wahlHTML() : html(); binden(); } }catch(e){ console.warn("neustart", e); }
   return r;
 };
 /* Beim Verlassen der Startseite die breitere Seite wieder zurücksetzen */
 const vorRender = window.render;
-if(typeof vorRender === "function") window.render = function(){ const r = vorRender.apply(this, arguments); try{ if(S.screen !== "home") document.body.classList.remove("ep-neustart"); }catch(e){} return r; };
+if(typeof vorRender === "function") window.render = function(){ const r = vorRender.apply(this, arguments); try{ if(S.screen !== "home"){ document.body.classList.remove("ep-neustart"); WAHL = false; } }catch(e){} return r; };
 window.EP_NEUSTART = { an, ein(){ try{ localStorage.setItem(SCHLUESSEL, "1"); }catch(e){} render(); }, aus(){ try{ localStorage.removeItem(SCHLUESSEL); }catch(e){} render(); } };
 })();
