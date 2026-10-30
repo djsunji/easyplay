@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-06";
+window.EP_BUILD="ep-2026-10-30-07";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -3616,8 +3616,11 @@ const LEER = {trainRuns:0,trainFragen:0,trainRichtig:0,trainZeit:0,testRuns:0,te
 const EMO = {uk:"💂",croissant:"🥐",scale:"⚖️",image:"🖼️",globe:"🌍",microscope:"🔬",bike:"🚲",castle:"🏰",ballot:"🗳️",dove:"🕊️",fox:"🦊",atom:"🧠",bolt:"⚡",coin:"🪙",bank:"🏦",receipt:"🧾",health:"🩺",phone:"📱",toolbox:"🧰",house:"🏠",burst:"💥",columns:"🏛️",rocket:"🚀",scroll:"📜",mountain:"🏔️",sprout:"🌱",medal:"🏅",trophy:"🏆",dumbbell:"🏋️",question:"❓",bulb:"💡",lock:"🔒",star:"⭐",starEmpty:"⭐",check:"✅",cross:"❌",speaker:"🔊",stop:"⏹️",book:"📚",compass:"🧭",sparkle:"✨",timer:"⏱️",hammer:"🔨",laptop:"💻",heart:"🤝",chart:"📊",palette:"🎨",pan:"🍳",face1:"😕",face2:"🙂",face3:"😊",face4:"🤩",tools:"🛠️",voice:"🗣️",pin:"📍",world:"🌐",redbook:"📕",chains:"⛓️",church:"⛪",mosque:"🕌",pray:"🙏",tree:"🌳",flask:"🧪",muscle:"💪",map:"🗺️",tower:"🗼",americas:"🌎",telescope:"🔭",volcano:"🌋",testtube:"⚗️",numbers:"🔢",robot:"🤖",money:"💰",abc:"🔤",music:"🎵",soccer:"⚽",clapper:"🎬",puzzle:"🧩"};
 function ico(k, cls=""){
   if(k==="flag") return `<svg class="ic col flagico ${cls}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">${ICONS.flag}</svg>`;
+  if(GICO[k]) return `<span class="ic emo-i gico ${cls}" aria-hidden="true"><img src="img/grafik/ic-${GICO[k]}.webp" alt="" draggable="false"></span>`;
   return `<span class="ic emo-i ${k==="starEmpty"?"dim":""} ${cls}" aria-hidden="true">${EMO[k]||"❓"}</span>`;
 }
+/* Dejans gezeichnete Symbole (img/grafik/ic-*.webp) statt Emoji */
+const GICO = {ballot:"ballot", bank:"bank", bike:"bike", castle:"castle", chains:"chains", coin:"coin", columns:"columns", globe:"globe", health:"health", house:"house", microscope:"microscope", numbers:"numbers", tree:"leaf"};
 function stars(n){ return ico("star").repeat(n) + ico("starEmpty").repeat(3-n); }
 function medalSvg(i){ const m=["🥇","🥈","🥉"][i]; return m ? `<span class="ic emo-i medal" aria-hidden="true">${m}</span>` : `<span class="rnum">${i+1}</span>`; }
 
