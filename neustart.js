@@ -70,7 +70,9 @@ body.ep-neustart .wrap{max-width:1360px}
 .np-wahl{display:flex;flex-direction:column;gap:18px;padding-top:6px}
 .np-wahl-kopf{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .np-wahl-kopf h1{margin:0;font:700 40px/1.05 Fredoka,Lexend,system-ui,sans-serif;color:#2B1A73;text-shadow:0 2px 0 #fff}
-.np-zurueck{border:0;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:#fff;color:#2B1A73;font-weight:800;font-size:15px;box-shadow:0 4px 10px -4px rgba(40,30,110,.35)}
+.np-zurueck{--gh:54px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:var(--gh);box-sizing:border-box;padding:0 6px;background:none;border:0 solid transparent;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5);border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch;color:#28304A;font:800 17px Lexend,system-ui,sans-serif;filter:drop-shadow(0 4px 6px rgba(20,20,60,.25));transition:transform .12s}
+.np-zurueck img{width:26px;height:26px;object-fit:contain}
+.np-zurueck:hover{transform:translateY(-2px)}
 .np-wahl .np-stufen{width:auto;display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
 .np-wahl .np-stufe{background:rgba(255,255,255,.75);color:#2B1A73}
 .np-wahl .np-stufe[aria-pressed="true"]{background:#5B3FE0;color:#fff;box-shadow:0 4px 0 #3E27B0}
@@ -138,11 +140,7 @@ function wahlHTML(){
   const icon = e => { try{ return ico(e); }catch(x){ return ""; } };
   return `<div class="np-wahl">
     <div class="np-wahl-kopf">
-      <button type="button" class="np-zurueck" data-np="zurueck"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Zurück</button>
-      <h1>Was willst du spielen?</h1>
-      <div class="np-stufen" role="group" aria-label="Schwierigkeit wählen">
-        ${STUFEN.map(([n, name]) => `<button type="button" class="np-stufe" data-np-stufe="${n}" aria-pressed="${n === st}"><b>${name}</b></button>`).join("")}
-      </div>
+      <button type="button" class="np-zurueck" data-np="zurueck" aria-label="Zurück zur Startseite"><img src="img/grafik/sym-zurueck.webp" alt=""> Zurück</button>
     </div>
     <div class="bereiche">
       ${BEREICHE.map(b => `<button class="bereich" type="button" data-b="${b.id}" style="--c:var(${b.c})">
