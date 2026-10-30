@@ -1037,8 +1037,8 @@ document.head.appendChild(css);
 
 /* ================= Frage in einer Sprechblase (Quiz, Duell und weitere Stellen mit h2.question) ================= */
 (function(){
-// Grosse gelbe Comic-Blase mit dunklem Rand und Schatten; links daneben der Kopf eines Kids (Ben, Leni, Lumi oder Milo)
-// mit nachdenklichem oder staunendem Gesicht, unten ausgeblendet. Bei jeder Frage ein anderes Gesicht.
+// Grosse gelbe Comic-Blase mit dunklem Rand und Schatten; links daneben der Kopf von Ben oder Leni
+// (nur Ben und Leni, Wunsch Dejan) mit nachdenklichem oder staunendem Gesicht, unten ausgeblendet. Bei jeder Frage ein anderes Gesicht.
 const Q = "html body #app h2.question";
 const RAND = "#3A2400";
 const css = document.createElement("style"); css.id = "ep-sprechblase-css";
@@ -1059,7 +1059,7 @@ ${Q} > .ep-blase-kind{position:absolute;left:-180px;top:50%;width:150px;height:1
   ${Q} > .ep-blase-kind{left:-86px;width:60px;height:74px}
 }`;
 document.head.appendChild(css);
-const KOEPFE = ["ben-denken","ben-denken2","ben-staunen","leni-denken","leni-denken2","leni-staunen","lumi-denken","lumi-staunen","milo-denken","milo-staunen"];
+const KOEPFE = ["ben-denken","ben-denken2","ben-staunen","leni-denken","leni-denken2","leni-staunen"];
 let letzter = -1;
 // Kopf neben jede neue Frage setzen, nie zweimal hintereinander der gleiche
 const kind = () => document.querySelectorAll("#app h2.question:not([data-blase])").forEach(h => {
