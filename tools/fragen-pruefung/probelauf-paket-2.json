@@ -1,0 +1,2802 @@
+[
+{
+"nr": 124160,
+"t": "natur",
+"l": 3,
+"s": "Flavonoide",
+"q": "Welches Enzym leitet in der Pflanze die Biosynthese der Flavonoide ein?",
+"a": [
+"Chalkonsynthase",
+"Rubisco",
+"Amylase",
+"ATP-Synthase"
+],
+"e": "Die Chalkonsynthase verknüpft ein Phenylpropanoid (Cumaroyl-CoA) mit drei Malonyl-CoA-Einheiten zu einem Chalkon. Daraus entstehen die übrigen Flavonoide."
+},
+{
+"nr": 42082,
+"t": "pol_diktatur",
+"l": 2,
+"s": "Jean-Bédel Bokassa",
+"q": "Welches Land beherrschte Jean-Bédel Bokassa?",
+"a": [
+"Zentralafrikanische Republik",
+"Tschad",
+"Republik Kongo",
+"Elfenbeinküste"
+],
+"e": "Bokassa herrschte von 1966 bis 1979 über die Zentralafrikanische Republik. Zuvor war er Chef der Armee."
+},
+{
+"nr": 17871,
+"t": "koerper",
+"l": 3,
+"s": "Blutgruppe",
+"q": "Welche AB0-Blutgruppe kann rote Blutkörperchen aller AB0-Gruppen empfangen?",
+"a": [
+"AB",
+"0",
+"A",
+"B"
+],
+"e": "Menschen mit Blutgruppe AB haben im Plasma weder Anti-A noch Anti-B. Sie gelten deshalb als Universalempfänger für Erythrozyten."
+},
+{
+"nr": 74226,
+"t": "ethik",
+"l": 3,
+"s": "Sokrates",
+"q": "Wie nannte Sokrates die innere Stimme, die ihn von falschen Handlungen abhielt?",
+"a": [
+"Daimonion",
+"Logos",
+"Nous",
+"Psyche"
+],
+"e": "Das Daimonion war nach Sokrates eine göttliche Stimme, die ihm nur abriet, aber nie etwas befahl. Es wird oft als frühe Vorstellung des Gewissens gedeutet."
+},
+{
+"nr": 12499,
+"t": "tiere",
+"l": 3,
+"s": "Vogelspinne",
+"q": "Wie alt können Weibchen mancher Vogelspinnenarten werden?",
+"a": [
+"Über 30 Jahre",
+"Höchstens ein Jahr",
+"Etwa drei Monate",
+"Über 100 Jahre"
+],
+"e": "Vogelspinnenweibchen gehören zu den langlebigsten Spinnen und können je nach Art 30 Jahre und älter werden. Sie häuten sich auch als Erwachsene weiter."
+},
+{
+"nr": 102145,
+"t": "physik",
+"l": 1,
+"s": "Sanduhr",
+"q": "Wofür braucht man bei Brettspielen oft eine kleine Sanduhr?",
+"a": [
+"Um die Zeit für eine Runde zu begrenzen",
+"Um die Punkte zu zählen",
+"Um die Würfel zu mischen",
+"Um die Karten zu verteilen"
+],
+"e": "Ist der Sand unten, ist die Zeit für die Aufgabe vorbei. So haben alle gleich viel Zeit."
+},
+{
+"nr": 91073,
+"t": "erde",
+"l": 2,
+"s": "Trogtal",
+"q": "Warum ist der Talboden vieler Trogtäler heute so flach?",
+"a": [
+"Er wurde mit Kies und Sand aufgefüllt",
+"Er wurde von Menschen planiert",
+"Er liegt auf einem Vulkan",
+"Er ist aus Gletschereis"
+],
+"e": "Nach dem Rückzug des Gletschers lagerten Bäche und Seen viel Material im Trog ab. Dadurch entstand ein ebener Talboden."
+},
+{
+"nr": 97887,
+"t": "chemie",
+"l": 3,
+"s": "Carbonsäuren",
+"q": "Wie heissen die Salze der Essigsäure?",
+"a": [
+"Acetate",
+"Formiate",
+"Oxalate",
+"Benzoate"
+],
+"e": "Wenn Essigsäure ihr Proton abgibt, entsteht das Acetat-Ion CH₃COO⁻. Ein Beispiel ist Natriumacetat."
+},
+{
+"nr": 114980,
+"t": "physik",
+"l": 2,
+"s": "Pirouette",
+"q": "Warum dreht sich ein Turmspringer im Salto in gehockter Haltung schneller als in gestreckter?",
+"a": [
+"Weil sein Trägheitsmoment kleiner ist",
+"Weil er schwerer wird",
+"Weil die Luft ihn schiebt",
+"Weil er schneller fällt"
+],
+"e": "In der Hocke liegt die Masse nahe an der Drehachse. Wie bei der Pirouette führt das kleinere Trägheitsmoment zu schnellerer Drehung."
+},
+{
+"nr": 117362,
+"t": "physik",
+"l": 3,
+"s": "Präzession",
+"q": "Welche Folge hat die Präzession der Erdachse für den Himmel?",
+"a": [
+"Der Polarstern wechselt im Lauf der Jahrtausende",
+"Die Mondphasen verschwinden",
+"Die Sonne geht im Westen auf",
+"Die Jahreszeiten fallen weg"
+],
+"e": "Die Himmelspole wandern langsam auf einem Kreis. In einigen tausend Jahren steht ein anderer heller Stern nahe dem Nordpol des Himmels."
+},
+{
+"nr": 127757,
+"t": "physik",
+"l": 1,
+"s": "Druckausgleich",
+"q": "Was spürst du oft in den Ohren, wenn du tief tauchst?",
+"a": [
+"Einen Druck",
+"Ein Jucken",
+"Eine Wärme",
+"Einen Geschmack"
+],
+"e": "Das Wasser drückt von aussen gegen das Ohr. Das fühlt sich an wie ein Druck oder ein leichter Schmerz."
+},
+{
+"nr": 120804,
+"t": "koerper",
+"l": 3,
+"s": "Plasmazelle",
+"q": "Wo halten sich langlebige Plasmazellen beim Erwachsenen vorwiegend auf?",
+"a": [
+"Im Knochenmark",
+"In der Haut",
+"Im Gehirn",
+"In der Linse des Auges"
+],
+"e": "Langlebige Plasmazellen finden im Knochenmark besondere Nischen mit Überlebenssignalen. Von dort aus geben sie dauerhaft Antikörper ins Blut ab."
+},
+{
+"nr": 90443,
+"t": "mathe",
+"l": 3,
+"s": "Gödelscher Unvollständigkeitssatz",
+"q": "In welchem Jahr veröffentlichte Kurt Gödel seine Unvollständigkeitssätze?",
+"a": [
+"1931",
+"1905",
+"1948",
+"1912"
+],
+"e": "Gödel veröffentlichte 1931 die Arbeit «Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme I». Sie veränderte die Grundlagen der Mathematik."
+},
+{
+"nr": 81813,
+"t": "natur",
+"l": 1,
+"s": "Leberblümchen",
+"q": "Wie viele Lappen hat ein Blatt des Leberblümchens?",
+"a": [
+"3",
+"5",
+"7",
+"1"
+],
+"e": "Das Blatt des Leberblümchens ist in drei rundliche Lappen geteilt. Daran erkennt man die Pflanze auch ohne Blüte."
+},
+{
+"nr": 36029,
+"t": "pol_welt",
+"l": 1,
+"s": "Frankreich",
+"q": "In welcher Himmelsrichtung liegt Frankreich von der Schweiz aus gesehen?",
+"a": [
+"Im Westen",
+"Im Osten",
+"Im Norden",
+"Im Süden"
+],
+"e": "Frankreich liegt westlich der Schweiz. Zum Beispiel grenzen die Kantone Genf, Waadt, Neuenburg und Jura an Frankreich."
+},
+{
+"nr": 24042,
+"t": "g_antike",
+"l": 2,
+"s": "Kolosseum",
+"q": "Ungefähr wann wurde das Kolosseum eröffnet?",
+"a": [
+"Vor fast 2000 Jahren",
+"Vor 200 Jahren",
+"Vor 500 Jahren",
+"Vor 10'000 Jahren"
+],
+"e": "Das Kolosseum wurde im Jahr 80 nach Christus eröffnet. Das ist fast 2000 Jahre her."
+},
+{
+"nr": 93979,
+"t": "informatik",
+"l": 3,
+"s": "Chomsky-Hierarchie",
+"q": "Welcher Sprachwissenschaftler stellte 1956 die Hierarchie formaler Grammatiken auf?",
+"a": [
+"Noam Chomsky",
+"Ferdinand de Saussure",
+"John Backus",
+"Alonzo Church"
+],
+"e": "Noam Chomsky ordnete Grammatiken nach der Form ihrer Regeln in vier Typen ein. Die Hierarchie ist bis heute Grundlage der theoretischen Informatik."
+},
+{
+"nr": 121470,
+"t": "wissenschaft",
+"l": 3,
+"s": "Arzneimittelentwicklung",
+"q": "Mit welcher Methode werden in der Pharmaforschung automatisiert Hunderttausende Substanzen auf eine Wirkung getestet?",
+"a": [
+"Hochdurchsatz-Screening",
+"Röntgenbeugung",
+"Doppelblindstudie",
+"Pharmakovigilanz"
+],
+"e": "Beim Hochdurchsatz-Screening testen Roboter grosse Substanzbibliotheken gegen ein biologisches Ziel. Treffer werden anschliessend genauer untersucht."
+},
+{
+"nr": 47705,
+"t": "pol_kommunismus",
+"l": 3,
+"s": "Sonderwirtschaftszone Shenzhen",
+"q": "In welchem Jahr wurde die Börse von Shenzhen offiziell gegründet?",
+"a": [
+"1990",
+"1980",
+"1997",
+"2001"
+],
+"e": "Die Shenzhen Stock Exchange wurde am 1. Dezember 1990 offiziell gegründet, fast gleichzeitig mit der Börse von Shanghai. Sie ist heute eine der grössten Börsen Asiens."
+},
+{
+"nr": 62543,
+"t": "geo_schweiz",
+"l": 3,
+"s": "Bahn 2000",
+"q": "Wann stimmte das Volk dem Konzept Bahn 2000 zu?",
+"a": [
+"1987",
+"1979",
+"1994",
+"2004"
+],
+"e": "Am 6. Dezember 1987 wurde der Kredit für Bahn 2000 mit 57 Prozent angenommen."
+},
+{
+"nr": 126092,
+"t": "physik",
+"l": 3,
+"s": "Quantencomputer",
+"q": "Welches Quantengatter macht aus dem Zustand |0⟩ eine gleichgewichtete Überlagerung von |0⟩ und |1⟩?",
+"a": [
+"Das Hadamard-Gatter",
+"Das NOT-Gatter",
+"Das Toffoli-Gatter",
+"Das Phasengatter T"
+],
+"e": "Nach dem Hadamard-Gatter liefert eine Messung je zur Hälfte 0 oder 1. Es steht deshalb am Anfang vieler Quantenalgorithmen."
+},
+{
+"nr": 48852,
+"t": "geo_welt",
+"l": 1,
+"s": "Borneo",
+"q": "Wie viele Länder teilen sich die Insel Borneo?",
+"a": [
+"3",
+"1",
+"2",
+"5"
+],
+"e": "Auf Borneo liegen Teile von Indonesien und Malaysia sowie das ganze kleine Land Brunei. Das sind drei Länder."
+},
+{
+"nr": 119962,
+"t": "wissenschaft",
+"l": 3,
+"s": "Plasmid",
+"q": "Wie heisst der DNA-Abschnitt, an dem die eigenständige Verdopplung eines Plasmids beginnt?",
+"a": [
+"Replikationsursprung",
+"Promotor",
+"Terminator",
+"Telomer"
+],
+"e": "Der Replikationsursprung, englisch origin of replication, ermöglicht es dem Plasmid, sich unabhängig vom Bakterienchromosom zu verdoppeln. Er bestimmt auch, wie viele Kopien in einer Zelle entstehen."
+},
+{
+"nr": 95473,
+"t": "kt_LU",
+"l": 2,
+"s": "Museggmauer",
+"q": "Was ist das Besondere an der Uhr des Zytturms an der Museggmauer in Luzern?",
+"a": [
+"Sie darf eine Minute vor allen anderen Uhren der Stadt schlagen",
+"Sie läuft rückwärts",
+"Sie hat nur einen Stundenzeiger aus Gold",
+"Sie schlägt nur an Weihnachten"
+],
+"e": "Die Uhr im Zytturm ist die älteste Turmuhr Luzerns. Darum hat sie das Vorrecht, jeweils eine Minute früher zu schlagen als alle anderen Uhren der Stadt."
+},
+{
+"nr": 2327,
+"t": "tiere",
+"l": 1,
+"s": "Grosser Panda",
+"q": "Wozu dienen die dunklen Flecken rund um die Augen des Pandas vermutlich?",
+"a": [
+"Sie helfen bei der Tarnung und Verständigung",
+"Sie schützen vor Kälte",
+"Sie dienen zum Hören",
+"Sie sind nur zum Schmücken da"
+],
+"e": "Forscher vermuten, dass die dunklen Augenflecken den Panda vor Feinden tarnen. Ausserdem können andere Pandas die Flecken erkennen."
+},
+{
+"nr": 117697,
+"t": "koerper",
+"l": 3,
+"s": "Hämophilie",
+"q": "Welche erbliche Blutungsneigung ist insgesamt häufiger als die Hämophilie?",
+"a": [
+"Das Von-Willebrand-Syndrom",
+"Die Sichelzellenanämie",
+"Die Thalassämie",
+"Die Polycythaemia vera"
+],
+"e": "Das Von-Willebrand-Syndrom gilt als häufigste angeborene Gerinnungsstörung, verläuft aber meist mild."
+},
+{
+"nr": 114701,
+"t": "natur",
+"l": 2,
+"s": "Eschentriebsterben",
+"q": "Wo wachsen im Sommer die kleinen Fruchtkörper des Pilzes, der das Eschentriebsterben auslöst?",
+"a": [
+"Auf abgefallenen Blattstielen am Boden",
+"An den Blüten der Esche",
+"Auf den Wurzeln der Buche",
+"Auf Nadeln von Fichten"
+],
+"e": "Der Pilz überwintert in den Blattstielen, die im Herbst zu Boden fallen. Im folgenden Sommer wachsen darauf die weissen Becherchen."
+},
+{
+"nr": 80720,
+"t": "informatik",
+"l": 1,
+"s": "Schleife",
+"q": "Ein Roboter fährt ein Quadrat mit «1 Feld vorwärts, rechts drehen». Wie oft muss man das wiederholen?",
+"a": [
+"4-mal",
+"2-mal",
+"3-mal",
+"8-mal"
+],
+"e": "Ein Quadrat hat 4 Seiten und 4 Ecken. Darum wiederholt man die Befehle 4-mal."
+},
+{
+"nr": 43765,
+"t": "pol_demokratie",
+"l": 3,
+"s": "Zweitwohnungsinitiative",
+"q": "Welcher Verfassungsartikel entstand durch die Zweitwohnungsinitiative?",
+"a": [
+"Artikel 75b",
+"Artikel 84",
+"Artikel 121a",
+"Artikel 72"
+],
+"e": "Artikel 75b BV regelt die Zweitwohnungen. Er steht im Abschnitt über Raumplanung und Umwelt."
+},
+{
+"nr": 70404,
+"t": "mathe",
+"l": 2,
+"s": "Masseinheit",
+"q": "Wie viele Meter sind 0,6 km und 450 m zusammen?",
+"a": [
+"1050 m",
+"456 m",
+"1500 m",
+"510 m"
+],
+"e": "0,6 km sind 600 m. 600 m + 450 m = 1050 m."
+},
+{
+"nr": 119958,
+"t": "wissenschaft",
+"l": 3,
+"s": "Bt-Mais",
+"q": "Wozu müssen Landwirte in vielen Ländern neben Bt-Mais Flächen mit herkömmlichem Mais anlegen?",
+"a": [
+"Um die Entwicklung von Resistenzen bei den Schädlingen zu verzögern",
+"Um Bienen mit Nektar zu versorgen",
+"Um mehr Ertrag zu erzielen",
+"Um das Bt-Gen zu verdünnen"
+],
+"e": "In diesen Refugien überleben empfindliche Schädlinge. Sie paaren sich mit möglichen resistenten Tieren und verzögern so die Ausbreitung der Resistenz."
+},
+{
+"nr": 116535,
+"t": "physik",
+"l": 3,
+"s": "Fluchtgeschwindigkeit",
+"q": "Hängt die Fluchtgeschwindigkeit von der Masse des fliegenden Körpers ab?",
+"a": [
+"Nein, nur von Masse und Radius des Himmelskörpers",
+"Ja, schwere Körper brauchen mehr",
+"Ja, leichte Körper brauchen mehr",
+"Nur bei Körpern über 1 Tonne"
+],
+"e": "Bei der Herleitung setzt man kinetische Energie gleich Bindungsenergie. Die Masse des Körpers steht auf beiden Seiten und kürzt sich heraus."
+},
+{
+"nr": 126986,
+"t": "wissenschaft",
+"l": 3,
+"s": "Künstliches neuronales Netz",
+"q": "Ein Neuron hat die Gewichte 2 und -1, die Eingaben 3 und 4 und einen Bias von 1. Was gibt es mit ReLU aus?",
+"a": [
+"3",
+"11",
+"0",
+"5"
+],
+"e": "Die gewichtete Summe ist 2 mal 3 + (-1) mal 4 + 1 = 6 - 4 + 1 = 3. ReLU lässt den positiven Wert 3 unverändert."
+},
+{
+"nr": 96090,
+"t": "chemie",
+"l": 3,
+"s": "Satz von Hess",
+"q": "Welches Vorzeichen bekommt ΔH, wenn man eine Reaktionsgleichung umkehrt?",
+"a": [
+"das umgekehrte Vorzeichen",
+"immer ein positives",
+"immer ein negatives",
+"das gleiche Vorzeichen"
+],
+"e": "Die Rückreaktion verbraucht genau so viel Energie, wie die Hinreaktion freisetzt, oder umgekehrt. Der Betrag bleibt gleich, das Vorzeichen wechselt."
+},
+{
+"nr": 40082,
+"t": "pol_welt",
+"l": 2,
+"s": "Friedenstruppen der Vereinten Nationen",
+"q": "Seit welchem Jahr gibt es die UNO-Friedensmission auf Zypern (UNFICYP)?",
+"a": [
+"1964",
+"1948",
+"1990",
+"2004"
+],
+"e": "Die UNFICYP wurde 1964 wegen Kämpfen zwischen griechischen und türkischen Zyprioten geschaffen. Sie gehört zu den ältesten noch laufenden Friedensmissionen."
+},
+{
+"nr": 91118,
+"t": "chemie",
+"l": 2,
+"s": "Filtration",
+"q": "Welche Eigenschaft der Stoffe nutzt man beim Filtrieren?",
+"a": [
+"Die Teilchengrösse",
+"Die Siedetemperatur",
+"Die Farbe",
+"Die Magnetisierbarkeit"
+],
+"e": "Der Filter wirkt wie ein sehr feines Sieb: Grosse Teilchen werden zurückgehalten, kleine gelangen hindurch."
+},
+{
+"nr": 93997,
+"t": "informatik",
+"l": 3,
+"s": "Berechenbarkeit",
+"q": "Welches Resultat von 1931 zeigt, dass jedes widerspruchsfreie, hinreichend starke formale System wahre Aussagen enthält, die es nicht beweisen kann?",
+"a": [
+"Gödels Unvollständigkeitssatz",
+"Satz von Cook-Levin",
+"Satz von Kleene",
+"Satz von Church-Rosser"
+],
+"e": "Kurt Gödel konstruierte eine Aussage, die sinngemäss ihre eigene Unbeweisbarkeit behauptet. Sein Ergebnis von 1931 ist eng mit späteren Unentscheidbarkeitsresultaten verwandt."
+},
+{
+"nr": 22419,
+"t": "unterhaltung",
+"l": 2,
+"s": "Literaturverfilmung",
+"q": "Wer schrieb die Bücher, nach denen die «Harry Potter»-Filme gedreht wurden?",
+"a": [
+"J. K. Rowling",
+"Cornelia Funke",
+"Astrid Lindgren",
+"Enid Blyton"
+],
+"e": "Die britische Autorin J. K. Rowling veröffentlichte von 1997 bis 2007 sieben Bände. Alle wurden zwischen 2001 und 2011 verfilmt."
+},
+{
+"nr": 122856,
+"t": "physik",
+"l": 3,
+"s": "Ohmsches Gesetz",
+"q": "Durch einen Widerstand von 480 Ω fliessen 0,25 A. Welche Spannung liegt an ihm an?",
+"a": [
+"120 V",
+"1920 V",
+"60 V",
+"240 V"
+],
+"e": "Es gilt U gleich R·I, also 480 Ω · 0,25 A, was 120 V ergibt."
+},
+{
+"nr": 17088,
+"t": "geo_welt",
+"l": 1,
+"s": "Insel",
+"q": "Was ist eine Insel?",
+"a": [
+"Land, rundherum von Wasser umgeben",
+"Ein Berg mit Schnee",
+"Ein Tal zwischen Bergen",
+"Ein Fluss im Wald"
+],
+"e": "Eine Insel ist ein Stück Land, das ganz von Wasser umgeben ist. Man erreicht sie oft nur mit Schiff oder Flugzeug."
+},
+{
+"nr": 124003,
+"t": "koerper",
+"l": 3,
+"s": "Brennwert",
+"q": "Wie viele Kilojoule entsprechen einer Kilokalorie?",
+"a": [
+"4,184",
+"1,000",
+"0,239",
+"41,84"
+],
+"e": "Eine Kalorie ist die Wärme, die ein Gramm Wasser um etwa ein Grad erwärmt. Eine Kilokalorie entspricht 4,184 Kilojoule."
+},
+{
+"nr": 22573,
+"t": "allgemein",
+"l": 1,
+"s": "Geometrische Form",
+"q": "Wie viele Ecken hat ein Sechseck?",
+"a": [
+"6",
+"5",
+"8",
+"7"
+],
+"e": "Ein Sechseck hat sechs Ecken. Die Waben der Bienen haben diese Form."
+},
+{
+"nr": 94564,
+"t": "erde",
+"l": 3,
+"s": "Plutonit",
+"q": "Welcher Plutonit enthält kaum Quarz und besteht vorwiegend aus Alkalifeldspat?",
+"a": [
+"Syenit",
+"Gabbro",
+"Granit",
+"Peridotit"
+],
+"e": "Syenit ähnelt äusserlich dem Granit, hat aber zu wenig SiO₂ für freien Quarz. Benannt ist er nach der ägyptischen Stadt Syene, dem heutigen Assuan."
+},
+{
+"nr": 71937,
+"t": "englisch",
+"l": 1,
+"s": "Kleidung",
+"q": "Wie heisst «Hut» auf Englisch?",
+"a": [
+"hat",
+"hut",
+"hot",
+"hit"
+],
+"e": "Hut heisst auf Englisch «hat». «Hut» bedeutet im Englischen Hütte."
+},
+{
+"nr": 106377,
+"t": "physik",
+"l": 2,
+"s": "Aquaplaning",
+"q": "Warum reagiert das Auto beim Aquaplaning kaum noch auf das Lenken?",
+"a": [
+"Zwischen Reifen und Strasse wirkt kaum noch Reibung",
+"Das Lenkrad friert ein",
+"Der Motor stellt automatisch ab",
+"Die Räder drehen rückwärts"
+],
+"e": "Lenken funktioniert nur, wenn die Reifen über Haftreibung Kräfte auf die Strasse übertragen. Auf dem Wasserfilm fehlt diese Haftung fast vollständig."
+},
+{
+"nr": 18940,
+"t": "physik",
+"l": 3,
+"s": "Newtonsche Gesetze",
+"q": "Welche resultierende Kraft ist nötig, um ein Auto mit 1200 kg Masse mit 2,5 m/s² zu beschleunigen?",
+"a": [
+"3000 N",
+"480 N",
+"1202,5 N",
+"300 N"
+],
+"e": "Nach dem zweiten newtonschen Gesetz gilt F = m · a. Also F = 1200 kg · 2,5 m/s² = 3000 N."
+},
+{
+"nr": 121679,
+"t": "physik",
+"l": 3,
+"s": "Thomas Young",
+"q": "Was beschreibt die Young-Laplace-Gleichung?",
+"a": [
+"Den Druckunterschied an einer gekrümmten Flüssigkeitsoberfläche",
+"Die Ablenkung von Licht an einem Gitter",
+"Die Bahn eines Planeten",
+"Die Energie eines Photons"
+],
+"e": "An gekrümmten Grenzflächen, etwa in Tropfen oder Seifenblasen, erzeugt die Oberflächenspannung einen Druckunterschied. Je kleiner der Krümmungsradius, desto grösser ist dieser Druck."
+},
+{
+"nr": 88017,
+"t": "physik",
+"l": 1,
+"s": "Daunenjacke",
+"q": "Welche Tiere sind durch Daunen im Wasser vor Kälte geschützt?",
+"a": [
+"Enten",
+"Frösche",
+"Fische",
+"Schnecken"
+],
+"e": "Enten haben unter den Deckfedern ein dichtes Daunenkleid. So bleiben sie auch im kalten Wasser warm."
+},
+{
+"nr": 51945,
+"t": "geo_schweiz",
+"l": 2,
+"s": "Städte der Schweiz",
+"q": "Wie viele Gemeinden der Schweiz zählen ungefähr als Städte (Stand 2020)?",
+"a": [
+"rund 170",
+"rund 17",
+"rund 1700",
+"rund 50"
+],
+"e": "Etwa 170 Gemeinden haben über 10 000 Einwohner. Die meisten Gemeinden der Schweiz sind kleiner."
+},
+{
+"nr": 94603,
+"t": "erde",
+"l": 3,
+"s": "Radiometrische Datierung",
+"q": "Welches Isotop zerfällt bei der Uran-Blei-Datierung mit einer Halbwertszeit von rund 4,5 Milliarden Jahren?",
+"a": [
+"Uran-238",
+"Uran-235",
+"Thorium-232",
+"Kalium-40"
+],
+"e": "Uran-238 zerfällt über viele Zwischenstufen zu Blei-206, mit einer Halbwertszeit von etwa 4,47 Milliarden Jahren. Uran-235 zerfällt viel schneller zu Blei-207."
+},
+{
+"nr": 117908,
+"t": "wissenschaft",
+"l": 3,
+"s": "Big Science",
+"q": "Welches Gerät erfand Ernest Lawrence, das Sinnbild der frühen Big Science wurde?",
+"a": [
+"Zyklotron",
+"Elektronenmikroskop",
+"Geigerzähler",
+"Laser"
+],
+"e": "Im Zyklotron werden geladene Teilchen auf einer Spiralbahn beschleunigt. Lawrence erhielt dafür 1939 den Nobelpreis für Physik."
+},
+{
+"nr": 117120,
+"t": "wissenschaft",
+"l": 3,
+"s": "Kibble-Waage",
+"q": "Nach wem ist die Kibble-Waage benannt?",
+"a": [
+"Nach dem britischen Physiker Bryan Kibble",
+"Nach dem Schweizer Uhrmacher Abraham-Louis Breguet",
+"Nach dem Physiker Lord Kelvin",
+"Nach dem Chemiker John Dalton"
+],
+"e": "Bryan Kibble schlug das Messprinzip 1975 am britischen National Physical Laboratory vor. Nach seinem Tod 2016 erhielt die Waage seinen Namen."
+},
+{
+"nr": 52376,
+"t": "geo_schweiz",
+"l": 1,
+"s": "Bernhardiner",
+"q": "Wobei halfen die Bernhardiner früher den Menschen im Hospiz auf dem Pass?",
+"a": [
+"Verirrte Menschen im Schnee finden",
+"Kühe hüten",
+"Briefe austragen",
+"Holz hacken"
+],
+"e": "Die Hunde begleiteten die Helfer des Hospizes und fanden mit ihrer guten Nase Menschen, die sich im Nebel und Schnee verirrt hatten."
+},
+{
+"nr": 119189,
+"t": "koerper",
+"l": 3,
+"s": "Glomerulus",
+"q": "Warum gelangt Albumin normalerweise kaum durch den glomerulären Filter?",
+"a": [
+"Wegen seiner Grösse und negativen Ladung",
+"Weil es im Glomerulus abgebaut wird",
+"Weil es an Harnstoff gebunden ist",
+"Weil es aktiv zurückgepumpt wird"
+],
+"e": "Der Filter aus Endothel, Basalmembran und Podozyten ist negativ geladen und hält grosse Moleküle zurück. Albumin ist gross und ebenfalls negativ geladen."
+},
+{
+"nr": 121098,
+"t": "wissenschaft",
+"l": 3,
+"s": "B-Zelle",
+"q": "Bei welchem Tier wurde die Bedeutung der Bursa Fabricii für die B-Zellen entdeckt?",
+"a": [
+"Huhn",
+"Maus",
+"Kaninchen",
+"Frosch"
+],
+"e": "Forschende zeigten in den 1950er-Jahren, dass Hühner ohne Bursa Fabricii kaum Antikörper bilden. Daher kommt das B in B-Zelle."
+},
+{
+"nr": 86336,
+"t": "chemie",
+"l": 1,
+"s": "Stickstoff",
+"q": "Welches Gas ist oft in Chipstüten, damit die Chips frisch bleiben?",
+"a": [
+"Stickstoff",
+"Sauerstoff",
+"Helium",
+"Chlor"
+],
+"e": "Stickstoff verdrängt den Sauerstoff aus der Tüte. So werden die Chips nicht so schnell alt."
+},
+{
+"nr": 46471,
+"t": "pol_diktatur",
+"l": 3,
+"s": "Sozialkreditsystem",
+"q": "Wer wird im chinesischen Sozialkreditsystem neben Privatpersonen besonders umfassend bewertet?",
+"a": [
+"Unternehmen",
+"Haustiere",
+"Ausländische Staaten",
+"Religiöse Feiertage"
+],
+"e": "Ein grosser Teil des Systems betrifft Firmen, etwa bei Steuern, Umweltauflagen oder Produktsicherheit. Schlechte Bewertungen können zu mehr Kontrollen oder Ausschluss von Aufträgen führen."
+},
+{
+"nr": 94730,
+"t": "chemie",
+"l": 3,
+"s": "Verhältnisformel",
+"q": "Eine Verbindung besteht nach Masse aus 40,0 % Kohlenstoff, 6,7 % Wasserstoff und 53,3 % Sauerstoff. Wie lautet ihre Verhältnisformel?",
+"a": [
+"CH₂O",
+"CHO",
+"CH₂O₂",
+"C₂H₄O"
+],
+"e": "In 100 g: 40,0 / 12,0 ≈ 3,33 mol C, 6,7 / 1,0 ≈ 6,7 mol H, 53,3 / 16,0 ≈ 3,33 mol O; geteilt durch 3,33 ergibt sich 1 zu 2 zu 1."
+},
+{
+"nr": 98470,
+"t": "physik",
+"l": 1,
+"s": "Fahrraddynamo",
+"q": "Braucht ein Licht mit Dynamo eine Batterie?",
+"a": [
+"Nein",
+"Ja, immer zwei",
+"Ja, eine grosse",
+"Ja, aber nur hinten"
+],
+"e": "Der Dynamo macht den Strom selbst, solange man fährt. Darum braucht man keine Batterie."
+},
+{
+"nr": 34015,
+"t": "pol_demokratie",
+"l": 2,
+"s": "Stadtpräsident",
+"q": "Wie viele Mitglieder hat die Stadtregierung von Zürich?",
+"a": [
+"9",
+"3",
+"25",
+"125"
+],
+"e": "Der Zürcher Stadtrat besteht aus neun Mitgliedern. Jedes leitet ein Departement der Stadt."
+},
+{
+"nr": 86724,
+"t": "natur",
+"l": 1,
+"s": "Zunderschwamm",
+"q": "Kann man den Zunderschwamm essen?",
+"a": [
+"Nein, er ist hart wie Holz",
+"Ja, er ist sehr weich",
+"Ja, er schmeckt süss",
+"Ja, aber nur roh"
+],
+"e": "Der Zunderschwamm ist hart und zäh wie Holz. Als Speisepilz ist er nicht geeignet."
+},
+{
+"nr": 126430,
+"t": "physik",
+"l": 3,
+"s": "Lepton",
+"q": "Was bedeutet das griechische Wort, von dem der Begriff «Lepton» abgeleitet ist?",
+"a": [
+"Leicht oder dünn",
+"Schwer",
+"Unteilbar",
+"Kern"
+],
+"e": "Der Name «leptos» bedeutet leicht oder fein. Das Elektron war als erstes Lepton viel leichter als Protonen."
+},
+{
+"nr": 124370,
+"t": "koerper",
+"l": 3,
+"s": "Mikronährstoff",
+"q": "Welcher Mikronährstoffmangel ist laut WHO weltweit der häufigste?",
+"a": [
+"Eisenmangel",
+"Vitamin-K-Mangel",
+"Natriummangel",
+"Vitamin-E-Mangel"
+],
+"e": "Eisenmangel betrifft weltweit sehr viele Menschen, besonders Kinder und Frauen, und ist die häufigste Ursache von Blutarmut."
+},
+{
+"nr": 124309,
+"t": "wissenschaft",
+"l": 3,
+"s": "Rhonegletscher",
+"q": "In welches Meer fliesst das Wasser, das am Rhonegletscher entspringt?",
+"a": [
+"Mittelmeer",
+"Nordsee",
+"Schwarzes Meer",
+"Atlantik bei Bordeaux"
+],
+"e": "Die Rhone fliesst durch das Wallis und den Genfersee nach Frankreich. Bei der Camargue mündet sie ins Mittelmeer."
+},
+{
+"nr": 123091,
+"t": "wissenschaft",
+"l": 3,
+"s": "Mitochondriale Eva",
+"q": "Vor wie langer Zeit lebte die Mitochondriale Eva nach gängigen Schätzungen etwa?",
+"a": [
+"Vor rund 150 000 bis 200 000 Jahren",
+"Vor rund 10 000 Jahren",
+"Vor rund 2 Millionen Jahren",
+"Vor rund 40 000 Jahren"
+],
+"e": "Die Schätzungen beruhen auf der Mutationsrate der mtDNA. Je nach Methode schwanken sie, liegen aber meist in dieser Grössenordnung."
+},
+{
+"nr": 68234,
+"t": "rel_islam",
+"l": 3,
+"s": "Isnad",
+"q": "Wie heisst die Disziplin, die Leben und Zuverlässigkeit der Hadith-Überlieferer prüft?",
+"a": [
+"Ilm ar-ridschal",
+"Ilm al-kalam",
+"Ilm at-tadschwid",
+"Ilm al-falak"
+],
+"e": "Die «Wissenschaft der Männer» sammelt Angaben zu Lebensdaten, Lehrern und Glaubwürdigkeit der Überlieferer. Darauf stützt sich die Bewertung eines Isnad."
+},
+{
+"nr": 22230,
+"t": "sport",
+"l": 3,
+"s": "Doping",
+"q": "Unter welcher Bezeichnung lief das staatlich gelenkte Dopingprogramm der DDR?",
+"a": [
+"Staatsplanthema 14.25",
+"Programm Aufbau Ost",
+"Operation Goldmedaille",
+"Plan Sport 2000"
+],
+"e": "Ab 1974 wurden in der DDR viele Athletinnen und Athleten, darunter Minderjährige, oft ohne ihr Wissen mit anabolen Steroiden behandelt. Viele leiden bis heute an Spätfolgen."
+},
+{
+"nr": 33374,
+"t": "ch_geschichte",
+"l": 3,
+"s": "Oberstenaffäre",
+"q": "Welche Strafe verhängte General Wille nach dem Urteil gegen jeden der beiden Obersten?",
+"a": [
+"20 Tage Arrest",
+"Ein Jahr Gefängnis",
+"Eine hohe Geldbusse",
+"Die Degradierung zum Soldaten"
+],
+"e": "Wille bestrafte die beiden Offiziere disziplinarisch mit je zwanzig Tagen Arrest. Der Bundesrat enthob sie zudem ihrer Funktionen."
+},
+{
+"nr": 15729,
+"t": "ch_geschichte",
+"l": 3,
+"s": "Direkte Demokratie",
+"q": "Was wollte die 1949 knapp angenommene Initiative «Rückkehr zur direkten Demokratie»?",
+"a": [
+"Die Einschränkung des Dringlichkeitsrechts von Parlament und Bundesrat",
+"Die Abschaffung der Landsgemeinden",
+"Die Einführung des Frauenstimmrechts",
+"Die Volkswahl der Bundesrichter"
+],
+"e": "Während Krise und Krieg hatten Bundesrat und Parlament viele Beschlüsse als dringlich erklärt und so dem Referendum entzogen. Die Initiative stellte die Volksrechte wieder her."
+},
+{
+"nr": 88499,
+"t": "mathe",
+"l": 3,
+"s": "Kreuzprodukt",
+"q": "Welches Ergebnis hat das Kreuzprodukt zweier paralleler Vektoren?",
+"a": [
+"Den Nullvektor",
+"Einen Einheitsvektor",
+"Die Zahl 1",
+"Einen Vektor parallel zu beiden"
+],
+"e": "Bei parallelen Vektoren ist sin(φ) = 0. Das aufgespannte Parallelogramm hat keine Fläche."
+},
+{
+"nr": 27381,
+"t": "g_urzeit",
+"l": 2,
+"s": "Himmelsscheibe von Nebra",
+"q": "Aus welchem Metall besteht die Himmelsscheibe von Nebra, abgesehen von ihren Goldauflagen?",
+"a": [
+"Bronze",
+"Eisen",
+"Silber",
+"Blei"
+],
+"e": "Die Scheibe ist aus Bronze gegossen und gehämmert. Sonne, Mond und Sterne sind aus Goldblech aufgelegt."
+},
+{
+"nr": 24465,
+"t": "g_mittelalter",
+"l": 1,
+"s": "Schlachtross",
+"q": "Wie nennt man das starke Pferd, mit dem ein Ritter in den Kampf ritt?",
+"a": [
+"Schlachtross",
+"Packesel",
+"Zugochse",
+"Ackergaul"
+],
+"e": "Das Schlachtross war ein starkes, gut ausgebildetes Kampfpferd. Es musste einen Ritter in Rüstung tragen können."
+},
+{
+"nr": 104825,
+"t": "physik",
+"l": 2,
+"s": "Aktionsprinzip",
+"q": "Ein Ball mit 0,5 kg wird mit 20 m/s² beschleunigt. Welche Kraft wirkt auf ihn?",
+"a": [
+"10 N",
+"40 N",
+"20,5 N",
+"2,5 N"
+],
+"e": "F gleich m mal a: 0,5 kg mal 20 m/s² ergibt 10 N."
+},
+{
+"nr": 16487,
+"t": "g_neuzeit",
+"l": 3,
+"s": "Kubakrise",
+"q": "Welches gescheiterte Unternehmen vom April 1961 verschärfte die Spannungen zwischen den USA und Kuba?",
+"a": [
+"Die Invasion in der Schweinebucht",
+"Die Landung bei Incheon",
+"Die Operation Rolling Thunder",
+"Die Tet-Offensive"
+],
+"e": "Von der CIA unterstützte Exilkubaner versuchten, Fidel Castro zu stürzen, und scheiterten. Castro suchte danach noch engeren Schutz bei der Sowjetunion."
+},
+{
+"nr": 74433,
+"t": "informatik",
+"l": 1,
+"s": "Lernroboter",
+"q": "Was macht ein Lernroboter?",
+"a": [
+"Er führt Befehle aus",
+"Er kocht Essen",
+"Er schläft nachts",
+"Er wächst wie eine Pflanze"
+],
+"e": "Einem Lernroboter gibt man Befehle. Er führt sie genau so aus, wie man sie eingegeben hat."
+},
+{
+"nr": 66576,
+"t": "rel_andere",
+"l": 2,
+"s": "Samsara",
+"q": "Als was kann man nach hinduistischem Glauben wiedergeboren werden?",
+"a": [
+"Auch als Tier",
+"Nur als Mensch",
+"Nur als Gott",
+"Nur als Pflanze im Wald"
+],
+"e": "Nach dem Glauben kann die Seele je nach Karma als Mensch, Tier oder in anderen Daseinsformen wiedergeboren werden."
+},
+{
+"nr": 90417,
+"t": "mathe",
+"l": 3,
+"s": "Mandelbrot-Menge",
+"q": "Bei welcher Firma arbeitete Benoît Mandelbrot, als er mit Computern Fraktale untersuchte?",
+"a": [
+"IBM",
+"Apple",
+"Microsoft",
+"Intel"
+],
+"e": "Mandelbrot forschte viele Jahre am Thomas J. Watson Research Center von IBM. Die Rechenleistung dort ermöglichte ihm die Darstellung komplizierter Mengen."
+},
+{
+"nr": 33931,
+"t": "pol_demokratie",
+"l": 1,
+"s": "Friedhof",
+"q": "Wer pflegt die Wege, Bäume und Hecken auf dem Friedhof?",
+"a": [
+"Der Friedhofgärtner",
+"Der Lokführer",
+"Der Bademeister",
+"Der Briefträger"
+],
+"e": "Friedhofgärtnerinnen und Friedhofgärtner halten den Friedhof gepflegt. Sie schneiden Hecken und kümmern sich um die Wege."
+},
+{
+"nr": 74270,
+"t": "ethik",
+"l": 3,
+"s": "Diskursethik",
+"q": "Welche beiden deutschen Philosophen begründeten die Diskursethik?",
+"a": [
+"Jürgen Habermas und Karl-Otto Apel",
+"Max Horkheimer und Theodor W. Adorno",
+"Martin Heidegger und Karl Jaspers",
+"Hans Jonas und Hannah Arendt"
+],
+"e": "Habermas und Apel entwickelten die Diskursethik ab den 1970er-Jahren. Sie gründet Moral auf die Voraussetzungen vernünftiger Verständigung."
+},
+{
+"nr": 122223,
+"t": "natur",
+"l": 3,
+"s": "Schneedecke",
+"q": "Welche Gefahr droht alpinen Pflanzen, wenn der Schnee im Frühling früher schmilzt?",
+"a": [
+"Spätfröste treffen ungeschützte Triebe",
+"Die Samen keimen gar nicht mehr",
+"Der Boden wird zu salzig",
+"Die Pflanzen erhalten zu wenig Licht"
+],
+"e": "Ohne schützende Schneedecke sind junge Triebe und Knospen Frostnächten im Frühling direkt ausgesetzt. Das kann sie schwer schädigen."
+},
+{
+"nr": 88100,
+"t": "weltall",
+"l": 2,
+"s": "Planetendefinition",
+"q": "Wie viele Planeten hat unser Sonnensystem seit der Definition von 2006?",
+"a": [
+"8",
+"9",
+"7",
+"10"
+],
+"e": "Merkur, Venus, Erde, Mars, Jupiter, Saturn, Uranus und Neptun sind Planeten. Pluto gilt seither als Zwergplanet."
+},
+{
+"nr": 60912,
+"t": "geo_europa",
+"l": 3,
+"s": "Geburtenrückgang",
+"q": "Welches EU-Land hatte 2023 laut Eurostat die tiefste zusammengefasste Geburtenziffer?",
+"a": [
+"Malta",
+"Spanien",
+"Litauen",
+"Italien"
+],
+"e": "Malta lag 2023 mit rund 1,06 Kindern pro Frau am tiefsten in der EU. Knapp dahinter folgten Spanien und Litauen."
+},
+{
+"nr": 55820,
+"t": "geo_europa",
+"l": 2,
+"s": "Balearische Inseln",
+"q": "Welches Gebirge auf Mallorca ist seit 2011 UNESCO-Welterbe?",
+"a": [
+"Serra de Tramuntana",
+"Sierra Nevada",
+"Montes de Toledo",
+"Picos de Europa"
+],
+"e": "Die Serra de Tramuntana zieht sich entlang der Nordwestküste Mallorcas. Ausgezeichnet wurde sie als Kulturlandschaft mit Terrassen und Trockenmauern."
+},
+{
+"nr": 15285,
+"t": "g_neuzeit",
+"l": 3,
+"s": "Gegenreformation",
+"q": "Welche Einrichtung sollte nach dem Konzil von Trient in jeder Diözese entstehen, um die Bildung der Geistlichen zu verbessern?",
+"a": [
+"Ein Priesterseminar",
+"Eine Universität",
+"Ein Inquisitionsgericht",
+"Eine Druckerei"
+],
+"e": "Schlecht ausgebildete Priester galten als ein Grund für Missstände. Das Konzil schrieb deshalb vor, dass jede Diözese ein Seminar zur Priesterausbildung einrichtet."
+},
+{
+"nr": 115687,
+"t": "koerper",
+"l": 3,
+"s": "Kreuzbandriss",
+"q": "Mit welchem klinischen Test prüft man das vordere Kreuzband bei leicht gebeugtem Knie?",
+"a": [
+"Lachman-Test",
+"Babinski-Test",
+"Romberg-Test",
+"Rinne-Test"
+],
+"e": "Beim Lachman-Test wird das Schienbein bei etwa 20 bis 30 Grad Beugung nach vorne gezogen. Ein weiches Ende oder starkes Vorgleiten spricht für einen Riss."
+},
+{
+"nr": 19006,
+"t": "physik",
+"l": 3,
+"s": "Optik",
+"q": "Wie gross ist die Lichtgeschwindigkeit im Vakuum genau?",
+"a": [
+"299 792 458 m/s",
+"300 000 000 m/s",
+"299 792 458 km/s",
+"343 000 000 m/s"
+],
+"e": "Seit 1983 ist die Lichtgeschwindigkeit im Vakuum exakt festgelegt und dient zur Definition des Meters."
+},
+{
+"nr": 24841,
+"t": "g_mittelalter",
+"l": 1,
+"s": "Klostergarten",
+"q": "Welches Heilkraut hat einen Namen, der vom lateinischen Wort für «heilen» kommt?",
+"a": [
+"Salbei",
+"Petersilie",
+"Schnittlauch",
+"Dill"
+],
+"e": "Salbei heisst lateinisch «Salvia». Das kommt von «salvare», heilen oder retten."
+},
+{
+"nr": 67509,
+"t": "rel_christentum",
+"l": 3,
+"s": "Trinität",
+"q": "Welcher lateinische Kirchenschriftsteller verwendete als Erster den Begriff «trinitas»?",
+"a": [
+"Tertullian",
+"Hieronymus",
+"Ambrosius",
+"Cyprian"
+],
+"e": "Tertullian aus Karthago führte um 200 den Begriff «trinitas» ins Lateinische ein. Von ihm stammt auch die Rede von einer Substanz und drei Personen."
+},
+{
+"nr": 122665,
+"t": "wissenschaft",
+"l": 3,
+"s": "Burgess-Schiefer",
+"q": "Welcher Wissenschaftler machte den Burgess-Schiefer 1989 mit dem Buch «Wonderful Life» einem breiten Publikum bekannt?",
+"a": [
+"Stephen Jay Gould",
+"Richard Dawkins",
+"Carl Sagan",
+"Jared Diamond"
+],
+"e": "Stephen Jay Gould deutete in «Wonderful Life» (deutsch «Zufall Mensch») die Burgess-Tiere als Beleg für die Rolle des Zufalls in der Evolution. Einige seiner Deutungen wurden später kritisiert."
+},
+{
+"nr": 80121,
+"t": "physik",
+"l": 1,
+"s": "Kraft",
+"q": "Womit zeichnet man in der Physik eine Kraft auf?",
+"a": [
+"Mit einem Pfeil",
+"Mit einem Kreis",
+"Mit einem Stern",
+"Mit einer Wellenlinie"
+],
+"e": "Ein Pfeil zeigt, in welche Richtung die Kraft wirkt. Ein langer Pfeil bedeutet eine grosse Kraft."
+},
+{
+"nr": 2674,
+"t": "tiere",
+"l": 1,
+"s": "Suppenschildkröte",
+"q": "Warum heisst die Suppenschildkröte auch \"Grüne Meeresschildkröte\"?",
+"a": [
+"Wegen ihres grünlichen Körperfetts",
+"Weil ihr Panzer grün leuchtet",
+"Weil sie im Gras lebt",
+"Weil ihre Augen grün sind"
+],
+"e": "Der Name kommt vom grünlichen Fett im Körper der Schildkröte, nicht von ihrer Panzerfarbe. Früher wurde daraus sogar Suppe gekocht, was ihr den zweiten Namen gab."
+},
+{
+"nr": 76414,
+"t": "bilder",
+"l": 3,
+"s": "Flagge Tschad",
+"q": "Zu welchem Land gehört diese Flagge?",
+"a": [
+"Tschad",
+"Rumänien",
+"Moldova",
+"Andorra"
+],
+"e": "Das ist die Flagge von Tschad. Drei senkrechte Streifen in Blau, Gelb und Rot; die Flagge sieht fast gleich aus wie jene Rumäniens."
+},
+{
+"nr": 74484,
+"t": "informatik",
+"l": 1,
+"s": "Tabletcomputer",
+"q": "Wie heisst ein Bildschirm, den man mit dem Finger bedient?",
+"a": [
+"Touchscreen",
+"Monitor",
+"Beamer",
+"Fernseher"
+],
+"e": "Touch heisst berühren und Screen heisst Bildschirm. Der Touchscreen merkt, wo du ihn antippst."
+},
+{
+"nr": 88365,
+"t": "technik",
+"l": 2,
+"s": "Parallelschaltung",
+"q": "Was passiert in einer Parallelschaltung mit den anderen Lampen, wenn eine Lampe durchbrennt?",
+"a": [
+"Sie leuchten weiter",
+"Sie gehen alle aus",
+"Sie flackern dauernd",
+"Sie werden alle dunkler"
+],
+"e": "Jede Lampe hat ihren eigenen Stromweg zur Spannungsquelle. Fällt ein Zweig aus, bleiben die anderen Zweige geschlossen."
+},
+{
+"nr": 101127,
+"t": "weltall",
+"l": 3,
+"s": "OSIRIS-REx",
+"q": "Was zeigte sich beim Aufsetzen von OSIRIS-REx über die Oberfläche von Bennu?",
+"a": [
+"Sie ist locker wie ein Bällebad",
+"Sie ist hart wie Granit",
+"Sie ist mit flüssigem Wasser bedeckt",
+"Sie besteht aus reinem Metall"
+],
+"e": "Der Sammelarm sank fast ohne Widerstand ein. Bennu ist ein Geröllhaufen-Asteroid aus lose zusammengehaltenen Brocken."
+},
+{
+"nr": 18613,
+"t": "schweiz",
+"l": 2,
+"s": "Volksabstimmung",
+"q": "Welcher Kanton führte 2007 als erster das Stimmrechtsalter 16 ein?",
+"a": [
+"Glarus",
+"Basel-Stadt",
+"Tessin",
+"Jura"
+],
+"e": "Die Landsgemeinde in Glarus beschloss 2007, dass Jugendliche ab 16 Jahren kantonal mitbestimmen dürfen."
+},
+{
+"nr": 34744,
+"t": "pol_demokratie",
+"l": 2,
+"s": "Nationalrat",
+"q": "Wer wählt die Mitglieder des Nationalrats?",
+"a": [
+"das Stimmvolk",
+"der Bundesrat",
+"die Gemeinderäte",
+"die Richter"
+],
+"e": "Die stimmberechtigten Menschen in der Schweiz wählen den Nationalrat. Die Wahl findet in jedem Kanton statt."
+},
+{
+"nr": 3044,
+"t": "tiere",
+"l": 1,
+"s": "Pferd",
+"q": "Wie alt können Pferde ungefähr werden?",
+"a": [
+"Etwa 25 bis 30 Jahre",
+"Etwa 5 Jahre",
+"Etwa 100 Jahre",
+"Etwa 2 Jahre"
+],
+"e": "Pferde können bei guter Pflege ziemlich alt werden, oft 25 bis 30 Jahre. Das ist viel länger als das Leben eines Hamsters."
+},
+{
+"nr": 90917,
+"t": "physik",
+"l": 1,
+"s": "Saite",
+"q": "Welches dieser Instrumente hat Saiten?",
+"a": [
+"Zither",
+"Trompete",
+"Trommel",
+"Blockflöte"
+],
+"e": "Die Zither ist ein flacher Kasten mit vielen Saiten, die man zupft. Die anderen Instrumente haben keine Saiten."
+},
+{
+"nr": 5147,
+"t": "wissenschaft",
+"l": 3,
+"s": "CRISPR/Cas9",
+"q": "Was ermöglicht die Gentechnik-Methode CRISPR-Cas9?",
+"a": [
+"Das gezielte Verändern von DNA-Abschnitten",
+"Das Klonen ganzer Lebewesen ohne DNA",
+"Die Herstellung von Kunststoffen",
+"Das Messen radioaktiver Strahlung"
+],
+"e": "CRISPR-Cas9 ist ein Werkzeug, mit dem Forschende gezielt bestimmte Stellen der DNA verändern können. Es wird in der Medizin und Landwirtschaft erforscht und angewendet."
+},
+{
+"nr": 69117,
+"t": "rel_andere",
+"l": 3,
+"s": "Schamanismus",
+"q": "Welches Bild nutzt Eliade für die Verbindung der Weltebenen, die der Schamane durchquert?",
+"a": [
+"Die Weltachse oder den Weltenbaum",
+"Das Weltenrad oder den Kreislauf",
+"Die Himmelsleiter aus Gold",
+"Den Weltozean ohne Ufer"
+],
+"e": "Eliade sprach von der «axis mundi», die Unterwelt, Erde und Himmel verbindet. Häufig wird sie als Baum, Pfahl oder Berg dargestellt, an dem der Schamane aufsteigt."
+},
+{
+"nr": 121872,
+"t": "wissenschaft",
+"l": 3,
+"s": "Gram-Färbung",
+"q": "Welche Bakterien lassen sich wegen ihrer wachsreichen Zellwand mit der Gram-Methode schlecht färben?",
+"a": [
+"Mykobakterien",
+"Staphylokokken",
+"Streptokokken",
+"Bacillus-Arten"
+],
+"e": "Mykobakterien wie der Tuberkulose-Erreger haben viel Mykolsäure in der Zellwand. Man färbt sie deshalb mit der Ziehl-Neelsen-Methode."
+},
+{
+"nr": 87499,
+"t": "mathe",
+"l": 3,
+"s": "Extremwert",
+"q": "Für f(x) = x⁴ gilt f'(0) = 0 und f''(0) = 0. Was liegt bei x = 0 vor?",
+"a": [
+"Ein Tiefpunkt",
+"Ein Wendepunkt",
+"Ein Sattelpunkt",
+"Ein Hochpunkt"
+],
+"e": "Für alle x ungleich 0 ist x⁴ positiv, also ist f(0) = 0 der kleinste Wert. Der Test mit der zweiten Ableitung versagt hier, die Ableitung wechselt aber von minus zu plus."
+},
+{
+"nr": 32777,
+"t": "ch_geschichte",
+"l": 3,
+"s": "Raetia",
+"q": "Welche römische Provinz grenzte im Osten an Raetia?",
+"a": [
+"Noricum",
+"Pannonia",
+"Germania superior",
+"Dalmatia"
+],
+"e": "Östlich des Inns begann die Provinz Noricum, etwa im Gebiet des heutigen Österreich. Im Westen grenzte Raetia an Germania superior."
+},
+{
+"nr": 115705,
+"t": "koerper",
+"l": 3,
+"s": "Bandscheibenvorfall",
+"q": "Wie wird ein Bandscheibenvorfall ohne Lähmungen meistens zuerst behandelt?",
+"a": [
+"Konservativ mit Bewegung und Schmerzmitteln",
+"Sofort mit einer Operation",
+"Mit wochenlanger strenger Bettruhe",
+"Mit einem Gips um den Rumpf"
+],
+"e": "Die meisten Beschwerden bessern sich innerhalb von Wochen ohne Operation. Empfohlen werden Schmerzmittel, Physiotherapie und möglichst normale Bewegung."
+},
+{
+"nr": 99527,
+"t": "technik",
+"l": 3,
+"s": "Analog-Digital-Umsetzer",
+"q": "Welchen Signal-Rausch-Abstand erreicht ein idealer 16-Bit-Umsetzer bei einem Sinussignal ungefähr (Faustformel 6,02 · n + 1,76 dB)?",
+"a": [
+"Rund 98 dB",
+"Rund 48 dB",
+"Rund 16 dB",
+"Rund 160 dB"
+],
+"e": "6,02 · 16 + 1,76 = 96,32 + 1,76 ≈ 98,1 dB. Jedes zusätzliche Bit bringt etwa 6 dB mehr Dynamik."
+},
+{
+"nr": 39294,
+"t": "pol_demokratie",
+"l": 2,
+"s": "Jugendstrafrecht",
+"q": "Wie lange kann ein Freiheitsentzug für Jugendliche ab 16 Jahren bei sehr schweren Taten höchstens dauern?",
+"a": [
+"4 Jahre",
+"1 Jahr",
+"10 Jahre",
+"20 Jahre"
+],
+"e": "Bei sehr schweren Taten wie Mord kann gegen Jugendliche, die bei der Tat mindestens 16 Jahre alt waren, ein Freiheitsentzug von bis zu vier Jahren angeordnet werden."
+},
+{
+"nr": 97667,
+"t": "weltall",
+"l": 3,
+"s": "Galaxienhaufen",
+"q": "Warum gilt der Bullet-Cluster als starkes Indiz für Dunkle Materie?",
+"a": [
+"Die Masse liegt nicht dort, wo das meiste heisse Gas ist",
+"Er enthält keine einzigen Sterne",
+"Er dreht sich schneller als Licht",
+"Er ist der älteste Haufen des Universums"
+],
+"e": "Beim Zusammenstoss zweier Haufen wurde das Gas abgebremst, die Dunkle Materie flog durch. Die Gravitationslinsen-Karte zeigt die Masse getrennt vom Gas."
+},
+{
+"nr": 115097,
+"t": "natur",
+"l": 2,
+"s": "Botanischer Garten der Universität Bern",
+"q": "Was zeigt der Botanische Garten Bern in seinem Alpinum?",
+"a": [
+"Pflanzen der Gebirge",
+"Tropische Palmen",
+"Wasserpflanzen der Meere",
+"Kakteen der Wüste"
+],
+"e": "Ein Alpinum ist ein Steingarten mit Pflanzen aus den Alpen und anderen Gebirgen. So kann man Bergpflanzen sehen, ohne in die Berge zu steigen."
+},
+{
+"nr": 33096,
+"t": "ch_geschichte",
+"l": 3,
+"s": "Hugenotten",
+"q": "Was gründeten Hugenotten in Städten wie Basel, Bern oder St. Gallen?",
+"a": [
+"Französischsprachige reformierte Gemeinden",
+"Katholische Klöster",
+"Eigene Universitäten",
+"Lutherische Domkapitel"
+],
+"e": "Die Flüchtlinge pflegten Gottesdienste in ihrer Muttersprache. Solche Églises françaises bestehen teilweise bis heute."
+},
+{
+"nr": 74580,
+"t": "informatik",
+"l": 2,
+"s": "Bit",
+"q": "Ein Internetanschluss überträgt 80 Megabit pro Sekunde. Wie viele Megabyte pro Sekunde sind das?",
+"a": [
+"10",
+"80",
+"640",
+"8"
+],
+"e": "Ein Byte hat 8 Bit. Also teilt man durch 8: 80 : 8 ergibt 10 Megabyte pro Sekunde."
+},
+{
+"nr": 125069,
+"t": "wissenschaft",
+"l": 3,
+"s": "Intelligenter Werkstoff",
+"q": "Wie reagiert eine magnetorheologische Flüssigkeit auf ein Magnetfeld?",
+"a": [
+"Sie wird zähflüssiger bis fest",
+"Sie wird durchsichtig",
+"Sie beginnt zu sieden",
+"Sie wird elektrisch geladen"
+],
+"e": "Die Flüssigkeit enthält feine Eisenteilchen, die sich im Magnetfeld zu Ketten ordnen. Dadurch steigt die Viskosität stark an, was man in adaptiven Stossdämpfern nutzt."
+},
+{
+"nr": 109921,
+"t": "physik",
+"l": 2,
+"s": "Verdampfen",
+"q": "Wie verändert sich das Volumen, wenn Wasser bei 100 °C zu Dampf wird?",
+"a": [
+"Es wird rund 1700-mal grösser",
+"Es bleibt gleich",
+"Es halbiert sich",
+"Es wird rund 10-mal grösser"
+],
+"e": "Aus einem Liter Wasser entstehen bei normalem Druck rund 1700 Liter Wasserdampf. Diese Ausdehnung trieb früher Dampfmaschinen an."
+},
+{
+"nr": 100504,
+"t": "chemie",
+"l": 3,
+"s": "Brennstoffzelle",
+"q": "Welcher in Basel lehrende Chemiker entdeckte 1838 das Prinzip der Brennstoffzelle?",
+"a": [
+"Christian Friedrich Schönbein",
+"Paul Karrer",
+"Tadeus Reichstein",
+"Alfred Werner"
+],
+"e": "Christian Friedrich Schönbein, Professor an der Universität Basel, beschrieb 1838 den Effekt. William Grove baute kurz darauf die erste Brennstoffzelle."
+},
+{
+"nr": 125622,
+"t": "physik",
+"l": 3,
+"s": "Michelson-Morley-Experiment",
+"q": "Welche Beobachtung hätte im Interferometer auf einen Ätherwind hingewiesen?",
+"a": [
+"Eine Verschiebung der Interferenzstreifen beim Drehen",
+"Eine Änderung der Lichtfarbe",
+"Ein Anstieg der Temperatur",
+"Ein Ausschlag des Kompasses"
+],
+"e": "Beim Drehen der Apparatur hätten sich die Laufzeiten in den beiden Armen ändern müssen. Das hätte die hellen und dunklen Streifen verschoben."
+},
+{
+"nr": 57996,
+"t": "geo_welt",
+"l": 3,
+"s": "Mount St. Helens",
+"q": "Um wie viel wurde der Mount St. Helens durch den Ausbruch 1980 niedriger?",
+"a": [
+"Um rund 400 Meter",
+"Um rund 40 Meter",
+"Um rund 1500 Meter",
+"Um rund 4 Meter"
+],
+"e": "Der Gipfel lag vorher bei rund 2950 m, danach bei rund 2550 m. An seiner Stelle blieb ein hufeisenförmiger Krater."
+},
+{
+"nr": 76894,
+"t": "bilder",
+"l": 1,
+"s": "Wandern",
+"q": "Welche Schuhe braucht man für diesen Ausflug?",
+"a": [
+"Wanderschuhe",
+"Badeschuhe",
+"Hausschuhe",
+"Ballettschuhe"
+],
+"e": "Eine Person geht auf einen Berg. Dafür braucht man feste Wanderschuhe."
+},
+{
+"nr": 16673,
+"t": "g_neuzeit",
+"l": 3,
+"s": "Frauenbewegung",
+"q": "Wie deutlich lehnten die Schweizer Männer das Frauenstimmrecht 1959 auf Bundesebene ab?",
+"a": [
+"Mit rund 67 Prozent Nein",
+"Mit rund 51 Prozent Nein",
+"Mit rund 90 Prozent Nein",
+"Mit rund 55 Prozent Nein"
+],
+"e": "Bei der ersten eidgenössischen Abstimmung am 1. Februar 1959 stimmten nur rund 33 Prozent zu, auch die Kantone lehnten mehrheitlich ab. Einzelne Kantone der Westschweiz führten das Stimmrecht aber im selben Jahr auf kantonaler Ebene ein."
+},
+{
+"nr": 13086,
+"t": "g_antike",
+"l": 1,
+"s": "Nil",
+"q": "Wo lebten die meisten Menschen im alten Ägypten?",
+"a": [
+"Am Ufer des Nils",
+"Mitten in der Wüste",
+"Hoch in den Bergen",
+"Auf Inseln im Meer"
+],
+"e": "Nur am Nil gab es Wasser und fruchtbare Erde. Darum lagen fast alle Dörfer und Städte am Fluss."
+},
+{
+"nr": 127038,
+"t": "wissenschaft",
+"l": 3,
+"s": "Halluzination (Künstliche Intelligenz)",
+"q": "Wie geht man als Nutzerin oder Nutzer am besten mit möglichen Halluzinationen um?",
+"a": [
+"Wichtige Angaben in verlässlichen Quellen überprüfen",
+"Dieselbe Frage öfter stellen und die längste Antwort nehmen",
+"Der KI nur kurze Fragen stellen",
+"Allen Zahlen grundsätzlich vertrauen"
+],
+"e": "Eine gute Praxis ist, Fakten, Zahlen und Zitate in Originalquellen nachzuschlagen. Besonders bei Schule, Gesundheit oder Recht ist das wichtig."
+},
+{
+"nr": 75066,
+"t": "sport",
+"l": 3,
+"s": "Energiebereitstellung",
+"q": "Wofür steht die Abkürzung ATP?",
+"a": [
+"Adenosintriphosphat",
+"Aminotransferprotein",
+"Aerobe Trainingsphase",
+"Adrenalintransportprotein"
+],
+"e": "Adenosintriphosphat ist der direkte Energieträger jeder Muskelkontraktion. Bei der Spaltung zu Adenosindiphosphat (ADP) wird Energie frei."
+},
+{
+"nr": 115773,
+"t": "physik",
+"l": 3,
+"s": "Bahngeschwindigkeit",
+"q": "Ein Punkt auf einer Drehscheibe liegt doppelt so weit von der Achse entfernt wie ein anderer. Wie verhält sich seine Bahngeschwindigkeit?",
+"a": [
+"Sie ist doppelt so gross",
+"Sie ist gleich gross",
+"Sie ist viermal so gross",
+"Sie ist halb so gross"
+],
+"e": "Beide Punkte haben dieselbe Winkelgeschwindigkeit. Da v proportional zu r ist, ist der äussere Punkt doppelt so schnell."
+},
+{
+"nr": 104819,
+"t": "physik",
+"l": 2,
+"s": "Aktionsprinzip",
+"q": "Welche Kraft braucht man, um 2 kg mit 3 m/s² zu beschleunigen?",
+"a": [
+"6 N",
+"5 N",
+"1,5 N",
+"0,67 N"
+],
+"e": "F gleich m mal a: 2 kg mal 3 m/s² ergibt 6 N."
+},
+{
+"nr": 38142,
+"t": "pol_kommunismus",
+"l": 2,
+"s": "Gedenkstätte Berliner Mauer",
+"q": "Woran erkennt man heute in Berlin, wo die Mauer früher stand?",
+"a": [
+"An Pflastersteinen im Boden",
+"An roten Ampeln",
+"An Bäumen mit Bändern",
+"An blauen Häusern"
+],
+"e": "Eine doppelte Reihe aus Pflastersteinen zeigt in vielen Strassen den Verlauf der Mauer. So kann man ihr folgen."
+},
+{
+"nr": 75641,
+"t": "kunst",
+"l": 3,
+"s": "William Henry Fox Talbot",
+"q": "Welchen grossen Vorteil hatte das Verfahren von William Henry Fox Talbot gegenüber der Daguerreotypie?",
+"a": [
+"Vom Negativ liessen sich viele Abzüge machen",
+"Es lieferte von Anfang an Farbbilder",
+"Es brauchte überhaupt kein Licht",
+"Es zeigte bewegte Bilder"
+],
+"e": "Eine Daguerreotypie ist ein Unikat. Talbots Kalotypie erzeugte ein Papiernegativ, von dem man beliebig viele positive Abzüge herstellen konnte."
+},
+{
+"nr": 125842,
+"t": "wissenschaft",
+"l": 3,
+"s": "Jean Piaget",
+"q": "Wie viele Hauptstufen der kognitiven Entwicklung unterscheidet Jean Piaget?",
+"a": [
+"Vier",
+"Drei",
+"Fünf",
+"Sieben"
+],
+"e": "Piaget unterscheidet die sensomotorische, die präoperationale, die konkret-operationale und die formal-operationale Stufe. Jede baut auf der vorherigen auf."
+},
+{
+"nr": 77360,
+"t": "bilder",
+"l": 2,
+"s": "Redewendungen mit Wetter",
+"q": "Welche Redewendung zeigen diese Emojis?",
+"a": [
+"Gut Wetter machen",
+"Auf Wolke sieben schweben",
+"Die Ruhe vor dem Sturm",
+"Jemanden im Regen stehen lassen"
+],
+"e": "Sonne, ein freundliches Gesicht und eine Bitte ergeben «gut Wetter machen». Man versucht, jemanden freundlich zu stimmen."
+},
+{
+"nr": 94585,
+"t": "erde",
+"l": 3,
+"s": "Ophiolith",
+"q": "Zu welchem Gestein wird das Mantelgestein eines Ophioliths durch Aufnahme von Wasser oft umgewandelt?",
+"a": [
+"Serpentinit",
+"Marmor",
+"Quarzit",
+"Gneis"
+],
+"e": "Olivin und Pyroxen reagieren mit Meerwasser zu Serpentinmineralen. Das grünliche, oft glänzende Gestein ist auch in den Alpen verbreitet."
+},
+{
+"nr": 97519,
+"t": "koerper",
+"l": 1,
+"s": "Weinen",
+"q": "Wie sehen die Augen nach langem Weinen oft aus?",
+"a": [
+"Rot und geschwollen",
+"Blau und klein",
+"Ganz trocken",
+"Gelb und hell"
+],
+"e": "Langes Weinen reizt die Augen. Sie werden rot und die Lider schwellen an."
+},
+{
+"nr": 39036,
+"t": "pol_demokratie",
+"l": 2,
+"s": "Gemeinde (Schweiz)",
+"q": "Welche Gemeinde hat am meisten Einwohnerinnen und Einwohner?",
+"a": [
+"Zürich",
+"Genf",
+"Basel",
+"Bern"
+],
+"e": "Die Stadt Zürich ist die bevölkerungsreichste Gemeinde der Schweiz. Danach folgen Genf und Basel."
+},
+{
+"nr": 3838,
+"t": "tiere",
+"l": 2,
+"s": "Bartgeier",
+"q": "Wie gross ist das Revier eines Bartgeierpaares ungefähr?",
+"a": [
+"Mehrere hundert Quadratkilometer",
+"Nur ein paar Quadratmeter",
+"Ein ganzes Land",
+"Weniger als ein Fussballfeld"
+],
+"e": "Ein Bartgeierpaar beansprucht ein sehr grosses Gebiet im Gebirge als Lebensraum. Dort suchen sie nach genügend Nahrung für sich und ihre Jungen."
+},
+{
+"nr": 48451,
+"t": "geo_welt",
+"l": 1,
+"s": "Lava",
+"q": "Was passiert mit Lava, wenn sie abkühlt?",
+"a": [
+"Sie wird zu hartem Gestein",
+"Sie wird zu Wasser",
+"Sie wird zu Sand",
+"Sie löst sich in Luft auf"
+],
+"e": "Abgekühlte Lava wird fest. Daraus entsteht neues Gestein, zum Beispiel Basalt."
+},
+{
+"nr": 15958,
+"t": "g_neuzeit",
+"l": 3,
+"s": "Kriegsausbruch 1914",
+"q": "Welcher Anlass führte am 4. August 1914 zum Kriegseintritt Grossbritanniens?",
+"a": [
+"Der deutsche Einmarsch ins neutrale Belgien",
+"Die Versenkung der Lusitania",
+"Ein deutscher Angriff auf London",
+"Die Kriegserklärung Italiens"
+],
+"e": "Grossbritannien war Garantiemacht der belgischen Neutralität. Als deutsche Truppen gemäss Schlieffen-Plan Belgien besetzten, erklärte London dem Deutschen Reich den Krieg."
+},
+{
+"nr": 96442,
+"t": "natur",
+"l": 1,
+"s": "Immergrüne Pflanze",
+"q": "Welcher immergrüne Strauch wird im Garten oft zu Kugeln geschnitten?",
+"a": [
+"Der Buchsbaum",
+"Der Flieder",
+"Die Hasel",
+"Der Holunder"
+],
+"e": "Der Buchsbaum hat kleine, dichte Blätter. Darum kann man ihn gut in Form schneiden."
+},
+{
+"nr": 127377,
+"t": "wissenschaft",
+"l": 3,
+"s": "Humanforschungsgesetz",
+"q": "Wer bewilligt nach Humanforschungsgesetz die meisten Forschungsprojekte am Menschen?",
+"a": [
+"Die zuständige kantonale Ethikkommission",
+"Das Bundesgericht",
+"Der Nationalrat",
+"Die Krankenkassen"
+],
+"e": "Das HFG überträgt die Prüfung und Bewilligung von Forschungsprojekten den kantonalen Ethikkommissionen. Diese entscheiden je nach Region über die Gesuche."
+},
+{
+"nr": 53366,
+"t": "geo_welt",
+"l": 2,
+"s": "Jenissei",
+"q": "Wofür wird die Kraft des Jenissei vor allem genutzt?",
+"a": [
+"zur Stromerzeugung mit Wasserkraftwerken",
+"zum Antrieb von Windmühlen",
+"zur Bewässerung von Reisfeldern",
+"zur Gewinnung von Meersalz"
+],
+"e": "Am Jenissei stehen einige der grössten Wasserkraftwerke Russlands, zum Beispiel bei Sajanogorsk und Krasnojarsk. Sie liefern Strom für Industrie und Städte."
+},
+{
+"nr": 35558,
+"t": "pol_demokratie",
+"l": 2,
+"s": "UNICEF",
+"q": "In welcher Schweizer Stadt hat UNICEF Schweiz und Liechtenstein seinen Sitz?",
+"a": [
+"Zürich",
+"Lugano",
+"Sitten",
+"Chur"
+],
+"e": "Das Schweizer Komitee von UNICEF ist in Zürich. Es ist auch für Liechtenstein zuständig."
+},
+{
+"nr": 123226,
+"t": "koerper",
+"l": 3,
+"s": "Metastase",
+"q": "Wie heisst der Vorgang, bei dem Epithelzellen ihren Zusammenhalt verlieren und beweglich werden, was die Metastasierung erleichtert?",
+"a": [
+"Epithelial-mesenchymale Transition",
+"Mitotische Zellteilung",
+"Oxidative Phosphorylierung",
+"Kontaktinhibition"
+],
+"e": "Bei der epithelial-mesenchymalen Transition lösen Zellen ihre Haftverbindungen und werden wanderfähig. Krebszellen nutzen dieses Programm, um sich vom Tumor zu lösen."
+},
+{
+"nr": 28986,
+"t": "g_neuzeit",
+"l": 2,
+"s": "Unabhängigkeitserklärung der Vereinigten Staaten",
+"q": "Welche Schrift von Thomas Paine überzeugte Anfang 1776 viele Siedler von der Unabhängigkeit?",
+"a": [
+"«Common Sense»",
+"«Das Kapital»",
+"«Der Gesellschaftsvertrag»",
+"«Utopia»"
+],
+"e": "Thomas Paine erklärte in einfacher Sprache, warum die Kolonien sich von Grossbritannien trennen sollten. Die Schrift verkaufte sich in kurzer Zeit Hunderttausende Male."
+},
+{
+"nr": 89657,
+"t": "natur",
+"l": 1,
+"s": "Heuschrecken",
+"q": "Welche Farben haben viele Heuschrecken, damit man sie im Gras kaum sieht?",
+"a": [
+"Grün oder braun",
+"Rot und schwarz",
+"Weiss und blau",
+"Violett und gelb"
+],
+"e": "Grüne und braune Heuschrecken passen gut zu Gras und Erde. So sind sie vor Feinden gut getarnt."
+},
+{
+"nr": 98898,
+"t": "technik",
+"l": 3,
+"s": "Drohne",
+"q": "Welche Sensorkombination hält eine Drohne meist stabil in der Luft und auf Position?",
+"a": [
+"Inertialsensoren und Satellitennavigation",
+"Thermometer und Barometer allein",
+"Mikrofon und Lautsprecher",
+"Kompass und Uhr allein"
+],
+"e": "Beschleunigungs- und Drehratensensoren erkennen jede Neigung. Satellitennavigation wie GPS liefert die Position, damit die Drohne auf der Stelle schweben kann."
+},
+{
+"nr": 70744,
+"t": "mathe",
+"l": 3,
+"s": "Kongruenzsatz",
+"q": "Welche Angaben verwendet der Kongruenzsatz SWS?",
+"a": [
+"zwei Seiten und den eingeschlossenen Winkel",
+"zwei Seiten und einen beliebigen Winkel",
+"eine Seite und zwei Winkel",
+"drei Seiten"
+],
+"e": "SWS bedeutet Seite, Winkel, Seite. Der Winkel muss zwischen den beiden gegebenen Seiten liegen."
+},
+{
+"nr": 124491,
+"t": "physik",
+"l": 3,
+"s": "Wärme-Kraft-Kopplung",
+"q": "Welche Technik kann Wärme-Kraft-Kopplung auch ohne Flamme ermöglichen?",
+"a": [
+"Die Brennstoffzelle",
+"Die Wärmepumpe",
+"Der Sonnenkollektor",
+"Der Elektroboiler"
+],
+"e": "Brennstoffzellen wandeln die chemische Energie etwa von Wasserstoff oder Erdgas elektrochemisch in Strom um. Die anfallende Wärme kann zum Heizen genutzt werden."
+},
+{
+"nr": 30753,
+"t": "g_urzeit",
+"l": 3,
+"s": "Glockenbecherkultur",
+"q": "Welche Nekropole im Wallis enthält Dolmen und Menschenstelen, die in der Glockenbecherzeit wiederverwendet wurden?",
+"a": [
+"Petit-Chasseur in Sitten",
+"Clendy bei Yverdon",
+"Twann am Bielersee",
+"Egolzwil im Wauwilermoos"
+],
+"e": "In der Nekropole Petit-Chasseur in Sitten fand man Dolmen und verzierte Stelen. Die Glockenbecherleute nutzten die Gräber weiter und bearbeiteten Stelen neu."
+},
+{
+"nr": 15544,
+"t": "g_neuzeit",
+"l": 3,
+"s": "Napoleon Bonaparte",
+"q": "Welche Auszeichnung stiftete Napoleon im Jahr 1802?",
+"a": [
+"Ehrenlegion",
+"Eisernes Kreuz",
+"Hosenbandorden",
+"Pour le Mérite"
+],
+"e": "Die Légion d'honneur wurde 1802 gestiftet, um zivile und militärische Verdienste zu ehren. Sie ist bis heute die höchste Auszeichnung Frankreichs."
+},
+{
+"nr": 85190,
+"t": "weltall",
+"l": 1,
+"s": "Kosmischer Staub",
+"q": "Woraus sind Sterne und Planeten entstanden?",
+"a": [
+"Aus Gas und Staub",
+"Aus Wasser und Holz",
+"Aus Eis und Schokolade",
+"Aus Licht allein"
+],
+"e": "Im All gibt es riesige Wolken aus Gas und Staub. Daraus haben sich Sterne und Planeten gebildet."
+},
+{
+"nr": 98697,
+"t": "erde",
+"l": 3,
+"s": "Kohlenstoffsenke",
+"q": "Wie heisst das technische Verfahren, CO2 direkt aus der Umgebungsluft herauszufiltern?",
+"a": [
+"Direct Air Capture",
+"Carbon Footprint",
+"Cap and Trade",
+"Clean Development"
+],
+"e": "Ventilatoren saugen Luft durch Filter, an denen CO2 gebunden und später konzentriert abgegeben wird. Es kann anschliessend dauerhaft gespeichert werden, ist aber sehr energieaufwendig."
+},
+{
+"nr": 91946,
+"t": "erde",
+"l": 2,
+"s": "CO2-Fussabdruck",
+"q": "Was gibt der CO2-Fussabdruck an?",
+"a": [
+"Die verursachten Treibhausgase",
+"Die Grösse eines Schuhs",
+"Den Wasserverbrauch im Haushalt",
+"Die Fläche eines Gartens"
+],
+"e": "Der CO2-Fussabdruck zählt alle Treibhausgase zusammen, die eine Person, ein Produkt oder eine Firma verursacht. Er umfasst etwa Heizung, Verkehr, Ernährung und Konsum."
+},
+{
+"nr": 27708,
+"t": "g_antike",
+"l": 2,
+"s": "Schlacht bei Marathon",
+"q": "Welche griechische Stadt schickte als einzige Truppen, um Athen bei Marathon zu helfen?",
+"a": [
+"Plataiai",
+"Sparta",
+"Korinth",
+"Theben"
+],
+"e": "Rund 1000 Männer aus der kleinen Stadt Plataiai kämpften an der Seite der Athener. Athen vergass ihnen diese Treue nie."
+},
+{
+"nr": 89997,
+"t": "weltall",
+"l": 2,
+"s": "Tycho Brahe",
+"q": "Womit machte Tycho Brahe seine sehr genauen Messungen?",
+"a": [
+"Mit grossen Winkelmessgeräten ohne Fernrohr",
+"Mit einem Spiegelteleskop",
+"Mit einem Radioteleskop",
+"Mit einem Feldstecher"
+],
+"e": "Das Fernrohr gab es zu Tychos Lebzeiten noch nicht. Er mass mit riesigen Quadranten und Sextanten so genau wie niemand vor ihm."
+},
+{
+"nr": 39318,
+"t": "pol_demokratie",
+"l": 2,
+"s": "Staatsanwaltschaft",
+"q": "Bis zu welcher Freiheitsstrafe darf die Staatsanwaltschaft mit einem Strafbefehl gehen?",
+"a": [
+"6 Monate",
+"1 Monat",
+"3 Jahre",
+"10 Jahre"
+],
+"e": "Ein Strafbefehl ist nur bei leichteren Fällen möglich, zum Beispiel bei einer Freiheitsstrafe von höchstens sechs Monaten. Schwerere Fälle muss ein Gericht beurteilen."
+},
+{
+"nr": 83488,
+"t": "technik",
+"l": 1,
+"s": "Brille",
+"q": "Was braucht man zum Schwimmen unter Wasser, um gut zu sehen?",
+"a": [
+"Eine Taucherbrille",
+"Eine Lesebrille",
+"Eine Sonnenbrille",
+"Eine Skibrille"
+],
+"e": "Eine Taucherbrille hält das Wasser von den Augen fern. Mit Luft vor den Augen sieht man unter Wasser scharf."
+},
+{
+"nr": 126050,
+"t": "physik",
+"l": 3,
+"s": "Schrödingergleichung",
+"q": "Welche Bedeutung hat das Betragsquadrat |ψ|² der Wellenfunktion nach Max Born?",
+"a": [
+"Es ist die Wahrscheinlichkeitsdichte, das Teilchen an einem Ort zu finden",
+"Es ist die elektrische Ladung des Teilchens",
+"Es ist die Temperatur des Systems",
+"Es ist die Masse des Teilchens"
+],
+"e": "Die Wellenfunktion selbst ist nicht direkt messbar. Erst ihr Betragsquadrat liefert die Wahrscheinlichkeit für einen Messwert am jeweiligen Ort."
+},
+{
+"nr": 3829,
+"t": "tiere",
+"l": 2,
+"s": "Eisvogel",
+"q": "Wie lange brüten die Eisvogel Eltern die Eier aus?",
+"a": [
+"etwa drei Wochen",
+"etwa drei Tage",
+"etwa drei Monate",
+"etwa ein Jahr"
+],
+"e": "Die Brutzeit dauert etwa 19 bis 21 Tage. Männchen und Weibchen wechseln sich beim Brüten ab."
+},
+{
+"nr": 2614,
+"t": "tiere",
+"l": 2,
+"s": "Blattläuse",
+"q": "Welcher Sinn hilft Blattläusen, geeignete Pflanzen zu finden?",
+"a": [
+"Geruchssinn und Tastsinn der Fühler",
+"Echoortung",
+"Wärmesicht wie bei Schlangen",
+"Elektrosinn"
+],
+"e": "Mit ihren Fühlern nehmen Blattläuse Duftstoffe und Berührungen wahr. So erkennen sie passende Pflanzen."
+},
+{
+"nr": 59625,
+"t": "geo_welt",
+"l": 3,
+"s": "Persischer Golf",
+"q": "Zu welcher Hafenstadt am Roten Meer führt die saudische Ost-West-Pipeline, mit der Öl den Persischen Golf umgehen kann?",
+"a": [
+"Yanbu",
+"Dschidda",
+"Aqaba",
+"Port Sudan"
+],
+"e": "Die Ost-West-Pipeline verbindet die Ölfelder im Osten Saudi-Arabiens mit dem Hafen Yanbu. So kann ein Teil des Öls auch exportiert werden, wenn der Seeweg durch den Golf blockiert ist."
+},
+{
+"nr": 121488,
+"t": "wissenschaft",
+"l": 3,
+"s": "Klinische Studie",
+"q": "Was kennzeichnet eine sogenannte Phase-0-Studie (Microdosing)?",
+"a": [
+"Wenige Personen erhalten eine sehr kleine, nicht wirksame Dosis, um das Verhalten des Stoffs im Körper zu messen.",
+"Tausende Patienten erhalten die volle Dosis.",
+"Der Wirkstoff wird nur an Zellkulturen getestet.",
+"Das Medikament wird bereits verkauft."
+],
+"e": "Bei Microdosing-Studien wird meist weniger als ein Hundertstel der wirksamen Dosis gegeben. So lässt sich früh erkennen, ob sich ein Kandidat im Menschen ähnlich verhält wie erwartet."
+},
+{
+"nr": 101209,
+"t": "erde",
+"l": 3,
+"s": "Lithiumabbau",
+"q": "Warum eignet sich Lithium besonders gut für leistungsfähige Akkus?",
+"a": [
+"Es ist das leichteste Metall und hat ein sehr negatives Elektrodenpotenzial",
+"Es ist das härteste Metall",
+"Es ist nicht brennbar",
+"Es leitet keinen Strom"
+],
+"e": "Die geringe Masse und die hohe Zellspannung ergeben eine grosse Energiedichte. Darum stecken Lithium-Ionen-Akkus in Handys und Elektroautos."
+},
+{
+"nr": 123670,
+"t": "physik",
+"l": 3,
+"s": "Magnetischer Fluss",
+"q": "Welcher Einheit entspricht 1 Weber?",
+"a": [
+"1 V · s",
+"1 V/s",
+"1 A · s",
+"1 W · s"
+],
+"e": "Aus dem Induktionsgesetz folgt, dass eine Flussänderung von 1 Wb pro Sekunde 1 V erzeugt. Deshalb ist 1 Wb gleich 1 Voltsekunde."
+},
+{
+"nr": 50827,
+"t": "geo_europa",
+"l": 1,
+"s": "Kanaltunnel",
+"q": "Wie kommen Autos durch den Eurotunnel?",
+"a": [
+"Sie fahren auf einen Zug",
+"Sie fahren selber durch",
+"Sie werden getragen",
+"Sie schwimmen durch"
+],
+"e": "Autos fahren in spezielle Zugwagen. Der Zug bringt sie in etwa einer halben Stunde auf die andere Seite."
+},
+{
+"nr": 60226,
+"t": "geo_welt",
+"l": 3,
+"s": "Murray-Darling-Becken",
+"q": "Warum führt der Darling im Vergleich zu seiner Länge oft nur wenig Wasser?",
+"a": [
+"Er fliesst durch trockenes Land mit hoher Verdunstung",
+"Er wird vollständig von Gletschern gespeist",
+"Er versickert in einem Karstgebirge",
+"Er wird in ein Nachbarland umgeleitet"
+],
+"e": "Der Darling durchquert semiaride Gebiete, wo kaum Niederschlag fällt und viel Wasser verdunstet. Zusätzlich wird viel Wasser für die Bewässerung entnommen, sodass er zeitweise austrocknet."
+},
+{
+"nr": 77601,
+"t": "kunst",
+"l": 3,
+"s": "3D-Druck",
+"q": "Welches Dateiformat beschreibt die Oberfläche eines 3D-Modells mit Dreiecken und ist im 3D-Druck weit verbreitet?",
+"a": [
+"STL",
+"PDF",
+"MP3",
+"CSV"
+],
+"e": "Eine STL-Datei zerlegt die Oberfläche eines Körpers in viele Dreiecke. Ein Slicer wandelt sie anschliessend in Maschinenbefehle um."
+},
+{
+"nr": 37156,
+"t": "pol_welt",
+"l": 2,
+"s": "Gute Dienste",
+"q": "In welcher Schweizer Stadt wurde 2015 über das Atomprogramm des Iran verhandelt?",
+"a": [
+"Lausanne",
+"Zug",
+"Thun",
+"Olten"
+],
+"e": "Im Frühling 2015 verhandelten mehrere Länder in Lausanne mit dem Iran. Die Schweiz half als Gastgeberin."
+},
+{
+"nr": 87471,
+"t": "mathe",
+"l": 3,
+"s": "Ableitungsregeln",
+"q": "Welche Ableitung hat f(x) = cos(x)?",
+"a": [
+"-sin(x)",
+"sin(x)",
+"-cos(x)",
+"cos(x)"
+],
+"e": "Die Kosinusfunktion fällt bei x = 0 noch nicht und danach immer stärker, passend zu -sin(x). Die Ableitung lautet also -sin(x)."
+},
+{
+"nr": 37871,
+"t": "pol_kommunismus",
+"l": 2,
+"s": "Friedrich Engels",
+"q": "In welcher englischen Stadt arbeitete Engels in einer Fabrik seines Vaters?",
+"a": [
+"Manchester",
+"Oxford",
+"Dover",
+"Liverpool"
+],
+"e": "Engels arbeitete viele Jahre in Manchester in der Baumwollfirma, an der sein Vater beteiligt war. Dort sah er, wie arm die Arbeiter lebten."
+},
+{
+"nr": 127231,
+"t": "physik",
+"l": 3,
+"s": "Fritz Zwicky",
+"q": "Nach dem Virialsatz gilt für ein gebundenes System 2·K + U = 0. Wie gross ist U, wenn die mittlere kinetische Energie K gleich 5·10⁴⁰ J ist?",
+"a": [
+"-1·10⁴¹ J",
+"-2,5·10⁴⁰ J",
+"1·10⁴¹ J",
+"-5·10⁴⁰ J"
+],
+"e": "Aus 2K + U = 0 folgt U = -2K = -2 · 5·10⁴⁰ J = -1·10⁴¹ J. Die potenzielle Energie eines gebundenen Systems ist negativ."
+},
+{
+"nr": 97644,
+"t": "weltall",
+"l": 3,
+"s": "Elliptische Galaxie",
+"q": "Wo findet man die massereichsten elliptischen Galaxien typischerweise?",
+"a": [
+"Im Zentrum von Galaxienhaufen",
+"Am Rand der Lokalen Gruppe",
+"Isoliert in kosmischen Leerräumen",
+"In den Spiralarmen anderer Galaxien"
+],
+"e": "Im dichten Haufenzentrum verschmelzen Galaxien besonders oft. Dort wachsen cD-Galaxien zu den grössten bekannten Galaxien heran."
+},
+{
+"nr": 79893,
+"t": "natur",
+"l": 1,
+"s": "Robinie",
+"q": "Wie sehen die Blüten der Robinie aus?",
+"a": [
+"weisse, duftende Trauben",
+"rote, einzelne Sterne",
+"blaue Glocken",
+"gelbe Kätzchen"
+],
+"e": "Im Frühsommer hängen an der Robinie viele weisse Blütentrauben. Sie duften süss."
+},
+{
+"nr": 73933,
+"t": "ethik",
+"l": 1,
+"s": "Freundschaft",
+"q": "Dein Freund erzählt dir ein Geheimnis, das niemandem schadet. Was machst du?",
+"a": [
+"Es für dich behalten",
+"Es allen erzählen",
+"Es aufschreiben und verteilen",
+"Darüber lachen"
+],
+"e": "Ein Geheimnis zu bewahren zeigt, dass man vertrauenswürdig ist. So kann der Freund dir auch später etwas anvertrauen."
+},
+{
+"nr": 2885,
+"t": "tiere",
+"l": 1,
+"s": "Braunbrustigel",
+"q": "Welches Tier gehört zu den natürlichen Feinden des Igels?",
+"a": [
+"Der Fuchs",
+"Der Goldfisch",
+"Das Kaninchen",
+"Die Schnecke"
+],
+"e": "Füchse, Dachse und grosse Eulen können einem Igel gefährlich werden. Erwachsene Igel sind aber durch ihre Stacheln gut geschützt."
+},
+{
+"nr": 76952,
+"t": "bilder",
+"l": 1,
+"s": "Herbst",
+"q": "Welche warme Leckerei gibt es im Herbst am Strassenstand?",
+"a": [
+"Heisse Marroni",
+"Zuckerwatte",
+"Glace",
+"Popcorn"
+],
+"e": "Kastanie, Feuer und Tüte zeigen geröstete Marroni. Man kauft sie warm in einer Papiertüte."
+},
+{
+"nr": 123603,
+"t": "koerper",
+"l": 3,
+"s": "Genom",
+"q": "Welche Zellorganellen besitzen ein eigenes kleines Genom?",
+"a": [
+"Mitochondrien",
+"Ribosomen",
+"Lysosomen",
+"Golgi-Apparate"
+],
+"e": "Mitochondrien haben eine ringförmige DNA mit wenigen Genen. Das gilt als Hinweis auf ihre Herkunft von Bakterien."
+},
+{
+"nr": 90851,
+"t": "physik",
+"l": 1,
+"s": "Gitarre",
+"q": "Wie heissen die Metallstäbchen quer auf dem Hals der Gitarre?",
+"a": [
+"Bünde",
+"Tasten",
+"Wirbel",
+"Klappen"
+],
+"e": "Die Bünde teilen den Hals in Felder. Drückt man eine Saite hinter einem Bund, entsteht ein bestimmter Ton."
+},
+{
+"nr": 127845,
+"t": "informatik",
+"l": 2,
+"s": "Barrierefreies Internet",
+"q": "Warum sollte man Informationen nicht nur durch Farbe zeigen, etwa rote Felder für Fehler?",
+"a": [
+"Weil manche Menschen Farben nicht unterscheiden können",
+"Weil Rot nicht auf allen Bildschirmen geht",
+"Weil Farben die Seite verlangsamen",
+"Weil Farben Speicher kosten"
+],
+"e": "Menschen mit Farbsehschwäche erkennen zum Beispiel Rot und Grün schlecht. Deshalb ergänzt man Farben mit Text oder Symbolen."
+},
+{
+"nr": 55232,
+"t": "geo_welt",
+"l": 1,
+"s": "Sydney Opera House",
+"q": "Wie lange dauerte der Bau des Opernhauses von Sydney etwa?",
+"a": [
+"Etwa 14 Jahre",
+"Etwa 4 Monate",
+"Etwa 1 Jahr",
+"Etwa 100 Jahre"
+],
+"e": "Der Bau begann 1959 und dauerte rund 14 Jahre. Die gebogenen Dächer waren schwierig zu bauen."
+},
+{
+"nr": 28777,
+"t": "g_mittelalter",
+"l": 2,
+"s": "Leif Eriksson",
+"q": "Mit welcher Art Schiff segelten Wikinger wie Leif Eriksson zu fernen Siedlungen?",
+"a": [
+"Mit einem Knorr",
+"Mit einer Karavelle",
+"Mit einer Kogge",
+"Mit einer Dschunke"
+],
+"e": "Die Knorr war ein breites, hochseetüchtiges Handelsschiff der Wikinger. Sie konnte Menschen, Tiere und Vorräte über den Atlantik tragen."
+},
+{
+"nr": 96200,
+"t": "technik",
+"l": 3,
+"s": "Mooresches Gesetz",
+"q": "Was für eine Art von Aussage ist das mooresche Gesetz?",
+"a": [
+"Eine empirische Beobachtung und Prognose",
+"Ein Naturgesetz der Quantenphysik",
+"Eine verbindliche Norm der Industrie",
+"Ein Satz der Thermodynamik"
+],
+"e": "Das mooresche Gesetz beschreibt einen beobachteten Trend der Halbleiterindustrie. Es ist kein Naturgesetz und gilt nur, solange Technik und Wirtschaft mitspielen."
+},
+{
+"nr": 94932,
+"t": "informatik",
+"l": 3,
+"s": "Virtuelle Speicherverwaltung",
+"q": "Wie viele Bit einer Adresse bilden bei 4-KiB-Seiten den Versatz innerhalb der Seite?",
+"a": [
+"12",
+"10",
+"16",
+"20"
+],
+"e": "4 KiB sind 4096 Byte, und 4096 ist 2 hoch 12. Also werden 12 Bit für den Versatz gebraucht."
+},
+{
+"nr": 113152,
+"t": "koerper",
+"l": 2,
+"s": "Muskelaufbau",
+"q": "Welche Muskelart bewegt man willentlich und baut sie durch Krafttraining auf?",
+"a": [
+"Skelettmuskulatur",
+"Herzmuskulatur",
+"Glatte Darmmuskulatur",
+"Glatte Gefässmuskulatur"
+],
+"e": "Die Skelettmuskeln sind an Knochen befestigt und lassen sich bewusst steuern. Herz- und glatte Muskulatur arbeiten von selbst."
+},
+{
+"nr": 127162,
+"t": "koerper",
+"l": 3,
+"s": "Mausarm",
+"q": "Wie lautet der englische Fachbegriff für Beschwerden wie den Mausarm, die durch wiederholte Belastung entstehen?",
+"a": [
+"Repetitive Strain Injury",
+"Restless Legs Syndrome",
+"Chronic Fatigue Syndrome",
+"Sudden Infant Death Syndrome"
+],
+"e": "RSI bedeutet Verletzung durch wiederholte Belastung. Der Begriff fasst Beschwerden an Muskeln, Sehnen und Nerven zusammen, die durch monotone Bewegungen entstehen."
+},
+{
+"nr": 117549,
+"t": "wissenschaft",
+"l": 3,
+"s": "Hermann von Helmholtz",
+"q": "Welches Gerät erfand Helmholtz 1850 für die Untersuchung des Augenhintergrunds?",
+"a": [
+"Den Augenspiegel",
+"Das Stethoskop",
+"Das Fieberthermometer",
+"Den Blutdruckmesser"
+],
+"e": "Mit dem Augenspiegel (Ophthalmoskop) wurde die Netzhaut eines lebenden Menschen erstmals sichtbar. Die Augenheilkunde machte damit einen grossen Sprung."
+},
+{
+"nr": 16703,
+"t": "g_neuzeit",
+"l": 3,
+"s": "Gleichberechtigung",
+"q": "Was verlangt Artikel 8 Absatz 3 der Schweizer Bundesverfassung unter anderem?",
+"a": [
+"Gleichen Lohn für Mann und Frau für gleichwertige Arbeit",
+"Eine Frauenquote im Bundesrat",
+"Ein gleiches Rentenalter für alle Berufe",
+"Gleich viele Männer und Frauen in jedem Betrieb"
+],
+"e": "Der Absatz garantiert die Gleichberechtigung von Mann und Frau und den Anspruch auf gleichen Lohn für gleichwertige Arbeit. Der Gesetzgeber muss für die tatsächliche Gleichstellung sorgen."
+},
+{
+"nr": 78008,
+"t": "bilder",
+"l": 2,
+"s": "Ferien",
+"q": "Welches Gefühl in den Ferien ist mit diesen Bildern gemeint?",
+"a": [
+"Heimweh",
+"Fernweh",
+"Langeweile",
+"Vorfreude"
+],
+"e": "Ein Haus, ein Gedanke und Traurigkeit zeigen Heimweh. Man vermisst sein Zuhause, zum Beispiel im Lager."
+},
+{
+"nr": 52472,
+"t": "geo_schweiz",
+"l": 2,
+"s": "Voralpen",
+"q": "Welche Bahn fuhr ab 1871 als erste Bergbahn Europas auf einen Berg?",
+"a": [
+"Rigibahn",
+"Jungfraubahn",
+"Gornergratbahn",
+"Pilatusbahn"
+],
+"e": "Die Vitznau-Rigi-Bahn wurde 1871 eröffnet. Sie war die erste Bergbahn Europas."
+},
+{
+"nr": 113393,
+"t": "physik",
+"l": 2,
+"s": "Reihenschaltung",
+"q": "Wie gross ist die Stromstärke an verschiedenen Stellen einer Reihenschaltung?",
+"a": [
+"Überall gleich gross",
+"Am Pluspol am grössten",
+"Nach jeder Lampe kleiner",
+"Am Minuspol am grössten"
+],
+"e": "Es gibt nur einen Stromweg, und es geht keine Ladung verloren. Deshalb fliesst durch jedes Bauteil dieselbe Stromstärke."
+},
+{
+"nr": 120783,
+"t": "koerper",
+"l": 3,
+"s": "Zytotoxische T-Zelle",
+"q": "Welches Protein bilden zytotoxische T-Zellen, um Poren in die Membran der Zielzelle zu stanzen?",
+"a": [
+"Perforin",
+"Lysozym",
+"Defensin",
+"Fibrin"
+],
+"e": "Perforin lagert sich in die Zellmembran der Zielzelle ein und bildet Poren. Durch diese Poren gelangen weitere tödliche Enzyme ins Zellinnere."
+},
+{
+"nr": 93673,
+"t": "erde",
+"l": 2,
+"s": "Murgang",
+"q": "Wie nennt man den fächerförmigen Schuttfächer, den Murgänge am Ausgang eines Wildbachs ablagern?",
+"a": [
+"Schwemmkegel",
+"Moräne",
+"Delta",
+"Düne"
+],
+"e": "Wo der Wildbach ins flachere Tal austritt, bleibt das Material liegen. So entsteht über lange Zeit ein Schwemmkegel, auf dem oft Dörfer stehen."
+},
+{
+"nr": 121917,
+"t": "wissenschaft",
+"l": 3,
+"s": "Prion",
+"q": "Welche Prionenkrankheit kommt seit Jahrhunderten bei Schafen vor?",
+"a": [
+"Scrapie",
+"Staupe",
+"Räude",
+"Moderhinke"
+],
+"e": "Scrapie ist die älteste bekannte Prionenkrankheit. Kranke Schafe kratzen sich oft stark, daher der englische Name."
+},
+{
+"nr": 119670,
+"t": "koerper",
+"l": 3,
+"s": "Elektroenzephalografie",
+"q": "Welche EEG-Wellen mit etwa 13 bis 30 Hz treten bei konzentrierter geistiger Tätigkeit auf?",
+"a": [
+"Betawellen",
+"Deltawellen",
+"Thetawellen",
+"Alphawellen"
+],
+"e": "Betawellen haben eine höhere Frequenz und kleinere Amplitude. Sie zeigen ein aktives, aufmerksames Gehirn."
+},
+{
+"nr": 93065,
+"t": "informatik",
+"l": 3,
+"s": "Feld (Datentyp)",
+"q": "Welchen Index hat das letzte Element eines nullbasierten Felds mit n Elementen?",
+"a": [
+"n-1",
+"n",
+"n+1",
+"n/2"
+],
+"e": "Die Indizes laufen von 0 bis n-1. Ein Zugriff auf den Index n liegt bereits ausserhalb des Felds."
+},
+{
+"nr": 47969,
+"t": "geo_welt",
+"l": 2,
+"s": "Himmelsrichtung",
+"q": "Wie viele Haupthimmelsrichtungen gibt es?",
+"a": [
+"Vier",
+"Zwei",
+"Sechs",
+"Acht"
+],
+"e": "Die vier Haupthimmelsrichtungen sind Norden, Osten, Süden und Westen."
+},
+{
+"nr": 2839,
+"t": "tiere",
+"l": 1,
+"s": "Seehund",
+"q": "Wie lange säugt eine Seehundmutter ihr Junges ungefähr?",
+"a": [
+"Nur drei bis vier Wochen",
+"Zwei ganze Jahre",
+"Nur einen Tag",
+"Zehn Jahre"
+],
+"e": "Die Milch der Seehundmutter ist sehr fetthaltig, deshalb wächst das Junge sehr schnell. Schon nach drei bis vier Wochen muss es selbst Fische fangen."
+},
+{
+"nr": 101993,
+"t": "koerper",
+"l": 1,
+"s": "Joggen",
+"q": "Welcher Boden ist beim Joggen besonders sanft für die Gelenke?",
+"a": [
+"Ein weicher Waldweg",
+"Harter Beton",
+"Glattes Eis",
+"Spitze Steine"
+],
+"e": "Ein Waldweg federt die Schritte etwas ab. Das schont Füsse, Knie und Gelenke."
+},
+{
+"nr": 2474,
+"t": "tiere",
+"l": 1,
+"s": "Braunbrustigel",
+"q": "Wie sehen Igelbabys direkt nach der Geburt aus?",
+"a": [
+"Sie haben weiche, weisse Stacheln",
+"Sie haben schon harte braune Stacheln",
+"Sie haben gar keine Stacheln und Fell",
+"Sie sehen aus wie kleine Mäuse"
+],
+"e": "Neugeborene Igel haben zuerst weiche, weisse Stacheln, damit die Geburt nicht wehtut. Erst später werden die Stacheln hart und braun."
+},
+{
+"nr": 97042,
+"t": "technik",
+"l": 3,
+"s": "Intelligentes Stromnetz",
+"q": "Was kennzeichnet ein intelligentes Stromnetz (Smart Grid)?",
+"a": [
+"Erzeugung, Speicher und Verbrauch werden über Kommunikationstechnik abgestimmt",
+"Es besteht nur aus unterirdischen Kabeln",
+"Es arbeitet ausschliesslich mit Gleichstrom",
+"Es versorgt nur Industriebetriebe"
+],
+"e": "In einem Smart Grid tauschen Kraftwerke, Speicher, Netze und Verbraucher laufend Daten aus. So lassen sich schwankende Erzeugung und Verbrauch besser aufeinander abstimmen."
+},
+{
+"nr": 41593,
+"t": "pol_welt",
+"l": 2,
+"s": "Gipfeltreffen",
+"q": "In welcher Hauptstadt trafen sich Ronald Reagan und Michail Gorbatschow im Oktober 1986 zu einem Gipfel über Abrüstung?",
+"a": [
+"Reykjavik",
+"Oslo",
+"Stockholm",
+"Kopenhagen"
+],
+"e": "Der Gipfel in der Hauptstadt Islands endete ohne Abkommen, doch beide Seiten waren sich bei der Abrüstung sehr nahegekommen. Ein Jahr später unterzeichneten sie den INF-Vertrag über Mittelstreckenraketen."
+},
+{
+"nr": 11795,
+"t": "tiere",
+"l": 3,
+"s": "Walhai",
+"q": "Wie pflanzt sich der Walhai fort?",
+"a": [
+"Er ist ovovivipar und bringt lebende Junge zur Welt",
+"Er legt Eikapseln am Meeresboden ab",
+"Er laicht frei ins offene Wasser",
+"Er brütet Eier im Maul aus"
+],
+"e": "Die Eier entwickeln sich im Körper des Weibchens, wo die Jungen auch schlüpfen. Geboren werden fertig entwickelte kleine Walhaie."
+},
+{
+"nr": 121138,
+"t": "wissenschaft",
+"l": 3,
+"s": "Lebendimpfstoff",
+"q": "Wer impfte 1885 erstmals einen Menschen, den Jungen Joseph Meister, gegen Tollwut?",
+"a": [
+"Louis Pasteur",
+"Edward Jenner",
+"Robert Koch",
+"Paul Ehrlich"
+],
+"e": "Pasteur nutzte Rückenmark infizierter Kaninchen, das er trocknen liess, um das Virus abzuschwächen. Joseph Meister überlebte."
+},
+{
+"nr": 104521,
+"t": "natur",
+"l": 2,
+"s": "Kutikula",
+"q": "Woraus besteht die Kutikula hauptsächlich?",
+"a": [
+"aus Cutin und Wachsen",
+"aus Zellulose und Stärke",
+"aus Chitin und Kalk",
+"aus Eiweiss und Zucker"
+],
+"e": "Die Kutikula besteht vor allem aus dem fettartigen Stoff Cutin und aus Wachsen. Beide stossen Wasser ab."
+},
+{
+"nr": 121126,
+"t": "wissenschaft",
+"l": 3,
+"s": "Angeborenes Immunsystem",
+"q": "Welche Zellen verbinden angeborenes und adaptives Immunsystem, indem sie Antigene in die Lymphknoten bringen?",
+"a": [
+"Dendritische Zellen",
+"Rote Blutkörperchen",
+"Plasmazellen",
+"Fettzellen"
+],
+"e": "Dendritische Zellen nehmen im Gewebe Antigene auf und präsentieren sie im Lymphknoten den T-Zellen. Ralph Steinman erhielt für ihre Entdeckung 2011 den Nobelpreis."
+}
+]

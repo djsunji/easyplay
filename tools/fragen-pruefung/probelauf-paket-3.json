@@ -1,0 +1,2802 @@
+[
+{
+"nr": 116136,
+"t": "physik",
+"l": 3,
+"s": "Impulserhaltungssatz",
+"q": "Ein Wagen mit 1 kg fährt mit 4 m/s auf einen ruhenden Wagen mit 3 kg. Nach dem Stoss ruht der erste Wagen. Wie schnell fährt der zweite Wagen danach?",
+"a": [
+"Rund 1,3 m/s",
+"4 m/s",
+"Rund 0,75 m/s",
+"12 m/s"
+],
+"e": "Der Impuls vorher beträgt 1 kg mal 4 m/s gleich 4 kg·m/s. Der zweite Wagen übernimmt ihn ganz, also 4 durch 3 gleich rund 1,3 m/s."
+},
+{
+"nr": 78864,
+"t": "natur",
+"l": 1,
+"s": "Berg-Ahorn",
+"q": "Wie sieht ein Blatt des Bergahorns aus?",
+"a": [
+"wie eine Hand mit fünf Lappen",
+"wie eine lange Nadel",
+"rund wie eine Münze",
+"wie eine Feder mit vielen Blättchen"
+],
+"e": "Das Blatt des Bergahorns ist gross und hat fünf Lappen. Es erinnert an eine offene Hand."
+},
+{
+"nr": 93099,
+"t": "informatik",
+"l": 3,
+"s": "Binärbaum",
+"q": "Welche Laufzeit hat die Suche in einem nicht balancierten binären Suchbaum im schlechtesten Fall?",
+"a": [
+"O(n)",
+"O(log n)",
+"O(1)",
+"O(n log n)"
+],
+"e": "Fügt man die Schlüssel sortiert ein, entartet der Baum zu einer Kette. Dann muss man im schlechtesten Fall alle n Knoten prüfen."
+},
+{
+"nr": 22621,
+"t": "allgemein",
+"l": 1,
+"s": "Lebensmittel",
+"q": "Wann isst man in der Schweiz das Znüni?",
+"a": [
+"Am Vormittag",
+"Am Mittag",
+"Am Abend",
+"In der Nacht"
+],
+"e": "Das Znüni ist eine kleine Zwischenmahlzeit am Vormittag, etwa um neun Uhr. Viele Kinder essen es in der Schulpause."
+},
+{
+"nr": 121976,
+"t": "koerper",
+"l": 3,
+"s": "Mastzelle",
+"q": "Wie heisst eine Erkrankung, bei der sich Mastzellen krankhaft vermehren und im Gewebe ansammeln?",
+"a": [
+"Mastozytose",
+"Mastoiditis",
+"Mastopathie",
+"Mastodynie"
+],
+"e": "Bei der Mastozytose häufen sich Mastzellen in Haut, Knochenmark oder anderen Organen an. Betroffene haben ein erhöhtes Risiko für schwere allergische Reaktionen."
+},
+{
+"nr": 118132,
+"t": "physik",
+"l": 3,
+"s": "Pascalsches Prinzip",
+"q": "Warum verwendet man in Hydraulikanlagen eine Flüssigkeit wie Öl und nicht Luft?",
+"a": [
+"Flüssigkeiten lassen sich kaum zusammendrücken",
+"Flüssigkeiten sind leichter als Luft",
+"Luft leitet keine Kräfte weiter",
+"Öl verringert den Druck"
+],
+"e": "Luft würde sich unter Druck stark zusammenpressen, und der Kolben würde federn. Öl ist nahezu inkompressibel und überträgt den Druck direkt."
+},
+{
+"nr": 60942,
+"t": "geo_europa",
+"l": 3,
+"s": "Personenfreizügigkeit",
+"q": "Wie heissen die Schweizer Massnahmen gegen Lohn- und Sozialdumping im Rahmen der Personenfreizügigkeit?",
+"a": [
+"Flankierende Massnahmen",
+"Kontingentsregelung",
+"Inländervorrang light",
+"Ventilklausel"
+],
+"e": "Seit 2004 kontrollieren Kantone und Sozialpartner, ob ausländische Firmen und Entsandte die Schweizer Lohn- und Arbeitsbedingungen einhalten. So sollen Löhne nicht unter Druck geraten."
+},
+{
+"nr": 104292,
+"t": "koerper",
+"l": 2,
+"s": "Knochenhaut",
+"q": "Welche Beschwerde tritt bei Läuferinnen und Läufern häufig am Schienbein auf?",
+"a": [
+"Eine Reizung der Knochenhaut",
+"Ein Bänderriss",
+"Ein Leistenbruch",
+"Ein Bandscheibenvorfall"
+],
+"e": "Bei Überlastung kann sich die Knochenhaut am Schienbein entzünden. Typisch sind Schmerzen an der Innenkante."
+},
+{
+"nr": 33566,
+"t": "pol_demokratie",
+"l": 1,
+"s": "Ämtli",
+"q": "Was macht man beim Ämtli «Abtrocknen»?",
+"a": [
+"Nasses Geschirr trocknen",
+"Wäsche aufhängen",
+"Den Boden wischen",
+"Pflanzen giessen"
+],
+"e": "Nach dem Abwaschen ist das Geschirr nass. Beim Abtrocknen reibt man es mit einem Küchentuch trocken."
+},
+{
+"nr": 101174,
+"t": "erde",
+"l": 3,
+"s": "Felssturzüberwachung",
+"q": "Was zeigt die Methode der inversen Geschwindigkeit nach Fukuzono bei einem beschleunigenden Hang?",
+"a": [
+"Den ungefähren Zeitpunkt des Versagens, wenn der Kehrwert der Geschwindigkeit gegen null strebt",
+"Das Alter der Felsschichten",
+"Die Masse des Felsens",
+"Die Richtung, in die der Fels stürzt"
+],
+"e": "Vor einem Bruch steigt die Geschwindigkeit oft immer schneller an. Trägt man 1 durch Geschwindigkeit gegen die Zeit auf, ergibt die Verlängerung bis null eine Prognose des Absturzzeitpunkts."
+},
+{
+"nr": 45641,
+"t": "pol_welt",
+"l": 3,
+"s": "INF-Vertrag",
+"q": "Die Stationierung welcher sowjetischen Mittelstreckenraketen führte in den 1970er-Jahren zur Nachrüstungsdebatte?",
+"a": [
+"SS-20",
+"SS-18",
+"Scud-B",
+"Topol-M"
+],
+"e": "Die SS-20 konnten Ziele in ganz Westeuropa erreichen. Die NATO antwortete 1979 mit dem Doppelbeschluss, der Verhandlungen und eigene Raketen vorsah."
+},
+{
+"nr": 71193,
+"t": "sprache",
+"l": 2,
+"s": "Satzglied",
+"q": "Wie heisst die Probe, bei der man ein Satzglied durch ein anderes Wort ersetzt, zum Beispiel «der alte Mann» durch «er»?",
+"a": [
+"Ersatzprobe",
+"Weglassprobe",
+"Verschiebeprobe",
+"Klangprobe"
+],
+"e": "Bei der Ersatzprobe tauscht man ein Satzglied aus. Was man durch ein einziges Wort ersetzen kann, gehört zusammen."
+},
+{
+"nr": 28683,
+"t": "g_mittelalter",
+"l": 2,
+"s": "Song-Dynastie",
+"q": "Wer erfand um 1040 in China den Druck mit beweglichen Lettern aus gebranntem Ton?",
+"a": [
+"Bi Sheng",
+"Cai Lun",
+"Konfuzius",
+"Dschingis Khan"
+],
+"e": "Der Handwerker Bi Sheng formte einzelne Schriftzeichen aus Ton und setzte sie zu Seiten zusammen. Das war rund 400 Jahre vor Gutenberg in Mainz."
+},
+{
+"nr": 12740,
+"t": "tiere",
+"l": 3,
+"s": "Wandelndes Blatt",
+"q": "Welche Art gilt als das kleinste bekannte Wandelnde Blatt?",
+"a": [
+"Microphyllium spinithorax",
+"Pulchriphyllium giganteum",
+"Phyllium bioculatum",
+"Cryptophyllium celebicum"
+],
+"e": "Männchen von Microphyllium spinithorax messen nur etwa 24 mm. Sie stammen von den Philippinen."
+},
+{
+"nr": 94326,
+"t": "koerper",
+"l": 1,
+"s": "Duft",
+"q": "Welche Blume ist berühmt für ihren Duft und hat oft Stacheln am Stiel?",
+"a": [
+"Die Rose",
+"Die Tulpe",
+"Die Sonnenblume",
+"Das Gänseblümchen"
+],
+"e": "Viele Rosen duften stark und haben Stacheln am Stiel. Aus ihren Blüten macht man auch Rosenöl."
+},
+{
+"nr": 99704,
+"t": "weltall",
+"l": 3,
+"s": "Spezifischer Impuls",
+"q": "Welchen spezifischen Impuls haben typische Feststoffraketen auf Meereshöhe ungefähr?",
+"a": [
+"rund 250 bis 270 s",
+"rund 450 bis 470 s",
+"rund 900 bis 1000 s",
+"rund 50 bis 70 s"
+],
+"e": "Feststoffantriebe sind einfach und schubstark, aber weniger effizient als Flüssigantriebe. Ihr spezifischer Impuls liegt meist unter 300 s."
+},
+{
+"nr": 120138,
+"t": "physik",
+"l": 3,
+"s": "Tacoma-Narrows-Brücke",
+"q": "In welchem Jahr stürzte die erste Tacoma-Narrows-Brücke ein?",
+"a": [
+"1940",
+"1931",
+"1952",
+"1967"
+],
+"e": "Die Hängebrücke stürzte am 7. November 1940 ein. Der Einsturz wurde gefilmt und ist eines der bekanntesten Beispiele für Brückenschwingungen."
+},
+{
+"nr": 45386,
+"t": "pol_welt",
+"l": 3,
+"s": "Bilaterale III",
+"q": "An welchem EU-Bildungsprogramm soll sich die Schweiz gemäss Planung ab 2027 wieder beteiligen?",
+"a": [
+"Erasmus+",
+"Copernicus",
+"Galileo",
+"LIFE"
+],
+"e": "Seit 2014 war die Schweiz bei Erasmus+ nur Partnerland und finanzierte eine eigene Ersatzlösung. Mit dem Paket ist eine Assoziierung ab 2027 vorgesehen."
+},
+{
+"nr": 102350,
+"t": "wissenschaft",
+"l": 1,
+"s": "Verkehrshaus der Schweiz",
+"q": "Wie heisst die Person, die eine Lokomotive fährt?",
+"a": [
+"Lokführer",
+"Kapitän",
+"Pilot",
+"Chauffeur"
+],
+"e": "Eine Lokomotive wird vom Lokführer oder der Lokführerin gesteuert. Im Verkehrshaus kann man in alte Führerstände schauen."
+},
+{
+"nr": 86945,
+"t": "koerper",
+"l": 1,
+"s": "Blutdruckmessgerät",
+"q": "Wo legt man die Manschette beim Blutdruckmessen meistens an?",
+"a": [
+"Am Oberarm",
+"Am Hals",
+"Am Oberschenkel",
+"An der Stirn"
+],
+"e": "Meistens misst man am Oberarm, etwa auf Höhe des Herzens. Manche Geräte messen auch am Handgelenk."
+},
+{
+"nr": 20871,
+"t": "fremdsprachen",
+"l": 1,
+"s": "Kleidung",
+"q": "Was heisst «Schuhe» auf Englisch?",
+"a": [
+"shoes",
+"socks",
+"shirts",
+"shorts"
+],
+"e": "Die Schuhe heissen auf Englisch «shoes»."
+},
+{
+"nr": 99505,
+"t": "technik",
+"l": 3,
+"s": "Amplitudenmodulation",
+"q": "Bis zu welchem Jahr sendete der Landessender Beromünster auf Mittelwelle?",
+"a": [
+"2008",
+"1988",
+"1998",
+"2018"
+],
+"e": "Der Landessender Beromünster nahm 1931 den Betrieb auf. Ende Dezember 2008 wurde der Mittelwellensender auf 531 kHz endgültig abgeschaltet."
+},
+{
+"nr": 93045,
+"t": "technik",
+"l": 2,
+"s": "Hans Hilfiker",
+"q": "In welcher Stadt wurde Hans Hilfiker 1901 geboren?",
+"a": [
+"Zürich",
+"Bern",
+"Basel",
+"Luzern"
+],
+"e": "Hilfiker kam am 15. September 1901 in Zürich zur Welt. Er starb 1993 im Tessin."
+},
+{
+"nr": 117230,
+"t": "koerper",
+"l": 3,
+"s": "Arterielle Hypertonie",
+"q": "Wie reagiert die linke Herzkammer auf jahrelang erhöhten Blutdruck?",
+"a": [
+"Ihre Wand verdickt sich",
+"Sie wird dünner",
+"Sie füllt sich mit Fett",
+"Sie schrumpft auf Vorhofgrösse"
+],
+"e": "Das Herz muss ständig gegen einen höheren Druck pumpen. Der Muskel wächst wie bei Training, es entsteht eine linksventrikuläre Hypertrophie."
+},
+{
+"nr": 116716,
+"t": "wissenschaft",
+"l": 3,
+"s": "Doppelblindstudie",
+"q": "Wie nennt man eine Studie, in der nur die Teilnehmenden ihre Gruppe nicht kennen?",
+"a": [
+"einfachblind",
+"doppelblind",
+"dreifachblind",
+"offen"
+],
+"e": "Bei einer einfachblinden Studie wissen die Behandelnden Bescheid, die Teilnehmenden nicht. In einer offenen Studie kennen alle die Zuteilung."
+},
+{
+"nr": 31532,
+"t": "g_antike",
+"l": 3,
+"s": "Mailänder Vereinbarung",
+"q": "Was gewährte die Mailänder Vereinbarung?",
+"a": [
+"Religionsfreiheit für alle, auch für Christen",
+"Das Christentum als einzige Staatsreligion",
+"Das Verbot aller heidnischen Kulte",
+"Steuerfreiheit für alle Bischöfe"
+],
+"e": "Jeder sollte die Religion ausüben dürfen, die er wollte. Das Christentum wurde damit erlaubt, aber noch nicht Staatsreligion."
+},
+{
+"nr": 25539,
+"t": "g_neuzeit",
+"l": 1,
+"s": "Johann Sebastian Bach",
+"q": "Welches berühmte Werk für die Weihnachtszeit schrieb Bach?",
+"a": [
+"Das Weihnachtsoratorium",
+"Stille Nacht",
+"O Tannenbaum",
+"Jingle Bells"
+],
+"e": "Das Weihnachtsoratorium erzählt mit Musik die Geschichte von Jesu Geburt. Bach schrieb es 1734."
+},
+{
+"nr": 113127,
+"t": "koerper",
+"l": 2,
+"s": "Aerobe Energiegewinnung",
+"q": "Warum atmet man beim Ausdauersport schneller und tiefer?",
+"a": [
+"Um mehr Sauerstoff aufzunehmen",
+"Um die Muskeln zu kühlen",
+"Um Wasser zu sparen",
+"Um den Puls zu senken"
+],
+"e": "Die arbeitenden Muskeln brauchen viel mehr Sauerstoff als in Ruhe. Durch schnelleres und tieferes Atmen gelangt mehr Sauerstoff ins Blut."
+},
+{
+"nr": 106620,
+"t": "koerper",
+"l": 2,
+"s": "Vorhof",
+"q": "Warum haben die Vorhöfe eine dünnere Muskelwand als die Herzkammern?",
+"a": [
+"Sie drücken das Blut nur in die nahe Kammer.",
+"Sie enthalten gar kein Blut.",
+"Sie arbeiten nur im Schlaf.",
+"Sie bestehen aus Knochen."
+],
+"e": "Die Vorhöfe müssen das Blut nur ein kurzes Stück weit in die Kammern befördern. Dafür braucht es wenig Kraft und darum wenig Muskel."
+},
+{
+"nr": 26899,
+"t": "ch_geschichte",
+"l": 1,
+"s": "Schweizerpsalm",
+"q": "Welches frühere Lied war vor dem Schweizerpsalm lange die Hymne?",
+"a": [
+"Rufst du, mein Vaterland",
+"Lueget vo Bärg und Tal",
+"Es Burebüebli mahn i nid",
+"Det äne am Bärgli"
+],
+"e": "Früher sang man «Rufst du, mein Vaterland». Es hatte die gleiche Melodie wie die englische Königshymne, darum wurde es ersetzt."
+},
+{
+"nr": 97829,
+"t": "erde",
+"l": 3,
+"s": "Föhn",
+"q": "Wie verändert sich die relative Luftfeuchtigkeit typischerweise, wenn in einem Nordalpental der Föhn einsetzt?",
+"a": [
+"Sie sinkt stark",
+"Sie steigt auf 100 %",
+"Sie bleibt gleich",
+"Sie schwankt nur nachts"
+],
+"e": "Die absinkende Luft erwärmt sich, ohne Feuchte aufzunehmen. Dadurch fällt die relative Feuchte oft unter 30 %, was die Brandgefahr erhöht."
+},
+{
+"nr": 121693,
+"t": "physik",
+"l": 3,
+"s": "Spektrometer",
+"q": "Welcher Detektor nimmt in modernen kompakten Spektrometern das ganze Spektrum gleichzeitig auf?",
+"a": [
+"Eine CCD- oder CMOS-Zeile",
+"Ein Geigerzähler",
+"Ein Thermometer",
+"Ein Galvanometer"
+],
+"e": "Die Zeile besteht aus vielen lichtempfindlichen Pixeln nebeneinander. Jedes Pixel misst einen kleinen Wellenlängenbereich."
+},
+{
+"nr": 59643,
+"t": "geo_welt",
+"l": 3,
+"s": "Ölsand",
+"q": "In welchem Land liegt der Orinoco-Gürtel, eines der grössten Schwerölvorkommen der Welt?",
+"a": [
+"Venezuela",
+"Kolumbien",
+"Brasilien",
+"Peru"
+],
+"e": "Der Orinoco-Gürtel nördlich des Orinoco enthält riesige Mengen an extra-schwerem Öl. Deshalb weist Venezuela offiziell die grössten Ölreserven der Welt aus."
+},
+{
+"nr": 89373,
+"t": "technik",
+"l": 2,
+"s": "Energiestrategie 2050",
+"q": "Wann trat das revidierte Energiegesetz zur Energiestrategie 2050 in Kraft?",
+"a": [
+"Am 1. Januar 2018",
+"Am 1. Januar 2011",
+"Am 1. Januar 2000",
+"Am 1. Januar 2050"
+],
+"e": "Nach der Volksabstimmung brauchte es noch Verordnungen. Das neue Energiegesetz trat am 1. Januar 2018 in Kraft."
+},
+{
+"nr": 119253,
+"t": "koerper",
+"l": 3,
+"s": "Säure-Basen-Haushalt",
+"q": "Welches ist der wichtigste Puffer im Blutplasma?",
+"a": [
+"Kohlensäure-Bicarbonat-Puffer",
+"Acetatpuffer",
+"Citratpuffer",
+"Ammoniumpuffer"
+],
+"e": "Der Bicarbonatpuffer ist besonders wirksam, weil die Lunge CO2 und die Niere Bicarbonat unabhängig voneinander regeln können. Er wird deshalb offenes Puffersystem genannt."
+},
+{
+"nr": 88783,
+"t": "wissenschaft",
+"l": 1,
+"s": "Augusta Raurica",
+"q": "Welches Fest findet in Augusta Raurica jedes Jahr statt?",
+"a": [
+"Das Römerfest",
+"Das Ritterfest",
+"Das Fasnachtsfest",
+"Das Schwingfest"
+],
+"e": "Am Römerfest zeigen Leute in römischen Kleidern, wie man früher lebte. Es gibt Märkte, Spiele und Vorführungen."
+},
+{
+"nr": 33242,
+"t": "ch_geschichte",
+"l": 3,
+"s": "Matterhorn",
+"q": "Welcher Engländer leitete die Erstbesteigung des Matterhorns?",
+"a": [
+"Edward Whymper",
+"Charles Hudson",
+"Alfred Wills",
+"John Tyndall"
+],
+"e": "Der Grafiker und Bergsteiger hatte es zuvor mehrmals vergeblich versucht. Kurz vor dem Gipfel lösten er und sein Führer sich vom Seil und eilten als Erste hinauf."
+},
+{
+"nr": 121244,
+"t": "koerper",
+"l": 3,
+"s": "Pocken",
+"q": "Wie hiess die ältere Methode, bei der Menschen mit Material aus echten Pockenpusteln geimpft wurden?",
+"a": [
+"Variolation",
+"Vakzination",
+"Desensibilisierung",
+"Pasteurisierung"
+],
+"e": "Bei der Variolation brachte man Material von Pockenkranken in kleine Hautwunden. Das führte meist zu milderen Verläufen, war aber riskant und konnte andere anstecken."
+},
+{
+"nr": 95854,
+"t": "physik",
+"l": 1,
+"s": "Hufeisenmagnet",
+"q": "Wo liegen die Pole bei einem Hufeisenmagneten?",
+"a": [
+"An den beiden offenen Enden",
+"Am gebogenen Teil",
+"Genau in der Mitte",
+"Nur auf der Unterseite"
+],
+"e": "Die zwei Enden sind der Nordpol und der Südpol. Am gebogenen Teil ist die Kraft am schwächsten."
+},
+{
+"nr": 48077,
+"t": "geo_welt",
+"l": 1,
+"s": "Jahreszeit",
+"q": "Um welches Datum ist bei uns der kürzeste Tag des Jahres?",
+"a": [
+"Um den 21. Dezember",
+"Um den 21. Juni",
+"Um den 1. Januar",
+"Um den 21. September"
+],
+"e": "Um den 21. Dezember steht die Sonne am tiefsten. Dann ist der Tag am kürzesten und der Winter beginnt."
+},
+{
+"nr": 118291,
+"t": "wissenschaft",
+"l": 3,
+"s": "Wolfgang Pauli",
+"q": "Für welche Entdeckung erhielt Wolfgang Pauli 1945 den Nobelpreis für Physik?",
+"a": [
+"Das Ausschliessungsprinzip",
+"Den Photoeffekt",
+"Die Kernspaltung",
+"Die Unschärferelation"
+],
+"e": "Das Pauli-Prinzip besagt, dass zwei Elektronen in einem Atom nie in allen Quantenzahlen übereinstimmen. Es erklärt den Aufbau des Periodensystems."
+},
+{
+"nr": 92656,
+"t": "physik",
+"l": 1,
+"s": "Farbfilter",
+"q": "Was machen bunte Kirchenfenster mit dem Sonnenlicht?",
+"a": [
+"Sie färben es",
+"Sie machen es weiss",
+"Sie halten es ganz ab",
+"Sie machen es heisser"
+],
+"e": "Das farbige Glas wirkt wie ein Filter. Im Inneren der Kirche fallen darum bunte Lichtflecken auf den Boden."
+},
+{
+"nr": 116243,
+"t": "natur",
+"l": 3,
+"s": "Apoplast",
+"q": "Welches Merkmal hat der apoplastische Transportweg von Wasser in der Wurzelrinde?",
+"a": [
+"Wasser fliesst durch Zellwände, ohne Membranen zu durchqueren",
+"Wasser wandert von Zytoplasma zu Zytoplasma",
+"Wasser wird aktiv mit ATP gepumpt",
+"Wasser fliesst nur durch Vakuolen"
+],
+"e": "Beim apoplastischen Weg bewegt sich Wasser im Netz der Zellwände und Zwischenräume. Es muss dabei keine Plasmamembran passieren."
+},
+{
+"nr": 31060,
+"t": "g_antike",
+"l": 3,
+"s": "Persepolis",
+"q": "An welchen Berg lehnt sich die Terrasse von Persepolis an?",
+"a": [
+"Kuh-e Rahmat",
+"Ararat",
+"Damavand",
+"Zagros-Gipfel Dena"
+],
+"e": "Die Terrasse wurde teils aufgeschüttet, teils aus dem Fels des Kuh-e Rahmat gehauen. Der Name bedeutet «Berg der Gnade»."
+},
+{
+"nr": 28385,
+"t": "g_mittelalter",
+"l": 2,
+"s": "Otto der Grosse",
+"q": "Auf wen stützte sich Otto der Grosse beim Regieren besonders, weil sie keine erblichen Familien gründen konnten?",
+"a": [
+"Auf Bischöfe und Äbte",
+"Auf Kaufleute und Händler",
+"Auf Bauern und Hirten",
+"Auf Söldner und Ritter"
+],
+"e": "Geistliche durften nicht heiraten, darum konnten sie ihre Ämter nicht vererben. Otto gab ihnen Land und Rechte und erhielt so treue Helfer."
+},
+{
+"nr": 76597,
+"t": "bilder",
+"l": 1,
+"s": "Werkzeuge",
+"q": "Welches Werkzeug passt zu diesen Bildern?",
+"a": [
+"Pinsel",
+"Säge",
+"Zange",
+"Schaufel"
+],
+"e": "Mit dem Pinsel nimmt man Farbe aus dem Kessel und malt eine Wand an."
+},
+{
+"nr": 69070,
+"t": "rel_andere",
+"l": 3,
+"s": "Ragnarök",
+"q": "Was bedeutet der altnordische Begriff «Ragnarök» wörtlich?",
+"a": [
+"Schicksal der Götter",
+"Kampf der Riesen",
+"Ende des Meeres",
+"Tag des Feuers"
+],
+"e": "Die oft verwendete Übersetzung «Götterdämmerung» stammt von der Nebenform «ragnarøkkr». Gemeint ist der Untergang der Götterwelt."
+},
+{
+"nr": 76576,
+"t": "bilder",
+"l": 1,
+"s": "Gemüse",
+"q": "Welches Gemüse passt zu diesen Bildern?",
+"a": [
+"Mais",
+"Bohne",
+"Kartoffel",
+"Lauch"
+],
+"e": "Mais hat gelbe Körner und wächst auf dem Feld. Aus Maiskörnern macht man Popcorn."
+},
+{
+"nr": 94786,
+"t": "technik",
+"l": 3,
+"s": "Strahltriebwerk",
+"q": "Welches Flugzeug absolvierte 1939 den ersten Flug mit einem Turbinen-Strahltriebwerk?",
+"a": [
+"Heinkel He 178",
+"Messerschmitt Me 262",
+"Gloster Meteor",
+"Bell X-1"
+],
+"e": "Die He 178 mit einem Triebwerk von Hans von Ohain flog am 27. August 1939 in Rostock."
+},
+{
+"nr": 45514,
+"t": "pol_welt",
+"l": 3,
+"s": "OSZE",
+"q": "Welche Schweizer Diplomatin vertrat die OSZE 2014 in der Trilateralen Kontaktgruppe zur Ukraine?",
+"a": [
+"Heidi Tagliavini",
+"Micheline Calmy-Rey",
+"Carla Del Ponte",
+"Livia Leu"
+],
+"e": "Heidi Tagliavini war Sonderbeauftragte des OSZE-Vorsitzes. In der Kontaktgruppe sassen Vertreter der Ukraine, Russlands und der OSZE."
+},
+{
+"nr": 96915,
+"t": "erde",
+"l": 3,
+"s": "Geodynamo",
+"q": "Wie dick ist der flüssige äussere Erdkern ungefähr?",
+"a": [
+"rund 2260 km",
+"rund 260 km",
+"rund 1220 km",
+"rund 6370 km"
+],
+"e": "Der äussere Kern reicht von rund 2890 km bis rund 5150 km Tiefe. Das ergibt eine Schicht von etwa 2260 km Dicke."
+},
+{
+"nr": 117634,
+"t": "koerper",
+"l": 3,
+"s": "Sichelzellenanämie",
+"q": "Vor welcher Krankheit schützt die Trägerschaft für das Sichelzell-Gen teilweise?",
+"a": [
+"Vor Malaria tropica",
+"Vor Tuberkulose",
+"Vor Cholera",
+"Vor Masern"
+],
+"e": "Heterozygote Träger erkranken seltener schwer an der Malaria durch Plasmodium falciparum, deshalb ist das Gen in Malariagebieten häufig."
+},
+{
+"nr": 118336,
+"t": "wissenschaft",
+"l": 3,
+"s": "Jacques Dubochet",
+"q": "Warum werden biologische Proben für die Elektronenmikroskopie gefroren statt getrocknet?",
+"a": [
+"Weil Biomoleküle im Vakuum sonst austrocknen und ihre Form verlieren",
+"Weil Elektronen nur Eis durchdringen",
+"Weil Wärme die Elektronen bremst",
+"Weil getrocknete Proben radioaktiv werden"
+],
+"e": "Im Vakuum des Mikroskops verdunstet Wasser, und die Moleküle verformen sich. Im gefrorenen Zustand behalten sie ihre natürliche Struktur."
+},
+{
+"nr": 43006,
+"t": "pol_demokratie",
+"l": 3,
+"s": "Sonderbundskrieg",
+"q": "Wie heissen die bewaffneten Züge radikaler Freiwilliger gegen Luzern in den Jahren 1844 und 1845?",
+"a": [
+"Freischarenzüge",
+"Saubannerzüge",
+"Kreuzzüge",
+"Bauernzüge"
+],
+"e": "Radikale Freiwillige aus Kantonen wie Bern und Aargau wollten in Luzern eine liberale Regierung an die Macht bringen. Beide Freischarenzüge scheiterten und verschärften den Konflikt."
+},
+{
+"nr": 124685,
+"t": "wissenschaft",
+"l": 3,
+"s": "Arktisches Meereis",
+"q": "Wie nennt man die Beobachtung, dass sich die Arktis deutlich schneller erwärmt als der globale Durchschnitt?",
+"a": [
+"Arktische Verstärkung",
+"Polare Abkühlung",
+"Globale Verdunkelung",
+"Ozeanische Versauerung"
+],
+"e": "Mehrere Rückkopplungen wie der Verlust von Eis und Schnee lassen die Arktis stärker erwärmen. Die Erwärmung ist dort ein Mehrfaches des weltweiten Mittels."
+},
+{
+"nr": 129165,
+"t": "beruf",
+"l": 1,
+"s": "Hauswart",
+"q": "Wer schaut im Schulhaus, dass alles sauber und ganz ist?",
+"a": [
+"Der Hauswart",
+"Der Kapitän",
+"Die Pilotin",
+"Der Uhrmacher"
+],
+"e": "Hauswartinnen und Hauswarte, auch Abwarte genannt, kümmern sich um das Schulhaus, reparieren Kleinigkeiten und halten alles in Ordnung."
+},
+{
+"nr": 50103,
+"t": "geo_welt",
+"l": 1,
+"s": "Pfahlbau",
+"q": "Warum stehen viele Häuser am Wasser auf Pfählen?",
+"a": [
+"Zum Schutz vor Hochwasser",
+"Damit sie schneller fahren",
+"Damit sie warm bleiben",
+"Damit sie leichter sind"
+],
+"e": "Wenn das Wasser steigt, bleibt das Haus auf den Pfählen trocken. Die Pfähle heben den Boden über das Wasser."
+},
+{
+"nr": 81252,
+"t": "weltall",
+"l": 1,
+"s": "Planetenweg",
+"q": "Wie gross ist die Sonne auf dem Planetenweg am Uetliberg?",
+"a": [
+"Knapp anderthalb Meter",
+"So klein wie eine Erbse",
+"Zehn Meter",
+"Hundert Meter"
+],
+"e": "Die Sonne ist dort eine gelbe Kugel mit 1,39 Metern Durchmesser. Sie ist eine Milliarde Mal kleiner als die echte Sonne."
+},
+{
+"nr": 43780,
+"t": "pol_demokratie",
+"l": 3,
+"s": "Economiesuisse",
+"q": "Welche Wirtschaftsorganisation ist neben dem Vorort an der Gründung von Economiesuisse beteiligt gewesen?",
+"a": [
+"Die wf (Gesellschaft zur Förderung der schweizerischen Wirtschaft)",
+"Der Schweizerische Gewerbeverband",
+"Die Schweizerische Nationalbank",
+"Die Schweizerische Bankiervereinigung"
+],
+"e": "Die wf war vor allem für Öffentlichkeitsarbeit und Information zuständig. Mit dem Vorort, der die Interessenvertretung betrieb, verschmolz sie 2000 zu Economiesuisse."
+},
+{
+"nr": 116854,
+"t": "koerper",
+"l": 3,
+"s": "Stent",
+"q": "Wer führte 1977 in Zürich die erste Ballondilatation einer Koronararterie am Menschen durch?",
+"a": [
+"Andreas Grüntzig",
+"Christiaan Barnard",
+"Åke Senning",
+"Theodor Kocher"
+],
+"e": "Andreas Grüntzig weitete 1977 am Universitätsspital Zürich erstmals eine verengte Koronararterie mit einem Ballonkatheter. Damit begann die interventionelle Kardiologie."
+},
+{
+"nr": 78611,
+"t": "bilder",
+"l": 3,
+"s": "Sprache",
+"q": "Welches Wortspiel ist mit diesen Bildern gemeint?",
+"a": [
+"Anagramm",
+"Palindrom",
+"Synonym",
+"Pseudonym"
+],
+"e": "Die Buchstaben eines Wortes werden gemischt und ergeben ein neues Wort, etwa «Lampe» und «Ampel». Das nennt man Anagramm."
+},
+{
+"nr": 3787,
+"t": "tiere",
+"l": 2,
+"s": "Kolkrabe",
+"q": "Wie viele Eier legt ein Kolkrabenweibchen meist in ein Gelege?",
+"a": [
+"3 bis 6 Eier",
+"nur ein einziges Ei",
+"15 bis 20 Eier",
+"über 30 Eier"
+],
+"e": "Ein Gelege des Kolkraben besteht meist aus drei bis sechs Eiern. Die genaue Zahl hängt unter anderem vom Nahrungsangebot ab."
+},
+{
+"nr": 24542,
+"t": "g_mittelalter",
+"l": 1,
+"s": "Fallgatter",
+"q": "Woraus war ein Fallgitter gemacht?",
+"a": [
+"Aus Holz und Eisen",
+"Aus Glas",
+"Aus Stroh",
+"Aus Stoff"
+],
+"e": "Fallgitter waren aus Eichenholz mit Eisenbeschlägen oder ganz aus Eisen. Sie waren sehr schwer."
+},
+{
+"nr": 23688,
+"t": "g_antike",
+"l": 1,
+"s": "Mesopotamien",
+"q": "Durch welches Land fliesst der Euphrat, bevor er in den Irak kommt?",
+"a": [
+"durch Syrien",
+"durch Ägypten",
+"durch Griechenland",
+"durch Indien"
+],
+"e": "Der Euphrat kommt aus den Bergen im Norden und fliesst dann durch Syrien. Erst danach erreicht er den Irak."
+},
+{
+"nr": 9618,
+"t": "bilder",
+"l": 2,
+"s": "Bachforelle",
+"q": "Auf dem Bild versteckt sich eine Forelle. Wo hält sie sich gern auf?",
+"a": [
+"Unter Steinen, Wurzeln und überhängenden Ufern",
+"Hoch oben im Wasserfall",
+"Auf dem Trockenen am Ufer",
+"Mitten auf einer kahlen Betonplatte"
+],
+"e": "Solche Verstecke schützen vor Feinden und vor der starken Strömung. Von dort aus lauert sie auch auf Beute."
+},
+{
+"nr": 127022,
+"t": "wissenschaft",
+"l": 3,
+"s": "Bestärkendes Lernen",
+"q": "Was ist beim bestärkenden Lernen eine Policy?",
+"a": [
+"Die Strategie, die einem Zustand eine Aktion zuordnet",
+"Eine Versicherung gegen Fehler",
+"Die Liste aller Belohnungen",
+"Das Spielfeld der Umgebung"
+],
+"e": "Die Policy legt fest, was der Agent in jeder Situation tut. Ziel des Lernens ist eine Policy, die die erwartete Gesamtbelohnung maximiert."
+},
+{
+"nr": 95003,
+"t": "natur",
+"l": 1,
+"s": "Riesen-Bärenklau",
+"q": "Was passiert, wenn der Saft des Riesen-Bärenklaus auf die Haut kommt und dann die Sonne scheint?",
+"a": [
+"Es gibt Blasen wie bei Verbrennungen",
+"Die Haut wird glatter",
+"Die Haut wird gelb und juckt nie",
+"Gar nichts"
+],
+"e": "Der Saft macht die Haut empfindlich gegen Sonnenlicht. Dann entstehen schmerzhafte Blasen wie bei Verbrennungen."
+},
+{
+"nr": 123991,
+"t": "koerper",
+"l": 3,
+"s": "Adipositas",
+"q": "Wie heisst die Chirurgie, die bei schwerer Adipositas zum Beispiel einen Magenbypass anlegt?",
+"a": [
+"Bariatrische Chirurgie",
+"Plastische Chirurgie",
+"Herzchirurgie",
+"Neurochirurgie"
+],
+"e": "Bariatrische Operationen verkleinern den Magen oder verkürzen den Nahrungsweg. Sie kommen bei schwerer Adipositas in Frage, wenn andere Massnahmen nicht genügen."
+},
+{
+"nr": 87170,
+"t": "erde",
+"l": 2,
+"s": "Metamorphes Gestein",
+"q": "Wo entstehen metamorphe Gesteine in grossen Mengen?",
+"a": [
+"Tief im Inneren von Gebirgen bei der Gebirgsbildung",
+"In Wüsten bei grosser Hitze",
+"Am Grund von flachen Seen",
+"In Höhlen aus Kalkstein"
+],
+"e": "Wenn Kontinentalplatten zusammenstossen, werden Gesteine tief versenkt und stark gepresst. Diese Regionalmetamorphose hat auch viele Gesteine der Alpen geprägt."
+},
+{
+"nr": 118827,
+"t": "koerper",
+"l": 3,
+"s": "Cytochrom P450",
+"q": "Wie nennt man es, wenn ein Stoff wie Johanniskraut die Bildung von P450-Enzymen steigert?",
+"a": [
+"Enzyminduktion",
+"Enzymhemmung",
+"Denaturierung",
+"Kompetitive Hemmung"
+],
+"e": "Bei der Induktion wird mehr Enzym hergestellt. Dadurch werden andere Medikamente schneller abgebaut und können schwächer wirken."
+},
+{
+"nr": 8035,
+"t": "tiere",
+"l": 1,
+"s": "Kreuzspinne",
+"q": "Wie spürt die Kreuzspinne, dass sich etwas im Netz verfangen hat?",
+"a": [
+"Sie fühlt die Zitterbewegungen der Fäden",
+"Sie hört ein lautes Geräusch",
+"Sie sieht es sofort ganz genau",
+"Sie riecht die Beute"
+],
+"e": "Die Spinne hat feine Härchen an ihren Beinen, mit denen sie die Schwingungen des Netzes spürt. So weiss sie, wo sich etwas verfangen hat."
+},
+{
+"nr": 70012,
+"t": "mathe",
+"l": 1,
+"s": "Tabelle",
+"q": "Wie nennt man in einer Tabelle die Felder, die senkrecht untereinander liegen?",
+"a": [
+"Spalte",
+"Zeile",
+"Reihe",
+"Kante"
+],
+"e": "Eine Spalte läuft von oben nach unten."
+},
+{
+"nr": 45525,
+"t": "pol_welt",
+"l": 3,
+"s": "Partnerschaft für den Frieden",
+"q": "Was bringt die Schweiz besonders in die Partnerschaft für den Frieden ein?",
+"a": [
+"Die drei Genfer Zentren für Sicherheitsfragen",
+"Eigene Kampfeinheiten für NATO-Einsätze",
+"Militärflugplätze für NATO-Bomber",
+"Ein ständiges Hauptquartier in Bern"
+],
+"e": "Das Genfer Zentrum für Sicherheitspolitik, das Zentrum für Gouvernanz des Sicherheitssektors und das Zentrum für humanitäre Minenräumung bieten Kurse und Expertise an."
+},
+{
+"nr": 127070,
+"t": "wissenschaft",
+"l": 3,
+"s": "AlphaFold",
+"q": "Warum ist die Vorhersage von Proteinstrukturen am Computer so wertvoll?",
+"a": [
+"Experimentelle Methoden wie die Röntgenkristallografie sind sehr aufwendig",
+"Proteine lassen sich nicht mit Licht sehen",
+"Computer haben die Experimente verboten",
+"Proteine haben keine feste Form"
+],
+"e": "Die experimentelle Bestimmung einer Struktur kann Monate bis Jahre dauern. Eine gute Vorhersage gibt Forschenden in kurzer Zeit ein Modell für ihre Arbeit."
+},
+{
+"nr": 120736,
+"t": "wissenschaft",
+"l": 3,
+"s": "Trophieebene",
+"q": "Welche Stellung haben Destruenten im Modell der Trophieebenen?",
+"a": [
+"Sie nutzen tote Biomasse aller Ebenen",
+"Sie bilden die erste Trophieebene",
+"Sie stehen immer auf der fünften Ebene",
+"Sie fressen nur lebende Raubtiere"
+],
+"e": "Bakterien und Pilze zersetzen abgestorbene Pflanzen, Tiere und Ausscheidungen jeder Stufe. Deshalb stehen sie quer zu den klassischen Ebenen."
+},
+{
+"nr": 96612,
+"t": "koerper",
+"l": 1,
+"s": "Fahrradhelm",
+"q": "Was soll man nach einem starken Sturz mit dem Velohelm tun?",
+"a": [
+"Ihn ersetzen",
+"Ihn weiter tragen",
+"Ihn anmalen",
+"Ihn waschen"
+],
+"e": "Nach einem starken Aufprall kann der Helm innen beschädigt sein, auch wenn man nichts sieht. Darum braucht es einen neuen Helm."
+},
+{
+"nr": 104445,
+"t": "physik",
+"l": 2,
+"s": "Verzögerung",
+"q": "Ein Auto bremst mit einer Verzögerung von 5 m/s². Um wie viele km/h wird es pro Sekunde langsamer?",
+"a": [
+"Um 18 km/h",
+"Um 5 km/h",
+"Um 50 km/h",
+"Um 1,4 km/h"
+],
+"e": "5 m/s weniger pro Sekunde entsprechen 5 · 3,6 = 18 km/h weniger pro Sekunde."
+},
+{
+"nr": 96291,
+"t": "informatik",
+"l": 3,
+"s": "Transport Layer Security",
+"q": "Wie hiess die 2014 entdeckte schwere Sicherheitslücke in der weit verbreiteten TLS-Bibliothek OpenSSL?",
+"a": [
+"Heartbleed",
+"Shellshock",
+"Spectre",
+"WannaCry"
+],
+"e": "Ein Fehler in der Heartbeat-Erweiterung erlaubte es, Teile des Serverspeichers auszulesen, darunter auch private Schlüssel. Millionen von Servern mussten aktualisiert werden."
+},
+{
+"nr": 67257,
+"t": "rel_christentum",
+"l": 2,
+"s": "Teresa von Ávila",
+"q": "Welchem Orden gehörte Teresa von Ávila an?",
+"a": [
+"Karmeliterinnen",
+"Benediktinerinnen",
+"Ursulinen",
+"Klarissen"
+],
+"e": "Teresa trat in Ávila in ein Kloster der Karmelitinnen ein. Später reformierte sie diesen Orden."
+},
+{
+"nr": 77790,
+"t": "bilder",
+"l": 2,
+"s": "Tiere und Lebensräume",
+"q": "Welches Tier der Savanne ist gemeint?",
+"a": [
+"Nashorn",
+"Flusspferd",
+"Elefant",
+"Büffel"
+],
+"e": "Nase und Horn ergeben Nashorn. Das Horn sitzt tatsächlich auf seiner Nase."
+},
+{
+"nr": 1902,
+"t": "tiere",
+"l": 1,
+"s": "Koala",
+"q": "Lebt ein Koala meist alleine oder in grossen Gruppen?",
+"a": [
+"Meist alleine",
+"Immer in riesigen Herden",
+"Immer paarweise für das ganze Leben",
+"In Rudeln wie Wölfe"
+],
+"e": "Koalas sind Einzelgänger und leben meist für sich allein in ihrem eigenen Baumgebiet. Nur zur Paarungszeit treffen Männchen und Weibchen kurz zusammen."
+},
+{
+"nr": 125097,
+"t": "wissenschaft",
+"l": 3,
+"s": "Ultrahochfester Beton",
+"q": "Welches Prinzip steckt hinter der Rezeptur von ultrahochfestem Beton?",
+"a": [
+"Eine möglichst hohe Packungsdichte der Körner",
+"Möglichst grosse Steine im Gemisch",
+"Möglichst viele Luftporen",
+"Möglichst viel Wasser"
+],
+"e": "Feine und gröbere Bestandteile werden so abgestimmt, dass sie die Hohlräume gegenseitig füllen. Je dichter die Packung, desto fester der Beton."
+},
+{
+"nr": 96795,
+"t": "weltall",
+"l": 3,
+"s": "Standardkerze",
+"q": "In welcher Nachbargalaxie untersuchte Henrietta Leavitt die Cepheiden, die alle etwa gleich weit von uns entfernt sind?",
+"a": [
+"in der Kleinen Magellanschen Wolke",
+"in der Andromedagalaxie",
+"in der Dreiecksgalaxie",
+"in der Sombrerogalaxie"
+],
+"e": "Weil alle Sterne dieser Galaxie praktisch gleich weit entfernt sind, entsprechen Helligkeitsunterschiede dort echten Leuchtkraftunterschieden."
+},
+{
+"nr": 101376,
+"t": "technik",
+"l": 3,
+"s": "Paul Scherrer Institut",
+"q": "Welche Grösse wurde 2010 am PSI mit myonischem Wasserstoff überraschend genau und kleiner als erwartet gemessen?",
+"a": [
+"Der Radius des Protons",
+"Die Masse des Neutrinos",
+"Die Ladung des Elektrons",
+"Die Lebensdauer des Neutrons"
+],
+"e": "Im myonischen Wasserstoff kreist ein Myon statt eines Elektrons sehr nah um das Proton. Der gemessene Radius war kleiner als bisherige Werte, was als «Protonenradius-Rätsel» bekannt wurde."
+},
+{
+"nr": 14381,
+"t": "ch_geschichte",
+"l": 2,
+"s": "Wilhelm Tell",
+"q": "Welches ist die älteste schriftliche Quelle, in der Tell erwähnt wird?",
+"a": [
+"Das Weisse Buch von Sarnen",
+"Der Bundesbrief von 1291",
+"Der Sempacherbrief",
+"Die Chronik von Johannes von Winterthur"
+],
+"e": "Das Weisse Buch von Sarnen wurde um 1472 vom Obwaldner Landschreiber Hans Schriber verfasst. Dort taucht Tell zum ersten Mal auf."
+},
+{
+"nr": 77132,
+"t": "bilder",
+"l": 1,
+"s": "Käse und Fondue",
+"q": "Was zeigen diese Bilder der Reihe nach?",
+"a": [
+"Milch wird zu Käse",
+"Käse wird zu Milch",
+"Milch wird zu Brot",
+"Käse wird zu Butter"
+],
+"e": "Die Kuh gibt Milch, und der Pfeil zeigt zum Käse. Käse wird aus Milch hergestellt."
+},
+{
+"nr": 119736,
+"t": "physik",
+"l": 3,
+"s": "Adiabatischer Temperaturgradient",
+"q": "Warum kühlt gesättigte Luft beim Aufsteigen langsamer ab als trockene Luft?",
+"a": [
+"Bei der Kondensation wird Wärme frei.",
+"Feuchte Luft ist schwerer.",
+"Wolken halten Sonnenlicht fest.",
+"Wasserdampf ist ein Edelgas."
+],
+"e": "Sobald Wasserdampf zu Tröpfchen kondensiert, wird latente Wärme frei. Diese gleicht einen Teil der Abkühlung durch Ausdehnung aus."
+},
+{
+"nr": 106627,
+"t": "koerper",
+"l": 2,
+"s": "Herzklappe",
+"q": "Wie heisst die Klappe zwischen linkem Vorhof und linker Herzkammer?",
+"a": [
+"Mitralklappe",
+"Trikuspidalklappe",
+"Pulmonalklappe",
+"Aortenklappe"
+],
+"e": "Die Mitralklappe hat zwei Segel und erinnert an eine Bischofsmütze, die Mitra. Daher hat sie ihren Namen."
+},
+{
+"nr": 67342,
+"t": "rel_islam",
+"l": 2,
+"s": "Arabeske",
+"q": "Was zeigen Arabesken meistens?",
+"a": [
+"Ranken, Blätter und Blüten",
+"Tiere und Jäger",
+"Gesichter von Herrschern",
+"Landkarten"
+],
+"e": "Arabesken bestehen vor allem aus geschwungenen Pflanzenformen. Ranken, Blätter und Blüten wachsen darin scheinbar endlos ineinander."
+},
+{
+"nr": 110084,
+"t": "wissenschaft",
+"l": 2,
+"s": "Pocken",
+"q": "Welcher Erreger verursacht die Pocken?",
+"a": [
+"Das Variola-Virus",
+"Ein Bakterium",
+"Ein Pilz",
+"Ein Bandwurm"
+],
+"e": "Die Pocken werden durch das Variola-Virus ausgelöst. Gegen Viren helfen Antibiotika nicht."
+},
+{
+"nr": 92508,
+"t": "koerper",
+"l": 1,
+"s": "Tränenflüssigkeit",
+"q": "Wie oft blinzelt ein Mensch etwa pro Minute?",
+"a": [
+"Etwa 10 bis 15 Mal",
+"Etwa 1 Mal",
+"Etwa 100 Mal",
+"Etwa 500 Mal"
+],
+"e": "Ein Lidschlag dauert nur einen Bruchteil einer Sekunde. Wir blinzeln meist, ohne es zu merken."
+},
+{
+"nr": 41795,
+"t": "pol_diktatur",
+"l": 2,
+"s": "Marsch auf Rom",
+"q": "Wie hiess die Gruppe von vier Anführern, die den Marsch auf Rom leitete?",
+"a": [
+"Quadrumvirat",
+"Triumvirat",
+"Viererbande",
+"Direktorium"
+],
+"e": "Vier faschistische Führer, darunter Italo Balbo und Emilio De Bono, leiteten den Marsch. Man nannte sie das Quadrumvirat, nach lateinisch «quattuor» für vier."
+},
+{
+"nr": 7439,
+"t": "tiere",
+"l": 1,
+"s": "Wildmeerschweinchen",
+"q": "Wie nennt man das wildlebende Vorfahrentier des Hausmeerschweinchens?",
+"a": [
+"Wildmeerschweinchen",
+"Wildkaninchen",
+"Wildschwein",
+"Präriehund"
+],
+"e": "Das Hausmeerschweinchen stammt vom Wildmeerschweinchen ab, das in Südamerika lebt. Über viele hundert Jahre haben Menschen es zum bekannten Haustier gezüchtet."
+},
+{
+"nr": 21241,
+"t": "pol_demokratie",
+"l": 2,
+"s": "Wahl",
+"q": "Wie nennt man das Recht, selbst in ein Amt gewählt zu werden?",
+"a": [
+"Passives Wahlrecht",
+"Aktives Wahlrecht",
+"Initiativrecht",
+"Petitionsrecht"
+],
+"e": "Das aktive Wahlrecht ist das Recht zu wählen. Das passive Wahlrecht ist das Recht, sich wählen zu lassen."
+},
+{
+"nr": 26548,
+"t": "ch_geschichte",
+"l": 1,
+"s": "Bundeshaus",
+"q": "Welche drei Männer zeigt die grosse Statue in der Halle des Bundeshauses?",
+"a": [
+"Die drei Eidgenossen",
+"Drei Bundesräte",
+"Drei Könige",
+"Drei Bergführer"
+],
+"e": "In der Kuppelhalle stehen die drei Eidgenossen vom Rütlischwur. Die Statue wurde 1914 enthüllt."
+},
+{
+"nr": 122197,
+"t": "natur",
+"l": 3,
+"s": "Kälteresistenz",
+"q": "Welchen Vorteil bieten Polsterpflanzen wie das Stängellose Leimkraut im Hochgebirge?",
+"a": [
+"Im Polster ist es wärmer und windstill",
+"Sie speichern Salz gegen den Frost",
+"Sie wachsen nur im Winter",
+"Sie benötigen kein Licht"
+],
+"e": "Die dichte, halbkugelige Form bremst den Wind und speichert Wärme. Im Inneren ist es deutlich wärmer als in der Umgebungsluft."
+},
+{
+"nr": 17583,
+"t": "weltall",
+"l": 3,
+"s": "Weltraumteleskop",
+"q": "Wo befindet sich das James-Webb-Weltraumteleskop?",
+"a": [
+"beim Lagrange-Punkt L2, rund 1,5 Millionen km von der Erde",
+"in einer Erdumlaufbahn in rund 540 km Höhe",
+"auf der Rückseite des Mondes",
+"in einer geostationären Umlaufbahn"
+],
+"e": "Am Punkt L2 halten Sonne, Erde und Mond immer etwa dieselbe Richtung. So kann ein grosser Sonnenschild das Teleskop dauerhaft abschirmen und kalt halten."
+},
+{
+"nr": 101084,
+"t": "weltall",
+"l": 3,
+"s": "CaSSIS",
+"q": "Auf welcher Raumsonde fliegt die Berner Kamera CaSSIS?",
+"a": [
+"ExoMars Trace Gas Orbiter",
+"Mars Reconnaissance Orbiter",
+"Mars Express",
+"Perseverance"
+],
+"e": "CaSSIS ist das Kamerasystem des ExoMars Trace Gas Orbiter von ESA und Roskosmos, der 2016 startete und im selben Jahr den Mars erreichte."
+},
+{
+"nr": 70079,
+"t": "mathe",
+"l": 2,
+"s": "Grosse Zahlen",
+"q": "Wie viele Tausender ergeben zusammen eine Million?",
+"a": [
+"1000",
+"100",
+"10 000",
+"10"
+],
+"e": "1000 · 1000 = 1 000 000. Eine Million besteht also aus tausend Tausendern."
+},
+{
+"nr": 45139,
+"t": "pol_welt",
+"l": 3,
+"s": "Verbrechen der Aggression",
+"q": "Seit welchem Jahr kann der Internationale Strafgerichtshof das Verbrechen der Aggression verfolgen?",
+"a": [
+"2018",
+"2002",
+"2010",
+"2024"
+],
+"e": "Die Vertragsstaaten beschlossen Ende 2017 die Aktivierung der Zuständigkeit; sie gilt seit dem 17. Juli 2018."
+},
+{
+"nr": 25066,
+"t": "g_mittelalter",
+"l": 1,
+"s": "Haithabu",
+"q": "Was schützte die Siedlung Haithabu an Land?",
+"a": [
+"Ein grosser Wall",
+"Ein tiefer See",
+"Ein hoher Turm",
+"Ein dichter Wald"
+],
+"e": "Um Haithabu lag ein grosser Wall in Form eines Halbkreises. Er schützte die Häuser vor Angriffen."
+},
+{
+"nr": 129087,
+"t": "beruf",
+"l": 1,
+"s": "Kochmütze",
+"q": "Welche weisse Mütze tragen Köche oft?",
+"a": [
+"Eine Kochmütze",
+"Einen Helm",
+"Eine Kapitänsmütze",
+"Eine Zipfelmütze"
+],
+"e": "Die hohe weisse Kochmütze hält die Haare zusammen. So fallen keine Haare ins Essen."
+},
+{
+"nr": 113924,
+"t": "natur",
+"l": 2,
+"s": "Oleander",
+"q": "Aus welcher Region stammt der Oleander ursprünglich?",
+"a": [
+"Mittelmeerraum",
+"Skandinavien",
+"Antarktis",
+"Sibirien"
+],
+"e": "Der Oleander wächst wild im Mittelmeerraum, oft an Flussufern. In der Schweiz steht er meist im Topf auf Balkonen und Terrassen."
+},
+{
+"nr": 2035,
+"t": "tiere",
+"l": 2,
+"s": "Wasserläufer",
+"q": "Wie sehen die Jungtiere der Wasserläufer aus?",
+"a": [
+"Wie kleine Erwachsene, aber ohne Flügel",
+"Wie Raupen",
+"Wie Würmer ohne Beine",
+"Wie kleine Fische"
+],
+"e": "Die Larven haben schon sechs Beine und laufen auf dem Wasser. Flügel bekommen sie erst später, wenn überhaupt."
+},
+{
+"nr": 121725,
+"t": "physik",
+"l": 3,
+"s": "Rayleigh-Streuung",
+"q": "Warum erscheint die Sonne bei Sonnenuntergang rötlich?",
+"a": [
+"Das Licht legt einen langen Weg durch die Luft zurück, und Blau wird herausgestreut",
+"Die Sonne kühlt am Abend ab",
+"Die Erde reflektiert rotes Licht zurück",
+"Das Auge wird abends rotempfindlicher"
+],
+"e": "Bei tiefem Sonnenstand ist der Lichtweg durch die Atmosphäre viel länger. Dabei wird der Blauanteil fast vollständig seitlich gestreut, übrig bleiben Gelb, Orange und Rot."
+},
+{
+"nr": 94515,
+"t": "weltall",
+"l": 3,
+"s": "Fraunhoferlinie",
+"q": "Welches Element erzeugt die gelbe D-Doppellinie bei rund 589 nm?",
+"a": [
+"Natrium",
+"Kalium",
+"Lithium",
+"Calcium"
+],
+"e": "Die beiden D-Linien bei 589,0 und 589,6 nm stammen von Natriumatomen. Dieselbe Farbe sieht man bei Natriumdampflampen oder wenn Kochsalz in eine Flamme gerät."
+},
+{
+"nr": 108271,
+"t": "koerper",
+"l": 2,
+"s": "Sodbrennen",
+"q": "Welcher Muskel verhindert normalerweise, dass Mageninhalt in die Speiseröhre zurückfliesst?",
+"a": [
+"Unterer Speiseröhrenschliessmuskel",
+"Zwerchfell allein",
+"Magenpförtner",
+"Kehldeckel"
+],
+"e": "Am Übergang von der Speiseröhre zum Magen liegt ein Schliessmuskel. Schliesst er nicht richtig, kann Säure aufsteigen."
+},
+{
+"nr": 91387,
+"t": "informatik",
+"l": 2,
+"s": "Wikipedia",
+"q": "Welche Organisation betreibt Wikipedia?",
+"a": [
+"Wikimedia Foundation",
+"Google",
+"Mozilla Foundation",
+"UNESCO"
+],
+"e": "Die gemeinnützige Wikimedia Foundation mit Sitz in San Francisco betreibt die Server und die Technik von Wikipedia."
+},
+{
+"nr": 119099,
+"t": "wissenschaft",
+"l": 3,
+"s": "Innosuisse",
+"q": "Welche Rechtsform hat Innosuisse?",
+"a": [
+"Öffentlich-rechtliche Anstalt des Bundes",
+"Privatrechtliche Stiftung",
+"Verein nach ZGB",
+"Genossenschaft"
+],
+"e": "Innosuisse ist eine öffentlich-rechtliche Anstalt mit eigener Rechtspersönlichkeit. Der SNF ist dagegen eine privatrechtliche Stiftung."
+},
+{
+"nr": 123979,
+"t": "koerper",
+"l": 3,
+"s": "Body-Mass-Index",
+"q": "Eine Person wiegt 90 kg und ist 1,75 m gross. In welche WHO-Kategorie fällt ihr BMI?",
+"a": [
+"Übergewicht (Präadipositas)",
+"Normalgewicht",
+"Adipositas Grad II",
+"Untergewicht"
+],
+"e": "1,75 m x 1,75 m = 3,0625 m². 90 kg : 3,0625 m² ergibt rund 29,4 und liegt im Bereich von 25 bis unter 30."
+},
+{
+"nr": 108050,
+"t": "natur",
+"l": 2,
+"s": "Gülle",
+"q": "Warum darf Gülle nicht auf gefrorenen oder schneebedeckten Boden ausgebracht werden?",
+"a": [
+"Sie kann nicht einsickern und wird in Gewässer geschwemmt",
+"Sie verwandelt sich in giftiges Eis",
+"Sie riecht im Winter viel stärker",
+"Sie lockt Wildtiere aus dem Wald"
+],
+"e": "Auf gefrorenem Boden kann die Gülle nicht versickern. Bei Tauwetter oder Regen fliesst sie ab und verschmutzt Bäche und Seen."
+},
+{
+"nr": 99775,
+"t": "weltall",
+"l": 3,
+"s": "Lebenserhaltungssystem",
+"q": "Was entsteht im Sabatier-Reaktor der ISS aus Kohlendioxid und Wasserstoff?",
+"a": [
+"Methan und Wasser",
+"Sauerstoff und Kohlenstoff",
+"Ethanol und Stickstoff",
+"Ammoniak und Sauerstoff"
+],
+"e": "Die Reaktion CO2 plus 4 H2 liefert CH4 und 2 H2O. Das Wasser kann wieder zur Sauerstoffgewinnung dienen, das Methan wird ins All abgelassen."
+},
+{
+"nr": 31784,
+"t": "g_mittelalter",
+"l": 3,
+"s": "Hagia Sophia",
+"q": "Was geschah mit der Hagia Sophia unmittelbar nach der osmanischen Eroberung Konstantinopels?",
+"a": [
+"Sie wurde zur Moschee",
+"Sie wurde abgerissen",
+"Sie wurde zum Palast",
+"Sie blieb Bischofskirche"
+],
+"e": "Die Kirche wurde in eine Hauptmoschee umgewandelt und erhielt im Lauf der Zeit Minarette. Viele Mosaiken wurden übertüncht."
+},
+{
+"nr": 83683,
+"t": "informatik",
+"l": 1,
+"s": "Wörterbuch",
+"q": "Wie heisst ein bekanntes deutsches Wörterbuch, das auch in Schweizer Schulen benutzt wird?",
+"a": [
+"Duden",
+"Atlas",
+"Lexikon der Tiere",
+"Kochbuch"
+],
+"e": "Der Duden ist ein bekanntes Wörterbuch für die deutsche Rechtschreibung."
+},
+{
+"nr": 123965,
+"t": "koerper",
+"l": 3,
+"s": "Ketonkörper",
+"q": "Welches Organ, das kaum Fettsäuren verwertet, deckt bei längerem Hungern einen grossen Teil seines Energiebedarfs aus Ketonkörpern?",
+"a": [
+"Das Gehirn",
+"Die Leber",
+"Die roten Blutkörperchen",
+"Die Bauchspeicheldrüse"
+],
+"e": "Fettsäuren gelangen kaum über die Blut-Hirn-Schranke, Ketonkörper hingegen schon. So spart der Körper Glucose und schont die Muskelproteine."
+},
+{
+"nr": 96106,
+"t": "chemie",
+"l": 3,
+"s": "Reaktionskinetik",
+"q": "Warum reagiert Zinkpulver schneller mit Salzsäure als ein Zinkstück gleicher Masse?",
+"a": [
+"Es hat eine grössere Oberfläche.",
+"Es hat eine tiefere Aktivierungsenergie.",
+"Es ist edler als das Stück.",
+"Es enthält mehr Zinkatome."
+],
+"e": "Reaktionen an Feststoffen finden an der Oberfläche statt. Je feiner verteilt, desto mehr Teilchen können gleichzeitig getroffen werden."
+},
+{
+"nr": 97618,
+"t": "physik",
+"l": 1,
+"s": "Kernkraftwerk",
+"q": "Wie nennt man ein Kernkraftwerk auch?",
+"a": [
+"Atomkraftwerk",
+"Windkraftwerk",
+"Sonnenkraftwerk",
+"Flusskraftwerk"
+],
+"e": "Im Kernkraftwerk werden Atomkerne gespalten. Darum sagt man auch Atomkraftwerk oder AKW."
+},
+{
+"nr": 115779,
+"t": "physik",
+"l": 3,
+"s": "Umlaufzeit",
+"q": "Ein Riesenrad macht in 6 Minuten 12 Umdrehungen. Wie gross ist die Umlaufzeit?",
+"a": [
+"30 s",
+"2 s",
+"72 s",
+"0,5 s"
+],
+"e": "6 Minuten sind 360 Sekunden. 360 s geteilt durch 12 Umdrehungen ergibt 30 s pro Umlauf."
+},
+{
+"nr": 102928,
+"t": "natur",
+"l": 1,
+"s": "Becherlupe",
+"q": "Was kannst du bei einer Assel in der Becherlupe gut sehen?",
+"a": [
+"Ihre vielen Beinchen",
+"Ihre Flügel",
+"Ihr Fell",
+"Ihre Federn"
+],
+"e": "Asseln haben viele Beinchen, meist vierzehn. Flügel, Fell oder Federn haben sie nicht."
+},
+{
+"nr": 25601,
+"t": "g_neuzeit",
+"l": 1,
+"s": "Napoleon Bonaparte",
+"q": "Welches grosse Tor in Paris liess Napoleon für seine Siege bauen?",
+"a": [
+"Den Triumphbogen",
+"Den Eiffelturm",
+"Das Brandenburger Tor",
+"Den Louvre"
+],
+"e": "Napoleon gab 1806 den Bau des Triumphbogens in Auftrag. Er sollte an die Siege seiner Armee erinnern."
+},
+{
+"nr": 86666,
+"t": "informatik",
+"l": 1,
+"s": "Kindersuchmaschine",
+"q": "Wer prüft die Seiten für eine Kindersuchmaschine?",
+"a": [
+"Fachleute für Kinder und Medien",
+"Die Kinder selbst",
+"Roboter im Weltall",
+"Niemand"
+],
+"e": "Fachleute schauen sich die Seiten an, bevor sie in die Liste kommen. So bleiben ungeeignete Seiten draussen."
+},
+{
+"nr": 34376,
+"t": "pol_demokratie",
+"l": 1,
+"s": "Kanton St. Gallen",
+"q": "Welche Handarbeit machte St. Gallen früher weltberühmt?",
+"a": [
+"Die Stickerei",
+"Die Töpferei",
+"Die Glasbläserei",
+"Die Schmiedekunst"
+],
+"e": "St. Galler Stickereien und Spitzen wurden in die ganze Welt verkauft. Noch heute stellen Firmen dort feine Stoffe her."
+},
+{
+"nr": 85714,
+"t": "natur",
+"l": 1,
+"s": "Keimling",
+"q": "Wie nennt man Keimlinge, die man essen kann, zum Beispiel von Mungbohnen?",
+"a": [
+"Sprossen",
+"Knollen",
+"Zapfen",
+"Ranken"
+],
+"e": "Junge Keimlinge zum Essen nennt man Sprossen. Man isst sie oft im Salat oder in asiatischen Gerichten."
+},
+{
+"nr": 99648,
+"t": "informatik",
+"l": 3,
+"s": "Open Data",
+"q": "Seit wann sind die digitalen Geodaten von swisstopo grundsätzlich kostenlos nutzbar?",
+"a": [
+"Seit März 2021",
+"Seit Januar 2000",
+"Seit Juli 2010",
+"Seit Mai 2025"
+],
+"e": "Seit dem 1. März 2021 stellt swisstopo seine digitalen Geodaten wie Landeskarten, Luftbilder und Höhenmodelle kostenlos zur Verfügung."
+},
+{
+"nr": 97903,
+"t": "chemie",
+"l": 3,
+"s": "Amine",
+"q": "Welche funktionelle Gruppe besitzt ein primäres Amin?",
+"a": [
+"-NH₂",
+"-OH",
+"-COOH",
+"-CHO"
+],
+"e": "Die Aminogruppe besteht aus einem Stickstoffatom mit zwei Wasserstoffatomen. Sie ist an einen Kohlenstoffrest gebunden."
+},
+{
+"nr": 81805,
+"t": "natur",
+"l": 1,
+"s": "Schlüsselblume",
+"q": "Wie nennt man die Schlüsselblume auch noch?",
+"a": [
+"Himmelsschlüssel",
+"Sonnenblume",
+"Rittersporn",
+"Löwenzahn"
+],
+"e": "Die Schlüsselblume heisst auch Himmelsschlüssel. Der Name kommt aus einer alten Sage."
+},
+{
+"nr": 105588,
+"t": "physik",
+"l": 2,
+"s": "Kraftarm",
+"q": "Wie lang muss der Kraftarm sein, damit 25 N ein Drehmoment von 10 Nm erzeugen?",
+"a": [
+"0,4 m",
+"2,5 m",
+"0,25 m",
+"250 m"
+],
+"e": "Kraftarm ist Drehmoment geteilt durch Kraft. 10 Nm geteilt durch 25 N ergibt 0,4 m."
+},
+{
+"nr": 121267,
+"t": "koerper",
+"l": 3,
+"s": "Contact Tracing",
+"q": "Wie lange werden Kontaktpersonen bei Ebola üblicherweise überwacht?",
+"a": [
+"21 Tage",
+"3 Tage",
+"7 Tage",
+"90 Tage"
+],
+"e": "Die Inkubationszeit von Ebola beträgt bis zu 21 Tage. Wer in dieser Zeit keine Symptome entwickelt, gilt als nicht angesteckt."
+},
+{
+"nr": 42413,
+"t": "pol_kommunismus",
+"l": 2,
+"s": "Lenin in Zürich",
+"q": "Mit wem lebte Lenin in seiner Zürcher Wohnung zusammen?",
+"a": [
+"Mit seiner Frau Nadeschda Krupskaja",
+"Mit seinem Bruder Alexander",
+"Mit Josef Stalin",
+"Mit Zar Nikolaus II."
+],
+"e": "Nadeschda Krupskaja war Lenins Ehefrau und enge Mitarbeiterin. Sie begleitete ihn ins Exil und wohnte mit ihm an der Spiegelgasse."
+},
+{
+"nr": 127081,
+"t": "koerper",
+"l": 3,
+"s": "Klinische Studie",
+"q": "In welcher Phase einer klinischen Arzneimittelstudie wird ein neuer Wirkstoff typischerweise erstmals an einer kleinen Gruppe gesunder Freiwilliger auf Verträglichkeit geprüft?",
+"a": [
+"Phase I",
+"Phase II",
+"Phase III",
+"Phase IV"
+],
+"e": "In Phase I geht es vor allem um Sicherheit, Verträglichkeit und das Verhalten des Wirkstoffs im Körper. Dafür reicht meist eine kleine Gruppe gesunder Freiwilliger."
+},
+{
+"nr": 83487,
+"t": "technik",
+"l": 1,
+"s": "Brille",
+"q": "Welche Brille schützt die Augen vor starker Sonne?",
+"a": [
+"Die Sonnenbrille",
+"Die Lesebrille",
+"Die Taucherbrille",
+"Die Schutzbrille aus Draht"
+],
+"e": "Eine gute Sonnenbrille hält schädliches UV-Licht ab. Das ist besonders in den Bergen und im Schnee wichtig."
+},
+{
+"nr": 93084,
+"t": "informatik",
+"l": 3,
+"s": "Stapelspeicher",
+"q": "Welchen Wert hat der Ausdruck «3 4 + 2 *» in umgekehrter polnischer Notation?",
+"a": [
+"14",
+"11",
+"10",
+"24"
+],
+"e": "Mit einem Stapel: 3 und 4 ablegen, + ergibt 7, dann 2 ablegen, * ergibt 7 · 2 = 14."
+},
+{
+"nr": 19001,
+"t": "physik",
+"l": 3,
+"s": "Wellenlehre",
+"q": "Ab welcher Frequenz spricht man von Ultraschall?",
+"a": [
+"Ab etwa 20 kHz",
+"Ab etwa 20 Hz",
+"Ab etwa 2 kHz",
+"Ab etwa 20 MHz"
+],
+"e": "Menschen hören etwa von 20 Hz bis 20 kHz. Schall oberhalb dieser Grenze heisst Ultraschall und wird zum Beispiel in der Medizin genutzt."
+},
+{
+"nr": 74232,
+"t": "ethik",
+"l": 3,
+"s": "Tugendethik",
+"q": "Zwischen welchen Extremen liegt nach Aristoteles die Tapferkeit?",
+"a": [
+"Feigheit und Tollkühnheit",
+"Geiz und Verschwendung",
+"Jähzorn und Gleichgültigkeit",
+"Prahlerei und Tiefstapelei"
+],
+"e": "Wer zu wenig Mut hat, ist feige; wer Gefahren blind sucht, ist tollkühn. Die Tapferkeit liegt dazwischen."
+},
+{
+"nr": 118531,
+"t": "physik",
+"l": 3,
+"s": "Tragflügel",
+"q": "Wie nennt man es, wenn die Mittellinie eines Profils nach oben gebogen ist?",
+"a": [
+"Wölbung",
+"Pfeilung",
+"V-Stellung",
+"Schränkung"
+],
+"e": "Ein gewölbtes Profil erzeugt schon bei null Grad Anstellwinkel Auftrieb. Symmetrische Profile haben keine Wölbung."
+},
+{
+"nr": 50666,
+"t": "geo_europa",
+"l": 1,
+"s": "Sagrada Família",
+"q": "Was ist die Sagrada Família?",
+"a": [
+"Eine Kirche",
+"Ein Schloss",
+"Ein Stadion",
+"Ein Bahnhof"
+],
+"e": "Die Sagrada Família ist eine riesige Kirche. Ihr Name bedeutet «Heilige Familie»."
+},
+{
+"nr": 123677,
+"t": "physik",
+"l": 3,
+"s": "Faradaysches Induktionsgesetz",
+"q": "Welche Wirkung hat es, wenn man bei sonst gleichen Bedingungen die Windungszahl einer Induktionsspule verdoppelt?",
+"a": [
+"die induzierte Spannung verdoppelt sich",
+"die Spannung halbiert sich",
+"die Spannung vervierfacht sich",
+"die Spannung bleibt gleich"
+],
+"e": "Jede Windung liefert denselben Beitrag, die Beiträge addieren sich. Die Spannung ist daher proportional zu N."
+},
+{
+"nr": 85064,
+"t": "physik",
+"l": 1,
+"s": "Stein",
+"q": "Welcher Stein ist so leicht, dass er auf dem Wasser schwimmt?",
+"a": [
+"Bimsstein",
+"Granit",
+"Marmor",
+"Kieselstein"
+],
+"e": "Bimsstein entsteht aus Lava und ist voller Luftlöcher. Darum kann er schwimmen."
+},
+{
+"nr": 26988,
+"t": "g_urzeit",
+"l": 2,
+"s": "Erdzeitalter",
+"q": "Nach welchem Gebirge ist die Periode Jura benannt?",
+"a": [
+"Nach dem Jura",
+"Nach den Alpen",
+"Nach dem Schwarzwald",
+"Nach den Pyrenäen"
+],
+"e": "Der Name stammt vom Juragebirge in der Schweiz und in Frankreich. Dort findet man viele Kalkgesteine aus dieser Zeit."
+},
+{
+"nr": 49480,
+"t": "geo_welt",
+"l": 1,
+"s": "Kairo",
+"q": "Welche Stadt ist die Hauptstadt von Ägypten?",
+"a": [
+"Kairo",
+"Alexandria",
+"Luxor",
+"Assuan"
+],
+"e": "Kairo ist die Hauptstadt und grösste Stadt Ägyptens. In der Stadt und ihrer Umgebung leben über 20 Millionen Menschen."
+},
+{
+"nr": 120883,
+"t": "physik",
+"l": 3,
+"s": "Schallpegel",
+"q": "Um wie viel steigt der Pegel, wenn zehn gleich laute, unabhängige Quellen statt einer laufen?",
+"a": [
+"Um 10 dB",
+"Um 100 dB",
+"Um 3 dB",
+"Um 20 dB"
+],
+"e": "Die Intensität wird zehnmal so gross. 10 · log10(10) = 10 dB."
+},
+{
+"nr": 122433,
+"t": "koerper",
+"l": 3,
+"s": "Diabetes mellitus Typ 2",
+"q": "Welche Massnahme verbessert die Insulinempfindlichkeit bei Typ-2-Diabetes ohne Medikament nachweislich?",
+"a": [
+"Regelmässige körperliche Bewegung",
+"Mehr Zucker zum Frühstück",
+"Längeres Fasten ohne Trinken",
+"Vermeiden jeder Muskelarbeit"
+],
+"e": "Arbeitende Muskeln nehmen Glukose auch unabhängig von Insulin auf und werden insulinempfindlicher. Bewegung und Gewichtsabnahme sind Grundpfeiler der Therapie."
+},
+{
+"nr": 9911,
+"t": "tiere",
+"l": 3,
+"s": "Polarfuchs",
+"q": "Welche Strecke legte eine junge Polarfüchsin zurück, die 2018 per GPS von Spitzbergen bis nach Kanada verfolgt wurde?",
+"a": [
+"Rund 3500 km in 76 Tagen",
+"Rund 350 km in 76 Tagen",
+"Rund 35 km in 7 Tagen",
+"Rund 35000 km in einem Jahr"
+],
+"e": "Die Füchsin wanderte von Spitzbergen über Grönland bis auf die kanadische Ellesmere-Insel. Insgesamt legte sie rund 3500 km in 76 Tagen zurück."
+},
+{
+"nr": 125902,
+"t": "wissenschaft",
+"l": 3,
+"s": "Maslowsche Bedürfnishierarchie",
+"q": "Wie nennt Maslow die Bedürfnisse der unteren Stufen, deren Fehlen Unruhe auslöst?",
+"a": [
+"Defizitbedürfnisse",
+"Wachstumsbedürfnisse",
+"Luxusbedürfnisse",
+"Sekundärbedürfnisse"
+],
+"e": "Defizitbedürfnisse verlieren an Antrieb, sobald sie befriedigt sind. Wachstumsbedürfnisse wie Selbstverwirklichung lassen sich dagegen nie ganz stillen."
+},
+{
+"nr": 49676,
+"t": "geo_welt",
+"l": 1,
+"s": "Seidenstrasse",
+"q": "Welches Tier spinnt die Fäden, aus denen man Seide macht?",
+"a": [
+"Eine Raupe",
+"Eine Spinne",
+"Ein Schaf",
+"Eine Biene"
+],
+"e": "Die Raupe des Seidenspinners spinnt sich in einen Kokon ein. Aus diesem Faden macht man Seide."
+},
+{
+"nr": 105151,
+"t": "koerper",
+"l": 2,
+"s": "Hüftprothese",
+"q": "Wie lange hält eine moderne Hüftprothese in vielen Fällen?",
+"a": [
+"Oft 20 Jahre oder länger",
+"Nur etwa sechs Monate",
+"Genau zwei Jahre",
+"Immer nur bis zum nächsten Winter"
+],
+"e": "Dank guter Materialien funktionieren viele Hüftprothesen über Jahrzehnte. Lockert sich eine, kann sie ersetzt werden."
+},
+{
+"nr": 70348,
+"t": "mathe",
+"l": 2,
+"s": "Parallelität (Geometrie)",
+"q": "Die Gerade g ist parallel zu h, und h ist parallel zu k. Wie liegen g und k zueinander?",
+"a": [
+"parallel",
+"senkrecht",
+"im 45°-Winkel",
+"windschief"
+],
+"e": "Sind zwei Geraden parallel zu derselben dritten Geraden, sind sie auch zueinander parallel."
+},
+{
+"nr": 117748,
+"t": "physik",
+"l": 3,
+"s": "Zugfestigkeit",
+"q": "Ein Stahlstab mit 50 mm² Querschnitt hat eine Zugfestigkeit von 500 N/mm². Bei welcher Zugkraft reisst er?",
+"a": [
+"Bei etwa 25 kN",
+"Bei etwa 10 kN",
+"Bei etwa 2,5 kN",
+"Bei etwa 250 kN"
+],
+"e": "F gleich R_m · A gleich 500 N/mm² · 50 mm² gleich 25 000 N, also 25 kN."
+},
+{
+"nr": 72477,
+"t": "franzoesisch",
+"l": 1,
+"s": "Familie",
+"q": "Wie heisst «die Schwester» auf Französisch?",
+"a": [
+"la sœur",
+"la cousine",
+"la tante",
+"la fille"
+],
+"e": "Die Schwester heisst «la sœur». Das «œ» schreibt man zusammen."
+},
+{
+"nr": 8814,
+"t": "tiere",
+"l": 1,
+"s": "Grasfrosch",
+"q": "Wann wandert der Grasfrosch zu seinem Laichgewässer?",
+"a": [
+"Im Frühling",
+"Mitten im Sommer",
+"Im tiefsten Winter",
+"Im Spätherbst"
+],
+"e": "Sobald es im Frühling wärmer wird, machen sich Grasfrösche auf den Weg zu Teichen. Dort treffen sie sich zur Paarung."
+},
+{
+"nr": 95306,
+"t": "kt_BE",
+"l": 3,
+"s": "Lötschberg-Basistunnel",
+"q": "Welcher lange Eisenbahntunnel verbindet seit 2007 Frutigen im Kanton Bern mit Raron im Wallis?",
+"a": [
+"Lötschberg-Basistunnel",
+"Gotthard-Basistunnel",
+"Simplontunnel",
+"Vereinatunnel"
+],
+"e": "Der Lötschberg-Basistunnel ist rund 34 Kilometer lang und wurde 2007 eröffnet. Er verkürzt die Reise von Bern ins Wallis stark."
+},
+{
+"nr": 29649,
+"t": "g_neuzeit",
+"l": 2,
+"s": "World Wide Web",
+"q": "Unter welcher Adresse war die allererste Webseite erreichbar?",
+"a": [
+"info.cern.ch",
+"www.google.com",
+"home.web.org",
+"start.internet.ch"
+],
+"e": "Die erste Webseite erklärte, was das World Wide Web ist und wie man es nutzt. Sie lief auf einem Computer am CERN und ist heute wieder online."
+},
+{
+"nr": 107453,
+"t": "koerper",
+"l": 2,
+"s": "Thrombozyt",
+"q": "Wie viele Thrombozyten hat ein gesunder Mensch ungefähr in einem Mikroliter Blut?",
+"a": [
+"Etwa 150 000 bis 400 000",
+"Etwa 15 bis 40",
+"Etwa 1500 bis 4000",
+"Etwa 15 bis 40 Millionen"
+],
+"e": "Der Normalwert liegt bei etwa 150 000 bis 400 000 Blutplättchen pro Mikroliter. Sind es viel weniger, steigt die Blutungsgefahr."
+},
+{
+"nr": 90435,
+"t": "mathe",
+"l": 3,
+"s": "Millennium-Probleme",
+"q": "Welches Institut stellte im Jahr 2000 die Millennium-Probleme vor?",
+"a": [
+"Clay Mathematics Institute",
+"Institute for Advanced Study",
+"Max-Planck-Institut",
+"Fields Institute"
+],
+"e": "Das Clay Mathematics Institute stellte die Liste am 24. Mai 2000 in Paris vor. Für jede anerkannte Lösung ist ein Preisgeld ausgesetzt."
+},
+{
+"nr": 36874,
+"t": "pol_welt",
+"l": 2,
+"s": "UNESCO-Welterbe",
+"q": "Welche Weinberge am Genfersee sind UNESCO-Welterbe?",
+"a": [
+"Das Lavaux",
+"Das Wallis",
+"Das Bündnerland",
+"Das Seeland"
+],
+"e": "Die Rebterrassen des Lavaux zwischen Lausanne und Montreux sind seit 2007 Welterbe."
+},
+{
+"nr": 118294,
+"t": "wissenschaft",
+"l": 3,
+"s": "Wolfgang Pauli",
+"q": "Welches Teilchen postulierte Wolfgang Pauli 1930, um den Energieverlust beim Betazerfall zu erklären?",
+"a": [
+"Das Neutrino",
+"Das Positron",
+"Das Myon",
+"Das Proton"
+],
+"e": "Beim Betazerfall schien Energie zu verschwinden. Pauli schlug ein neutrales, sehr leichtes Teilchen vor, das erst 1956 nachgewiesen wurde."
+},
+{
+"nr": 37669,
+"t": "pol_diktatur",
+"l": 2,
+"s": "Schulbuch",
+"q": "Was gibt es oft zusätzlich zum Schulbuch, um darin zu schreiben?",
+"a": [
+"Ein Arbeitsheft",
+"Ein Kochbuch",
+"Ein Telefonbuch",
+"Ein Fotoalbum"
+],
+"e": "Im Arbeitsheft lösen Kinder Aufgaben zum Schulbuch. Es gehört oft zum gleichen Lehrmittel."
+},
+{
+"nr": 97695,
+"t": "weltall",
+"l": 3,
+"s": "Sagittarius A*",
+"q": "Warum leuchtet Sagittarius A* im Vergleich zu einem Quasar nur sehr schwach?",
+"a": [
+"Es verschluckt zurzeit nur sehr wenig Materie",
+"Es ist gar kein Schwarzes Loch",
+"Es liegt hinter dem Andromedanebel",
+"Es besteht aus Antimaterie"
+],
+"e": "Die Leuchtkraft eines Schwarzen Lochs stammt von einfallendem, aufgeheiztem Gas. Um Sagittarius A* strömt derzeit nur sehr wenig Gas, es ist ein ruhiger Kern."
+},
+{
+"nr": 101182,
+"t": "erde",
+"l": 3,
+"s": "Gletscherabbruch von Blatten",
+"q": "Welche Fachbezeichnung passt am besten zum Ereignis von Blatten 2025?",
+"a": [
+"Fels-Eis-Lawine",
+"Schneebrettlawine",
+"Grundwasserflut",
+"Erdbeben"
+],
+"e": "Eine Mischung aus Gletschereis und Gestein stürzte und floss ins Tal. In der Fachliteratur wird das Ereignis als Fels-Eis-Lawine beschrieben."
+},
+{
+"nr": 31474,
+"t": "g_antike",
+"l": 3,
+"s": "Julisch-claudische Dynastie",
+"q": "Wie endete die Herrschaft Caligulas im Jahr 41 n. Chr.?",
+"a": [
+"Er wurde von Prätorianern ermordet",
+"Er starb an einer Seuche",
+"Er fiel gegen die Germanen",
+"Er dankte freiwillig ab"
+],
+"e": "Caligula wurde im Januar 41 von Offizieren der Prätorianergarde umgebracht. Die Garde rief danach seinen Onkel Claudius zum Kaiser aus."
+},
+{
+"nr": 94443,
+"t": "weltall",
+"l": 3,
+"s": "Kernfusion",
+"q": "Wie viel Wasserstoff fusioniert die Sonne pro Sekunde ungefähr zu Helium?",
+"a": [
+"Rund 600 Millionen Tonnen",
+"Rund 6 Millionen Tonnen",
+"Rund 60 Milliarden Tonnen",
+"Rund 6000 Tonnen"
+],
+"e": "Pro Sekunde werden rund 600 Millionen Tonnen Wasserstoff umgesetzt. Nur ein kleiner Bruchteil dieser Masse geht dabei als Energie verloren."
+},
+{
+"nr": 94039,
+"t": "informatik",
+"l": 3,
+"s": "Church-Turing-These",
+"q": "Welche Berechnungsmodelle wurden als gleich mächtig wie Turingmaschinen nachgewiesen?",
+"a": [
+"Lambda-Kalkül und μ-rekursive Funktionen",
+"Endliche Automaten und Kellerautomaten",
+"Reguläre Ausdrücke und LOOP-Programme",
+"Boolesche Schaltnetze fester Grösse"
+],
+"e": "Turing zeigte 1937 die Gleichwertigkeit seiner Maschinen mit dem Lambda-Kalkül, Church und Kleene jene von Lambda-Kalkül und rekursiven Funktionen. Diese Übereinstimmung stützt die These."
+},
+{
+"nr": 5941,
+"t": "tiere",
+"l": 1,
+"s": "Bachforelle",
+"q": "Wie lange dauert es ungefähr, bis aus einem Forellenei ein Jungfisch schlüpft?",
+"a": [
+"Mehrere Wochen bis Monate",
+"Nur wenige Sekunden",
+"Genau einen Tag",
+"Mehrere Jahre"
+],
+"e": "Je nach Wassertemperatur dauert es mehrere Wochen bis Monate, bis ein kleiner Fisch aus dem Ei schlüpft. In kälterem Wasser dauert es länger."
+},
+{
+"nr": 31327,
+"t": "g_antike",
+"l": 3,
+"s": "Archimedes",
+"q": "Welche Auftriebskraft wirkt auf einen Körper von 2 dm³ Volumen, der vollständig in Wasser (1 kg pro dm³) taucht, bei g gleich 9,81 N/kg?",
+"a": [
+"19,62 N",
+"9,81 N",
+"2 N",
+"39,24 N"
+],
+"e": "Der Körper verdrängt 2 dm³ Wasser, also 2 kg. Die Gewichtskraft davon ist 2 kg mal 9,81 N/kg gleich 19,62 N."
+},
+{
+"nr": 58010,
+"t": "geo_welt",
+"l": 3,
+"s": "Pinatubo",
+"q": "Warum gilt die Vorhersage des Pinatubo-Ausbruchs als grosser Erfolg der Vulkanologie?",
+"a": [
+"Rechtzeitige Evakuierungen retteten Tausende Leben",
+"Der Ausbruch konnte ganz verhindert werden",
+"Es gab keinerlei Sachschäden",
+"Die Asche wurde vollständig umgeleitet"
+],
+"e": "Philippinische und amerikanische Fachleute werteten Erdbeben und Gasmessungen aus und warnten früh. Zehntausende Menschen wurden vor der Haupteruption in Sicherheit gebracht."
+},
+{
+"nr": 96687,
+"t": "physik",
+"l": 1,
+"s": "Zitteraal",
+"q": "Hat ein Stromschlag des Zitteraals mehr Volt als eine Steckdose?",
+"a": [
+"Ja, er kann mehr Volt haben",
+"Nein, er hat weniger als eine kleine Batterie",
+"Nein, er hat gar keine Spannung",
+"Ja, so viel wie ein Blitz"
+],
+"e": "Ein grosser Zitteraal kann Schläge von mehreren hundert Volt abgeben. Eine Schweizer Steckdose hat 230 Volt."
+},
+{
+"nr": 11122,
+"t": "tiere",
+"l": 3,
+"s": "Königskobra",
+"q": "Wer beschrieb die Königskobra im Jahr 1836 erstmals wissenschaftlich?",
+"a": [
+"Theodore Edward Cantor",
+"Carl von Linné",
+"Albert Günther",
+"Hermann Schlegel"
+],
+"e": "Der dänische Zoologe Theodore Edward Cantor beschrieb die Art 1836 als Hamadryas hannah. Seine Belegexemplare stammten aus den Sundarbans und der Umgebung von Kalkutta."
+},
+{
+"nr": 89932,
+"t": "physik",
+"l": 1,
+"s": "Flüstern",
+"q": "Was hält man beim Flüstern oft um den Mund, damit nur einer zuhört?",
+"a": [
+"Die Hand",
+"Ein Buch",
+"Den Fuss",
+"Eine Mütze"
+],
+"e": "Eine Hand um den Mund lenkt den Schall direkt ins Ohr des anderen. So hören die anderen weniger."
+},
+{
+"nr": 120529,
+"t": "physik",
+"l": 3,
+"s": "Beugung (Physik)",
+"q": "Was versteht man unter Beugung einer Welle?",
+"a": [
+"Das Eindringen der Welle in den Schattenraum hinter Hindernissen",
+"Die Richtungsänderung an einer Grenzfläche durch Geschwindigkeitswechsel",
+"Das Zurückwerfen an einer Wand",
+"Die Abnahme der Amplitude durch Reibung"
+],
+"e": "Trifft eine Welle auf eine Kante oder Öffnung, breitet sie sich auch in Bereiche aus, die geometrisch im Schatten liegen. Dieses Verhalten heisst Beugung."
+},
+{
+"nr": 23598,
+"t": "g_antike",
+"l": 1,
+"s": "Landwirtschaft im Alten Ägypten",
+"q": "Welche Tiere zogen den Pflug der ägyptischen Bauern?",
+"a": [
+"Rinder",
+"Kamele",
+"Pferde",
+"Elefanten"
+],
+"e": "Rinder waren stark und geduldig. Sie zogen den hölzernen Pflug über die Felder."
+},
+{
+"nr": 56038,
+"t": "geo_europa",
+"l": 2,
+"s": "Wocheiner See",
+"q": "Wie heisst der grösste ständige natürliche See Sloweniens?",
+"a": [
+"Wocheiner See",
+"Bleder See",
+"Plattensee",
+"Ohridsee"
+],
+"e": "Der Wocheiner See (Bohinj) liegt im Nationalpark Triglav in den Julischen Alpen. Nur der Zirknitzer See kann bei Hochwasser grösser werden, trocknet aber zeitweise ganz aus."
+},
+{
+"nr": 97023,
+"t": "chemie",
+"l": 3,
+"s": "Starke und schwache Säuren",
+"q": "Was gibt die Stärke einer Säure an?",
+"a": [
+"Wie vollständig sie in Wasser Protonen abgibt",
+"Wie viel Säure im Liter gelöst ist",
+"Wie ätzend sie auf der Haut wirkt",
+"Wie schnell sie verdampft"
+],
+"e": "Die Säurestärke beschreibt die Lage des Protolysegleichgewichts. Eine verdünnte starke Säure kann deshalb weniger sauer sein als eine konzentrierte schwache Säure."
+},
+{
+"nr": 123511,
+"t": "wissenschaft",
+"l": 3,
+"s": "Wetterradar",
+"q": "Wie erkennt ein Wetterradar Niederschlag?",
+"a": [
+"Es sendet Mikrowellenpulse und misst das Echo der Tropfen.",
+"Es fotografiert Wolken mit Licht.",
+"Es misst die Temperatur des Bodens.",
+"Es hört das Geräusch des Regens."
+],
+"e": "Die Radarantenne sendet kurze Pulse aus, die von Regentropfen, Schnee oder Hagel zurückgestreut werden. Aus dem Echo wird die Niederschlagsintensität bestimmt."
+},
+{
+"nr": 27852,
+"t": "g_antike",
+"l": 2,
+"s": "Griechisches Alphabet",
+"q": "Wie nennt man die frühe griechische Schreibweise, bei der die Zeilen abwechselnd nach rechts und nach links liefen?",
+"a": [
+"Bustrophedon",
+"Hieroglyphen",
+"Keilschrift",
+"Kalligrafie"
+],
+"e": "Bustrophedon heisst «wie der Ochse pflügt», denn der Ochse wendet am Ende jeder Furche. Später setzte sich die Schreibrichtung von links nach rechts durch."
+},
+{
+"nr": 46188,
+"t": "pol_welt",
+"l": 3,
+"s": "Grameen Bank",
+"q": "In welchem Jahr wurde die Grameen Bank offiziell als Bank anerkannt?",
+"a": [
+"1983",
+"1976",
+"1991",
+"2006"
+],
+"e": "Das Projekt hatte Jahre zuvor mit kleinen Darlehen in einem Dorf begonnen. Durch ein Gesetz wurde es 1983 zu einer eigenständigen Bank."
+},
+{
+"nr": 28303,
+"t": "g_mittelalter",
+"l": 2,
+"s": "Mohammed",
+"q": "In welcher Sprache ist der Koran geschrieben?",
+"a": [
+"Arabisch",
+"Persisch",
+"Türkisch",
+"Hebräisch"
+],
+"e": "Der Koran wurde auf Arabisch überliefert. Deshalb verbreitete sich die arabische Sprache mit dem Islam stark."
+},
+{
+"nr": 89416,
+"t": "mathe",
+"l": 3,
+"s": "Widerspruchsbeweis",
+"q": "Welche Richtung der Mathematik lehnt Existenzbeweise ab, die nur durch Widerspruch geführt werden?",
+"a": [
+"Der Intuitionismus",
+"Der Formalismus",
+"Der Platonismus",
+"Der Logizismus"
+],
+"e": "Der Intuitionismus nach L. E. J. Brouwer erkennt den Satz vom ausgeschlossenen Dritten nicht allgemein an. Ein Objekt gilt dort erst als existent, wenn man es konstruieren kann."
+},
+{
+"nr": 128468,
+"t": "wirtschaft",
+"l": 3,
+"s": "Geldschöpfung",
+"q": "Wie entsteht der grösste Teil des Buchgelds in einer modernen Volkswirtschaft?",
+"a": [
+"Durch die Kreditvergabe der Geschäftsbanken",
+"Durch das Prägen von Münzen",
+"Durch den Druck neuer Banknoten",
+"Durch Steuereinnahmen des Bundes"
+],
+"e": "Gewährt eine Geschäftsbank einen Kredit, schreibt sie dem Konto Geld gut. So entsteht neues Buchgeld, das weit grösser ist als die Bargeldmenge."
+},
+{
+"nr": 104646,
+"t": "wissenschaft",
+"l": 2,
+"s": "Eidgenössisches Institut für Metrologie",
+"q": "Wie heisst die besonders genaue Waage, mit der das METAS das Kilogramm über eine Naturkonstante bestimmen kann?",
+"a": [
+"Kibble-Waage",
+"Balkenwaage",
+"Federwaage",
+"Personenwaage"
+],
+"e": "Eine Kibble-Waage vergleicht eine Gewichtskraft mit einer elektromagnetischen Kraft. So lässt sich die Masse auf eine Naturkonstante zurückführen."
+},
+{
+"nr": 102661,
+"t": "wissenschaft",
+"l": 1,
+"s": "Insektenhotel",
+"q": "Welche Insekten ziehen am häufigsten in ein Insektenhotel ein?",
+"a": [
+"Wildbienen",
+"Ameisen",
+"Stubenfliegen",
+"Mücken"
+],
+"e": "Vor allem Wildbienen nutzen Insektenhotels. Sie legen in den Röhren ihre Eier ab."
+},
+{
+"nr": 51329,
+"t": "geo_europa",
+"l": 2,
+"s": "Steilküste",
+"q": "Welcher steile Felsen gilt als westlichster Punkt des europäischen Festlands?",
+"a": [
+"Cabo da Roca",
+"Nordkap",
+"Gibraltar",
+"Kap Arkona"
+],
+"e": "Das Cabo da Roca liegt in Portugal am Atlantik. Die Klippen dort sind rund 140 Meter hoch."
+},
+{
+"nr": 114759,
+"t": "wissenschaft",
+"l": 2,
+"s": "Chatbot",
+"q": "Was macht ein grosses Sprachmodell im Kern, wenn es einen Text schreibt?",
+"a": [
+"Es sagt das wahrscheinlich nächste Wortstück voraus",
+"Es kopiert einen fertigen Text aus einem Buch",
+"Es fragt im Hintergrund einen Menschen",
+"Es würfelt zufällige Buchstaben"
+],
+"e": "Das Modell berechnet Schritt für Schritt, welches Wortstück am besten passt. Aus vielen solchen Schritten entstehen ganze Sätze."
+},
+{
+"nr": 10030,
+"t": "tiere",
+"l": 3,
+"s": "Capybara",
+"q": "Wie sieht der Schwanz des Capybaras aus?",
+"a": [
+"Er ist nur ein winziger, äusserlich kaum sichtbarer Stummel",
+"Er ist lang und flach wie beim Biber",
+"Er ist buschig und dient als Steuer",
+"Er ist nackt und schuppig wie bei Ratten"
+],
+"e": "Das Capybara hat nur einen stark zurückgebildeten Schwanzstummel. Von aussen ist er unter dem Fell kaum zu erkennen."
+},
+{
+"nr": 123288,
+"t": "physik",
+"l": 3,
+"s": "Leuchtdiode",
+"q": "Für welche Erfindung erhielten Isamu Akasaki, Hiroshi Amano und Shuji Nakamura 2014 den Physik-Nobelpreis?",
+"a": [
+"Effiziente blaue Leuchtdioden",
+"Den ersten Transistor",
+"Die erste Solarzelle aus Silizium",
+"Den integrierten Schaltkreis"
+],
+"e": "Die Forscher entwickelten in den 1990er-Jahren leistungsfähige LEDs aus Galliumnitrid. Solche Leuchtdioden galten lange als kaum herstellbar."
+},
+{
+"nr": 94123,
+"t": "natur",
+"l": 1,
+"s": "Zitronenmelisse",
+"q": "Wann wird Melissentee traditionell gern getrunken?",
+"a": [
+"Am Abend zum Entspannen",
+"Am Morgen zum Wachwerden",
+"Beim Sport",
+"Beim Skifahren"
+],
+"e": "Melissentee gilt seit langer Zeit als beruhigend. Viele trinken ihn darum am Abend."
+},
+{
+"nr": 68104,
+"t": "rel_christentum",
+"l": 3,
+"s": "Isenheimer Altar",
+"q": "Welches Tier steht beim Isenheimer Altar zu Füssen von Johannes dem Täufer?",
+"a": [
+"Ein Lamm mit Kreuz",
+"Ein Löwe mit Buch",
+"Ein Adler mit Schriftrolle",
+"Ein Stier mit Flügeln"
+],
+"e": "Das Lamm mit dem Kreuzstab ist das Lamm Gottes. Es verweist auf den Opfertod Christi, aus seiner Brust fliesst Blut in einen Kelch."
+},
+{
+"nr": 119959,
+"t": "wissenschaft",
+"l": 3,
+"s": "Bt-Mais",
+"q": "Wie werden Bt-Präparate im biologischen Landbau verwendet?",
+"a": [
+"Als zugelassenes Spritzmittel mit dem Bakterium oder seinen Eiweissen",
+"Gar nicht, sie sind dort verboten",
+"Nur als Dünger für den Boden",
+"Nur zur Konservierung der Ernte"
+],
+"e": "Bacillus thuringiensis wird seit Jahrzehnten als biologisches Pflanzenschutzmittel gespritzt. Im Biolandbau ist dies erlaubt, gentechnisch veränderte Pflanzen sind es dagegen nicht."
+},
+{
+"nr": 70572,
+"t": "mathe",
+"l": 3,
+"s": "Lineare Funktion",
+"q": "Wie liegen zwei Geraden zueinander, die dieselbe Steigung, aber verschiedene y-Achsenabschnitte haben?",
+"a": [
+"Sie sind parallel",
+"Sie stehen senkrecht",
+"Sie schneiden sich im Ursprung",
+"Sie sind identisch"
+],
+"e": "Gleiche Steigung bedeutet gleiche Richtung. Wegen der verschiedenen y-Achsenabschnitte fallen sie nicht zusammen, also sind sie parallel."
+},
+{
+"nr": 25286,
+"t": "g_mittelalter",
+"l": 1,
+"s": "Inka-Strassen",
+"q": "Wie reisten die Menschen auf den Strassen der Inka?",
+"a": [
+"Zu Fuss",
+"Mit Pferdewagen",
+"Mit dem Auto",
+"Mit dem Velo"
+],
+"e": "Die Inka kannten keine Pferde und benutzten keine Wagen mit Rädern. Darum gingen sie zu Fuss."
+},
+{
+"nr": 121577,
+"t": "koerper",
+"l": 3,
+"s": "Bakteriophage",
+"q": "Wie heisst die Proteinhülle, die bei einem Phagen das Erbgut umschliesst?",
+"a": [
+"Kapsid",
+"Kapsel",
+"Zellwand",
+"Vesikel"
+],
+"e": "Das Kapsid besteht aus vielen gleichen Proteinbausteinen. Bei typischen Phagen wie T4 sitzt es als Kopf auf einem Schwanz mit Fasern."
+},
+{
+"nr": 30301,
+"t": "ch_geschichte",
+"l": 2,
+"s": "Geistige Landesverteidigung",
+"q": "Welcher Film von 1938 über einen Schweizer Soldaten gehört zur Geistigen Landesverteidigung?",
+"a": [
+"Füsilier Wipf",
+"Heidi",
+"Die Schweizermacher",
+"Uli der Knecht"
+],
+"e": "«Füsilier Wipf» erzählt von einem jungen Mann im Aktivdienst des Ersten Weltkriegs. Der Film sollte Zusammenhalt und Wehrwillen stärken."
+},
+{
+"nr": 78756,
+"t": "bilder",
+"l": 3,
+"s": "Philosophische Begriffe",
+"q": "Welcher philosophische Begriff ist mit diesen Bildern gemeint?",
+"a": [
+"Dualismus",
+"Monismus",
+"Materialismus",
+"Pluralismus"
+],
+"e": "Ein Körper, das Zeichen für zwei und ein Geist zeigen, dass der Mensch aus zwei Substanzen besteht. René Descartes vertrat diesen Leib-Seele-Dualismus."
+},
+{
+"nr": 58196,
+"t": "geo_welt",
+"l": 3,
+"s": "Bruchschollengebirge",
+"q": "Welche beiden Mittelgebirge bilden die Schultern des Oberrheingrabens?",
+"a": [
+"Schwarzwald und Vogesen",
+"Jura und Schwarzwald",
+"Vogesen und Ardennen",
+"Odenwald und Harz"
+],
+"e": "Beim Einsinken des Grabens wurden die Ränder angehoben. Östlich liegt der Schwarzwald, westlich die Vogesen."
+},
+{
+"nr": 97514,
+"t": "koerper",
+"l": 1,
+"s": "Weinen",
+"q": "Welches Wort beschreibt sehr heftiges, trauriges Weinen?",
+"a": [
+"bitterlich",
+"fröhlich",
+"süsslich",
+"heiter"
+],
+"e": "Man sagt: «Sie weint bitterlich.» Das bedeutet, dass jemand sehr traurig ist und stark weint."
+},
+{
+"nr": 30201,
+"t": "ch_geschichte",
+"l": 2,
+"s": "Internierung der Bourbaki-Armee",
+"q": "Im Rahmen welches Krieges kam die Bourbaki-Armee 1871 in die Schweiz?",
+"a": [
+"Deutsch-Französischer Krieg",
+"Krimkrieg",
+"Sonderbundskrieg",
+"Erster Weltkrieg"
+],
+"e": "Die französische Ostarmee war im Krieg gegen Preussen und seine Verbündeten in den Jura zurückgedrängt worden. Ihr blieb nur der Weg in die Schweiz."
+},
+{
+"nr": 119936,
+"t": "wissenschaft",
+"l": 3,
+"s": "Gelelektrophorese",
+"q": "Welches Gelmaterial verwendet man typischerweise, um Proteine nach SDS-Behandlung der Grösse nach zu trennen?",
+"a": [
+"Polyacrylamid",
+"Agarose aus Kartoffelstärke",
+"Gelatine",
+"Silikon"
+],
+"e": "Polyacrylamid bildet sehr feine Poren und eignet sich gut für Proteine. SDS umhüllt die Proteine mit negativer Ladung, sodass sie nach ihrer Grösse wandern."
+},
+{
+"nr": 98020,
+"t": "technik",
+"l": 3,
+"s": "Empa",
+"q": "Wer übernahm 2022 als erste Frau die Leitung der Empa?",
+"a": [
+"Tanja Zimmermann",
+"Joël Mesot",
+"Martina Hirayama",
+"Christiane Leister"
+],
+"e": "Der Bundesrat wählte die Materialwissenschaftlerin Tanja Zimmermann 2022 zur Direktorin; sie folgte auf Gian-Luca Bona."
+},
+{
+"nr": 100634,
+"t": "technik",
+"l": 3,
+"s": "Schweizer Uhrenindustrie",
+"q": "Wo entstanden die ersten Schweizer Prototypen einer Quarzarmbanduhr?",
+"a": [
+"Im Centre électronique horloger in Neuenburg",
+"An der ETH Zürich",
+"Bei der Swatch in Biel",
+"Im CERN in Genf"
+],
+"e": "Das Labor der Schweizer Uhrenindustrie in Neuenburg stellte 1967 erste Prototypen vor, daraus entstand das Quarzwerk Beta 21. Die Schweiz nutzte diesen Vorsprung jedoch zunächst kaum."
+},
+{
+"nr": 3820,
+"t": "tiere",
+"l": 2,
+"s": "Europäischer Laubfrosch",
+"q": "In welcher Jahreszeit hört man den lauten Chorgesang der Laubfrösche am häufigsten?",
+"a": [
+"Im Frühling, während der Paarungszeit",
+"Im tiefen Winter",
+"Im Spätherbst",
+"Nur im Januar"
+],
+"e": "Während der Paarungszeit im Frühling rufen viele Männchen gleichzeitig an Teichen. Dieser laute Chor ist typisch für diese Jahreszeit."
+},
+{
+"nr": 31645,
+"t": "g_antike",
+"l": 3,
+"s": "Seidenstrasse",
+"q": "Wie gelangte die Seidenraupenzucht der Überlieferung nach um 552 n. Chr. ins Byzantinische Reich?",
+"a": [
+"Mönche schmuggelten Eier in hohlen Stäben",
+"Ein chinesischer Kaiser schenkte sie",
+"Arabische Händler verkauften Kokons",
+"Kreuzfahrer brachten sie aus Persien"
+],
+"e": "Laut dem Geschichtsschreiber Prokop brachten Mönche Seidenraupeneier für Kaiser Justinian heimlich aus Zentralasien. Damit endete das Monopol des Ostens."
+}
+]

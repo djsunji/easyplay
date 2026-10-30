@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Hauptseite»: Unterlagen für das Fragen-Rework (alle Fragen auf Sinn und Stufe prüfen) in `tools/fragen-pruefung/` (README mit Stand und Vorgehen, Prüfanleitung, Probelauf mit 600 Fragen). Die Arbeit übernimmt eine eigene Sitzung «Fragen-Rework». Wer an `fragen-*.json` arbeitet, bitte vorher dort melden.
 - 30.10. Sitzung «Qeels-Seite»: qeels.ch zeigt Dejans 11 Slogans abwechselnd als Überschrift (alle 4 s, zufälliger Start, Höhe fest für den längsten), `qeels-ch/index.html`. Version ep-2026-10-30-01.
 - 28.10. Sitzung «Hauptseite»: Frage Nr. 78956 (Wissenschaft, Entdecker, fairer Versuch) war unverständlich, neu mit Beispiel Licht und klaren Antworten, dazu die französische Fassung (`fragen-11.json`, `welten/i18n/fr/q-13.json`). Version ep-2026-10-28-01.
 - 27.10. Sitzung «Qeels-App»: `datenschutz.html` Abschnitt 10 ergänzt: Qeels-App mit Google AdMob (nur nicht personalisiert, an Kinder gerichtet), Speicherung nur auf dem Gerät, jedes 8. Qeel. Stand 27.10. Version ep-2026-10-27-03.
