@@ -1064,7 +1064,8 @@ let letzter = -1;
 // Kopf neben jede neue Frage setzen, nie zweimal hintereinander der gleiche
 const kind = () => document.querySelectorAll("#app h2.question:not([data-blase])").forEach(h => {
   h.dataset.blase = "1";
-  let n; do { n = Math.floor(Math.random() * KOEPFE.length); } while (n === letzter && KOEPFE.length > 1);
+  // Pro Frage immer dasselbe Kind (aus dem Fragetext berechnet), damit es beim Wechsel Frage/Erklärung oder Zurück nicht springt
+  let n = 0; try{ const Q = S.quiz, f = Q && Q.list && Q.list[Q.i]; const k = f ? (f.id || f.q || "") : (h.textContent || ""); let x = 7; for(const ch of String(k)) x = (x * 31 + ch.charCodeAt(0)) >>> 0; n = x % KOEPFE.length; }catch(e){}
   letzter = n;
   const i = document.createElement("img"); i.className = "ep-blase-kind"; i.src = "img/kids/koepfe/" + KOEPFE[n] + ".webp"; i.alt = ""; i.setAttribute("aria-hidden", "true");
   h.appendChild(i);
@@ -1161,5 +1162,22 @@ ${D} .tasthinweis kbd{background:#fff!important;color:#3A4366!important;border-c
 ${D} .feedback,${D} .dufb{background:transparent!important;border:0!important;color:#1B2240!important}
 ${D} .feedback p,${D} .feedback *:not(button){color:#1B2240!important}
 ${D} .explain,${D} .erkl,${D} [data-panel="erklaerung"]{color:#1B2240!important}
-${D} #toExplain{background:#fff!important;border:2px solid #DDE2F2!important;color:#28304A!important}`;
+${D} #next,${D} #toExplain{all:unset;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 0;height:58px!important;min-height:0!important;padding:0 8px!important;cursor:pointer;text-align:center;
+  background:none!important;border:0 solid transparent!important;border-width:17px 29px!important;border-radius:0!important;box-shadow:none!important;line-height:1!important;filter:drop-shadow(0 4px 6px rgba(20,20,60,.2));transition:transform .12s,filter .12s}
+${D} #next{border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 17px 29px stretch!important;color:#3A1C00!important;font:700 1.2rem Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+${D} #toExplain{border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 17px 29px stretch!important;color:#28304A!important;font:800 1.05rem Lexend,system-ui,sans-serif!important}
+${D} #next:hover,${D} #toExplain:hover{transform:translateY(-2px);filter:brightness(1.04) drop-shadow(0 6px 8px rgba(20,20,60,.25))}
+${D} #next:active,${D} #toExplain:active{transform:translateY(2px)}
+${D} #next:focus-visible,${D} #toExplain:focus-visible{outline:3px solid #8A3FE0;outline-offset:3px}
+${D} .feedback .row{display:flex!important;gap:14px!important;width:100%;align-items:center}
+/* Fortschrittsbalken am Computer: glänzend, wandernde Streifen, Funkeln am Ende */
+html.qq-an body:not(.ep-app) #app > .qtop .bar.ep-balken{height:34px!important;background:linear-gradient(180deg,#2A2F6B,#1B2050)!important;border:3px solid #fff!important;box-shadow:0 6px 14px -4px rgba(40,30,120,.45),inset 0 3px 6px rgba(0,0,0,.35)!important}
+html.qq-an body:not(.ep-app) #app > .qtop .bar.ep-balken > i{overflow:hidden;border-radius:999px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 50%),repeating-linear-gradient(-45deg,rgba(255,255,255,.28) 0 11px,rgba(255,255,255,0) 11px 22px),linear-gradient(90deg,#FFD43B,#FF9F1C 45%,#FF5FA2 80%,#C04BFF)!important;
+  background-size:100% 100%,31px 31px,100% 100%!important;animation:ep-streifen-d .9s linear infinite!important;box-shadow:0 0 14px rgba(255,180,60,.65)}
+html.qq-an body:not(.ep-app) #app > .qtop .bar.ep-balken > i::after{content:"";position:absolute;right:4px;top:50%;width:18px;height:18px;transform:translateY(-50%);background:radial-gradient(circle,#fff 0 22%,rgba(255,255,255,.6) 35%,rgba(255,255,255,0) 70%);border-radius:50%;animation:ep-funkel 1.4s ease-in-out infinite}
+html.qq-an body:not(.ep-app) #app > .qtop .bar.ep-balken > .ep-balken-text{font-size:1rem!important;letter-spacing:.4px}
+@keyframes ep-streifen-d{from{background-position:0 0,0 0,0 0}to{background-position:0 0,31px 0,0 0}}
+@keyframes ep-funkel{0%,100%{opacity:.5;transform:translateY(-50%) scale(.7)}50%{opacity:1;transform:translateY(-50%) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){html.qq-an body:not(.ep-app) #app > .qtop .bar.ep-balken > i,html.qq-an body:not(.ep-app) #app > .qtop .bar.ep-balken > i::after{animation:none!important}}`;
 document.head.appendChild(c); })();
