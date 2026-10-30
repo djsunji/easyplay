@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-30-40";
+window.EP_BUILD="ep-2026-10-30-41";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -2820,27 +2820,30 @@ const BEREICHE = [
     {id:"technik", name:"Technik & Erfindungen", emo:"robot", text:"Maschinen, Computer und Erfinder"},
     {id:"informatik", name:"Informatik", emo:"laptop", text:"Programmieren, Daten und Netzwerke"}]},
   {id:"geld", name:"Schweiz, Geld & Leben", emo:"flag", c:"--geld", text:"Was man fürs Leben in der Schweiz wissen muss", desc:"Alles, was man als junger Mensch in der Schweiz wissen sollte: klug mit Geld umgehen, Bankkonto und Karten, Steuern und Krankenkasse, Social Media, und welche Lehre zu dir passt.", themen:[
-    {id:"geld", name:"Umgang mit Geld", emo:"coin", text:"Sparen, Budget, Schulden"},
-    {id:"banken", name:"Banken", emo:"bank", text:"Konto, Karte, Sicherheit"},
-    {id:"steuern", name:"Steuern", emo:"receipt", text:"Wofür und wie man zahlt"},
+    {id:"geldalles", name:"Geld, Banken & Steuern", emo:"coin", text:"Sparen, Banken, Steuern und Wirtschaft", kids:["geld","banken","steuern","wirtschaft"], sammel:true},
+    {id:"geld", name:"Umgang mit Geld", emo:"coin", text:"Sparen, Budget, Schulden", versteckt:true},
+    {id:"banken", name:"Banken", emo:"bank", text:"Konto, Karte, Sicherheit", versteckt:true},
+    {id:"steuern", name:"Steuern", emo:"receipt", text:"Wofür und wie man zahlt", versteckt:true},
     {id:"krankenkasse", name:"Krankenkasse", emo:"health", text:"Prämie, Franchise, Versicherung"},
     {id:"medien", name:"Medien & Social Media", emo:"phone", text:"TikTok & Co. clever nutzen"},
     {id:"beruf", name:"Berufswahl & Lehre", emo:"toolbox", text:"Welche Lehre passt zu mir?"},
     {id:"haushalt", name:"Haushalt & Ernährung", emo:"pan", text:"Essen, Konsum und Wohnen"},
     {id:"schweiz", name:"Die Schweiz", emo:"flag", text:"Kantone, Demokratie und Traditionen"},
-    {id:"wirtschaft", name:"Geld & Wirtschaft", emo:"money", text:"Franken, Handel, Börse und Nationalbank"},
+    {id:"wirtschaft", name:"Geld & Wirtschaft", emo:"money", text:"Franken, Handel, Börse und Nationalbank", versteckt:true},
     {id:"logos", name:"Logo-Quiz", emo:"image", text:"Marken und Firmen am Logo erkennen"}]},
   {id:"alltag", name:"Alltag & Kultur", emo:"bike", c:"--alltag", text:"Sprache, Kunst, Musik, Sport und Alltag", desc:"Sprache und Fremdsprachen, Kunst, Musik, Sport, Filme und Spiele, Allgemeinwissen und alles für den Alltag: Verhalten im Strassenverkehr, Notrufnummern, Wohnen und Versicherungen, Abfall und Recycling sowie viele praktische Tipps für jeden Tag.", themen:[
-    {id:"alltag", name:"Alltägliches", emo:"house", text:"Verkehr, Notfall, Wohnen, Internet"},
+    {id:"alltagalles", name:"Alltag & Allgemeinwissen", emo:"house", text:"Verkehr, Notfall, Rekorde und Rätsel", kids:["alltag","allgemein"], sammel:true},
+    {id:"alltag", name:"Alltägliches", emo:"house", text:"Verkehr, Notfall, Wohnen, Internet", versteckt:true},
     {id:"sprache", name:"Sprache & Deutsch", emo:"abc", text:"Grammatik, Rechtschreibung, Literatur"},
-    {id:"fremdsprachen", name:"Fremdsprachen", emo:"voice", text:"Englisch und Französisch"},
-    {id:"franzoesisch", name:"Französisch", emo:"croissant", text:"Mots, grammaire et culture"},
-    {id:"englisch", name:"Englisch", emo:"uk", text:"Wörter, Grammatik und Kultur"},
+    {id:"sprachenalles", name:"Fremdsprachen", emo:"voice", text:"Französisch und Englisch", kids:["fremdsprachen","franzoesisch","englisch"], sammel:true},
+    {id:"fremdsprachen", name:"Fremdsprachen", emo:"voice", text:"Englisch und Französisch", versteckt:true},
+    {id:"franzoesisch", name:"Französisch", emo:"croissant", text:"Mots, grammaire et culture", versteckt:true},
+    {id:"englisch", name:"Englisch", emo:"uk", text:"Wörter, Grammatik und Kultur", versteckt:true},
     {id:"kunst", name:"Kunst & Kultur", emo:"palette", text:"Malerei, Epochen und Bauwerke"},
     {id:"musik", name:"Musik", emo:"music", text:"Instrumente, Noten und Komponisten"},
     {id:"sport", name:"Sport", emo:"soccer", text:"Sportarten, Regeln und Rekorde"},
     {id:"unterhaltung", name:"Medien & Unterhaltung", emo:"clapper", text:"Bücher, Filme, Comics und Games"},
-    {id:"allgemein", name:"Allgemeinwissen", emo:"puzzle", text:"Rekorde, Rätsel und Wissenswertes"},
+    {id:"allgemein", name:"Allgemeinwissen", emo:"puzzle", text:"Rekorde, Rätsel und Wissenswertes", versteckt:true},
     {id:"ethik", name:"Ethik", emo:"scale", text:"Werte, Gerechtigkeit und Zusammenleben"}]}
 ];
 const THEMA = {}; BEREICHE.forEach(b=>b.themen.forEach(t=>THEMA[t.id]={...t,bereich:b}));
@@ -4231,7 +4234,7 @@ const QBUCH = new Set(["alltag", "geld", "geschichte", "leben", "natur", "politi
 const qicon = (ordner, id) => `<span class="ic emo-i gico qico" aria-hidden="true"><img src="img/qeels-icons/${ordner}/${id}.webp?v=2" alt="" draggable="false"></span>`;
 const buchEmo = b => b && QBUCH.has(b.id) ? qicon("buecher", b.id) : (b ? b.emo : "");
 /* Einzelne Qeels-Bilder sind unsauber ausgeschnitten: dort das passende Buch-Bild nehmen */
-const QERSATZ = {};
+const QERSATZ = {geldalles:["themen","geld"], alltagalles:["themen","alltag"], sprachenalles:["themen","fremdsprachen"]};
 const themaIcon = t => t && t.kuerzel ? wappen(t.kuerzel) : (t && QERSATZ[t.id] ? qicon(...QERSATZ[t.id]) : t && QICON.has(t.id) ? qicon("themen", t.id) : ico(t?.emo));
 
 const S = { stufe: store.get("ep-stufe",1), screen:"home", bereich:null, thema:null, quiz:null, extra:store.get("ep-extra",[]),
@@ -4258,7 +4261,7 @@ function allCount(){ return FRAGEN.length + S.extra.length; }
 const byL = (arr,l) => (l && l!==4) ? arr.filter(f=>f.l===l) : arr;
 function countThema(id,l){ const P = poolIdx(), k = id + "|" + (l||0); if(P.counts.has(k)) return P.counts.get(k); const n = id==="geschichte" ? GESCH_IDS.reduce((n,x)=>n+byL(pool(x),l).length,0) : byL(pool(id),l).length; P.counts.set(k, n); return n; }
 function countIds(ids,l){ return ids.reduce((n,x)=>n+countThema(x,l),0); }
-function countBereich(b,l){ return b.themen.reduce((n,t)=>n+countThema(t.id,l),0); }
+function countBereich(b,l){ return b.themen.reduce((n,t)=>n+(t.sammel?0:countThema(t.id,l)),0); }
 function allCountL(l){ const P = poolIdx(), k = "*|" + (l||0); if(P.counts.has(k)) return P.counts.get(k); const n = byL(P.all,l).length; P.counts.set(k, n); return n; }
 const STUFE_ALLE = {id:4, name:"Alle Stufen", alter:"alle Fragen"};
 function stufeObj(id){ const k=id??S.stufe; if(k===4) return STUFE_ALLE; return STUFEN.find(s=>s.id===k) || STUFEN[0]; }
@@ -4475,9 +4478,9 @@ function renderBereich(){
     <div class="gaeste bereichgaeste" aria-hidden="true"><img class="gast gl" src="${GAESTE.maedchen}" alt=""><img class="gast gr" src="${GAESTE.junge}" alt=""></div>
     <div class="bhead"><span class="emo" aria-hidden="true">${ico(b.emo)}</span><h1>${b.name}</h1></div>
     <p class="bdesc">${esc(b.desc||b.text)}</p>
-    ${stufeBar(`${countBereich(b,S.stufe)} Fragen in ${b.themen.filter(t=>t.menu||[1,2,3].some(l=>countThema(t.id,l))).length} Themen`)}
+    ${stufeBar(`${countBereich(b,S.stufe)} Fragen in ${b.themen.filter(t=>!t.versteckt&&(t.menu||[1,2,3].some(l=>countThema(t.id,l)))).length} Themen`)}
     <div class="themen">
-      ${b.themen.filter(t=>t.menu||[1,2,3].some(l=>countThema(t.id,l))).map(t=>{ const st=trainStars(t.id), bp=myBest(t.id); return `<button class="thema" type="button" data-t="${t.id}" style="--c:var(${b.c})">
+      ${b.themen.filter(t=>!t.versteckt&&(t.menu||[1,2,3].some(l=>countThema(t.id,l)))).map(t=>{ const st=trainStars(t.id), bp=myBest(t.id); return `<button class="thema" type="button" data-t="${t.id}" style="--c:var(${b.c})">
         <span class="emo" aria-hidden="true">${themaIcon(t)}</span>
         <span><b>${t.name}</b><span class="t">${st!=null ? stars(st) : t.text}${bp? " · Test: "+bp+" P." : ""}</span>
         <span class="n">${countThema(t.id,S.stufe)} Fragen</span></span></button>`; }).join("")}
@@ -6184,7 +6187,7 @@ function oeffneEinstellungen(){
 /* ---------- Fragendatenbank (Bibliothek aller Fragen) ---------- */
 const BIB = { q:"", stufe:0 };
 function bibGruppen(){
-  return BEREICHE.map(b=>({b, items:b.themen.filter(t=>t.id!=="bilder"&&t.id!=="logos").map(t=>{
+  return BEREICHE.map(b=>({b, items:b.themen.filter(t=>t.id!=="bilder"&&t.id!=="logos"&&!t.sammel).map(t=>{
     if(t.id==="geschichte") return {t, gruppen:[{name:"Epochen", ids:GESCH_EPOCHEN.map(x=>x.id)},{name:"Schweizer Geschichte", ids:[CH_ALLG.id]},{name:"Kantone", ids:KANTONE.map(k=>k.id)}]};
     if(t.kids) return {t, gruppen:[{name:null, ids:t.kids}]};
     return {t, ids:[t.id]};
@@ -7386,7 +7389,7 @@ function renderLibSeite(){
 function libThemenListe(b){
   const out=[];
   b.themen.forEach(t=>{
-    if(t.id==="bilder"||t.id==="logos") return;
+    if(t.id==="bilder"||t.id==="logos"||t.sammel) return;
     if(t.id==="geschichte"){ GESCH_EPOCHEN.forEach(e=>out.push([e.id,e.name])); out.push([CH_ALLG.id,"Schweizer Geschichte"]); out.push(["kt_alle","Die 26 Kantone"]); return; }
     if(t.kids){ t.kids.forEach(k=>out.push([k,THEMA[k].name])); return; }
     out.push([t.id,t.name]);
