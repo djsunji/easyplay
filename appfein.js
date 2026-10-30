@@ -262,6 +262,58 @@ html body.ep-app #app .st-kopf .sbar .sbtns > button{white-space:nowrap!importan
   html body.ep-app.ep-s-mode #app .st-kopf .bhead{min-height:40px!important;margin-bottom:6px!important}
 }
 
+/* ---- iPad: Platz nutzen statt halbleerer Bildschirm ---- */
+@media (min-width:700px){
+  html body.ep-app .ap-tp .thema{min-height:var(--af-th,140px)!important}
+  html body.ep-app.ep-s-quiz #app .qnav #qGrid{flex:0 1 220px!important;margin:0 auto}
+  html body.ep-app.ep-s-quiz #app .qnav{justify-content:space-between}
+}
+@media (min-width:700px) and (orientation:portrait){
+  /* Training/Test untereinander und grösser */
+  html body.ep-app.ep-s-mode #app .modes{display:flex!important;flex-direction:column!important;gap:22px!important;margin-top:18px!important}
+  html body.ep-app.ep-s-mode #app .modes>.mode.mode.mode{padding:22px 26px!important;column-gap:18px!important;grid-template-columns:64px 1fr!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > .em{width:64px!important;height:64px!important;font-size:36px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > h2{font-size:30px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > h2 + p{display:block!important;font-size:17px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .slider{margin-top:16px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .slider output{font-size:38px!important;min-width:64px}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts{margin-top:14px!important;gap:12px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts .cnt{height:52px!important;font-size:20px!important}
+  html body.ep-app #app #startTrain,html body.ep-app #app .startlbl{--gh:72px!important;font-size:22px!important;margin-top:16px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test .punkteinfo{display:block!important;font-size:16px!important;margin-top:12px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test > p{font-size:16px!important;margin-top:10px!important}
+  /* Quiz grösser */
+  html body.ep-app.ep-s-quiz #app .qtop,html body.ep-app.ep-s-quiz #app .qnav,html body.ep-app.ep-s-quiz #app .card{zoom:1.28}
+  /* Zeitreise grösser */
+  html body.ep-app.ep-s-geschmenu .epochs{gap:16px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema{min-height:150px!important;padding:18px!important;gap:16px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema .emo{width:72px!important;height:72px!important;min-width:72px;font-size:40px!important;border-radius:20px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema .emo .ic{font-size:40px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema b{font-size:21px!important}
+  html body.ep-app.ep-s-geschmenu .epochs .thema .t{display:block!important;font-size:14px!important;margin-top:4px}
+  html body.ep-app.ep-s-geschmenu .epochs .thema .n{font-size:14px!important;padding:4px 12px!important;margin-top:8px!important}
+  html body.ep-app.ep-s-geschmenu p.label span{font-size:22px!important}
+  html body.ep-app.ep-s-geschmenu .bereiche .bereich{min-height:110px!important;padding:20px 22px!important;grid-template-columns:64px 1fr auto!important}
+  html body.ep-app.ep-s-geschmenu .bereiche .bereich .emo{width:64px!important;height:64px!important;font-size:36px!important}
+  html body.ep-app.ep-s-geschmenu .bereiche .bereich h2{font-size:24px!important}
+  html body.ep-app.ep-s-geschmenu .bereiche .bereich p{font-size:15px!important}
+}
+@media (min-width:1000px) and (orientation:landscape){
+  html body.ep-app.ep-s-quiz #app .qtop,html body.ep-app.ep-s-quiz #app .qnav,html body.ep-app.ep-s-quiz #app .card{zoom:1.2}
+  html body.ep-app.ep-s-mode #app .modes{gap:22px!important;margin-top:18px!important}
+  html body.ep-app.ep-s-mode #app .modes>.mode.mode.mode{padding:22px 24px!important;grid-template-columns:60px 1fr!important;column-gap:16px!important;min-height:420px!important;align-content:center}
+  html body.ep-app.ep-s-mode #app .modes .mode > .em{width:60px!important;height:60px!important;font-size:34px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > h2{font-size:28px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode > h2 + p{font-size:16px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .slider{margin-top:18px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .slider output{font-size:34px!important;min-width:60px}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts{margin-top:16px!important;gap:10px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode .counts .cnt{height:50px!important;font-size:19px!important}
+  html body.ep-app #app #startTrain,html body.ep-app #app .startlbl{--gh:68px!important;font-size:21px!important;margin-top:18px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test .punkteinfo{font-size:15px!important;margin-top:14px!important}
+  html body.ep-app.ep-s-mode #app .modes .mode.test > p{font-size:15px!important;margin-top:12px!important}
+}
+
 `;
 document.head.appendChild(css);
 
@@ -309,11 +361,22 @@ function themenEinpassen(){
   const platz = unten() + scrollY;
   if(inhaltEnde() > platz){ tp.classList.add("af-eng1"); if(inhaltEnde() > platz) tp.classList.add("af-eng2"); }
 }
+function kachelnFuellen(){
+  const tp = document.querySelector("#app .ap-tp"); if(!tp) return;
+  if(innerWidth < 700){ tp.style.removeProperty("--af-th"); return; }
+  tp.style.removeProperty("--af-th");
+  const pg = tp.querySelector(".ap-tpage"); const k = pg && pg.querySelector(".thema"); if(!k) return;
+  const sp = Math.max(1, getComputedStyle(pg).gridTemplateColumns.split(" ").length), reihen = Math.ceil(pg.querySelectorAll(".thema").length / sp);
+  const frei = unten() + scrollY - 12 - inhaltEnde(); if(frei <= 8) return;
+  const h = k.getBoundingClientRect().height, neu = Math.min(230, Math.floor(h + frei / reihen));
+  if(neu > h) tp.style.setProperty("--af-th", neu + "px");
+}
 function scrollWaechter(){
   const h = document.documentElement;
   if(!app() || document.getElementById("reels")){ h.classList.remove("af-fest"); return; }
   const y = scrollY; h.classList.remove("af-fest");
   try{ themenEinpassen(); }catch(e){}
+  try{ kachelnFuellen(); }catch(e){}
   const passt = inhaltEnde() <= unten() + scrollY + 1;
   if(passt){ h.classList.add("af-fest"); if(scrollY) scrollTo(0, 0); } else if(y && scrollY !== y) scrollTo(0, y);
 }
