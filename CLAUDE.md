@@ -33,6 +33,7 @@ _(leer)_
 
 ## Erledigt (neueste oben)
 
+- 30.10. Sitzung «Hauptseite»: Neue kompakte Startseite für den Computer zum Testen (Entwurf A «Zwei grosse Türen»): neue Datei `neustart.js` (vor `appfein.js`, in `sw.js`), nur aktiv mit `easyplay.ch/?neu` (merkt sich `ep-neustart` im Gerät, `?alt` schaltet aus), nie in der App-Ansicht. Ersetzt dann den Inhalt von `#app` auf der Startseite: Spielen mit Stufenwahl und «Jetzt spielen», Bibliothek mit Suche, darunter Entdecken, Thema der Woche, Duell, Truhe. Alle anderen sehen die alte Startseite. Version ep-2026-10-30-02.
 - 30.10. Sitzung «Hauptseite»: Unterlagen für das Fragen-Rework (alle Fragen auf Sinn und Stufe prüfen) in `tools/fragen-pruefung/` (README mit Stand und Vorgehen, Prüfanleitung, Probelauf mit 600 Fragen). Die Arbeit übernimmt eine eigene Sitzung «Fragen-Rework». Wer an `fragen-*.json` arbeitet, bitte vorher dort melden.
 - 30.10. Sitzung «Qeels-Seite»: qeels.ch zeigt Dejans 11 Slogans abwechselnd als Überschrift (alle 4 s, zufälliger Start, Höhe fest für den längsten), `qeels-ch/index.html`. Version ep-2026-10-30-01.
 - 28.10. Sitzung «Hauptseite»: Frage Nr. 78956 (Wissenschaft, Entdecker, fairer Versuch) war unverständlich, neu mit Beispiel Licht und klaren Antworten, dazu die französische Fassung (`fragen-11.json`, `welten/i18n/fr/q-13.json`). Version ep-2026-10-28-01.
