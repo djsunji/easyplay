@@ -64,8 +64,8 @@ body.ep-neustart .wrap{max-width:1360px}
 .np-k.entdecken{border-image-source:url(${K}level-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(10,120,70,.3))}
 .np-k.woche{border-image-source:url(${K}serie-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(190,60,40,.3))}
 .np-k.duell{border-image-source:url(${K}live-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(140,40,170,.3))}
-.np-k.truhe{border-image-source:url(${K}truhe-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(190,130,0,.3))}
-.np-k.truhe.offen{filter:saturate(.7) drop-shadow(0 10px 14px rgba(190,130,0,.25))}
+.np-k.forscher{border-image-source:url(${K}tag-grund.webp?v=2);filter:drop-shadow(0 10px 14px rgba(20,110,140,.3))}
+.np-k.forscher img{height:86%;right:2px;bottom:0}
 .np-wahl{display:flex;flex-direction:column;gap:18px;padding-top:6px}
 .np-wahl-kopf{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .np-wahl-kopf h1{margin:0;font:700 40px/1.05 Fredoka,Lexend,system-ui,sans-serif;color:#2B1A73;text-shadow:0 2px 0 #fff}
@@ -92,7 +92,7 @@ function html(){
   const st = [1, 2, 3, 4].includes(S.stufe) ? S.stufe : 1;
   let seiten = 0, buecher = 9; try{ seiten = bibSeitenZahl(); buecher = BUECHER.length; }catch(e){}
   let wo = null; try{ wo = E().woche ? E().woche() : null; }catch(e){}
-  let truheOffen = false; try{ truheOffen = window.EP_TRUHE ? window.EP_TRUHE.offen() : false; }catch(e){}
+  let fo = "Los geht's", foNeu = true; try{ const d = new Date(), tag = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); const g = JSON.parse(localStorage.getItem("ep-x-forscher-heute") || "null"); if(g && g.d === tag && g.titel) fo = g.titel; foNeu = JSON.parse(localStorage.getItem("ep-x-forscher-gesehen") || '""') !== tag; }catch(e){}
   let welten = 18; try{ welten = (window.EP_EXTRAS && window.EP_EXTRAS.liste) ? window.EP_EXTRAS.liste().length : 18; }catch(e){}
   return `<div class="np">
     <section class="np-tueren">
@@ -126,7 +126,7 @@ function html(){
       <button type="button" class="np-k entdecken" data-np="entdecken"><small>${welten} Welten</small><b>Entdecken</b><span>Karte, Album, Abenteuer</span><img src="${K}level-symbol.webp" alt=""></button>
       <button type="button" class="np-k woche" data-np="woche"><small>Thema der Woche</small><b class="${(wo && wo.thema ? wo.thema.name : "Wochen-Challenge").length > 14 ? "lang" : ""}">${h(wo && wo.thema ? wo.thema.name : "Wochen-Challenge")}</b><span>${wo && wo.thema ? `${wo.r} von ${wo.ziel} richtig` : "Jede Woche ein neues Thema"}</span><img src="${K}serie-symbol.webp" alt=""></button>
       <button type="button" class="np-k duell" data-np="duell"><small>Gegeneinander</small><b>Duell</b><span>Freunde, Familie, Klasse</span><img src="${K}live-symbol.webp" alt=""></button>
-      <button type="button" class="np-k truhe${truheOffen ? " offen" : ""}" data-np="truhe"><small>Jeden Tag neu</small><b>${truheOffen ? "Heute geöffnet" : "Truhe öffnen"}</b><span>${truheOffen ? "Morgen wartet die nächste" : "Eine Überraschung wartet"}</span><img src="${K}truhe-symbol.webp" alt=""></button>
+      <button type="button" class="np-k forscher" data-np="forscher"><small>Forscher-Auftrag</small><b${fo.length > 14 ? ' class="lang"' : ""}>${esc(fo)}</b><span>${foNeu ? "Neu für heute" : "Kleine Mission"}</span><img src="img/kids/duo-bereit.webp" alt=""></button>
     </section>
   </div>`;
 }
@@ -173,6 +173,7 @@ function los(was){
     else if(was === "woche") A("woche");
     else if(was === "duell") A("duell");
     else if(was === "truhe") go("x-truhe");
+    else if(was === "forscher") go("x-forscher");
   }catch(e){ console.warn("neustart", e); }
 }
 function binden(){
