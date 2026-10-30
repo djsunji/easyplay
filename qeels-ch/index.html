@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Qeels: Reels waren gestern, heute sind Qeels in</title>
+<title>Qeels: Früher hat man gereelt. Heute wird geqeelt.</title>
 <meta name="description" content="Qeels: Quizfragen und Wissen im Stil von Shorts und Reels. Für Kinder und Jugendliche in der Schweiz, mit über 129 000 Fragen in drei Stufen.">
 <meta name="theme-color" content="#1B1450">
 <link rel="icon" type="image/png" sizes="48x48" href="/qeels-ch/img/icon-48.png">
@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="/qeels-ch/img/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Qeels">
-<meta property="og:title" content="Qeels: Reels waren gestern, heute sind Qeels in">
+<meta property="og:title" content="Qeels: Früher hat man gereelt. Heute wird geqeelt.">
 <meta property="og:description" content="Quizfragen und Wissen im Stil von Shorts und Reels. Für Kinder und Jugendliche in der Schweiz.">
 <meta property="og:url" content="https://qeels.ch/">
 <meta property="og:image" content="https://qeels.ch/qeels-ch/img/vorschau.jpg">
@@ -313,6 +313,11 @@ footer a:hover{color:#fff;text-decoration:underline}
 .hero h1{font-size:clamp(2.3rem,4.8vw,3.8rem)}
 .hero h1 span{display:block}
 @media (max-width:520px){.knopf.gross{font-size:1.35rem;padding:16px 28px 16px 16px}.knopf.gross .play{width:40px;height:40px}.storebadge{height:46px}}
+
+/* Wechselnde Slogans */
+#slogan{transition:opacity .45s,transform .45s}
+#slogan.weg{opacity:0;transform:translateY(12px)}
+@media (prefers-reduced-motion:reduce){#slogan{transition:none}}
 </style>
 </head>
 <body>
@@ -329,7 +334,7 @@ footer a:hover{color:#fff;text-decoration:underline}
 <main>
   <div class="wrap hero">
     <div>
-      <h1>Reels waren gestern. <span>Heute sind Qeels in.</span></h1>
+      <h1 id="slogan" aria-live="polite">Früher hat man gereelt. <span>Heute wird geqeelt.</span></h1>
       <p class="lead">Qeels zeigt dir Quizfragen und spannende Artikel im Stil von Shorts und Reels. Wisch nach oben, tipp die richtige Antwort und lerne bei jedem Qeel etwas Neues, von den Dinosauriern bis zu den 26 Kantonen.</p>
       <div class="aktionen">
         <a class="knopf gross" href="/qeels/"><span class="play" aria-hidden="true"></span>Im Browser spielen</a>
@@ -481,6 +486,27 @@ footer a:hover{color:#fff;text-decoration:underline}
     erkl.textContent=(ok?"✅ Richtig! ":"❌ Fast! ")+"Herakles musste zwölf Aufgaben erledigen, zum Beispiel den Nemeischen Löwen besiegen. Bei Qeels geht es jetzt mit der nächsten Frage weiter.";
     erkl.hidden=false;
   });
+})();
+</script>
+
+<script>
+// Slogans wechseln sich alle paar Sekunden ab
+(function(){
+  var L=[["Früher hat man gereelt.","Heute wird geqeelt."],["Reels sind nett.","Qeels sind fett."],["Mama, ich bin jetzt","Qeeler!"],
+    ["Erst kam das Rad. Dann Reels.","Jetzt Qeels."],["Don't Reel.","Just Qeel."],["No Reels. No Rules.","Just Qeels."],["Less Reels.","More Qeels."],
+    ["Born to","Qeel."],["Qeel it","like it's hot!"],["Make Qeels,","not Reels."],["Keep calm","and Qeel on!"]];
+  var h=document.getElementById("slogan"); if(!h) return;
+  function setze(s){ h.textContent=s[0]+" "; var sp=document.createElement("span"); sp.textContent=s[1]; h.appendChild(sp); }
+  // Platz für den längsten Slogan reservieren, damit nichts springt
+  function hoehe(){ h.style.minHeight=""; var m=0, alt=h.innerHTML; L.forEach(function(s){ setze(s); m=Math.max(m,h.offsetHeight); }); h.innerHTML=alt; h.style.minHeight=m+"px"; }
+  var i=Math.floor(Math.random()*L.length); setze(L[i]); hoehe();
+  var t; addEventListener("resize",function(){ clearTimeout(t); t=setTimeout(hoehe,150); });
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  setInterval(function(){
+    if(document.hidden) return;
+    h.classList.add("weg");
+    setTimeout(function(){ i=(i+1)%L.length; setze(L[i]); h.classList.remove("weg"); },450);
+  },4000);
 })();
 </script>
 </body>
