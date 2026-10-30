@@ -1099,3 +1099,48 @@ const schieben = () => document.querySelectorAll("#app .card").forEach(card => {
 new MutationObserver(schieben).observe(document.getElementById("app") || document.body, {childList:true, subtree:true});
 schieben();
 })();
+
+/* ================= Fortschrittsbalken mit Text drin und Animation, gleich grosse Knöpfe oben am Handy ================= */
+(function(){
+// Der Text «Frage 3 von 10» steht neu im Balken (die alte .count daneben wird ausgeblendet, bleibt für Vorleser lesbar).
+// Der Balken wächst bei jeder neuen Frage vom alten auf den neuen Stand, die Füllung hat wandernde Streifen.
+const B = "html body #app";
+const css = document.createElement("style"); css.id = "ep-balken-css";
+css.textContent = `
+${B} .qtop .bar.ep-balken{position:relative;flex:1 1 100%!important;order:-1;height:30px!important;border-radius:999px!important;overflow:hidden;background:rgba(27,34,64,.88)!important;border:2px solid rgba(255,255,255,.75);box-shadow:inset 0 2px 4px rgba(0,0,0,.25),0 4px 10px rgba(20,20,60,.18);box-sizing:border-box}
+${B} .qtop .bar.ep-balken > i{position:absolute;left:0;top:0;bottom:0;min-width:0;border-radius:999px!important;transition:width .8s cubic-bezier(.3,1.3,.5,1)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0) 55%),repeating-linear-gradient(-45deg,rgba(255,255,255,.22) 0 10px,rgba(255,255,255,0) 10px 20px),linear-gradient(90deg,#FFB020,#FF5FA2 60%,#A855F7)!important;
+  background-size:100% 100%,28px 28px,100% 100%!important;animation:ep-streifen 1s linear infinite}
+${B} .qtop .bar.ep-balken > .ep-balken-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;font-size:.95rem;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7),0 0 6px rgba(0,0,0,.35);letter-spacing:.2px;white-space:nowrap;z-index:1}
+${B} .qtop:has(.ep-balken) > .count{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;padding:0!important;margin:-1px!important;border:0!important}
+@keyframes ep-streifen{from{background-position:0 0,0 0,0 0}to{background-position:0 0,28px 0,0 0}}
+@media (prefers-reduced-motion:reduce){${B} .qtop .bar.ep-balken > i{animation:none;transition:none!important}}
+@media (max-width:640px){
+  ${B} .qtop .bar.ep-balken{height:26px!important}
+  ${B} .qtop .bar.ep-balken > .ep-balken-text{font-size:.85rem}
+  /* obere Leiste: fünf gleich grosse Knöpfe */
+  ${B} .qnav.qnav{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important;justify-items:center;align-items:center}
+  ${B} .qnav.qnav button.qnbtn.qnbtn{--gh:29px!important;width:calc(29px*2.24)!important;min-width:0!important;max-width:100%!important;height:29px!important;margin:0!important}
+  ${B} .qnav.qnav button#qGrid.qnbtn{padding:0!important;border-width:8px 12px!important;border-image-width:8px 12px!important;font-size:0!important;gap:3px!important;background:none!important}
+  ${B} .qnav.qnav button#qGrid.qnbtn > span{font-size:.78rem!important;font-weight:800;line-height:1}
+  ${B} .qnav.qnav button#qGrid.qnbtn > .qnm{display:none!important}
+}`;
+document.head.appendChild(css);
+let letzt = null;
+const balken = () => document.querySelectorAll("#app .qtop").forEach(top => {
+  const bar = top.querySelector(":scope > .bar"), cnt = top.querySelector(":scope > .count"), fill = bar && bar.querySelector("i");
+  if(!bar || !cnt || !fill || bar.classList.contains("ep-balken")) return;
+  bar.classList.add("ep-balken");
+  const t = document.createElement("span"); t.className = "ep-balken-text"; t.setAttribute("aria-hidden", "true"); t.textContent = cnt.textContent.trim();
+  bar.appendChild(t);
+  const ziel = fill.style.width;
+  if(letzt != null && letzt !== ziel && parseFloat(ziel) > 0){
+    // ohne Übergang auf den alten Stand setzen, Layout erzwingen, dann zum neuen Stand gleiten
+    fill.style.setProperty("transition", "none", "important"); fill.style.width = letzt; void fill.offsetWidth;
+    fill.style.removeProperty("transition"); fill.style.width = ziel;
+  }
+  letzt = ziel;
+});
+new MutationObserver(balken).observe(document.getElementById("app") || document.body, {childList:true, subtree:true});
+balken();
+})();
