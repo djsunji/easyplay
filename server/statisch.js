@@ -4,6 +4,7 @@ import { createReadStream } from "node:fs";
 import { join, normalize, extname, sep } from "node:path";
 import { gzip as gzipCb, brotliCompress as brCb, constants as Z } from "node:zlib";
 import { promisify } from "node:util";
+import { createHash } from "node:crypto";
 
 const gzip = promisify(gzipCb), brotli = promisify(brCb);
 const TYP = {
@@ -30,6 +31,22 @@ async function gepackt(pfad, groesse, mtime, art) {
   return daten;
 }
 
+/* ETag aus dem Inhalt statt aus der Änderungszeit: Beim Bau bei Deploio bekommt jede Datei eine neue Zeit,
+   dann hätte jeder Push alle Fragen (17 MB) und allen Code für alle Geräte ungültig gemacht. So bleibt
+   eine unveränderte Datei «unverändert» (304) und nur Geändertes wird neu geladen. */
+const HASHES = new Map();
+async function inhaltsEtag(pfad, st) {
+  const k = `${pfad}|${st.size}|${st.mtimeMs}`;
+  let e = HASHES.get(k);
+  if (!e) {
+    try { e = `W/"${createHash("sha1").update(await readFile(pfad)).digest("base64url").slice(0, 22)}"`; }
+    catch (x) { e = `W/"${st.size.toString(36)}-${Math.floor(st.mtimeMs).toString(36)}"`; }
+    if (HASHES.size > 20000) HASHES.clear();
+    HASHES.set(k, e);
+  }
+  return e;
+}
+
 export function statischMacher(wurzel) {
   return async function statisch(req, res) {
     if (req.method !== "GET" && req.method !== "HEAD") return false;
@@ -42,7 +59,7 @@ export function statischMacher(wurzel) {
     let st; try { st = await stat(pfad); } catch (e) { return false; }
     if (st.isDirectory()) { res.weiter("/" + rel.replace(/^\/+/, "") + "/" + (req.suche || "")); return true; }
     const ext = extname(rel).toLowerCase();
-    const etag = `W/"${st.size.toString(36)}-${Math.floor(st.mtimeMs).toString(36)}"`;
+    const etag = st.size <= 8 * 1024 * 1024 ? await inhaltsEtag(pfad, st) : `W/"${st.size.toString(36)}-${Math.floor(st.mtimeMs).toString(36)}"`;
     const h = {
       "Content-Type": TYP[ext] || "application/octet-stream", ETag: etag, "Last-Modified": st.mtime.toUTCString(),
       "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin",
