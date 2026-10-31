@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-10-31-02";
+window.EP_BUILD="ep-2026-10-31-03";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6064,7 +6064,7 @@ async function ladeFragenDB(){
 /* Bibliothek im Leerlauf vorbereiten, damit das erste Öffnen sofort geht */
 function buecherVorwaermen(){
   /* Ohne passenden Index (z. B. nach neuen Fragen) wäre das Vorwärmen sehr teuer und blockiert das Handy: dann erst beim Öffnen rechnen */
-  try{ const P=window.EP_BIBIDX; if(!P || P.n!==FRAGEN.length){ console.warn("Bibliothek-Index passt nicht ("+(P&&P.n)+" vs "+FRAGEN.length+"), kein Vorwärmen"); return; } }catch(e){ return; }
+  try{ const P=window.EP_BIBIDX; if(!P || !P.r){ console.warn("Bibliothek-Index fehlt, kein Vorwärmen"); return; } if(P.n!==FRAGEN.length) console.warn("Bibliothek-Index etwas veraltet ("+P.n+" vs "+FRAGEN.length+"), bitte tools/bibidx_bauen.js laufen lassen"); }catch(e){ return; }
   const liste = (typeof BUECHER !== "undefined" ? BUECHER : []).map(b=>b.id); let i = 0;
   const schritt = (dl) => { while(i < liste.length && (!dl || dl.timeRemaining() > 8)){ try{ buchDaten(liste[i]); }catch(e){} i++; } if(i < liste.length) (window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>50}),200)))(schritt, {timeout:3000}); };
   (window.requestIdleCallback || (f=>setTimeout(()=>f({timeRemaining:()=>50}),1500)))(schritt, {timeout:5000});
@@ -6738,7 +6738,7 @@ function rxBlob(text){ const key=FRAGEN.length+"|"+S.extra.length+"|"+(text===fT
   for(let i=0;i<uniq.length;i++){ const t=String(text(uniq[i])).replace(/\n/g," "); offs[i]=pos; parts[i]=t; pos+=t.length+3; }
   return RXB[key]={uniq, offs, big:parts.join(" .\n")}; }
 function rxTreffer(uniq,text,re,max,ok){ const {uniq:U,offs,big}=rxBlob(text);
-  const P=window.EP_BIBIDX; if(P && P.n===FRAGEN.length){ const r=P.r[re.source+"/"+re.flags+"/"+max+"/"+(text===fTextM?"m":"t")+(ok?"/o":"")];
+  const P=window.EP_BIBIDX; if(P && P.r){ const r=P.r[re.source+"/"+re.flags+"/"+max+"/"+(text===fTextM?"m":"t")+(ok?"/o":"")];
     if(r){ const b=rxBlob(text); if(!b.nrMap){ b.nrMap=new Map(); for(const f of U){ const k=f.nr!=null?f.nr:"q:"+f.q; if(!b.nrMap.has(k)) b.nrMap.set(k,f); } } return r.map(x=>b.nrMap.get(x)).filter(Boolean); } }
   const g=new RegExp(re.source, re.flags.replace(/[gy]/g,"")+"g"); const out=[]; let m;
   while(out.length<max && (m=g.exec(big))){ let lo=0,hi=offs.length-1; const p=m.index; while(lo<hi){ const mid=(lo+hi+1)>>1; if(offs[mid]<=p) lo=mid; else hi=mid-1; }
