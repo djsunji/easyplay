@@ -4,13 +4,17 @@ jobs:
   d:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: write
     steps:
+      - uses: actions/checkout@v4
       - run: |
+          exec > >(tee -a out1.txt) 2>&1
           for u in / /sw.js /api/health /stil.js /fragen-1.json /index.html; do curl -s -o /dev/null -H 'Accept-Encoding: br, gzip' -w "$u %{http_code} %{time_starttransfer}s ttfb %{time_total}s %{size_download}B\n" --max-time 60 "https://easyplay.ch$u?x=$RANDOM"; done
           curl -sI https://easyplay.ch/ | head -20
           curl -s --max-time 20 https://easyplay.ch/api/health; echo
       - run: |
-          npm i playwright@1.48.2 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
+          npm i --prefix /tmp/pw playwright@1.48.2 >/dev/null 2>&1 && /tmp/pw/node_modules/.bin/playwright install --with-deps chromium >/dev/null 2>&1
           cat > t.js <<'JS'
           const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();
           const log=[];p.on('console',m=>log.push(m.type()+': '+m.text().slice(0,200)));p.on('pageerror',e=>log.push('PE '+e.message.slice(0,300)));
@@ -21,4 +25,7 @@ jobs:
           console.log('load',i,r,Date.now()-t,'ms',await p.evaluate(()=>[window.__epVer,window.__epGerendert,window.EP_BUILD,document.readyState,(document.querySelector('#epBoot p')||{}).textContent].join(' | ')).catch(e=>e.message));}
           console.log(slow.slice(0,30).join('\n'));console.log(log.slice(0,60).join('\n'));await b.close();})();
           JS
-          node t.js
+          NODE_PATH=/tmp/pw/node_modules node t.js > out2.txt 2>&1 || true
+      - run: |
+          git config user.name diag; git config user.email diag@x
+          git add out1.txt out2.txt; git commit -m 'Ergebnis [skip ci]'; git push
