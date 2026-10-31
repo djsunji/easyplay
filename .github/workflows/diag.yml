@@ -16,14 +16,13 @@ jobs:
       - run: |
           npm i --prefix /tmp/pw playwright@1.48.2 >/dev/null 2>&1 && /tmp/pw/node_modules/.bin/playwright install --with-deps chromium >/dev/null 2>&1
           cat > t.js <<'JS'
-          const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();
-          const log=[];p.on('console',m=>log.push(m.type()+': '+m.text().slice(0,200)));p.on('pageerror',e=>log.push('PE '+e.message.slice(0,300)));
-          p.on('requestfailed',r=>log.push('FAIL '+r.url()+' '+(r.failure()||{}).errorText));
-          const slow=[];p.on('requestfinished',async r=>{const t=r.timing();if(t.responseEnd>3000)slow.push(Math.round(t.responseEnd)+'ms '+r.url())});
-          for(let i=0;i<3;i++){const t=Date.now();await p.goto('https://easyplay.ch/',{waitUntil:'commit',timeout:60000}).catch(e=>log.push('GOTO '+e.message));
-          const r=await p.waitForFunction(()=>!document.documentElement.classList.contains('ep-boot'),null,{timeout:60000,polling:200}).then(()=>'ok').catch(()=>'TIMEOUT');
-          console.log('load',i,r,Date.now()-t,'ms',await p.evaluate(()=>[window.__epVer,window.__epGerendert,window.EP_BUILD,document.readyState,(document.querySelector('#epBoot p')||{}).textContent].join(' | ')).catch(e=>e.message));}
-          console.log(slow.slice(0,30).join('\n'));console.log(log.slice(0,60).join('\n'));await b.close();})();
+          const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();const T0=Date.now();const L=m=>console.log(((Date.now()-T0)/1000).toFixed(1)+'s '+m);
+          p.on('console',m=>L('CON '+m.type()+': '+m.text().slice(0,250)));p.on('pageerror',e=>L('PE '+e.message.slice(0,300)));
+          p.on('framenavigated',f=>{if(f===p.mainFrame())L('NAV '+f.url())});
+          p.on('response',r=>{if(r.status()>=400)L('HTTP '+r.status()+' '+r.url())});
+          await p.goto('https://easyplay.ch/',{waitUntil:'commit',timeout:60000}).catch(e=>L('GOTO '+e.message));
+          for(let i=0;i<40;i++){await p.waitForTimeout(1000);const s=await p.evaluate(()=>[window.__epVer,window.__epGerendert,document.readyState,document.documentElement.className,document.scripts.length,(window.S&&S.screen)].join(' | ')).catch(e=>'ERR '+e.message.slice(0,80));if(i%3==0)L('STATE '+s);}
+          await b.close();})();
           JS
           NODE_PATH=/tmp/pw/node_modules node t.js > out2.txt 2>&1 || true
       - run: |
