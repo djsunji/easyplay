@@ -1,0 +1,16 @@
+0.5s NAV https://easyplay.ch/
+1.6s STATE ok | true | loading |  | 52 | 
+14.4s CON warning: Bibliothek-Index passt nicht (129202 vs 127808), kein Vorwärmen
+15.5s STATE ok | true | complete |  | 52 | 
+18.5s STATE ok | true | complete |  | 52 | 
+21.5s STATE ok | true | complete |  | 52 | 
+24.6s STATE ok | true | complete |  | 52 | 
+27.6s STATE ok | true | complete |  | 52 | 
+30.6s STATE ok | true | complete |  | 52 | 
+33.6s STATE ok | true | complete |  | 52 | 
+36.6s STATE ok | true | complete |  | 52 | 
+39.6s STATE ok | true | complete |  | 52 | 
+42.6s STATE ok | true | complete |  | 52 | 
+45.6s STATE ok | true | complete |  | 52 | 
+48.6s STATE ok | true | complete |  | 52 | 
+51.6s STATE ok | true | complete |  | 52 | 

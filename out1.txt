@@ -1,0 +1,25 @@
+/ 200 0.653357s ttfb 1.145273s 406595B
+/sw.js 200 0.566611s ttfb 0.566660s 6948B
+/api/health 200 0.463563s ttfb 0.463607s 28B
+/stil.js 200 0.586832s ttfb 0.589015s 24587B
+/fragen-1.json 200 0.644698s ttfb 1.185484s 753693B
+/index.html 200 0.337852s ttfb 0.871021s 406595B
+HTTP/2 200 
+content-type: text/html; charset=utf-8
+etag: W/"_6zGw3UXi-RaTKGiMCP0tS"
+last-modified: Sat, 31 Oct 2026 09:05:28 GMT
+x-content-type-options: nosniff
+referrer-policy: strict-origin-when-cross-origin
+tdm-reservation: 1
+tdm-policy: https://easyplay.ch/impressum.html
+x-robots-tag: index, nofollow, noarchive, nosnippet, noimageindex, max-image-preview:none, notranslate, noai, noimageai
+access-control-allow-origin: *
+cache-control: no-cache
+x-frame-options: SAMEORIGIN
+permissions-policy: camera=(), microphone=(), geolocation=()
+accept-ranges: bytes
+content-length: 1312616
+date: Sat, 31 Oct 2026 12:53:05 GMT
+strict-transport-security: max-age=31536000
+
+{"ok":true,"app":"easyplay"}
