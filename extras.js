@@ -155,7 +155,7 @@ function einstiege(){
         b.setAttribute("aria-label", `Entdecken: ${welten.length} Welten`);
         b.innerHTML = `<span class="x-g-txt"><small>✨ ${welten.length} Welten zum Entdecken</small><b>Entdecken</b>
           <span class="x-g-sub">Schweizer Karte, Sammelalbum, Abenteuer, Regionen-Duell, Musik und vieles mehr</span>
-          <span class="x-g-chips">${welten.slice(0, 6).map(m => `<i>${h(m.emo)} ${h(m.titel)}</i>`).join("")}<i>+${Math.max(0, welten.length - 6)} weitere</i></span>
+          <span class="x-g-chips">${welten.slice(0, 6).map(m => `<i>${["wiederholen","truhe","karte","familie","album","sprachen","abenteuer","mathe","spielwelt","feste","forscher","sound","hilfen","eltern","offline","sprache"].includes(m.id) ? `<img src="img/grafik/welten/${m.id}.webp?v=2" alt="" draggable="false">` : h(m.emo)} ${h(m.titel)}</i>`).join("")}<i>+${Math.max(0, welten.length - 6)} weitere</i></span>
           <span class="x-g-los">Los geht's ›</span></span>
           <img class="x-g-bild" src="img/kids/duo-jubel.webp" alt="">`;
         b.onclick = () => go("x-entdecken");
@@ -170,7 +170,7 @@ function einstiege(){
       if(fakt && !app.querySelector(".ap-heute .x-app")){
         const b = document.createElement("button"); b.type = "button"; b.className = "apf x-app";
         b.setAttribute("aria-label", `Entdecken: ${welten.length} Welten`);
-        b.innerHTML = `<span class="x-a-txt"><small>✨ ${welten.length} Welten</small><b>Entdecken</b><span class="x-a-emo" aria-hidden="true">${welten.slice(0, 7).map(m => `<i>${h(m.emo)}</i>`).join("")}</span></span><img src="img/kids/duo-jubel.webp" alt="">`;
+        b.innerHTML = `<span class="x-a-txt"><small>✨ ${welten.length} Welten</small><b>Entdecken</b><span class="x-a-emo" aria-hidden="true">${welten.slice(0, 7).map(m => `<i>${["wiederholen","truhe","karte","familie","album","sprachen","abenteuer","mathe","spielwelt","feste","forscher","sound","hilfen","eltern","offline","sprache"].includes(m.id) ? `<img src="img/grafik/welten/${m.id}.webp?v=2" alt="" draggable="false">` : h(m.emo)}</i>`).join("")}</span></span><img src="img/kids/duo-jubel.webp" alt="">`;
         b.onclick = () => go("x-entdecken");
         fakt.remove();
         const woche = app.querySelector(".ap-heute .ap-woche");

@@ -909,8 +909,8 @@ html body #app .st-kopf.ep-kopf-welt{background:none!important;box-shadow:none!i
   border-image:url("${G}box-blau.webp?v=3") 64 fill / 36px stretch!important;filter:drop-shadow(0 14px 22px rgba(20,40,120,.3));padding-right:34%!important}
 html body #app .st-kopf.ep-kopf-welt::before{display:none!important}
 html body #app .st-kopf.ep-kopf-welt .st-kids{display:none!important}
-html body #app .st-kopf.ep-kopf-welt::after{content:"";position:absolute;right:20px;top:16px;bottom:16px;aspect-ratio:607/340;max-width:42%;z-index:0;pointer-events:none;
-  background:url("${G}kopf-welt-deko.webp?v=3") right center/contain no-repeat}
+html body #app .st-kopf.ep-kopf-welt::after{content:"";position:absolute;right:20px;top:16px;bottom:16px;aspect-ratio:1012/674;max-width:40%;z-index:0;pointer-events:none;
+  background:url("${G}kopf-welt-deko.webp?v=4") right center/contain no-repeat}
 html body #app .st-kopf.ep-kopf-welt>*{position:relative;z-index:1}
 html body #app .st-kopf.ep-kopf-natur{background:url("${G}kopf-natur.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(10,90,50,.3));padding-right:30%!important}
 html body #app .st-kopf.ep-kopf-natur::before{display:none!important}
@@ -1661,3 +1661,46 @@ ${B.map(b => `html body #app ${b} > :is(i,span)`).join(",")}{display:block;heigh
 html body #app .xmt-kachel .xmt-k1 b{font-size:1.08rem!important;line-height:1.15;overflow-wrap:normal;word-break:normal}html body #app .xmt-kachel .xmt-k1{gap:8px!important;min-width:0}@media (max-width:600px){html body #app .xmt-kachel .xmt-k1 b{font-size:.86rem!important;overflow-wrap:normal;hyphens:auto}html body #app .xmt-kachel .xmt-k1 .xmt-emo{flex:none!important;width:30px!important;height:30px!important;font-size:30px!important}html body #app .xmt-kachel .xmt-k1 .xmt-emo img.ep-gi{width:30px!important;height:30px!important}html body #app .xmt-kachel .xmt-k1{gap:5px!important}}
 html body #app .xmt-kachel .xmt-k1 .xmt-emo img{width:40px!important;height:40px!important}`;
 document.head.appendChild(c); })();
+
+/* ===== Entdecken-Kachel der Startseite: Dejans Welt-Symbole statt Emoji ===== */
+(function(){ const c = document.createElement("style");
+c.textContent = `html body #app .x-app .x-a-emo i{display:inline-grid!important;place-items:center;background:rgba(255,255,255,.95)!important;border-radius:50%!important;overflow:hidden}
+html body #app .x-app .x-a-emo i img{width:78%!important;height:78%!important;max-width:78%!important;max-height:78%!important;position:static!important;object-fit:contain;display:block;margin:0!important;transform:none!important}
+html body #app .x-gross .x-g-chips i img{width:1.3em;height:1.3em;object-fit:contain;vertical-align:-.3em;margin-right:2px}`;
+document.head.appendChild(c); })();
+
+/* ===== Handy/iPad: Stufenwahl kompakter, Themen-Seiten passen ohne Scrollen auf den Bildschirm ===== */
+(function(){
+  const c = document.createElement("style");
+  c.textContent = `
+html body.ep-app #app .ap-themen .ap-stufen{padding:4px!important;min-height:0!important}
+html body.ep-app #app .ap-themen .ap-stufen button{padding:5px 2px!important;min-height:0!important;font-size:.82rem!important;line-height:1.1}
+html body.ep-app #app .ap-themen .ap-stufen button small,html body.ep-app #app .ap-themen .ap-stufen button span:not(:first-child){font-size:.62rem!important}
+html body.ep-app #app .ap-themen .ap-stufen button img,html body.ep-app #app .ap-themen .ap-stufen button .ic{width:20px!important;height:20px!important}
+html body.ep-app #app .ap-themen .ap-info{padding:3px 10px!important;font-size:.72rem!important;margin:4px 0!important}
+html body.ep-app #app .st-kopf .sbar{margin-top:6px!important}
+html body.ep-app #app .st-kopf .sbtns button{padding:4px 2px!important;min-height:0!important;font-size:.74rem!important}
+html body.ep-app #app .st-kopf .sbtns button img,html body.ep-app #app .st-kopf .sbtns button .ic{width:16px!important;height:16px!important}
+html.ep-nofit-scroll,html.ep-nofit-scroll body{overflow:hidden!important;overscroll-behavior:none!important;touch-action:pan-x}`;
+  document.head.appendChild(c);
+  const SEITEN = ["bereich", "submenu", "geschmenu", "chmenu", "berufmenu"];
+  function themenSeite(){ try{ if(!document.body.classList.contains("ep-app")) return false;
+    if(SEITEN.includes(S.screen)) return true;
+    return S.screen === "home" && !!document.querySelector("#app .ap-themen"); }catch(e){ return false; } }
+  function passen(){
+    const app = document.getElementById("app"); if(!app) return;
+    const an = themenSeite();
+    document.documentElement.classList.toggle("ep-nofit-scroll", an);
+    app.style.zoom = "";
+    if(!an) return;
+    scrollTo(0, 0);
+    const tb = document.getElementById("epTabs"), unten = tb ? tb.getBoundingClientRect().top - 6 : innerHeight - 6;
+    let last = 0; app.querySelectorAll(":scope > * , :scope > * > *").forEach(e => { const r = e.getBoundingClientRect(); if(r.height) last = Math.max(last, r.bottom); });
+    const oben = app.getBoundingClientRect().top;
+    if(last > unten){ const z = Math.max(.6, (unten - oben) / (last - oben)); app.style.zoom = z.toFixed(3); }
+  }
+  let t = 0; const los = () => { clearTimeout(t); t = setTimeout(passen, 60); };
+  const start = () => { const a = document.getElementById("app"); if(!a) return setTimeout(start, 300);
+    new MutationObserver(los).observe(a, {childList:true, subtree:true}); addEventListener("resize", los); los(); };
+  start();
+})();
