@@ -1541,3 +1541,94 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
 @media (max-width:600px){${P} .xsw-opt{--ah:54px;font-size:.95rem!important}${P} .xsw-leiste{border-width:16px 18px!important;border-image-width:16px 18px!important}}`;
   document.head.appendChild(css);
 })();
+
+/* ===== Computer: Hauptmenü-Leiste oben (statt Brotkrumen) und Zurück-Knopf mit Ziel =====
+   Leiste #ep-hnav nach .topbar, aktive Rubrik je nach S.screen. Brotkrumen (.crumbs) am Computer ausgeblendet,
+   stattdessen .ep-zur «‹ <vorherige Seite>» (Ziel aus S._crumbs, Name aus den versteckten Krumen). Nicht in der App-Ansicht. ===== */
+(function(){
+  const app = () => document.body.classList.contains("ep-app");
+  const PUNKTE = [
+    {id:"start",  t:"Start",      i:"img/grafik/ic-house.webp", go:() => go("home")},
+    {id:"themen", t:"Themen",     i:"img/grafik/diverse/buecher.webp?v=2", go:() => { try{ window.EP_NP_WAHL && window.EP_NP_WAHL(); }catch(e){} go("home"); }},
+    {id:"duell",  t:"Duell",      i:"img/qeels-icons/themen/duell.webp", go:() => go("duell")},
+    {id:"entd",   t:"Entdecken",  i:"img/grafik/mathe/entdecken.webp?v=2", go:() => go("x-entdecken")},
+    {id:"lib",    t:"Bibliothek", i:"img/app2/ic-buch.webp", go:() => go("lib")},
+    {id:"profil", t:"Profil",     i:"", go:() => go("profil")}
+  ];
+  const aktiv = sc => {
+    if(sc === "home") return (document.querySelector(".np-wahl") ? "themen" : "start");
+    if(["bereich","submenu","geschmenu","chmenu","berufmenu","mode","quiz","done","epwoche","chat","spielmodi","live","livequiz","livehost","liveplay","hardcore","hardcoreinfo"].includes(sc)) return "themen";
+    if(/^duell/.test(sc)) return "duell";
+    if(["x-garderobe"].includes(sc)) return "profil";
+    if(/^x-/.test(sc)) return "entd";
+    if(/^lib/.test(sc) || ["bibliothek","suche"].includes(sc)) return "lib";
+    if(["profil","register","login","konto","historie","board","spieler","meinetests","hcboard"].includes(sc)) return "profil";
+    return "";
+  };
+  function profilBild(){ try{ return avatar((S.profil && S.profil.avatar) || "fuchs"); }catch(e){ return ""; } }
+  function bauen(){
+    if(app()){ const n = document.getElementById("ep-hnav"); if(n) n.remove(); return; }
+    const top = document.querySelector(".wrap > .topbar"); if(!top) return;
+    let n = document.getElementById("ep-hnav");
+    if(!n){
+      n = document.createElement("nav"); n.id = "ep-hnav"; n.setAttribute("aria-label", "Hauptmenü");
+      n.innerHTML = PUNKTE.map(p => `<button type="button" data-hn="${p.id}"><span class="hn-ic">${p.i ? `<img src="${p.i}" alt="" draggable="false">` : ""}</span><span class="hn-t">${p.t}</span></button>`).join("");
+      n.addEventListener("click", e => { const b = e.target.closest("[data-hn]"); if(!b) return; const p = PUNKTE.find(x => x.id === b.dataset.hn);
+        if(S.screen === "quiz" && S.quiz && S.quiz.mode === "test" && !S.quiz.flushed && !confirm("Test abbrechen? Er wird nicht gewertet.")) return;
+        try{ p.go(); scrollTo(0, 0); }catch(x){} });
+      top.insertAdjacentElement("afterend", n);
+    }
+    const pi = n.querySelector('[data-hn="profil"] .hn-ic'); const pb = profilBild(); if(pi && pi.dataset.av !== pb){ pi.innerHTML = pb; pi.dataset.av = pb; }
+    let a = ""; try{ a = aktiv(S.screen); }catch(e){}
+    n.querySelectorAll("[data-hn]").forEach(b => { const an = b.dataset.hn === a; b.classList.toggle("an", an); if(an) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+    zurueck();
+  }
+  function zurueck(){
+    const appEl = document.getElementById("app"); if(!appEl) return;
+    const alt = appEl.querySelector(":scope > .ep-zur");
+    const kr = [...appEl.querySelectorAll(".crumbs .crumb[data-ci]")];
+    let sc = ""; try{ sc = S.screen; }catch(e){}
+    if(kr.length < 2 || sc === "quiz"){ if(alt) alt.remove(); return; }
+    const ziel = kr[kr.length - 1], name = ziel.textContent.trim();
+    if(alt && alt.dataset.z === name) return; if(alt) alt.remove();
+    const b = document.createElement("button"); b.type = "button"; b.className = "ep-zur"; b.dataset.z = name;
+    b.innerHTML = `<img src="img/grafik/sym-zurueck.webp" alt=""><span></span>`; b.querySelector("span").textContent = name;
+    b.setAttribute("aria-label", "Zurück zu " + name);
+    b.onclick = () => ziel.click();
+    const crumbs = appEl.querySelector(".crumbs");
+    (crumbs && crumbs.parentElement === appEl ? crumbs : appEl.firstElementChild)?.insertAdjacentElement("beforebegin", b) || appEl.prepend(b);
+  }
+  let plan = 0; const los = () => { if(!plan) plan = requestAnimationFrame(() => { plan = 0; try{ bauen(); }catch(e){} }); };
+  const start = () => { const a = document.getElementById("app"); if(!a) return setTimeout(start, 300);
+    new MutationObserver(los).observe(a, {childList:true}); new MutationObserver(los).observe(document.body, {attributes:true, attributeFilter:["class"]}); los(); };
+  start();
+  const css = document.createElement("style"); css.id = "ep-hnav-css";
+  css.textContent = `
+#ep-hnav{position:relative;z-index:5;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;width:100%;max-width:1008px;margin:6px auto 18px;padding:8px;box-sizing:border-box;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(240,236,255,.92));border:3px solid #fff;border-radius:30px;
+  box-shadow:0 14px 30px rgba(50,30,130,.25),inset 0 -4px 0 rgba(120,90,220,.12)}
+#ep-hnav button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;height:58px;padding:0 10px;border-radius:22px;
+  color:#3A2F72;font:800 1.02rem Lexend,system-ui,sans-serif;transition:transform .15s,background .2s,box-shadow .2s;position:relative;white-space:nowrap}
+#ep-hnav .hn-ic{flex:none;width:40px;height:40px;display:grid;place-items:center;transition:transform .2s}
+#ep-hnav .hn-ic img,#ep-hnav .hn-ic svg{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(40,20,100,.25))}
+#ep-hnav .hn-ic .avimg{border-radius:50%;box-shadow:0 0 0 3px #fff,0 3px 6px rgba(40,20,100,.3)}
+#ep-hnav button:hover{background:rgba(123,91,255,.12);transform:translateY(-2px)}
+#ep-hnav button:hover .hn-ic{transform:scale(1.12) rotate(-4deg)}
+#ep-hnav button:focus-visible{outline:3px solid #7B3FE4;outline-offset:2px}
+#ep-hnav button.an{color:#fff;background:linear-gradient(135deg,#6A4BFF 0%,#A43BE0 55%,#E8409F 100%);
+  box-shadow:0 6px 0 #4A23A8,0 10px 20px rgba(140,50,200,.45),inset 0 2px 0 rgba(255,255,255,.35);text-shadow:0 1px 2px rgba(40,0,80,.4);transform:translateY(-2px)}
+#ep-hnav button.an .hn-ic{transform:scale(1.15)}
+@media (max-width:1100px){#ep-hnav button{font-size:.9rem;gap:6px}#ep-hnav .hn-ic,#ep-hnav .hn-ic img,#ep-hnav .hn-ic svg{width:34px;height:34px}}
+@media (max-width:820px){#ep-hnav .hn-t{display:none}}
+body.ep-app #ep-hnav{display:none!important}
+html[data-scr="home"] body:not(.ep-np-wahl) #ep-hnav{max-width:none}
+body:not(.ep-app) #app .crumbs{display:none!important}
+body:not(.ep-app) #app > .np-zurueck-unter{display:none!important}
+body:not(.ep-app) #app > .ep-zur{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;height:54px;margin:0 0 14px;padding:0 6px;
+  border:0 solid transparent;border-width:16px 28px;border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 16px 28px stretch;color:#28304A;font:800 1.02rem Lexend,system-ui,sans-serif;filter:drop-shadow(0 4px 6px rgba(40,30,120,.2))}
+body:not(.ep-app) #app > .ep-zur img{width:24px;height:24px;object-fit:contain}
+body:not(.ep-app) #app > .ep-zur:hover{filter:brightness(1.05) drop-shadow(0 6px 8px rgba(40,30,120,.25))}
+body.ep-app #app > .ep-zur{display:none!important}
+@media (prefers-reduced-motion:reduce){#ep-hnav button,#ep-hnav .hn-ic{transition:none}}`;
+  document.head.appendChild(css);
+})();

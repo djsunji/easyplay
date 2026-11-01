@@ -17,7 +17,8 @@ const zahl = n => { try{ return Number(n).toLocaleString("de-CH"); }catch(e){ re
 const K = "img/kacheln/", KIDS = "img/kids/";
 const STUFEN = [[1, "Entdecker", "bis 9 Jahre"], [2, "Könner", "10 bis 14 Jahre"], [3, "Profis", "ab 15 Jahre"], [4, "Alle Stufen", "alles gemischt"]];
 const E = () => window.EP_START || {};
-let WAHL = false;   /* nach «Jetzt spielen»: zuerst Bereich wählen, dann im Bereich das Thema */
+let WAHL = false;
+window.EP_NP_WAHL = () => { WAHL = true; };   /* nach «Jetzt spielen»: zuerst Bereich wählen, dann im Bereich das Thema */
 
 const css = document.createElement("style"); css.id = "ep-neustart-css";
 css.textContent = `
