@@ -429,6 +429,43 @@ html body #app .pp-einst-kn,.pp-einst-kn{all:unset;box-sizing:border-box;display
 html.pp-einst-offen{overflow:hidden}
 #app>.row.pp-restzeile{justify-content:center!important;margin:6px 0 10px}
 @media (min-width:700px){html body #app .pp-seite .pp-kopf.pp-ganz{min-height:360px}html body #app .pp-seite .pp-kopf.pp-ganz .pp-av{width:170px;height:170px}.pp-zahnrad{top:6px;right:6px;width:58px;height:58px}}
+/* Profil im neuen Stil: alles auf Dejans Glanz-Kacheln (img/grafik/entdecken/kachel-NN.webp).
+   Farbregel: Bereiche dunkel (10), Zahlen blau (01), Erreichtes orange (03), Titel violett (06), Gesperrtes durchsichtig. */
+html.pp-ganz-an body #app :is(.statcard.statcard,.pp-vitrine.pp-vitrine,.pp-naechst.pp-naechst,.ep-code.ep-code),html.pp-ganz-an .pp-einst-inhalt>:is(.statcard,.ep-code).pp-x{background:none!important;background-color:transparent!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-width:24px!important;border-image:url("img/grafik/entdecken/kachel-10.webp?v=3") 46 fill / 24px stretch!important;filter:drop-shadow(0 10px 18px rgba(20,10,60,.35));color:#fff!important;padding:2px 4px 4px!important;box-sizing:border-box!important;overflow:visible!important}
+html.pp-ganz-an body #app :is(.statcard,.pp-vitrine,.pp-naechst,.ep-code)::before,html.pp-ganz-an body #app :is(.statcard,.pp-vitrine,.pp-naechst,.ep-code)::after{display:none!important}
+html.pp-ganz-an body #app :is(.statcard,.pp-vitrine,.pp-naechst,.ep-code) :is(h2,h3,b,strong,span,small,p,label,.help,.empty){color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+html.pp-ganz-an body #app :is(.statcard,.pp-vitrine,.pp-naechst,.ep-code) :is(p,small,.help,.empty){color:rgba(255,255,255,.88)!important}
+html.pp-ganz-an body #app .statgrid.statgrid{gap:14px!important}
+html.pp-ganz-an body #app .statgrid .statcard.test.test{box-shadow:none!important;outline:0!important;background-image:none!important}
+html.pp-ganz-an body #app :is(.pp-zahl.pp-zahl,.num.num){background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;border-width:16px!important;
+  border-image:url("img/grafik/entdecken/kachel-01.webp?v=3") 46 fill / 16px stretch!important;padding:0 2px 2px!important;filter:drop-shadow(0 6px 10px rgba(20,20,90,.3));min-width:0}
+html.pp-ganz-an body #app :is(.pp-zahl,.num) :is(b,small,span){color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.5)!important}
+html.pp-ganz-an body #app .pp-zahl b{font-size:1.5rem!important}
+html.pp-ganz-an body #app :is(.erfolg.ok,.abz:not(.nein),.fam:not(.leer)){background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;border-width:16px!important;
+  border-image:url("img/grafik/entdecken/kachel-03.webp?v=3") 46 fill / 16px stretch!important;padding:0 2px 2px!important;filter:drop-shadow(0 6px 10px rgba(90,30,0,.3))}
+html.pp-ganz-an body #app .lvtitel>div:not(.zu){background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;border-width:14px!important;
+  border-image:url("img/grafik/entdecken/kachel-06.webp?v=3") 46 fill / 14px stretch!important;padding:0 2px 2px!important}
+html.pp-ganz-an body #app .lvtitel>div.jetzt{filter:drop-shadow(0 0 0 #FFD43B) drop-shadow(0 0 3px #FFD43B) drop-shadow(0 0 8px rgba(255,212,59,.8))}
+html.pp-ganz-an body #app :is(.erfolg:not(.ok),.abz.nein,.fam.leer,.lvtitel>div.zu){background:rgba(255,255,255,.08)!important;border:2px solid rgba(255,255,255,.18)!important;box-shadow:none!important;opacity:.7}
+html.pp-ganz-an body #app :is(.erfolg,.abz,.fam,.lvtitel>div) :is(b,small,span,i){color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+html.pp-ganz-an body #app :is(.erfolg:not(.ok),.abz.nein,.fam.leer,.lvtitel>div.zu) img{filter:grayscale(.7);opacity:.75}
+html.pp-ganz-an body #app .seg{background:rgba(255,255,255,.14)!important;color:#fff!important;border:2px solid rgba(255,255,255,.3)!important}
+html.pp-ganz-an body #app .seg[aria-pressed="true"]{background:#fff!important;color:#2A1F5C!important}
+html.pp-ganz-an body #app .seg[aria-pressed="true"] small{color:#2A1F5C!important;text-shadow:none!important}
+html.pp-ganz-an body #app .pp-bar{background:rgba(255,255,255,.2)!important}
+html.pp-ganz-an body #app .pp-bar i{background:linear-gradient(90deg,#FFB020,#FF5FA2,#A855F7)!important}
+html.pp-ganz-an body #app .pp-nz{border-color:rgba(255,255,255,.15)!important}
+html.pp-ganz-an body #app :is(.statcard,.ep-code) :is(select,input){color:#1B2240!important;text-shadow:none!important}
+html.pp-ganz-an body #app :is(.statcard,.ep-code) button:not(.seg){text-shadow:none!important}
+html.pp-ganz-an body #app :is(.statcard,.ep-code) button:not(.seg) *{text-shadow:none!important}
+html.pp-ganz-an body #app .lvring b,html.pp-ganz-an body #app .lvring small{color:#fff!important}
+html.pp-ganz-an body #app #lvProfil .zahlen>span{background:rgba(255,255,255,.14)!important;border:2px solid rgba(255,255,255,.25)!important;color:#fff!important}
+html.pp-ganz-an body #app #lvProfil .lvring{background:conic-gradient(var(--lvf) calc(var(--p) * 1%),rgba(255,255,255,.18) 0)!important}
+html.pp-ganz-an body #app #lvProfil .lvring b{background:#2A1F6E!important}
+.pp-einst-box{background:linear-gradient(180deg,#3B1F8F,#1B1450)!important}
+.pp-einst-kopf{background:transparent!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.pp-einst-kopf h2{color:#fff!important}
 /* Seite «Profil verzieren» */
 .pv-seite{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);max-width:1100px;margin:0 auto}
 .pv-seite .pp-kopf{margin:0;min-height:200px}
