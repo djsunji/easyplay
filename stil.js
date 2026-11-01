@@ -910,16 +910,20 @@ html body #app .st-kopf.ep-kopf-welt{background:none!important;box-shadow:none!i
 html body #app .st-kopf.ep-kopf-welt::before{display:none!important}
 html body #app .st-kopf.ep-kopf-welt .st-kids{display:none!important}
 html body #app .st-kopf.ep-kopf-welt::after{content:"";position:absolute;right:20px;top:16px;bottom:16px;aspect-ratio:607/340;max-width:42%;z-index:0;pointer-events:none;
-  background:url("${G}kopf-welt-deko.webp?v=2") right center/contain no-repeat}
+  background:url("${G}kopf-welt-deko.webp?v=3") right center/contain no-repeat}
 html body #app .st-kopf.ep-kopf-welt>*{position:relative;z-index:1}
 html body #app .st-kopf.ep-kopf-natur{background:url("${G}kopf-natur.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(10,90,50,.3));padding-right:30%!important}
 html body #app .st-kopf.ep-kopf-natur::before{display:none!important}
-html body #app .st-kopf.ep-kopf-geld{background:url("${G}kopf-geld.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(120,10,20,.3));padding-right:30%!important}
+html body #app .st-kopf.ep-kopf-geld{background:url("${G}kopf-geld.webp?v=2") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(120,10,20,.3));padding-right:30%!important}
+html body #app .st-kopf.ep-kopf-geld :is(h1,h2,p){text-shadow:0 2px 4px rgba(100,0,10,.5)!important}
+@media (min-width:900px){html body #app .st-kopf:is(.ep-kopf-geld,.ep-kopf-alltag) .bhead h1{font-size:2.6rem!important}html body #app .st-kopf:is(.ep-kopf-geld,.ep-kopf-alltag) :is(.bhead h1,.bhead p,h1,p){max-width:50%!important}}
 html body #app .st-kopf.ep-kopf-geld::before,html body #app .st-kopf.ep-kopf-geld .st-kids{display:none!important}
 html body.ep-app #app .st-kopf.ep-kopf-geld{padding-right:24%!important;border-radius:20px!important}
-html body #app .st-kopf.ep-kopf-alltag{background:url("${G}kopf-alltag.webp?v=1") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(150,80,0,.3));padding-right:30%!important}
+html body #app .st-kopf.ep-kopf-alltag{background:url("${G}kopf-alltag.webp?v=2") right center/cover no-repeat!important;box-shadow:none!important;border:0!important;border-radius:28px!important;filter:drop-shadow(0 14px 22px rgba(150,80,0,.3));padding-right:30%!important}
 html body #app .st-kopf.ep-kopf-alltag::before,html body #app .st-kopf.ep-kopf-alltag .st-kids{display:none!important}
 html body #app .st-kopf.ep-kopf-alltag .bhead h1{text-shadow:0 2px 10px rgba(120,50,0,.45)!important}
+html body #app .st-kopf.ep-kopf-alltag :is(h1,h2,p,.bhead p){text-shadow:0 2px 3px rgba(110,50,0,.55),0 0 14px rgba(150,70,0,.35)!important}
+@media (min-width:900px){html body #app .st-kopf.ep-kopf-alltag html body #app .st-kopf.ep-kopf-alltag .bhead p{max-width:54%!important}}
 html body.ep-app #app .st-kopf.ep-kopf-alltag{padding-right:24%!important;border-radius:20px!important}
 html body #app .st-kopf.ep-kopf-natur .st-kids{display:none!important}
 html body.ep-app #app .st-kopf.ep-kopf-natur{padding-right:24%!important;border-radius:20px!important}
@@ -1500,4 +1504,40 @@ html[data-scr="live"] body #app .mode + .mode{border-image-source:url("${E}kache
   ${kopf.map(k => S1(k)).join(",")}{border-width:22px!important;border-image-width:22px!important}
   ${S1(".big.gold")},${S1(".big.alt")}{height:52px!important;min-width:0;border-width:15px 24px!important;border-image-width:15px 24px!important;font-size:.95rem!important}}`;
   const c = document.createElement("style"); c.id = "ep-weitere-seiten-css"; c.textContent = css; document.head.appendChild(c);
+})();
+
+/* ===== Spielwelt-Spiele (Bild-Rätsel, Reihenfolge, Zuordnen, Zeitstrahl) im neuen Stil ===== */
+(function(){
+  const E = "img/grafik/entdecken/", G = "img/grafik/", P = "html body #app .xsw-spiel";
+  const css = document.createElement("style");
+  css.textContent = `
+${P} .xsw-leiste{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:20px 24px!important;border-radius:0!important;
+  border-image:url("${E}kopf.webp?v=1") 50 fill / 20px 24px stretch!important;filter:drop-shadow(0 8px 14px rgba(60,30,160,.3));padding:0 4px 4px 0!important;min-height:0}
+${P} .xsw-titel{text-shadow:0 2px 4px rgba(30,10,80,.45);font-size:1.15rem}
+${P} .xsw-zur{background:#fff!important;color:#4A2B9A!important;box-shadow:0 3px 0 rgba(40,20,100,.25)}
+${P} .xsw-pille{background:rgba(255,255,255,.94)!important;color:#2A1F5C!important;border:3px solid #fff;border-radius:22px!important;font-weight:800;box-shadow:0 8px 18px rgba(40,30,120,.18)}
+${P} .xsw-rahmen{background:rgba(255,255,255,.9)!important;border:5px solid #fff;border-radius:28px!important;box-shadow:0 14px 30px rgba(40,30,120,.22)!important}
+${P} .xsw-nachweis{background:rgba(255,255,255,.85)!important;color:#3A3F66!important}
+${P} .xsw-nachweis a{color:#4A2B9A!important}
+${P} .xsw-optionen{gap:12px!important}
+${P} .xsw-opt{--ah:62px;--ab:url("img/qeels-antwort-a.webp");min-height:var(--ah)!important;background:none!important;box-shadow:none!important;border-radius:0!important;
+  border:0 solid transparent!important;border-width:calc(var(--ah)*.3) calc(var(--ah)*.5)!important;border-image:var(--ab) 48 80 fill / calc(var(--ah)*.3) calc(var(--ah)*.5) stretch!important;
+  padding:0 4px!important;color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.45);font-size:1.05rem!important;filter:drop-shadow(0 5px 10px rgba(0,0,0,.25));transition:transform .12s,filter .12s;box-sizing:border-box}
+${P} .xsw-opt:nth-child(4n+2){--ab:url("img/qeels-antwort-b.webp")}
+${P} .xsw-opt:nth-child(4n+3){--ab:url("img/qeels-antwort-c.webp")}
+${P} .xsw-opt:nth-child(4n+4){--ab:url("img/qeels-antwort-d.webp")}
+${P} .xsw-opt:hover:not([disabled]){filter:brightness(1.08) drop-shadow(0 8px 14px rgba(0,0,0,.3));transform:translateY(-2px)}
+${P} .xsw-opt[disabled]:not(.richtig):not(.falsch){opacity:1;filter:grayscale(.7) brightness(.9) drop-shadow(0 3px 6px rgba(0,0,0,.2))}
+${P} .xsw-rueck{background:rgba(255,255,255,.95)!important;color:#2A1F5C!important;border:3px solid #fff;border-left:8px solid #E0344F!important;border-radius:22px!important;box-shadow:0 10px 22px rgba(40,30,120,.2)!important}
+${P} .xsw-rueck.gut{border-left-color:#13A57A!important}
+${P} .xsw-rueck small{color:#5A5F86!important}
+${P} .xsw-opt.richtig{opacity:1!important;filter:drop-shadow(0 0 12px rgba(59,255,142,.8))!important}
+${P} .xsw-opt.falsch{opacity:1!important;filter:drop-shadow(0 0 12px rgba(255,59,59,.75))!important}
+${P} .xsw-knopf:not(.xsw-hell){all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 8px;cursor:pointer;
+  border:0 solid transparent;border-width:16px 28px;border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 16px 28px stretch;color:#3A1C00;font:700 1.1rem Fredoka,Lexend,system-ui,sans-serif;filter:drop-shadow(0 4px 6px rgba(120,70,0,.25))}
+${P} .xsw-knopf.xsw-hell{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 8px;cursor:pointer;
+  border:0 solid transparent;border-width:16px 28px;border-image:url("${G}knopf-zurueck.webp?v=1") 70 118 fill / 16px 28px stretch;color:#28304A;font:800 1rem Lexend,system-ui,sans-serif;filter:drop-shadow(0 4px 6px rgba(40,30,120,.2))}
+${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+@media (max-width:600px){${P} .xsw-opt{--ah:54px;font-size:.95rem!important}${P} .xsw-leiste{border-width:16px 18px!important;border-image-width:16px 18px!important}}`;
+  document.head.appendChild(css);
 })();

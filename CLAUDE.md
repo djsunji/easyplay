@@ -33,6 +33,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: (1) Neue Kopf-Grafiken von Dejan für die Bereiche Alltag & Kultur (`img/grafik/kopf-alltag.webp`, Bücher, Globus, Masken, Ball) und Schweiz, Geld & Leben (`kopf-geld.webp`, Fahne, Zug, Postauto, Chalet), Titel und Text dort auf halbe Breite. (2) Welt-Kopf: Deko-Bild hatte einen harten Rand, jetzt weich ausgeblendet (`kopf-welt-deko.webp`). (3) Spielwelt-Spiele im neuen Stil: Leiste auf Glanz-Kopf, Antworten wie im Quiz (Qeels-Antwortbilder), weisse Bild- und Fragekarten, goldene/weisse Grafik-Knöpfe, Rückmeldung als weisse Karte (Block «Spielwelt-Spiele» in `stil.js`). Version ep-2026-11-01-21.
 - 01.11. Sitzung «Hauptseite»: Neue Startseite, Bereichswahl: Symbole in der Mitte der vier Bereich-Kacheln grösser (100 px Feld, Bild 74 px, Handy 80/58), `neustart.js`. Version ep-2026-11-01-20.
 - 01.11. Sitzung «Hauptseite»: Farbsystem-Vorschlag verworfen (Dejan), `img/grafik/farben/` wieder entfernt. Es bleiben die 18 Glanz-Kacheln aus `entdecken/`. Version ep-2026-11-01-19.
 - 01.11. Sitzung «Hauptseite»: Farbsystem-Vorschlag: 8 Kacheln (`img/grafik/farben/kachel-<blau|violett|magenta|rot|orange|gruen|tuerkis|nacht>.webp`), aus `entdecken/kachel-15.webp` umgefärbt. Noch nicht eingesetzt, wartet auf Dejans OK. Version ep-2026-11-01-18.
