@@ -1632,3 +1632,21 @@ body.ep-app #app > .ep-zur{display:none!important}
 @media (prefers-reduced-motion:reduce){#ep-hnav button,#ep-hnav .hn-ic{transition:none}}`;
   document.head.appendChild(css);
 })();
+
+/* ===== Dunkler Modus (data-theme="dark", abends): helle Glas-Karten behalten helle Farben und dunkle Schrift ===== */
+(function(){
+  const HELL = `--bg:#F3F6FF;--surface:#FFFFFF;--ink:#1B2240;--soft:#5A6385;--line:#D9E0F3;--ok:#17A35A;--bad:#D6362E;color:#1B2240`;
+  const K = [".card.lwait", ".dulobby", ".hcregeln", ".authbox", ".statcard", ".rlliste", ".hckarte", ".card.done", ".xsw-pille", ".xsw-rahmen", ".xsw-rueck",
+    ".xk-karte", ".c2-box", ".c2-wer", ".np-glas", ".wk2-box", ".libhero + *", ".bibthema", ".summary .rev"];
+  const css = document.createElement("style"); css.id = "ep-dunkel-glas-css";
+  css.textContent = `#ep-hnav,${K.map(k => `html body #app ${k}`).join(",")}{${HELL}}
+html body #app :is(${K.join(",")}) :is(input,select,textarea){background:#F3F6FF!important;color:#1B2240!important;border-color:#D9E0F3!important}
+html body #app :is(.authbox,.hcregeln,.card.lwait,.statcard) :is(h1,h2,h3,b,strong){color:#1B2240}
+html body #app p.label small{color:#3A2F72!important;background:#fff!important;text-shadow:none!important}`;
+  document.head.appendChild(css);
+})();
+/* Handy/iPad: Titel der Bereichsköpfe Schweiz und Alltag nicht über die Grafik */
+(function(){ const c = document.createElement("style");
+c.textContent = `html body.ep-app #app .st-kopf:is(.ep-kopf-geld,.ep-kopf-alltag) :is(h1,.bhead h1){max-width:56%!important;font-size:clamp(1.05rem,4.6vw,1.6rem)!important;line-height:1.1!important;text-shadow:0 2px 4px rgba(90,20,0,.55)!important}
+html body.ep-app #app .st-kopf:is(.ep-kopf-geld,.ep-kopf-alltag){background-position:right center!important}`;
+document.head.appendChild(c); })();
