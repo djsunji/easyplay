@@ -1404,3 +1404,51 @@ html body .xk-chip.s1::after{content:"";position:absolute;right:6px;top:6px;widt
   css.textContent = `img.ep-gi2{width:1.3em;height:1.3em}`;
   document.head.appendChild(css);
 })();
+
+/* ===== Ergebnis-Seite (screen «done»): neuer Stil mit Dejans Grafiken ===== */
+(function(){
+  const G = "img/grafik/";
+  const css = document.createElement("style");
+  css.textContent = `
+html body #app .card.done{background:rgba(255,255,255,.9)!important;border:4px solid #fff!important;border-radius:34px!important;box-shadow:0 18px 40px rgba(40,30,120,.22)!important;padding:18px 22px 26px!important}
+html body #app .card.done .ep-done-kopf{position:relative;margin:0 0 18px;padding:22px 20px 26px;color:#fff;text-align:center;background:none;border:0 solid transparent;border-width:30px;border-image:url("${G}entdecken/kopf.webp") 50 fill / 30px stretch;filter:drop-shadow(0 10px 18px rgba(80,30,160,.3))}
+html body #app .card.done .ep-done-kopf > *{position:relative}
+html body #app .card.done .ep-done-kopf h1{color:#fff!important;text-shadow:0 3px 0 rgba(40,10,90,.35),0 6px 14px rgba(40,10,90,.35);margin:6px 0 10px!important}
+html body #app .card.done .ep-done-kopf p{color:#fff!important;opacity:.96;text-shadow:0 1px 3px rgba(30,10,80,.45)}
+html body #app .card.done .ep-done-kopf .stars svg{width:62px;height:62px;filter:drop-shadow(0 4px 6px rgba(40,10,90,.35))}
+html body #app .card.done .ep-done-kopf .modebadge{background:rgba(255,255,255,.95);color:#4A2B9A}
+html body #app .card.done .row{gap:12px;justify-content:center;flex-wrap:wrap}
+html body #app .card.done .row .big{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:58px;padding:0 10px;cursor:pointer;min-width:170px;
+  border:0 solid transparent;border-width:17px 29px;border-image:url("${G}knopf-zurueck.webp?v=1") 70 118 fill / 17px 29px stretch;color:#28304A;font:800 1.05rem Lexend,system-ui,sans-serif;filter:drop-shadow(0 4px 6px rgba(40,30,120,.2))}
+html body #app .card.done .row #again{border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 17px 29px stretch;color:#3A1C00;font:700 1.2rem Fredoka,Lexend,system-ui,sans-serif;min-width:220px}
+html body #app .card.done .row .big:hover{filter:brightness(1.06) drop-shadow(0 6px 8px rgba(40,30,120,.25))}
+html body #app .card.done .row .big:focus-visible{outline:3px solid #7B3FE4;outline-offset:3px}
+html body #app .card.done .row .big svg{width:22px;height:22px}
+html body #app .card.done .summary h2{color:#2A1F5C}
+html body #app .card.done .pill{padding:7px 16px;font-size:1rem;box-shadow:0 3px 0 rgba(0,0,0,.08)}
+html body #app .card.done .pill.ok{background:linear-gradient(135deg,#2DD48F,#13A57A);color:#fff}
+html body #app .card.done .pill.bad{background:linear-gradient(135deg,#FF6B6B,#E0344F);color:#fff}
+html body #app .card.done img.ep-rv-ic{width:24px;height:24px;object-fit:contain;flex:none;vertical-align:-6px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+html body #app .card.done .revm img.ep-rv-ic{width:20px;height:20px;vertical-align:-4px}
+html body #app .card.done .review{display:grid;gap:12px}
+html body #app .card.done .rev{border:0!important;border-radius:22px!important;padding:14px 18px 14px 20px!important;background:#fff!important;box-shadow:0 6px 16px rgba(40,30,120,.12);position:relative;overflow:hidden}
+html body #app .card.done .rev::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:linear-gradient(180deg,#2DD48F,#13A57A)}
+html body #app .card.done .rev.r-bad::before{background:linear-gradient(180deg,#FF6B6B,#E0344F)}
+html body #app .card.done .revhead{align-items:center}
+html body #app .card.done .revnr{background:linear-gradient(135deg,#7B5BFF,#4B2BD0);color:#fff}
+html body #app .card.done .revm{display:block;margin-top:4px;padding:8px 12px;border-radius:14px;background:#F3F1FF;color:#4A4F72}
+@media (max-width:600px){
+  html body #app .card.done{padding:12px 10px 20px!important;border-radius:26px!important}
+  html body #app .card.done .ep-done-kopf{border-width:22px;border-image-width:22px;padding:12px 8px 16px}
+  html body #app .card.done .ep-done-kopf .stars svg{width:46px;height:46px}
+  html body #app .card.done .row .big{min-width:0;flex:1 1 140px;height:52px;border-width:15px 24px;border-image-width:15px 24px;font-size:.95rem}
+  html body #app .card.done .row #again{flex-basis:100%}
+  html body #app .card.done .row .big{white-space:nowrap;font-size:.9rem;padding:0 2px}
+  html body #app .card.done .revhead{align-items:flex-start}
+}
+@media (min-width:900px){
+  html body #app .card.done .ep-done-kopf{padding-left:40px;padding-right:200px}
+  html body #app .card.done .ep-done-kopf::after{content:"";position:absolute;right:-6px;bottom:-26px;width:210px;height:250px;background:url("img/kids/duo-jubel.webp") center bottom/contain no-repeat;pointer-events:none}
+}`;
+  document.head.appendChild(css);
+})();
