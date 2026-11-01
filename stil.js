@@ -1769,3 +1769,58 @@ ${T} .ap-tag>.apf.k2-live:nth-child(2){animation-delay:.05s}${T} .ap-tag>.apf.k2
 @media (prefers-reduced-motion:reduce){${T} .ap-tag>.apf.k2-live,${T} .ap-tag>.apf.k2-live.k2-neu::before{animation:none!important}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Duell-Ende im neuen Stil: Kopf auf Dejans Glanz-Kachel mit Ergebnis, weisse Glas-Karten, goldener Knopf.
+   Gilt auch abends im dunklen Modus (feste helle Farben in den Karten). ===== */
+(function(){
+  const E = "img/grafik/entdecken/", P = "html body #app .du2-ende";
+  const c = document.createElement("style"); c.id = "ep-duellende-css";
+  c.textContent = `
+${P}{background:none!important;border:0!important;box-shadow:none!important;max-width:720px!important;padding:0!important;overflow:visible!important;color:#2A1F5C}
+${P}::before,${P}::after{display:none!important}
+${P} .du2-ek{position:relative;display:flex!important;align-items:center;gap:14px;margin:0 0 14px!important;padding:6px 8px 4px!important;
+  background:none!important;border:0 solid transparent!important;border-width:30px!important;border-image:url("${E}kopf.webp?v=1") 50 fill / 30px stretch!important;
+  filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));box-sizing:border-box;color:#fff!important}
+${P}.nieder .du2-ek{border-image-source:url("${E}kachel-09.webp?v=3")!important}
+${P} .du2-ek > img{height:150px!important;width:auto;flex:0 0 auto;margin:-40px 0 -26px -10px;filter:drop-shadow(0 6px 8px rgba(30,10,80,.35))}
+${P} .du2-ek > div{flex:1 1 auto;min-width:0;text-align:center}
+${P} .du2-ek h1{color:#fff!important;font-size:1.7rem!important;margin:0 0 4px!important;text-shadow:0 2px 5px rgba(30,10,80,.5)}
+${P} .du2-ek p{color:#fff!important;margin:0!important;text-shadow:0 1px 3px rgba(30,10,80,.5);display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+${P} .du2-ek .du2-mu{color:rgba(255,255,255,.85)!important}
+${P} .du2-ek .du2-liga{background:#fff!important;color:#2A1F5C!important;text-shadow:none}
+${P} .du2-ek .duvs.gross{margin:8px 0 0!important;gap:12px!important}
+${P} .du2-ek .duvs > div{background:rgba(255,255,255,.95);border:3px solid #fff;border-radius:20px;padding:4px 18px 2px;min-width:104px;box-shadow:0 6px 14px rgba(30,10,80,.25)}
+${P} .du2-ek .duvs b{color:#5B4F86!important;font-size:.9rem;text-shadow:none}
+${P} .du2-ek .duvs .dupkt{color:#2A1F5C!important;font-size:2.2rem!important;line-height:1.1;text-shadow:none}
+${P} .du2-ek .duvs .sieger{transform:scale(1.08);background:linear-gradient(180deg,#FFE680,#FFC53D);border-color:#FFF3C2}
+${P} .du2-ek .duvs .sieger .dupkt,${P} .du2-ek .duvs .sieger b{color:#5A3300!important}
+${P} .du2-ek .duvs .vs{color:#FFD34D!important;text-shadow:0 2px 3px rgba(30,10,80,.5)}
+${P} :is(.du2-elo,.du2-verlauf,.du2-warte){background:rgba(255,255,255,.94)!important;border:4px solid #fff!important;border-radius:26px!important;box-shadow:0 12px 28px rgba(40,30,120,.2)!important;color:#2A1F5C!important}
+${P} .du2-elo{padding:12px 16px!important;margin:0 0 8px!important}
+${P} .du2-elo.plus .du2-eloz b{color:#12A57F!important}${P} .du2-elo.minus .du2-eloz b{color:#E5484D!important}
+${P} .du2-eloz span,${P} .du2-elol small{color:#6B6390!important}
+${P} .du2-elol > b{color:#2A1F5C!important}
+${P} .du2-elo .du2-liga{background:#F1EEFF!important;color:#2A1F5C!important}
+${P} .du2-elobar{background:#E6E2F5!important;height:12px!important;border-radius:99px!important;overflow:hidden}
+${P} .du2-elobar i{background:linear-gradient(90deg,#FFC53D,#FF8A3D,#E2457A)!important;border-radius:99px}
+${P} .du2-hinw{color:#fff!important;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.45);margin:4px 0 10px!important}
+${P} .du2-stats{gap:10px!important;margin:0 0 10px!important}
+${P} .du2-stats > div{background:#fff!important;border:0!important;border-radius:18px!important;padding:10px 12px 8px!important;box-shadow:0 8px 18px rgba(40,30,120,.18)!important;border-top:6px solid var(--st,#7B3FE4)!important;color:#2A1F5C!important}
+${P} .du2-stats > div:nth-child(1){--st:#12A57F}${P} .du2-stats > div:nth-child(2){--st:#3D7BFF}${P} .du2-stats > div:nth-child(3){--st:#FF8A3D}${P} .du2-stats > div:nth-child(4){--st:#B13FE0}
+${P} .du2-stats span{color:#6B6390!important}${P} .du2-stats b{color:#2A1F5C!important}${P} .du2-stats small{color:#857DA8!important}
+${P} .du2-verlauf{padding:10px 14px!important;margin:0 0 6px!important}
+${P} .du2-verlauf span{color:#2A1F5C!important;font-weight:800}
+${P} .du2-bilanz{color:#fff!important;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+${P} .du2-auf,${P} .du2-ab{border-radius:20px!important;border:3px solid #fff!important;box-shadow:0 8px 18px rgba(40,30,120,.18)}
+${P} .row{gap:14px!important;margin-top:10px!important;flex-wrap:wrap}
+@media (max-width:600px){
+  ${P} .du2-ek{border-width:22px!important;border-image-width:22px!important;gap:6px;padding:2px 2px 0!important}
+  ${P} .du2-ek > img{height:96px!important;margin:-28px -4px -18px -8px}
+  ${P} .du2-ek h1{font-size:1.2rem!important}
+  ${P} .du2-ek .duvs > div{min-width:76px;padding:2px 10px 0}
+  ${P} .du2-ek .duvs .dupkt{font-size:1.6rem!important}
+  ${P} .du2-stats{gap:6px!important}${P} .du2-stats > div{padding:7px 7px 6px!important;border-top-width:5px!important}
+  ${P} .du2-elo{padding:8px 10px!important}
+}`;
+  document.head.appendChild(c);
+})();

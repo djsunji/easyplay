@@ -454,8 +454,8 @@ window.renderDuellEnde = function(){
   const tile = (label, ich, er) => `<div><span>${label}</span><b>${ich}</b>${b ? `<small>${h(b.n)}: ${er}</small>` : ""}</div>`;
   $("#app").innerHTML = `${crumbs()}<div class="card duende du2-ende ${sieg === "a" ? "sieg" : sieg === "b" ? "nieder" : ""}">
     <div class="du2-ek"><img class="ep-kid" src="${KIDS}${kid}.webp" alt=""><div><h1>${sieg === "a" ? "🏆 " : sieg === "u" ? "🤝 " : sieg === "b" ? "" : "⏳ "}${titel}</h1>
-      <p>gegen ${h(b ? b.n : "?")} ${g && g.elo ? ligaChip(g.elo) : ""}${g && g.bot ? ` <span class="du2-mu">Übungsgegner</span>` : ""}</p></div></div>
-    ${b ? `<div class="duvs gross"><div class="${sieg === "a" ? "sieger" : ""}"><b>${h(a.n)}</b><span class="dupkt">${a.s}</span></div><span class="vs">:</span><div class="${sieg === "b" ? "sieger" : ""}"><b>${h(b.n)}</b><span class="dupkt">${b.s}</span></div></div>` : ""}
+      <p>gegen ${h(b ? b.n : "?")} ${g && g.elo ? ligaChip(g.elo) : ""}${g && g.bot ? ` <span class="du2-mu">Übungsgegner</span>` : ""}</p>
+    ${b ? `<div class="duvs gross"><div class="${sieg === "a" ? "sieger" : ""}"><b>${h(a.n)}</b><span class="dupkt">${a.s}</span></div><span class="vs">:</span><div class="${sieg === "b" ? "sieger" : ""}"><b>${h(b.n)}</b><span class="dupkt">${b.s}</span></div></div>` : ""}</div></div>
     ${!sieg && b ? `<div class="du2-warte"><div class="du2-elobar"><i style="width:${Math.min(100, (g.i || 0) / n * 100)}%"></i></div><small>${h(b.n)} ist bei Frage ${Math.min((g.i || 0) + 1, n)} von ${n}. Die Elo-Punkte gibt es, sobald beide fertig sind.</small></div>` : ""}
     <div class="du2-elo ${E ? (E.delta >= 0 ? "plus" : "minus") : ""}">
       <div class="du2-eloz"><b>${E ? (E.delta >= 0 ? "+" : "") + E.delta : "…"}</b><span>Elo</span></div>
@@ -473,7 +473,7 @@ window.renderDuellEnde = function(){
     <div class="du2-verlauf"><div><span>${h(a.n)}</span><div class="du2-dots">${punkteReihe(R.ant || [], n)}</div></div>
       ${b ? `<div><span>${h(b.n)}</span><div class="du2-dots">${punkteReihe((g.ant || "").split("").map(x => x === "1"), n)}</div></div>` : ""}</div>
     <p class="du2-mu du2-bilanz">Bilanz: ${d.s} Siege · ${d.u} Unentschieden · ${d.v} Niederlagen</p>
-    <div class="row"><button class="big" id="duNeu" type="button">⚔️ Nächstes Duell</button><button class="big alt" id="duMenu" type="button">Zum Duell-Menü</button></div></div>
+    <div class="row"><button class="big gold" id="duNeu" type="button">⚔️ Nächstes Duell</button><button class="big alt" id="duMenu" type="button">Zum Duell-Menü</button></div></div>
     ${sieg === "a" || auf ? `<div class="pkonfetti dukonf" aria-hidden="true">${Array.from({length:30}, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${(i % 9) * .4}s;--c:${["#FFD34D","#FF6FA8","#7FD1FF","#7BE07B","#B98CFF"][i % 5]}"></i>`).join("")}</div>` : ""}`;
   $("#duNeu").onclick = () => { matchStop(); matchStart(); };
   $("#duMenu").onclick = () => { matchStop(); duellLeave(); go("duell"); };
