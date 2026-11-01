@@ -802,7 +802,7 @@ function leiste(){
   if(!an()){ if(el) el.remove(); return; }
   if(!el){
     el = document.createElement("nav"); el.id = "epTabs"; el.setAttribute("aria-label", "Hauptbereiche");
-    const TBILD = {heute:"img/grafik/sprachen/haus.webp?v=2", themen:"img/grafik/diverse/buecher.webp?v=2", duell:"img/qeels-icons/themen/duell.webp", qeels:"img/qeels-sym-spiel.webp"};
+    const TBILD = {heute:"img/grafik/sprachen/haus.webp?v=2", themen:"img/grafik/diverse/buecher.webp?v=2", duell:"img/qeels-icons/themen/duell.webp", qeels:"img/grafik/sym-frage-regenbogen.webp"};
     el.innerHTML = TABS.map(t => `<button type="button" data-tab="${t}">${t === "profil" ? `<span class="tabav"><img src="${KIDS}m1.webp" alt=""></span>` : (TBILD[t] ? `<span class="tabic"><img src="${TBILD[t]}" alt="" draggable="false"></span>` : SV(I[t], 22))}<span>${TAB_NAME[t]}</span></button>`).join("");
     document.body.appendChild(el);
     el.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { const t = b.dataset.tab;
