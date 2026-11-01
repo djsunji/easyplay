@@ -1239,3 +1239,32 @@ html body #app .x-kopf.x-kopf::before,html body #app .x-kopf.x-kopf::after{displ
 @media (max-width:700px){html body #app .x-kacheln > .x-kachel.x-kachel{border-width:18px!important;border-image-width:18px!important}
   html body #app .x-kopf.x-kopf{border-image-width:22px!important}}`;
 document.head.appendChild(c); })();
+
+/* ===== Entdecken-Unterseiten: alle Köpfe und Karten mit Dejans Glanz-Kacheln (img/grafik/entdecken/, Neun-Teile-Bilder).
+   Köpfe: kopf.webp (wie .x-kopf). Wiederholte Karten wechseln reihum durch die 18 Farben, grosse Felder haben je eine feste Farbe. ===== */
+(function(){ if(document.getElementById("ep-welten-kacheln-css")) return;
+const c = document.createElement("style"); c.id = "ep-welten-kacheln-css"; const G = "img/grafik/entdecken/";
+const W = "html body #app .xseite";
+const nr = n => String(n).padStart(2, "0");
+const kopf = [".xk-kopf", ".fq-kopf", ".alb-kopf", ".xa-kopf", ".xmt-kopf", ".hlf-kopf"];
+/* Karten, die mehrfach vorkommen: Farbe reihum */
+const reihum = [".wdh-karte", ".alb-k", ".spr-thema", ".spr-sp", ".xmt-kachel", ".xsw-kachel", ".xf-karte", ".xfo-karte", ".xfo-kat", ".xs-stueck", ".xs-fxk",
+  ".hlf-k", ".xel-kpi", ".xof-karte", ".xui-karte", ".fq-karte", ".xel-karte"];
+/* grosse Einzelfelder: feste Farbe (Nummer der Kachel) */
+const fest = {".xt-karte":12, ".xt-buehne":10, ".xk-karte":7, ".xk-panel":4, ".spr-wdh":15, ".xa-karte":9, ".xf-held":5, ".xf-saison":12, ".xfo-held":13,
+  ".xs-karte":14, ".xel-box":16, ".xof-speicher":17, ".xui-box":18, ".fq-fair":15, ".fq-info":16};
+const basis = `background:none!important;background-color:transparent!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-width:22px!important;border-image:url("${G}kachel-01.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));overflow:visible!important;color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important`;
+let css = `${kopf.map(k => `${W} ${k}.${k.slice(1)}`).join(",")}{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url("${G}kopf.webp?v=1") 50 fill / 30px stretch!important;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));overflow:visible!important}
+${kopf.map(k => `${W} ${k}::before,${W} ${k}::after`).join(",")}{display:none!important}
+${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}${k}`).join(",")}{${basis}}
+${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}::before,${W} ${k}::after`).join(",")}{opacity:0!important}
+${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k} :is(b,h2,h3,strong,small,p,span)`).join(",")}{text-shadow:0 1px 2px rgba(0,0,0,.45)}\n`;
+const FOLGE = [1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];   /* ohne 3 (gelb): weisse Schrift schlecht lesbar */
+for(const k of reihum) FOLGE.forEach((n, i) => { css += `${W} ${k}:nth-child(${FOLGE.length}n+${i + 1}){border-image-source:url("${G}kachel-${nr(n)}.webp?v=1")!important}\n`; });
+css += `${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k} :is(small,p):not(button *):not(button)`).join(",")}{color:rgba(255,255,255,.93)!important}\n`;
+for(const [k, n] of Object.entries(fest)) css += `${W} ${k}${k}{border-image-source:url("${G}kachel-${nr(n)}.webp?v=1")!important}\n`;
+css += `@media (max-width:700px){${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}${k}`).join(",")}{border-width:16px!important;border-image-width:16px!important}
+  ${kopf.map(k => `${W} ${k}.${k.slice(1)}`).join(",")}{border-image-width:22px!important}}`;
+c.textContent = css; document.head.appendChild(c); })();
