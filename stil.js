@@ -1824,3 +1824,35 @@ ${P} .row{gap:14px!important;margin-top:10px!important;flex-wrap:wrap}
 }`;
   document.head.appendChild(c);
 })();
+
+/* ===== Bibliothek: Dejans gezeichnete Bücher (img/grafik/buecher/<id>.webp) im Regal und beim Zauber-Öffnen ===== */
+(function(){
+  const B = "img/grafik/buecher/", IDS = ["geschichte","welt","natur","wissen","schweiz","politik","geld","leben","alltag"];
+  const R = "html body #app .buecher .buch";
+  const c = document.createElement("style"); c.id = "ep-buecher-css";
+  c.textContent = `
+${R}{height:auto!important;aspect-ratio:.7!important;perspective:none!important;filter:drop-shadow(0 10px 10px rgba(40,20,5,.45));transition:transform .3s ease,filter .3s ease}
+${R}:hover,${R}:focus-visible{transform:translateY(-8px) rotate(-2deg);filter:drop-shadow(0 16px 14px rgba(40,20,5,.5)) drop-shadow(0 0 14px rgba(255,214,110,.75));outline:none}
+${R} .bcover{background-color:transparent!important;background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;
+  padding:16% 24% 30% 17%!important;gap:3%!important;justify-content:center!important}
+${R} .bcover::before,${R} .bcover::after,${R} .bruecken{display:none!important}
+${R} .bemo2,${R} .btop{display:none!important}
+${R} .btitel{color:#fff!important;font:800 clamp(.95rem,2cqw,1.5rem)/1.1 Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 10px rgba(0,0,0,.45),0 0 2px #000!important;letter-spacing:.01em;word-break:keep-all;overflow-wrap:normal;hyphens:manual;white-space:nowrap}
+${R} .bunter{color:#FFE9A8!important;font:700 clamp(.66rem,1.15cqw,.9rem)/1.15 Lexend,system-ui,sans-serif!important;font-style:normal!important;text-shadow:0 1px 2px rgba(0,0,0,.7)!important;opacity:1!important}
+${R}.gross{aspect-ratio:.7!important}
+@media (max-width:720px){${R} .bcover{padding:12% 20% 46% 17%!important}${R} .btitel{font-size:clamp(.7rem,3.3vw,1.05rem)!important}${R} .bunter{display:none!important}}
+${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}"] .zvorne{background-image:url("${B}${id}.webp?v=1")!important}`).join("\n")}
+.zauber .zbuch[data-buch] .zvorne{background-color:transparent!important;background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;box-shadow:none!important;border-radius:0!important;padding:16% 24% 30% 17%!important;filter:drop-shadow(0 0 18px rgba(255,214,110,.7))}
+.zauber .zbuch[data-buch] .zvorne::before,.zauber .zbuch[data-buch] .zvorne .bemo2{display:none!important}
+.zauber .zbuch[data-buch] .zvorne .btitel{font:800 1.7rem/1.1 Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 12px rgba(0,0,0,.5)}
+.zauber .zbuch[data-buch] .zvorne .bunter{color:#FFE9A8;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+.zauber .zbuch[data-buch] .zhinten{inset:2% 4% 6% 3%!important;border-radius:8px 16px 16px 8px}
+.zkreis{position:absolute;left:50%;top:50%;width:min(92vw,620px);aspect-ratio:1;transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+.zkreis svg{width:100%;height:100%;animation:zkdreh 14s linear infinite;filter:drop-shadow(0 0 8px rgba(255,214,110,.9))}
+.zkreis circle{fill:none;stroke:rgba(255,220,140,.75);stroke-width:1.2;stroke-dasharray:3 5}
+.zkreis circle + circle{stroke:rgba(190,150,255,.6);stroke-dasharray:none;stroke-width:.8}
+.zkreis text{fill:#FFE29A;font:11px Georgia,serif;letter-spacing:3px}
+@keyframes zkdreh{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.zkreis svg{animation:none}}`;
+  document.head.appendChild(c);
+})();
