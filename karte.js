@@ -251,7 +251,7 @@ function zeichnen(svgbox, D){
     return `<path class="xk-kt s${st.stufe}" data-k="${k}" id="xk-p-${k}" d="${D.pfade[k]}" fill="${farbeFuer(k, st)}" tabindex="0" role="button" aria-label="${esc(name(k))}, ${STUFE_TXT[st.stufe]}"></path>`; }).join("");
   const seen = (D.seen || []).map(p => `<path d="${p}"></path>`).join("");
   const sterne = KZ.filter(k => stand(k, d).gold).map(k => { const m = D.mitte[k]; return `<text x="${m[0]}" y="${m[1] - 12}">★</text>`; }).join("");
-  const labels = KZ.map(k => { const m = D.mitte[k]; return `<text x="${m[0]}" y="${m[1] + 5}">${k}</text>`; }).join("");
+  const labels = KZ.map(k => { const m = D.mitte[k]; return `<image class="xk-lw" href="img/wp/${k}.webp" x="${m[0] - 26}" y="${m[1] - 13}" width="20" height="24"></image><text class="xk-lt" x="${m[0] - 3}" y="${m[1] + 6}">${k}</text>`; }).join("");
   svgbox.innerHTML = `<svg class="xk-svg" viewBox="${D.viewBox}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Kantone der Schweiz">
     <g class="xk-kte">${pfade}</g><g class="xk-seen" aria-hidden="true">${seen}</g>
     <path class="xk-wahl" d="" style="display:none" aria-hidden="true"></path>
@@ -276,7 +276,7 @@ function markieren(k){
 
 function chipsHTML(d){
   return `<div class="xk-chips" role="group" aria-label="Alle Kantone">${KZ.map(k => { const st = stand(k, d);
-    return `<button type="button" class="xk-chip s${st.stufe}" data-k="${k}" style="--kf:${FARBE[k]}" aria-label="${esc(name(k))}, ${STUFE_TXT[st.stufe]}">${k}${st.gold ? "<i aria-hidden=\"true\">★</i>" : ""}</button>`; }).join("")}</div>`;
+    return `<button type="button" class="xk-chip s${st.stufe}" data-k="${k}" style="--kf:${FARBE[k]}" aria-label="${esc(name(k))}, ${STUFE_TXT[st.stufe]}"><img class="xk-chip-w" src="img/wp/${k}.webp" alt="" draggable="false">${k}${st.gold ? "<i aria-hidden=\"true\">★</i>" : ""}</button>`; }).join("")}</div>`;
 }
 
 function panelZeigen(panel, k, fokus){
@@ -370,6 +370,9 @@ function stilEinfuegen(){
 .xk-wahl{fill:none;stroke:#FFE34D;stroke-width:4.5;pointer-events:none}
 .xk-kt.s3{stroke:#FFE34D;stroke-width:2.6}
 .xk-seen path{fill:#7FB8E8;opacity:.8;pointer-events:none}
+.xk-labels image{pointer-events:none}
+.xk-labels text.xk-lt{text-anchor:start}
+.xk-chip-w{width:16px;height:19px;object-fit:contain;vertical-align:-4px;margin-right:4px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
 .xk-labels text{fill:#fff;font:700 15px/1 system-ui,sans-serif;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(10,20,50,.6);stroke-width:3px}
 .xk-sterne text{fill:#FFE34D;font:900 20px/1 system-ui,sans-serif;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(80,50,0,.7);stroke-width:2px}
 .xk-svg.xk-klein .xk-labels{display:none}
@@ -437,6 +440,7 @@ function stilEinfuegen(){
   .xk-p-duo{height:80px}
   .xk-chips{grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
   .xk-chip{font-size:.78rem;padding:7px 0;min-height:38px;border-radius:12px}
+  .xk-chip-w{width:12px;height:15px;margin-right:2px;vertical-align:-3px}
   .xk-legende{font-size:.72rem;gap:3px 9px}
   .xk-fakten dd{font-size:.92rem}
 }
