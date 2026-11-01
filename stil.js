@@ -1218,3 +1218,24 @@ html body #app .wk2 .wk2-pk{background:rgba(255,255,255,.16)!important;border:1p
   html body #app .wk2 .wk2-plan.wk2-plan{border-image-width:24px!important;padding:10px 12px 12px!important}
 }`;
 document.head.appendChild(c); })();
+
+/* ===== Entdecken: Dejans Glanz-Kacheln (img/grafik/entdecken/kachel-01..18.webp, Kopf kopf.webp, Neun-Teile-Bilder) ===== */
+(function(){ if(document.getElementById("ep-entdecken-kacheln-css")) return;
+const c = document.createElement("style"); c.id = "ep-entdecken-kacheln-css"; const G = "img/grafik/entdecken/";
+const K = {regionen:11, wiederholen:2, truhe:3, karte:4, familie:5, album:6, sprachen:7, garderobe:8, abenteuer:9, mathe:10,
+  spielwelt:1, feste:12, forscher:13, sound:14, hilfen:15, eltern:16, offline:17, sprache:18};
+const nr = n => String(n).padStart(2, "0");
+c.textContent = `
+html body #app .x-kacheln > .x-kachel.x-kachel{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-width:24px!important;border-image:url("${G}kachel-01.webp?v=1") 46 fill / 24px stretch!important;padding:0 2px 2px!important;
+  filter:drop-shadow(0 10px 16px rgba(30,30,90,.28));overflow:visible!important}
+html body #app .x-kacheln > .x-kachel::before,html body #app .x-kacheln > .x-kachel::after{display:none!important}
+${Object.entries(K).map(([id, n]) => `html body #app .x-kacheln > .x-kachel[data-xo="${id}"]{border-image-source:url("${G}kachel-${nr(n)}.webp?v=1")!important}`).join("\n")}
+html body #app .x-kacheln > .x-kachel .x-badge{top:-14px!important;right:-12px!important}
+html body #app .x-kacheln > .x-kachel b,html body #app .x-kacheln > .x-kachel small{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.55),0 0 8px rgba(0,0,0,.25)!important}
+html body #app .x-kopf.x-kopf{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url("${G}kopf.webp?v=1") 50 fill / 30px stretch!important;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));overflow:visible!important}
+html body #app .x-kopf.x-kopf::before,html body #app .x-kopf.x-kopf::after{display:none!important}
+@media (max-width:700px){html body #app .x-kacheln > .x-kachel.x-kachel{border-width:18px!important;border-image-width:18px!important}
+  html body #app .x-kopf.x-kopf{border-image-width:22px!important}}`;
+document.head.appendChild(c); })();
