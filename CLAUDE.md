@@ -33,6 +33,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: Neue Startseite, Bereichswahl: Symbole in der Mitte der vier Bereich-Kacheln grösser (100 px Feld, Bild 74 px, Handy 80/58), `neustart.js`. Version ep-2026-11-01-20.
 - 01.11. Sitzung «Hauptseite»: Farbsystem-Vorschlag verworfen (Dejan), `img/grafik/farben/` wieder entfernt. Es bleiben die 18 Glanz-Kacheln aus `entdecken/`. Version ep-2026-11-01-19.
 - 01.11. Sitzung «Hauptseite»: Farbsystem-Vorschlag: 8 Kacheln (`img/grafik/farben/kachel-<blau|violett|magenta|rot|orange|gruen|tuerkis|nacht>.webp`), aus `entdecken/kachel-15.webp` umgefärbt. Noch nicht eingesetzt, wartet auf Dejans OK. Version ep-2026-11-01-18.
 - 01.11. Sitzung «Hauptseite»: Weitere Seiten im neuen Stil (Block «Weitere Seiten im neuen Stil» am Ende von `stil.js`, aktive Seite steht in `html[data-scr]`, Liste `SCR`): Duell, Live, Spielmodi, Bibliothek, Fragendatenbank, Suche, Meine Tests, Rangliste, Hardcore, Anmelden/Konto, Profil verzieren, Tagesquiz-Chat, Hinweisseiten. Köpfe (`kopf`) auf `entdecken/kopf.webp`, Kacheln (`kacheln`) reihum auf Glanz-Kacheln, weisse Kästen (`glas`) als Glas-Karte, `.big.gold`/`.big.alt` als Dejans Grafik-Knöpfe. Abenteuer: Stationsnamen umbrechen statt abschneiden. Clip-Prüfung auf Computer, Handy, iPad. Version ep-2026-11-01-17.

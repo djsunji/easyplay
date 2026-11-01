@@ -81,7 +81,9 @@ body.ep-np-wahl .np-wahl{padding-top:0}
 html body #app .np-wahl .bereiche{max-width:940px!important;width:100%;margin:0 auto}
 html body #app .np-wahl .bereiche>.bereich h2{font-size:1.75rem!important;line-height:1.1}
 html body #app .np-wahl .bereiche>.bereich p{font-size:.95rem!important}
-html body #app .np-wahl .bereiche>.bereich .emo{width:64px!important;height:64px!important;font-size:2.2rem!important}
+html body #app .np-wahl .bereiche>.bereich .emo{width:100px!important;height:100px!important;font-size:3.6rem!important;padding:0!important;display:grid!important;place-items:center;border-radius:30px!important}
+html body #app .np-wahl .bereiche>.bereich .emo :is(img,svg){width:74px!important;height:74px!important;object-fit:contain}
+@media (max-width:760px){html body #app .np-wahl .bereiche>.bereich .emo{width:80px!important;height:80px!important}html body #app .np-wahl .bereiche>.bereich .emo :is(img,svg){width:58px!important;height:58px!important}}
 html body #app .np-allethemen{display:flex;align-items:center;justify-content:flex-start;gap:16px;width:100%;margin:0 0 16px;min-height:104px;box-sizing:border-box;cursor:pointer;padding:6px 10px;background:none;border:0 solid transparent;border-radius:0;
   border-image:var(--kb) 56 56 210 56 fill / 20px 20px 40px 20px stretch;filter:drop-shadow(0 10px 16px rgba(27,34,64,.3));color:#fff;font:800 1.5rem Lexend,system-ui,sans-serif;text-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .12s;position:relative}
 html body #app .np-allethemen[data-b="welt"]{--kb:url("img/kacheln/thema-welt.webp?v=2")}
