@@ -1268,3 +1268,43 @@ for(const [k, n] of Object.entries(fest)) css += `${W} ${k}${k}{border-image-sou
 css += `@media (max-width:700px){${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}${k}`).join(",")}{border-width:16px!important;border-image-width:16px!important}
   ${kopf.map(k => `${W} ${k}.${k.slice(1)}`).join(",")}{border-image-width:22px!important}}`;
 c.textContent = css; document.head.appendChild(c); })();
+
+/* ===== Entdecken: Dejans Welt-Symbole (img/grafik/welten/<id>.webp) statt Emoji, auf den Kacheln und im Kopf jeder Welt ===== */
+(function(){
+const IDS = ["wiederholen","truhe","karte","familie","album","sprachen","abenteuer","mathe","spielwelt","feste","forscher","sound","hilfen","eltern","offline","sprache"];
+const bild = id => `<img class="ep-welt-ic" src="img/grafik/welten/${id}.webp?v=1" alt="" draggable="false">`;
+const EMO = /^\s*\p{Extended_Pictographic}[️‍\p{Extended_Pictographic}]*\s*$/u;
+function setzen(){
+  try{
+    const app = document.getElementById("app"); if(!app) return;
+    app.querySelectorAll(".x-kacheln > .x-kachel[data-xo]").forEach(k => {
+      const id = k.dataset.xo, e = k.querySelector(".x-emo"); if(!e || !IDS.includes(id) || e.querySelector(".ep-welt-ic")) return;
+      e.innerHTML = bild(id); e.classList.add("ep-welt-hat"); });
+    const s = app.querySelector(".xseite[data-xwelt]"); if(!s) return;
+    const id = s.dataset.xwelt; if(!IDS.includes(id)) return;
+    const kopf = s.querySelector(".x-kopf, .xk-kopf, .fq-kopf, .alb-kopf, .xa-kopf, .xmt-kopf, .hlf-kopf"); if(!kopf || kopf.querySelector(".ep-welt-ic")) return;
+    const span = [...kopf.querySelectorAll("span, div, i, b")].find(x => !x.children.length && EMO.test(x.textContent || ""));
+    if(span){ span.innerHTML = bild(id); span.classList.add("ep-welt-hat"); }
+    else if(id === "abenteuer" || id === "hilfen"){
+      const h1 = kopf.querySelector("h1"); if(h1){ const sp = document.createElement("span"); sp.className = "ep-welt-hat ep-welt-vor"; sp.setAttribute("aria-hidden", "true"); sp.innerHTML = bild(id);
+        h1.style.display = "flex"; h1.style.alignItems = "center"; h1.style.gap = "12px"; h1.prepend(sp); } }
+  }catch(e){}
+}
+const app = document.getElementById("app");
+if(app) new MutationObserver(() => requestAnimationFrame(setzen)).observe(app, {childList:true, subtree:true});
+const c = document.createElement("style"); c.id = "ep-welt-ic-css";
+c.textContent = `html body #app .ep-welt-hat{background:none!important;box-shadow:none!important;border:0!important;font-size:0!important;line-height:0!important;display:inline-grid;place-items:center}
+html body #app .ep-welt-hat > img.ep-welt-ic{position:static!important;inset:auto!important;transform:none!important;margin:0!important;max-height:none!important;opacity:1!important;visibility:visible!important}
+html body #app .ep-welt-ic{width:64px;height:64px;object-fit:contain;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));-webkit-user-drag:none;user-select:none}
+html body #app .x-kacheln .ep-welt-hat{width:auto!important;height:auto!important;min-width:0!important}
+html body #app .x-kacheln .ep-welt-ic{width:58px;height:58px}
+html body #app .ep-welt-hat{width:auto!important;height:auto!important;transform:none!important}
+html body #app :is(.x-kopf,.xk-kopf,.fq-kopf,.alb-kopf,.xa-kopf,.xmt-kopf,.hlf-kopf) .ep-welt-hat{width:76px!important;height:76px!important;min-width:76px!important;flex:none!important;overflow:visible!important}
+@media (max-width:700px){html body #app :is(.x-kopf,.xk-kopf,.fq-kopf,.alb-kopf,.xa-kopf,.xmt-kopf,.hlf-kopf) .ep-welt-hat{width:58px!important;height:58px!important;min-width:58px!important}}
+html body #app .ep-welt-vor{width:56px!important;height:56px!important;min-width:56px!important}
+html body #app .ep-welt-vor .ep-welt-ic{width:56px!important;height:56px!important}
+html body #app .x-kopf .ep-welt-ic,html body #app .xk-kopf .ep-welt-ic,html body #app .fq-kopf .ep-welt-ic,html body #app .xmt-kopf .ep-welt-ic{width:72px;height:72px}
+@media (max-width:700px){html body #app .ep-welt-ic,html body #app .x-kacheln .ep-welt-ic{width:46px;height:46px}
+  html body #app .x-kopf .ep-welt-ic,html body #app .xk-kopf .ep-welt-ic,html body #app .fq-kopf .ep-welt-ic,html body #app .xmt-kopf .ep-welt-ic{width:56px;height:56px}}`;
+document.head.appendChild(c);
+})();
