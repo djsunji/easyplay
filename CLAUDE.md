@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: Bibliothek: Dejans neue Bücher mit eingebautem goldenem Schrift-Titel (`img/grafik/buecher/<id>.webp`, `?v=2`), der CSS-Titel ist nur noch für Vorleser da (unsichtbar), im Regal und beim Zauber-Öffnen. Kein App-Bau. Version ep-2026-11-01-49.
 - 01.11. Sitzung «Hauptseite»: Themen-Tab Handy/iPad: die vier Bereich-Kacheln mit Dejans Grafiken vom Computer (`img/kacheln/bereich-*.webp`, Globus, Mikroskop, Schweizerkreuz, Velo) als Neun-Teile-Bild auf `::before`, Symbol unverzerrt unten rechts (`--bs` per JS), weisses Symbol-Kästchen weg, Titel oben. Block «Themen am Handy/iPad: Bereich-Kacheln» am Ende von `stil.js`. Kein App-Bau. Version ep-2026-11-01-48.
 - 01.11. Sitzung «Hauptseite»: Bibliothek-Bücher: Titel steht jetzt über dem Edelstein (Innenabstand 15 % 17 % 61 % 21 %), dadurch mehr Breite bis zum rechten Goldrahmen. Version ep-2026-11-01-47.
 - 01.11. Sitzung «Hauptseite»: Bibliothek-Bücher: Titel füllt jetzt immer die Breite zwischen linker Goldlinie und Schliesse (`passen()` vergrössert und verkleinert, Ziel 94 % der freien Breite, Innenabstand links 20 %, rechts 24 %). Version ep-2026-11-01-46.

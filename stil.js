@@ -1856,7 +1856,7 @@ ${R}[data-buch="geschichte"] .btitel{font-size:17cqi!important}${R}:is([data-buc
 .zauber .zbuch[data-buch] .zvorne .btitel{font-size:2.1rem!important}
 ${FARBE.map(([id, t, st]) => `${R}[data-buch="${id}"],.zauber .zbuch[data-buch="${id}"]{--bt:${t};--bs:${st}}`).join("\n")}
 
-${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}"] .zvorne{background-image:url("${B}${id}.webp?v=1")!important}`).join("\n")}
+${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}"] .zvorne{background-image:url("${B}${id}.webp?v=2")!important}`).join("\n")}
 .zauber .zbuch[data-buch] .zvorne{background-color:transparent!important;background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;box-shadow:none!important;border-radius:0!important;padding:16% 24% 30% 17%!important;filter:drop-shadow(0 0 18px rgba(255,214,110,.7))}
 .zauber .zbuch[data-buch] .zvorne::before,.zauber .zbuch[data-buch] .zvorne .bemo2{display:none!important}
 .zauber .zbuch[data-buch] .zvorne .bunter{color:#FFE9A8;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.7)}
@@ -1868,6 +1868,9 @@ ${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}
 .zkreis text{fill:#FFE29A;font:11px Georgia,serif;letter-spacing:3px}
 @keyframes zkdreh{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion: reduce){.zkreis svg{animation:none}}`;
+  c.textContent += `
+/* Dejans Bücher tragen den Titel jetzt selbst im Bild */
+${R} .btitel,${R} .bunter,.zauber .zbuch[data-buch] .zvorne .btitel,.zauber .zbuch[data-buch] .zvorne .bunter{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}`;
   document.head.appendChild(c);
   /* Titel so verkleinern, dass er samt Schräglage im inneren Goldrahmen bleibt */
   const SCHRAEG = 9 * Math.PI / 180;
