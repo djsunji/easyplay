@@ -1231,10 +1231,10 @@ const K = {regionen:11, wiederholen:5, truhe:1, karte:11, familie:9, album:2, sp
 const nr = n => String(n).padStart(2, "0");
 c.textContent = `
 html body #app .x-kacheln > .x-kachel.x-kachel{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
-  border-width:24px!important;border-image:url("${G}kachel-01.webp?v=1") 46 fill / 24px stretch!important;padding:0 2px 2px!important;
+  border-width:24px!important;border-image:url("${G}kachel-01.webp?v=3") 46 fill / 24px stretch!important;padding:0 2px 2px!important;
   filter:drop-shadow(0 10px 16px rgba(30,30,90,.28));overflow:visible!important}
 html body #app .x-kacheln > .x-kachel::before,html body #app .x-kacheln > .x-kachel::after{display:none!important}
-${Object.entries(K).map(([id, n]) => `html body #app .x-kacheln > .x-kachel[data-xo="${id}"]{border-image-source:url("${G}kachel-${nr(n)}.webp?v=1")!important}`).join("\n")}
+${Object.entries(K).map(([id, n]) => `html body #app .x-kacheln > .x-kachel[data-xo="${id}"]{border-image-source:url("${G}kachel-${nr(n)}.webp?v=3")!important}`).join("\n")}
 html body #app .x-kacheln > .x-kachel .x-badge{top:-14px!important;right:-12px!important}
 html body #app .x-kacheln > .x-kachel b,html body #app .x-kacheln > .x-kachel small{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.55),0 0 8px rgba(0,0,0,.25)!important}
 html body #app .x-kopf.x-kopf{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
@@ -1258,7 +1258,7 @@ const reihum = [".wdh-karte", ".alb-k", ".spr-thema", ".spr-sp", ".xmt-kachel", 
 const fest = {".xt-karte":12, ".xt-buehne":10, ".xk-panel":4, ".spr-wdh":15, ".xa-karte":9, ".xf-held":5, ".xf-saison":12, ".xfo-held":13,
   ".xs-karte":14, ".xel-box":16, ".xof-speicher":17, ".xui-box":18, ".fq-fair":15, ".fq-info":16};
 const basis = `background:none!important;background-color:transparent!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
-  border-width:22px!important;border-image:url("${G}kachel-01.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));overflow:visible!important;color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important`;
+  border-width:22px!important;border-image:url("${G}kachel-01.webp?v=3") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));overflow:visible!important;color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important`;
 let css = `${kopf.map(k => `${W} ${k}.${k.slice(1)}`).join(",")}{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
   border-image:url("${G}kopf.webp?v=1") 50 fill / 30px stretch!important;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));overflow:visible!important}
 ${kopf.map(k => `${W} ${k}::before,${W} ${k}::after`).join(",")}{display:none!important}
@@ -1266,9 +1266,9 @@ ${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}${k}`).join(",")}{${basis
 ${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}::before,${W} ${k}::after`).join(",")}{opacity:0!important}
 ${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k} :is(b,h2,h3,strong,small,p,span)`).join(",")}{text-shadow:0 1px 2px rgba(0,0,0,.45)}\n`;
 const FOLGE = [1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];   /* ohne 3 (gelb): weisse Schrift schlecht lesbar */
-for(const k of reihum) FOLGE.forEach((n, i) => { css += `${W} ${k}:nth-child(${FOLGE.length}n+${i + 1}){border-image-source:url("${G}kachel-${nr(n)}.webp?v=1")!important}\n`; });
+for(const k of reihum) FOLGE.forEach((n, i) => { css += `${W} ${k}:nth-child(${FOLGE.length}n+${i + 1}){border-image-source:url("${G}kachel-${nr(n)}.webp?v=3")!important}\n`; });
 css += `${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k} :is(small,p):not(button *):not(button)`).join(",")}{color:rgba(255,255,255,.93)!important}\n`;
-for(const [k, n] of Object.entries(fest)) css += `${W} ${k}${k}{border-image-source:url("${G}kachel-${nr(n)}.webp?v=1")!important}\n`;
+for(const [k, n] of Object.entries(fest)) css += `${W} ${k}${k}{border-image-source:url("${G}kachel-${nr(n)}.webp?v=3")!important}\n`;
 css += `@media (max-width:700px){${[...reihum, ...Object.keys(fest)].map(k => `${W} ${k}${k}`).join(",")}{border-width:16px!important;border-image-width:16px!important}
   ${kopf.map(k => `${W} ${k}.${k.slice(1)}`).join(",")}{border-image-width:22px!important}}`;
 c.textContent = css; document.head.appendChild(c); })();
@@ -1480,7 +1480,7 @@ ${kopf.map(k => S1(k)).join(",")}{background:none!important;box-shadow:none!impo
 ${kopf.map(k => S1(k + "::before")).join(",")}{opacity:0!important}
 ${kopf.map(k => S1(k + " :is(h1,h2,p,b,span,small)")).join(",")}{text-shadow:0 2px 4px rgba(30,10,80,.4)}
 ${kacheln.map(k => S1(k)).join(",")},${Object.keys(fest).map(k => S1(k)).join(",")}{background:none!important;background-color:transparent!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
-  border-width:22px!important;border-image:url("${E}kachel-07.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important}
+  border-width:22px!important;border-image:url("${E}kachel-07.webp?v=3") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important}
 ${kacheln.map(k => S1(k + "::before") + "," + S1(k + "::after")).join(",")}{opacity:0!important}
 ${kacheln.map(k => S1(k + " :is(b,h2,h3,strong,small,p,span)")).join(",")}{text-shadow:0 1px 2px rgba(0,0,0,.45);color:#fff}
 ${glas.map(k => S1(k)).join(",")}{background:rgba(255,255,255,.93)!important;border:4px solid #fff!important;border-radius:30px!important;box-shadow:0 16px 36px rgba(40,30,120,.2)!important}
@@ -1495,11 +1495,11 @@ ${S1(".du2-m .tx")}{flex:1 1 auto;min-width:0}
 ${S1(".kwkarte .kwlos")}{color:#3A2A8A!important;text-shadow:none!important}
 ${S1(".libhero :is(h1,h2,p)")},${S1(".pp-kopf :is(h1,h2,p)")}{color:#fff!important}
 html body #app .xa-sname{white-space:normal!important;text-overflow:clip!important;overflow:visible!important;font-size:.76rem!important;line-height:1.1;text-align:center;padding:2px 6px!important}
-html[data-scr="live"] body #app .mode{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:22px!important;border-radius:0!important;border-image:url("${E}kachel-07.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));box-sizing:border-box}
-html[data-scr="live"] body #app .mode + .mode{border-image-source:url("${E}kachel-08.webp?v=1")!important}
+html[data-scr="live"] body #app .mode{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:22px!important;border-radius:0!important;border-image:url("${E}kachel-07.webp?v=3") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));box-sizing:border-box}
+html[data-scr="live"] body #app .mode + .mode{border-image-source:url("${E}kachel-08.webp?v=3")!important}
 `;
-  for(const k of kacheln) FOLGE.forEach((n, i) => { css += `${S1(k + `:nth-of-type(${FOLGE.length}n+${i + 1})`)}{border-image-source:url("${E}kachel-${nr(n)}.webp?v=1")!important}\n`; });
-  for(const [k, n] of Object.entries(fest)) css += `${S1(k)}{border-image-source:url("${E}kachel-${nr(n)}.webp?v=1")!important}\n`;
+  for(const k of kacheln) FOLGE.forEach((n, i) => { css += `${S1(k + `:nth-of-type(${FOLGE.length}n+${i + 1})`)}{border-image-source:url("${E}kachel-${nr(n)}.webp?v=3")!important}\n`; });
+  for(const [k, n] of Object.entries(fest)) css += `${S1(k)}{border-image-source:url("${E}kachel-${nr(n)}.webp?v=3")!important}\n`;
   css += `@media (max-width:700px){${kacheln.map(k => S1(k)).join(",")},${S1(".du2-team")}{border-width:16px!important;border-image-width:16px!important}
   ${kopf.map(k => S1(k)).join(",")}{border-width:22px!important;border-image-width:22px!important}
   ${S1(".big.gold")},${S1(".big.alt")}{height:52px!important;min-width:0;border-width:15px 24px!important;border-image-width:15px 24px!important;font-size:.95rem!important}}`;
