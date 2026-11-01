@@ -262,7 +262,7 @@ function heldHTML(t, n){
   return `<section class="xf-held" style="background:${f.farbe}" aria-labelledby="xfHeldT">
     <div class="xf-held-tx">
       <span class="xf-pille">${pille} · ${A.h(datumText(t))}</span>
-      <h2 id="xfHeldT"><span class="xf-held-emo" aria-hidden="true">${f.emo}</span> ${A.h(f.name)}</h2>
+      <h2 id="xfHeldT"><span class="xf-held-emo" aria-hidden="true">${window.EP_GI?EP_GI("feste",f.id,f.emo):f.emo}</span> ${A.h(f.name)}</h2>
       <p>${A.h(f.text)}</p>
       ${f.ca ? `<p class="xf-ca">${A.h(f.ca)}</p>` : ""}
       <div class="xf-knoepfe"><button type="button" class="xf-btn" data-quiz="${f.id}">🎉 Fest-Quiz starten</button>
@@ -285,7 +285,7 @@ function kalenderHTML(n){
   return `<div class="xf-reihe" role="list" aria-label="Festkalender ${j}">${l.map(t => {
     const vorbei = n > t.bis, laeuft = n >= t.von && n <= t.bis, hat = hatAbz(t.f.id, j);
     return `<div role="listitem" class="xf-kw"><button type="button" class="xf-karte${vorbei ? " vorbei" : ""}${laeuft ? " heute" : ""}${wahl === t.f.id ? " gewaehlt" : ""}" data-fest="${t.f.id}" style="background:${t.f.farbe}" aria-label="${A.h(t.f.name)}, ${A.h(datumText(t))}${hat ? ", Abzeichen gesammelt" : ""}">
-      <span class="xf-k-emo" aria-hidden="true">${t.f.emo}</span>${hat ? `<span class="xf-k-abz" aria-hidden="true">🏅</span>` : ""}
+      <span class="xf-k-emo" aria-hidden="true">${window.EP_GI?EP_GI("feste",t.f.id,t.f.emo):t.f.emo}</span>${hat ? `<span class="xf-k-abz" aria-hidden="true">🏅</span>` : ""}
       <small class="xf-k-dat">${t.f.ca ? "ca. " : ""}${A.h(kurzDatum(t.von))}${t.bis > t.von ? " bis " + A.h(kurzDatum(t.bis)) : ""}</small>
       <b>${A.h(t.f.name)}</b><span class="xf-k-tx">${A.h(t.f.kurz)}</span>
       <em>${vorbei ? "Vorbei" : A.h(zaehlText(t, n))}</em></button></div>`; }).join("")}</div>`;
@@ -295,7 +295,7 @@ function abzeichenHTML(n){
   const dieses = FESTE.filter(f => a[f.id + "-" + j]).length, total = Object.keys(a).length;
   return `<div class="xf-abz-kopf"><h2 class="xf-titel">🏅 Deine Fest-Abzeichen</h2><span class="xf-pille dunkel">${dieses} von ${FESTE.length} im Jahr ${j}${total > dieses ? ` · ${total} insgesamt` : ""}</span></div>
     <div class="xf-abz" role="list">${FESTE.map(f => { const hat = !!a[f.id + "-" + j]; const jahre = Object.keys(a).filter(k => k.startsWith(f.id + "-")).length;
-      return `<button type="button" role="listitem" class="xf-ab${hat ? " hat" : ""}${hat && neuAbz === f.id ? " neu" : ""}" data-fest="${f.id}" style="${hat ? `background:${f.farbe}` : ""}" aria-label="${A.h(f.name)}: ${hat ? "Abzeichen gesammelt" : "noch offen"}"><span aria-hidden="true">${f.emo}</span><small>${A.h(f.kurzname)}</small>${jahre > 1 ? `<i>×${jahre}</i>` : ""}</button>`; }).join("")}</div>
+      return `<button type="button" role="listitem" class="xf-ab${hat ? " hat" : ""}${hat && neuAbz === f.id ? " neu" : ""}" data-fest="${f.id}" style="${hat ? `background:${f.farbe}` : ""}" aria-label="${A.h(f.name)}: ${hat ? "Abzeichen gesammelt" : "noch offen"}"><span aria-hidden="true">${window.EP_GI?EP_GI("feste",f.id,f.emo):f.emo}</span><small>${A.h(f.kurzname)}</small>${jahre > 1 ? `<i>×${jahre}</i>` : ""}</button>`; }).join("")}</div>
     <p class="xf-tipp">Spiel ein Fest-Quiz und beantworte mindestens 60 % richtig. Jedes Abzeichen gibt es einmal pro Jahr, dazu 30 XP.</p>`;
 }
 function seite(box){

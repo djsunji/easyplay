@@ -610,7 +610,7 @@ function render(box){
       <div class="xmt-info"><span>Heute ${st.heute} richtig</span><span>Gesamt ${GEN.fz(st.total)} richtig</span></div>
       <div class="xmt-kacheln">${GEN.BEREICHE.map(b => { const bs = st.b[b.id], s = bs ? bs.s : startStufe(), stn = sterne(bs);
         return `<button type="button" class="xmt-kachel" data-b="${b.id}" style="background:${b.farbe}" aria-label="${h(b.titel)}, Stufe ${s} von 10, ${stn} von 3 Sternen">
-          <span class="xmt-k1"><span class="xmt-emo" aria-hidden="true">${b.emo}</span><b>${h(b.titel)}</b></span>
+          <span class="xmt-k1"><span class="xmt-emo" aria-hidden="true">${window.EP_GI?EP_GI("mathe",b.id,b.emo):b.emo}</span><b>${h(b.titel)}</b></span>
           <small>${h(b.text)}</small>${b.profis ? '<i class="xmt-tag" aria-hidden="true">Profis</i>' : ""}
           <span class="xmt-k2" aria-hidden="true"><span class="xmt-bar"><span style="width:${s * 10}%"></span></span><span class="xmt-st">Stufe ${s}</span>${sternHTML(stn)}</span>
         </button>`; }).join("")}</div></div>`;
@@ -634,7 +634,7 @@ function render(box){
     box.innerHTML = `<div class="xmt xmt-pn">
       <button type="button" class="xmt-zur" data-zur>‹ Alle Bereiche</button>
       <div class="xmt-panel" style="background:${b.farbe}">
-        <div class="xmt-ph"><span class="xmt-emo" aria-hidden="true">${b.emo}</span><div><h2>${h(b.titel)}</h2><p>${h(b.text)}</p></div></div>
+        <div class="xmt-ph"><span class="xmt-emo" aria-hidden="true">${window.EP_GI?EP_GI("mathe",b.id,b.emo):b.emo}</span><div><h2>${h(b.titel)}</h2><p>${h(b.text)}</p></div></div>
         <div class="xmt-stufe"><button type="button" class="xmt-pm" data-s="-1" aria-label="Stufe tiefer" ${bs.s <= 1 ? "disabled" : ""}>−</button>
           <div class="xmt-sv"><b>Stufe ${bs.s} von 10</b><span class="xmt-seg" aria-hidden="true">${Array.from({length:10}, (_, i) => `<i class="${i < bs.s ? "an" : ""}"></i>`).join("")}</span></div>
           <button type="button" class="xmt-pm" data-s="1" aria-label="Stufe höher" ${bs.s >= 10 ? "disabled" : ""}>+</button></div>

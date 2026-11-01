@@ -71,7 +71,7 @@ function crumbsHTML(pfad, cur){
 /* ---------- Seite «Entdecken» ---------- */
 function entdeckenHTML(){
   const l = liste();
-  return `<div class="x-kopf"><span class="x-kopf-emo" aria-hidden="true">✨</span><div><h1>Entdecken</h1><p>Sammeln, freispielen, Abenteuer erleben</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
+  return `<div class="x-kopf"><span class="x-kopf-emo" aria-hidden="true"><img class="ep-gi" src="img/grafik/mathe/entdecken.webp?v=1" alt=""></span><div><h1>Entdecken</h1><p>Sammeln, freispielen, Abenteuer erleben</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
     <div class="x-kacheln">${l.map(m => { let hw = ""; try{ hw = m.hinweis ? m.hinweis() : ""; }catch(e){}
       return `<button type="button" class="x-kachel" data-xo="${h(m.id)}" style="background:${m.farbe || "linear-gradient(135deg,#5B4BF5,#9B4DE0)"}"><span class="x-emo" aria-hidden="true">${m.emo || "✨"}</span><b>${h(m.titel)}</b><small>${h(m.text || "")}</small>${hw ? `<i class="x-badge">${h(hw)}</i>` : ""}</button>`; }).join("") || `<p class="x-leer">Hier kommt bald etwas Neues.</p>`}</div>`;
 }

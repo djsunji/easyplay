@@ -219,7 +219,7 @@ function startSeite(box, e){
   </div>
   ${info.text ? `<p class="spr-hinweis" role="note">🔈 ${h(info.text)}</p>` : ""}
   <div class="spr-themen">${d.themen.map(t => { const st = themaStand(e.sp, t.id, e.stufe); if(!st.n) return "";
-    return `<button type="button" class="spr-thema" data-thema="${h(t.id)}" style="background:${t.farbe}"><span class="spr-th-emo" aria-hidden="true">${t.emo}</span><b>${h(t.name)}</b><small>${st.n} Wörter${st.sicher ? " · " + st.sicher + " sicher" : ""}</small><span class="spr-balken" role="progressbar" aria-label="Fortschritt ${h(t.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${st.prozent}"><i style="width:${st.prozent}%"></i></span></button>`; }).join("")}</div>
+    return `<button type="button" class="spr-thema" data-thema="${h(t.id)}" style="background:${t.farbe}"><span class="spr-th-emo" aria-hidden="true">${window.EP_GI?EP_GI("sprachen",t.id,t.emo):t.emo}</span><b>${h(t.name)}</b><small>${st.n} Wörter${st.sicher ? " · " + st.sicher + " sicher" : ""}</small><span class="spr-balken" role="progressbar" aria-label="Fortschritt ${h(t.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${st.prozent}"><i style="width:${st.prozent}%"></i></span></button>`; }).join("")}</div>
   <p class="spr-fuss">Tipp: Jedes Wort wandert durch 5 Fächer. Was du sicher kannst, kommt seltener wieder.</p>`;
   box.querySelectorAll("[data-sp]").forEach(b => b.onclick = () => { einstSetzen("sp", b.dataset.sp); A.ton("klick"); zeichne(); });
   box.querySelectorAll("[data-stufe]").forEach(b => b.onclick = () => { einstSetzen("stufe", +b.dataset.stufe); A.ton("klick"); zeichne(); });
@@ -233,7 +233,7 @@ function themaSeite(box, e){
   const st = themaStand(e.sp, t.id, e.stufe), info = stimmeInfo(e.sp), spn = SPRACHEN[e.sp].name;
   box.innerHTML = `
   <div class="spr-top"><button type="button" class="spr-zur" data-zur aria-label="Zurück zu den Themen">‹ Themen</button><span class="spr-pille">${SPRACHEN[e.sp].fahne} ${spn}</span></div>
-  <div class="spr-thkopf" style="background:${t.farbe}"><span class="spr-th-emo" aria-hidden="true">${t.emo}</span><div><h2>${h(t.name)}</h2><p>${st.n} Wörter · ${st.sicher} sicher</p><span class="spr-balken" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${st.prozent}"><i style="width:${st.prozent}%"></i></span></div></div>
+  <div class="spr-thkopf" style="background:${t.farbe}"><span class="spr-th-emo" aria-hidden="true">${window.EP_GI?EP_GI("sprachen",t.id,t.emo):t.emo}</span><div><h2>${h(t.name)}</h2><p>${st.n} Wörter · ${st.sicher} sicher</p><span class="spr-balken" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${st.prozent}"><i style="width:${st.prozent}%"></i></span></div></div>
   <div class="spr-richtung" role="group" aria-label="Richtung für Auswahl">
     <button type="button" data-ri="de" aria-pressed="${e.richtung === "de"}">Deutsch → ${spn}</button>
     <button type="button" data-ri="fremd" aria-pressed="${e.richtung === "fremd"}">${spn} → Deutsch</button>

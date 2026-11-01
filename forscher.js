@@ -144,7 +144,7 @@ function startHTML(){
   return `<section class="xfo-held" style="background:${k.farbe}" aria-labelledby="xfoHeldT">
       <div class="xfo-held-tx">
         <span class="xfo-pille hell">✨ Auftrag des Tages · ${h(MOL[monat() - 1])}</span>
-        <h2 id="xfoHeldT"><span aria-hidden="true">${t.emo}</span> ${h(t.titel)}</h2>
+        <h2 id="xfoHeldT"><span aria-hidden="true">${window.EP_GI?EP_GI("forscher",t.id,t.emo):t.emo}</span> ${h(t.titel)}</h2>
         <p>${h(t.kurz)}</p>
         <div class="xfo-meta">${metaHTML(t)}${e[t.id] ? `<span class="xfo-pille">✅ schon erforscht</span>` : ""}</div>
       </div>
@@ -152,11 +152,11 @@ function startHTML(){
       <button type="button" class="xfo-btn" data-auf="${h(t.id)}">🔎 Los geht's</button>
     </section>
     <div class="xfo-kats" role="radiogroup" aria-label="Kategorie wählen">${KATS.map(c => { const s = stufeKat(anzahlKat(c.id));
-      return `<button type="button" role="radio" class="xfo-kat${c.id === wahlKat ? " an" : ""}" data-kat="${c.id}" aria-checked="${c.id === wahlKat}" tabindex="${c.id === wahlKat ? 0 : -1}" style="background:${c.farbe}"><span aria-hidden="true">${c.emo}</span><b>${h(c.name)}</b>${s ? `<i role="img" aria-label="Abzeichen ${STUFEN[s - 1].name}">${STUFEN[s - 1].emo}</i>` : ""}</button>`; }).join("")}</div>
+      return `<button type="button" role="radio" class="xfo-kat${c.id === wahlKat ? " an" : ""}" data-kat="${c.id}" aria-checked="${c.id === wahlKat}" tabindex="${c.id === wahlKat ? 0 : -1}" style="background:${c.farbe}"><span aria-hidden="true">${window.EP_GI?EP_GI("forscher",c.id,c.emo):c.emo}</span><b>${h(c.name)}</b>${s ? `<i role="img" aria-label="Abzeichen ${STUFEN[s - 1].name}">${STUFEN[s - 1].emo}</i>` : ""}</button>`; }).join("")}</div>
     <div class="xfo-liste-kopf"><h2 class="xfo-titel">${kk.emo} ${h(kk.name)}</h2><span class="xfo-pille dunkel">${nk} von ${DATEN.filter(a => a.kat === wahlKat).length} erforscht${naechste ? ` · ${naechste.emo} ab ${naechste.n}` : " · 🥇 Gold!"}</span></div>
     <div class="xfo-liste">${liste.map(a => { const fertig = !!e[a.id], jetzt = passtJetzt(a);
       return `<button type="button" class="xfo-karte${jetzt ? "" : " spaeter"}${fertig ? " fertig" : ""}" data-auf="${h(a.id)}" style="background:${kk.farbe}" aria-label="${h(a.titel)}${fertig ? ", erledigt" : ""}${jetzt ? "" : ", am besten " + h(monateText(a))}">
-        <span class="xfo-k-emo" aria-hidden="true">${a.emo}</span>
+        <span class="xfo-k-emo" aria-hidden="true">${window.EP_GI?EP_GI("forscher",a.id,a.emo):a.emo}</span>
         <span class="xfo-k-tx"><b>${h(a.titel)}</b><small>${jetzt ? `⏱️ ${h(a.dauer)} · ${"⭐".repeat(a.stufe || 1)}` : `🗓️ ${h(monateText(a))}`}</small></span>
         ${fertig ? `<span class="xfo-k-ok" aria-hidden="true">✅</span>` : ""}</button>`; }).join("")}</div>`;
 }
@@ -169,7 +169,7 @@ function fortschritt(n){
 function abzeichenHTML(){
   return `<div class="xfo-abz">${KATS.map(k => { const n = anzahlKat(k.id), alle = DATEN.filter(a => a.kat === k.id).length, {s, nx, proz} = fortschritt(n);
     return `<section class="xfo-abz-k" style="background:${k.farbe}" aria-label="${h(k.name)}: ${n} von ${alle} Aufträgen erforscht">
-      <div class="xfo-abz-top"><span class="xfo-abz-emo" aria-hidden="true">${k.emo}</span><b>${h(k.name)}</b><small>${n}/${alle}</small></div>
+      <div class="xfo-abz-top"><span class="xfo-abz-emo" aria-hidden="true">${window.EP_GI?EP_GI("forscher",k.id,k.emo):k.emo}</span><b>${h(k.name)}</b><small>${n}/${alle}</small></div>
       <div class="xfo-medaillen">${STUFEN.map((x, i) => `<span class="xfo-med${s > i ? " hat" : ""}"><span aria-hidden="true">${x.emo}</span><small>${x.name}</small><span class="xfo-sr">${s > i ? "gesammelt" : `ab ${x.n} Aufträgen`}</span></span>`).join("")}</div>
       <div class="xfo-balken" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${proz}" aria-label="Fortschritt bis ${nx ? nx.name : "Gold"}"><i style="width:${proz}%"></i></div>
       <small class="xfo-abz-tx">${nx ? `Noch ${nx.n - n} bis ${nx.name}` : "Alle Abzeichen!"}</small>
@@ -221,7 +221,7 @@ function auftragHTML(){
   const a = auftrag(lauf.id), k = KAT[a.kat];
   const kopf = `<section class="xfo-auf-kopf" style="background:${k.farbe}">
       <button type="button" class="xfo-zurueck" data-tab="start">← Alle Aufträge</button>
-      <div class="xfo-auf-t"><span class="xfo-auf-emo" aria-hidden="true">${a.emo}</span><div><small>${k.emo} ${h(k.name)}</small><h2 id="xfoAufT" tabindex="-1">${h(a.titel)}</h2></div></div>
+      <div class="xfo-auf-t"><span class="xfo-auf-emo" aria-hidden="true">${window.EP_GI?EP_GI("forscher",a.id,a.emo):a.emo}</span><div><small>${k.emo} ${h(k.name)}</small><h2 id="xfoAufT" tabindex="-1">${h(a.titel)}</h2></div></div>
       <p>${h(a.kurz)}</p>
       <div class="xfo-meta">${metaHTML(a)}<span class="xfo-pille">${passtJetzt(a) ? "✅ passt jetzt" : "🗓️ am besten " + h(monateText(a))}</span></div>
     </section>`;

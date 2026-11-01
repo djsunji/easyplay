@@ -141,7 +141,7 @@ function zeichne(){
   BOX.innerHTML = `<div class="xsw-spiel" data-spiel="${SP.spiel}" style="--xsw-farbe:${g.farbe}">
     <div class="xsw-leiste">
       <button type="button" class="xsw-zur" data-act="hub" aria-label="Zurück zur Spielwelt">‹</button>
-      <b class="xsw-titel"><span aria-hidden="true">${g.emo}</span> ${h(g.titel)}</b>
+      <b class="xsw-titel"><span aria-hidden="true">${window.EP_GI?EP_GI("mathe",g.id,g.emo):g.emo}</span> ${h(g.titel)}</b>
       ${zaehler}<span class="xsw-pkt" aria-label="${SP.richtig} richtig">⭐ ${SP.richtig}</span>
       <i class="xsw-balken" aria-hidden="true"><i style="width:${pct}%"></i></i>
     </div>
@@ -168,7 +168,7 @@ function hubHTML(){
   return `<div class="x-kopf xsw-kopf"><span class="x-kopf-emo" aria-hidden="true">🎲</span><div><h1>Spielwelt</h1><p>Vier neue Spiele zum Knobeln</p></div><img src="img/kids/duo-bereit.webp" alt=""></div>
     <div class="xsw-kacheln">${SPIELE.map(s => { const w = b[s.id];
       return `<button type="button" class="xsw-kachel" data-start="${s.id}" style="background:${s.farbe}">
-        <span class="xsw-k-emo" aria-hidden="true">${s.emo}</span><b>${h(s.titel)}</b><small>${h(s.text)}</small>
+        <span class="xsw-k-emo" aria-hidden="true">${window.EP_GI?EP_GI("mathe",s.id,s.emo):s.emo}</span><b>${h(s.titel)}</b><small>${h(s.text)}</small>
         <i class="xsw-best">${w ? `🏆 Bestwert ${w.r} von ${w.n}` : "Noch nicht gespielt"}</i></button>`; }).join("")}</div>
     <p class="xsw-pille xsw-info">Stufe ${h(STUFEN[st])}: ${anzahl("bild", st)} Aufgaben pro Runde, ${XP_PRO} XP für jede richtige Antwort.</p>`;
 }

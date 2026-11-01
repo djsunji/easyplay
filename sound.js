@@ -640,10 +640,10 @@ function seiteRender(box, api){
     <h2 class="xs-h2">Musik anhören</h2>
     <div class="xs-stuecke">${Object.keys(STUECKE).map(id => { const st = STUECKE[id];
       return `<button type="button" class="xs-stueck" data-st="${id}" style="background:${st.farbe}" aria-pressed="false">
-        <span class="xs-emo" aria-hidden="true">${st.emo}</span><span class="xs-txt"><b>${h(st.titel)}</b><small>${h(st.text)}</small></span>
+        <span class="xs-emo" aria-hidden="true">${window.EP_GI?EP_GI("sound",id,st.emo):st.emo}</span><span class="xs-txt"><b>${h(st.titel)}</b><small>${h(st.text)}</small></span>
         <span class="xs-play" aria-hidden="true"></span><span class="xs-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>`; }).join("")}</div>
     <h2 class="xs-h2">Töne ausprobieren</h2>
-    <div class="xs-fx">${FX_NAMEN.map(([id, t, emo]) => `<button type="button" class="xs-fxk" data-fx="${id}"><span aria-hidden="true">${emo}</span>${h(t)}</button>`).join("")}</div>
+    <div class="xs-fx">${FX_NAMEN.map(([id, t, emo]) => `<button type="button" class="xs-fxk" data-fx="${id}"><span aria-hidden="true">${window.EP_GI?EP_GI("sound",id,emo):emo}</span>${h(t)}</button>`).join("")}</div>
     <p class="xs-hinweis">Alle Musik ist eigens für easyplay komponiert. Musik läuft nur, wenn du sie einschaltest.</p>
   </div>`;
   bedienungBinden(box.querySelector(".xs-seite"));

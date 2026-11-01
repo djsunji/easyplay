@@ -1308,3 +1308,18 @@ html body #app .x-kopf .ep-welt-ic,html body #app .xk-kopf .ep-welt-ic,html body
   html body #app .x-kopf .ep-welt-ic,html body #app .xk-kopf .ep-welt-ic,html body #app .fq-kopf .ep-welt-ic,html body #app .xmt-kopf .ep-welt-ic{width:56px;height:56px}}`;
 document.head.appendChild(c);
 })();
+
+/* ===== Entdecken: Dejans Symbole in den Welten (Sprachen, Mathe, Spielwelt, Feste, Forscher, Musik) =====
+   window.EP_GI(ordner, id, emoji) gibt ein Bild aus img/grafik/<ordner>/<id>.webp zurück, sonst das Emoji. */
+(function(){
+  const L = {sprachen:"begruessung berufe essen familie farben freizeit gefuehle haus kleider koerper natur schule stadt tiere verben wetter zahlen zeit",mathe:"bild br dez emm entdecken gl kopf mass paare pm proz reihe schr text zeit",feste:"advent alpabzug auffahrt augustfeier dreikoenig fasnacht-bs fasnacht-lu knabenschiessen martini muttertag neujahr ostern pfingsten raebeliechtli samichlaus sechselaeuten silvester weihnachten zibelemaerit",forscher:"atemwolke eisbecher fruehlingsboten gluehwuermchen herbstfruechte jahreszeit kastanien knospen laub morgenkonzert natur ort schneeflocken schneespuren sinne sommerwiese wetter zugvoegel zuhause",sound:"abenteuer bibliothek countdown duell duellstart falsch fanfare fehler fest freischalten klick levelup live qeels quiz richtig sammeln sonnenschein start tick truhe wisch xp zauberlaterne"}, S = {};
+  Object.keys(L).forEach(k => S[k] = new Set(L[k].split(" ")));
+  window.EP_GI = (d, id, emo) => (S[d] && S[d].has(id)) ? `<img class="ep-gi" src="img/grafik/${d}/${id}.webp?v=1" alt="" draggable="false">` : emo;
+  const css = document.createElement("style");
+  css.textContent = `img.ep-gi{display:inline-block;width:1.45em;height:1.45em;object-fit:contain;vertical-align:middle;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));pointer-events:none;-webkit-user-drag:none}
+.spr-thema .spr-th-emo,.xmt-kachel .xmt-emo,.xsw-kachel .xsw-k-emo,.xf-karte .xf-k-emo,.xfo-karte .xfo-k-emo,.xs-stueck .xs-emo{line-height:1}
+.x-kopf-emo img.ep-gi{width:1.6em;height:1.6em}
+.xs-fxk img.ep-gi{width:1.6em;height:1.6em;display:block;margin:0 auto 4px}
+.xf-ab img.ep-gi{width:1.7em;height:1.7em}`;
+  document.head.appendChild(css);
+})();
