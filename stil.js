@@ -1312,7 +1312,7 @@ document.head.appendChild(c);
 /* ===== Entdecken: Dejans Symbole in den Welten (Sprachen, Mathe, Spielwelt, Feste, Forscher, Musik) =====
    window.EP_GI(ordner, id, emoji) gibt ein Bild aus img/grafik/<ordner>/<id>.webp zurück, sonst das Emoji. */
 (function(){
-  const L = {sprachen:"begruessung berufe essen familie farben freizeit gefuehle haus kleider koerper natur schule stadt tiere verben wetter zahlen zeit",mathe:"bild br dez emm entdecken gl kopf mass paare pm proz reihe schr text zeit",feste:"advent alpabzug auffahrt augustfeier dreikoenig fasnacht-bs fasnacht-lu knabenschiessen martini muttertag neujahr ostern pfingsten raebeliechtli samichlaus sechselaeuten silvester weihnachten zibelemaerit",forscher:"atemwolke eisbecher fruehlingsboten gluehwuermchen herbstfruechte jahreszeit kastanien knospen laub morgenkonzert natur ort schneeflocken schneespuren sinne sommerwiese wetter zugvoegel zuhause",sound:"abenteuer bibliothek countdown duell duellstart falsch fanfare fehler fest freischalten klick levelup live qeels quiz richtig sammeln sonnenschein start tick truhe wisch xp zauberlaterne"}, S = {};
+  const L = {sprachen:"begruessung berufe essen familie farben freizeit gefuehle haus kleider koerper natur schule stadt tiere verben wetter zahlen zeit",mathe:"bild br dez emm entdecken gl kopf mass paare pm proz reihe schr text zeit",feste:"advent alpabzug auffahrt augustfeier dreikoenig fasnacht-bs fasnacht-lu knabenschiessen martini muttertag neujahr ostern pfingsten raebeliechtli samichlaus sechselaeuten silvester weihnachten zibelemaerit",forscher:"ameisen atemwolke bahnhof barfuss baum bechertelefon blaetter blinderfleck blumen bronze brunnen buchstaben dauer echo eisbecher eiswuerfel farbenjagd fruehlingsboten fuehlsack geraeusche gewitter glasregenbogen gleichgewicht gluehwuermchen gold hausnummern herbstfruechte insekten jahreszeit kastanien kirchturm knospen kresse laub messen monat moos morgenkonzert natur nebel ort papierflieger pfeffer puls pupille recycling regenbogenjagd regenmesser riechen schatten schilder schmecken schnecken schneeflocken schneehoehe schneespuren schwimmen silber sinne sommerwiese spielplatz spinnennetz steine strassennamen tab-auftraege tab-tagebuch tau temperaturtagebuch thermometer tropfenrennen verkehr voegel vorhersage waegen waldboden wappen wasserwanderung wetter wind windrad wolkenarten wolkentiere zugvoegel zuhause",sound:"abenteuer bibliothek countdown duell duellstart falsch fanfare fehler fest freischalten klick levelup live qeels quiz richtig sammeln sonnenschein start tick truhe wisch xp zauberlaterne",diverse:"abzeichen baer croissant download festkalender fruehling gluehbirne herbst kaffee lautsprecher lupe-stern offline paket sanduhr schloss sommer speicher winter wolke-download"}, S = {};
   Object.keys(L).forEach(k => S[k] = new Set(L[k].split(" ")));
   window.EP_GI = (d, id, emo) => (S[d] && S[d].has(id)) ? `<img class="ep-gi" src="img/grafik/${d}/${id}.webp?v=1" alt="" draggable="false">` : emo;
   const css = document.createElement("style");
@@ -1346,5 +1346,48 @@ html body .xk-karte .xk-laden{color:#2A3560}
 html body .xk-chips .xk-chip.xk-chip{left:auto!important;top:auto!important;right:auto!important;bottom:auto!important}
 html body .xk-chip.s1{background:rgba(255,255,255,.16)!important;border-color:rgba(255,255,255,.45)!important;position:relative}
 html body .xk-chip.s1::after{content:"";position:absolute;right:6px;top:6px;width:8px;height:8px;border-radius:50%;background:#FFE34D;box-shadow:0 0 0 2px rgba(0,0,0,.15)}`;
+  document.head.appendChild(css);
+})();
+
+/* ===== Entdecken: übrige Emoji durch Dejans Symbole ersetzen (nur in den Welten x-…) =====
+   Ersetzt Emoji in Textknoten von #app. Liste E: Emoji → Bild. Jahreszeiten nur im Kasten .xf-saison. */
+(function(){
+  const g = (d, id) => `img/grafik/${d}/${id}.webp?v=1`, b = id => `img/qeels-icons/buecher/${id}.webp`;
+  const E = {"🔒":g("diverse","schloss"), "🐻":g("diverse","baer"), "⏳":g("diverse","sanduhr"), "🏅":g("diverse","abzeichen"),
+    "📅":g("diverse","festkalender"), "🗓":g("forscher","monat"), "🧭":g("forscher","tab-auftraege"), "📓":g("forscher","tab-tagebuch"),
+    "⏱":g("forscher","dauer"), "🥉":g("forscher","bronze"), "🥈":g("forscher","silber"), "🥇":g("forscher","gold"),
+    "⬇":g("diverse","download"), "☁":g("diverse","wolke-download"), "📶":g("diverse","offline"), "💾":g("diverse","speicher"),
+    "📦":g("diverse","paket"), "💡":g("diverse","gluehbirne"), "🥐":g("diverse","croissant"), "☕":g("diverse","kaffee"),
+    "🔈":g("diverse","lautsprecher"), "🔊":g("diverse","lautsprecher"), "🔍":g("diverse","lupe-stern"), "🌟":g("diverse","lupe-stern"),
+    "🏰":b("geschichte"), "🌍":b("welt"), "🌿":b("natur"), "🔬":b("wissen"), "🏛":b("schweiz"), "🗳":b("politik"), "💰":b("geld"), "🏡":b("leben"), "🚲":b("alltag")};
+  const J = {"🌸":g("diverse","fruehling"), "☀":g("diverse","sommer"), "🍂":g("diverse","herbst"), "❄":g("diverse","winter")};
+  const re = o => new RegExp("(" + Object.keys(o).join("|") + ")\uFE0F?", "g");
+  const RE = re(E), RJ = re(J);
+  const anSeite = () => { try{ return /^x-/.test(S.screen) && S.screen !== "x-karte"; }catch(e){ return false; } };
+  function knoten(t){
+    const p = t.parentElement; if(!p || p.closest("svg,script,style,textarea,input,select,option,[contenteditable]")) return;
+    const saison = p.closest(".xf-saison, .xf-saisons");
+    const txt = t.nodeValue; RE.lastIndex = 0; RJ.lastIndex = 0;
+    if(!RE.test(txt) && !(saison && RJ.test(txt))) return;
+    const map = saison ? Object.assign({}, E, J) : E, R = saison ? re(map) : new RegExp(RE.source, "g");
+    const fr = document.createDocumentFragment(); let last = 0;
+    txt.replace(R, (m, e, i) => { if(i > last) fr.appendChild(document.createTextNode(txt.slice(last, i)));
+      const im = document.createElement("img"); im.className = "ep-gi ep-gi2"; im.src = map[e]; im.alt = ""; im.draggable = false; im.setAttribute("aria-hidden", "true");
+      fr.appendChild(im); last = i + m.length; return m; });
+    if(last < txt.length) fr.appendChild(document.createTextNode(txt.slice(last)));
+    t.parentNode.replaceChild(fr, t);
+  }
+  function lauf(){
+    const app = document.getElementById("app"); if(!app || !anSeite()) return;
+    const w = document.createTreeWalker(app, NodeFilter.SHOW_TEXT), l = [];
+    while(w.nextNode()) l.push(w.currentNode);
+    l.forEach(knoten);
+  }
+  let plan = 0; const los = () => { if(!plan) plan = requestAnimationFrame(() => { plan = 0; lauf(); }); };
+  const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300);
+    new MutationObserver(los).observe(app, {childList:true, subtree:true, characterData:true}); los(); };
+  start();
+  const css = document.createElement("style");
+  css.textContent = `img.ep-gi2{width:1.3em;height:1.3em}`;
   document.head.appendChild(css);
 })();

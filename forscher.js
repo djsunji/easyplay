@@ -153,7 +153,7 @@ function startHTML(){
     </section>
     <div class="xfo-kats" role="radiogroup" aria-label="Kategorie wählen">${KATS.map(c => { const s = stufeKat(anzahlKat(c.id));
       return `<button type="button" role="radio" class="xfo-kat${c.id === wahlKat ? " an" : ""}" data-kat="${c.id}" aria-checked="${c.id === wahlKat}" tabindex="${c.id === wahlKat ? 0 : -1}" style="background:${c.farbe}"><span aria-hidden="true">${window.EP_GI?EP_GI("forscher",c.id,c.emo):c.emo}</span><b>${h(c.name)}</b>${s ? `<i role="img" aria-label="Abzeichen ${STUFEN[s - 1].name}">${STUFEN[s - 1].emo}</i>` : ""}</button>`; }).join("")}</div>
-    <div class="xfo-liste-kopf"><h2 class="xfo-titel">${kk.emo} ${h(kk.name)}</h2><span class="xfo-pille dunkel">${nk} von ${DATEN.filter(a => a.kat === wahlKat).length} erforscht${naechste ? ` · ${naechste.emo} ab ${naechste.n}` : " · 🥇 Gold!"}</span></div>
+    <div class="xfo-liste-kopf"><h2 class="xfo-titel">${window.EP_GI?EP_GI("forscher",kk.id,kk.emo):kk.emo} ${h(kk.name)}</h2><span class="xfo-pille dunkel">${nk} von ${DATEN.filter(a => a.kat === wahlKat).length} erforscht${naechste ? ` · ${naechste.emo} ab ${naechste.n}` : " · 🥇 Gold!"}</span></div>
     <div class="xfo-liste">${liste.map(a => { const fertig = !!e[a.id], jetzt = passtJetzt(a);
       return `<button type="button" class="xfo-karte${jetzt ? "" : " spaeter"}${fertig ? " fertig" : ""}" data-auf="${h(a.id)}" style="background:${kk.farbe}" aria-label="${h(a.titel)}${fertig ? ", erledigt" : ""}${jetzt ? "" : ", am besten " + h(monateText(a))}">
         <span class="xfo-k-emo" aria-hidden="true">${window.EP_GI?EP_GI("forscher",a.id,a.emo):a.emo}</span>
@@ -221,7 +221,7 @@ function auftragHTML(){
   const a = auftrag(lauf.id), k = KAT[a.kat];
   const kopf = `<section class="xfo-auf-kopf" style="background:${k.farbe}">
       <button type="button" class="xfo-zurueck" data-tab="start">← Alle Aufträge</button>
-      <div class="xfo-auf-t"><span class="xfo-auf-emo" aria-hidden="true">${window.EP_GI?EP_GI("forscher",a.id,a.emo):a.emo}</span><div><small>${k.emo} ${h(k.name)}</small><h2 id="xfoAufT" tabindex="-1">${h(a.titel)}</h2></div></div>
+      <div class="xfo-auf-t"><span class="xfo-auf-emo" aria-hidden="true">${window.EP_GI?EP_GI("forscher",a.id,a.emo):a.emo}</span><div><small>${window.EP_GI?EP_GI("forscher",k.id,k.emo):k.emo} ${h(k.name)}</small><h2 id="xfoAufT" tabindex="-1">${h(a.titel)}</h2></div></div>
       <p>${h(a.kurz)}</p>
       <div class="xfo-meta">${metaHTML(a)}<span class="xfo-pille">${passtJetzt(a) ? "✅ passt jetzt" : "🗓️ am besten " + h(monateText(a))}</span></div>
     </section>`;
@@ -282,7 +282,7 @@ function fertigHTML(a){
       <li>📓 Im Tagebuch gespeichert</li>
     </ul>
     <div class="xfo-balken hell" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${proz}" aria-label="${h(k.name)}: Fortschritt"><i style="width:${proz}%"></i></div>
-    <small class="xfo-fortschritt">${k.emo} ${h(k.name)}: ${n} erforscht${nx ? ` · noch ${nx.n - n} bis ${nx.emo} ${nx.name}` : " · 🥇 Gold!"}</small>
+    <small class="xfo-fortschritt">${window.EP_GI?EP_GI("forscher",k.id,k.emo):k.emo} ${h(k.name)}: ${n} erforscht${nx ? ` · noch ${nx.n - n} bis ${nx.emo} ${nx.name}` : " · 🥇 Gold!"}</small>
     <div class="xfo-knoepfe">${nxA ? `<button type="button" class="xfo-btn" data-auf="${h(nxA.id)}">${nxA.emo} Nächster Auftrag</button>` : ""}
       ${lib ? `<button type="button" class="xfo-btn hell" data-lib="${h(a.thema)}">📚 Mehr über ${h(THEMA[a.thema].name)}</button>` : ""}
       <button type="button" class="xfo-btn hell" data-tab="tagebuch">📓 Tagebuch</button>
