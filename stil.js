@@ -1724,3 +1724,65 @@ html body.ep-app #epTabs button[aria-current="page"] svg{color:#fff}
 @media (min-width:1000px) and (orientation:landscape){html body.ep-app #epTabs{height:auto!important}html body.ep-app #epTabs .tabic,html body.ep-app #epTabs .tabic img{width:40px!important;height:40px!important}}
 @media (prefers-reduced-motion:reduce){html body.ep-app #epTabs button,html body.ep-app #epTabs .tabic{transition:none}}`;
 document.head.appendChild(c); })();
+
+/* ===== Startseite Handy/iPad: Kacheln im neuen Glanz-Stil, mit Dejans Symbolen und Live-Infos (Serie, Level, Fehler, Woche) ===== */
+(function(){
+  const E = "img/grafik/entdecken/", D = "img/grafik/diverse/";
+  const KK = {zufall:["05","wuerfel"], lib:["03","buch"], profil:["10","stern"], chat:["01","festkalender"], live:["02","blitz"], fehler:["04","ziel"]};
+  const zahl = n => { try{ return Number(n).toLocaleString("de-CH"); }catch(e){ return String(n); } };
+  function info(x){
+    try{
+      if(x === "zufall"){ const se = window.EP_LERNEN && EP_LERNEN.serie(); return se && se.heute ? {t:`Heute ${se.heute} Fragen`, bar:Math.min(1, se.heute / 5)} : {t:`${zahl(FRAGEN.length)} Fragen`}; }
+      if(x === "lib"){ const n = typeof bibSeitenZahl === "function" ? bibSeitenZahl() : 0; return {t: n ? `${zahl(n)} Seiten` : "9 Bücher"}; }
+      if(x === "profil"){ const s = EP_LEVEL.stand(); return {t: s.max ? "Höchstes Level!" : `Noch ${zahl(s.proLevel - s.imLevel)} XP`, bar:s.anteil}; }
+      if(x === "chat"){ const se = EP_LERNEN.serie(); return {t: se.aktiv ? "Heute geschafft" : (se.n ? `Serie ${se.n} ${se.n === 1 ? "Tag" : "Tage"}` : "5 neue Fragen"), bar:Math.min(1, (se.heute || 0) / 5), neu:!se.aktiv}; }
+      if(x === "fehler"){ const l = EP_LERNEN.fehlerListe(); return {t: l && l.length ? `${l.length} zum Üben` : "Alles geübt", neu:!!(l && l.length)}; }
+    }catch(e){}
+    return null;
+  }
+  function machen(){
+    document.querySelectorAll(".ap-heute .ap-tag>.apf[data-x]").forEach(b => {
+      const k = KK[b.dataset.x]; if(!k) return;
+      b.classList.add("ep-k2"); b.style.setProperty("--k2", `url("${E}kachel-${k[0]}.webp?v=3")`);
+      if(!b.querySelector(".k2-ic")){ const i = document.createElement("img"); i.className = "k2-ic"; i.src = `${D}${k[1]}.webp?v=2`; i.alt = ""; i.draggable = false; b.prepend(i); }
+      const d = info(b.dataset.x); let z = b.querySelector(".k2-info");
+      if(d){ if(!z){ z = document.createElement("span"); z.className = "k2-info"; b.appendChild(z); }
+        const html = `<em>${d.t}</em>${d.bar != null ? `<i class="k2-bar"><i style="width:${Math.round(Math.max(.04, d.bar) * 100)}%"></i></i>` : ""}`;
+        if(z.innerHTML !== html) z.innerHTML = html; b.classList.toggle("k2-neu", !!d.neu); }
+    });
+    const w = document.querySelector(".ap-heute .ap-woche"); if(w){ w.classList.add("ep-k2", "k2-breit"); w.style.setProperty("--k2", `url("${E}kachel-13.webp?v=3")`);
+      if(!w.querySelector(".k2-ic")){ const i = document.createElement("img"); i.className = "k2-ic k2-gross"; i.src = `${D}pokal.webp?v=2`; i.alt = ""; i.draggable = false; w.appendChild(i); } }
+    const x = document.querySelector(".ap-heute .x-app"); if(x){ x.classList.add("ep-k2", "k2-breit"); x.style.setProperty("--k2", `url("${E}kachel-06.webp?v=3")`); }
+  }
+  let t = 0; const los = () => { clearTimeout(t); t = setTimeout(machen, 40); };
+  const start = () => { const a = document.getElementById("app"); if(!a) return setTimeout(start, 300); new MutationObserver(los).observe(a, {childList:true, subtree:true}); los(); };
+  start();
+  const T = "html:root body.ep-app .ap-heute";
+  const c = document.createElement("style"); c.id = "ep-app-kacheln2-css";
+  c.textContent = `
+${T} .apf.ep-k2.ep-k2{border-style:solid!important;border-color:transparent!important;border-width:16px!important;border-radius:0!important;
+  border-image:var(--k2) 46 fill / 16px stretch!important;background:none!important;box-shadow:none!important;filter:drop-shadow(0 8px 14px rgba(20,10,70,.35));overflow:visible!important;padding:0 2px!important}
+${T} .apf.ep-k2.ep-k2::after,${T} .apf.ep-k2.ep-k2::before{display:none!important}
+${T} .ap-tag>.apf.ep-k2{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:2px!important;text-align:left!important;position:relative}
+${T} .ap-tag>.apf.ep-k2 .k2-ic{width:40px;height:40px;object-fit:contain;margin:-6px 0 2px -2px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3));transition:transform .2s}
+${T} .ap-tag>.apf.ep-k2:active .k2-ic{transform:scale(1.15) rotate(-6deg)}
+${T} .ap-tag>.apf.ep-k2 b{font-size:.95rem!important;line-height:1.1!important}
+${T} .ap-tag>.apf.ep-k2 > small{display:none!important}
+${T} .ap-tag>.apf.ep-k2 .k2-info{margin-top:auto;width:100%;display:flex;flex-direction:column;gap:4px}
+${T} .ap-tag>.apf.ep-k2 .k2-info em{font:800 .64rem/1.15 Lexend,system-ui,sans-serif;font-style:normal;color:#fff;background:rgba(20,10,60,.3);border-radius:10px;padding:2px 7px;align-self:flex-start;white-space:normal;max-width:100%;box-sizing:border-box}
+${T} .apf.ep-k2 .k2-bar{display:block;width:100%;height:7px;border-radius:99px;background:rgba(20,10,60,.35);box-shadow:inset 0 1px 2px rgba(0,0,0,.35);overflow:hidden}
+${T} .apf.ep-k2 .k2-bar > i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFE15A,#FFB52E);box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+${T} .ap-tag>.apf.ep-k2.k2-neu::before{display:block!important;content:""!important;position:absolute;top:-8px;right:-6px;width:14px;height:14px;border-radius:50%;background:#FFE15A;box-shadow:0 0 0 3px #fff,0 0 12px #FFE15A;animation:k2puls 1.6s ease-in-out infinite;z-index:3}
+@keyframes k2puls{50%{transform:scale(1.25);box-shadow:0 0 0 3px #fff,0 0 22px #FFE15A}}
+${T} .apf.ep-k2.k2-breit{position:relative}
+${T} .ap-woche.ep-k2 .k2-gross{position:absolute;right:6px;top:50%;width:84px;height:84px;transform:translateY(-50%) rotate(8deg);object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3));pointer-events:none}
+${T} .ap-woche.ep-k2 .aptx{max-width:70%!important}
+${T} .ap-woche.ep-k2 .apbar{background:rgba(20,10,60,.35)!important;height:8px!important;border-radius:99px!important}
+${T} .ap-woche.ep-k2 .apbar i{background:linear-gradient(90deg,#FFE15A,#FFB52E)!important;min-width:6%}
+${T} .apf.ep-k2::after{content:none}
+${T} .apf.ep-k2{animation:k2ein .45s ease-out both}
+${T} .ap-tag>.apf.ep-k2:nth-child(2){animation-delay:.05s}${T} .ap-tag>.apf.ep-k2:nth-child(3){animation-delay:.1s}
+@keyframes k2ein{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){${T} .apf.ep-k2,${T} .ap-tag>.apf.ep-k2.k2-neu::before{animation:none!important}}`;
+  document.head.appendChild(c);
+})();
