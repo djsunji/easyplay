@@ -1367,11 +1367,16 @@ html body .xk-chip.s1::after{content:"";position:absolute;right:6px;top:6px;widt
     "💪":g("diverse","muskel"), "🗺":g("diverse","landkarte"), "📒":g("diverse","notizbuch"), "🎨":g("diverse","palette"), "➗":g("diverse","geteilt"),
     "💬":g("diverse","sprechblase"), "📖":g("diverse","buch"), "📤":g("diverse","teilen"), "🔗":g("diverse","link"), "✉":g("diverse","brief"),
     "🖨":g("diverse","drucker"), "📱":g("diverse","handy"), "👪":g("diverse","familie"),
+    "🔥":g("diverse","flamme"), "🏆":g("diverse","pokal"), "⚡":g("diverse","blitz"), "🎮":g("diverse","controller"), "⚙":g("diverse","zahnrad"),
+    "🌐":g("diverse","online"), "📋":g("diverse","klemmbrett"), "📜":g("diverse","rolle"), "🗣":g("diverse","sprechen"), "🦊":g("diverse","fuchs"),
+    "🦉":g("diverse","eule"), "🪴":g("diverse","pflanze"), "🧸":g("diverse","teddy"), "🐈":g("diverse","katze"), "🐱":g("diverse","katze"), "🐖":g("diverse","sparschwein"),
+    "🐷":g("diverse","sparschwein"), "👉":g("diverse","zeigefinger"), "👆":g("sound","klick"), "🎁":g("sound","truhe"), "⚔":g("sound","duellstart"),
     "🏰":b("geschichte"), "🌍":b("welt"), "🌿":b("natur"), "🔬":b("wissen"), "🏛":b("schweiz"), "🗳":b("politik"), "💰":b("geld"), "🏡":b("leben"), "🚲":b("alltag")};
   const J = {"🌸":g("diverse","fruehling"), "☀":g("diverse","sommer"), "🍂":g("diverse","herbst"), "❄":g("diverse","winter")};
   const re = o => new RegExp("(" + Object.keys(o).join("|") + ")\uFE0F?", "g");
   const RE = re(E), RJ = re(J);
-  const anSeite = () => { try{ return /^x-/.test(S.screen) && S.screen !== "x-karte"; }catch(e){ return false; } };
+  const WEITERE = new Set(["home", "start", "duell", "live", "lib", "hardcore", "rangliste", "truhe", "abzeichen", "level", "register", "profil"]);
+  const anSeite = () => { try{ return (/^x-/.test(S.screen) && S.screen !== "x-karte") || WEITERE.has(S.screen); }catch(e){ return false; } };
   function knoten(t){
     const p = t.parentElement; if(!p || p.closest("svg,script,style,textarea,input,select,option,[contenteditable]")) return;
     const saison = p.closest(".xf-saison, .xf-saisons");
