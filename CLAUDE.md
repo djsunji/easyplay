@@ -20,6 +20,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - Alles lesen und jede Seite besuchen ist erlaubt, nicht nachfragen. Direkt auf GitHub pushen.
 - Handy und iPad: Startseite und Themen ohne Scrollen, Unterseiten dürfen scrollen.
 - Ladebild bleibt, bis die neue Version sicher geladen ist. Die alte Seite darf nie erscheinen.
+- App-Bau (iOS/Android, Workflows `app-ios.yml`/`app-android.yml`) nur starten, wenn Dejan es ausdrücklich sagt.
 
 ## Gerade in Arbeit
 
