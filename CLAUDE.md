@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: Bibliothek-Bücher: `passen()` rechnet den dunklen Textrand und 10 % Luft zum Goldrahmen mit ein. Version ep-2026-11-01-43.
 - 01.11. Sitzung «Hauptseite»: Bibliothek-Bücher: Titel im Flex-Kasten wurde auf die Kastenbreite gekürzt gemessen, darum passte `passen()` nicht. Jetzt `width:max-content`. Version ep-2026-11-01-42.
 - 01.11. Sitzung «Hauptseite»: Bibliothek-Bücher: Titel wurde falsch gemessen (eine ältere Regel machte ihn `display:block`), darum ragte er weiter über den Goldrahmen. Jetzt `inline-block`, `passen()` misst die echte Textbreite. Version ep-2026-11-01-41.
 - 01.11. Sitzung «Hauptseite»: Bibliothek-Startseite neu: oben die Suche, darunter Dejans Holzregal (`img/grafik/regal-wand.webp` als Neun-Teile-Bild, Bretter `regal-brett.webp`, per JS unter jede Bücherreihe gesetzt, `.ep-brett`). Bibliothek-Kachel oben, «Wähle ein Buch», das Zimmer mit den Kindern und der Hinweis unten sind ausgeblendet (Block «Bibliothek-Startseite: Dejans Holzregal» am Ende von `stil.js`, nur `html[data-scr="lib"]`). Computer 5 Bücher pro Reihe, Handy 3. Kein App-Bau. Version ep-2026-11-01-40.

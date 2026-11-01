@@ -1876,8 +1876,10 @@ ${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}
     if(frei <= 0) return;
     t.style.removeProperty("font-size");
     const w = t.offsetWidth, h = t.offsetHeight; if(!w) return;
-    const breit = w * Math.cos(SCHRAEG) + h * Math.sin(SCHRAEG);
-    if(breit > frei){ const fs = parseFloat(getComputedStyle(t).fontSize) * frei / breit * .96; t.style.setProperty("font-size", fs.toFixed(1) + "px", "important"); }
+    const f0 = parseFloat(getComputedStyle(t).fontSize);
+    /* Breite samt dunklem Rand (.16em je Seite) und Schräglage, mit etwas Luft zum Goldrahmen */
+    const breit = (w + f0 * .34) * Math.cos(SCHRAEG) + h * Math.sin(SCHRAEG), ziel = frei * .9;
+    if(breit > ziel){ t.style.setProperty("font-size", (f0 * ziel / breit).toFixed(1) + "px", "important"); }
   }
   const alle = () => document.querySelectorAll("#app .buecher .buch .btitel, .zauber .zbuch[data-buch] .zvorne .btitel").forEach(passen);
   let tm; const bald = () => { clearTimeout(tm); tm = setTimeout(alle, 60); };
