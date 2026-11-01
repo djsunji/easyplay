@@ -1845,14 +1845,14 @@ ${R} .btitel{color:#fff!important;font:800 clamp(.95rem,2cqw,1.5rem)/1.1 Fredoka
 ${R} .bunter{color:#FFE9A8!important;font:700 clamp(.66rem,1.15cqw,.9rem)/1.15 Lexend,system-ui,sans-serif!important;font-style:normal!important;text-shadow:0 1px 2px rgba(0,0,0,.7)!important;opacity:1!important}
 ${R}.gross{aspect-ratio:.7!important}
 ${R} .bunter,.zauber .zbuch[data-buch] .zvorne .bunter{display:none!important}
-${R} .bcover{padding:10% 24% 34% 20%!important}
+${R} .bcover{padding:15% 17% 61% 21%!important}
 ${R} .btitel,.zauber .zbuch[data-buch] .zvorne .btitel{font-family:"Cinzel Decorative",Georgia,serif!important;font-weight:900!important;font-style:normal!important;line-height:1!important;white-space:nowrap;
   color:var(--bt,#FFE29A)!important;-webkit-text-stroke:.16em var(--bs,#2A1200);paint-order:stroke fill;transform:rotate(-9deg);display:inline-block!important;max-width:none!important;width:max-content!important;flex:none!important;align-self:center!important;overflow:visible!important;letter-spacing:.02em;
   text-shadow:0 .06em 0 var(--bs,#2A1200),0 0 .35em rgba(255,214,110,.85)!important}
 ${R} .bcover{container-type:inline-size}
 ${R} .btitel{font-size:24cqi!important}
 ${R}[data-buch="geschichte"] .btitel{font-size:17cqi!important}${R}:is([data-buch="politik"],[data-buch="schweiz"],[data-buch="wissen"],[data-buch="alltag"]) .btitel{font-size:21cqi!important}
-.zauber .zbuch[data-buch] .zvorne{padding:10% 25% 34% 19%!important}
+.zauber .zbuch[data-buch] .zvorne{padding:15% 17% 61% 21%!important}
 .zauber .zbuch[data-buch] .zvorne .btitel{font-size:2.1rem!important}
 ${FARBE.map(([id, t, st]) => `${R}[data-buch="${id}"],.zauber .zbuch[data-buch="${id}"]{--bt:${t};--bs:${st}}`).join("\n")}
 
