@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-01-15";
+window.EP_BUILD="ep-2026-11-01-16";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -5493,19 +5493,19 @@ function reviewHTML(Q){
   const ok=Q.log.filter(l=>l.ok).length, bad=Q.log.length-ok;
   return `<div class="summary">
     <h2>Zusammenfassung</h2>
-    <p class="sumline"><span class="pill ok">${ico("check")} ${ok} richtig</span><span class="pill bad">${ico("cross")} ${bad} falsch</span></p>
+    <p class="sumline"><span class="pill ok"><img class="ep-rv-ic" src="img/grafik/sound/richtig.webp?v=2" alt=""> ${ok} richtig</span><span class="pill bad"><img class="ep-rv-ic" src="img/grafik/sound/falsch.webp?v=2" alt=""> ${bad} falsch</span></p>
     <div class="review">${Q.log.map((l,i)=>`<div class="rev ${l.ok?"r-ok":"r-bad"}">
-      <div class="revhead"><span class="revnr">${i+1}</span>${ico(l.ok?"check":"cross")}<b>${esc(l.q)}</b></div>
+      <div class="revhead"><span class="revnr">${i+1}</span><img class="ep-rv-ic" src="img/grafik/${l.ok?"sound/richtig":"sound/falsch"}.webp?v=2" alt="${l.ok?"richtig":"falsch"}"><b>${esc(l.q)}</b></div>
       ${l.img && l.img.startsWith("e:") ? `<span class="revimg">${esc(l.img.slice(2))}</span>` : ""}
       ${l.ok ? `<span class="ans-ok">Deine Antwort: ${esc(l.dein||l.richtig)}</span>`
              : `<span class="ans-bad">${l.skip?"Nicht beantwortet":"Deine Antwort: "+esc(l.dein)}</span><span class="ans-ok">Richtig wäre: ${esc(l.richtig)}</span>`}
-      <span class="revm">${ico("bulb")} ${esc(l.m)}${l.s? ` · Quelle: Wikipedia «${esc(l.s)}»`:""}</span>
+      <span class="revm"><img class="ep-rv-ic" src="img/grafik/diverse/gluehbirne.webp?v=2" alt=""> ${esc(l.m)}${l.s? ` · Quelle: Wikipedia «${esc(l.s)}»`:""}</span>
     </div>`).join("")}</div></div>`;
 }
 function renderDone(){
   const Q=S.quiz, t=S.thema, test=Q.mode==="test";
   const msg = Q.stars===3?"Perfekt, alles richtig!":Q.stars===2?"Stark gemacht!":Q.stars===1?"Guter Anfang, probier es nochmals.":"Nicht schlimm, jetzt kennst du die Antworten.";
-  $("#app").innerHTML = `<div class="card done pop" style="--c:var(${t.bereich.c})">
+  $("#app").innerHTML = `<div class="card done pop" style="--c:var(${t.bereich.c})"><div class="ep-done-kopf">
       ${test? `<span class="modebadge">${ico("trophy")} Gewerteter Test · ${esc(t.name)}</span>` : ""}
       <div class="stars" aria-label="${Q.stars} von 3 Sternen">${stars(Q.stars)}</div>
       <h1>${test? `${Q.points} Punkte` : msg}</h1>
@@ -5514,6 +5514,7 @@ function renderDone(){
       ${test && !Q.custom && Q.seasonPts!=null ? `<p><span class="seasonbonus m${Q.seasonMult}">${aktuelleSeason().tier.e} Season: +${Q.seasonPts.toLocaleString("de-CH")} Punkte${Q.seasonMult>1?` (×${Q.seasonMult} Bonus!)`:""}</span></p>` : ""}
       ${test && !Q.custom ? `<div class="pbilanz"><span>✅ ${Q.score} richtig</span><span>⚡ Tempo +${Q.sumTempo||0}</span><span>🔥 Serien +${Q.sumSerie||0}${Q.maxSerie>1?` (beste: ${Q.maxSerie})`:""}</span><span>❌ Abzug ${Q.sumAbzug||0}</span></div>` : ""}
       ${test? `<p>${msg}</p>`:""}
+      </div>
       <div class="row">
         <button class="big ${test?"gold":""}" id="again" type="button">${test? "Nochmals testen" : "Nochmals spielen"}</button>
         ${test? `<button class="big alt" id="board" type="button">${ico("trophy")} Rangliste</button>` : (pool(t.id).length>=TEST_MIN ? `<button class="big alt" id="toTest" type="button">${ico("trophy")} Test machen</button>` : "")}
