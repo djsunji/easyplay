@@ -1452,3 +1452,52 @@ html body #app .card.done .revm{display:block;margin-top:4px;padding:8px 12px;bo
 }`;
   document.head.appendChild(css);
 })();
+
+/* ===== Weitere Seiten im neuen Stil (Duell, Live, Spielmodi, Bibliothek, Suche, Meine Tests, Rangliste, Hardcore,
+   Anmelden/Konto, Profil verzieren, Tagesquiz-Chat, Hinweisseiten). Seite steht in html[data-scr]. ===== */
+(function(){
+  const setz = () => { try{ document.documentElement.dataset.scr = S.screen || ""; }catch(e){} };
+  const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300);
+    new MutationObserver(setz).observe(app, {childList:true}); setz(); };
+  start();
+  const G = "img/grafik/", E = G + "entdecken/";
+  const SCR = ["duell","duelllobby","duellannahme","duellende","duellresultat","live","livequiz","livehost","lib","bibliothek","suche","meinetests",
+    "board","spieler","hardcore","hardcoreinfo","hcboard","register","login","konto","spielmodi","x-garderobe","resinfo","chat","fremdtest","fremddone","historie","profil"];
+  const S1 = sel => SCR.map(s => `html[data-scr="${s}"] body #app ${sel}`).join(",");
+  const kopf = [".dukopf", ".rlkopf", ".pagehead.st-kopf", "section.st-kopf", ".pp-kopf", ".libhero"];
+  const kacheln = [".du2-m", ".smkarte", ".kwkarte", ".c2-o"];
+  const fest = {".du2-team":6};
+  const glas = [".card.lwait", ".dulobby", ".hcregeln", ".authbox", ".statcard", ".rlliste", ".hckarte", ".card.hcregeln"];
+  const FOLGE = [7, 9, 2, 8, 12, 15, 5, 13];
+  const nr = n => String(n).padStart(2, "0");
+  let css = `
+${kopf.map(k => S1(k)).join(",")}{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:30px!important;border-radius:0!important;
+  border-image:url("${E}kopf.webp?v=1") 50 fill / 30px stretch!important;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));overflow:visible!important;color:#fff!important;box-sizing:border-box!important}
+${kopf.map(k => S1(k + "::before")).join(",")}{opacity:0!important}
+${kopf.map(k => S1(k + " :is(h1,h2,p,b,span,small)")).join(",")}{text-shadow:0 2px 4px rgba(30,10,80,.4)}
+${kacheln.map(k => S1(k)).join(",")},${Object.keys(fest).map(k => S1(k)).join(",")}{background:none!important;background-color:transparent!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-width:22px!important;border-image:url("${E}kachel-07.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important}
+${kacheln.map(k => S1(k + "::before") + "," + S1(k + "::after")).join(",")}{opacity:0!important}
+${kacheln.map(k => S1(k + " :is(b,h2,h3,strong,small,p,span)")).join(",")}{text-shadow:0 1px 2px rgba(0,0,0,.45);color:#fff}
+${glas.map(k => S1(k)).join(",")}{background:rgba(255,255,255,.93)!important;border:4px solid #fff!important;border-radius:30px!important;box-shadow:0 16px 36px rgba(40,30,120,.2)!important}
+${S1(".big.gold")}{all:unset;box-sizing:border-box!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;height:58px!important;min-width:180px;padding:0 10px!important;cursor:pointer;
+  border:0 solid transparent!important;border-width:17px 29px!important;border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 17px 29px stretch!important;color:#3A1C00!important;font:700 1.15rem Fredoka,Lexend,system-ui,sans-serif!important;filter:drop-shadow(0 4px 6px rgba(120,70,0,.25))}
+${S1(".big.alt")}{all:unset;box-sizing:border-box!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;height:58px!important;min-width:150px;padding:0 10px!important;cursor:pointer;
+  border:0 solid transparent!important;border-width:17px 29px!important;border-image:url("${G}knopf-zurueck.webp?v=1") 70 118 fill / 17px 29px stretch!important;color:#28304A!important;font:800 1rem Lexend,system-ui,sans-serif!important;filter:drop-shadow(0 4px 6px rgba(40,30,120,.2))}
+${S1(".big.gold:focus-visible")},${S1(".big.alt:focus-visible")}{outline:3px solid #7B3FE4;outline-offset:3px}
+${S1(".du2-m .los")},${S1(".du2-m .tag")}{color:#3A1C00!important;text-shadow:none!important}
+${S1(".du2-m .tx")}{flex:1 1 auto;min-width:0}
+@media (max-width:600px){${S1(".du2-m .los")}{font-size:.78rem!important;padding:6px 9px!important;white-space:nowrap}${S1(".du2-m .tx small")}{font-size:.74rem!important}}
+${S1(".kwkarte .kwlos")}{color:#3A2A8A!important;text-shadow:none!important}
+${S1(".libhero :is(h1,h2,p)")},${S1(".pp-kopf :is(h1,h2,p)")}{color:#fff!important}
+html body #app .xa-sname{white-space:normal!important;text-overflow:clip!important;overflow:visible!important;font-size:.76rem!important;line-height:1.1;text-align:center;padding:2px 6px!important}
+html[data-scr="live"] body #app .mode{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:22px!important;border-radius:0!important;border-image:url("${E}kachel-07.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));box-sizing:border-box}
+html[data-scr="live"] body #app .mode + .mode{border-image-source:url("${E}kachel-08.webp?v=1")!important}
+`;
+  for(const k of kacheln) FOLGE.forEach((n, i) => { css += `${S1(k + `:nth-of-type(${FOLGE.length}n+${i + 1})`)}{border-image-source:url("${E}kachel-${nr(n)}.webp?v=1")!important}\n`; });
+  for(const [k, n] of Object.entries(fest)) css += `${S1(k)}{border-image-source:url("${E}kachel-${nr(n)}.webp?v=1")!important}\n`;
+  css += `@media (max-width:700px){${kacheln.map(k => S1(k)).join(",")},${S1(".du2-team")}{border-width:16px!important;border-image-width:16px!important}
+  ${kopf.map(k => S1(k)).join(",")}{border-width:22px!important;border-image-width:22px!important}
+  ${S1(".big.gold")},${S1(".big.alt")}{height:52px!important;min-width:0;border-width:15px 24px!important;border-image-width:15px 24px!important;font-size:.95rem!important}}`;
+  const c = document.createElement("style"); c.id = "ep-weitere-seiten-css"; c.textContent = css; document.head.appendChild(c);
+})();
