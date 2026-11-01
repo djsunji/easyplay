@@ -1704,3 +1704,23 @@ html.ep-nofit-scroll,html.ep-nofit-scroll body{overflow:hidden!important;overscr
     new MutationObserver(los).observe(a, {childList:true, subtree:true}); addEventListener("resize", los); los(); };
   start();
 })();
+
+/* ===== Handy/iPad: untere Menüleiste (#epTabs) im neuen Stil wie die Leiste am Computer ===== */
+(function(){ const c = document.createElement("style");
+c.textContent = `
+html body.ep-app #epTabs{height:76px!important;padding:6px!important;gap:4px;border-radius:30px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(240,236,255,.95))!important;border:3px solid #fff!important;
+  box-shadow:0 14px 30px rgba(50,30,130,.32),inset 0 -4px 0 rgba(120,90,220,.12)!important;backdrop-filter:none!important}
+html body.ep-app #epTabs button{color:#3A2F72!important;font:800 11px Lexend,system-ui,sans-serif!important;border-radius:22px!important;gap:2px!important;transition:transform .15s,background .2s;position:relative}
+html body.ep-app #epTabs .tabic{width:34px;height:34px;display:grid;place-items:center;transition:transform .2s}
+html body.ep-app #epTabs .tabic img{width:34px!important;height:34px!important;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(40,20,100,.25))}
+html body.ep-app #epTabs .tabav{width:34px!important;height:34px!important;border-radius:50%!important;border:3px solid #fff!important;box-shadow:0 2px 6px rgba(40,20,100,.3)}
+html body.ep-app #epTabs button[aria-current="page"]{color:#fff!important;background:linear-gradient(135deg,#6A4BFF 0%,#A43BE0 55%,#E8409F 100%)!important;
+  box-shadow:0 5px 0 #4A23A8,0 8px 16px rgba(140,50,200,.4),inset 0 2px 0 rgba(255,255,255,.35)!important;transform:translateY(-2px);text-shadow:0 1px 2px rgba(40,0,80,.4)}
+html body.ep-app #epTabs button[aria-current="page"] .tabic{transform:scale(1.1)}
+html body.ep-app #epTabs button:focus-visible{outline:3px solid #7B3FE4;outline-offset:2px}
+html body.ep-app #epTabs button svg{color:#3A2F72}
+html body.ep-app #epTabs button[aria-current="page"] svg{color:#fff}
+@media (min-width:1000px) and (orientation:landscape){html body.ep-app #epTabs{height:auto!important}html body.ep-app #epTabs .tabic,html body.ep-app #epTabs .tabic img{width:40px!important;height:40px!important}}
+@media (prefers-reduced-motion:reduce){html body.ep-app #epTabs button,html body.ep-app #epTabs .tabic{transition:none}}`;
+document.head.appendChild(c); })();
