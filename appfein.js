@@ -409,3 +409,73 @@ try{ alles(); setTimeout(alles, 500); }catch(e){}
 
 /* Gewerteter Test: Hinweis «Registriere dich zuerst» gleich eingerückt wie der übrige Text */
 (function(){ const c=document.createElement("style"); c.textContent=`html body.ep-app .ep-regtipp{padding:0 6px 0 56px;margin:6px 0 10px;font-size:13px;line-height:1.35}`; document.head.appendChild(c); })();
+
+/* Handy und iPad: Dejans neue Knöpfe wie am Computer. «Nächste Frage» goldener Grafik-Knopf, «Erklärung» und
+   «Zurück» weisse Grafik-Pille (img/grafik/knopf-gold.webp, knopf-zurueck.webp, Neun-Teile-Bild). */
+(function(){ const c=document.createElement("style"); c.id="af-neue-knoepfe";
+const Q="html.qq-an body.ep-app #app > .card";
+c.textContent=`${Q} #next,${Q} #toExplain{all:unset;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 0;height:54px!important;min-height:0!important;padding:0 4px!important;cursor:pointer;text-align:center;
+  background:none!important;border:0 solid transparent!important;border-width:16px 26px!important;border-radius:0!important;box-shadow:none!important;line-height:1.05!important;filter:drop-shadow(0 4px 6px rgba(20,20,60,.3));transition:transform .12s}
+${Q} #next{border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 16px 26px stretch!important;color:#3A1C00!important;font:700 17px Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+${Q} #toExplain{border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 16px 26px stretch!important;color:#28304A!important;font:800 15px Lexend,system-ui,sans-serif!important}
+${Q} #next:active,${Q} #toExplain:active{transform:translateY(2px)}
+${Q} .feedback .row{display:flex!important;gap:10px!important;width:100%;align-items:center}
+@media (min-width:700px){${Q} #next,${Q} #toExplain{height:64px!important;border-width:19px 31px!important}
+  ${Q} #next{border-image-width:19px 31px!important;font-size:20px!important}${Q} #toExplain{border-image-width:19px 31px!important;font-size:17px!important}}
+html body.ep-app .ap-zbtn{height:48px!important;padding:0 6px!important;background:none!important;border:0 solid transparent!important;border-width:14px 24px!important;border-radius:0!important;
+  border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 14px 24px stretch!important;color:#28304A!important;font:800 15px Lexend,system-ui,sans-serif!important;filter:drop-shadow(0 3px 5px rgba(10,10,40,.35));box-sizing:border-box}
+html body.ep-app .ap-zbtn svg{color:#28304A!important;stroke:currentColor}`;
+document.head.appendChild(c); })();
+
+/* Handy und iPad: Quiz passt immer auf einen Bildschirm (Frage, Antworten und nach der Antwort auch
+   «Erklärung» und «Nächste Frage»). Verkleinert #app mit zoom, Platz für die Rückmeldung ist schon vor der
+   Antwort eingerechnet, damit nichts springt. Im Browser bleibt unten Platz für die schwebende Adressleiste. */
+(function(){
+  const app = document.getElementById("app"); if(!app) return;
+  let fbHoehe = 140, schluessel = "", z = 1, laeuft = false;
+  function frei(){ try{ if(window.EP_NATIV || navigator.standalone || matchMedia("(display-mode: standalone)").matches) return 8; }catch(e){} return /iPhone|iPad|Android/.test(navigator.userAgent) ? 78 : 12; }
+  function einpassen(neu){
+    if(laeuft) return; laeuft = true;
+    try{
+      const an = document.body.classList.contains("ep-app") && typeof S !== "undefined" && S.screen === "quiz" && app.querySelector(".answers");
+      if(!an){ if(app.style.zoom){ app.style.zoom = ""; z = 1; } schluessel = ""; return; }
+      const q = (app.querySelector("h2.question") || {}).textContent || "";
+      const fb = app.querySelector(".card .feedback");
+      if(q === schluessel && !neu && !fb) return;
+      app.style.zoom = "";
+      const oben = app.getBoundingClientRect().top + scrollY;
+      const t0 = app.getBoundingClientRect().top; let unten = 0;
+      for(const k of app.children){ if(getComputedStyle(k).position === "fixed") continue; const r = k.getBoundingClientRect(); if(r.height) unten = Math.max(unten, r.bottom); }
+      let noetig = Math.max(200, unten - t0 + 10);
+      if(fb){ fbHoehe = Math.max(80, fb.getBoundingClientRect().height + 12); } else noetig += fbHoehe;
+      const platz = (window.visualViewport ? visualViewport.height : innerHeight) - oben - frei();
+      let w = Math.min(1, platz / noetig); w = Math.max(.55, Math.floor(w * 100) / 100);
+      if(q === schluessel && fb && !neu) w = Math.min(w, z);    /* nach der Antwort nur noch kleiner, nie springen */
+      z = w; schluessel = q;
+      if(w < 1) app.style.zoom = String(w);
+    }catch(e){} finally{ laeuft = false; }
+  }
+  new MutationObserver(() => requestAnimationFrame(() => einpassen(false))).observe(app, {childList:true, subtree:true});
+  addEventListener("resize", () => einpassen(true));
+  if(window.visualViewport) visualViewport.addEventListener("resize", () => einpassen(true));
+})();
+
+/* Quiz am Handy kompakter, damit weniger verkleinert werden muss: Hinweis zur Vorlesestimme aus,
+   Vorlesen-Knopf auf der Zeile des 50:50-Jokers, Abstände enger. */
+(function(){ const c=document.createElement("style"); c.id="af-quiz-kompakt";
+const Q="html.qq-an body.ep-app #app > .card";
+c.textContent=`@media (max-width:700px){
+${Q} > .hlf-hinweis{display:none!important}
+${Q} > .hlf-joker{justify-content:flex-start!important;margin-top:8px!important}
+${Q} > .hlf-joker + .hlf-vlrow{margin-top:-42px!important}
+${Q} > .hlf-vlrow{margin-top:6px!important;margin-bottom:0!important}
+${Q} > .tabs{margin-bottom:6px!important}
+${Q} .answers{gap:7px!important}
+${Q} .feedback{margin-top:8px!important;padding:8px 10px!important}
+${Q} .feedback p{margin:0 0 6px!important}}
+@media (max-width:700px) and (max-height:900px){
+html body.ep-app.ep-app #app h2.question.question.af-ganz{margin-left:86px!important;min-height:118px!important;font-size:22px!important;padding-top:12px!important;padding-bottom:12px!important}
+html body.ep-app.ep-app #app h2.question.question.af-ganz > .ep-blase-kind{left:-90px!important;width:76px!important;height:132px!important;bottom:-12px!important}
+html.qq-an body.ep-app.ep-app #app .answers .ans.ans{font-size:17px!important}
+html.qq-an body.ep-app.ep-app #app .answers{gap:6px!important}}`;
+document.head.appendChild(c); })();
