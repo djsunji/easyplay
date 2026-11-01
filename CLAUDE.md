@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: Bibliothek Handy/iPad hoch (App-Ansicht, bis 900 px): Regal wird so verkleinert, dass Suche und alle 9 Bücher ohne Scrollen über der Menüleiste Platz haben (`einpassen()` im Block «Bibliothek-Startseite: Dejans Holzregal» in `stil.js`, misst nach und setzt Buchbreite/-höhe inline). Kein App-Bau. Version ep-2026-11-01-51.
 - 01.11. Sitzung «Profil»: XP-Balken (`.lvbar` in level.js, Startseite und Profil) hat pro Level einen eigenen Farbverlauf (`xpVerlauf`, Farbton +47° pro Level), gleich wie in der Qeels-App.
 - 01.11. Sitzung «Hauptseite»: Bibliothek: Dejans neue Bücher mit eingebautem goldenem Schrift-Titel (`img/grafik/buecher/<id>.webp`, `?v=2`), der CSS-Titel ist nur noch für Vorleser da (unsichtbar), im Regal und beim Zauber-Öffnen. Kein App-Bau. Version ep-2026-11-01-49.
 - 01.11. Sitzung «Hauptseite»: Themen-Tab Handy/iPad: die vier Bereich-Kacheln mit Dejans Grafiken vom Computer (`img/kacheln/bereich-*.webp`, Globus, Mikroskop, Schweizerkreuz, Velo) als Neun-Teile-Bild auf `::before`, Symbol unverzerrt unten rechts (`--bs` per JS), weisses Symbol-Kästchen weg, Titel oben. Block «Themen am Handy/iPad: Bereich-Kacheln» am Ende von `stil.js`. Kein App-Bau. Version ep-2026-11-01-48.

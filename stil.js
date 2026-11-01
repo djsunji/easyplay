@@ -1915,8 +1915,32 @@ ${P} .regal .ep-brett{position:absolute;left:-14px;right:-14px;height:24px;z-ind
   ${P} .regal .ep-brett{height:16px;border-width:0 14px;border-image-width:0 14px;left:-8px;right:-8px}
 }`;
   document.head.appendChild(c);
+  /* Handy/iPad hoch: Regal so klein, dass Suche und alle Bücher ohne Scrollen über der Menüleiste Platz haben */
+  function einpassen(bu){
+    const regal = bu.closest(".regal"); if(!regal) return;
+    const buecher = [...bu.querySelectorAll(":scope > .buch")];
+    if(!document.body.classList.contains("ep-app") || innerWidth > 900){ buecher.forEach(b => { b.style.removeProperty("width"); b.style.removeProperty("height"); b.style.removeProperty("aspect-ratio"); }); regal.style.removeProperty("max-width"); ["grid-auto-rows","grid-template-rows","align-items","row-gap","grid-template-columns","justify-content","column-gap"].forEach(k => bu.style.removeProperty(k)); return; }
+    const tabs = document.getElementById("epTabs"), tr = tabs && tabs.getBoundingClientRect();
+    const unten = tr && tr.top > innerHeight / 2 ? tr.top - 8 : innerHeight - 8;
+    const oben = regal.getBoundingClientRect().top + scrollY - (document.scrollingElement.scrollTop || 0);
+    const reihen = Math.ceil(buecher.length / 3), rand = 26 + 18 + 10 + 30, luecke = 30;
+    const platz = unten - oben - rand - reihen * luecke + luecke - 26;
+    const hoch = platz / reihen, breit = Math.max(40, Math.min(hoch * .7, (bu.clientWidth - 20) / 3));
+    let w = breit;
+    const setz = x => { buecher.forEach(b => { b.style.setProperty("width", x.toFixed(1) + "px", "important"); b.style.setProperty("height", (x / .7).toFixed(1) + "px", "important"); b.style.setProperty("aspect-ratio", "auto", "important"); });
+      bu.style.setProperty("grid-auto-rows", "min-content", "important"); bu.style.setProperty("grid-template-rows", "none", "important"); bu.style.setProperty("align-items", "end", "important");
+      bu.style.setProperty("row-gap", "30px", "important"); bu.style.setProperty("grid-template-columns", "repeat(3," + x.toFixed(1) + "px)", "important"); bu.style.setProperty("justify-content", "space-evenly", "important");
+      regal.style.setProperty("margin-left", "auto", "important"); regal.style.setProperty("margin-right", "auto", "important");
+      regal.style.setProperty("max-width", Math.round(x * 3 + 2 * 16 + 52 + 40) + "px", "important"); bu.style.setProperty("column-gap", "16px", "important"); };
+    setz(w);
+    /* nachmessen und so lange verkleinern, bis das Regal über der Menüleiste endet */
+    for(let i = 0; i < 4; i++){ const ueber = regal.getBoundingClientRect().bottom - unten; if(ueber <= 0) break;
+      const hoeheBuecher = reihen * (w / .7); w = Math.max(40, w * (hoeheBuecher - ueber - 4) / hoeheBuecher); setz(w); }
+    { const frei = unten - regal.getBoundingClientRect().bottom; if(frei > 12){ const hb = reihen * (w / .7); const w2 = Math.min((bu.clientWidth - 20) / 3, w * (hb + frei - 8) / hb); setz(w2); if(regal.getBoundingClientRect().bottom > unten) setz(w); } }
+  }
   function bretter(){
     const bu = document.querySelector('html[data-scr="lib"] #app .regal .buecher'); if(!bu) return;
+    einpassen(bu);
     bu.querySelectorAll(":scope > .ep-brett").forEach(x => x.remove());
     const reihen = new Map();
     bu.querySelectorAll(":scope > .buch").forEach(b => { const t = b.offsetTop; const h = b.offsetHeight; if(!h) return; const r = reihen.get(t); if(!r || h > r) reihen.set(t, h); });
