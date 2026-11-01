@@ -1548,7 +1548,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
 (function(){
   const app = () => document.body.classList.contains("ep-app");
   const PUNKTE = [
-    {id:"start",  t:"Start",      i:"img/grafik/ic-house.webp", go:() => go("home")},
+    {id:"start",  t:"Start",      i:"img/grafik/sprachen/haus.webp?v=2", go:() => go("home")},
     {id:"themen", t:"Themen",     i:"img/grafik/diverse/buecher.webp?v=2", go:() => { try{ window.EP_NP_WAHL && window.EP_NP_WAHL(); }catch(e){} go("home"); }},
     {id:"duell",  t:"Duell",      i:"img/qeels-icons/themen/duell.webp", go:() => go("duell")},
     {id:"entd",   t:"Entdecken",  i:"img/grafik/mathe/entdecken.webp?v=2", go:() => go("x-entdecken")},
