@@ -72,9 +72,19 @@ function crumbsHTML(pfad, cur){
 function entdeckenHTML(){
   const l = liste();
   return `<div class="x-kopf"><span class="x-kopf-emo" aria-hidden="true"><img class="ep-gi" src="img/grafik/mathe/entdecken.webp?v=1" alt=""></span><div><h1>Entdecken</h1><p>Sammeln, freispielen, Abenteuer erleben</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
-    <div class="x-kacheln">${l.map(m => { let hw = ""; try{ hw = m.hinweis ? m.hinweis() : ""; }catch(e){}
-      return `<button type="button" class="x-kachel" data-xo="${h(m.id)}" style="background:${m.farbe || "linear-gradient(135deg,#5B4BF5,#9B4DE0)"}"><span class="x-emo" aria-hidden="true">${m.emo || "✨"}</span><b>${h(m.titel)}</b><small>${h(m.text || "")}</small>${hw ? `<i class="x-badge">${h(hw)}</i>` : ""}</button>`; }).join("") || `<p class="x-leer">Hier kommt bald etwas Neues.</p>`}</div>`;
+    ${l.length ? GRUPPEN.map(g => { const ml = l.filter(m => gruppeVon(m) === g.id).sort((a, b) => g.ids.indexOf(a.id) - g.ids.indexOf(b.id)); if(!ml.length) return "";
+      return `<section class="x-gruppe" data-xg="${g.id}"><h2 class="x-gruppe-titel"><span aria-hidden="true">${g.emo}</span> ${h(g.titel)}<small>${h(g.text)}</small></h2><div class="x-kacheln">${ml.map(kachelHTML).join("")}</div></section>`; }).join("") : `<div class="x-kacheln"><p class="x-leer">Hier kommt bald etwas Neues.</p></div>`}`;
 }
+function kachelHTML(m){ let hw = ""; try{ hw = m.hinweis ? m.hinweis() : ""; }catch(e){}
+  return `<button type="button" class="x-kachel" data-xo="${h(m.id)}" style="background:${m.farbe || "linear-gradient(135deg,#5B4BF5,#9B4DE0)"}"><span class="x-emo" aria-hidden="true">${m.emo || "✨"}</span><b>${h(m.titel)}</b><small>${h(m.text || "")}</small>${hw ? `<i class="x-badge">${h(hw)}</i>` : ""}</button>`; }
+/* Entdecken nach Zweck geordnet. Neue Welten ohne Eintrag landen in «Spielen & Sammeln». */
+const GRUPPEN = [
+  {id:"ueben",    emo:"📚", titel:"Üben & Lernen",       text:"Fehler wiederholen, rechnen, Sprachen, Feste", ids:["wiederholen","mathe","sprachen","feste"]},
+  {id:"spielen",  emo:"🎲", titel:"Spielen",             text:"Allein, mit der Familie oder auf Reisen",   ids:["spielwelt","familie","abenteuer","regionen","sound"]},
+  {id:"sammeln",  emo:"🗺️", titel:"Sammeln & Erforschen", text:"Freispielen, sammeln und draussen forschen", ids:["karte","album","truhe","forscher"]},
+  {id:"hilfen",   emo:"⚙️", titel:"Hilfen & Einstellungen", text:"Vorlesen, Sprache, offline und für Eltern", ids:["hilfen","sprache","offline","eltern"]}
+];
+function gruppeVon(m){ const g = GRUPPEN.find(x => x.ids.includes(m.id)); return g ? g.id : "sammeln"; }
 const ENTDECKEN = { id:"entdecken", titel:"Entdecken", render(box){ box.innerHTML = entdeckenHTML(); box.querySelectorAll("[data-xo]").forEach(b => b.onclick = () => { api.ton("klick"); go("x-" + b.dataset.xo); }); } };
 
 /* ---------- Gemeinsame Ereignisse für alle Welten ----------
@@ -219,6 +229,9 @@ css.textContent = `
 .x-kopf img{position:absolute;right:14px;bottom:0;height:calc(100% + 30px);max-height:170px;pointer-events:none}
 .x-kopf>div{padding-right:150px}
 .x-kacheln{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.x-gruppe{margin:0 0 22px}
+.x-gruppe-titel{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin:0 0 10px;padding:8px 16px;width:fit-content;max-width:100%;box-sizing:border-box;border-radius:999px;background:rgba(255,255,255,.92);color:#2B1466;font-size:1.05rem;font-weight:800;box-shadow:0 3px 10px rgba(20,10,60,.18)}
+.x-gruppe-titel small{font-size:.8rem;font-weight:600;color:#5B4F86}
 .x-kachel{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border:0;border-radius:24px;padding:18px 18px 16px;min-height:132px;color:#fff;cursor:pointer;box-shadow:0 10px 22px rgba(27,34,64,.22);transition:transform .15s}
 .x-kachel:hover{transform:translateY(-2px)}
 .x-kachel:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
@@ -381,6 +394,7 @@ html body .ep-wg>.ep-w:not(.x-gross):hover{transform:translateY(-4px) scale(1.01
   .x-kopf img{max-height:118px;right:6px}
   .x-kopf-emo{font-size:1.8rem}
   .x-kacheln{grid-template-columns:1fr 1fr;gap:10px}
+  .x-gruppe{margin-bottom:16px}.x-gruppe-titel{font-size:.95rem;padding:6px 12px}.x-gruppe-titel small{display:none}
   .x-kachel{min-height:112px;padding:14px 12px;border-radius:20px}
   .x-kachel b{font-size:1rem}
   .x-kachel small{font-size:.76rem}
