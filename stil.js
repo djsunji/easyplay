@@ -1187,3 +1187,34 @@ document.head.appendChild(c); })();
 (function(){ const c = document.createElement("style"); c.id = "ep-frage-reiter-weiss";
 c.textContent = `html body #app .card .tabs .tabbtn[data-tab="frage"][aria-selected="true"]{color:#5B2BB5!important;filter:drop-shadow(0 0 7px rgba(138,63,224,.55)) drop-shadow(0 4px 6px rgba(20,20,60,.18))!important}`;
 document.head.appendChild(c); })();
+
+/* ===== Wochen-Challenge: Dejans Grafiken. Box «Das Wichtigste» im weissen Rahmen (frage-box.webp), Trainieren/Test als
+   Wellen-Boxen blau/lila mit Bildsymbolen und goldenem Knopf, «Die nächsten Wochen» auf box-wochen.webp (Neun-Teile-Bilder) ===== */
+(function(){ if(document.getElementById("ep-woche-boxen-css")) return;
+const c = document.createElement("style"); c.id = "ep-woche-boxen-css"; const G = "img/grafik/";
+c.textContent = `
+html body #app .wk2 .wk2-box.wk2-box{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;overflow:visible!important;
+  border-image:url("${G}frage-box.webp?v=1") 210 250 215 240 fill / 52px 62px 54px 60px stretch!important;filter:drop-shadow(0 16px 26px rgba(30,40,120,.22));padding:20px 26px 24px!important}
+html body #app .wk2 .wk2-box::before{display:none!important}
+html body #app .wk2 .wk2-buch{background:none!important;box-shadow:none!important;width:64px;height:64px}
+html body #app .wk2 .wk2-buch img,html body #app .wk2 .wk2-kic img{width:100%;height:100%;object-fit:contain;display:block;-webkit-user-drag:none}
+html body #app .wk2 .wk2-k.wk2-k{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url("${G}box-blau.webp?v=3") 64 fill / 34px stretch!important;filter:drop-shadow(0 12px 18px rgba(20,40,120,.28));padding:14px 18px 18px!important}
+html body #app .wk2 .wk2-k.wk2-test{border-image-source:url("${G}box-lila.webp?v=3")!important;filter:drop-shadow(0 12px 18px rgba(110,30,150,.3))}
+html body #app .wk2 .wk2-k:disabled{filter:grayscale(.5) drop-shadow(0 8px 12px rgba(0,0,0,.2))}
+html body #app .wk2 .wk2-kic{background:none!important;box-shadow:none!important;transform:none!important;width:78px;height:78px}
+html body #app .wk2 .wk2-los{background:none!important;box-shadow:none!important;border:0 solid transparent;border-width:15px 26px;border-radius:0!important;padding:0 4px!important;
+  border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 15px 26px stretch;height:52px;box-sizing:border-box;display:inline-flex;align-items:center;color:#3A1C00!important;font:700 1.05rem Fredoka,Lexend,sans-serif!important}
+html body #app .wk2 .wk2-plan.wk2-plan{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url("${G}box-wochen.webp?v=1") 70 fill / 32px stretch!important;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));padding:14px 18px 16px!important}
+html body #app .wk2 .wk2-plan::before,html body #app .wk2 .wk2-plan::after{display:none!important}
+html body #app .wk2 .wk2-pk{background:rgba(255,255,255,.16)!important;border:1px solid rgba(255,255,255,.28)!important}
+@media (max-width:860px){
+  html body #app .wk2 .wk2-box.wk2-box{border-image-width:40px 46px 42px 44px!important;padding:12px 14px 16px!important}
+  html body #app .wk2 .wk2-k.wk2-k{border-image-width:26px!important;padding:10px 10px 12px!important}
+  html body #app .wk2 .wk2-kic{width:56px;height:56px}
+  html body #app .wk2 .wk2-buch{width:52px;height:52px}
+  html body #app .wk2 .wk2-los{height:46px;border-width:13px 22px;border-image-width:13px 22px;font-size:.98rem!important}
+  html body #app .wk2 .wk2-plan.wk2-plan{border-image-width:24px!important;padding:10px 12px 12px!important}
+}`;
+document.head.appendChild(c); })();

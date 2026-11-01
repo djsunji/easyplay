@@ -886,16 +886,16 @@ function wocheHTML(){
       <div class="wk2-cd"><span><b>${tage}</b><small>Tage</small></span><span><b>${std}</b><small>Std</small></span><span><b>${min}</b><small>Min</small></span></div>
       <div class="wk2-ziel"><span class="wk2-bar"><i style="width:${p}%"></i></span><small>${w.r} von ${w.ziel} richtig · ${w.fertig ? "Challenge geschafft! 🎉" : `${xp} XP extra bei ${w.ziel} richtigen`}</small></div>
       <img class="wk2-kids" src="img/kids/duo-jubel.webp" alt=""></section>
-    <article class="wk2-box"><div class="wk2-bkopf"><span class="wk2-buch" aria-hidden="true">📖</span><div><small>Das Wichtigste aus der Bibliothek</small><h2>${h(t.name)}</h2>${t.text ? `<p>${h(t.text)}</p>` : ""}</div></div>
+    <article class="wk2-box"><div class="wk2-bkopf"><span class="wk2-buch" aria-hidden="true"><img src="img/app2/ic-buch.webp" alt=""></span><div><small>Das Wichtigste aus der Bibliothek</small><h2>${h(t.name)}</h2>${t.text ? `<p>${h(t.text)}</p>` : ""}</div></div>
       ${merk.length ? `<ul>${merk.map(m => `<li>${h(m)}</li>`).join("")}</ul>` : `<p>Lies den Text in der Bibliothek, dann bist du bereit.</p>`}
       <button type="button" class="wk2-mehr" data-x="wochelesen">Ganzen Text lesen →</button></article>
     <div class="wk2-wahl">
-      <button type="button" class="wk2-k wk2-train" data-x="wochetrain"><span class="wk2-kic">🏋️</span><b>Trainieren</b><small>In deinem Tempo, mit Erklärungen. Jede richtige Antwort zählt für die Wochen-Challenge.</small><span class="wk2-los">Training starten ▶</span></button>
-      <button type="button" class="wk2-k wk2-test" data-x="wochetest"${testOk ? "" : " disabled"}><span class="wk2-kic">🏆</span><b>Test absolvieren</b><small>Gewertet mit Punkten für die Rangliste. Wochen-Bonus: +${bonus} XP und das Wochen-Abzeichen ab der Hälfte richtig.</small>
+      <button type="button" class="wk2-k wk2-train" data-x="wochetrain"><span class="wk2-kic"><img src="img/grafik/karte-training.webp" alt=""></span><b>Trainieren</b><small>In deinem Tempo, mit Erklärungen. Jede richtige Antwort zählt für die Wochen-Challenge.</small><span class="wk2-los">Training starten ▶</span></button>
+      <button type="button" class="wk2-k wk2-test" data-x="wochetest"${testOk ? "" : " disabled"}><span class="wk2-kic"><img src="img/grafik/karte-test.webp" alt=""></span><b>Test absolvieren</b><small>Gewertet mit Punkten für die Rangliste. Wochen-Bonus: +${bonus} XP und das Wochen-Abzeichen ab der Hälfte richtig.</small>
         ${abz ? `<span class="wk2-abz">🏅 Abzeichen geholt: ${abz.r} von ${abz.n}</span>` : `<span class="wk2-abz">🏅 Wochen-Abzeichen offen</span>`}<span class="wk2-los">${S.profil ? "Test starten ▶" : "Registrieren und starten ▶"}</span></button>
     </div>
     ${(() => { let v = []; try{ v = ES.wocheVorschau(3) || []; }catch(e){} let n = 0; try{ n = ES.wochenPlan().length; }catch(e){} if(!v.length) return "";
-      return `<section class="wk2-plan"><h3>📅 Die nächsten Wochen</h3><div class="wk2-pl">${v.map((x, i) => { let ic = ""; try{ ic = themaIcon(x.thema); }catch(e){} return `<div class="wk2-pk" style="--i:${i}"><span class="wk2-pi" aria-hidden="true">${ic}</span><small>${i === 0 ? "Nächste Woche" : `In ${i + 1} Wochen`}</small><b>${h(x.thema ? x.thema.name : "")}</b></div>`; }).join("")}</div><p>Jede Woche ein neues Thema. Nach allen ${n} Themen beginnt der Plan von vorne.</p></section>`; })()}
+      return `<section class="wk2-plan"><h3>Die nächsten Wochen</h3><div class="wk2-pl">${v.map((x, i) => { let ic = ""; try{ ic = themaIcon(x.thema); }catch(e){} return `<div class="wk2-pk" style="--i:${i}"><span class="wk2-pi" aria-hidden="true">${ic}</span><small>${i === 0 ? "Nächste Woche" : `In ${i + 1} Wochen`}</small><b>${h(x.thema ? x.thema.name : "")}</b></div>`; }).join("")}</div><p>Jede Woche ein neues Thema. Nach allen ${n} Themen beginnt der Plan von vorne.</p></section>`; })()}
   </div>`;
 }
 
