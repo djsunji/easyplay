@@ -1847,7 +1847,7 @@ ${R}.gross{aspect-ratio:.7!important}
 ${R} .bunter,.zauber .zbuch[data-buch] .zvorne .bunter{display:none!important}
 ${R} .bcover{padding:10% 25% 34% 19%!important}
 ${R} .btitel,.zauber .zbuch[data-buch] .zvorne .btitel{font-family:"Cinzel Decorative",Georgia,serif!important;font-weight:900!important;font-style:normal!important;line-height:1!important;white-space:nowrap;
-  color:var(--bt,#FFE29A)!important;-webkit-text-stroke:.16em var(--bs,#2A1200);paint-order:stroke fill;transform:rotate(-9deg);display:inline-block;letter-spacing:.02em;
+  color:var(--bt,#FFE29A)!important;-webkit-text-stroke:.16em var(--bs,#2A1200);paint-order:stroke fill;transform:rotate(-9deg);display:inline-block!important;max-width:none!important;width:auto!important;flex:none!important;overflow:visible!important;letter-spacing:.02em;
   text-shadow:0 .06em 0 var(--bs,#2A1200),0 0 .35em rgba(255,214,110,.85)!important}
 ${R} .bcover{container-type:inline-size}
 ${R} .btitel{font-size:24cqi!important}
