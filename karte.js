@@ -263,7 +263,7 @@ function zeichnen(svgbox, D){
     p.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); waehle(p.dataset.k); } });
   });
   markieren(AUSWAHL);
-  const klein = () => { if(svg.isConnected) svg.classList.toggle("xk-klein", svg.getBoundingClientRect().width < 600); };
+  const klein = () => { if(svg.isConnected) svg.classList.toggle("xk-klein", svg.getBoundingClientRect().width < 440); };
   klein(); try{ new ResizeObserver(klein).observe(svgbox); }catch(e){}
 }
 function markieren(k){

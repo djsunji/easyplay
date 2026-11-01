@@ -1251,7 +1251,7 @@ const kopf = [".xk-kopf", ".fq-kopf", ".alb-kopf", ".xa-kopf", ".xmt-kopf", ".hl
 const reihum = [".wdh-karte", ".alb-k", ".spr-thema", ".spr-sp", ".xmt-kachel", ".xsw-kachel", ".xf-karte", ".xfo-karte", ".xfo-kat", ".xs-stueck", ".xs-fxk",
   ".hlf-k", ".xel-kpi", ".xof-karte", ".xui-karte", ".fq-karte", ".xel-karte"];
 /* grosse Einzelfelder: feste Farbe (Nummer der Kachel) */
-const fest = {".xt-karte":12, ".xt-buehne":10, ".xk-karte":7, ".xk-panel":4, ".spr-wdh":15, ".xa-karte":9, ".xf-held":5, ".xf-saison":12, ".xfo-held":13,
+const fest = {".xt-karte":12, ".xt-buehne":10, ".xk-panel":4, ".spr-wdh":15, ".xa-karte":9, ".xf-held":5, ".xf-saison":12, ".xfo-held":13,
   ".xs-karte":14, ".xel-box":16, ".xof-speicher":17, ".xui-box":18, ".fq-fair":15, ".fq-info":16};
 const basis = `background:none!important;background-color:transparent!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
   border-width:22px!important;border-image:url("${G}kachel-01.webp?v=1") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));overflow:visible!important;color:#fff!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important`;
@@ -1321,5 +1321,30 @@ document.head.appendChild(c);
 .x-kopf-emo img.ep-gi{width:1.6em;height:1.6em}
 .xs-fxk img.ep-gi{width:1.6em;height:1.6em;display:block;margin:0 auto 4px}
 .xf-ab img.ep-gi{width:1.7em;height:1.7em}`;
+  document.head.appendChild(css);
+})();
+
+/* ===== Schweizer Karte: helle Kartenfläche, Symbol neben dem Titel, «angefangen» dezent ===== */
+(function(){
+  const css = document.createElement("style");
+  css.textContent = `
+html body .xk-kopf h1{display:flex;align-items:center;gap:14px}
+html body .xk-kopf h1 > .ep-welt-hat{flex:none;line-height:0}
+html body .xk-karte{background:linear-gradient(180deg,#FFFFFF,#EEF4FF)!important;border:4px solid #fff!important;border-image:none!important;padding:14px!important;border-radius:28px!important;box-shadow:0 12px 28px rgba(40,60,140,.18)!important;filter:none!important}
+html body .xk-karte .xk-kt{stroke:#fff;stroke-width:1.6}
+html body .xk-karte .xk-kt.s0{fill:#D3DEF3;stroke:#fff}
+html body .xk-karte .xk-kt.s0:hover,html body .xk-karte .xk-kt.s0.an{fill:#B9CCEE}
+html body .xk-karte .xk-kt.s1{fill-opacity:.6}
+html body .xk-karte .xk-legende .l1{opacity:.6}
+html body .xk-karte .xk-seen path{fill:#7FC0F0;opacity:.9}
+html body .xk-karte .xk-labels text{font-size:21px;fill:#1B2A55;stroke:rgba(255,255,255,.85)}
+html body .xk-karte .xk-legende{color:#2A3560}
+html body .xk-karte .xk-legende i{border-color:rgba(40,60,120,.35)}
+html body .xk-karte .xk-legende .l0{background:#D3DEF3}
+html body .xk-karte .xk-quelle{color:#4A5580;opacity:1}
+html body .xk-karte .xk-laden{color:#2A3560}
+html body .xk-chips .xk-chip.xk-chip{left:auto!important;top:auto!important;right:auto!important;bottom:auto!important}
+html body .xk-chip.s1{background:rgba(255,255,255,.16)!important;border-color:rgba(255,255,255,.45)!important;position:relative}
+html body .xk-chip.s1::after{content:"";position:absolute;right:6px;top:6px;width:8px;height:8px;border-radius:50%;background:#FFE34D;box-shadow:0 0 0 2px rgba(0,0,0,.15)}`;
   document.head.appendChild(css);
 })();
