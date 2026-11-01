@@ -417,7 +417,7 @@ const Q="html.qq-an body.ep-app #app > .card";
 c.textContent=`${Q} #next,${Q} #toExplain{all:unset;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 0;height:54px!important;min-height:0!important;padding:0 4px!important;cursor:pointer;text-align:center;
   background:none!important;border:0 solid transparent!important;border-width:16px 26px!important;border-radius:0!important;box-shadow:none!important;line-height:1.05!important;filter:drop-shadow(0 4px 6px rgba(20,20,60,.3));transition:transform .12s}
 ${Q} #next{border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 16px 26px stretch!important;color:#3A1C00!important;font:700 17px Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 1px 0 rgba(255,255,255,.5)}
-${Q} #toExplain{border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 16px 26px stretch!important;color:#28304A!important;font:800 15px Lexend,system-ui,sans-serif!important}
+${Q} #toExplain{border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 16px 26px stretch!important;color:#28304A!important;font:800 14px Lexend,system-ui,sans-serif!important;white-space:nowrap!important;letter-spacing:-.2px}
 ${Q} #next:active,${Q} #toExplain:active{transform:translateY(2px)}
 ${Q} .feedback .row{display:flex!important;gap:10px!important;width:100%;align-items:center}
 @media (min-width:700px){${Q} #next,${Q} #toExplain{height:64px!important;border-width:19px 31px!important}
@@ -478,4 +478,14 @@ html body.ep-app.ep-app #app h2.question.question.af-ganz{margin-left:86px!impor
 html body.ep-app.ep-app #app h2.question.question.af-ganz > .ep-blase-kind{left:-90px!important;width:76px!important;height:132px!important;bottom:-12px!important}
 html.qq-an body.ep-app.ep-app #app .answers .ans.ans{font-size:17px!important}
 html.qq-an body.ep-app.ep-app #app .answers{gap:6px!important}}`;
+document.head.appendChild(c); })();
+
+/* Rückmeldung nach der Antwort («Richtig!» / «Nicht ganz.»): gross und mittig, auf allen Geräten */
+(function(){ const c=document.createElement("style"); c.id="af-rueckmeldung";
+const F="html body #app > .card .feedback.feedback > p:first-child";
+c.textContent=`${F}{display:flex!important;width:100%!important;align-self:stretch!important;box-sizing:border-box;align-items:center!important;justify-content:center!important;flex-wrap:wrap;gap:8px!important;text-align:center!important;
+  font:800 22px/1.2 Fredoka,Lexend,system-ui,sans-serif!important;margin:2px 0 10px!important;letter-spacing:.2px}
+${F} .ic,${F} svg,${F} img{width:26px!important;height:26px!important;flex:none}
+${F} b{font-size:17px!important}
+@media (min-width:700px){${F}{font-size:26px!important}${F} .ic,${F} svg,${F} img{width:30px!important;height:30px!important}}`;
 document.head.appendChild(c); })();

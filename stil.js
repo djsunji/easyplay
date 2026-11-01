@@ -1017,7 +1017,7 @@ ${sel} > :not(.hlf-n){display:none!important}`;
 const css = document.createElement("style"); css.id = "ep-quiz-pillen-css";
 css.textContent = [
   pille(`${B} .qnav button#qPrev.qnbtn`, "zurueck", 46),
-  pille(`${B} .qnav button#qNext.qnbtn`, "weiter", 46),
+  pille(`${B} .qnav button#qNext.qnbtn`, "weiterblau", 46),
   pille(`${B} .qnav button#qMark.qnbtn`, "markieren", 46),
   pille(`${B} .qnav button#qAbgabe.qnbtn:has(.gki)`, "beenden", 46),
   pille(`${B} button.hlf-vl.hlf-vl`, "vorlesen", 40),
