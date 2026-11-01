@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-01-32";
+window.EP_BUILD="ep-2026-11-01-33";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -2779,6 +2779,7 @@ button,a,[role="button"],.opt,.lopt{touch-action:manipulation}
 
 <script src="config.js"></script>
 <script src="bibidx.js"></script>
+<script src="bibkapitel.js"></script>
 <script src="daten-08.js"></script>
 <script src="daten-09.js"></script>
 <script src="daten-10.js"></script>
@@ -4705,7 +4706,7 @@ function rlFarbe(f){ const b=THEMA[f.t]?.bereich; const m={"--welt":["#3D5AFE","
 /* Entdecker (6 bis 9 Jahre): nur Artikel, deren Fragen mindestens zur Hälfte Entdecker-Fragen sind, und keine Themen für Ältere */
 const RL_ENTDECKER_NEIN = new Set(["pol_diktatur","pol_kommunismus"]);
 function rlFuerEntdecker(s){
-  if(s.typ==="art" || RL_ENTDECKER_NEIN.has(s.kap?.id)) return false;
+  if(s.typ==="art" || RL_ENTDECKER_NEIN.has(s.kap?.qid||s.kap?.id)) return false;
   const fr=s.fragen||[], n1=fr.filter(f=>f.l===1).length;
   return n1>0 && n1*2>=fr.length;
 }
@@ -5063,7 +5064,7 @@ function rlBinde(sec, it){
   }
   if(it.typ==="a" && !window.claude){
     const s=it.s, kand = s.typ==="art" ? [s.art.bild||null, s.titel] : [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel];
-    const laden=()=>bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(b=>{
+    const laden=()=>bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+(s.kap.qtitel||s.kap.titel), s.kap?.id==="x_firmen").then(b=>{
       if(!b || !sec.isConnected) return; const box=sec.querySelector(".rbild"); const img=new Image(); img.alt=b.alt||""; img.onload=()=>{ box.innerHTML=""; box.appendChild(img); box.classList.add("foto"); img.animate([{opacity:0},{opacity:1}],{duration:400}); }; img.src=b.src; }).catch(()=>{});
     it.laden=laden;
   }
@@ -5121,7 +5122,7 @@ function rlSheet(b, nr, key){
   g.addEventListener("touchend",()=>{ if(y0==null) return; y0=null; sh.style.transition=""; if(dy>110) rlSheetZu(); else sh.style.transform=""; });
   if(!window.claude){
     const kand = s.typ==="art" ? [s.art.bild||null, s.titel] : [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel];
-    bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+s.kap.titel, s.kap?.id==="x_firmen").then(bi=>{
+    bildFuerSeite(s, kand, s.typ==="art"?s.titel+" Schweiz":s.titel+" "+(s.kap.qtitel||s.kap.titel), s.kap?.id==="x_firmen").then(bi=>{
       const f=sh.querySelector(".rsbild"); if(!bi||!f||!sh.isConnected) return;
       const img=new Image(); img.alt=bi.alt||""; img.onload=()=>{ f.classList.remove("ersatz"); f.innerHTML=""; f.appendChild(img); const c=document.createElement("figcaption"); c.innerHTML=`Bild: ${bi.artist?esc(bi.artist):"Wikimedia Commons"}${bi.lizenz?`, ${esc(bi.lizenz)}`:""}`; f.appendChild(c); }; img.src=bi.src; }).catch(()=>{});
   }
@@ -6587,9 +6588,18 @@ function buchDaten(bid){
   const T=BUCH_TEIL[bid]; if(!T) return buchDatenRoh(bid);
   const R=buchDatenRoh(T.quelle); const c=BUCHCACHE["~"+bid]; if(c && c.roh===R) return c;
   let nr=0; const seiten=[];
-  const kap=R.kap.filter(T.f).map(k=>{ const k2={...k}; k2.von=nr+1; k2.seiten=k.seiten.map(s=>{ const s2={...s, nr:++nr, kap:k2}; seiten.push(s2); return s2; }); k2.bis=nr; return k2; });
+  const kap=bibTeilen(R.kap.filter(T.f)).map(k=>{ const k2={...k}; k2.von=nr+1; k2.seiten=k.seiten.map(s=>{ const s2={...s, nr:++nr, kap:k2}; seiten.push(s2); return s2; }); k2.bis=nr; return k2; });
   return BUCHCACHE["~"+bid]={roh:R, kap, seiten};
 }
+/* Grosse Kapitel in Unterkapitel teilen (bibkapitel.js, window.BIBKAP), damit jedes Buch mindestens 10 Hauptkapitel hat.
+   Die Unterkapitel behalten die alte Kennung in qid (für Texte, Bilder, Links: seiteKey) und den alten Titel in qtitel. */
+function bibTeilen(kap){ const M=window.BIBKAP; if(!M) return kap; const out=[];
+  kap.forEach(k=>{ const m=M[k.id]; if(!m || k.seiten.length<12){ out.push(k); return; }
+    const sets=m.l.map(l=>l?new Set(l):null); const rub={name:k.titel, emo:k.emo};
+    const teile=m.u.map(([titel,emo],i)=>({...k, id:k.id+"~"+(i+1), qid:k.id, qtitel:k.titel, titel, emo, rubrik:rub, seiten:[]}));
+    k.seiten.forEach(s=>{ let i=m.d; for(let j=0;j<sets.length;j++) if(sets[j] && sets[j].has(s.titel)){ i=j; break; } teile[i].seiten.push(s); });
+    teile.forEach(t=>{ if(t.seiten.length) out.push(t); }); });
+  return out; }
 /* Wichtigste Kapitel eines Buchs: die mit den meisten Seiten */
 function buchTop(id, n=3){ try{ return [...buchDaten(id).kap].sort((a,b)=>b.seiten.length-a.seiten.length).slice(0,n); }catch(e){ return []; } }
 function renderLib(){
@@ -7294,7 +7304,7 @@ function renderLibKapitel(){
   document.querySelectorAll("[data-af]").forEach(b=>b.onclick=()=>{ LIB.alpF=b.dataset.af; const y=scrollY; render(); scrollTo(0,y); });
   document.querySelectorAll(".gkarte").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
   document.querySelectorAll(".regitem").forEach(b=>b.onclick=()=>{ LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); });
-  $("#libQuiz") && ($("#libQuiz").onclick=()=> istSonderKapitel(k.id) ? startListe([...new Map(k.seiten.flatMap(x=>x.fragen).map(f=>[f.q,f])).values()], k.titel) : libZumQuiz(k.id));
+  $("#libQuiz") && ($("#libQuiz").onclick=()=> (istSonderKapitel(k.id)||k.qid) ? startListe([...new Map(k.seiten.flatMap(x=>x.fragen).map(f=>[f.q,f])).values()], k.titel) : libZumQuiz(k.id));
 }
 /* Wissenskarten (Fakten): eine Reihe zum Wischen nach links und rechts statt einer langen Liste.
    Sichtbar sind je nach Breite 1 bis 3 Karten (nie mehr als 5), die übrigen erreicht man durch Wischen oder mit den Pfeilen. */
@@ -7366,18 +7376,18 @@ function renderLibSeite(){
   const blatt=(n)=>{ const art=$(".buchseite"); if(matchMedia("(prefers-reduced-motion: reduce)").matches){ LIB.seite=n; render(); scrollTo(0,0); return; }
     art.animate([{transform:"perspective(1200px) rotateY(0)",opacity:1},{transform:`perspective(1200px) rotateY(${n>s.nr?-12:12}deg)`,opacity:0}],{duration:220,easing:"ease-in"}).onfinish=()=>{ LIB.seite=n; render(); scrollTo(0,0); $(".buchseite")?.animate([{transform:`perspective(1200px) rotateY(${n>s.nr?12:-12}deg)`,opacity:0},{transform:"none",opacity:1}],{duration:260,easing:"ease-out"}); }; };
   if(s.typ==="art") zeigeWikiBild(null, s.nr, [s.art.bild||null, s.titel], s.titel+" Schweiz");
-  else zeigeKarte(s.wiki||s.titel, s.nr, s.kap.id, s);
+  else zeigeKarte(s.wiki||s.titel, s.nr, s.kap.qid||s.kap.id, s);
   $("#nochZufall") && ($("#nochZufall").onclick=zufallArtikel);
   $("#zumQuiz") && ($("#zumQuiz").onclick=()=>{ LIB.vonQuiz=false; S.libModus=false; document.documentElement.dataset.mode="spiel"; go("quiz"); scrollTo(0,0); });
   setTimeout(()=>{ if(LIB.seite===s.nr && LIB.buch===B.id){ try{ verlinkeSeite(s, B); }catch(e){ console.warn(e); } } },30);
-  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+s.kap.titel : s.kap.titel, s.kap.id==="x_firmen", s);
+  if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+(s.kap.qtitel||s.kap.titel) : (s.kap.qtitel||s.kap.titel), s.kap.id==="x_firmen", s);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
   vor && ($("#oVor").onclick=()=>blatt(vor.nr));
   nach && ($("#oNach").onclick=()=>blatt(nach.nr));
   nach && ($("#sNach").onclick=()=>blatt(nach.nr));
   $("#sIdx").onclick=()=>{ LIB.kap=s.kap.id; go("libkapitel"); scrollTo(0,0); };
-  $("#libQuiz") && ($("#libQuiz").onclick=()=> istSonderKapitel(s.kap.id) ? startListe(s.fragen.length>=3?s.fragen:s.kap.seiten.flatMap(x=>x.fragen), s.fragen.length>=3?s.titel:s.kap.titel) : libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
+  $("#libQuiz") && ($("#libQuiz").onclick=()=> (istSonderKapitel(s.kap.id)||s.kap.qid) ? startListe(s.fragen.length>=3?s.fragen:s.kap.seiten.flatMap(x=>x.fragen), s.fragen.length>=3?s.titel:s.kap.titel) : libZumQuiz(s.typ==="art"? s.art.quiz : s.kap.id));
   if(s.typ==="art") document.querySelectorAll(".lpartei").forEach(b=>b.onclick=()=>{ const p=PARTEIEN[+b.dataset.p];
     document.querySelectorAll(".lpartei").forEach(x=>x.classList.toggle("on",x===b));
     $("#pInfo").innerHTML=`<div class="pcard" style="--pf:${p.f}"><b>${esc(p.k)}, ${esc(p.n)}</b>${p.sitze?`<span class="psitze">${p.sitze} von 200 Sitzen im Nationalrat</span>`:""}<p>${esc(p.t)}</p></div>`; });
@@ -7655,7 +7665,7 @@ function textHTML(k){
   if(!letzt && sz.length>2) abs.push(sz[sz.length-1]);
   return `<div class="beschr strukt"><p class="blead">${fettHTML(lead)}</p>${abs.map(p=>`<section class="babschn"><p>${fettHTML(p)}</p></section>`).join("")}${letzt?`<div class="bgewusst"><b>💡 Schon gewusst?</b><p>${fettHTML(letzt)}</p></div>`:""}</div>`;
 }
-function seiteKey(s){ const k=(s.kap?.id||"")+"|"+String(s.titel).toLowerCase(); let h=2166136261; for(const c of k){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return "t"+(h>>>0).toString(36); }
+function seiteKey(s){ const k=(s.kap?.qid||s.kap?.id||"")+"|"+String(s.titel).toLowerCase(); let h=2166136261; for(const c of k){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return "t"+(h>>>0).toString(36); }
 const TX = { run:false, done:0, err:0, ctrl:null, buch:"natur", kap:"" };
 async function texteErzeugen(seiten, statusEl){
   if(TX.run || !S.sample || !S.db || !seiten.length) return;
@@ -7709,7 +7719,7 @@ Antworte NUR mit einem JSON-Objekt der Form {"<id>": {"einleitung": "...", "wich
       const t=[teile.einleitung, ...teile.wichtigste, ...teile.abschnitte.map(a=>a.text), ...teile.gewusst].filter(Boolean).join(" ").replace(/\*\*/g,"");
       const saetze=(t.match(/[.!?](\s|$)/g)||[]).length;
       if(teile.abschnitte.length<3 || saetze<12){ TX.err++; continue; }
-      try{ await S.db.collection("texte").doc(k).set({text:t.slice(0,12000), teile, bild:bilder[0]||"", bilder, titel:String(s.titel).slice(0,120), kapitel:s.kap.id, erstellt:new Date().toISOString()});
+      try{ await S.db.collection("texte").doc(k).set({text:t.slice(0,12000), teile, bild:bilder[0]||"", bilder, titel:String(s.titel).slice(0,120), kapitel:s.kap.qid||s.kap.id, erstellt:new Date().toISOString()});
         S.texte[k]=t; S.teile[k]=teile; if(bilder.length) S.bilder[k]=bilder; TX.done++; }catch(e){ TX.err++; }
     }
     if(statusEl) statusEl.textContent=`Fertig: ${TX.done} ${TX.done===1?"Beschreibung":"Beschreibungen"} gespeichert${TX.err?` · ${TX.err} nicht gelungen, bitte nochmals versuchen`:""}.`;
