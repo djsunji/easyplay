@@ -1829,6 +1829,10 @@ ${P} .row{gap:14px!important;margin-top:10px!important;flex-wrap:wrap}
 (function(){
   const B = "img/grafik/buecher/", IDS = ["geschichte","welt","natur","wissen","schweiz","politik","geld","leben","alltag"];
   const R = "html body #app .buecher .buch";
+  const FARBE = [["geschichte","#E3C2FF","#3A0F6B"],["welt","#BFD6FF","#0C2378"],["natur","#C9F5B0","#0E4A16"],["wissen","#B5F4F5","#06474E"],["schweiz","#FFC2BC","#5E0A0A"],
+    ["politik","#FFC0CD","#4E0718"],["geld","#FFD3A6","#6A2600"],["leben","#FFC3E3","#5A0532"],["alltag","#FFF0A8","#5E3A00"]];
+  try{ if(!document.getElementById("ep-font-cinzel")){ const l = document.createElement("link"); l.id = "ep-font-cinzel"; l.rel = "stylesheet";
+    l.href = "https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&display=swap"; document.head.appendChild(l); } }catch(e){}
   const c = document.createElement("style"); c.id = "ep-buecher-css";
   c.textContent = `
 ${R}{height:auto!important;aspect-ratio:.7!important;perspective:none!important;filter:drop-shadow(0 10px 10px rgba(40,20,5,.45));transition:transform .3s ease,filter .3s ease}
@@ -1840,11 +1844,21 @@ ${R} .bemo2,${R} .btop{display:none!important}
 ${R} .btitel{color:#fff!important;font:800 clamp(.95rem,2cqw,1.5rem)/1.1 Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 10px rgba(0,0,0,.45),0 0 2px #000!important;letter-spacing:.01em;word-break:keep-all;overflow-wrap:normal;hyphens:manual;white-space:nowrap}
 ${R} .bunter{color:#FFE9A8!important;font:700 clamp(.66rem,1.15cqw,.9rem)/1.15 Lexend,system-ui,sans-serif!important;font-style:normal!important;text-shadow:0 1px 2px rgba(0,0,0,.7)!important;opacity:1!important}
 ${R}.gross{aspect-ratio:.7!important}
-@media (max-width:720px){${R} .bcover{padding:12% 20% 46% 17%!important}${R} .btitel{font-size:clamp(.7rem,3.3vw,1.05rem)!important}${R} .bunter{display:none!important}}
+${R} .bunter,.zauber .zbuch[data-buch] .zvorne .bunter{display:none!important}
+${R} .bcover{padding:10% 20% 40% 16%!important}
+${R} .btitel,.zauber .zbuch[data-buch] .zvorne .btitel{font-family:"Cinzel Decorative",Georgia,serif!important;font-weight:900!important;font-style:normal!important;line-height:1!important;white-space:nowrap;
+  color:var(--bt,#FFE29A)!important;-webkit-text-stroke:.16em var(--bs,#2A1200);paint-order:stroke fill;transform:rotate(-9deg);display:inline-block;letter-spacing:.02em;
+  text-shadow:0 .06em 0 var(--bs,#2A1200),0 0 .35em rgba(255,214,110,.85)!important}
+${R} .bcover{container-type:inline-size}
+${R} .btitel{font-size:24cqi!important}
+${R}[data-buch="geschichte"] .btitel{font-size:17cqi!important}${R}:is([data-buch="politik"],[data-buch="schweiz"],[data-buch="wissen"],[data-buch="alltag"]) .btitel{font-size:21cqi!important}
+.zauber .zbuch[data-buch] .zvorne{padding:10% 20% 40% 16%!important}
+.zauber .zbuch[data-buch] .zvorne .btitel{font-size:2.1rem!important}
+${FARBE.map(([id, t, st]) => `${R}[data-buch="${id}"],.zauber .zbuch[data-buch="${id}"]{--bt:${t};--bs:${st}}`).join("\n")}
+@media (max-width:720px){${R} .bcover{padding:10% 19% 42% 16%!important}}
 ${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}"] .zvorne{background-image:url("${B}${id}.webp?v=1")!important}`).join("\n")}
 .zauber .zbuch[data-buch] .zvorne{background-color:transparent!important;background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;box-shadow:none!important;border-radius:0!important;padding:16% 24% 30% 17%!important;filter:drop-shadow(0 0 18px rgba(255,214,110,.7))}
 .zauber .zbuch[data-buch] .zvorne::before,.zauber .zbuch[data-buch] .zvorne .bemo2{display:none!important}
-.zauber .zbuch[data-buch] .zvorne .btitel{font:800 1.7rem/1.1 Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 12px rgba(0,0,0,.5)}
 .zauber .zbuch[data-buch] .zvorne .bunter{color:#FFE9A8;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.7)}
 .zauber .zbuch[data-buch] .zhinten{inset:2% 4% 6% 3%!important;border-radius:8px 16px 16px 8px}
 .zkreis{position:absolute;left:50%;top:50%;width:min(92vw,620px);aspect-ratio:1;transform:translate(-50%,-50%);opacity:0;pointer-events:none}
