@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-01-35";
+window.EP_BUILD="ep-2026-11-01-36";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6025,7 +6025,9 @@ function texteBeiBedarf(){
     try{
       if(/suche|werkstatt/.test(sc) || (/^lib$|^lbib$/.test(sc) && (LIB.qa||"").trim().length>1)) return texteLaden();
       if(/seite$/.test(sc) && LIB.buch){ const sei=buchDaten(LIB.buch).seiten, i=sei.findIndex(x=>x.nr===LIB.seite);
-        if(i>=0){ const k=[i-1,i,i+1].map(j=>sei[j]).filter(x=>x&&x.typ!=="art").map(x=>seiteKey(x)); if(k.join()!==TXL.letzt){ TXL.letzt=k.join(); texteFuerKeys(k); } } }
+        if(i>=0){ const k=[i-1,i,i+1].map(j=>sei[j]).filter(x=>x&&x.typ!=="art").map(x=>seiteKey(x)); const kc=seiteKey(sei[i]), fehlt=sei[i].typ!=="art" && !S.texte[kc] && (!TXL.idx || TXL.idx.k[kc]!=null);
+          /* Text fehlt noch, obwohl ihn der Index kennt (Netz kurz weg, Update lief gerade): alle 3 s nochmals holen */
+          if(k.join()!==TXL.letzt || (fehlt && Date.now()-(TXL.letztZ||0)>3000)){ TXL.letzt=k.join(); TXL.letztZ=Date.now(); texteFuerKeys(k); } } }
       else if(/^(lib|lbib)/.test(sc) && LIB.buch && (LIB.q||"").trim().length>1) texteFuerBuch(LIB.buch);
       else if(/^(lib|lbib|bibliothek)/.test(sc)) { txIndex(); txGrund(); }
       if(document.getElementById("reels")){ txIndex(); if(!TXL.vorA && typeof rlNaechsterArtikelOrig==="function"){ TXL.vorA=rlNaechsterArtikelOrig(); if(TXL.vorA) texteFuerKeys([TXL.vorA.key]); } }
@@ -7453,8 +7455,8 @@ function zauberOeffnen(btn, B, fertig){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){ fertig(); return; }
   const r=btn.getBoundingClientRect();
   const ov=document.createElement("div"); ov.className="zauber";
-  ov.innerHTML=`<div class="zglow"></div>
-    <div class="zbuch" style="--bf:${B.farbe};--bf2:${B.farbe2}">
+  ov.innerHTML=`<div class="zglow"></div><div class="zkreis" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="76"/><text><textPath href="#zkpfad">✦ ᚠ ✧ ᛟ ✶ ☾ ✦ ᚨ ✧ ᛉ ✶ ☽ ✦ ᚱ ✧ ᛞ ✶ ☾ ✦ ᚷ ✧ ᛜ ✶ ☽</textPath></text><path id="zkpfad" d="M100 16a84 84 0 1 1 0 168a84 84 0 1 1 0-168" fill="none" stroke="none"/></svg></div>
+    <div class="zbuch" data-buch="${B.id}" style="--bf:${B.farbe};--bf2:${B.farbe2}">
       <div class="zhinten"></div>
       <div class="zseiten"><div class="zlicht"></div><div class="zseite l"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="zseite r"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
       <div class="zdeckel"><div class="zvorne"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div><div class="zinnen"></div></div>
@@ -7477,7 +7479,9 @@ function zauberOeffnen(btn, B, fertig){
     {transform:`translate(${cx}px,${cy}px) scale(1) rotate(0)`}
   ],{duration:1100,easing:"cubic-bezier(.3,.7,.2,1)",fill:"forwards"});
   // leichtes Zittern: das Buch "erwacht"
-  timers.push(setTimeout(()=>{ buch.animate([{rotate:"0deg"},{rotate:"-2deg"},{rotate:"2deg"},{rotate:"-1.5deg"},{rotate:"0deg"}],{duration:500,composite:"add"}); glow.animate([{opacity:0,transform:"scale(.4)"},{opacity:1,transform:"scale(1)"}],{duration:900,fill:"forwards"}); },1150));
+  timers.push(setTimeout(()=>{ buch.animate([{rotate:"0deg"},{rotate:"-2deg"},{rotate:"2deg"},{rotate:"-1.5deg"},{rotate:"0deg"}],{duration:500,composite:"add"}); glow.animate([{opacity:0,transform:"scale(.4)"},{opacity:1,transform:"scale(1)"}],{duration:900,fill:"forwards"});
+    const zk=ov.querySelector(".zkreis"); if(zk) zk.animate([{opacity:0,transform:"translate(-50%,-50%) scale(.3) rotate(-90deg)"},{opacity:1,transform:"translate(-50%,-50%) scale(1) rotate(0deg)"}],{duration:900,easing:"cubic-bezier(.2,.8,.2,1)",fill:"forwards"});
+    funken(ov, cx+bw*0.5, cy+bh*0.9, bw*1.3, 10); },1150));
   // 2) Deckel öffnet sich langsam
   timers.push(setTimeout(()=>{
     deckel.animate([{transform:"rotateY(0deg)"},{transform:"rotateY(-35deg)",offset:.25},{transform:"rotateY(-28deg)",offset:.35},{transform:"rotateY(-165deg)"}],{duration:1700,easing:"cubic-bezier(.45,.05,.3,1)",fill:"forwards"});
@@ -7488,7 +7492,7 @@ function zauberOeffnen(btn, B, fertig){
   timers.push(setTimeout(()=>{ const f=document.createElement("div"); f.className="zblitz"; ov.appendChild(f); f.animate([{opacity:0},{opacity:1},{opacity:1}],{duration:500,fill:"forwards"}); },3500));
   timers.push(setTimeout(ende,3900));
 }
-function funken(ov, x, y, bw){
+function funken(ov, x, y, bw, wie){
   const zeichen=["✦","✧","⋆","✶","☾","✺","ᚠ","ᛟ","✦","✧"];
   let n=0;
   const iv=setInterval(()=>{
@@ -7499,7 +7503,7 @@ function funken(ov, x, y, bw){
       const dx=(Math.random()-.5)*260, dy=-(180+Math.random()*320), rot=(Math.random()-.5)*720;
       s.animate([{transform:"translate(-50%,-50%) scale(.2)",opacity:0},{transform:`translate(calc(-50% + ${dx*.3}px),calc(-50% + ${dy*.35}px)) scale(1.1) rotate(${rot/3}deg)`,opacity:1,offset:.3},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(.4) rotate(${rot}deg)`,opacity:0}],{duration:1400+Math.random()*900,easing:"cubic-bezier(.2,.6,.3,1)"}).onfinish=()=>s.remove();
     }
-    if(++n>32) clearInterval(iv);
+    if(++n>(wie||32)) clearInterval(iv);
   },60);
 }
 
