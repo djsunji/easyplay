@@ -1,6 +1,6 @@
 /* easyplay: Level, XP und Abzeichen-Stufen
    Level 1 bis 1000. Jedes Level braucht etwas mehr XP als das vorherige.
-   Gesamt-XP für Level L:  33 × (L-1)^1.55
+   Gesamt-XP für Level L:  150 × (L-1)^1.6 (seit 01.11.2026, vorher 33 × (L-1)^1.55; alte Spielstände behalten ihr Level)
      Level 2 ≈ 33 XP · Level 10 ≈ 1'000 XP · Level 100 ≈ 40'900 XP · Level 500 ≈ 502'000 XP · Level 1000 ≈ 1'472'000 XP
    Bei rund 500 XP pro Tag: Level 10 nach 2 Tagen, Level 100 nach rund 3 Monaten, Level 1000 erst nach vielen Jahren.
    Alles wird im Browser gespeichert (localStorage). Muster wie lernen.js: bestehende Funktionen werden umhüllt. */
@@ -30,12 +30,16 @@ const XP = {
   serieTag: 20, serieProTag: 5, serieTagMax: 100, // Lerntag geschafft (5 Fragen): 20 + 5 pro Serientag
   tagesgrenze: 2000, nachGrenze: 0.25            // über 2000 XP am Tag zählt nur noch ein Viertel
 };
-const gesamtFuer = L => L <= 1 ? 0 : Math.round(33 * Math.pow(L - 1, 1.55));
-function levelAus(xp){
+/* Kurve stark gestreckt (Dejans Wunsch 01.11.): eine Runde mit 10 Fragen (rund 150 XP) bringt zu Beginn etwa ein Level,
+   Level 10 nach rund 5'000 XP, Level 50 nach rund 76'000 XP, Level 100 nach rund 236'000 XP. */
+const gesamtFuer = L => L <= 1 ? 0 : Math.round(150 * Math.pow(L - 1, 1.6));
+const gesamtAlt = L => L <= 1 ? 0 : Math.round(33 * Math.pow(L - 1, 1.55));
+function levelMit(f, xp){
   let lo = 1, hi = MAX_LEVEL;
-  while(lo < hi){ const m = Math.ceil((lo + hi) / 2); if(gesamtFuer(m) <= xp) lo = m; else hi = m - 1; }
+  while(lo < hi){ const m = Math.ceil((lo + hi) / 2); if(f(m) <= xp) lo = m; else hi = m - 1; }
   return lo;
 }
+const levelAus = xp => levelMit(gesamtFuer, xp);
 
 /* ---------- Titel (Ränge) ---------- */
 const TITEL = [
@@ -58,7 +62,14 @@ function laden(){
     const richtig = (+st.trainRichtig||0) + (+st.testRichtig||0), fragen = (+st.trainFragen||0) + (+st.testFragen||0);
     const tq = Object.keys(LS.get("ep-tagesquiz", {})).length;
     const start = Math.max(0, Math.round(richtig * 8 + Math.max(0, fragen - richtig) * XP.falsch + tq * XP.tagesquiz));
-    d = {v:1, xp:start, tage:{}, serieTag:"", abz:null, lvl:levelAus(start), start};
+    d = {v:1, xp:start, tage:{}, serieTag:"", abz:null, lvl:levelAus(start), start, k2:1};
+    LS.set(KEY, d);
+  }
+  /* Umstellung auf die neue Kurve: bisheriges Level und der Fortschritt darin bleiben erhalten, nur die XP werden umgerechnet */
+  if(!d.k2){
+    const La = levelMit(gesamtAlt, +d.xp || 0), von = gesamtAlt(La), bis = gesamtAlt(La + 1);
+    const anteil = bis > von ? Math.min(1, Math.max(0, ((+d.xp || 0) - von) / (bis - von))) : 0;
+    d.xpAlt = d.xp; d.xp = Math.round(gesamtFuer(La) + anteil * (gesamtFuer(La + 1) - gesamtFuer(La))); d.k2 = 1;
     LS.set(KEY, d);
   }
   return d;
