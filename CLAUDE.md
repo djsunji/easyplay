@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: Startseite Handy/iPad: zurück zu Dejans gezeichneten Kacheln (Block vom 25.10.), Glanz-Kacheln dort wieder weg (Dejans Wunsch). Die Live-Infos (Fragen, Seiten, XP-Balken, Serie, Fehler), der gelbe Leuchtpunkt und die Einblend-Animation bleiben (Klasse `k2-live`). Kein App-Bau. Version ep-2026-11-01-32.
 - 01.11. Sitzung «Hauptseite»: Startseite Handy/iPad: Kacheln (Zufällige Fragen, Bibliothek, Level, Tagesquiz, Live, Fehler üben, Entdecken, Wochen-Challenge) auf Dejans Glanz-Kacheln mit seinen Symbolen und Live-Infos (Fragen heute, Seitenzahl, XP bis zum nächsten Level mit Balken, Serie, offene Fehler), gelber Leuchtpunkt wenn etwas wartet, Einblend-Animation. Klasse `ep-k2`, Block «Startseite Handy/iPad: Kacheln im neuen Glanz-Stil» am Ende von `stil.js` (überschreibt den Block vom 25.10.). Kein App-Bau. Version ep-2026-11-01-31.
 - 01.11. Sitzung «Hauptseite»: Menüleiste Computer: «Bibliothek» mit Dejans offenem Buch `img/grafik/diverse/buch.webp` statt `img/app2/ic-buch.webp` (`stil.js` `PUNKTE`). Version ep-2026-11-01-30.
 - 01.11. Sitzung «Hauptseite»: Untere Menüleiste Handy/iPad: Qeels-Reiter mit Dejans Regenbogen-Fragezeichen `img/grafik/sym-frage-regenbogen.webp` statt Controller (`app.js` `TBILD`). Version ep-2026-11-01-29.
