@@ -7268,12 +7268,14 @@ function renderLibBuch(){
       return kopf+`<li><button type="button" class="kapitel${wichtig?" kwichtig":""}" data-kap="${k.id}"><span class="knr">${i+1}</span><span class="kemo">${k.emo}</span><span class="kt"><b>${esc(k.titel)}${wichtig?' <span class="kstern" title="Wichtiges Kapitel">★ Wichtig</span>':""}</b><small>${k.seiten.length} ${k.seiten.length===1?"Seite":"Seiten"}</small></span><span class="kpunkte"></span><span class="kseite">S. ${k.von}${k.bis>k.von?" bis "+k.bis:""}</span></button></li>`; }).join("")}</ol>`;
   }
   $("#app").innerHTML = `${crumbs()}
-    <div class="offen" style="--bf:${B.farbe};--bf2:${B.farbe2}">
-      <div class="seite links"><div class="minicover"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></div>
+    <div class="offen zbo" data-buch="${B.id}" style="--bf:${B.farbe};--bf2:${B.farbe2}">
+      <i class="zband a" aria-hidden="true"></i><i class="zband b" aria-hidden="true"></i>
+      <span class="zfunken" aria-hidden="true">${[[4,8,0],[47,3,1.2],[96,12,.5],[2,62,2],[97,55,1.6],[50,97,.8],[30,40,2.6],[72,30,3.1]].map(([x,y,d])=>`<i style="left:${x}%;top:${y}%;animation-delay:${d}s"></i>`).join("")}</span>
+      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne"><span class="mkreis" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="76"/><text><textPath href="#mkpfad">✦ ᚠ ✧ ᛟ ✶ ☾ ✦ ᚨ ✧ ᛉ ✶ ☽ ✦ ᚱ ✧ ᛞ ✶ ☾ ✦ ᚷ ✧ ᛜ ✶ ☽</textPath></text><path id="mkpfad" d="M100 16a84 84 0 1 1 0 168a84 84 0 1 1 0-168" fill="none" stroke="none"/></svg></span><img class="mbild" src="img/grafik/buecher/${B.id}.webp?v=1" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
         <p class="libdesc">${esc(B.desc ? B.desc : B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
-        <p class="bstat">📄 ${D.seiten.length} Seiten · ${D.kap.length} Kapitel</p>
+        <p class="bstat"><span class="siegel"><b>${D.seiten.length.toLocaleString("de-CH")}</b>Seiten</span><span class="siegel"><b>${D.kap.length}</b>Kapitel</span></p>
         ${suchfeldHTML("buchSuche", LIB.q, "🔎 In diesem Buch suchen …")}
-        <div class="segs btabs" role="group" aria-label="Ansicht"><button type="button" class="seg" data-tab="inhalt" aria-pressed="${tab==="inhalt"&&q.length<2}">📑 Inhalt</button><button type="button" class="seg" data-tab="register" aria-pressed="${tab==="register"&&q.length<2}">🔤 Register A bis Z</button></div></div>
+        <div class="segs btabs" role="group" aria-label="Ansicht"><button type="button" class="seg" data-tab="inhalt" aria-pressed="${tab==="inhalt"&&q.length<2}">📑 Inhalt</button><button type="button" class="seg" data-tab="register" aria-pressed="${tab==="register"&&q.length<2}">🔤 Register A bis Z</button></div></div></div>
       <div class="seite rechts">${rechts}</div>
     </div>`;
   bindSuchfeld("buchSuche", v=>LIB.q=v);

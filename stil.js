@@ -1922,3 +1922,153 @@ ${P} .regal .ep-brett{position:absolute;left:-14px;right:-14px;height:24px;z-ind
   new MutationObserver(m => { if(m.some(x => [...x.addedNodes].some(n => n.nodeType === 1 && !n.classList.contains("ep-brett")))) bald(); }).observe(document.body, {childList:true, subtree:true});
   addEventListener("resize", bald);
 })();
+
+/* ===== Bibliothek: aufgeschlagenes Zauberbuch (renderLibBuch, Klasse .zbo) =====
+   Einband in der Buchfarbe mit Goldrahmen und Ecken, Pergamentseiten, Dejans gezeichnetes Buch schwebt vor einem Runenkreis,
+   Seiten und Kapitel als Siegel, Rubriken als Bänder, Kapitelnummern als Goldmünzen, Funkeln. Gleiches Aussehen hell und dunkel. */
+(function(){
+  const FARBE = {geschichte:["#E3C2FF","#3A0F6B"],welt:["#BFD6FF","#0C2378"],natur:["#C9F5B0","#0E4A16"],wissen:["#B5F4F5","#06474E"],schweiz:["#FFC2BC","#5E0A0A"],
+    politik:["#FFC0CD","#4E0718"],geld:["#FFD3A6","#6A2600"],leben:["#FFC3E3","#5A0532"],alltag:["#FFF0A8","#5E3A00"]};
+  const ecke = r => "url(\"data:image/svg+xml," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#FFF1B8'/><stop offset='.45' stop-color='#E9B949'/><stop offset='1' stop-color='#9A6512'/></linearGradient></defs><g transform='rotate(${r} 30 30)'><path d='M3 3h40c-7 2-12 6-14 12-6-3-13-1-15 5 5 2 6 8 4 14-6 1-11 6-12 12V3z' fill='url(#g)' stroke='#6E430A' stroke-width='1.6' stroke-linejoin='round'/><path d='M10 10c8 0 14 2 18 8M10 10c0 8 2 14 8 18' fill='none' stroke='#6E430A' stroke-width='1.2' opacity='.6'/><circle cx='13' cy='13' r='5.5' fill='#fff' fill-opacity='.85' stroke='#6E430A' stroke-width='1.4'/><circle cx='11.5' cy='11.5' r='1.8' fill='#fff'/></g></svg>`) + "\")";
+  const Z = "html body #app .offen.zbo";
+  const c = document.createElement("style"); c.id = "ep-zauberbuch-css";
+  c.textContent = `
+${Z}{--zp1:#FDF6E3;--zp2:#F3E3BC;--zink:#3A2610;--zink2:#5C4526;--zgold:#E9B949;--zgoldd:#8A5A12;--zakz:color-mix(in srgb,var(--bf) 72%,#1E0F00);
+  position:relative;isolation:isolate;max-width:1040px;margin:18px auto 70px;padding:20px;gap:0;border-radius:22px 28px 28px 22px;overflow:visible;
+  background:radial-gradient(120% 90% at 28% 0%,color-mix(in srgb,var(--bf) 80%,#fff),var(--bf) 42%,var(--bf2) 100%);
+  box-shadow:inset 0 0 0 3px var(--zgold),inset 0 0 0 7px var(--bf2),inset 0 0 0 9px rgba(255,226,154,.5),0 32px 54px -24px rgba(20,8,40,.75),0 0 70px -12px color-mix(in srgb,var(--bf) 70%,transparent)}
+${Z}::before{content:"";position:absolute;inset:-4px;pointer-events:none;z-index:2;background:${ecke(0)} left top/58px no-repeat,${ecke(90)} right top/58px no-repeat,${ecke(180)} right bottom/58px no-repeat,${ecke(270)} left bottom/58px no-repeat;filter:drop-shadow(0 2px 3px rgba(40,20,0,.4))}
+${Z}::after{content:"";position:absolute;left:50%;top:14px;bottom:14px;width:26px;transform:translateX(-50%);display:none}
+${Z} .zband{position:absolute;bottom:-46px;width:24px;height:70px;z-index:-1;clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
+${Z} .zband.a{right:16%;background:linear-gradient(90deg,var(--bf2),var(--bf) 50%,var(--bf2));animation:zbband 5s ease-in-out infinite;transform-origin:top}
+${Z} .zband.b{right:calc(16% + 30px);height:56px;background:linear-gradient(90deg,#B07A1C,#F5D06A 50%,#B07A1C);animation:zbband 5s ease-in-out -2.5s infinite;transform-origin:top}
+@keyframes zbband{50%{transform:rotate(3deg)}}
+${Z} .zfunken{position:absolute;inset:-22px;pointer-events:none;z-index:4}
+${Z} .zfunken i{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;background:#FFE7A0;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 6px #FFD36E);animation:zbfunk 3.6s ease-in-out infinite;opacity:0}
+${Z} .zfunken i:nth-child(3n){width:10px;height:10px;background:#fff}
+${Z} .zfunken i:nth-child(4n){background:color-mix(in srgb,var(--bf) 35%,#fff)}
+@keyframes zbfunk{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(45deg)}70%{opacity:.6}}
+
+/* Seiten */
+${Z}>.seite{position:relative;z-index:1;color:var(--zink);min-width:0;
+  background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(255,255,255,.7),transparent 70%),radial-gradient(circle at 12% 88%,rgba(196,140,50,.12),transparent 38%),radial-gradient(circle at 92% 20%,rgba(196,140,50,.08),transparent 30%),linear-gradient(180deg,var(--zp1),var(--zp2))}
+${Z} .zlinks{display:grid;align-content:start;gap:16px;position:sticky;top:16px}
+${Z}>.seite.links{display:block!important;border-radius:16px 3px 3px 16px;padding:26px 28px 30px;box-shadow:inset -30px 0 32px -26px rgba(90,55,10,.6),-3px 2px 0 #EBDCB4,-6px 4px 0 #DCC694,-9px 6px 0 #C7AC72}
+${Z}>.seite.rechts{border-radius:3px 16px 16px 3px;padding:26px 30px 30px;box-shadow:inset 30px 0 32px -26px rgba(90,55,10,.6),3px 2px 0 #EBDCB4,6px 4px 0 #DCC694,9px 6px 0 #C7AC72}
+
+/* Linke Seite: schwebendes Buch im Runenkreis */
+${Z} .minicover{display:grid!important;justify-items:center;gap:10px;padding:4px 0 0!important;background:none!important;box-shadow:none!important;color:var(--zink)!important;border-radius:0!important;text-align:center}
+${Z} .mbuehne{position:relative;display:block;width:min(170px,54%);aspect-ratio:303/436;margin:18px 0 10px}
+${Z} .mbuehne::before{content:"";position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,220,130,.55),color-mix(in srgb,var(--bf) 18%,transparent) 45%,transparent 68%)}
+${Z} .mkreis{position:absolute;left:50%;top:50%;width:160%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
+${Z} .mkreis svg{display:block;width:100%;height:100%;animation:zbkreis 40s linear infinite}
+${Z} .mkreis circle{fill:none;stroke:color-mix(in srgb,var(--bf) 55%,#B07A1C);stroke-width:1.1;stroke-dasharray:3 5;opacity:.75}
+${Z} .mkreis circle+circle{stroke-dasharray:none;stroke-width:.7;opacity:.4}
+${Z} .mkreis text{fill:color-mix(in srgb,var(--bf) 65%,#7A4A0C);font:11px Georgia,serif;letter-spacing:3px;opacity:.85}
+@keyframes zbkreis{to{transform:rotate(360deg)}}
+${Z} .mbild{position:relative;display:block;width:100%;height:auto;animation:zbschweb 4.8s ease-in-out infinite;filter:drop-shadow(0 16px 12px rgba(60,30,5,.35)) drop-shadow(0 0 16px rgba(255,214,110,.65))}
+@keyframes zbschweb{50%{transform:translateY(-9px) rotate(1.5deg)}}
+${Z} .mtext{display:grid;justify-items:center;gap:6px}
+${Z} .minicover .bemo2{display:none!important}
+${Z} .minicover .btitel{font-family:"Cinzel Decorative",Georgia,serif!important;font-weight:900!important;font-size:clamp(1.8rem,3vw,2.4rem)!important;line-height:1.05!important;color:var(--bt,#FFE29A)!important;
+  -webkit-text-stroke:.15em var(--bs,#2A1200);paint-order:stroke fill;text-shadow:0 .07em 0 var(--bs,#2A1200),0 0 .45em rgba(255,214,110,.9)!important;transform:rotate(-4deg);display:inline-block;letter-spacing:.02em}
+${Z} .minicover .bunter{font:600 1rem/1.3 Fredoka,Lexend,system-ui,sans-serif!important;font-style:normal!important;color:var(--zakz)!important;opacity:1!important;letter-spacing:.02em}
+${Z} .libdesc{color:var(--zink2)!important;font:400 1.02rem/1.6 Lexend,system-ui,sans-serif;text-align:left;margin:0!important}
+${Z} .libdesc::first-letter{float:left;font:900 3.1em/.85 "Cinzel Decorative",Georgia,serif;margin:.06em .1em 0 0;color:var(--bf);text-shadow:1px 1px 0 var(--zgold),2px 2px 0 var(--zgoldd),0 0 .35em rgba(255,214,110,.9)}
+${Z} .bstat{display:flex!important;gap:18px;justify-content:center;margin:2px 0!important}
+${Z} .siegel{display:grid;place-items:center;align-content:center;width:86px;aspect-ratio:1;border-radius:50%;color:#FFF3D0;font:600 .74rem/1.15 Fredoka,Lexend,system-ui,sans-serif;text-align:center;letter-spacing:.03em;transform:rotate(-7deg);
+  background:radial-gradient(circle at 35% 28%,color-mix(in srgb,var(--bf) 45%,#fff),var(--bf) 52%,var(--bf2));
+  box-shadow:inset 0 0 0 3px var(--zgold),inset 0 0 0 6px color-mix(in srgb,var(--bf2) 70%,transparent),inset 0 0 0 7px rgba(255,226,154,.45),0 7px 12px -5px rgba(60,30,5,.5)}
+${Z} .siegel:nth-child(2){transform:rotate(6deg)}
+${Z} .siegel b{display:block;font:900 1.3rem/1 "Cinzel Decorative",Georgia,serif;color:#FFE29A;text-shadow:0 1px 0 rgba(0,0,0,.35);font-variant-numeric:tabular-nums}
+${Z} .libsuche input.sel{background:#FFFBF0!important;color:var(--zink)!important;border:2px solid #D9B266!important;border-radius:999px!important;box-shadow:inset 0 2px 6px rgba(120,80,20,.14)!important;font-family:Lexend,system-ui,sans-serif!important}
+${Z} .libsuche input.sel::placeholder{color:#9A7F55}
+${Z} .libsuche input.sel:focus{outline:none;border-color:var(--bf)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--bf) 22%,transparent),0 0 20px rgba(255,214,110,.75)!important}
+${Z} .btabs{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;margin:0!important}
+${Z} .btabs .seg{min-height:50px;border-radius:16px!important;border:2px solid #D9B266!important;background:#FFF8E6!important;color:var(--zink)!important;font:600 1rem/1.15 Fredoka,Lexend,system-ui,sans-serif!important;box-shadow:0 4px 0 #D9B266!important;transition:transform .15s}
+${Z} .btabs .seg:hover{transform:translateY(-2px)}
+${Z} .btabs .seg[aria-pressed="true"]{background:linear-gradient(160deg,var(--bf),var(--bf2))!important;color:#FFE29A!important;border-color:var(--zgold)!important;box-shadow:0 4px 0 var(--bf2),0 0 18px -2px color-mix(in srgb,var(--bf) 75%,transparent)!important}
+${Z} .btabs .seg:focus-visible{outline:3px solid var(--bf);outline-offset:2px}
+
+/* Rechte Seite: Inhalt */
+${Z} .seite.rechts>h2{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 16px!important;font:900 2.1rem/1.1 "Cinzel Decorative",Georgia,serif!important;color:var(--zakz)!important;text-shadow:0 0 .4em rgba(255,214,110,.6)}
+${Z} .seite.rechts>h2::before,${Z} .seite.rechts>h2::after{content:"";flex:1;max-width:120px;height:12px;background:radial-gradient(circle,var(--zgold) 3px,transparent 4px) center/12px 12px no-repeat,linear-gradient(var(--zgold),var(--zgold)) center/100% 2px no-repeat;opacity:.9}
+${Z} .inhalt{gap:6px!important;grid-template-columns:minmax(0,1fr)}
+${Z} .inhalt>li,${Z} .kapitel,${Z} .kt{min-width:0}
+${Z} .kt b{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+${Z} .inhalt .rubrik{position:relative;margin:20px -10px 6px!important;padding:10px 30px 10px 30px!important;border:0!important;border-radius:0!important;gap:12px!important;color:#fff;
+  background:linear-gradient(160deg,var(--bf),var(--bf2))!important;clip-path:polygon(0 0,100% 0,calc(100% - 16px) 50%,100% 100%,0 100%,16px 50%);
+  box-shadow:inset 0 3px 0 rgba(255,226,154,.55),inset 0 -3px 0 rgba(0,0,0,.2)!important}
+${Z} .inhalt .rubrik:first-child{margin-top:4px!important}
+${Z} .inhalt .rubrik b{color:#fff!important;font:700 1.22rem/1.2 Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+${Z} .inhalt .rbemo{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:1.35rem!important;background:radial-gradient(circle at 35% 30%,#FFF6CF,#F0C65A 55%,#B9851E);box-shadow:0 0 0 2px rgba(255,255,255,.45),0 2px 4px rgba(0,0,0,.3)}
+${Z} .inhalt .rbseiten{color:#FFE29A!important;font:600 .85rem Fredoka,Lexend,system-ui,sans-serif!important;background:rgba(0,0,0,.2);padding:3px 11px;border-radius:999px}
+${Z} .inhalt .rubrik ~ li .kapitel{padding-left:12px!important}
+${Z} .kapitel{position:relative;gap:12px!important;padding:10px 14px 10px 12px!important;border-radius:16px!important;color:var(--zink)!important;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+${Z} .kapitel:hover,${Z} .kapitel:focus-visible{background:rgba(255,255,255,.62)!important;transform:translateX(5px);outline:none;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--bf) 45%,transparent),0 8px 18px -8px color-mix(in srgb,var(--bf) 70%,transparent)}
+${Z} .kapitel::after{content:"";position:absolute;right:-7px;top:-7px;width:18px;height:18px;background:#F5C84C;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 5px #FFD36E);opacity:0;transform:scale(.3) rotate(-45deg);transition:.3s}
+${Z} .kapitel:hover::after,${Z} .kapitel:focus-visible::after{opacity:1;transform:scale(1) rotate(0)}
+${Z} .knr{flex:none;display:grid!important;place-items:center;width:36px;height:36px;min-width:36px!important;border-radius:50%;font:900 .95rem/1 "Cinzel Decorative",Georgia,serif!important;color:#5A3A08!important;
+  background:radial-gradient(circle at 35% 28%,#FFF6CF,#F0C65A 55%,#B9851E);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 2px 4px rgba(90,55,10,.35);font-variant-numeric:tabular-nums}
+${Z} .kemo{flex:none;width:42px;height:42px;border-radius:14px;display:grid!important;place-items:center;font-size:1.4rem!important;transform:rotate(-5deg);
+  background:color-mix(in srgb,var(--bf) 14%,#fff);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--bf) 25%,transparent)}
+${Z} .kapitel:hover .kemo{animation:zbwackel .55s ease}
+@keyframes zbwackel{30%{transform:rotate(10deg) scale(1.12)}65%{transform:rotate(-9deg) scale(1.05)}}
+${Z} .kt b{font:600 1.08rem/1.25 Fredoka,Lexend,system-ui,sans-serif!important;color:var(--zink)!important}
+${Z} .kt small{color:#8A7150!important;font:400 .85rem Lexend,system-ui,sans-serif}
+${Z} .kpunkte,${Z} .rpunkte{border-bottom:3px dotted color-mix(in srgb,var(--zgold) 85%,transparent)!important}
+${Z} .kseite{font:600 .98rem Fredoka,Lexend,system-ui,sans-serif!important;color:var(--zakz)!important;white-space:nowrap}
+${Z} .kapitel.kwichtig{background:linear-gradient(90deg,rgba(255,214,110,.42),rgba(255,214,110,.06))!important}
+${Z} .kstern{margin-left:8px;background:radial-gradient(circle at 35% 28%,#FFF6CF,#F0C65A 55%,#C89225)!important;color:#5A3A08!important;border-radius:999px;padding:2px 9px!important;font:700 .7rem Fredoka,Lexend,system-ui,sans-serif!important;
+  display:inline-block;transform:rotate(-4deg);box-shadow:0 0 10px rgba(255,214,110,.85)}
+
+/* Register und Treffer */
+${Z} .abc{gap:6px!important;justify-content:center;margin-bottom:14px!important}
+${Z} .abc a{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;text-decoration:none;font:900 .9rem "Cinzel Decorative",Georgia,serif!important;color:#5A3A08!important;
+  background:radial-gradient(circle at 35% 28%,#FFF6CF,#F0C65A 55%,#B9851E);box-shadow:inset 0 0 0 2px rgba(255,255,255,.5),0 2px 4px rgba(90,55,10,.3);transition:transform .15s}
+${Z} .abc a:hover,${Z} .abc a:focus-visible{transform:translateY(-3px) rotate(-6deg);outline:none}
+${Z} .buchst{border-top:2px dashed color-mix(in srgb,var(--zgold) 60%,transparent)!important}
+${Z} .initial{font-family:"Cinzel Decorative",Georgia,serif!important;background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;
+  color:var(--bt,#FFE29A)!important;-webkit-text-fill-color:var(--bt,#FFE29A)!important;-webkit-text-stroke:.09em var(--bs,#2A1200);paint-order:stroke fill;text-shadow:0 0 .3em rgba(255,214,110,.8)}
+${Z} .regitem{color:var(--zink)!important;font-family:Lexend,system-ui,sans-serif;border-radius:10px!important}
+${Z} .regitem:hover,${Z} .regitem:focus-visible{background:rgba(255,255,255,.65)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--bf) 35%,transparent);outline:none}
+${Z} .rnr{color:var(--zakz);font:600 .9rem Fredoka,Lexend,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+
+${Object.entries(FARBE).map(([id,[t,s]]) => `${Z}[data-buch="${id}"]{--bt:${t};--bs:${s}}`).join("\n")}
+
+/* Dunkler Modus: Buch leuchtet in der Nacht, Pergament etwas gedämpft */
+:root[data-theme="dark"] ${Z}{--zp1:#F1E5C7;--zp2:#E2CD9C;box-shadow:inset 0 0 0 3px var(--zgold),inset 0 0 0 7px var(--bf2),inset 0 0 0 9px rgba(255,226,154,.5),0 32px 54px -24px rgba(0,0,0,.8),0 0 90px -6px color-mix(in srgb,var(--bf) 80%,transparent),0 0 40px -10px rgba(255,214,110,.45)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) ${Z}{--zp1:#F1E5C7;--zp2:#E2CD9C;box-shadow:inset 0 0 0 3px var(--zgold),inset 0 0 0 7px var(--bf2),inset 0 0 0 9px rgba(255,226,154,.5),0 32px 54px -24px rgba(0,0,0,.8),0 0 90px -6px color-mix(in srgb,var(--bf) 80%,transparent),0 0 40px -10px rgba(255,214,110,.45)}}
+
+/* Handy: Seiten untereinander, Buch klein neben dem Titel */
+@media (max-width:720px){
+  ${Z} .zlinks{position:static;gap:14px}
+  ${Z}{padding:12px!important;gap:12px!important;margin:8px auto 60px;border-radius:20px}
+  ${Z}::before{background-size:34px!important}
+  ${Z}>.seite.links,${Z}>.seite.rechts{border-radius:12px!important;padding:18px 16px 20px!important;box-shadow:inset 0 0 26px -12px rgba(90,55,10,.45)!important}
+  ${Z} .minicover{grid-template-columns:auto 1fr;justify-items:start;align-items:center;gap:6px 14px}
+  ${Z} .mbuehne{width:92px;margin:8px 6px 8px 10px}
+  ${Z} .mkreis{width:175%}
+  ${Z} .mtext{justify-items:start;text-align:left}
+  ${Z} .minicover .btitel{font-size:1.7rem!important;transform:rotate(-4deg);transform-origin:left center}
+  ${Z} .minicover .bunter{font-size:.9rem!important}
+  ${Z} .libdesc{font-size:.95rem}
+  ${Z} .siegel{width:70px}${Z} .siegel b{font-size:1.1rem}
+  ${Z} .seite.rechts>h2{font-size:1.7rem!important}
+  ${Z} .inhalt .rubrik{margin:16px -6px 6px!important;padding:9px 22px!important}
+  ${Z} .inhalt .rubrik b{font-size:1.05rem!important}
+  ${Z} .inhalt .rbemo{width:34px;height:34px;font-size:1.15rem!important}
+  ${Z} .knr{width:30px;height:30px;min-width:30px!important;font-size:.8rem!important}
+  ${Z} .kemo{width:34px;height:34px;font-size:1.15rem!important;border-radius:11px}
+  ${Z} .kapitel{gap:9px!important;padding:9px 8px!important}
+  ${Z} .kt b{font-size:.98rem!important}
+  ${Z} .kapitel:hover,${Z} .kapitel:focus-visible{transform:none}
+  ${Z} .kseite{font-size:.82rem!important}
+  ${Z} .inhalt .rubrik{flex-wrap:wrap}
+  ${Z} .zfunken{inset:0}
+  ${Z} .zband{bottom:-40px}
+}
+@media (prefers-reduced-motion:reduce){${Z} .mkreis svg,${Z} .mbild,${Z} .zfunken i,${Z} .zband{animation:none!important}${Z} .zfunken i{opacity:.7}${Z} .kapitel:hover .kemo{animation:none}}`;
+  document.head.appendChild(c);
+})();
