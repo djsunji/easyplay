@@ -8,6 +8,10 @@
 (function(){
 "use strict";
 if(!window.EP_EXTRAS || typeof window.renderDuell !== "function" || typeof DU === "undefined") return;
+/* Vorläufig ausgeschaltet (Dejans Wunsch 01.11.): keine Kachel in Entdecken, kein Knopf im Duell, keine Region-Punkte.
+   Wieder einschalten: REGIONEN_AN = true. */
+const REGIONEN_AN = false;
+if(!REGIONEN_AN) return;
 
 const LS = {
   get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },

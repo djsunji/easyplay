@@ -30,7 +30,7 @@ const ruhig = () => { try{ return matchMedia("(prefers-reduced-motion: reduce)")
 
 const MODS = [];
 const sichtbar = m => { try{ return !m.sichtbar || m.sichtbar(); }catch(e){ return false; } };
-const liste = () => MODS.filter(m => m.id !== "entdecken" && sichtbar(m));
+const liste = () => MODS.filter(m => m.id !== "entdecken" && m.inEntdecken !== false && sichtbar(m));
 
 /* Kleine Hilfen für alle Welten */
 const api = {

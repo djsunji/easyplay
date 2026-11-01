@@ -739,7 +739,7 @@ function profilHTML(){
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}</b><span>von ${ab.alle}</span></div>
     </div>
     <nav class="glas ap-liste" aria-label="Mehr">
-      ${p ? zeile('data-x="verzieren"', I.funkel, "Verzieren") : ""}
+      ${zeile('data-x="verzieren"', I.funkel, "Profil verzieren")}
       ${zeile('data-x="board"', I.pokal, "Rangliste")}
       ${zeile('data-x="lib"', I.buch, "Bibliothek")}
       ${zeile('data-m="set"', I.pinsel, "Hintergrund")}

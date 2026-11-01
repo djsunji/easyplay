@@ -513,7 +513,7 @@ function anmelden(){
   if(!window.EP_EXTRAS || typeof window.EP_EXTRAS.register !== "function") return false;
   window.EP_EXTRAS.register({
     id:"garderobe", titel:"Profil verzieren", text:"Schmück deine Profilseite mit Hintergründen, Rahmen, Stickern und Effekten", emo:"🎨",
-    farbe:"linear-gradient(135deg,#E043B8,#8A3FE0 60%,#3D5AFE)", reihe:30,
+    farbe:"linear-gradient(135deg,#E043B8,#8A3FE0 60%,#3D5AFE)", reihe:30, inEntdecken:false,   /* nur noch über das Profil erreichbar */
     hinweis(){ const n = neuListe().length; return n ? `${n} neu` : ""; },
     folie(){ const n = neuListe().length; if(!n) return null;
       return {cls:"hs-x", ic:"🎨", lbl:"Profil", titel:n === 1 ? "Eine neue Verzierung!" : `${n} neue Verzierungen!`, text:"Schmück deine Profilseite mit Hintergründen, Rahmen und Stickern.", btn:"🎨 Verzieren", a:"x-garderobe"}; },
