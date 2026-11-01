@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-01-44";
+window.EP_BUILD="ep-2026-11-01-45";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -7247,6 +7247,9 @@ function trefferHTML(liste, mitBuch){
 }
 function bindTreffer(){ document.querySelectorAll(".trf").forEach(b=>b.onclick=()=>{ LIB.buch=b.dataset.sb; LIB.seite=+b.dataset.sn; go("libseite"); scrollTo(0,0); }); }
 
+/* Zauberbuch-Schmuck (Bibliothek): Runenkreis, Funkeln, Lesebänder. Stil im Block «aufgeschlagenes Zauberbuch» in stil.js */
+function zRunen(pid){ return `<span class="mkreis" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="76"/><text><textPath href="#${pid}">✦ ᚠ ✧ ᛟ ✶ ☾ ✦ ᚨ ✧ ᛉ ✶ ☽ ✦ ᚱ ✧ ᛞ ✶ ☾ ✦ ᚷ ✧ ᛜ ✶ ☽</textPath></text><path id="${pid}" d="M100 16a84 84 0 1 1 0 168a84 84 0 1 1 0-168" fill="none" stroke="none"/></svg></span>`; }
+function zSchmuck(){ return `<i class="zband a" aria-hidden="true"></i><i class="zband b" aria-hidden="true"></i><span class="zfunken" aria-hidden="true">${[[4,8,0],[47,3,1.2],[96,12,.5],[2,62,2],[97,55,1.6],[50,97,.8],[30,40,2.6],[72,30,3.1]].map(([x,y,d])=>`<i style="left:${x}%;top:${y}%;animation-delay:${d}s"></i>`).join("")}</span>`; }
 function renderLibBuch(){
   LIB.zufall=false;
   LIB.vonQuiz=false;
@@ -7269,9 +7272,8 @@ function renderLibBuch(){
   }
   $("#app").innerHTML = `${crumbs()}
     <div class="offen zbo" data-buch="${B.id}" style="--bf:${B.farbe};--bf2:${B.farbe2}">
-      <i class="zband a" aria-hidden="true"></i><i class="zband b" aria-hidden="true"></i>
-      <span class="zfunken" aria-hidden="true">${[[4,8,0],[47,3,1.2],[96,12,.5],[2,62,2],[97,55,1.6],[50,97,.8],[30,40,2.6],[72,30,3.1]].map(([x,y,d])=>`<i style="left:${x}%;top:${y}%;animation-delay:${d}s"></i>`).join("")}</span>
-      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne"><span class="mkreis" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="76"/><text><textPath href="#mkpfad">✦ ᚠ ✧ ᛟ ✶ ☾ ✦ ᚨ ✧ ᛉ ✶ ☽ ✦ ᚱ ✧ ᛞ ✶ ☾ ✦ ᚷ ✧ ᛜ ✶ ☽</textPath></text><path id="mkpfad" d="M100 16a84 84 0 1 1 0 168a84 84 0 1 1 0-168" fill="none" stroke="none"/></svg></span><img class="mbild" src="img/grafik/buecher/${B.id}.webp?v=1" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
+      ${zSchmuck()}
+      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne">${zRunen("mkpfad")}<img class="mbild" src="img/grafik/buecher/${B.id}.webp?v=1" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
         <p class="libdesc">${esc(B.desc ? B.desc : B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
         <p class="bstat"><span class="siegel"><b>${D.seiten.length.toLocaleString("de-CH")}</b>Seiten</span><span class="siegel"><b>${D.kap.length}</b>Kapitel</span></p>
         ${suchfeldHTML("buchSuche", LIB.q, "🔎 In diesem Buch suchen …")}
@@ -7293,7 +7295,7 @@ function renderLibKapitel(){
   const filt=x=> af==="alle" || (af==="gipfel" && x.gipfel && x.gipfel.art!=="pass") || (af==="pass" && x.gipfel?.art==="pass") || (af==="bahn" && x.bahn) || (af==="themen" && !x.gipfel && !x.bahn);
   const liste=(q.length>=2 ? seitenSuche(k.seiten,q) : k.seiten).filter(filt);
   $("#app").innerHTML = `${crumbs()}
-    <article class="libart" style="--bf:${B.farbe}"><header><span class="aemo big">${k.emo}</span><h1>${esc(k.titel)}</h1><p class="libdesc">${k.rubrik?`${k.rubrik.emo} ${esc(k.rubrik.name)} · `:""}Kapitel im Buch «${esc(B.titel)}» · Seiten ${k.von} bis ${k.bis}</p></header>
+    <article class="libart zbk" data-buch="${B.id}" style="--bf:${B.farbe};--bf2:${B.farbe2}">${zSchmuck()}<header><span class="zkemo">${zRunen("zkpfad")}<span class="aemo big">${k.emo}</span></span><h1>${esc(k.titel)}</h1><p class="libdesc">${k.rubrik?`${k.rubrik.emo} ${esc(k.rubrik.name)} · `:""}Kapitel im Buch «${esc(B.titel)}» · Seiten ${k.von} bis ${k.bis}</p><p class="bstat"><span class="siegel"><b>${k.seiten.length.toLocaleString("de-CH")}</b>${k.seiten.length===1?"Seite":"Seiten"}</span><span class="siegel"><b>${k.von}</b>ab Seite</span></p></header>
       ${(k.id==="alpen"||k.id==="jura") && q.length<2 ? top10HTML(k) : ""}
       ${k.id==="alpen" ? `<div class="segs alpfilter" role="group" aria-label="Anzeigen">${[["alle","Alle"],["gipfel","⛰️ Gipfel"],["pass","🛣️ Pässe"],["bahn","🚡 Bahnen"],["themen","📚 Themen"]].map(([v,l])=>`<button type="button" class="seg" data-af="${v}" aria-pressed="${(LIB.alpF||"alle")===v}">${l}</button>`).join("")}</div>` : ""}
       ${suchfeldHTML("kapSuche", LIB.qk, k.id==="alpen" ? "🔎 Gipfel oder Stichwort suchen, z. B. Pizzo, Eiger …" : "🔎 In diesem Kapitel suchen …")}
@@ -7427,8 +7429,9 @@ function renderLibArtikel(){
 function renderLibThema(){
   const id=LIB.thema; const t=THEMA[id]; if(!t){ go("lib"); return; }
   const karten=libMerkliste(id);
+  const bb=t.bereich?.id; const ZB=BUECHER.find(x=>x.id===(LIB.buch||bb))||BUECHER.find(x=>x.id===bb)||BUECHER[0];
   $("#app").innerHTML = `${crumbs()}
-    <article class="libart"><header><span class="aemo big">${themaIcon(t)}</span><h1>${esc(id==="kt_alle"?"Die 26 Kantone":t.name)}</h1>${t.text?`<p class="libdesc">${esc(t.text)}</p>`:""}</header>
+    <article class="libart zbk" data-buch="${ZB.id}" style="--bf:${ZB.farbe};--bf2:${ZB.farbe2}">${zSchmuck()}<header><span class="zkemo">${zRunen("ztpfad")}<span class="aemo big">${themaIcon(t)}</span></span><h1>${esc(id==="kt_alle"?"Die 26 Kantone":t.name)}</h1>${t.text?`<p class="libdesc">${esc(t.text)}</p>`:""}</header>
       <h3>🗝️ Das Wichtigste in Kürze</h3>
       <ul class="merkliste">${[...new Set(karten.map(f=>f.m).filter(Boolean))].slice(0,12).map(m=>`<li>${esc(m)}</li>`).join("")}</ul>
       <h3>📚 Wissenskarten</h3>
