@@ -1222,8 +1222,8 @@ document.head.appendChild(c); })();
 /* ===== Entdecken: Dejans Glanz-Kacheln (img/grafik/entdecken/kachel-01..18.webp, Kopf kopf.webp, Neun-Teile-Bilder) ===== */
 (function(){ if(document.getElementById("ep-entdecken-kacheln-css")) return;
 const c = document.createElement("style"); c.id = "ep-entdecken-kacheln-css"; const G = "img/grafik/entdecken/";
-const K = {regionen:11, wiederholen:2, truhe:3, karte:4, familie:5, album:6, sprachen:7, garderobe:8, abenteuer:9, mathe:10,
-  spielwelt:1, feste:12, forscher:13, sound:14, hilfen:15, eltern:16, offline:17, sprache:18};
+const K = {regionen:11, wiederholen:5, truhe:1, karte:11, familie:9, album:2, sprachen:16, garderobe:8, abenteuer:7, mathe:13,
+  spielwelt:6, feste:4, forscher:8, sound:9, hilfen:2, eltern:15, offline:5, sprache:12};  /* Farben so gewählt, dass Dejans Welt-Symbol gut sichtbar ist */
 const nr = n => String(n).padStart(2, "0");
 c.textContent = `
 html body #app .x-kacheln > .x-kachel.x-kachel{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
@@ -1272,7 +1272,7 @@ c.textContent = css; document.head.appendChild(c); })();
 /* ===== Entdecken: Dejans Welt-Symbole (img/grafik/welten/<id>.webp) statt Emoji, auf den Kacheln und im Kopf jeder Welt ===== */
 (function(){
 const IDS = ["wiederholen","truhe","karte","familie","album","sprachen","abenteuer","mathe","spielwelt","feste","forscher","sound","hilfen","eltern","offline","sprache"];
-const bild = id => `<img class="ep-welt-ic" src="img/grafik/welten/${id}.webp?v=1" alt="" draggable="false">`;
+const bild = id => `<img class="ep-welt-ic" src="img/grafik/welten/${id}.webp?v=2" alt="" draggable="false">`;
 const EMO = /^\s*\p{Extended_Pictographic}[️‍\p{Extended_Pictographic}]*\s*$/u;
 function setzen(){
   try{
@@ -1297,7 +1297,7 @@ c.textContent = `html body #app .ep-welt-hat{background:none!important;box-shado
 html body #app .ep-welt-hat > img.ep-welt-ic{position:static!important;inset:auto!important;transform:none!important;margin:0!important;max-height:none!important;opacity:1!important;visibility:visible!important}
 html body #app .ep-welt-ic{width:64px;height:64px;object-fit:contain;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));-webkit-user-drag:none;user-select:none}
 html body #app .x-kacheln .ep-welt-hat{width:auto!important;height:auto!important;min-width:0!important}
-html body #app .x-kacheln .ep-welt-ic{width:58px;height:58px}
+html body #app .x-kacheln .ep-welt-ic{width:58px;height:58px;filter:drop-shadow(0 0 5px rgba(255,255,255,.75)) drop-shadow(0 3px 4px rgba(0,0,0,.3))}
 html body #app .ep-welt-hat{width:auto!important;height:auto!important;transform:none!important}
 html body #app :is(.x-kopf,.xk-kopf,.fq-kopf,.alb-kopf,.xa-kopf,.xmt-kopf,.hlf-kopf) .ep-welt-hat{width:76px!important;height:76px!important;min-width:76px!important;flex:none!important;overflow:visible!important}
 @media (max-width:700px){html body #app :is(.x-kopf,.xk-kopf,.fq-kopf,.alb-kopf,.xa-kopf,.xmt-kopf,.hlf-kopf) .ep-welt-hat{width:58px!important;height:58px!important;min-width:58px!important}}
