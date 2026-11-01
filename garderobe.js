@@ -398,6 +398,37 @@ css.textContent = `
 @media (min-width:700px){.pp-zahlen{grid-template-columns:repeat(6,minmax(0,1fr))}.pp-kopf{min-height:260px}.pp-av{width:140px;height:140px}}
 @media (max-width:380px){.pp-av{width:96px;height:96px}.pp-zahl b{font-size:1.15rem}.pp-zahl small{font-size:.68rem}}
 
+/* Profil über die ganze Seite und Zahnrad (Selektoren absichtlich stark, damit der Kopf-Rahmen aus stil.js nicht greift) */
+.pp-vollhg{position:fixed;inset:0;z-index:-1;pointer-events:none;background-size:cover}
+html.pp-ganz-an #himmel,html.pp-ganz-an #alpen,html.pp-ganz-an #flocken,html.pp-ganz-an #clouds,html.pp-ganz-an #pattern,html.pp-ganz-an #eventlayer,html.pp-ganz-an #bgneu{display:none!important}
+html.pp-ganz-an body{background:transparent!important}
+html body #app .pp-seite .pp-kopf.pp-ganz{background:transparent!important;border:0!important;border-image:none!important;box-shadow:none!important;filter:none!important;border-radius:0!important;overflow:visible!important;min-height:300px;padding:34px 12px 22px!important;margin:0 0 10px!important}
+html body #app .pp-seite .pp-kopf.pp-ganz::after,html body #app .pp-seite .pp-kopf.pp-ganz::before{display:none!important}
+html body #app .pp-seite .pp-kopf.pp-ganz .pp-eff{inset:-40px -20px 0}
+html body #app .pp-seite .pp-kopf.pp-ganz .pp-name{font-size:clamp(2rem,8vw,3rem);text-shadow:0 3px 12px rgba(0,0,0,.45)!important}
+html body #app .pp-seite .pp-kopf.pp-ganz .pp-av{width:140px;height:140px}
+.pp-zahnrad{position:absolute;top:0;right:0;z-index:5;width:54px;height:54px;border-radius:50%;border:3px solid #fff;background:rgba(15,20,48,.55);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 18px -8px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .25s}
+.pp-zahnrad:hover{transform:rotate(45deg)}
+html body #app .pp-kopf.pp-ganz>span.pp-st:nth-of-type(2){top:34%!important}
+.pp-zahnrad:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
+.pp-einst{position:fixed;inset:0;z-index:9000;display:flex;justify-content:flex-end}
+.pp-einst[hidden]{display:none}
+.pp-einst-grund{position:absolute;inset:0;background:rgba(10,12,40,.55)}
+.pp-einst-box{position:relative;width:min(520px,100%);height:100%;overflow:auto;background:#F4F2FF;padding:0 14px 30px;box-shadow:-20px 0 40px -20px rgba(0,0,0,.5);animation:ppEinstRein .25s ease-out}
+@keyframes ppEinstRein{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.pp-einst-kopf{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:16px 2px 12px;background:#F4F2FF}
+.pp-einst-kopf h2{margin:0;font-size:1.35rem;color:#1B2240}
+.pp-einst-zu{width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#1B2240;font:900 1.1rem system-ui;cursor:pointer;box-shadow:0 4px 10px -4px rgba(0,0,0,.3)}
+.pp-einst-schnell{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+html body #app .pp-einst-kn,.pp-einst-kn{all:unset;box-sizing:border-box;display:flex!important;align-items:center;gap:8px;padding:12px 14px!important;border-radius:18px!important;background:#fff!important;color:#1B2240!important;font:800 .95rem Lexend,system-ui,sans-serif!important;cursor:pointer;box-shadow:0 4px 12px -6px rgba(40,30,120,.35)!important;border:0!important;height:auto!important;min-width:0!important}
+.pp-einst-kn span{font-size:1.3rem}
+.pp-einst-kn svg{display:none}
+.pp-einst-kn:focus-visible{outline:3px solid #7B3FE4!important;outline-offset:2px}
+.pp-einst-inhalt{display:grid;gap:12px}
+.pp-einst-inhalt>*{margin:0!important}
+html.pp-einst-offen{overflow:hidden}
+#app>.row.pp-restzeile{justify-content:center!important;margin:6px 0 10px}
+@media (min-width:700px){html body #app .pp-seite .pp-kopf.pp-ganz{min-height:360px}html body #app .pp-seite .pp-kopf.pp-ganz .pp-av{width:170px;height:170px}.pp-zahnrad{top:6px;right:6px;width:58px;height:58px}}
 /* Seite «Profil verzieren» */
 .pv-seite{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);max-width:1100px;margin:0 auto}
 .pv-seite .pp-kopf{margin:0;min-height:200px}
@@ -493,7 +524,67 @@ function einbauen(p, ich){
   box.innerHTML = kopfHTML(p, ich) + zahlenHTML(p.zahlen || {}) + vitrineHTML((p.deko || {}).vi, ich) + (ich ? naechsteHTML() : "");
   alt.replaceWith(box);
   const k = document.getElementById("ppVerzieren"); if(k) k.onclick = () => { ton("klick"); go("x-garderobe"); scrollTo(0, 0); };
+  ganzeSeite(p, ich, box);
 }
+
+/* ---------- Profil über die ganze Seite, Einstellungen hinter dem Zahnrad (Dejan, 2026-11-01) ----------
+   Der gewählte Hintergrund füllt die ganze Seite (PC und Handy), der Kopf ist keine Karte mehr.
+   Alles zum Einstellen (Verzieren, Profil bearbeiten, Profil-Code, Vorlesestimme, Hintergrund, Eltern, Lesen & Hören,
+   Werkstatt) wandert in ein Fenster, das das Zahnrad oben rechts öffnet. Die Teile werden verschoben, nicht neu gebaut,
+   damit ihre Knöpfe weiter funktionieren. Manche Teile hängen andere Dateien erst später an, darum mehrmals einsammeln. */
+function ganzeSeite(p, ich, box){
+  const hgT = TEIL[(p.deko || {}).hg] && TEIL[(p.deko || {}).hg].kat === "hg" ? TEIL[(p.deko || {}).hg] : TEIL.hg_lila;
+  let lage = document.getElementById("ppVollHg");
+  if(!lage){ lage = document.createElement("div"); lage.id = "ppVollHg"; lage.setAttribute("aria-hidden", "true"); document.body.prepend(lage); }
+  lage.className = "pp-vollhg" + (hgT.anim ? " pa pa-" + hgT.anim : "");
+  lage.style.background = hgT.css;
+  document.documentElement.classList.add("pp-ganz-an");
+  const kopf = box.querySelector(".pp-kopf"); if(!kopf) return;
+  kopf.classList.add("pp-ganz");
+  if(!ich) return;
+  const knopfAlt = kopf.querySelector("#ppVerzieren"); if(knopfAlt) knopfAlt.remove();
+  const rad = document.createElement("button");
+  rad.type = "button"; rad.className = "pp-zahnrad"; rad.id = "ppZahnrad"; rad.setAttribute("aria-label", "Einstellungen"); rad.setAttribute("aria-haspopup", "dialog");
+  rad.innerHTML = `<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.2.4.5.4h4c.3 0 .5-.2.5-.4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6L19.4 13ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg>`;
+  kopf.appendChild(rad);
+  const fenster = document.createElement("div");
+  fenster.className = "pp-einst"; fenster.id = "ppEinst"; fenster.hidden = true;
+  fenster.innerHTML = `<div class="pp-einst-grund" data-zu></div>
+    <section class="pp-einst-box" role="dialog" aria-modal="true" aria-labelledby="ppEinstT">
+      <div class="pp-einst-kopf"><h2 id="ppEinstT">⚙️ Einstellungen</h2><button type="button" class="pp-einst-zu" data-zu aria-label="Schliessen">✕</button></div>
+      <div class="pp-einst-schnell">
+        <button type="button" class="pp-einst-kn" id="ppEVerz"><span aria-hidden="true">🎨</span>Profil verzieren</button>
+      </div>
+      <div class="pp-einst-inhalt"></div>
+    </section>`;
+  box.appendChild(fenster);
+  const inhalt = fenster.querySelector(".pp-einst-inhalt"), schnell = fenster.querySelector(".pp-einst-schnell");
+  fenster.querySelector("#ppEVerz").onclick = () => { zu(); ton("klick"); go("x-garderobe"); scrollTo(0, 0); };
+  const auf = () => { einsammeln(); fenster.hidden = false; document.documentElement.classList.add("pp-einst-offen"); ton("klick"); fenster.querySelector(".pp-einst-zu").focus(); };
+  const zu = () => { fenster.hidden = true; document.documentElement.classList.remove("pp-einst-offen"); rad.focus({preventScroll:true}); };
+  rad.onclick = auf;
+  fenster.querySelectorAll("[data-zu]").forEach(b => b.onclick = zu);
+  fenster.addEventListener("keydown", e => { if(e.key === "Escape") zu(); });
+  const app = document.getElementById("app");
+  function einsammeln(){
+    if(!app || !app.contains(fenster)) return;
+    // Knöpfe (bearbeiten, Werkstatt) als Schnellknöpfe oben
+    [["#edit", "✏️"], ["#toW", "🛠️"]].forEach(([sel, emo]) => { const b = app.querySelector(sel); if(b && !schnell.contains(b)){ b.className = "pp-einst-kn"; if(!b.querySelector(".pp-ee")) b.insertAdjacentHTML("afterbegin", `<span class="pp-ee" aria-hidden="true">${emo}</span>`); schnell.appendChild(b); } });
+    // Karten zum Einstellen
+    const karten = [app.querySelector("#epCode"), ...Array.from(app.querySelectorAll(":scope > .statcard")).filter(c => /Vorlesestimme/.test((c.querySelector("h2") || {}).textContent || "")),
+      app.querySelector("#hgProfil"), app.querySelector("#elternProfil"), app.querySelector(".hlf-ein-karte")];
+    karten.forEach(c => { if(c && !inhalt.contains(c)) inhalt.appendChild(c); });
+    // leere Knopfzeile (nur noch «Zur Rangliste») schlank machen
+    const zeile = app.querySelector(":scope > .row"); if(zeile) zeile.classList.add("pp-restzeile");
+  }
+  einsammeln(); [80, 400, 1200, 2500].forEach(ms => setTimeout(einsammeln, ms));
+}
+/* Andere Seiten: ganzseitigen Hintergrund wieder weg */
+(function(){
+  const pruefen = () => { try{ const scr = typeof S !== "undefined" ? S.screen : ""; if(scr !== "profil" && scr !== "spieler"){ document.documentElement.classList.remove("pp-ganz-an", "pp-einst-offen"); const l = document.getElementById("ppVollHg"); if(l) l.remove(); } }catch(e){} };
+  const los = () => { const app = document.getElementById("app"); if(!app) return setTimeout(los, 300); new MutationObserver(pruefen).observe(app, {childList:true}); };
+  los();
+})();
 const vorProfil = window.renderProfil;
 if(typeof vorProfil === "function") window.renderProfil = function(){
   const r = vorProfil.apply(this, arguments);
