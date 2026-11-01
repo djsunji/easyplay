@@ -1650,3 +1650,14 @@ html body #app p.label small{color:#3A2F72!important;background:#fff!important;t
 c.textContent = `html body.ep-app #app .st-kopf:is(.ep-kopf-geld,.ep-kopf-alltag) :is(h1,.bhead h1){max-width:56%!important;font-size:clamp(1.05rem,4.6vw,1.6rem)!important;line-height:1.1!important;text-shadow:0 2px 4px rgba(90,20,0,.55)!important}
 html body.ep-app #app .st-kopf:is(.ep-kopf-geld,.ep-kopf-alltag){background-position:right center!important}`;
 document.head.appendChild(c); })();
+
+/* ===== Fortschrittsbalken in den Glanz-Kacheln: klare dunkle Spur, goldene Füllung (Sprachen, Mathe, Album, Forscher) ===== */
+(function(){ const c = document.createElement("style");
+const B = [".spr-balken", ".xmt-bar", ".alb-balken", ".xfo-balken"];
+c.textContent = `${B.map(b => `html body #app ${b}`).join(",")}{height:10px!important;border-radius:99px!important;background:rgba(20,10,60,.35)!important;
+  box-shadow:inset 0 2px 3px rgba(0,0,0,.35),0 1px 0 rgba(255,255,255,.35)!important;overflow:hidden!important;border:0!important}
+${B.map(b => `html body #app ${b} > :is(i,span)`).join(",")}{display:block;height:100%!important;min-width:10px;border-radius:99px!important;
+  background:linear-gradient(90deg,#FFE15A,#FFB52E)!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.55)!important}
+html body #app .xmt-kachel .xmt-k1 b{font-size:1.08rem!important;line-height:1.15;overflow-wrap:normal;word-break:normal}html body #app .xmt-kachel .xmt-k1{gap:8px!important;min-width:0}@media (max-width:600px){html body #app .xmt-kachel .xmt-k1 b{font-size:.86rem!important;overflow-wrap:normal;hyphens:auto}html body #app .xmt-kachel .xmt-k1 .xmt-emo{flex:none!important;width:30px!important;height:30px!important;font-size:30px!important}html body #app .xmt-kachel .xmt-k1 .xmt-emo img.ep-gi{width:30px!important;height:30px!important}html body #app .xmt-kachel .xmt-k1{gap:5px!important}}
+html body #app .xmt-kachel .xmt-k1 .xmt-emo img{width:40px!important;height:40px!important}`;
+document.head.appendChild(c); })();
