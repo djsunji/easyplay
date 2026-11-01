@@ -182,12 +182,17 @@ document.head.appendChild(css);
 
 /* ---------- Anzeigen ---------- */
 function ringHTML(s, gross){ return `<span class="lvring${gross ? " gross" : ""}" style="--lvf:${s.titel.farbe};--p:${Math.round(s.anteil * 100)}"><b><small>LEVEL</small>${s.level}</b></span>`; }
+/* XP-Balken: jedes Level hat seinen eigenen Farbverlauf (Farbton springt pro Level um 47°), gleich wie in der Qeels-App */
+function xpVerlauf(l){
+  const h = (l * 47 + 20) % 360;
+  return `linear-gradient(90deg,hsl(${h} 92% 56%),hsl(${(h + 35) % 360} 88% 56%),hsl(${(h + 70) % 360} 82% 54%))`;
+}
 function karteHTML(){
   const s = stand();
   return `<button type="button" class="lvkarte" id="lvKarte" style="--lvf:${s.titel.farbe}" aria-label="Level ${s.level}, ${h(s.titel.name)}. Zum Profil">
     ${ringHTML(s)}
     <span class="lvtext"><span class="t">${s.titel.emo} ${h(s.titel.name)} <i>Level ${s.level}</i></span>
-      <span class="lvbar"><i style="width:${Math.round(s.anteil * 100)}%"></i></span>
+      <span class="lvbar"><i style="width:${Math.round(s.anteil * 100)}%;background:${xpVerlauf(s.level)}"></i></span>
       <small>${s.max ? "Höchstes Level erreicht. Du bist eine Krone des Wissens!" : `${zahl(s.imLevel)} / ${zahl(s.proLevel)} XP · noch ${zahl(s.bis - s.xp)} XP bis Level ${s.level + 1}`}</small></span>
     <span class="lvheute">+${zahl(s.heute)}<small>XP heute</small></span>
   </button>`;
@@ -326,7 +331,7 @@ function profilHTML(){
   return `<h2>⭐ Level und Titel</h2>
     <div class="kopf">${ringHTML(s, true)}
       <div class="lvtext"><span class="t">${s.titel.emo} ${h(s.titel.name)} <i>Level ${s.level} von ${MAX_LEVEL}</i></span>
-        <span class="lvbar"><i style="width:${Math.round(s.anteil * 100)}%"></i></span>
+        <span class="lvbar"><i style="width:${Math.round(s.anteil * 100)}%;background:${xpVerlauf(s.level)}"></i></span>
         <small>${s.max ? "Alle Level geschafft!" : `${zahl(s.imLevel)} / ${zahl(s.proLevel)} XP in diesem Level · noch ${zahl(s.bis - s.xp)} XP bis Level ${s.level + 1}`}</small>
         <div class="zahlen"><span><b>${zahl(s.xp)}</b> XP gesamt</span><span><b>+${zahl(s.heute)}</b> XP heute</span>${s.naechster ? `<span>Nächster Titel: ${s.naechster.emo} <b>${h(s.naechster.name)}</b> ab Level ${s.naechster.lvl}</span>` : ""}</div>
       </div></div>
