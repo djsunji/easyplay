@@ -1885,3 +1885,38 @@ ${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}
   addEventListener("resize", bald);
   try{ document.fonts.ready.then(alle); document.fonts.addEventListener("loadingdone", bald); }catch(e){}
 })();
+
+/* ===== Bibliothek-Startseite: Dejans Holzregal (img/grafik/regal-wand.webp als Neun-Teile-Bild, Bretter regal-brett.webp
+   unter jeder Bücherreihe). Ohne Bibliothek-Kachel oben und ohne Zimmer mit Kindern unten: zuerst Suche, dann Regal. ===== */
+(function(){
+  const G = "img/grafik/", P = 'html[data-scr="lib"] body #app';
+  const c = document.createElement("style"); c.id = "ep-regal-css";
+  c.textContent = `
+${P} .libkopf,${P} .libszene,${P} .libhint,${P} .regaltitel{display:none!important}
+${P} .libhome-suche{margin:6px auto 14px!important;max-width:1010px}
+${P} .regal{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-width:44px 48px 30px!important;border-image:url("${G}regal-wand.webp?v=1") 110 120 60 fill / 44px 48px 30px stretch!important;
+  padding:6px 4px 10px!important;max-width:1100px!important;filter:drop-shadow(0 14px 24px rgba(10,5,30,.45))}
+${P} .regal .buecher{position:relative!important;row-gap:64px!important;column-gap:22px!important;padding:8px 0 40px!important}
+${P} .regal .buch{z-index:2}
+@media (min-width:761px){${P} .regal .buch{width:150px!important}}
+${P} .regal .buch::after{display:none!important}
+${P} .regal .ep-brett{position:absolute;left:-14px;right:-14px;height:24px;z-index:1;pointer-events:none;box-sizing:border-box;
+  border:0 solid transparent;border-width:0 24px;border-image:url("${G}regal-brett.webp?v=3") 0 40 fill / 0 24px stretch;filter:drop-shadow(0 10px 8px rgba(40,15,0,.45))}
+@media (max-width:760px){
+  ${P} .regal{border-width:26px 26px 18px!important;border-image-width:26px 26px 18px!important;padding:4px 0 6px!important}
+  ${P} .regal .buecher{row-gap:40px!important;column-gap:10px!important;padding:4px 0 26px!important}
+  ${P} .regal .ep-brett{height:16px;border-width:0 14px;border-image-width:0 14px;left:-8px;right:-8px}
+}`;
+  document.head.appendChild(c);
+  function bretter(){
+    const bu = document.querySelector('html[data-scr="lib"] #app .regal .buecher'); if(!bu) return;
+    bu.querySelectorAll(":scope > .ep-brett").forEach(x => x.remove());
+    const reihen = new Map();
+    bu.querySelectorAll(":scope > .buch").forEach(b => { const t = b.offsetTop; const h = b.offsetHeight; if(!h) return; const r = reihen.get(t); if(!r || h > r) reihen.set(t, h); });
+    reihen.forEach((h, t) => { const d = document.createElement("div"); d.className = "ep-brett"; d.setAttribute("aria-hidden", "true"); d.style.top = Math.round(t + h * .875) + "px"; bu.appendChild(d); });
+  }
+  let tm; const bald = () => { clearTimeout(tm); tm = setTimeout(bretter, 80); };
+  new MutationObserver(m => { if(m.some(x => [...x.addedNodes].some(n => n.nodeType === 1 && !n.classList.contains("ep-brett")))) bald(); }).observe(document.body, {childList:true, subtree:true});
+  addEventListener("resize", bald);
+})();
