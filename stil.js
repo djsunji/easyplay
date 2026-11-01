@@ -2127,3 +2127,29 @@ ${K} .libnav{justify-content:center;margin-top:24px}
 @media (prefers-reduced-motion:reduce){${ZA} .mkreis svg,${Z} .mbild,${ZA} .zfunken i,${ZA} .zband{animation:none!important}${ZA} .zfunken i{opacity:.7}${Z} .kapitel:hover .kemo{animation:none}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Themen am Handy/iPad: Bereich-Kacheln mit Dejans Grafiken vom Computer (img/kacheln/bereich-*.webp)
+   als Neun-Teile-Bild auf einer eigenen Ebene (::before), Symbol unverzerrt unten rechts. Weisses Symbol-Kästchen weg. ===== */
+(function(){
+  const K = "img/kacheln/", P = "html body.ep-app .ap-themen .apb";
+  const BILD = {welt:"welt", natur:"natur", geld:"geld", alltag:"alltag"};
+  const c = document.createElement("style"); c.id = "ep-themen-bereich-css";
+  c.textContent = `
+${P}[data-af]{background:none!important;box-shadow:0 14px 26px -16px rgba(20,10,60,.7)!important;overflow:visible!important;border-radius:0!important;isolation:isolate}
+${P}[data-af]::before{content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:-1!important;pointer-events:none;
+  border:0 solid transparent!important;border-width:calc(var(--bs,.3px)*95) calc(var(--bs,.3px)*440) calc(var(--bs,.3px)*385) calc(var(--bs,.3px)*90)!important;
+  border-image-slice:95 440 385 90 fill!important;border-image-repeat:stretch!important;box-sizing:border-box;opacity:1!important;background:none!important}
+${Object.keys(BILD).map(id => `${P}[data-af="${id}"][data-af]{background-image:none!important}`).join("\n")}
+${P}[data-af] .apb-kopf{grid-template-rows:auto auto auto 1fr!important;align-content:start!important}
+${P}[data-af] .apb-kopf b{margin-top:8px!important;max-width:100%!important}
+${Object.entries(BILD).map(([id, f]) => `${P}[data-af="${id}"]::before{border-image-source:url("${K}bereich-${f}.webp?v=2")!important}`).join("\n")}
+${P}[data-af] .apem,${P}[data-af] .apwm{display:none!important}
+${P}[data-af] .apb-kopf b,${P}[data-af] .apb-kopf small{text-shadow:0 2px 4px rgba(0,0,0,.45)!important}`;
+  document.head.appendChild(c);
+  function mass(){ document.querySelectorAll(P.replace("html body.ep-app ", "body.ep-app ") + "[data-af]").forEach(b => {
+    const w = b.offsetWidth, h = b.offsetHeight; if(!w || !h) return;
+    const s = Math.min(w * .7 / 530, h * .6 / 480); b.style.setProperty("--bs", s.toFixed(4) + "px"); }); }
+  let tm; const bald = () => { clearTimeout(tm); tm = setTimeout(mass, 60); };
+  new MutationObserver(bald).observe(document.body, {childList:true, subtree:true});
+  addEventListener("resize", bald);
+})();
