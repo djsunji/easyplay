@@ -1552,7 +1552,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
     {id:"themen", t:"Themen",     i:"img/grafik/diverse/buecher.webp?v=2", go:() => { try{ window.EP_NP_WAHL && window.EP_NP_WAHL(); }catch(e){} go("home"); }},
     {id:"duell",  t:"Duell",      i:"img/qeels-icons/themen/duell.webp", go:() => go("duell")},
     {id:"entd",   t:"Entdecken",  i:"img/grafik/mathe/entdecken.webp?v=2", go:() => go("x-entdecken")},
-    {id:"lib",    t:"Bibliothek", i:"img/app2/ic-buch.webp", go:() => go("lib")},
+    {id:"lib",    t:"Bibliothek", i:"img/grafik/diverse/buch.webp?v=2", go:() => go("lib")},
     {id:"profil", t:"Profil",     i:"", go:() => go("profil")}
   ];
   const aktiv = sc => {

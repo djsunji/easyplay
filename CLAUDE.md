@@ -33,6 +33,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 01.11. Sitzung «Hauptseite»: Menüleiste Computer: «Bibliothek» mit Dejans offenem Buch `img/grafik/diverse/buch.webp` statt `img/app2/ic-buch.webp` (`stil.js` `PUNKTE`). Version ep-2026-11-01-30.
 - 01.11. Sitzung «Hauptseite»: Untere Menüleiste Handy/iPad: Qeels-Reiter mit Dejans Regenbogen-Fragezeichen `img/grafik/sym-frage-regenbogen.webp` statt Controller (`app.js` `TBILD`). Version ep-2026-11-01-29.
 - 01.11. Sitzung «Hauptseite»: Menüleisten (Handy/iPad unten, Computer oben): Haus-Symbol für «Hauptmenü»/«Start» jetzt Dejans schlichtes Haus `img/grafik/sprachen/haus.webp` statt `ic-house.webp` (`app.js` `TBILD`, `stil.js` `PUNKTE`). Version ep-2026-11-01-28.
 - 01.11. Sitzung «Hauptseite»: Handy/iPad: untere Menüleiste `#epTabs` im Stil der Computer-Leiste (weisse Glas-Leiste, Dejans Symbole Haus/Bücher/Duell/Qeels statt Strich-Icons, aktiver Reiter mit Violett-Pink-Verlauf), auch als Seitenleiste am iPad quer. Bilder in `leiste()` (`app.js`, `TBILD`), Stil im Block «untere Menüleiste» am Ende von `stil.js`. App-Bau neu. Version ep-2026-11-01-27.
