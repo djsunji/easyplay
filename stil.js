@@ -1014,6 +1014,7 @@ document.head.appendChild(c);
 /* ===== Dejans gemalte Hintergründe (Einstellungen › Hintergrund, ids «b-…», Bilder img/hg/bild-<name>.webp) ===== */
 (function(){ if(document.getElementById("bgbild")) return;
 const NAMEN = ["sommerwiese","bergsee","herbst","winter","dorf","wolkenmeer","sternennacht","pastell"];
+const HOCH = ["sommerwiese","bergsee","herbst","winter","dorf","wolkenmeer","sternennacht"]; // haben eine Hochformat-Version bild-<name>-hoch.webp
 const L = document.createElement("div"); L.id = "bgbild"; L.setAttribute("aria-hidden", "true");
 (document.body || document.documentElement).appendChild(L);
 const B = ':root[data-bg^="b-"]';
@@ -1029,6 +1030,8 @@ ${B} body.dark #bgbild::after{opacity:1}
 :root[data-bg="b-sternennacht"] body.dark #bgbild::after{opacity:.15}
 ${NAMEN.map(n => `:root[data-bg="b-${n}"] #bgbild{background-image:url("img/hg/bild-${n}.webp")}
 .prev-b-${n}{background:url("img/hg/bild-${n}-klein.webp") center bottom/cover no-repeat,#9FC8F5}`).join("\n")}
+/* Hochkant (Handy, iPad hoch): Hochformat-Version */
+@media (orientation:portrait){${HOCH.map(n => `:root[data-bg="b-${n}"] #bgbild{background-image:url("img/hg/bild-${n}-hoch.webp")}`).join("\n")}}
 `;
 document.head.appendChild(c);
 })();
