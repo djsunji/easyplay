@@ -754,34 +754,32 @@ SEITEN.start = el => {
   const D=ST.daten;
   const std=new Date().getHours(), gruss=std<11?"Guten Morgen":std<17?"Guten Tag":"Guten Abend";
   const kinder=D.klassen.reduce((s,x)=>s+(x.schueler||[]).length,0), offen=offeneKorrekturen();
-  const fertige=D.abgaben.filter(a=>!a.offen), sn=schnitt(fertige.map(a=>a.note));
   let heute=""; try{ heute=new Date().toLocaleDateString("de-CH",{weekday:"long", day:"numeric", month:"long", year:"numeric"}); }catch(e){}
-  const tests=[...D.tests].sort((a,b)=>String(b.erstellt).localeCompare(String(a.erstellt))).slice(0,5);
+  const tests=[...D.tests].sort((a,b)=>String(b.erstellt).localeCompare(String(a.erstellt)));
   const letzte=[...D.abgaben].sort((a,b)=>String(b.datum).localeCompare(String(a.datum))).slice(0,5);
-  el.innerHTML=`<div class="ein-kopf2"><div><h1>${gruss}</h1><p>${h(heute)}</p></div>
-      <div class="ein-akt"><button type="button" class="k" data-ziel="klassen">+ Klasse</button><button type="button" class="k p" data-ziel="neu" ${D.klassen.length?"":"disabled"}>+ Neuer Test</button></div></div>
-    <div class="ein-zahlen">
-      <div data-ziel="klassen" role="button" tabindex="0"><span>Klassen</span><b>${zahl(D.klassen.length)}</b><small>${zahl(kinder)} Kinder</small></div>
-      <div data-ziel="tests" role="button" tabindex="0"><span>Tests</span><b>${zahl(D.tests.length)}</b><small>${D.tests.filter(t=>t.aktiv!==false).length} offen</small></div>
-      <div data-ziel="auswertung" role="button" tabindex="0"><span>Ø Note</span><b class="note ${noteKlasse(sn)}">${fmtNote(sn)}</b><small>${fertige.length} korrigierte Abgaben</small></div>
-      <div data-ziel="korrigieren" role="button" tabindex="0" class="${offen?"warn":""}"><span>Zu korrigieren</span><b>${zahl(offen)}</b><small>${offen?"Abgaben warten":"alles erledigt"}</small></div>
-    </div>
-    <div class="ein-kacheln">${START_KACHELN.map(([id,farbe,sym,titel,text])=>`
-      <button type="button" class="kk" data-ziel="${id}" style="--tf:${farbe}">
-        <span class="kk-ic"><img src="../img/grafik/diverse/${sym}.webp" alt="" width="160" height="160"></span>
-        <span class="kk-tx"><b>${h(titel)}</b><small>${h(text(D))}</small></span>
-        ${id==="korrigieren"&&offen?`<span class="kk-zahl">${offen}</span>`:`<span class="kk-pf" aria-hidden="true">›</span>`}
-      </button>`).join("")}</div>
-    <div class="ein-zwei">
-      <section class="ein-box"><div class="ein-boxkopf"><h2>Neueste Tests</h2><button type="button" class="link klein" data-ziel="tests">Alle anzeigen</button></div>
-        ${tests.length?`<ul class="ein-liste">${tests.map(t=>{ const kl=klasseVon(t.klasseId), ab=abgabenVon(t.code), s=schnitt(ab.filter(a=>!a.offen).map(a=>a.note));
-          return `<li data-ziel="test/${h(t.code)}" role="button" tabindex="0"><span><b>${h(t.titel)}</b><small>${h(kl?.name||"ohne Klasse")} · <span class="code">${h(t.code)}</span></small></span><span class="r"><small>${ab.length}/${(kl?.schueler||[]).length}</small><b class="note ${noteKlasse(s)}">${fmtNote(s)}</b></span></li>`; }).join("")}</ul>`
-          : `<p class="mu">Noch keine Tests.</p>`}</section>
-      <section class="ein-box"><div class="ein-boxkopf"><h2>Letzte Abgaben</h2><button type="button" class="link klein" data-ziel="auswertung">Auswertung</button></div>
-        ${letzte.length?`<ul class="ein-liste">${letzte.map(a=>{ const t=D.tests.find(x=>x.code===a.code); return `<li data-ziel="test/${h(a.code)}" role="button" tabindex="0"><span><b>${h(a.name)}</b><small>${h(t?.titel||"")}</small></span><span class="r"><small>${datumZeit(a.datum)}</small>${noteZelle(a)}</span></li>`; }).join("")}</ul>`
-          : `<p class="mu">Noch keine Abgaben.</p>`}</section>
-    </div>
-    <div class="ein-mehr"><span>Weitere:</span><button type="button" class="link" data-ziel="kinder">Alle Kinder</button><button type="button" class="link" data-ziel="lehrplan">Lehrplan 21</button><button type="button" class="link" data-ziel="liga">Klassen-Liga</button><button type="button" class="link" data-ziel="meldungen">Fehlermeldungen</button></div>`;
+  const neuster=tests[0];
+  const fertig=[D.klassen.length>0, D.tests.length>0, D.abgaben.length>0];
+  const aktiv=fertig.indexOf(false); // erster offener Schritt, -1 wenn alles begonnen
+  const schritt=(i, titel, text, status, knoepfe)=>`<li class="sx ${fertig[i]?"erl":""} ${i===aktiv?"jetzt":""}">
+      <span class="sx-nr" aria-hidden="true">${i+1}${fertig[i]?`<i>✓</i>`:""}</span>
+      <div class="sx-tx"><small>Schritt ${i+1}${i===aktiv?" · als Nächstes":""}</small><h2>${titel}</h2><p>${text}</p>
+        <p class="sx-st">${status}</p></div>
+      <div class="sx-kn">${knoepfe}</div></li>`;
+  el.innerHTML=`<div class="ein-kopf2"><div><h1>${gruss}</h1><p>${h(heute)}</p></div></div>
+    <ol class="sx-liste">
+      ${schritt(0, "Klasse anlegen", "Klasse erfassen und die Kinder eintragen. Jedes Kind bekommt automatisch einen PIN.",
+        D.klassen.length ? `${D.klassen.length} ${D.klassen.length===1?"Klasse":"Klassen"} mit ${kinder} Kindern` : "Noch keine Klasse",
+        `<button type="button" class="k ${aktiv===0?"p":""}" data-ziel="klassen">${D.klassen.length?"Klassen ansehen":"Klasse anlegen"}</button>`)}
+      ${schritt(1, "Test erstellen", "Fragen aus dem Pool wählen oder selbst schreiben. Der Test bekommt einen Code für die Klasse.",
+        neuster ? `${D.tests.length} ${D.tests.length===1?"Test":"Tests"}, neuster: «${h(neuster.titel)}», Code <span class="code">${h(neuster.code)}</span>` : (D.klassen.length ? "Noch kein Test" : "Zuerst eine Klasse anlegen"),
+        `<button type="button" class="k ${aktiv===1?"p":""}" data-ziel="neu" ${D.klassen.length?"":"disabled"}>Neuer Test</button>${D.tests.length?`<button type="button" class="k" data-ziel="tests">Alle Tests</button>`:""}`)}
+      ${schritt(2, "Lösen lassen und auswerten", "Die Kinder geben auf easyplay den Code und ihren PIN ein. Noten werden automatisch berechnet, offene Fragen korrigierst du.",
+        D.abgaben.length ? `${D.abgaben.length} Abgaben${offen?`, <b class="wa">${offen} zu korrigieren</b>`:", alles korrigiert"}` : (D.tests.length ? "Noch keine Abgaben" : "Zuerst einen Test erstellen"),
+        `${offen?`<button type="button" class="k p" data-ziel="korrigieren">Korrigieren (${offen})</button>`:""}<button type="button" class="k ${aktiv===2&&!offen?"p":""}" data-ziel="tests" ${D.tests.length?"":"disabled"}>Resultate</button>`)}
+    </ol>
+    ${letzte.length?`<section class="ein-box"><div class="ein-boxkopf"><h2>Letzte Abgaben</h2><button type="button" class="link klein" data-ziel="auswertung">Auswertung</button></div>
+      <ul class="ein-liste">${letzte.map(a=>{ const t=D.tests.find(x=>x.code===a.code); return `<li data-ziel="test/${h(a.code)}" role="button" tabindex="0"><span><b>${h(a.name)}</b><small>${h(t?.titel||"")}</small></span><span class="r"><small>${datumZeit(a.datum)}</small>${noteZelle(a)}</span></li>`; }).join("")}</ul></section>`:""}
+    <div class="ein-mehr"><span>Weitere:</span><button type="button" class="link" data-ziel="fragen">Fragenpool</button><button type="button" class="link" data-ziel="kinder">Alle Kinder</button><button type="button" class="link" data-ziel="lehrplan">Lehrplan 21</button><button type="button" class="link" data-ziel="liga">Klassen-Liga</button><button type="button" class="link" data-ziel="meldungen">Fehlermeldungen</button><button type="button" class="link" data-ziel="einstellungen">Einstellungen</button></div>`;
   zielBinden(el);
 };
 
