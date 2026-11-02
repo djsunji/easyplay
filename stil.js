@@ -2424,3 +2424,53 @@ ${T} .du2-tk.du2-tk > .tk-haken{top:-14px!important;bottom:auto!important}
 }`;
   document.head.appendChild(c);
 })();
+
+/* ===== Wochen-Challenge: Kopf im Glanz-Stil mit Dejans Symbolen ===== */
+(function(){
+  const H = "html body .wk2 .wk2-held";
+  const c = document.createElement("style"); c.id = "ep-woche-held-css";
+  c.textContent = `
+${H}{background:none!important;border:30px solid transparent!important;border-image:url("img/grafik/entdecken/kopf.webp") 50 fill / 30px stretch!important;
+  border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 12px 20px rgba(80,30,160,.32));padding:0 300px 0 6px!important;min-height:250px}
+${H}::before,${H}::after{display:none!important}
+${H} .wk2-tag{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#FFE680,#FFB72E)!important;color:#5A2C00!important;border:2px solid #fff;
+  box-shadow:0 3px 0 #D9861A;padding:4px 14px 4px 6px!important;font-size:.78rem!important}
+${H} .wk2-tag img{width:26px;height:26px;object-fit:contain}
+${H} .wk2-ic{width:96px!important;height:96px!important;border-radius:50%!important;transform:none!important;
+  background:radial-gradient(circle at 35% 30%,#FFF7C9,#FFD24D 45%,#E7A21A 80%)!important;border:4px solid #fff!important;
+  box-shadow:0 6px 0 #B97A0E,0 0 0 6px rgba(255,230,120,.35),0 14px 24px -8px rgba(60,20,0,.5)!important;animation:wk2Schweb 3s ease-in-out infinite}
+${H} .wk2-ic > *{width:70%!important;height:70%!important;display:grid;place-items:center;font-size:2.6rem;background:none!important;box-shadow:none!important}
+${H} .wk2-ic img{width:100%!important;height:100%!important;max-width:none!important;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(80,20,0,.35))}
+@keyframes wk2Schweb{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+${H} .wk2-titel h1{text-shadow:0 3px 0 rgba(40,10,90,.35),0 6px 18px rgba(40,10,90,.35)}
+${H} .wk2-titel small{text-transform:uppercase;letter-spacing:.08em;color:#FFE680!important;font-weight:800!important}
+${H} .wk2-cd{align-items:center;gap:8px!important}
+${H} .wk2-cdi{width:40px;height:40px;object-fit:contain;animation:wk2Kipp 4s ease-in-out infinite}
+@keyframes wk2Kipp{0%,80%{transform:rotate(0)}90%,100%{transform:rotate(180deg)}}
+${H} .wk2-cd span{background:rgba(255,255,255,.95)!important;border:0!important;box-shadow:0 4px 0 rgba(40,20,100,.25);color:#2B1466;min-width:60px!important}
+${H} .wk2-cd span b{color:#2B1466}${H} .wk2-cd span small{color:#7A6FA8!important;font-weight:700}
+${H} .wk2-cd em{font:700 .82rem Lexend,sans-serif;font-style:normal;color:rgba(255,255,255,.9)}
+${H} .wk2-ziel{position:relative;max-width:540px!important;padding-right:46px}
+${H} .wk2-bar{height:16px!important;background:rgba(20,8,60,.45)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.3)}
+${H} .wk2-bar i{min-width:16px;background:linear-gradient(90deg,#FFE680,#FFB72E)!important;box-shadow:0 0 10px rgba(255,214,60,.8)}
+${H} .wk2-pokal{position:absolute;right:0;top:-14px;width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+${H} .wk2-ziel small{display:flex!important;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:10px!important;font-weight:700}
+${H} .wk2-ziel small > img{width:22px;height:22px;object-fit:contain}
+${H} .wk2-xp{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 10px 2px 4px;color:#FFE680}
+${H} .wk2-xp img{width:20px;height:20px;object-fit:contain}
+${H} .wk2-kids{right:6px!important;bottom:-24px!important;max-height:300px!important}
+html body .wk2 .wk2-box li::before{content:""!important;width:24px;height:24px;background:url("img/grafik/diverse/gluehbirne.webp") center/contain no-repeat}
+@media (max-width:760px){
+  ${H}{border-width:20px!important;border-image-width:20px!important;padding:0 0 0 2px!important;min-height:0}
+  ${H} .wk2-kids{height:120px!important;right:-6px!important;bottom:auto!important;top:-14px}
+  ${H} .wk2-tag{font-size:.62rem!important;padding-right:10px!important}${H} .wk2-tag img{width:20px;height:20px}
+  ${H} .wk2-ic{width:64px!important;height:64px!important;border-width:3px!important}
+  ${H} .wk2-titel{margin:10px 0!important;gap:12px!important}
+  ${H} .wk2-titel h1{font-size:1.9rem!important}
+  ${H} .wk2-cdi{width:30px;height:30px}${H} .wk2-cd span{min-width:50px!important;padding:5px 4px!important}${H} .wk2-cd b{font-size:1.25rem!important}
+  ${H} .wk2-cd em{display:none}
+  ${H} .wk2-ziel small{font-size:.74rem}
+}
+@media (prefers-reduced-motion: reduce){${H} .wk2-ic,${H} .wk2-cdi{animation:none}}`;
+  document.head.appendChild(c);
+})();

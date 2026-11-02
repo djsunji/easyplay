@@ -882,10 +882,10 @@ function wocheHTML(){
   const bonus = ES.WOCHE_TEST_XP || 100, xp = window.WOCHE_XP || 150;
   return `<div class="ap-seite wk2">
     <button type="button" class="wk2-zurueck" data-x="heim">← Startseite</button>
-    <section class="wk2-held"><span class="wk2-tag">Wochen-Challenge · ${h(String(w.w).replace("-W", ", Woche "))}</span>
+    <section class="wk2-held"><span class="wk2-tag"><img src="img/grafik/diverse/festkalender.webp" alt="">Wochen-Challenge · ${h(String(w.w).replace("-W", ", Woche "))}</span>
       <div class="wk2-titel"><span class="wk2-ic" aria-hidden="true">${ic}</span><div><small>Thema der Woche</small><h1>${h(t.name)}</h1></div></div>
-      <div class="wk2-cd"><span><b>${tage}</b><small>Tage</small></span><span><b>${std}</b><small>Std</small></span><span><b>${min}</b><small>Min</small></span></div>
-      <div class="wk2-ziel"><span class="wk2-bar"><i style="width:${p}%"></i></span><small>${w.r} von ${w.ziel} richtig · ${w.fertig ? "Challenge geschafft! 🎉" : `${xp} XP extra bei ${w.ziel} richtigen`}</small></div>
+      <div class="wk2-cd"><img class="wk2-cdi" src="img/grafik/diverse/sanduhr.webp" alt=""><span><b>${tage}</b><small>Tage</small></span><span><b>${std}</b><small>Std</small></span><span><b>${min}</b><small>Min</small></span><em>noch Zeit</em></div>
+      <div class="wk2-ziel"><span class="wk2-bar"><i style="width:${p}%"></i></span><img class="wk2-pokal" src="img/grafik/diverse/pokal.webp" alt=""><small><img src="img/grafik/diverse/ziel.webp" alt=""><b>${w.r} von ${w.ziel} richtig</b>${w.fertig ? `<span class="wk2-xp">Challenge geschafft!</span>` : `<span class="wk2-xp"><img src="img/grafik/diverse/blitz.webp" alt="">+${xp} XP bei ${w.ziel} richtigen</span>`}</small></div>
       <img class="wk2-kids" src="img/kids/duo-jubel.webp" alt=""></section>
     <article class="wk2-box"><div class="wk2-bkopf"><span class="wk2-buch" aria-hidden="true"><img src="img/app2/ic-buch.webp" alt=""></span><div><small>Das Wichtigste aus der Bibliothek</small><h2>${h(t.name)}</h2>${t.text ? `<p>${h(t.text)}</p>` : ""}</div></div>
       ${merk.length ? `<ul>${merk.map(m => `<li>${h(m)}</li>`).join("")}</ul>` : `<p>Lies den Text in der Bibliothek, dann bist du bereit.</p>`}
