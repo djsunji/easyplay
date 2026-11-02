@@ -249,7 +249,8 @@ function teamBox(){
   const t = team();
   return `<div class="du2-team"><span class="lbl">Dein Team</span><div class="du2-kids">
     <button type="button" class="du2-kid lumi${t && t.id === "lumi" ? " an" : ""}" data-team="lumi"><img src="${KIDS}m3.webp" alt=""><span>Lumi</span></button>
-    <button type="button" class="du2-kid milo${t && t.id === "milo" ? " an" : ""}" data-team="milo"><img src="${KIDS}j3.webp" alt=""><span>Milo</span></button></div></div>`;
+    <button type="button" class="du2-kid milo${t && t.id === "milo" ? " an" : ""}" data-team="milo"><img src="${KIDS}j3.webp" alt=""><span>Milo</span></button></div>
+    <p class="du2-joker-info" aria-live="polite">${window.EP_DUELL_JOKER ? EP_DUELL_JOKER.infoHTML(t && t.id) : ""}</p></div>`;
 }
 window.renderDuell = function(){
   duellLeave(); if(DU.match) matchStop();
@@ -272,7 +273,8 @@ window.renderDuell = function(){
   $("#duCat").onchange = e => { DU.cat = e.target.value; DU.einOffen = true; render(); };
   document.querySelectorAll("[data-dst]").forEach(b => b.onclick = () => { DU.stufe = +b.dataset.dst; DU.einOffen = true; render(); });
   const sl = $("#duN"); sl.oninput = () => { DU.n = +sl.value; $("#duNv").textContent = sl.value; const z = document.querySelector("#du2Ein .zus"); if(z) z.textContent = z.textContent.replace(/\d+ Fragen/, DU.n + " Fragen"); };
-  document.querySelectorAll("[data-team]").forEach(b => b.onclick = () => { LS.set("ep-team", b.dataset.team); document.querySelectorAll(".du2-kid").forEach(x => x.classList.toggle("an", x === b)); });
+  document.querySelectorAll("[data-team]").forEach(b => b.onclick = () => { LS.set("ep-team", b.dataset.team); document.querySelectorAll(".du2-kid").forEach(x => x.classList.toggle("an", x === b));
+    const ji = document.querySelector(".du2-joker-info"); if(ji && window.EP_DUELL_JOKER) ji.innerHTML = EP_DUELL_JOKER.infoHTML(b.dataset.team); });
   $("#duSplit").onclick = () => { if(duellPool(DU.cat, DU.stufe).length < 3){ $("#duErr").textContent = "Zu wenige Fragen für dieses Thema."; return; } const n1 = $("#duP1").value.trim() || "Spieler 1", n2 = $("#duP2").value.trim() || "Spieler 2"; splitStart(n1, n2); };
   $("#duLink").onclick = () => { DU.mode = "link"; DU.list = duellFragen(DU.cat, DU.stufe, DU.n); DU.herausf = null; soloStart(); };
   $("#duRandom").onclick = () => matchStart();
@@ -507,4 +509,76 @@ function rangSchmuck(){
 const app = document.getElementById("app");
 if(app){ new MutationObserver(() => { try{ bereitSchmuck(); rangSchmuck(); }catch(e){} }).observe(app, {childList:true}); bereitSchmuck(); }
 window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
+})();
+
+
+/* ===== Team-Joker im Duell: jedes Team hat einmal pro Duell einen eigenen Joker.
+   Team Lumi «Lumis Blick»: zwei falsche Antworten verschwinden. Team Milo «Milos zweite Chance»: ist die Antwort falsch,
+   darf man nochmals tippen (die Zeit läuft weiter, Punkte wie gewohnt nach Tempo). Beide helfen etwa gleich viel:
+   der Blick wirkt sicher, aber man muss ihn vorher einsetzen; die zweite Chance wirkt nur, wenn man danebenliegt.
+   Gilt in allen Duellen mit DU.run (Online, Zufall, Link). ===== */
+(function(){
+  const J = {
+    lumi:{name:"Lumis Blick", ic:"👀", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro Duell: Zwei falsche Antworten verschwinden."},
+    milo:{name:"Milos zweite Chance", ic:"🛡️", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro Duell: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
+  };
+  const teamId = () => { try{ const t = window.EP_START && EP_START.team && EP_START.team(); if(t && t.id) return t.id; }catch(e){} try{ return JSON.parse(localStorage.getItem("ep-team") || "null"); }catch(e){ return null; } };
+  const esc2 = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  window.EP_DUELL_JOKER = {
+    infoHTML(id){ const j = J[id]; return j ? `<b>${j.ic} Joker: ${esc2(j.name)}</b><span>${esc2(j.lang)}</span>` : `<span>Wähle ein Team. Jedes Team hat einen eigenen Joker.</span>`; }
+  };
+  const css = document.createElement("style"); css.id = "ep-duell-joker-css";
+  css.textContent = `
+.du2-team{flex-wrap:wrap!important}
+.du2-joker-info{flex:1 1 100%;margin:6px auto 0;max-width:360px;text-align:center;font:500 .78rem/1.35 Lexend,system-ui,sans-serif;color:rgba(255,255,255,.92);display:grid;gap:2px}
+.du2-joker-info b{font-weight:800;color:#FFE9A8}
+.du-joker{display:flex;align-items:center;gap:10px;margin:10px auto 0;max-width:560px}
+.du-joker button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 10px;border-radius:999px;font:800 .95rem Fredoka,Lexend,system-ui,sans-serif;color:#fff;
+  background:linear-gradient(135deg,var(--j1),var(--j2));box-shadow:0 4px 0 var(--j3),0 6px 14px rgba(40,20,90,.3);white-space:nowrap}
+.du-joker button:active{transform:translateY(2px);box-shadow:0 2px 0 var(--j3)}
+.du-joker button[disabled]{opacity:.45;filter:grayscale(.6);cursor:default}
+.du-joker button .ji{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.25);font-size:16px}
+.du-joker small{font:500 .78rem/1.3 Lexend,system-ui,sans-serif;color:inherit;opacity:.85}
+.du-joker.lumi{--j1:#FF6FB5;--j2:#B13FE0;--j3:#7A1F8E}
+.du-joker.milo{--j1:#4F8BFF;--j2:#3D3AE0;--j3:#1E2A9E}
+.du-joker.an button{box-shadow:0 0 0 3px #FFE14D,0 0 18px rgba(255,225,77,.8)}
+#app .answers .ans.jk-weg{opacity:.18!important;filter:grayscale(1);pointer-events:none;transform:scale(.97)}
+#app .answers .ans.jk-falsch{opacity:.35!important;pointer-events:none;animation:jkWackel .4s}
+@keyframes jkWackel{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.du-joker-msg{margin:8px 0 0;text-align:center;font-weight:800;color:#1E2A9E}
+body.dark .du-joker-msg{color:#FFE9A8}`;
+  document.head.appendChild(css);
+
+  function weg2(f){ const falsch = f.opts.map((_, i) => i).filter(i => i !== f.c); for(let i = falsch.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [falsch[i], falsch[j]] = [falsch[j], falsch[i]]; } return falsch.slice(0, 2); }
+
+  function schmuecken(){
+    const R = DU.run; if(!R || !DU.list || !DU.list[R.i]) return;
+    const id = teamId(), j = J[id], f = DU.list[R.i];
+    const ans = [...document.querySelectorAll("#app .answers .ans[data-di]")];
+    if(R.jkWeg && R.jkWeg.i === R.i) R.jkWeg.l.forEach(k => { const b = ans[k]; if(b){ b.classList.add("jk-weg"); b.disabled = true; } });
+    if(R.jkFalsch != null && R.jkChance === R.i && !R.aus){ const b = ans[R.jkFalsch]; if(b){ b.classList.add("jk-falsch"); b.disabled = true; } }
+    if(!j) return;
+    const box = document.querySelector("#app .answers"); if(!box || document.querySelector(".du-joker")) return;
+    const benutzt = !!R.jkGenutzt, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i);
+    const d = document.createElement("div"); d.className = "du-joker " + id + (aktiv ? " an" : "");
+    d.innerHTML = `<button type="button" ${benutzt || R.aus ? "disabled" : ""} aria-label="Joker ${esc2(j.name)}"><span class="ji" aria-hidden="true">${j.ic}</span>${esc2(j.name)}</button><small>${aktiv ? (id === "milo" ? "Aktiv für diese Frage." : "Zwei Antworten sind weg.") : benutzt ? "Schon eingesetzt." : esc2(j.kurz) + " 1× pro Duell"}</small>`;
+    box.after(d);
+    if(R.jkMsg && R.jkMsg.i === R.i && !R.aus){ const m = document.createElement("p"); m.className = "du-joker-msg"; m.textContent = R.jkMsg.t; d.after(m); }
+    const btn = d.querySelector("button");
+    btn.onclick = () => { if(R.jkGenutzt || R.aus) return; R.jkGenutzt = true;
+      if(id === "lumi") R.jkWeg = {i:R.i, l:weg2(f)}; else R.jkChance = R.i;
+      try{ A_ton(); }catch(e){} renderDuellPlay(); };
+  }
+  function A_ton(){ try{ window.EP_EXTRAS && EP_EXTRAS.api && EP_EXTRAS.api.ton && EP_EXTRAS.api.ton("klick"); }catch(e){} }
+
+  const vorPlay2 = window.renderDuellPlay;
+  window.renderDuellPlay = function(){ const r = vorPlay2.apply(this, arguments); try{ schmuecken(); }catch(e){ console.warn("Duell-Joker", e); } return r; };
+
+  const vorTipp2 = window.soloTipp;
+  window.soloTipp = function(i){
+    const R = DU.run;
+    if(R && !R.aus && i !== -1 && R.jkChance === R.i && R.jkFalsch == null && DU.list[R.i] && i !== DU.list[R.i].c){
+      R.jkFalsch = i; R.jkMsg = {i:R.i, t:"🛡️ Milos zweite Chance! Versuch es nochmals."}; renderDuellPlay(); return; }
+    return vorTipp2.apply(this, arguments);
+  };
 })();
