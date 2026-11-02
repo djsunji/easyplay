@@ -787,11 +787,11 @@ function profilHTML(){
   }
   return `<div class="ap ap-profil ap-profil3">
     ${kopf}
-    <div class="ap-stats">
+    ${p ? `<div class="ap-stats">
       <div class="apf f-orange"><small>Serie</small><b>${s.n || 0} ${SV(I.flamme, 20)}</b></div>
       <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b></div>
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}<em>/${ab.alle}</em></b></div>
-    </div>
+    </div>` : ""}
   </div>`;
 }
 
