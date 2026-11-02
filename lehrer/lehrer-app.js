@@ -460,7 +460,7 @@ function zeigeWahl(){
         <span class="wk-los">Zum Test ›</span>
       </button>
       <button type="button" class="wk wk-l" id="wahlLehrer">
-        <img class="wk-kid" src="../img/kids/milo-zeigen.webp" alt="" width="441" height="760">
+        <img class="wk-hut" src="../img/grafik/diverse/doktorhut.webp" alt="" width="160" height="160">
         <span class="wk-tx"><small>Bist du</small><b>Lehrerin oder Lehrer?</b><span>Klassen, Tests und Resultate in der Lehrerverwaltung.</span></span>
         <span class="wk-los">Zur Verwaltung ›</span>
       </button>

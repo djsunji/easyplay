@@ -276,6 +276,9 @@ details.regeln ul{margin:6px 0;padding-left:20px}
 .wk:focus-visible{outline:3px solid #ffcc33;outline-offset:3px}
 .wk-kid{position:absolute;right:4px;bottom:-8px;height:96%;width:auto;filter:drop-shadow(0 8px 14px rgba(20,0,60,.35));pointer-events:none;transition:transform .2s}
 .wk:hover .wk-kid{transform:translateY(-4px) rotate(-2deg)}
+.wk-l::before{content:"";position:absolute;right:6%;top:50%;width:190px;height:190px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.38),rgba(255,255,255,0) 68%);pointer-events:none}
+.wk-hut{position:absolute;right:7%;top:50%;width:160px;height:auto;transform:translateY(-50%) rotate(-12deg);filter:drop-shadow(0 10px 16px rgba(10,0,60,.4));pointer-events:none;transition:transform .2s}
+.wk:hover .wk-hut{transform:translateY(-56%) rotate(-6deg)}
 .wk-tx{position:relative;z-index:1;display:grid;gap:4px}
 .wk-tx small{font-size:14px;opacity:.92;font-weight:600}
 .wk-tx b{font:800 24px/1.1 "Bricolage Grotesque",system-ui,sans-serif}
@@ -286,9 +289,11 @@ details.regeln ul{margin:6px 0;padding-left:20px}
   .wahlkacheln{grid-template-columns:1fr}
   .wk{min-height:170px;padding:16px 40% 16px 16px}
   .wk-tx b{font-size:21px}
+  .wk-hut{width:110px;right:5%}
+  .wk-l::before{width:140px;height:140px}
   #login.wahl .wrap>img{width:min(260px,70%);margin-bottom:-16px}
 }
-@media (prefers-reduced-motion:reduce){.wk,.wk-kid{transition:none}}
+@media (prefers-reduced-motion:reduce){.wk,.wk-kid,.wk-hut{transition:none}}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Handy und kleines Tablet: Seitenleiste wird zur Tab-Leiste oben */
 @media (max-width:800px){
