@@ -2896,3 +2896,36 @@ html body #hauptmenue .mgruppe.m-weg,html body #hauptmenue .m-weg [data-lm],html
 @media (max-width:600px){html body #hauptmenue.menu{min-width:250px}html body #hauptmenue.menu > button{font-size:.95rem}}`;
   document.head.appendChild(css);
 })();
+
+/* ===== App-Ansicht Profil-Tab im neuen Stil: abgemeldet zwei Glanz-Kacheln (wie /anmelden), Zahlen auf Glanz-Kacheln,
+   Liste «Mehr» (mehrListe() in app.js, auch unter der neuen Profilseite als .ap-mehr) als weisse Glas-Karte mit Dejans Symbolen ===== */
+(function(){
+  const E = "img/grafik/entdecken/";
+  const css = document.createElement("style"); css.id = "ep-appprofil-css";
+  css.textContent = `
+html body.ep-app #app .ap-akgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
+html body.ep-app #app .ap-akgrid .ak-karte{min-height:150px;padding:2px 36% 4px 4px;border-width:16px;border-image-width:16px;gap:3px}
+html body.ep-app #app .ap-akgrid .ak-ic{width:40px;height:40px}html body.ep-app #app .ap-akgrid .ak-ic img{width:26px;height:26px}
+html body.ep-app #app .ap-akgrid .ak-karte b{font-size:1.15rem}
+html body.ep-app #app .ap-akgrid .ak-karte small{font-size:.72rem}
+html body.ep-app #app .ap-akgrid .ak-los{height:38px;border-width:12px 20px;border-image-width:12px 20px;font-size:.78rem;white-space:nowrap;margin-top:4px;padding:0 2px}
+html body.ep-app #app .ap-akgrid .ak-kid{max-width:46%;bottom:-16px;height:calc(100% + 10px)}
+html body.ep-app #app .ap-profil .ap-stats > .apf{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:16px!important;border-radius:0!important;
+  border-image:url("${E}kachel-07.webp?v=3") 46 fill / 16px stretch!important;filter:drop-shadow(0 6px 10px rgba(30,30,90,.25));color:#fff;padding:0 4px!important}
+html body.ep-app #app .ap-profil .ap-stats > .apf.f-orange{border-image-source:url("${E}kachel-03.webp?v=3")!important}
+html body.ep-app #app .ap-profil .ap-stats > .apf.f-lila{border-image-source:url("${E}kachel-06.webp?v=3")!important}
+html body.ep-app #app .ap-profil .ap-stats > .apf.f-gold{border-image-source:url("${E}kachel-05.webp?v=3")!important}
+html body.ep-app #app .ap-profil .ap-stats > .apf :is(small,b,span){color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+html body.ep-app #app .ap-profil .ap-liste{--surface:#fff;background:linear-gradient(180deg,#FFFFFF,#F3EFFF)!important;border:4px solid #fff!important;border-radius:26px!important;box-shadow:0 14px 30px rgba(40,30,120,.22)!important;padding:8px!important;gap:4px 6px!important;backdrop-filter:none!important}
+html body.ep-app #app .ap-profil .ap-liste > *{color:#3A2F72!important;font:800 15px Lexend,system-ui,sans-serif!important;min-height:48px!important;border-radius:16px!important;padding:4px 8px!important;background:none!important;box-shadow:none!important}
+html body.ep-app #app .ap-profil .ap-liste > *:hover,html body.ep-app #app .ap-profil .ap-liste > *:focus-visible{background:rgba(123,91,255,.1)!important}
+html body.ep-app #app .ap-profil .ap-liste .apb{flex:none;width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:rgba(123,91,255,.09)}
+html body.ep-app #app .ap-profil .ap-liste .apb img{width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(40,20,100,.22))}
+html body.ep-app #app .ap-profil .ap-liste > *:not(.x-ein) > svg:first-child{box-sizing:content-box;padding:6px;border-radius:12px;color:#6A4BFF;background:rgba(123,91,255,.09)!important;box-shadow:none!important}
+html body.ep-app #app .ap-profil .ap-liste .x-ein{color:#fff!important;background:linear-gradient(120deg,#6A4BFF,#A43BE0 55%,#E8409F)!important}
+html body.ep-app #app .ap-profil .ap-liste .rot{color:#D6362E!important}
+html body.ep-app #app .ap-profil .ap-liste > * > span:not(.apb){white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15;font-size:14px}
+html body.ep-app #app .ap-mehr{margin:16px 0 8px}
+html body.ep-app #app .ap-mehr .ap-liste{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}`;
+  document.head.appendChild(css);
+})();

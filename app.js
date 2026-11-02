@@ -721,6 +721,24 @@ function duellHTML(){
     ${se ? `<button type="button" class="apf f-gruen apzeile" data-x="season"><span class="ap-mult">×${p.mult}</span><span class="aptx"><b>${h(se.name)} · noch ${p.rest} Tage</b><small>${seTxt}</small></span>${SV(I.pfeil, 20)}</button>` : ""}
   </div>`;
 }
+/* Liste «Mehr» im Profil (App-Ansicht): Dejans Symbole, auch unter der neuen Profilseite */
+function mehrListe(){
+  const p = S.profil;
+  const zb = (attr, bild, txt, cls = "") => `<button type="button" ${attr}${cls ? ` class="${cls}"` : ""}><span class="apb"><img src="${bild}" alt="" draggable="false"></span><span>${txt}</span></button>`;
+  const lb = (href, bild, txt, extra = "") => `<a href="${href}"${extra}><span class="apb"><img src="${bild}" alt="" draggable="false"></span><span>${txt}</span></a>`;
+  return `<nav class="glas ap-liste ap-liste2" aria-label="Mehr">
+      ${zb('data-x="verzieren"', "img/grafik/diverse/funkeln.webp?v=2", "Profil verzieren")}
+      ${zb('data-x="board"', "img/grafik/diverse/pokal.webp?v=2", "Rangliste")}
+      ${zb('data-x="lib"', "img/grafik/diverse/buch.webp?v=2", "Bibliothek")}
+      ${zb('data-m="set"', "img/grafik/diverse/palette.webp?v=2", "Hintergrund")}
+      ${zb('data-lm="lcode"', "img/grafik/diverse/klemmbrett.webp?v=2", "Test mit Code")}
+      ${S.canEdit ? zb('data-m="werkstatt"', "img/grafik/diverse/zahnrad.webp?v=2", "Fragen-Werkstatt") : ""}
+      ${lb("impressum.html", "img/grafik/diverse/notizbuch.webp?v=2", "Impressum")}
+      ${lb("datenschutz.html", "img/grafik/diverse/schloss.webp?v=2", "Datenschutz")}
+      ${lb("/kontakt", "img/grafik/diverse/brief.webp?v=2", "Kontakt", " data-kontakt")}
+      ${p ? zb('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "rot") : ""}
+    </nav>`;
+}
 function profilHTML(){
   const ES = E(), p = S.profil;
   const s = ES.serie ? ES.serie() : {n:0}, lv = ES.level ? ES.level() : null;
@@ -729,28 +747,18 @@ function profilHTML(){
   const zeile = (attr, ico, txt, cls = "") => `<button type="button" ${attr}${cls ? ` class="${cls}"` : ""}>${SV(ico, 20)}<span>${txt}</span>${SV(I.pfeil, 18)}</button>`;
   return `<div class="ap ap-profil">
     <div class="ap-titel"><h2 class="auf">Profil</h2></div>
-    <section class="apf f-held ap-konto">${p
+    ${p ? `<section class="apf f-held ap-konto">${p
       ? `<div class="apkn"><span class="apav">${av}</span><b class="apgross">${h(p.name || "")}</b><p>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</p><p>🔑 Code ${(() => { try{ const c = window.EP_PROFILCODE(); return c.slice(0, 4) + " " + c.slice(4); }catch(e){ return ""; } })()}</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="meinprofil">Mein Profil</button></div>`
       : `<div class="apkn"><b class="apgross">Melde dich an</b><p>Dann bleiben deine Punkte, deine Serie und deine Abzeichen gespeichert.</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="login">Anmelden</button><button type="button" class="ap-gelbbtn" data-x="register">Registrieren</button></div>`}
-      <img src="${KIDS}m3.webp" alt=""></section>
+      <img src="${KIDS}m3.webp" alt=""></section>` : `<div class="ak-grid ap-akgrid">
+      <button type="button" class="ak-karte ak-in" data-x="login"><img class="ak-kid" src="img/kids/leni-daumen.webp" alt=""><span class="ak-ic"><img src="img/grafik/diverse/schloss.webp?v=2" alt=""></span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="ak-los">Zur Anmeldung</span></button>
+      <button type="button" class="ak-karte ak-reg" data-x="register"><img class="ak-kid" src="img/kids/ben-sprung.webp" alt=""><span class="ak-ic"><img src="img/grafik/diverse/funkeln.webp?v=2" alt=""></span><b>Registrieren</b><small>Ich bin neu hier</small><span class="ak-los">Profil erstellen</span></button></div>`}
     <div class="ap-stats">
       <div class="apf f-orange"><small>Serie</small><b>${s.n || 0} ${SV(I.flamme, 20)}</b><span>Tage am Stück</span></div>
       <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b><span>${h(lv && lv.titel ? lv.titel.name : "Neuling")}</span></div>
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}</b><span>von ${ab.alle}</span></div>
     </div>
-    <nav class="glas ap-liste" aria-label="Mehr">
-      ${zeile('data-x="verzieren"', I.funkel, "Profil verzieren")}
-      ${zeile('data-x="board"', I.pokal, "Rangliste")}
-      ${zeile('data-x="lib"', I.buch, "Bibliothek")}
-      ${zeile('data-m="set"', I.pinsel, "Hintergrund")}
-      ${zeile('data-lm="lcode"', I.code, "Test mit Code")}
-      ${zeile('data-m="suche"', I.lupe, "Test erstellen")}
-      ${S.canEdit ? zeile('data-m="werkstatt"', I.werkzeug, "Fragen-Werkstatt") : ""}
-      <a href="impressum.html">${SV(I.info, 20)}<span>Impressum</span>${SV(I.pfeil, 18)}</a>
-      <a href="datenschutz.html">${SV(I.schild, 20)}<span>Datenschutz</span>${SV(I.pfeil, 18)}</a>
-      <a href="/kontakt" data-kontakt>${SV(I.info, 20)}<span>Kontakt</span>${SV(I.pfeil, 18)}</a>
-      ${p ? zeile('data-x="abmelden"', I.tuer, "Abmelden", "rot") : ""}
-    </nav>
+    ${mehrListe()}
   </div>`;
 }
 
@@ -808,7 +816,10 @@ function leiste(){
     document.body.appendChild(el);
     el.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { const t = b.dataset.tab;
       if(t === "qeels"){ try{ oeffneReels(); }catch(e){} return; }
-      setTab(t); if(S.libModus){ S.libModus = false; document.documentElement.dataset.mode = "spiel"; } go("home"); });
+      if(S.libModus){ S.libModus = false; document.documentElement.dataset.mode = "spiel"; }
+      if(t === "duell"){ setTab("heute"); go("duell"); return; }
+      if(t === "profil" && S.profil){ setTab("heute"); go("profil"); return; }
+      setTab(t); go("home"); });
   }
   const akt = S.libModus ? "themen" : tabVon(S.screen);
   el.querySelectorAll("[data-tab]").forEach(b => { if(b.dataset.tab === akt) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
@@ -1006,7 +1017,8 @@ window.renderHome = function(){
   if(!an()) return r;
   try{
     const app = document.getElementById("app"); if(!app) return r;
-    app.innerHTML = tab === "themen" ? themenHTML() : tab === "duell" ? duellHTML() : tab === "profil" ? profilHTML() : heuteHTML();
+    if(tab === "duell" || (tab === "profil" && S.profil)){ const ziel = tab === "duell" ? "duell" : "profil"; setTab("heute"); setTimeout(() => go(ziel), 0); }
+    app.innerHTML = tab === "themen" ? themenHTML() : tab === "profil" && !S.profil ? profilHTML() : heuteHTML();
     binden(app);
     requestAnimationFrame(() => { einpassen(); namenSetzen(); karussell(); });
   }catch(e){ console.warn("app.js", e); }
@@ -1028,6 +1040,7 @@ window.render = function(){
     [...document.body.classList].filter(k => k.startsWith("ep-s-")).forEach(k => document.body.classList.remove(k));
     if(an()) document.body.classList.add("ep-s-" + (S.libModus && S.screen === "lib" ? "lib" : S.screen));
     leiste();
+    if(an() && S.screen === "profil" && S.profil){ const app = document.getElementById("app"); if(app && !app.querySelector(".ap-mehr")){ const d = document.createElement("div"); d.className = "ap ap-profil ap-mehr"; d.innerHTML = mehrListe(); app.appendChild(d); binden(d); } }
     if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); if(S.libModus && S.screen === "lib") libKompakt(); }
   }catch(e){ console.warn("app.js", e); }
   return r;
