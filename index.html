@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-02-35";
+window.EP_BUILD="ep-2026-11-02-36";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -2141,6 +2141,10 @@ a.vlink:hover,a.vlink:focus-visible{background:color-mix(in srgb,var(--libacc) 1
 
 /* ===== Reels ===== */
 body.reelsauf{overflow:hidden}
+/* Qeels zeigen den normalen easyplay-Hintergrund (Himmel, Alpen, gewählter Hintergrund) statt Schwarz: Seiteninhalt hinter den Qeels ausblenden, #reels durchsichtig */
+body.reelsauf > :not(#himmel):not(#alpen):not(#flocken):not(#clouds):not(#pattern):not(#bgneu):not(#bgbild):not(#reels):has(~ #reels){visibility:hidden!important}
+body.reelsauf #reels{background:transparent!important}
+body.reelsauf #reels::before{display:none}
 #reels[hidden]{display:none!important}
 #reels{position:fixed;inset:0;z-index:9000;background:#0b0b0f;color:#fff;font-family:"Inter",system-ui,sans-serif;display:flex;justify-content:center;overscroll-behavior:contain}
 #reels::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 30% 20%,rgba(138,63,224,.35),transparent 70%),radial-gradient(50% 50% at 75% 80%,rgba(255,61,120,.25),transparent 70%);filter:blur(30px);pointer-events:none}
