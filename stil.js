@@ -2474,3 +2474,58 @@ html body .wk2 .wk2-box li::before{content:""!important;width:24px;height:24px;b
 @media (prefers-reduced-motion: reduce){${H} .wk2-ic,${H} .wk2-cdi{animation:none}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Entdecken: letzte alte Flächen und dunkle Pillen im neuen Stil (Prüfung aller Welten am 02.11.).
+   GLANZ: farbige Flächen auf Dejans Glanz-Kacheln (feste Nummer), REIHUM: wiederholte Karten, KOPF: Köpfe,
+   PILLE: dunkle Schilder/Pillen als weisse Glas-Pille, GOLDK: goldener Grafik-Knopf, WEISSK: weisser Grafik-Knopf. ===== */
+(function(){
+  const W = "html body #app .xseite", G = "img/grafik/entdecken/";
+  const GLANZ = {".spr-k-vorne":9, ".spr-k-hinten":2, ".spr-frage":9, ".xmt-panel":2, ".xmt-karte":1, ".fq-bereit-karte":2, ".xa-weiter":5,
+    ".xa-buehne":9, ".xfo-auf-kopf":13, ".xfo-sicher":10, ".xfo-panel":1};
+  const REIHUM = [".spr-modus", ".xsw-karte", ".xf-ab"];
+  const KOPF = [".spr-thkopf"];
+  const PILLE = [".spr-zur", ".spr-pille", ".spr-hinweis", ".spr-fuss", ".xmt-pill", ".fq-klein", ".xa-pill", ".xfo-titel", ".xfo-pille.dunkel", ".xk-p-status",
+    ".xk-nav", ".wdh-pille", ".xt-glas", ".alb-pill", ".alb-zahl", ".xf-pille", ".xf-titel", ".xf-tipp", ".xs-h2", ".xs-hinweis", ".xsw-info", ".hlf-vorschau",
+    ".hlf-pille", ".xof-status", ".xof-netz", ".xof-h2", ".xof-auto", ".xof-tipp", ".xmt-top > span", ".xmt-best"];
+  const GOLDK = [".xk-btn.haupt", ".xmt-panel .xmt-go:not(.xmt-zwei)", ".fq-gross", ".wdh-gelernt", ".xmt-t.xmt-ok"];
+  const WEISSK = [".xk-btn:not(.haupt)", ".xmt-panel .xmt-go.xmt-zwei", ".xa-btn.weiss"];
+  const nr = n => String(n).padStart(2, "0");
+  const sel = (l, z = "") => l.map(k => `${W} ${k}${z}`).join(",");
+  const dbl = l => l.map(k => `${W} ${k}${k.split(" ").pop().replace(/:.*$/, "")}`).join(",");
+  let css = `
+${dbl([...Object.keys(GLANZ), ...REIHUM])}{background:none!important;background-color:transparent!important;box-shadow:none!important;border:22px solid transparent!important;border-radius:0!important;
+  border-image:url("${G}kachel-01.webp?v=3") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));color:#fff!important;box-sizing:border-box!important}
+${sel([...Object.keys(GLANZ), ...REIHUM], "::before")},${sel([...Object.keys(GLANZ), ...REIHUM], "::after")}{opacity:0!important}
+${sel([...Object.keys(GLANZ), ...REIHUM], " :is(b,h2,h3,strong,small,p,span)")}{text-shadow:0 1px 2px rgba(0,0,0,.45)}
+${dbl(KOPF)}{background:none!important;box-shadow:none!important;border:30px solid transparent!important;border-radius:0!important;
+  border-image:url("${G}kopf.webp?v=1") 50 fill / 30px stretch!important;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));padding:0 6px!important}
+${dbl(PILLE)}{background:rgba(255,255,255,.93)!important;background-image:none!important;border:1.5px solid #fff!important;color:#2B1466!important;
+  box-shadow:0 3px 0 rgba(40,20,100,.14),0 6px 14px rgba(40,20,100,.12)!important;text-shadow:none!important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+${sel(PILLE, " *")}{color:#2B1466!important;text-shadow:none!important}
+${dbl(GOLDK)}{background:none!important;border:0 solid transparent!important;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 26px 44px stretch!important;
+  border-width:0!important;box-shadow:none!important;color:#5A2C00!important;text-shadow:0 1px 0 rgba(255,255,255,.5)!important;font-weight:800!important;border-radius:0!important}
+${sel(GOLDK, " *")}{color:#5A2C00!important;text-shadow:none!important}
+${dbl(WEISSK)}{background:none!important;border:0 solid transparent!important;border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 30px 50px stretch!important;
+  border-width:0!important;box-shadow:none!important;color:#2B1466!important;text-shadow:none!important;font-weight:800!important;border-radius:0!important}
+${sel(WEISSK, " *")}{color:#2B1466!important;text-shadow:none!important}
+/* Container, die nur einen dunklen Rahmen hatten */
+${W} .spr-stufen.spr-stufen,${W} .spr-richtung.spr-richtung,${W} .xel-wahl.xel-wahl{background:none!important;box-shadow:none!important;border:0!important}
+/* Erzähler-Blase im Abenteuer: weisse Sprechblase */
+${W} .xa-blase.xa-blase{background:rgba(255,255,255,.95)!important;color:#2B1466!important;border:2px solid #fff!important;box-shadow:0 6px 16px rgba(40,20,100,.25)!important}
+${W} .xa-blase.xa-blase *{color:#2B1466!important;text-shadow:none!important}
+/* Mathe-Tastatur: weisse Glas-Tasten */
+${W} .xmt-t.xmt-t:not(.xmt-ok){background:rgba(255,255,255,.95)!important;background-image:none!important;color:#2B1466!important;border:2px solid #fff!important;box-shadow:0 4px 0 rgba(40,20,100,.18)!important;text-shadow:none!important}
+${W} .xmt-t.xmt-del.xmt-del{color:#C2185B!important}
+/* Symbole in Knöpfen und Kacheln */
+${W} .spr-modus .spr-m-ic{display:block;line-height:0}
+${W} .spr-modus .spr-m-ic img{width:54px;height:54px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+${W} .xk-btn .xk-bic{width:26px;height:26px;object-fit:contain;vertical-align:middle;margin-right:8px}
+${W} .xmt-kl .ep-gi{width:20px;height:20px;object-fit:contain;vertical-align:-4px;margin-right:4px}
+@media (max-width:700px){${dbl([...Object.keys(GLANZ), ...REIHUM])}{border-width:16px!important;border-image-width:16px!important}
+  ${dbl(KOPF)}{border-width:22px!important;border-image-width:22px!important}
+  ${W} .spr-modus .spr-m-ic img{width:40px;height:40px}}`;
+  const FOLGE = [1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];
+  for(const k of REIHUM) FOLGE.forEach((n, i) => { css += `${W} ${k}${k}:nth-child(${FOLGE.length}n+${i + 1}){border-image-source:url("${G}kachel-${nr(n)}.webp?v=3")!important}\n`; });
+  for(const [k, n] of Object.entries(GLANZ)) css += `${W} ${k}${k}{border-image-source:url("${G}kachel-${nr(n)}.webp?v=3")!important}\n`;
+  const c = document.createElement("style"); c.id = "ep-entdecken-rest-css"; c.textContent = css; document.head.appendChild(c);
+})();

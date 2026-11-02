@@ -16,12 +16,12 @@ const INTERVALL = [0, 1, 2, 4, 7, 14];       // Tage bis zur nächsten Wiederhol
 const RUNDE = 10, XP_TAG_MAX = 150;
 const STUFEN = [{id:1, name:"Start", text:"ab 3. Klasse"}, {id:2, name:"Mittel", text:"ab 5. Klasse"}, {id:3, name:"Alle", text:"Oberstufe"}];
 const MODI = [
-  {id:"karten", name:"Karteikarten", emo:"🃏", text:"Umdrehen und anhören"},
-  {id:"wahl", name:"Auswahl", emo:"🔤", text:"Aus 4 Wörtern wählen"},
-  {id:"hoeren", name:"Hören", emo:"👂", text:"Hören und Bild finden"},
-  {id:"schreiben", name:"Schreiben", emo:"✍️", text:"Wort eintippen"},
-  {id:"memory", name:"Memory", emo:"🧩", text:"Paare finden"},
-  {id:"liste", name:"Wörterliste", emo:"📋", text:"Alle Wörter ansehen"}
+  {id:"karten", bild:"karten", name:"Karteikarten", emo:"🃏", text:"Umdrehen und anhören"},
+  {id:"wahl", bild:"bauklotz", name:"Auswahl", emo:"🔤", text:"Aus 4 Wörtern wählen"},
+  {id:"hoeren", bild:"kopfhoerer", name:"Hören", emo:"👂", text:"Hören und Bild finden"},
+  {id:"schreiben", bild:"notizbuch", name:"Schreiben", emo:"✍️", text:"Wort eintippen"},
+  {id:"memory", bild:"puzzle", name:"Memory", emo:"🧩", text:"Paare finden"},
+  {id:"liste", bild:"klemmbrett", name:"Wörterliste", emo:"📋", text:"Alle Wörter ansehen"}
 ];
 const AKZENTE = { fr: ["é", "è", "ê", "à", "â", "ç", "ô", "û", "ù", "î", "ï", "ë", "œ", "'"], en: ["'"] };
 
@@ -239,7 +239,7 @@ function themaSeite(box, e){
     <button type="button" data-ri="fremd" aria-pressed="${e.richtung === "fremd"}">${spn} → Deutsch</button>
   </div>
   <div class="spr-modi">${MODI.map(m => { const aus = m.id === "hoeren" && !info.an;
-    return `<button type="button" class="spr-modus spr-m-${m.id}" data-modus="${m.id}" ${aus ? "disabled" : ""}><span aria-hidden="true">${m.emo}</span><b>${m.name}</b><small>${aus ? "Braucht Vorlesen" : m.text}</small></button>`; }).join("")}</div>
+    return `<button type="button" class="spr-modus spr-m-${m.id}" data-modus="${m.id}" ${aus ? "disabled" : ""}><span class="spr-m-ic" aria-hidden="true">${m.bild ? `<img src="img/grafik/diverse/${m.bild}.webp?v=2" alt="" draggable="false">` : m.emo}</span><b>${m.name}</b><small>${aus ? "Braucht Vorlesen" : m.text}</small></button>`; }).join("")}</div>
   ${info.text ? `<p class="spr-hinweis" role="note">🔈 ${h(info.text)}</p>` : ""}`;
   box.querySelector("[data-zur]").onclick = () => geh("start");
   box.querySelectorAll("[data-ri]").forEach(b => b.onclick = () => { einstSetzen("richtung", b.dataset.ri); A.ton("klick"); zeichne(); });

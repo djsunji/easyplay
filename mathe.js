@@ -686,7 +686,7 @@ function render(box){
         ${runde.blitz ? '<span class="xmt-dots"></span>' : `<span class="xmt-dots" aria-hidden="true">${Array.from({length:10}, (_, i) => `<i class="${i < runde.nr - 1 ? (runde.fehler.includes(i + 1) ? "f" : "r") : i === runde.nr - 1 ? "j" : ""}"></i>`).join("")}</span>`}
         <span class="xmt-pill xmt-zeit"></span></div>
       <div class="xmt-karte" style="background:${b.farbe}" role="group" aria-label="Aufgabe ${runde.nr}">
-        <span class="xmt-kl">${b.emo} ${h(b.titel)} · Stufe ${t.stufe}${t.typ === "wahl" && t.b === "br" && !t.vgl ? " · gekürzt" : ""}</span>
+        <span class="xmt-kl">${window.EP_GI?EP_GI("mathe",b.id,b.emo):b.emo} ${h(b.titel)} · Stufe ${t.stufe}${t.typ === "wahl" && t.b === "br" && !t.vgl ? " · gekürzt" : ""}</span>
         ${frage}
         ${ohneLuecke ? `<div class="xmt-antw"><b class="xmt-lu">?</b>${t.einheit ? `<span class="xmt-einh">${h(t.einheit)}</span>` : ""}</div>` : ""}
         <span class="xmt-fb" aria-live="polite"></span>
@@ -812,7 +812,7 @@ function render(box){
     const stn = sterne(bs);
     box.innerHTML = `<div class="xmt xmt-pn"><div class="xmt-ende" style="background:${b.farbe}">
       <img src="img/kids/${rd.richtig >= 8 ? "duo-jubel" : "duo-bereit"}.webp" alt="" class="xmt-eimg">
-      <span class="xmt-kl">${b.emo} ${h(b.titel)}${rd.blitz ? " · Blitz" : ""}</span>
+      <span class="xmt-kl">${window.EP_GI?EP_GI("mathe",b.id,b.emo):b.emo} ${h(b.titel)}${rd.blitz ? " · Blitz" : ""}</span>
       <div class="xmt-gross" aria-label="${rd.richtig} ${rd.blitz ? "richtig" : "von 10 richtig"}">${rd.richtig}<small>${rd.blitz ? " richtig" : " / 10"}</small></div>
       <p class="xmt-msg">${h(msg)}</p>
       <div class="xmt-best">${rd.blitz ? `<span>⚡ Rekord ${bs.blitz}</span>` : `<span>⏱ ${mmss(zeit)}</span>${sternHTML(stn)}<span>Stufe ${bs.s}</span>`}${xp ? `<span>+${bekam || xp} XP</span>` : ""}</div>

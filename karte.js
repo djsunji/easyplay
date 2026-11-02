@@ -311,8 +311,8 @@ function panelZeigen(panel, k, fokus){
     <div class="xk-p-fort"><span>${goldTxt}</span><div class="xk-balken klein" aria-hidden="true"><i style="width:${pct.toFixed(0)}%"></i></div>
       <span class="xk-stufen" role="list" aria-label="Bestandene Quiz-Stufen">${[1,2,3].map(s => `<b role="listitem" class="${st.stufen.includes(s) ? "ja" : ""}">Stufe ${s}${st.stufen.includes(s) ? " ✓" : ""}</b>`).join("")}</span></div>
     <div class="xk-p-knoepfe">
-      <button type="button" class="xk-btn haupt" id="xkQuiz" ${anz ? "" : "disabled"}>🎮 Quiz zu ${esc(kurz(k))}</button>
-      ${nr ? `<button type="button" class="xk-btn" id="xkBib">📖 In der Bibliothek lesen</button>` : ""}
+      <button type="button" class="xk-btn haupt" id="xkQuiz" ${anz ? "" : "disabled"}><img class="xk-bic" src="img/grafik/diverse/controller.webp?v=2" alt="">Quiz zu ${esc(kurz(k))}</button>
+      ${nr ? `<button type="button" class="xk-btn" id="xkBib"><img class="xk-bic" src="img/grafik/diverse/buch.webp?v=2" alt="">In der Bibliothek lesen</button>` : ""}
     </div>
     <p class="xk-p-regel">${st.frei ? `Quiz in Stufe ${stufeNow} mit ${QUIZ_N} Fragen. Besteh alle 3 Stufen oder beantworte ${GOLD_N} Fragen richtig für Gold.` : `${QUIZ_N} Fragen, ab ${QUIZ_MIN} richtigen ist ${esc(kurz(k))} freigespielt.`}</p>
     <nav class="xk-p-nav" aria-label="Kantone blättern">
