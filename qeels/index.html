@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-02-28";
+window.EP_BUILD="ep-2026-11-02-29";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -9147,6 +9147,7 @@ if("serviceWorker" in navigator && !window.claude && !window.EP_NATIV && (locati
 <script src="quizstil.js"></script>
 <script src="duellgeraet.js"></script>
 <script src="kontakt.js"></script>
+<script src="sponsoren.js"></script>
 <script src="adresse.js"></script>
 <script>/*__epBootErstAmSchluss: Ladebild erst weg, wenn alle Design-Skripte (neustart, appfein, quizstil …) die Seite neu gezeichnet haben und die Bilder oben geladen sind. So erscheint nie das alte Design.*/
 (function(){ try{ render(); }catch(e){}
