@@ -2287,9 +2287,13 @@ ${T} .du2-tk{all:unset;box-sizing:border-box;position:relative;cursor:pointer;di
   padding:2px 4px 6px;min-width:0;border:0 solid transparent;border-width:22px;border-image:url("${E}kachel-05.webp?v=3") 46 fill / 22px stretch;color:#fff;
   filter:drop-shadow(0 10px 16px rgba(30,10,80,.3));transition:transform .2s,filter .2s,opacity .2s}
 ${T} .du2-tk.milo{border-image-source:url("${E}kachel-01.webp?v=3")}
+${T} .du2-tk.leni{border-image-source:url("${E}kachel-03.webp?v=3")}
+${T} .du2-tk.ben{border-image-source:url("${E}kachel-04.webp?v=3")}
+${T} .du2-kids{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media (max-width:760px){${T} .du2-kids{grid-template-columns:1fr 1fr!important;row-gap:30px!important}}
 ${T} .du2-tk:hover{transform:translateY(-3px)}
 ${T} .du2-tk:focus-visible{outline:3px solid #FFE14D;outline-offset:4px}
-${T} .tk-bild{height:120px!important;width:auto!important;max-width:100%;object-fit:contain;margin:-6px 0 -2px;filter:drop-shadow(0 6px 8px rgba(20,8,60,.35));transition:transform .25s}
+${T} .tk-bild{height:170px!important;width:auto!important;max-width:100%;object-fit:contain;margin:-6px 0 -2px;filter:drop-shadow(0 6px 8px rgba(20,8,60,.35));transition:transform .25s}
 ${T} .du2-tk > span:not(.tk-haken),${T} .du2-tk.an > span:not(.tk-haken),${T} .du2-tk .tk-joker > :not(.tk-muenze){background:none!important;background-color:transparent!important;box-shadow:none!important;padding:0!important}
 ${T} .du2-tk .tk-joker{background:rgba(255,255,255,.16)!important}
 ${T} .tk-name{padding:0!important;font:800 1.25rem/1.1 Fredoka,Lexend,system-ui,sans-serif;text-shadow:0 2px 3px rgba(20,8,60,.45)}
@@ -2307,7 +2311,116 @@ ${T} .du2-tk.an .tk-haken{opacity:1;transform:translateX(-50%) scale(1)}
 ${T} .du2-tk.an .tk-bild{transform:scale(1.08) translateY(-3px);animation:tkHuepf 2.2s ease-in-out infinite}
 @keyframes tkHuepf{0%,100%{transform:scale(1.08) translateY(-3px)}50%{transform:scale(1.08) translateY(-9px)}}
 ${T} .du2-joker-info{display:none!important}
-@media (max-width:420px){${T} .du2-tk{border-width:16px;border-image-width:16px}${T} .tk-bild{height:92px!important}${T} .tk-name{font-size:1.05rem}${T} .tk-haken{top:-24px}}
+@media (max-width:420px){${T} .du2-tk{border-width:16px;border-image-width:16px}${T} .tk-bild{height:140px!important}${T} .tk-name{font-size:1.05rem}${T} .tk-haken{top:-24px}}
 @media (prefers-reduced-motion: reduce){${T} .du2-tk.an .tk-bild{animation:none}}`;
+  document.head.appendChild(c);
+})();
+
+/* ===== Duell: Team-Karten (4 Teams) schöner und alle gleich gross ===== */
+(function(){
+  const T = "html body #app .du2-team.du2-team2";
+  const c = document.createElement("style"); c.id = "ep-teamwahl2-css";
+  c.textContent = `
+${T} .du2-kids{align-items:stretch!important;grid-auto-rows:1fr!important}
+${T} .du2-tk{height:100%;grid-template-rows:auto auto 1fr!important;align-content:stretch;transform:none!important;isolation:isolate;overflow:visible}
+${T} .du2-tk::before{content:"";position:absolute;z-index:-1;left:50%;top:6px;width:150px;height:150px;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.55) 0,rgba(255,255,255,.18) 45%,transparent 70%);pointer-events:none}
+${T} .du2-tk::after{content:"✦  ✧";position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;color:#FFF3C2;font-size:14px;
+  text-shadow:0 0 8px #FFD34D;pointer-events:none;animation:tkFunkel 2.8s ease-in-out infinite}
+@keyframes tkFunkel{0%,100%{opacity:.35}50%{opacity:1}}
+${T} .tk-bild{height:160px!important;width:100%!important;object-fit:contain!important;object-position:center bottom}
+${T} .tk-name{display:inline-block;margin:2px auto 4px;padding:3px 14px!important;border-radius:999px;background:rgba(20,8,60,.28)!important;
+  border:1.5px solid rgba(255,255,255,.45);font-size:1.15rem!important;letter-spacing:.01em}
+${T} .du2-tk.du2-tk > span.tk-joker.tk-joker{align-self:stretch;align-content:start;background:rgba(255,255,255,.93)!important;border:2px solid #fff!important;border-radius:18px!important;
+  box-shadow:0 6px 14px rgba(20,8,60,.22)!important;padding:26px 8px 9px!important;margin-top:16px;position:relative}
+${T} .du2-tk .tk-joker .tk-muenze.tk-muenze{width:38px!important;height:38px!important;position:absolute;top:-18px;left:50%;transform:translateX(-50%)}
+${T} .du2-tk.du2-tk .tk-joker.tk-joker > b{color:var(--tk,#7A1F8E)!important;text-shadow:none!important;font-size:.95rem!important}
+${T} .du2-tk.du2-tk .tk-joker.tk-joker > small{color:#3B2F66!important;text-shadow:none!important;font-weight:600!important}
+${T} .du2-tk.du2-tk .tk-joker.tk-joker > em{color:#8A80A8!important}
+${T} .du2-tk.lumi{--tk:#B0216F}${T} .du2-tk.milo{--tk:#1E3FB0}${T} .du2-tk.leni{--tk:#B4560A}${T} .du2-tk.ben{--tk:#0E7A3E}
+${T}:has(.du2-tk.an) .du2-tk:not(.an){filter:saturate(.55) brightness(.9) drop-shadow(0 6px 10px rgba(30,10,80,.2))!important}
+${T} .du2-tk.an{filter:drop-shadow(0 0 10px rgba(255,225,77,.95)) drop-shadow(0 10px 16px rgba(30,10,80,.35))!important}
+${T} .du2-tk.an .tk-bild{animation:tkHuepf2 2.2s ease-in-out infinite}
+@keyframes tkHuepf2{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media (max-width:760px){${T} .tk-bild{height:104px!important}${T} .du2-tk::before{width:110px;height:110px}${T} .tk-name{font-size:1rem!important;padding:2px 10px!important}${T} .du2-tk.du2-tk > span.tk-joker.tk-joker{padding:22px 5px 6px!important;margin-top:14px}${T} .du2-tk.du2-tk .tk-joker.tk-joker > small{font-size:.72rem!important;line-height:1.2}${T} .du2-tk.du2-tk .tk-joker.tk-joker > b{font-size:.8rem!important}}
+@media (prefers-reduced-motion: reduce){${T} .du2-tk::after,${T} .du2-tk.an .tk-bild{animation:none}}`;
+  document.head.appendChild(c);
+})();
+
+/* ===== Duell: Team-Wahl mit mehr Glanz, grösserem Titel, Handy kompakt ===== */
+(function(){
+  const T = "html body #app .du2-team.du2-team2";
+  const c = document.createElement("style"); c.id = "ep-teamwahl3-css";
+  c.textContent = `
+${T} > .tk-titel{display:block!important;width:max-content;max-width:100%;margin:0 auto 26px!important;padding:10px 30px!important;border-radius:999px!important;
+  background:linear-gradient(180deg,#FFE680,#FFB72E)!important;border:3px solid #fff!important;box-shadow:0 6px 0 #D9861A,0 10px 22px rgba(120,60,0,.3)!important;
+  font:800 clamp(1.35rem,2.6vw,1.9rem)/1.1 Fredoka,system-ui,sans-serif!important;color:#5A2C00!important;text-shadow:0 1px 0 rgba(255,255,255,.6)!important;letter-spacing:.01em;text-align:center}
+${T} .du2-tk > i.tk-glanz,${T} .du2-tk > i.tk-fk{display:none}
+${T} .du2-tk.an > i.tk-glanz{display:block;position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 45%,rgba(255,240,180,.25) 52%,transparent 64%) no-repeat;background-size:250% 100%;
+  animation:tkGlanz 2.6s ease-in-out infinite}
+@keyframes tkGlanz{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
+${T} .du2-tk.an > i.tk-fk{display:block;position:absolute;z-index:3;pointer-events:none;font-style:normal;color:#FFF6C8;
+  text-shadow:0 0 6px #FFD84D,0 0 14px #FFB300;animation:tkStern 1.8s ease-in-out infinite}
+${T} .du2-tk.an > .f1{top:14%;left:9%;font-size:22px}
+${T} .du2-tk.an > .f2{top:8%;right:11%;font-size:26px;animation-delay:.4s}
+${T} .du2-tk.an > .f3{top:34%;right:7%;font-size:16px;animation-delay:.9s}
+${T} .du2-tk.an > .f4{top:40%;left:6%;font-size:15px;animation-delay:1.2s}
+${T} .du2-tk.an > .f5{top:24%;left:22%;font-size:12px;animation-delay:.7s}
+${T} .du2-tk.an > .f6{top:22%;right:25%;font-size:13px;animation-delay:1.5s}
+@keyframes tkStern{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(25deg)}}
+${T} .du2-tk.an{
+  filter:drop-shadow(0 0 4px #FFE680) drop-shadow(0 0 14px rgba(255,214,60,1)) drop-shadow(0 0 26px rgba(255,180,40,.8)) drop-shadow(0 10px 16px rgba(30,10,80,.35))!important;
+  animation:tkPuls 2.2s ease-in-out infinite}
+@keyframes tkPuls{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+${T} .du2-tk.an::before{background:radial-gradient(circle,rgba(255,246,200,.85) 0,rgba(255,220,110,.35) 45%,transparent 70%)!important}
+${T} .du2-tk > .tk-haken{z-index:4}
+${T} .du2-tk.an .tk-name{border-color:#FFE680!important;box-shadow:0 0 12px rgba(255,220,90,.8)}
+@media (max-width:760px){
+  ${T} > .tk-titel{font-size:1.35rem!important;padding:8px 22px!important;margin-bottom:22px!important}
+  ${T} .du2-kids{gap:16px 12px!important}
+  ${T} .du2-tk{padding:14px 8px 10px!important;grid-template-rows:auto auto 1fr!important}
+  ${T} .tk-bild{height:84px!important}
+  ${T} .du2-tk::before,${T} .du2-tk::after{display:none}
+  ${T} .tk-name{font-size:.92rem!important;margin:2px auto 0!important}
+  ${T} .du2-tk.du2-tk > span.tk-joker.tk-joker{margin-top:8px!important;padding:6px 6px 7px!important;display:grid!important;grid-template-columns:28px 1fr;column-gap:6px;align-items:center;text-align:left!important}
+  ${T} .du2-tk .tk-joker .tk-muenze.tk-muenze{position:static!important;transform:none!important;width:28px!important;height:28px!important;font-size:14px!important;grid-row:1}
+  ${T} .du2-tk.du2-tk .tk-joker.tk-joker > b{grid-row:1;font-size:.78rem!important;line-height:1.1}
+  ${T} .du2-tk.du2-tk .tk-joker.tk-joker > small{grid-column:1 / -1;font-size:.7rem!important;line-height:1.2;margin-top:4px;text-align:center}
+  ${T} .du2-tk.du2-tk .tk-joker.tk-joker > em{display:none!important}
+  ${T} .du2-tk > .tk-haken{font-size:.72rem!important;padding:3px 10px!important}
+  ${T} .du2-tk.du2-tk .tk-joker.tk-joker > b{font-size:.74rem!important}
+  ${T} .du2-tk{padding-top:18px!important}
+}
+@media (prefers-reduced-motion: reduce){${T} .du2-tk.an,${T} .du2-tk.an > i{animation:none!important}}`;
+  document.head.appendChild(c);
+})();
+
+/* ===== Duell: Team-Karten mit Dejans Bildern (img/grafik/duell/) ===== */
+(function(){
+  const T = "html body #app .du2-team.du2-team2", G = "img/grafik/duell/";
+  const c = document.createElement("style"); c.id = "ep-teamwahl4-css";
+  c.textContent = `
+${T} .du2-tk.du2-tk{border:0!important;border-image:none!important;background:url(${G}karte-lumi.webp) center/100% 100% no-repeat!important;border-radius:26px;padding:22px 14px 16px!important}
+${T} .du2-tk.du2-tk.milo{background-image:url(${G}karte-milo.webp)!important}
+${T} .du2-tk.du2-tk.leni{background-image:url(${G}karte-leni.webp)!important}
+${T} .du2-tk.du2-tk.ben{background-image:url(${G}karte-ben.webp)!important}
+${T} .du2-tk.du2-tk.an{background-image:url(${G}rahmen-gold.webp),url(${G}karte-lumi.webp)!important;background-size:104% 103%,100% 100%!important;background-position:center!important}
+${T} .du2-tk.du2-tk.an.milo{background-image:url(${G}rahmen-gold.webp),url(${G}karte-milo.webp)!important}
+${T} .du2-tk.du2-tk.an.leni{background-image:url(${G}rahmen-gold.webp),url(${G}karte-leni.webp)!important}
+${T} .du2-tk.du2-tk.an.ben{background-image:url(${G}rahmen-gold.webp),url(${G}karte-ben.webp)!important}
+${T} .du2-tk.du2-tk > span.tk-name{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:-6px auto 0!important;display:block;line-height:0}
+${T} .tk-name img{display:block;height:64px;width:auto;max-width:100%;margin:0 auto;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(20,8,60,.35))}
+${T} .du2-tk .tk-joker .tk-muenze.tk-muenze{background:none!important;box-shadow:none!important;border:0!important;width:52px!important;height:52px!important;top:-28px!important;display:grid;place-items:center}
+${T} .tk-muenze img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(20,8,60,.35))}
+${T} .du2-tk.du2-tk > span.tk-joker.tk-joker{padding-top:36px!important;margin-top:28px!important}
+${T} .du2-tk.du2-tk > .tk-haken{top:-14px!important;bottom:auto!important}
+.du-joker .ji img,.du2-joker-info img{width:1.7em;height:1.7em;object-fit:contain;vertical-align:middle}
+@media (max-width:760px){
+  ${T} .du2-tk.du2-tk{padding:16px 8px 10px!important;border-radius:18px}
+  ${T} .tk-name img{height:44px}
+  ${T} .du2-tk .tk-joker .tk-muenze.tk-muenze{width:34px!important;height:34px!important}
+  ${T} .du2-tk.du2-tk > span.tk-joker.tk-joker{padding:6px 6px 7px!important;margin-top:8px!important;grid-template-columns:34px 1fr!important}
+}`;
   document.head.appendChild(c);
 })();

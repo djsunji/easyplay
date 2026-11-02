@@ -250,11 +250,12 @@ function teamBox(){
   const karte = (id, name, bild) => { const j = J[id] || {}; const an = t && t.id === id;
     return `<button type="button" class="du2-kid du2-tk ${id}${an ? " an" : ""}" data-team="${id}" aria-pressed="${!!an}">
       <span class="tk-haken" aria-hidden="true">✓ Dein Team</span>
+      <i class="tk-glanz" aria-hidden="true"></i><i class="tk-fk f1" aria-hidden="true">✦</i><i class="tk-fk f2" aria-hidden="true">✦</i><i class="tk-fk f3" aria-hidden="true">✧</i><i class="tk-fk f4" aria-hidden="true">✦</i><i class="tk-fk f5" aria-hidden="true">✧</i><i class="tk-fk f6" aria-hidden="true">✦</i>
       <img class="tk-bild" src="${KIDS}${bild}" alt="">
-      <span class="tk-name">Team ${name}</span>
+      <span class="tk-name"><img src="img/grafik/duell/name-${id}.webp" alt="Team ${name}"></span>
       <span class="tk-joker"><i class="tk-muenze" aria-hidden="true">${j.ic || ""}</i><b>${h(j.name || "")}</b><small>${h(j.kurz || "")}</small><em>Joker · 1× pro Duell</em></span>
     </button>`; };
-  return `<div class="du2-team du2-team2"><span class="lbl">Wähle dein Team</span><div class="du2-kids">${karte("lumi", "Lumi", "m3.webp")}${karte("milo", "Milo", "j3.webp")}</div></div>`;
+  return `<div class="du2-team du2-team2"><h2 class="lbl tk-titel">✨ Wähle dein Team ✨</h2><div class="du2-kids">${karte("lumi", "Lumi", "lumi-sprung.webp")}${karte("milo", "Milo", "milo-sprung.webp")}${karte("leni", "Leni", "leni-sprung.webp")}${karte("ben", "Ben", "ben-sprung.webp")}</div></div>`;
 }
 window.renderDuell = function(){
   duellLeave(); if(DU.match) matchStop();
@@ -520,11 +521,15 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
    Team Lumi «Lumis Blick»: zwei falsche Antworten verschwinden. Team Milo «Milos zweite Chance»: ist die Antwort falsch,
    darf man nochmals tippen (die Zeit läuft weiter, Punkte wie gewohnt nach Tempo). Beide helfen etwa gleich viel:
    der Blick wirkt sicher, aber man muss ihn vorher einsetzen; die zweite Chance wirkt nur, wenn man danebenliegt.
+   Team Leni «Lenis Zeitstopp»: die Uhr bleibt für diese Frage stehen, volle Tempo-Punkte. Team Ben «Bens Bonus»: ist die
+   Antwort richtig, gibt es 40 Extra-Punkte (falsch: Joker verbraucht).
    Gilt in allen Duellen mit DU.run (Online, Zufall, Link). ===== */
 (function(){
   const J = {
-    lumi:{name:"Lumis Blick", ic:"👀", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro Duell: Zwei falsche Antworten verschwinden."},
-    milo:{name:"Milos zweite Chance", ic:"🛡️", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro Duell: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
+    lumi:{name:"Lumis Blick", ic:"<img src=\"img/grafik/duell/joker-lumi.webp\" alt=\"\">", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro Duell: Zwei falsche Antworten verschwinden."},
+    leni:{name:"Lenis Zeitstopp", ic:"<img src=\"img/grafik/duell/joker-leni.webp\" alt=\"\">", kurz:"Die Uhr bleibt stehen, volle Tempo-Punkte.", lang:"1× pro Duell: Die Uhr bleibt für eine Frage stehen, du bekommst die vollen Tempo-Punkte."},
+    ben:{name:"Bens Bonus", ic:"<img src=\"img/grafik/duell/joker-ben.webp\" alt=\"\">", kurz:"Richtig? 40 Extra-Punkte.", lang:"1× pro Duell: Ist deine Antwort richtig, gibt es 40 Extra-Punkte."},
+    milo:{name:"Milos zweite Chance", ic:"<img src=\"img/grafik/duell/joker-milo.webp\" alt=\"\">", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro Duell: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
   };
   const teamId = () => { try{ const t = window.EP_START && EP_START.team && EP_START.team(); if(t && t.id) return t.id; }catch(e){} try{ return JSON.parse(localStorage.getItem("ep-team") || "null"); }catch(e){ return null; } };
   const esc2 = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
@@ -545,6 +550,9 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
 .du-joker small{font:500 .78rem/1.3 Lexend,system-ui,sans-serif;color:inherit;opacity:.85}
 .du-joker.lumi{--j1:#FF6FB5;--j2:#B13FE0;--j3:#7A1F8E}
 .du-joker.milo{--j1:#4F8BFF;--j2:#3D3AE0;--j3:#1E2A9E}
+.du-joker.leni{--j1:#FFA24A;--j2:#E0601E;--j3:#9C3A0A}
+.du-joker.ben{--j1:#4CD46A;--j2:#1E9E46;--j3:#0E6A2C}
+.du-joker button .ji img{width:26px;height:26px;object-fit:contain}
 .du-joker.an button{box-shadow:0 0 0 3px #FFE14D,0 0 18px rgba(255,225,77,.8)}
 #app .answers .ans.jk-weg{opacity:.18!important;filter:grayscale(1);pointer-events:none;transform:scale(.97)}
 #app .answers .ans.jk-falsch{opacity:.35!important;pointer-events:none;animation:jkWackel .4s}
@@ -563,14 +571,19 @@ body.dark .du-joker-msg{color:#FFE9A8}`;
     if(R.jkFalsch != null && R.jkChance === R.i && !R.aus){ const b = ans[R.jkFalsch]; if(b){ b.classList.add("jk-falsch"); b.disabled = true; } }
     if(!j) return;
     const box = document.querySelector("#app .answers"); if(!box || document.querySelector(".du-joker")) return;
-    const benutzt = !!R.jkGenutzt, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i);
+    if(R.jkStopp === R.i && !R.aus){ const z = document.getElementById("duZeit"); if(z) z.textContent = "⏸"; }
+    const benutzt = !!R.jkGenutzt, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i) || (id === "leni" && R.jkStopp === R.i) || (id === "ben" && R.jkBonus === R.i && !R.aus);
+    const AKTIV = {milo:"Aktiv für diese Frage.", lumi:"Zwei Antworten sind weg.", leni:"Die Uhr steht still. Nimm dir Zeit!", ben:"Antworte richtig für 40 Extra-Punkte!"};
     const d = document.createElement("div"); d.className = "du-joker " + id + (aktiv ? " an" : "");
-    d.innerHTML = `<button type="button" ${benutzt || R.aus ? "disabled" : ""} aria-label="Joker ${esc2(j.name)}"><span class="ji" aria-hidden="true">${j.ic}</span>${esc2(j.name)}</button><small>${aktiv ? (id === "milo" ? "Aktiv für diese Frage." : "Zwei Antworten sind weg.") : benutzt ? "Schon eingesetzt." : esc2(j.kurz) + " 1× pro Duell"}</small>`;
+    d.innerHTML = `<button type="button" ${benutzt || R.aus ? "disabled" : ""} aria-label="Joker ${esc2(j.name)}"><span class="ji" aria-hidden="true">${j.ic}</span>${esc2(j.name)}</button><small>${aktiv ? AKTIV[id] : benutzt ? "Schon eingesetzt." : esc2(j.kurz) + " 1× pro Duell"}</small>`;
     box.after(d);
-    if(R.jkMsg && R.jkMsg.i === R.i && !R.aus){ const m = document.createElement("p"); m.className = "du-joker-msg"; m.textContent = R.jkMsg.t; d.after(m); }
+    if(R.jkMsg && R.jkMsg.i === R.i && (!R.aus || R.jkMsg.nachher)){ const m = document.createElement("p"); m.className = "du-joker-msg"; m.textContent = R.jkMsg.t; d.after(m); }
     const btn = d.querySelector("button");
     btn.onclick = () => { if(R.jkGenutzt || R.aus) return; R.jkGenutzt = true;
-      if(id === "lumi") R.jkWeg = {i:R.i, l:weg2(f)}; else R.jkChance = R.i;
+      if(id === "lumi") R.jkWeg = {i:R.i, l:weg2(f)};
+      else if(id === "leni"){ R.jkStopp = R.i; clearInterval(DU.tick); }
+      else if(id === "ben") R.jkBonus = R.i;
+      else R.jkChance = R.i;
       try{ A_ton(); }catch(e){} renderDuellPlay(); };
   }
   function A_ton(){ try{ window.EP_EXTRAS && EP_EXTRAS.api && EP_EXTRAS.api.ton && EP_EXTRAS.api.ton("klick"); }catch(e){} }
@@ -583,6 +596,10 @@ body.dark .du-joker-msg{color:#FFE9A8}`;
     const R = DU.run;
     if(R && !R.aus && i !== -1 && R.jkChance === R.i && R.jkFalsch == null && DU.list[R.i] && i !== DU.list[R.i].c){
       R.jkFalsch = i; R.jkMsg = {i:R.i, t:"🛡️ Milos zweite Chance! Versuch es nochmals."}; renderDuellPlay(); return; }
-    return vorTipp2.apply(this, arguments);
+    if(R && !R.aus && R.jkStopp === R.i) R.qStart = Date.now();
+    const bonus = !!(R && !R.aus && R.jkBonus === R.i && DU.list[R.i] && i === DU.list[R.i].c);
+    const r = vorTipp2.apply(this, arguments);
+    if(bonus){ R.score += 40; R.jkMsg = {i:R.i, t:"Bens Bonus: +40 Punkte!", nachher:true}; try{ renderDuellPlay(); }catch(e){} }
+    return r;
   };
 })();
