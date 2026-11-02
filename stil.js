@@ -2001,6 +2001,9 @@ ${Z} .mbild{position:relative;display:block;width:100%;height:auto;animation:zbs
 @keyframes zbschweb{50%{transform:translateY(-9px) rotate(1.5deg)}}
 ${Z} .mtext{display:grid;justify-items:center;gap:6px}
 ${Z} .minicover .bemo2{display:none!important}
+/* Dejans Buchbilder tragen den Titel selbst (?v=2, gleich wie im Regal): Titel darunter nur noch für Vorleser */
+${Z} .minicover .btitel{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}
+${Z} .mtext{position:relative}
 ${Z} .minicover .btitel{font-family:"Cinzel Decorative",Georgia,serif!important;font-weight:900!important;font-size:clamp(1.8rem,3vw,2.4rem)!important;line-height:1.05!important;color:var(--bt,#FFE29A)!important;
   -webkit-text-stroke:.15em var(--bs,#2A1200);paint-order:stroke fill;text-shadow:0 .07em 0 var(--bs,#2A1200),0 0 .45em rgba(255,214,110,.9)!important;transform:rotate(-4deg);display:inline-block;letter-spacing:.02em}
 ${Z} .minicover .bunter{font:600 1rem/1.3 Fredoka,Lexend,system-ui,sans-serif!important;font-style:normal!important;color:var(--zakz)!important;opacity:1!important;letter-spacing:.02em}
@@ -2130,7 +2133,7 @@ ${K} .libnav{justify-content:center;margin-top:24px}
   ${Z}::before{background-size:34px!important}
   ${Z}>.seite.links,${Z}>.seite.rechts{border-radius:12px!important;padding:18px 16px 20px!important;box-shadow:inset 0 0 26px -12px rgba(90,55,10,.45)!important}
   ${Z} .minicover{grid-template-columns:auto 1fr;justify-items:start;align-items:center;gap:6px 14px}
-  ${Z} .mbuehne{width:92px;margin:8px 6px 8px 10px}
+  ${Z} .mbuehne{width:124px;margin:8px 6px 8px 8px}
   ${Z} .mkreis{width:175%}
   ${Z} .mtext{justify-items:start;text-align:left}
   ${Z} .minicover .btitel{font-size:1.7rem!important;transform:rotate(-4deg);transform-origin:left center}

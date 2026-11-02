@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 02.11. Sitzung «Bibliothek-Zauberbuch»: Aufgeschlagenes Buch zeigte links noch das alte Buchbild ohne Titel (`?v=1`). Jetzt Dejans Bild mit eingebautem Titel (`img/grafik/buecher/<id>.webp?v=2`, gleich wie im Regal) in `renderLibBuch`, der CSS-Titel darunter nur noch für Vorleser, Handy Buch grösser (124 px). **Wenn die Buchbilder wieder wechseln: `?v=` im Regal-Block von `stil.js` und in `renderLibBuch` (`index.html`) gemeinsam hochzählen.** Kein App-Bau. Version ep-2026-11-02-01.
 - 01.11. Sitzung «Hauptseite»: `level.js` der Sitzung von v50 (XP-Balken pro Level) wiederhergestellt, mein Push v51 hatte sie aus Versehen mit einer alten Kopie überschrieben. Version ep-2026-11-01-52.
 - 01.11. Sitzung «Hauptseite»: Bibliothek Handy/iPad hoch (App-Ansicht, bis 900 px): Regal wird so verkleinert, dass Suche und alle 9 Bücher ohne Scrollen über der Menüleiste Platz haben (`einpassen()` im Block «Bibliothek-Startseite: Dejans Holzregal» in `stil.js`, misst nach und setzt Buchbreite/-höhe inline). Kein App-Bau. Version ep-2026-11-01-51.
 - 01.11. Sitzung «Profil»: XP-Balken (`.lvbar` in level.js, Startseite und Profil) hat pro Level einen eigenen Farbverlauf (`xpVerlauf`, Farbton +47° pro Level), gleich wie in der Qeels-App.
