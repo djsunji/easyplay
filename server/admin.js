@@ -52,7 +52,7 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
       site_urls: String(E.SITE_URLS || "").split(",").map(x => x.trim()).filter(Boolean),
       post: { an: postAn(), benutzer: E.IMAP_USER || "" },
       mail: { an: mailAn(), absender: E.MAIL_FROM || "", host: E.SMTP_HOST || "", port: +E.SMTP_PORT || (E.SMTP_HOST ? 587 : null), test: !!E.MAIL_TEST_DATEI },
-      anbieter: { email: true, google: !!(E.GOOGLE_CLIENT_ID && E.GOOGLE_CLIENT_SECRET), apple: !!(E.APPLE_CLIENT_ID && E.APPLE_TEAM_ID && E.APPLE_KEY_ID && E.APPLE_PRIVATE_KEY) },
+      anbieter: { email: true, google: !!(E.GOOGLE_CLIENT_ID && E.GOOGLE_CLIENT_SECRET), apple: !!(E.APPLE_CLIENT_ID && E.APPLE_TEAM_ID && E.APPLE_KEY_ID && E.APPLE_PRIVATE_KEY), microsoft: !!(E.MICROSOFT_CLIENT_ID && E.MICROSOFT_CLIENT_SECRET) },
       registrierung: E.SIGNUP !== "0", admin_email: !!E.ADMIN_EMAIL, trust_proxy: E.TRUST_PROXY !== "0",
       sperren, db,
     });

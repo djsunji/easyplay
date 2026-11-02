@@ -1,5 +1,5 @@
 // easyplay-Server: Anmeldung unter /auth/v1 (gleiche Adressen und Antworten wie Supabase, soweit easyplay sie nutzt).
-// E-Mail und Passwort, Bestätigungsmail, «Passwort vergessen», Google und Apple.
+// E-Mail und Passwort, Bestätigungsmail, «Passwort vergessen», Google, Apple und Microsoft.
 import { randomBytes, scrypt as scryptCb, createHash, createHmac, timingSafeEqual, createPrivateKey, sign as signieren } from "node:crypto";
 import { promisify } from "node:util";
 import { sql } from "./db.js";
@@ -168,11 +168,15 @@ ${fehler ? `<p class="f">${e(fehler)}</p>` : ""}
 <button type="submit">Speichern und anmelden</button></form></body></html>`;
 }
 
-/* ---------- Google und Apple ---------- */
+/* ---------- Google, Apple und Microsoft (Microsoft heisst wie bei Supabase «azure») ---------- */
 const ANBIETER = {
   google: () => E.GOOGLE_CLIENT_ID && E.GOOGLE_CLIENT_SECRET,
   apple: () => E.APPLE_CLIENT_ID && E.APPLE_TEAM_ID && E.APPLE_KEY_ID && E.APPLE_PRIVATE_KEY,
+  azure: () => E.MICROSOFT_CLIENT_ID && E.MICROSOFT_CLIENT_SECRET,
 };
+/* Microsoft: «common» erlaubt private Konten (Outlook, Hotmail, Live) und Schul- oder Firmenkonten */
+const MS_BASIS = () => (E.MICROSOFT_AUTH_BASIS || "https://login.microsoftonline.com/" + (E.MICROSOFT_TENANT || "common")).replace(/\/$/, "");
+const MS_PRIVAT = "9188040d-6c67-4c5b-b112-36a304b66dad";   // Mandant aller privaten Microsoft-Konten
 function appleGeheimnis() {
   const jetzt = SEK();
   const kopf = b64u({ alg: "ES256", kid: E.APPLE_KEY_ID }), inhalt = b64u({ iss: E.APPLE_TEAM_ID, iat: jetzt, exp: jetzt + 600, aud: "https://appleid.apple.com", sub: E.APPLE_CLIENT_ID });
@@ -189,27 +193,47 @@ function anmeldenBei(anbieter, ziel) {
       code_challenge: createHash("sha256").update(pruef).digest("base64url"), code_challenge_method: "S256", prompt: "select_account" });
     return (E.GOOGLE_AUTH_URL || "https://accounts.google.com/o/oauth2/v2/auth") + "?" + q;
   }
+  if (anbieter === "azure") {
+    const q = new URLSearchParams({ client_id: E.MICROSOFT_CLIENT_ID, redirect_uri: RUECK(), response_type: "code", response_mode: "query", scope: "openid email profile", state: zustand, nonce,
+      code_challenge: createHash("sha256").update(pruef).digest("base64url"), code_challenge_method: "S256", prompt: "select_account" });
+    return MS_BASIS() + "/oauth2/v2.0/authorize?" + q;
+  }
   const q = new URLSearchParams({ client_id: E.APPLE_CLIENT_ID, redirect_uri: RUECK(), response_type: "code", scope: "name email", response_mode: "form_post", state: zustand, nonce });
   return (E.APPLE_AUTH_URL || "https://appleid.apple.com/auth/authorize") + "?" + q;
 }
 async function codeEinloesen(anbieter, code, pruef) {
   const body = anbieter === "google"
     ? new URLSearchParams({ code, client_id: E.GOOGLE_CLIENT_ID, client_secret: E.GOOGLE_CLIENT_SECRET, redirect_uri: RUECK(), grant_type: "authorization_code", code_verifier: pruef })
+    : anbieter === "azure"
+    ? new URLSearchParams({ code, client_id: E.MICROSOFT_CLIENT_ID, client_secret: E.MICROSOFT_CLIENT_SECRET, redirect_uri: RUECK(), grant_type: "authorization_code", code_verifier: pruef, scope: "openid email profile" })
     : new URLSearchParams({ code, client_id: E.APPLE_CLIENT_ID, client_secret: appleGeheimnis(), redirect_uri: RUECK(), grant_type: "authorization_code" });
-  const url = anbieter === "google" ? (E.GOOGLE_TOKEN_URL || "https://oauth2.googleapis.com/token") : (E.APPLE_TOKEN_URL || "https://appleid.apple.com/auth/token");
+  const url = anbieter === "google" ? (E.GOOGLE_TOKEN_URL || "https://oauth2.googleapis.com/token")
+    : anbieter === "azure" ? (E.MICROSOFT_TOKEN_URL || MS_BASIS() + "/oauth2/v2.0/token")
+    : (E.APPLE_TOKEN_URL || "https://appleid.apple.com/auth/token");
   const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body, signal: AbortSignal.timeout(15000) });
   const j = await r.json().catch(() => ({}));
   if (!r.ok || !j.id_token) throw new Error(j.error_description || j.error || "Anmeldung beim Anbieter fehlgeschlagen");
   /* Das id_token kommt direkt vom Anbieter über TLS (OpenID Connect 3.1.3.7): Inhalt prüfen genügt */
-  const d = JSON.parse(Buffer.from(j.id_token.split(".")[1], "base64url").toString());
-  const iss = anbieter === "google" ? ["https://accounts.google.com", "accounts.google.com"] : ["https://appleid.apple.com"];
-  const aud = anbieter === "google" ? E.GOOGLE_CLIENT_ID : E.APPLE_CLIENT_ID;
-  if (!iss.includes(d.iss) || (Array.isArray(d.aud) ? !d.aud.includes(aud) : d.aud !== aud) || d.exp < SEK() - 60) throw new Error("Antwort des Anbieters ungültig");
+  let d = JSON.parse(Buffer.from(j.id_token.split(".")[1], "base64url").toString());
+  const iss = anbieter === "google" ? ["https://accounts.google.com", "accounts.google.com"] : anbieter === "azure" ? [] : ["https://appleid.apple.com"];
+  const aud = anbieter === "google" ? E.GOOGLE_CLIENT_ID : anbieter === "azure" ? E.MICROSOFT_CLIENT_ID : E.APPLE_CLIENT_ID;
+  /* Microsoft: Aussteller ist https://login.microsoftonline.com/<Mandant>/v2.0, der Mandant muss zu tid passen */
+  const issOk = anbieter === "azure" ? (d.tid && d.iss === `${E.MICROSOFT_ISS_BASIS || "https://login.microsoftonline.com"}/${d.tid}/v2.0`) : iss.includes(d.iss);
+  if (!issOk || (Array.isArray(d.aud) ? !d.aud.includes(aud) : d.aud !== aud) || d.exp < SEK() - 60) throw new Error("Antwort des Anbieters ungültig");
+  if (anbieter === "azure") {
+    /* Microsoft meldet keine bestätigte E-Mail. Als bestätigt gilt sie nur bei privaten Microsoft-Konten
+       (die Adresse ist das Konto selbst) oder wenn Microsoft die Domain als geprüft meldet (xms_edov). */
+    const mail = d.email || (d.tid === MS_PRIVAT ? d.preferred_username : "");
+    d = { ...d, sub: `${d.tid}:${d.oid || d.sub}`, email: mail && /@/.test(mail) ? mail : undefined,
+          email_verified: !!mail && (d.tid === MS_PRIVAT || d.xms_edov === true || d.xms_edov === "true" || d.xms_edov === 1) };
+  }
   return d;
 }
 async function kontoFuerAnbieter(anbieter, d, nameApple) {
-  const sub = String(d.sub), mail = d.email ? String(d.email).toLowerCase() : null;
+  const sub = String(d.sub);
   const bestaetigt = d.email_verified === true || d.email_verified === "true";
+  /* Ungeprüfte Microsoft-Adressen (Schul- oder Firmenkonten) nicht als Konto-Adresse speichern: sonst könnte jemand eine fremde Adresse belegen */
+  const mail = d.email && (bestaetigt || anbieter !== "azure") ? String(d.email).toLowerCase() : null;
   let [u] = await sql`select u.* from auth.identities i join auth.users u on u.id = i.user_id where i.provider = ${anbieter} and i.provider_id = ${sub}`;
   /* Mit einem bestehenden Konto nur verbinden, wenn dessen E-Mail wirklich bestätigt wurde (per Mail).
      Ohne Mailversand gilt jedes Konto sofort als bestätigt, dann gar nicht verbinden. */
@@ -220,7 +244,11 @@ async function kontoFuerAnbieter(anbieter, d, nameApple) {
   if (!u && mail) {
     const [schon] = await sql`select id, email_confirmed_at from auth.users where lower(email) = ${mail}`;
     if (schon && schon.email_confirmed_at) throw Object.assign(new Error("Mit dieser E-Mail gibt es schon ein Konto. Melde dich mit E-Mail und Passwort an."), { anzeigen: true });
-    if (schon) await sql`delete from auth.users where id = ${schon.id} and email_confirmed_at is null`;   // nie bestätigt: Platz machen
+    if (schon) {
+      const weg = await sql`delete from auth.users u where u.id = ${schon.id} and u.email_confirmed_at is null
+                            and not exists (select 1 from auth.identities i where i.user_id = u.id) returning id`;   // nie bestätigt und ohne Anbieter: Platz machen
+      if (!weg.length) throw Object.assign(new Error("Mit dieser E-Mail gibt es schon ein Konto. Melde dich so an wie beim ersten Mal."), { anzeigen: true });
+    }
   }
   if (!u && !anmeldungOffen()) throw Object.assign(new Error(GESCHLOSSEN), { anzeigen: true });
   if (!u) {
@@ -248,7 +276,7 @@ export async function authAnfrage(req, res, pfad) {
   const ip = req.ip || "";
 
   if (pfad === "/settings" && m === "GET") {
-    return res.json(200, { external: { email: true, google: !!ANBIETER.google(), apple: !!ANBIETER.apple(), facebook: false, azure: false },
+    return res.json(200, { external: { email: true, google: !!ANBIETER.google(), apple: !!ANBIETER.apple(), facebook: false, azure: !!ANBIETER.azure() },
       disable_signup: !anmeldungOffen(), mailer_autoconfirm: !mailAn() });
   }
 

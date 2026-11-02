@@ -45,8 +45,9 @@ Domain: im Reiter **Hosts** `easyplay.ch` und `www.easyplay.ch` eintragen (www l
 | `POST_ADRESSEN` | Adressen, die im Postfach als Ordner erscheinen und als Absender wählbar sind, ohne @easyplay.ch, mit Komma. Standard `info,sponsor,feedback,schule`. Bei Hostpoint als Aliase auf das Postfach anlegen. | nein |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | aus Schritt 4 | für Google |
 | `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` | aus Schritt 5 | für Apple |
+| `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET` | aus Schritt 5b | für Microsoft |
 
-Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofort als bestätigt, und «Passwort vergessen» geht nicht. `JWT_SECRET`, `SMTP_PASS`, `IMAP_PASS`, `GOOGLE_CLIENT_SECRET` und `APPLE_PRIVATE_KEY` im Cockpit als **geheim** markieren.
+Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofort als bestätigt, und «Passwort vergessen» geht nicht. `JWT_SECRET`, `SMTP_PASS`, `IMAP_PASS`, `GOOGLE_CLIENT_SECRET`, `MICROSOFT_CLIENT_SECRET` und `APPLE_PRIVATE_KEY` im Cockpit als **geheim** markieren.
 
 ## 4. Anmeldung mit Google
 
@@ -69,6 +70,20 @@ Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofo
    - `APPLE_KEY_ID`: die Key ID.
    - `APPLE_TEAM_ID`: die Team ID (oben rechts im Konto).
    - `APPLE_PRIVATE_KEY`: der ganze Inhalt der .p8-Datei, mit den Zeilen BEGIN und END.
+
+## 5b. Anmeldung mit Microsoft
+
+Für alle: private Microsoft-Konten (Outlook, Hotmail, Live) und Schul- oder Firmenkonten.
+
+1. portal.azure.com (oder entra.microsoft.com) mit einem Microsoft-Konto anmelden, **App-Registrierungen**, **Neue Registrierung**.
+   - Name: `easyplay`
+   - Unterstützte Kontotypen: **Konten in einem beliebigen Organisationsverzeichnis und persönliche Microsoft-Konten**
+   - Umleitungs-URI: Plattform **Web**, `https://easyplay.ch/auth/v1/callback`
+2. Auf der Übersicht steht die **Anwendungs-ID (Client-ID)**. Das ist `MICROSOFT_CLIENT_ID`.
+3. **Zertifikate & Geheimnisse**, **Neuer geheimer Clientschlüssel**, Ablauf 24 Monate. Den **Wert** (nicht die ID) sofort kopieren, er wird nur einmal gezeigt. Das ist `MICROSOFT_CLIENT_SECRET`. Vor Ablauf einen neuen erstellen und bei Deploio ersetzen.
+4. **Branding & Eigenschaften**: Logo, Startseite `https://easyplay.ch`, Datenschutz `https://easyplay.ch/datenschutz.html`.
+
+Microsoft meldet nicht, ob eine Adresse geprüft ist. Der Server übernimmt sie darum nur bei privaten Microsoft-Konten oder geprüften Domains als Konto-Adresse und verbindet nur dann mit einem bestehenden Konto.
 
 In der App gibt es nur die Anmeldung mit E-Mail. Apple verlangt «Mit Apple anmelden» nur, wenn eine App andere Anmeldungen wie Google anbietet.
 

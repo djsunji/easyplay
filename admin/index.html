@@ -721,7 +721,7 @@ async function techAnbieter(){
   box.innerHTML = `<table><thead><tr><th>Anbieter</th><th>Knopf auf der Website</th><th>Kennung</th><th>Auf dem Server aktiv</th><th>Anleitung</th></tr></thead><tbody>${zeilen.map(z => `<tr><td><b>${esc(z.name)}</b></td>
       <td>${z.immer ? '<span class="ok">Formular</span>' : z.fehlt ? '<span class="wa">kein Knopf</span>' : '<span class="ok">ja</span>'}</td><td><code>${esc(z.sb)}</code></td><td>${status(z)}</td>
       <td><a class="link" href="${LOGIN_MD + (anker[z.id] || "")}" target="_blank" rel="noopener">ANLEITUNG-LOGIN.md</a></td></tr>`).join("")}</tbody></table>
-    <p class="mu klein">${!sbAn() ? "Ohne eigenen Server funktionieren die Knöpfe nicht (z. B. auf der alten Adresse bei GitHub Pages)." : fehler ? "Status konnte nicht abgefragt werden: " + esc(fehler) : "Status direkt vom Server. Google und Apple schaltet man bei Deploio mit den Umgebungsvariablen ein (ANLEITUNG-SERVER.md, Abschnitte 4 und 5). Facebook und Microsoft bietet der eigene Server nicht an; ein Knopf ohne aktiven Anbieter zeigt Besuchern eine Fehlermeldung."}</p>`;
+    <p class="mu klein">${!sbAn() ? "Ohne eigenen Server funktionieren die Knöpfe nicht (z. B. auf der alten Adresse bei GitHub Pages)." : fehler ? "Status konnte nicht abgefragt werden: " + esc(fehler) : "Status direkt vom Server. Google, Apple und Microsoft schaltet man bei Deploio mit den Umgebungsvariablen ein (ANLEITUNG-SERVER.md, Abschnitte 4 bis 6). Facebook bietet der eigene Server nicht an. Knöpfe ohne aktiven Anbieter blendet die Website aus."}</p>`;
 }
 /* Veröffentlichte Grösse = Summe aller Dateien im aktuellen Stand (ohne Verlauf). repo.size von GitHub enthält den ganzen Verlauf. */
 async function seitenGroesseMB(){
