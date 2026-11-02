@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-02-21";
+window.EP_BUILD="ep-2026-11-02-22";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -8568,7 +8568,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="eltern.js"></script>
 <script src="offline.js"></script>
 <script src="i18n.js"></script><script src="regionen.js"></script><script src="online.js"></script>
-<script>try{ render(); }catch(e){} window.__epGerendert=true; try{ window.__epBootEnde(); }catch(e){} setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 30);</script>
+<script>try{ render(); }catch(e){} setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 30);</script>
 <script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
 (function(){
 const css=`
@@ -9086,6 +9086,19 @@ if("serviceWorker" in navigator && !window.claude && !window.EP_NATIV && (locati
 <script src="appfein.js"></script>
 <script src="quizstil.js"></script>
 <script src="duellgeraet.js"></script>
+<script>/*__epBootErstAmSchluss: Ladebild erst weg, wenn alle Design-Skripte (neustart, appfein, quizstil …) die Seite neu gezeichnet haben und die Bilder oben geladen sind. So erscheint nie das alte Design.*/
+(function(){ try{ render(); }catch(e){}
+  function fertig(){ window.__epGerendert = true; try{ window.__epBootEnde(); }catch(e){} }
+  function warten(){
+    var app = document.getElementById("app"), imgs = app ? [].slice.call(app.querySelectorAll("img")).filter(function(i){ var r = i.getBoundingClientRect(); return r.top < innerHeight && !i.complete; }) : [];
+    var css = [], els = app ? app.querySelectorAll("*") : []; for(var k = 0; k < els.length && k < 400; k++){ var cs = getComputedStyle(els[k]); var u = (cs.borderImageSource + " " + cs.backgroundImage).match(/url\("?([^")]+)"?\)/g); if(u) u.forEach(function(x){ css.push(x.replace(/^url\("?|"?\)$/g, "")); }); }
+    var alle = imgs.map(function(i){ return new Promise(function(r){ i.addEventListener("load", r, {once:true}); i.addEventListener("error", r, {once:true}); }); });
+    css.slice(0, 40).forEach(function(u){ alle.push(new Promise(function(r){ var im = new Image(); im.onload = im.onerror = r; im.src = u; })); });
+    var schrift = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    Promise.race([Promise.all(alle.concat([schrift])), new Promise(function(r){ setTimeout(r, 2500); })]).then(function(){ requestAnimationFrame(function(){ requestAnimationFrame(fertig); }); });
+  }
+  requestAnimationFrame(function(){ requestAnimationFrame(warten); });
+})();</script>
 <script src="qeels/qeels.js"></script>
 </body>
 </html>
