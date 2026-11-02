@@ -792,7 +792,6 @@ function profilHTML(){
       <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b></div>
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}<em>/${ab.alle}</em></b></div>
     </div>
-    ${karte}
   </div>`;
 }
 
