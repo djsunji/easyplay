@@ -755,8 +755,8 @@ function profilHTML(){
     kopf = `<button type="button" class="apf f-held ap-konto ap-pkopf" data-x="meinprofil"><span class="apav">${av}</span><span class="ap-pkn"><b class="apgross">${h(p.name || "")}</b><small>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</small><span class="ap-pbar"><i style="width:${pr}%"></i></span></span><span class="ap-pzu" aria-hidden="true">›</span></button>`;
   } else {
     kopf = `<div class="ak-grid ap-akgrid">
-      <button type="button" class="ak-karte ak-in" data-x="login"><img class="ak-kid" src="img/kids/leni-daumen.webp" alt=""><span class="ak-ic"><img src="${G}schloss.webp?v=2" alt=""></span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="ak-los">Zur Anmeldung</span></button>
-      <button type="button" class="ak-karte ak-reg" data-x="register"><img class="ak-kid" src="img/kids/ben-sprung.webp" alt=""><span class="ak-ic"><img src="${G}funkeln.webp?v=2" alt=""></span><b>Registrieren</b><small>Ich bin neu hier</small><span class="ak-los">Profil erstellen</span></button></div>`;
+      <button type="button" class="ak-karte ak-in" data-x="login"><img class="ak-kid" src="img/kids/leni-daumen.webp" alt=""><span class="ak-ic"><img src="${G}schloss.webp?v=2" alt=""></span><b>Anmelden</b><small>Mit deinem Konto weitermachen. Fortschritt, Serie und Abzeichen sind gespeichert.</small><span class="ak-los">Anmelden</span></button>
+      <button type="button" class="ak-karte ak-reg" data-x="register"><img class="ak-kid" src="img/kids/ben-sprung.webp" alt=""><span class="ak-ic"><img src="${G}funkeln.webp?v=2" alt=""></span><b>Registrieren</b><small>Neues Konto erstellen. Kostenlos und in einer Minute erledigt.</small><span class="ak-los">Konto erstellen</span></button></div>`;
   }
   let karte;
   if(AP_SUB === "mehr"){

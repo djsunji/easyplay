@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad abgemeldet: sachlichere Texte (Anmelden: «Mit deinem Konto weitermachen …», Knopf «Anmelden»; Registrieren: «Neues Konto erstellen …», Knopf «Konto erstellen»), Schrift Lexend grösser mit stärkerem Schatten (`profilHTML` in `app.js`, Block «Profil-Tab abgemeldet: Schrift besser lesbar» in `stil.js`). Kein App-Bau. Version ep-2026-11-02-45.
 - 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad abgemeldet: Kacheln Anmelden und Registrieren untereinander statt nebeneinander, grösser (Block «… Anmelden und Registrieren untereinander» am Ende von `stil.js`). Kein App-Bau. Version ep-2026-11-02-44.
 - 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad abgemeldet: Serie, Level und Abzeichen ausgeblendet, nur noch Anmelden/Registrieren (`profilHTML` in `app.js`). Kein App-Bau. Version ep-2026-11-02-43.
 - 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad: Menü-Knöpfe darunter ganz entfernt (Dejans Wunsch), nur noch Kopf (bzw. Anmelden/Registrieren) und die drei Zahlen; `profilHTML` in `app.js` baut `karte` noch, setzt sie aber nicht mehr ein. Kein App-Bau. Version ep-2026-11-02-42.

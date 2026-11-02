@@ -3014,3 +3014,11 @@ html body.ep-app #app .ap-profil3 .ap-akgrid .ak-los{height:44px!important;font-
 html body.ep-app #app .ap-profil3 .ap-akgrid .ak-kid{max-width:42%!important;height:calc(100% + 26px)!important;bottom:-18px!important;right:4px!important}
 @media (min-width:700px){html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte{min-height:230px!important}html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte b{font-size:2.2rem!important}}`;
 document.head.appendChild(c); })();
+/* Profil-Tab abgemeldet: Schrift besser lesbar */
+(function(){ const c = document.createElement("style"); c.id = "ep-appprofil6-css";
+c.textContent = `
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte b{font-family:Lexend,system-ui,sans-serif!important;font-weight:800!important;letter-spacing:.01em;text-shadow:0 2px 4px rgba(0,0,0,.45)!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte small{font:600 .95rem/1.4 Lexend,system-ui,sans-serif!important;color:#fff!important;opacity:1!important;text-shadow:0 1px 3px rgba(0,0,0,.6)!important;max-width:100%}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-los{font:800 1rem Lexend,system-ui,sans-serif!important}
+@media (min-width:700px){html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte small{font-size:1.2rem!important}html body.ep-app #app .ap-profil3 .ap-akgrid .ak-los{font-size:1.15rem!important;height:52px!important;padding:0 18px!important}}`;
+document.head.appendChild(c); })();
