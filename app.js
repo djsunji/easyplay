@@ -739,26 +739,60 @@ function mehrListe(){
       ${p ? zb('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "rot") : ""}
     </nav>`;
 }
+/* Profil-Tab (App-Ansicht): nur das Nötigste auf einer Seite ohne Scrollen, alles Weitere in Untermenüs (AP_SUB) */
+let AP_SUB = "";
 function profilHTML(){
   const ES = E(), p = S.profil;
   const s = ES.serie ? ES.serie() : {n:0}, lv = ES.level ? ES.level() : null;
   let ab = {hat:0, alle:0}; try{ ab = ES.abzeichenZahl(); }catch(e){}
   let av = ""; try{ if(p) av = avatar(p.avatar); }catch(e){}
-  const zeile = (attr, ico, txt, cls = "") => `<button type="button" ${attr}${cls ? ` class="${cls}"` : ""}>${SV(ico, 20)}<span>${txt}</span>${SV(I.pfeil, 18)}</button>`;
-  return `<div class="ap ap-profil">
-    <div class="ap-titel"><h2 class="auf">Profil</h2></div>
-    ${p ? `<section class="apf f-held ap-konto">${p
-      ? `<div class="apkn"><span class="apav">${av}</span><b class="apgross">${h(p.name || "")}</b><p>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</p><p>🔑 Code ${(() => { try{ const c = window.EP_PROFILCODE(); return c.slice(0, 4) + " " + c.slice(4); }catch(e){ return ""; } })()}</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="meinprofil">Mein Profil</button></div>`
-      : `<div class="apkn"><b class="apgross">Melde dich an</b><p>Dann bleiben deine Punkte, deine Serie und deine Abzeichen gespeichert.</p></div><div class="apbtns"><button type="button" class="ap-weissbtn" data-x="login">Anmelden</button><button type="button" class="ap-gelbbtn" data-x="register">Registrieren</button></div>`}
-      <img src="${KIDS}m3.webp" alt=""></section>` : `<div class="ak-grid ap-akgrid">
-      <button type="button" class="ak-karte ak-in" data-x="login"><img class="ak-kid" src="img/kids/leni-daumen.webp" alt=""><span class="ak-ic"><img src="img/grafik/diverse/schloss.webp?v=2" alt=""></span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="ak-los">Zur Anmeldung</span></button>
-      <button type="button" class="ak-karte ak-reg" data-x="register"><img class="ak-kid" src="img/kids/ben-sprung.webp" alt=""><span class="ak-ic"><img src="img/grafik/diverse/funkeln.webp?v=2" alt=""></span><b>Registrieren</b><small>Ich bin neu hier</small><span class="ak-los">Profil erstellen</span></button></div>`}
+  const G = "img/grafik/diverse/";
+  const kn = (attr, bild, txt, cls = "") => `<button type="button" ${attr} class="ap-pk${cls ? " " + cls : ""}"><span class="apb"><img src="${bild}" alt="" draggable="false"></span><span class="ap-pkt">${txt}</span></button>`;
+  const ln = (href, bild, txt, extra = "") => `<a href="${href}"${extra} class="ap-pk"><span class="apb"><img src="${bild}" alt="" draggable="false"></span><span class="ap-pkt">${txt}</span></a>`;
+  let kopf;
+  if(p){
+    const pr = lv && typeof lv.anteil === "number" ? Math.round(lv.anteil * 100) : 0;
+    kopf = `<button type="button" class="apf f-held ap-konto ap-pkopf" data-x="meinprofil"><span class="apav">${av}</span><span class="ap-pkn"><b class="apgross">${h(p.name || "")}</b><small>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</small><span class="ap-pbar"><i style="width:${pr}%"></i></span></span><span class="ap-pzu" aria-hidden="true">›</span></button>`;
+  } else {
+    kopf = `<div class="ak-grid ap-akgrid">
+      <button type="button" class="ak-karte ak-in" data-x="login"><img class="ak-kid" src="img/kids/leni-daumen.webp" alt=""><span class="ak-ic"><img src="${G}schloss.webp?v=2" alt=""></span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="ak-los">Zur Anmeldung</span></button>
+      <button type="button" class="ak-karte ak-reg" data-x="register"><img class="ak-kid" src="img/kids/ben-sprung.webp" alt=""><span class="ak-ic"><img src="${G}funkeln.webp?v=2" alt=""></span><b>Registrieren</b><small>Ich bin neu hier</small><span class="ak-los">Profil erstellen</span></button></div>`;
+  }
+  let karte;
+  if(AP_SUB === "mehr"){
+    karte = `<nav class="glas ap-pmenue ap-psub" aria-label="Mehr">
+      <div class="ap-psubkopf"><button type="button" class="ap-pzur" data-x="psubzu">‹ Zurück</button><b>Mehr</b></div>
+      <div class="ap-pliste">
+      ${kn('data-x="pentdecken"', "img/grafik/welten/karte.webp", "Entdecken")}
+      ${p ? kn('data-x="lib"', G + "buch.webp?v=2", "Bibliothek") : ""}
+      ${p ? kn('data-lm="lcode"', G + "klemmbrett.webp?v=2", "Test mit Code") : ""}
+      ${kn('data-x="pvorschlag"', G + "zeigefinger.webp?v=2", "Frage vorschlagen")}
+      ${S.canEdit ? kn('data-m="werkstatt"', G + "zahnrad.webp?v=2", "Fragen-Werkstatt") : ""}
+      ${ln("/kontakt", G + "brief.webp?v=2", "Kontakt", " data-kontakt")}
+      ${ln("impressum.html", G + "notizbuch.webp?v=2", "Impressum")}
+      ${ln("datenschutz.html", G + "schloss.webp?v=2", "Datenschutz")}
+      </div></nav>`;
+  } else {
+    karte = `<nav class="glas ap-pmenue" aria-label="Profil-Menü">
+      ${p ? kn('data-x="meinprofil"', G + "teddy.webp?v=2", "Mein Profil") : ""}
+      ${p ? kn('data-x="verzieren"', G + "funkeln.webp?v=2", "Verzieren") : ""}
+      ${kn('data-x="board"', G + "pokal.webp?v=2", "Rangliste")}
+      ${p ? kn('data-x="peinst"', G + "zahnrad.webp?v=2", "Einstellungen") : kn('data-m="set"', G + "palette.webp?v=2", "Hintergrund")}
+      ${p ? "" : kn('data-x="philfen"', G + "lautsprecher.webp?v=2", "Lesen & Hören")}
+      ${p ? "" : kn('data-lm="lcode"', G + "klemmbrett.webp?v=2", "Test mit Code")}
+      ${p ? "" : kn('data-x="lib"', G + "buch.webp?v=2", "Bibliothek")}
+      ${kn('data-x="psubmehr"', G + "rolle.webp?v=2", "Mehr ›")}
+      ${p ? kn('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "rot") : ""}
+    </nav>`;
+  }
+  return `<div class="ap ap-profil ap-profil3">
+    ${kopf}
     <div class="ap-stats">
-      <div class="apf f-orange"><small>Serie</small><b>${s.n || 0} ${SV(I.flamme, 20)}</b><span>Tage am Stück</span></div>
-      <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b><span>${h(lv && lv.titel ? lv.titel.name : "Neuling")}</span></div>
-      <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}</b><span>von ${ab.alle}</span></div>
+      <div class="apf f-orange"><small>Serie</small><b>${s.n || 0} ${SV(I.flamme, 20)}</b></div>
+      <div class="apf f-lila"><small>Level</small><b>${lv ? lv.level : 1}</b></div>
+      <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}<em>/${ab.alle}</em></b></div>
     </div>
-    ${mehrListe()}
+    ${karte}
   </div>`;
 }
 
@@ -794,7 +828,13 @@ function binden(wurzel){
     else if(a === "register") go("register");
     else if(a === "meinprofil") go("profil");
     else if(a === "verzieren") go("x-garderobe");
-    else if(a === "abmelden"){ try{ abmelden(); }catch(err){} }
+    else if(a === "abmelden"){ AP_SUB = ""; try{ abmelden(); }catch(err){} }
+    else if(a === "psubmehr"){ AP_SUB = "mehr"; render(); }
+    else if(a === "psubzu"){ AP_SUB = ""; render(); }
+    else if(a === "pentdecken") go("x-entdecken");
+    else if(a === "philfen") go("x-hilfen");
+    else if(a === "pvorschlag"){ try{ window.EP_VORSCHLAG && window.EP_VORSCHLAG.oeffnen(); }catch(err){} }
+    else if(a === "peinst"){ go("profil"); let n = 0; const t = setInterval(() => { const r = document.getElementById("ppZahnrad"); if(r || ++n > 30){ clearInterval(t); if(r) r.click(); } }, 100); }
     else if(ES.aktion) ES.aktion(a, b); }));
   wurzel.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { if(!menuKlick(`[data-m="${b.dataset.m}"]`)){ if(b.dataset.m === "set"){ try{ oeffneEinstellungen(); }catch(e){} } else go(b.dataset.m); } });
   wurzel.querySelectorAll("[data-lm]").forEach(b => b.onclick = () => { menuKlick(`[data-lm="${b.dataset.lm}"]`); });
@@ -818,7 +858,6 @@ function leiste(){
       if(t === "qeels"){ try{ oeffneReels(); }catch(e){} return; }
       if(S.libModus){ S.libModus = false; document.documentElement.dataset.mode = "spiel"; }
       if(t === "duell"){ setTab("heute"); go("duell"); return; }
-      if(t === "profil" && S.profil){ setTab("heute"); go("profil"); return; }
       setTab(t); go("home"); });
   }
   const akt = S.libModus ? "themen" : tabVon(S.screen);
@@ -1017,8 +1056,8 @@ window.renderHome = function(){
   if(!an()) return r;
   try{
     const app = document.getElementById("app"); if(!app) return r;
-    if(tab === "duell" || (tab === "profil" && S.profil)){ const ziel = tab === "duell" ? "duell" : "profil"; setTab("heute"); setTimeout(() => go(ziel), 0); }
-    app.innerHTML = tab === "themen" ? themenHTML() : tab === "profil" && !S.profil ? profilHTML() : heuteHTML();
+    if(tab === "duell"){ setTab("heute"); setTimeout(() => go("duell"), 0); }
+    app.innerHTML = tab === "themen" ? themenHTML() : tab === "profil" ? profilHTML() : heuteHTML();
     binden(app);
     requestAnimationFrame(() => { einpassen(); namenSetzen(); karussell(); });
   }catch(e){ console.warn("app.js", e); }
@@ -1040,7 +1079,6 @@ window.render = function(){
     [...document.body.classList].filter(k => k.startsWith("ep-s-")).forEach(k => document.body.classList.remove(k));
     if(an()) document.body.classList.add("ep-s-" + (S.libModus && S.screen === "lib" ? "lib" : S.screen));
     leiste();
-    if(an() && S.screen === "profil" && S.profil){ const app = document.getElementById("app"); if(app && !app.querySelector(".ap-mehr")){ const d = document.createElement("div"); d.className = "ap ap-profil ap-mehr"; d.innerHTML = mehrListe(); app.appendChild(d); binden(d); } }
     if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); if(S.libModus && S.screen === "lib") libKompakt(); }
   }catch(e){ console.warn("app.js", e); }
   return r;

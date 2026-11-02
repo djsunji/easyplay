@@ -2933,3 +2933,55 @@ html body.ep-app #app .ap-mehr{margin:16px 0 8px}
 html body.ep-app #app .ap-mehr .ap-liste{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}`;
   document.head.appendChild(css);
 })();
+
+/* ===== App-Ansicht Profil-Tab: eine Seite ohne Scrollen (profilHTML in app.js, Untermenü «Mehr» über AP_SUB).
+   Kopf (angemeldet: Avatar, Name, Level, XP-Balken; sonst Anmelden/Registrieren), drei kleine Zahlen, darunter die weisse
+   Menü-Karte, die bis zur unteren Leiste reicht. Versionszeile ausgeblendet. ===== */
+(function(){
+  const E = "img/grafik/entdecken/";
+  const c = document.createElement("style"); c.id = "ep-appprofil3-css";
+  c.textContent = `
+html body.ep-app #app > .ap-profil3{display:flex!important;flex-direction:column;gap:10px;min-height:0;height:var(--aph,auto)!important;overflow:hidden!important;padding-bottom:0!important}
+html body.ep-app #app .ap-profil3 > *{flex:none;grid-column:auto!important;grid-row:auto!important;margin:0!important}
+html body.ep-app #app .ap-profil3 .ep-ver,html body.ep-app #app .ap-profil .ep-ver{display:none!important}
+html body.ep-app #app .ap-profil3 .ap-pkopf{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:12px;width:100%;text-align:left;cursor:pointer;min-height:0!important;padding:0 6px!important;background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:22px!important;border-radius:0!important;border-image:url("${E}kachel-06.webp?v=3") 46 fill / 22px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.28));color:#fff}
+html body.ep-app #app .ap-profil3 .ap-pkopf .apav{flex:none;width:64px;height:64px;border-radius:50%;overflow:hidden;border:3px solid #fff;background:#fff;display:grid;place-items:center}
+html body.ep-app #app .ap-profil3 .ap-pkopf .apav :is(img,svg){width:100%;height:100%;object-fit:cover}
+html body.ep-app #app .ap-profil3 .ap-pkn{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+html body.ep-app #app .ap-profil3 .ap-pkn b{font:800 1.3rem/1.1 Fredoka,Lexend,system-ui,sans-serif;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.35);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body.ep-app #app .ap-profil3 .ap-pkn small{font:700 .82rem Lexend,system-ui,sans-serif;color:#fff;opacity:.95;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+html body.ep-app #app .ap-profil3 .ap-pbar{display:block;height:10px;border-radius:99px;background:rgba(20,10,60,.45);overflow:hidden;margin-top:3px}
+html body.ep-app #app .ap-profil3 .ap-pbar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#FFE34D,#FFB020)}
+html body.ep-app #app .ap-profil3 .ap-pzu{flex:none;font:800 1.8rem Lexend,sans-serif;color:#fff;opacity:.9}
+html body.ep-app #app .ap-profil3 .ap-stats{display:grid!important;grid-template-columns:repeat(3,1fr)!important;grid-auto-rows:auto!important;gap:8px!important}
+html body.ep-app #app .ap-profil3 .ap-stats > .apf{min-height:0!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0 2px!important;border-width:14px!important}
+html body.ep-app #app .ap-profil3 .ap-stats > .apf small{font:700 .72rem Lexend,sans-serif}
+html body.ep-app #app .ap-profil3 .ap-stats > .apf b{font:800 1.3rem/1.1 Fredoka,Lexend,sans-serif;display:flex;align-items:center;gap:3px}
+html body.ep-app #app .ap-profil3 .ap-stats > .apf b em{font-style:normal;font-size:.75em;opacity:.85}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte{min-height:132px}
+html body.ep-app #app .ap-profil3 .ap-pmenue{flex:1 1 0!important;min-height:0;display:grid!important;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(0,1fr);gap:8px;padding:10px!important;background:linear-gradient(180deg,#FFFFFF,#F3EFFF)!important;border:4px solid #fff!important;border-radius:26px!important;box-shadow:0 14px 30px rgba(40,30,120,.22)!important;backdrop-filter:none!important;--surface:#fff}
+html body.ep-app #app .ap-profil3 .ap-pk{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:0;padding:4px;border:0;border-radius:18px;background:rgba(123,91,255,.07);color:#3A2F72;text-decoration:none;font:800 15px/1.15 Lexend,system-ui,sans-serif;text-align:center;cursor:pointer}
+html body.ep-app #app .ap-profil3 .ap-pk:hover,html body.ep-app #app .ap-profil3 .ap-pk:focus-visible{background:rgba(123,91,255,.16)}
+html body.ep-app #app .ap-profil3 .ap-pk .apb{flex:none;width:clamp(30px,7vh,52px);height:clamp(30px,7vh,52px);display:grid;place-items:center}
+html body.ep-app #app .ap-profil3 .ap-pk .apb img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(40,20,100,.25))}
+html body.ep-app #app .ap-profil3 .ap-pk.rot{color:#D6362E}
+html body.ep-app #app .ap-profil3 .ap-psub{display:flex!important;flex-direction:column;gap:6px}
+html body.ep-app #app .ap-profil3 .ap-psubkopf{display:flex;align-items:center;gap:10px;flex:none}
+html body.ep-app #app .ap-profil3 .ap-psubkopf b{font:800 1.15rem Fredoka,Lexend,sans-serif;color:#3A2F72}
+html body.ep-app #app .ap-profil3 .ap-pzur{border:0;border-radius:99px;padding:7px 14px;background:linear-gradient(120deg,#6A4BFF,#A43BE0 55%,#E8409F);color:#fff;font:800 14px Lexend,sans-serif;cursor:pointer}
+html body.ep-app #app .ap-profil3 .ap-pliste{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(0,1fr);gap:6px}
+html body.ep-app #app .ap-profil3 .ap-pliste .ap-pk{flex-direction:row;justify-content:flex-start;text-align:left;padding:4px 10px;font-size:14px}
+html body.ep-app #app .ap-profil3 .ap-pliste .ap-pk .apb{width:clamp(26px,5vh,38px);height:clamp(26px,5vh,38px)}
+@media (min-width:700px){html body.ep-app #app .ap-profil3 .ap-pmenue:not(.ap-psub){grid-template-columns:repeat(3,1fr)}html body.ep-app #app .ap-profil3 .ap-pk{font-size:17px}}
+html.ep-pfit,html.ep-pfit body{overflow:hidden!important;overscroll-behavior:none!important}`;
+  document.head.appendChild(c);
+  /* kein Scrollen auf dem Profil-Tab */
+  const pr = () => { let an = false; try{ an = document.body.classList.contains("ep-app") && S.screen === "home" && !!document.querySelector("#app .ap-profil3"); }catch(e){}
+    document.documentElement.classList.toggle("ep-pfit", an); if(!an) return; if(scrollY) scrollTo(0, 0);
+    const ap = document.querySelector("#app .ap-profil3"), tb = document.getElementById("epTabs");
+    const quer = tb && tb.getBoundingClientRect().width < innerWidth / 3;   // iPad quer: Leiste an der Seite
+    const unten = tb && !quer ? tb.getBoundingClientRect().top - 10 : innerHeight - 12;
+    ap.style.setProperty("--aph", Math.max(320, Math.floor(unten - ap.getBoundingClientRect().top)) + "px"); };
+  const go2 = () => { const app = document.getElementById("app"); if(!app) return setTimeout(go2, 300); new MutationObserver(() => requestAnimationFrame(pr)).observe(app, {childList:true}); pr(); };
+  go2(); addEventListener("resize", () => requestAnimationFrame(pr));
+})();
