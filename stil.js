@@ -2132,10 +2132,9 @@ ${K} .libnav{justify-content:center;margin-top:24px}
   ${Z}{padding:12px!important;gap:12px!important;margin:8px auto 60px;border-radius:20px}
   ${Z}::before{background-size:34px!important}
   ${Z}>.seite.links,${Z}>.seite.rechts{border-radius:12px!important;padding:18px 16px 20px!important;box-shadow:inset 0 0 26px -12px rgba(90,55,10,.45)!important}
-  ${Z} .minicover{grid-template-columns:auto 1fr;justify-items:start;align-items:center;gap:6px 14px}
-  ${Z} .mbuehne{width:124px;margin:8px 6px 8px 8px}
-  ${Z} .mkreis{width:175%}
-  ${Z} .mtext{justify-items:start;text-align:left}
+  ${Z} .minicover{grid-template-columns:1fr;justify-items:center;gap:6px}
+  ${Z} .mbuehne{width:132px;margin:22px 0 18px}
+  ${Z} .mkreis{width:150%}
   ${Z} .minicover .btitel{font-size:1.7rem!important;transform:rotate(-4deg);transform-origin:left center}
   ${Z} .minicover .bunter{font-size:.9rem!important}
   ${Z} .libdesc{font-size:.95rem}
