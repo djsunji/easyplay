@@ -1553,7 +1553,8 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
     {id:"duell",  t:"Duell",      i:"img/qeels-icons/themen/duell.webp", go:() => go("duell")},
     {id:"entd",   t:"Entdecken",  i:"img/grafik/mathe/entdecken.webp?v=2", go:() => go("x-entdecken")},
     {id:"lib",    t:"Bibliothek", i:"img/grafik/diverse/buch.webp?v=2", go:() => go("lib")},
-    {id:"profil", t:"Profil",     i:"", go:() => go("profil")}
+    {id:"profil", t:"Profil",     i:"", go:() => go("profil")},
+    {id:"anm",    t:"Anmelden",   i:"img/grafik/diverse/schloss.webp?v=2", go:() => go("konto")}
   ];
   const aktiv = sc => {
     if(sc === "home") return (document.querySelector(".np-wahl") ? "themen" : "start");
@@ -1562,6 +1563,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
     if(["x-garderobe"].includes(sc)) return "profil";
     if(/^x-/.test(sc)) return "entd";
     if(/^lib/.test(sc) || ["bibliothek","suche"].includes(sc)) return "lib";
+    if(["register","login","konto"].includes(sc)){ let an = false; try{ an = !!S.profil; }catch(e){} if(!an) return "anm"; }
     if(["profil","register","login","konto","historie","board","spieler","meinetests","hcboard"].includes(sc)) return "profil";
     return "";
   };
@@ -1578,7 +1580,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
         try{ p.go(); scrollTo(0, 0); }catch(x){} });
       top.insertAdjacentElement("afterend", n);
     }
-    { const pk = n.querySelector('[data-hn="profil"]'); if(pk){ let an = false; try{ an = !!S.profil; }catch(e){} pk.hidden = !an; pk.style.display = an ? "" : "none"; } }
+    { const pk = n.querySelector('[data-hn="profil"]'); if(pk){ let an = false; try{ an = !!S.profil; }catch(e){} pk.hidden = !an; pk.style.display = an ? "" : "none"; const ak = n.querySelector('[data-hn="anm"]'); if(ak){ ak.hidden = an; ak.style.display = an ? "none" : ""; } } }
     const pi = n.querySelector('[data-hn="profil"] .hn-ic'); const pb = profilBild(); if(pi && pi.dataset.av !== pb){ pi.innerHTML = pb; pi.dataset.av = pb; }
     let a = ""; try{ a = aktiv(S.screen); }catch(e){}
     n.querySelectorAll("[data-hn]").forEach(b => { const an = b.dataset.hn === a; b.classList.toggle("an", an); if(an) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
@@ -1623,6 +1625,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
 @media (max-width:820px){#ep-hnav .hn-t{display:none}}
 body.ep-app #ep-hnav{display:none!important}
 html[data-scr="home"] body:not(.ep-np-wahl) #ep-hnav{max-width:none}
+body:not(.ep-app) #nav #navKonto{display:none!important}
 body:not(.ep-app) #app .crumbs{display:none!important}
 body:not(.ep-app) #app > .np-zurueck-unter{display:none!important}
 body:not(.ep-app) #app > .ep-zur{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;height:54px;margin:0 0 14px;padding:0 6px;
