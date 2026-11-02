@@ -2270,3 +2270,44 @@ ${W} :is(.xfo-tipp,.xfo-abz-fuss,.xfo-hinweis){background:rgba(255,255,255,.9)!i
   ${sel(WEISS)}{border-width:12px 20px!important;border-image-width:12px 20px!important;min-height:44px!important}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Duell: Team-Wahl als zwei grosse Team-Karten (Lumi magenta, Milo blau) auf Glanz-Kacheln, mit Kind, Joker in goldener Münze,
+   gewähltes Team leuchtet golden mit «Dein Team», das andere tritt zurück. Markup in teamBox() (duell2.js). ===== */
+(function(){
+  const E = "img/grafik/entdecken/", T = "html body #app .du2-team.du2-team2";
+  const c = document.createElement("style"); c.id = "ep-teamwahl-css";
+  c.textContent = `
+html[data-scr] ${T}.du2-team2,${T}{border:0!important;border-image:none!important;background:none!important;box-shadow:none!important;filter:none!important;border-radius:0!important}
+${T}{all:unset;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;box-sizing:border-box;width:100%;min-height:0!important;padding:0!important;position:relative!important}
+${T}::before,${T}::after{display:none!important}
+${T} .lbl{position:static!important;align-self:flex-start;display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.92);color:#2A1F5C!important;
+  font:800 .85rem Lexend,system-ui,sans-serif!important;letter-spacing:.04em;text-transform:none!important;box-shadow:0 4px 10px rgba(40,30,120,.18)}
+${T} .du2-kids{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;width:100%;flex-direction:row!important}
+${T} .du2-tk{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:grid;grid-template-rows:auto auto 1fr;justify-items:center;text-align:center;gap:4px;
+  padding:2px 4px 6px;min-width:0;border:0 solid transparent;border-width:22px;border-image:url("${E}kachel-05.webp?v=3") 46 fill / 22px stretch;color:#fff;
+  filter:drop-shadow(0 10px 16px rgba(30,10,80,.3));transition:transform .2s,filter .2s,opacity .2s}
+${T} .du2-tk.milo{border-image-source:url("${E}kachel-01.webp?v=3")}
+${T} .du2-tk:hover{transform:translateY(-3px)}
+${T} .du2-tk:focus-visible{outline:3px solid #FFE14D;outline-offset:4px}
+${T} .tk-bild{height:120px!important;width:auto!important;max-width:100%;object-fit:contain;margin:-6px 0 -2px;filter:drop-shadow(0 6px 8px rgba(20,8,60,.35));transition:transform .25s}
+${T} .du2-tk > span:not(.tk-haken),${T} .du2-tk.an > span:not(.tk-haken),${T} .du2-tk .tk-joker > :not(.tk-muenze){background:none!important;background-color:transparent!important;box-shadow:none!important;padding:0!important}
+${T} .du2-tk .tk-joker{background:rgba(255,255,255,.16)!important}
+${T} .tk-name{padding:0!important;font:800 1.25rem/1.1 Fredoka,Lexend,system-ui,sans-serif;text-shadow:0 2px 3px rgba(20,8,60,.45)}
+${T} .tk-joker{display:grid;justify-items:center;gap:2px;margin-top:2px;padding:8px 8px 6px;border-radius:16px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.35);width:100%;box-sizing:border-box}
+${T} .tk-muenze{font-style:normal;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px;
+  background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD34D 45%,#E59A12 100%);box-shadow:0 0 0 2px #FFF3C2,0 3px 6px rgba(80,40,0,.35)}
+${T} .tk-joker b{font:800 .92rem/1.15 Fredoka,Lexend,system-ui,sans-serif;color:#FFE9A8;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+${T} .tk-joker em{font:700 .66rem/1.2 Lexend,system-ui,sans-serif;font-style:normal;color:rgba(255,255,255,.75);letter-spacing:.03em;margin-top:2px}
+${T} .tk-joker small{font:500 .74rem/1.3 Lexend,system-ui,sans-serif;color:rgba(255,255,255,.95);text-shadow:0 1px 2px rgba(0,0,0,.35)}
+${T} .tk-haken{position:absolute;top:-30px;left:50%;transform:translateX(-50%) scale(.6);opacity:0;z-index:3;white-space:nowrap;padding:5px 12px;border-radius:999px;
+  background:linear-gradient(180deg,#FFE680,#FFB000);color:#5A3300;font:800 .78rem Fredoka,Lexend,system-ui,sans-serif;box-shadow:0 0 0 2px #fff,0 4px 10px rgba(120,70,0,.4);transition:.25s}
+${T}:has(.du2-tk.an) .du2-tk:not(.an){filter:saturate(.45) brightness(.88) drop-shadow(0 6px 10px rgba(30,10,80,.2));transform:scale(.96)}
+${T} .du2-tk.an{filter:drop-shadow(0 0 0 #fff) drop-shadow(0 0 10px rgba(255,225,77,.95)) drop-shadow(0 10px 16px rgba(30,10,80,.35))}
+${T} .du2-tk.an .tk-haken{opacity:1;transform:translateX(-50%) scale(1)}
+${T} .du2-tk.an .tk-bild{transform:scale(1.08) translateY(-3px);animation:tkHuepf 2.2s ease-in-out infinite}
+@keyframes tkHuepf{0%,100%{transform:scale(1.08) translateY(-3px)}50%{transform:scale(1.08) translateY(-9px)}}
+${T} .du2-joker-info{display:none!important}
+@media (max-width:420px){${T} .du2-tk{border-width:16px;border-image-width:16px}${T} .tk-bild{height:92px!important}${T} .tk-name{font-size:1.05rem}${T} .tk-haken{top:-24px}}
+@media (prefers-reduced-motion: reduce){${T} .du2-tk.an .tk-bild{animation:none}}`;
+  document.head.appendChild(c);
+})();

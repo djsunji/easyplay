@@ -246,11 +246,15 @@ function einstellungen(){
     </div></details>`;
 }
 function teamBox(){
-  const t = team();
-  return `<div class="du2-team"><span class="lbl">Dein Team</span><div class="du2-kids">
-    <button type="button" class="du2-kid lumi${t && t.id === "lumi" ? " an" : ""}" data-team="lumi"><img src="${KIDS}m3.webp" alt=""><span>Lumi</span></button>
-    <button type="button" class="du2-kid milo${t && t.id === "milo" ? " an" : ""}" data-team="milo"><img src="${KIDS}j3.webp" alt=""><span>Milo</span></button></div>
-    <p class="du2-joker-info" aria-live="polite">${window.EP_DUELL_JOKER ? EP_DUELL_JOKER.infoHTML(t && t.id) : ""}</p></div>`;
+  const t = team(), J = window.EP_DUELL_JOKER ? EP_DUELL_JOKER.J : {};
+  const karte = (id, name, bild) => { const j = J[id] || {}; const an = t && t.id === id;
+    return `<button type="button" class="du2-kid du2-tk ${id}${an ? " an" : ""}" data-team="${id}" aria-pressed="${!!an}">
+      <span class="tk-haken" aria-hidden="true">✓ Dein Team</span>
+      <img class="tk-bild" src="${KIDS}${bild}" alt="">
+      <span class="tk-name">Team ${name}</span>
+      <span class="tk-joker"><i class="tk-muenze" aria-hidden="true">${j.ic || ""}</i><b>${h(j.name || "")}</b><small>${h(j.kurz || "")}</small><em>Joker · 1× pro Duell</em></span>
+    </button>`; };
+  return `<div class="du2-team du2-team2"><span class="lbl">Wähle dein Team</span><div class="du2-kids">${karte("lumi", "Lumi", "m3.webp")}${karte("milo", "Milo", "j3.webp")}</div></div>`;
 }
 window.renderDuell = function(){
   duellLeave(); if(DU.match) matchStop();
@@ -273,7 +277,7 @@ window.renderDuell = function(){
   $("#duCat").onchange = e => { DU.cat = e.target.value; DU.einOffen = true; render(); };
   document.querySelectorAll("[data-dst]").forEach(b => b.onclick = () => { DU.stufe = +b.dataset.dst; DU.einOffen = true; render(); });
   const sl = $("#duN"); sl.oninput = () => { DU.n = +sl.value; $("#duNv").textContent = sl.value; const z = document.querySelector("#du2Ein .zus"); if(z) z.textContent = z.textContent.replace(/\d+ Fragen/, DU.n + " Fragen"); };
-  document.querySelectorAll("[data-team]").forEach(b => b.onclick = () => { LS.set("ep-team", b.dataset.team); document.querySelectorAll(".du2-kid").forEach(x => x.classList.toggle("an", x === b));
+  document.querySelectorAll("[data-team]").forEach(b => b.onclick = () => { LS.set("ep-team", b.dataset.team); document.querySelectorAll(".du2-kid").forEach(x => { x.classList.toggle("an", x === b); x.setAttribute("aria-pressed", x === b); });
     const ji = document.querySelector(".du2-joker-info"); if(ji && window.EP_DUELL_JOKER) ji.innerHTML = EP_DUELL_JOKER.infoHTML(b.dataset.team); });
   $("#duSplit").onclick = () => { if(duellPool(DU.cat, DU.stufe).length < 3){ $("#duErr").textContent = "Zu wenige Fragen für dieses Thema."; return; } const n1 = $("#duP1").value.trim() || "Spieler 1", n2 = $("#duP2").value.trim() || "Spieler 2"; splitStart(n1, n2); };
   $("#duLink").onclick = () => { DU.mode = "link"; DU.list = duellFragen(DU.cat, DU.stufe, DU.n); DU.herausf = null; soloStart(); };
@@ -524,7 +528,7 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
   };
   const teamId = () => { try{ const t = window.EP_START && EP_START.team && EP_START.team(); if(t && t.id) return t.id; }catch(e){} try{ return JSON.parse(localStorage.getItem("ep-team") || "null"); }catch(e){ return null; } };
   const esc2 = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-  window.EP_DUELL_JOKER = {
+  window.EP_DUELL_JOKER = { J,
     infoHTML(id){ const j = J[id]; return j ? `<b>${j.ic} Joker: ${esc2(j.name)}</b><span>${esc2(j.lang)}</span>` : `<span>Wähle ein Team. Jedes Team hat einen eigenen Joker.</span>`; }
   };
   const css = document.createElement("style"); css.id = "ep-duell-joker-css";
