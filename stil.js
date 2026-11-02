@@ -1724,13 +1724,16 @@ html.ep-nofit-scroll,html.ep-nofit-scroll body{overflow:hidden!important;overscr
     const app = document.getElementById("app"); if(!app) return;
     const an = themenSeite();
     document.documentElement.classList.toggle("ep-nofit-scroll", an);
-    app.style.zoom = "";
+    /* nur den eigenen Zoom zurücksetzen: das Quiz (appfein.js) verkleinert #app selbst */
+    if(app.dataset.npz){ app.style.zoom = ""; delete app.dataset.npz; }
     if(!an) return;
     scrollTo(0, 0);
-    const tb = document.getElementById("epTabs"), unten = tb ? tb.getBoundingClientRect().top - 6 : innerHeight - 6;
+    /* am iPad quer ist die Leiste links (Seitenleiste): dann zählt der untere Bildschirmrand */
+    const tb = document.getElementById("epTabs"), tr = tb && getComputedStyle(tb).display !== "none" ? tb.getBoundingClientRect() : null;
+    const unten = tr && tr.width > innerWidth / 2 ? tr.top - 6 : innerHeight - 6;
     let last = 0; app.querySelectorAll(":scope > * , :scope > * > *").forEach(e => { const r = e.getBoundingClientRect(); if(r.height) last = Math.max(last, r.bottom); });
     const oben = app.getBoundingClientRect().top;
-    if(last > unten){ const z = Math.max(.6, (unten - oben) / (last - oben)); app.style.zoom = z.toFixed(3); }
+    if(last > unten){ const z = Math.max(.6, (unten - oben) / (last - oben)); app.style.zoom = z.toFixed(3); app.dataset.npz = "1"; }
   }
   let t = 0; const los = () => { clearTimeout(t); t = setTimeout(passen, 60); };
   const start = () => { const a = document.getElementById("app"); if(!a) return setTimeout(start, 300);
