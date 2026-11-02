@@ -2529,3 +2529,58 @@ ${W} .xmt-kl .ep-gi{width:20px;height:20px;object-fit:contain;vertical-align:-4p
   for(const [k, n] of Object.entries(GLANZ)) css += `${W} ${k}${k}{border-image-source:url("${G}kachel-${nr(n)}.webp?v=3")!important}\n`;
   const c = document.createElement("style"); c.id = "ep-entdecken-rest-css"; c.textContent = css; document.head.appendChild(c);
 })();
+
+/* ===== Duell-Seite: kompakter Kopf mit Elo und Modus-Wahl, grosser Play-Knopf, Einstellungen unten ===== */
+(function(){
+  const A = "html body #app";
+  const c = document.createElement("style"); c.id = "ep-duell3-css";
+  c.textContent = `
+${A} .du2-modi,${A} .du2-rang{display:none!important}
+${A} .du3-kopf{position:relative;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"titel elo kids" "modi modi kids";gap:12px 18px;align-items:center;
+  border:30px solid transparent;border-image:url("img/grafik/entdecken/kopf.webp?v=1") 50 fill / 30px stretch;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));
+  padding:0 4px;margin:6px 0 18px;color:#fff;min-height:0}
+${A} .du3-titel{grid-area:titel;display:flex;align-items:center;gap:12px}
+${A} .du3-ic{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+${A} .du3-titel h1{margin:0;font:800 2.4rem/1 "Bricolage Grotesque",Fredoka,sans-serif;color:#fff;text-shadow:0 3px 0 rgba(40,10,90,.35)}
+${A} .du3-titel p{margin:2px 0 0;font:700 .9rem Lexend,sans-serif;color:rgba(255,255,255,.9)}
+${A} .du3-elo{grid-area:elo;justify-self:end;display:grid;grid-template-columns:auto auto;grid-template-areas:"s z" "b z" "bar bar" "em em";column-gap:14px;row-gap:2px;
+  background:rgba(255,255,255,.95);border:2px solid #fff;border-radius:20px;padding:10px 16px;min-width:250px;color:#2B1466;box-shadow:0 4px 0 rgba(40,20,100,.2)}
+${A} .du3-elo small{grid-area:s;font:800 .68rem Lexend,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A6FA8}
+${A} .du3-elo b{grid-area:b;font:800 1.15rem Fredoka,Lexend,sans-serif;color:var(--lc,#6B4FD8)}
+${A} .du3-zahl{grid-area:z;align-self:center;justify-self:end;font:800 1.9rem/1 "Bricolage Grotesque",sans-serif;color:#2B1466}
+${A} .du3-zahl i{font:700 .75rem Lexend,sans-serif;font-style:normal;color:#7A6FA8}
+${A} .du3-bar{grid-area:bar;display:block;height:9px;border-radius:999px;background:#E9E5FA;overflow:hidden;margin-top:6px}
+${A} .du3-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#FFE680,#FFB72E)}
+${A} .du3-elo em{grid-area:em;font:600 .74rem Lexend,sans-serif;font-style:normal;color:#5D5C80;margin-top:3px}
+${A} .du3-modi{grid-area:modi;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+${A} .du3-m{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border-radius:18px;
+  background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.45);color:#fff;font:800 1rem Fredoka,Lexend,sans-serif;transition:transform .12s}
+${A} .du3-m img{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+${A} .du3-m:hover{transform:translateY(-2px)}
+${A} .du3-m.an{background:#fff;color:#2B1466;border-color:#FFE680;box-shadow:0 0 0 3px #FFD84D,0 0 18px rgba(255,214,60,.8)}
+${A} .du3-m:focus-visible{outline:3px solid #FFE680;outline-offset:2px}
+${A} .du3-kopf > img.du3-kids{grid-area:kids;position:static!important;align-self:end;height:170px;width:auto;max-width:none;margin:-60px -14px -34px 0;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));pointer-events:none}
+${A} .du3-play{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:16px;width:min(560px,100%);margin:22px auto 18px;
+  min-height:112px;padding:0 44px;border:0 solid transparent;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 46px 76px stretch;
+  filter:drop-shadow(0 10px 16px rgba(160,90,0,.35));color:#5A2C00;text-align:left;animation:du3Puls 2.4s ease-in-out infinite}
+${A} .du3-play img{width:58px;height:58px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+${A} .du3-play b{display:block;font:900 2rem/1 Fredoka,"Bricolage Grotesque",sans-serif;color:#5A2C00;text-shadow:0 1px 0 rgba(255,255,255,.55);letter-spacing:.01em}
+${A} .du3-play small{display:block;margin-top:4px;font:700 .85rem Lexend,sans-serif;color:#7A4300}
+${A} .du3-play:hover{transform:translateY(-2px) scale(1.01)}
+${A} .du3-play:active{transform:translateY(2px)}
+@keyframes du3Puls{0%,100%{filter:drop-shadow(0 10px 16px rgba(160,90,0,.35))}50%{filter:drop-shadow(0 10px 16px rgba(160,90,0,.35)) drop-shadow(0 0 16px rgba(255,214,60,.85))}}
+@media (max-width:760px){
+  ${A} .du3-kopf{grid-template-columns:1fr;grid-template-areas:"titel" "elo" "modi";border-width:20px;border-image-width:20px;padding:0 0 0 2px;gap:10px}
+  ${A} .du3-kopf > img.du3-kids{position:absolute!important;height:96px;right:-4px;top:-24px;margin:0}
+  ${A} .du3-ic{width:46px;height:46px}${A} .du3-titel h1{font-size:1.8rem}
+  ${A} .du3-elo{justify-self:stretch;min-width:0;padding:8px 12px}${A} .du3-zahl{font-size:1.5rem}
+  ${A} .du3-modi{gap:6px}${A} .du3-m{flex-direction:column;gap:3px;padding:8px 4px;font-size:.78rem;text-align:center}${A} .du3-m img{width:28px;height:28px}
+  ${A} .du3-play{min-height:96px;gap:12px;padding:0 26px;border-image-width:38px 62px;margin:16px auto 12px}
+  ${A} .du3-play b{font-size:1.55rem}${A} .du3-play small{font-size:.72rem}${A} .du3-play img{width:44px;height:44px}
+}
+${A} .du2 details.du2-ein > summary{background:rgba(255,255,255,.93)!important;color:#2B1466!important;border:1.5px solid #fff!important;box-shadow:0 3px 0 rgba(40,20,100,.14),0 6px 14px rgba(40,20,100,.12)!important;text-shadow:none!important}
+${A} .du2 details.du2-ein > summary *{color:#2B1466!important;text-shadow:none!important}
+${A} .du2 details.du2-ein > summary .zus{color:#5D5C80!important}
+@media (prefers-reduced-motion: reduce){${A} .du3-play{animation:none}}`;
+  document.head.appendChild(c);
+})();

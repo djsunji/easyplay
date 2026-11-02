@@ -257,13 +257,31 @@ function teamBox(){
     </button>`; };
   return `<div class="du2-team du2-team2"><h2 class="lbl tk-titel">✨ Wähle dein Team ✨</h2><div class="du2-kids">${karte("lumi", "Lumi", "lumi-sprung.webp")}${karte("milo", "Milo", "milo-sprung.webp")}${karte("leni", "Leni", "leni-sprung.webp")}${karte("ben", "Ben", "ben-sprung.webp")}</div></div>`;
 }
+/* Kompakter Duell-Kopf: Titel, Elo/Liga und Wahl des Modus; der grosse Play-Knopf startet den gewählten Modus */
+const DU3_MODI = {
+  online:{name:"Online", bild:"online", los:"Gegner suchen", text:"Online gegen ein Kind in deiner Stärke", knopf:"duRandom"},
+  geraet:{name:"Auf einem Gerät", bild:"handy", los:"Duell starten", text:"2 bis 4 Kinder, abwechselnd, ohne Internet", knopf:"duSplit"},
+  link:{name:"Per Link", bild:"link", los:"Jetzt spielen", text:"Du spielst zuerst, dann schickst du den Link", knopf:"duLink"}
+};
+function du3Modus(){ const m = LS.get("ep-duell-modus", "online"); return DU3_MODI[m] ? m : "online"; }
+function du3Kopf(){
+  const d = eloDaten(), l = liga(d.r), nx = naechsteLiga(d.r), m = du3Modus();
+  const pro = nx ? Math.max(4, Math.min(100, Math.round((d.r - l.min) / (nx.min - l.min) * 100))) : 100;
+  return `<section class="du3-kopf">
+    <div class="du3-titel"><img class="du3-ic" src="img/qeels-icons/themen/duell.webp" alt=""><div><h1>Duell</h1><p>Wer weiss mehr?</p></div></div>
+    <div class="du3-elo" style="--lc:${l.c}"><small>Deine Liga</small><b>${l.e} ${h(l.n)}</b><span class="du3-zahl">${d.r} <i>Elo</i></span>
+      <span class="du3-bar"><i style="width:${pro}%"></i></span><em>${nx ? `noch ${nx.min - d.r} bis ${nx.e} ${h(nx.n)}` : "Höchste Liga!"}${d.n ? ` · ${d.s} Siege` : ""}</em></div>
+    <div class="du3-modi" role="radiogroup" aria-label="Duell-Modus">${Object.entries(DU3_MODI).map(([id, x]) => `<button type="button" role="radio" class="du3-m${id === m ? " an" : ""}" data-du3="${id}" aria-checked="${id === m}"><img src="img/grafik/diverse/${x.bild}.webp?v=2" alt=""><b>${h(x.name)}</b></button>`).join("")}</div>
+    <img class="du3-kids" src="${KIDS}duo-jubel.webp" alt=""></section>`;
+}
 window.renderDuell = function(){
   duellLeave(); if(DU.match) matchStop();
   const sp = !!(typeof lkSupa === "function" && lkSupa()), offenEin = !!DU.einOffen;
   $("#app").innerHTML = `${crumbs()}
-    <div class="dukopf"><span class="dusw">⚔️</span><h1>Duell</h1><p>Wer weiss mehr? Online gegen ein anderes Kind, zu zweit an einem Gerät oder per Link.</p></div>
+    ${du3Kopf()}
     <div class="du2">
       ${teamBox()}
+      <button type="button" class="du3-play" id="du3Play"><img src="img/grafik/diverse/play.webp?v=2" alt=""><span><b>${h(DU3_MODI[du3Modus()].los)}</b><small>${h(DU3_MODI[du3Modus()].text)}</small></span></button>
       <div class="du2-modi">
         <button type="button" class="du2-m online" id="duRandom"><span class="tag">Neu</span><span class="ic">🌐</span><span class="tx"><b>Online</b><small>${sp ? "Sucht ein Kind, das jetzt auch spielen will. Findet sich niemand, spielt Leni oder Ben." : "Spiel gegen Leni oder Ben. Mit Supabase gegen andere Kinder."}</small></span><span class="los">⚡ Gegner suchen</span></button>
         <button type="button" class="du2-m geraet" id="duSplit"><span class="ic">📱</span><span class="tx"><b>Auf einem Gerät</b><small>Zu zweit, Handy dazwischen, ohne Internet.</small></span><span class="los">⚔️ Starten</span></button>
@@ -283,6 +301,12 @@ window.renderDuell = function(){
   $("#duSplit").onclick = () => { if(duellPool(DU.cat, DU.stufe).length < 3){ $("#duErr").textContent = "Zu wenige Fragen für dieses Thema."; return; } const n1 = $("#duP1").value.trim() || "Spieler 1", n2 = $("#duP2").value.trim() || "Spieler 2"; splitStart(n1, n2); };
   $("#duLink").onclick = () => { DU.mode = "link"; DU.list = duellFragen(DU.cat, DU.stufe, DU.n); DU.herausf = null; soloStart(); };
   $("#duRandom").onclick = () => matchStart();
+  document.querySelectorAll("[data-du3]").forEach(b => b.onclick = () => { LS.set("ep-duell-modus", b.dataset.du3);
+    document.querySelectorAll("[data-du3]").forEach(x => { x.classList.toggle("an", x === b); x.setAttribute("aria-checked", x === b); });
+    const M = DU3_MODI[b.dataset.du3], pl = $("#du3Play"); if(pl){ pl.querySelector("b").textContent = M.los; pl.querySelector("small").textContent = M.text; }
+    const nm = $("#du2Namen"); if(nm) nm.hidden = b.dataset.du3 !== "geraet"; });
+  $("#du3Play").onclick = () => { const k = document.getElementById(DU3_MODI[du3Modus()].knopf); if(k) k.click(); };
+  { const nm = $("#du2Namen"); if(nm) nm.hidden = du3Modus() !== "geraet"; }
   $("#duHost") && ($("#duHost").onclick = duOnlineHost);
   $("#duJoin") && ($("#duJoin").onclick = () => duOnlineJoin($("#duPin").value.trim()));
 };
