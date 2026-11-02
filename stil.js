@@ -2985,3 +2985,19 @@ html.ep-pfit,html.ep-pfit body{overflow:hidden!important;overscroll-behavior:non
   const go2 = () => { const app = document.getElementById("app"); if(!app) return setTimeout(go2, 300); new MutationObserver(() => requestAnimationFrame(pr)).observe(app, {childList:true}); pr(); };
   go2(); addEventListener("resize", () => requestAnimationFrame(pr));
 })();
+
+/* ===== App-Ansicht Profil-Tab: ohne weisse Karte (Dejan). Knöpfe als einzelne Glanz-Kacheln direkt auf dem Hintergrund ===== */
+(function(){
+  const E = "img/grafik/entdecken/";
+  const F = ["01","06","05","03","07","02","04","08"];
+  const c = document.createElement("style"); c.id = "ep-appprofil4-css";
+  c.textContent = `
+html body.ep-app #app .ap-profil3 .ap-pmenue{background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important}
+html body.ep-app #app .ap-profil3 .ap-pk{background:none!important;border:0 solid transparent!important;border-width:18px!important;border-radius:0!important;border-image:url("${E}kachel-01.webp?v=3") 46 fill / 18px stretch!important;filter:drop-shadow(0 6px 10px rgba(30,30,90,.28));color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.45);padding:0 2px!important}
+${F.map((f, i) => `html body.ep-app #app .ap-profil3 .ap-pk:nth-child(8n+${i + 1}){border-image-source:url("${E}kachel-${f}.webp?v=3")!important}`).join("\n")}
+html body.ep-app #app .ap-profil3 .ap-pk.rot.rot:nth-child(n){border-image-source:url("${E}kachel-04.webp?v=3")!important;color:#fff!important}
+html body.ep-app #app .ap-profil3 .ap-pk:hover,html body.ep-app #app .ap-profil3 .ap-pk:focus-visible{filter:drop-shadow(0 8px 14px rgba(30,30,90,.4)) brightness(1.06)}
+html body.ep-app #app .ap-profil3 .ap-pk .apb{background:rgba(255,255,255,.92);border-radius:50%;padding:5px;box-sizing:border-box}
+html body.ep-app #app .ap-profil3 .ap-psubkopf b{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.45)}`;
+  document.head.appendChild(c);
+})();
