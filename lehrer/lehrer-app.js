@@ -683,7 +683,7 @@ async function zeichne(){
   }
   navZeichnen();
   try{ (SEITEN[ST.tab]||SEITEN.start)(el);
-    if(ST.tab!=="start"){ el.insertAdjacentHTML("afterbegin", `<button type="button" class="ein-zurueck" id="einZurueck">‹ Übersicht</button>`); $("#einZurueck").onclick=()=>zeige("start"); } }
+    if(ST.tab!=="start"){ el.insertAdjacentHTML("afterbegin", `<button type="button" class="ein-zurueck" id="einZurueck">‹ Zur Übersicht</button>`); $("#einZurueck").onclick=()=>zeige("start"); } }
   catch(e){ console.error("Lehrerbereich", e); el.innerHTML=`<div class="hinweis"><b>Hoppla, hier ist etwas schiefgelaufen.</b><p>${h(e.message||e)}</p></div>`; }
 }
 // Neu zeichnen und Scroll-Position behalten
@@ -738,31 +738,50 @@ function themenBalken(l){
 const SEITEN = {};
 
 /* ---------- Übersicht ---------- */
-/* ---------- Start: einfache Kacheln ---------- */
+/* ---------- Start: übersichtlich ---------- */
 const START_KACHELN = [
-  // id, Farbe (Glanz-Kachel), Symbol, Titel, Text-Funktion, Knopf
-  ["klassen", "01", "familie", "Meine Klassen", D=>{ const n=D.klassen.reduce((s,x)=>s+(x.schueler||[]).length,0); return D.klassen.length ? `${D.klassen.length} ${D.klassen.length===1?"Klasse":"Klassen"} · ${n} Kinder` : "Klasse anlegen und Kinder eintragen"; }, "Öffnen"],
-  ["neu", "05", "rakete", "Neuer Test", D=>D.klassen.length ? "Fragen wählen, Code verteilen" : "Zuerst eine Klasse anlegen", "Erstellen"],
-  ["tests", "06", "pokal", "Tests & Resultate", D=>D.tests.length ? `${D.tests.length} ${D.tests.length===1?"Test":"Tests"} · ${D.abgaben.length} Abgaben` : "Noch keine Tests", "Ansehen"],
-  ["korrigieren", "03", "haken", "Korrigieren", D=>{ const o=offeneKorrekturen(); return o ? `${o} ${o===1?"Abgabe wartet":"Abgaben warten"}` : "Alles korrigiert"; }, "Korrigieren"],
-  ["fragen", "04", "lupe", "Fragenpool", ()=>"Rund 128'000 Fragen durchsuchen", "Suchen"],
-  ["einstellungen", "10", "zahnrad", "Einstellungen", ()=>"Daten, Sicherung und mehr", "Öffnen"]
+  // id, Farbe, Symbol, Titel, Text-Funktion
+  ["klassen", "#3D5AFE", "familie", "Klassen", D=>{ const n=D.klassen.reduce((s,x)=>s+(x.schueler||[]).length,0); return D.klassen.length ? `${D.klassen.length} ${D.klassen.length===1?"Klasse":"Klassen"}, ${n} Kinder` : "Klasse anlegen"; }],
+  ["neu", "#D6247F", "rakete", "Neuer Test", D=>D.klassen.length ? "Fragen wählen, Code verteilen" : "Zuerst eine Klasse anlegen"],
+  ["tests", "#7B3FE4", "pokal", "Tests und Resultate", D=>`${D.tests.length} ${D.tests.length===1?"Test":"Tests"}, ${D.abgaben.length} Abgaben`],
+  ["korrigieren", "#E8730C", "haken", "Korrigieren", D=>{ const o=offeneKorrekturen(); return o ? `${o} ${o===1?"Abgabe wartet":"Abgaben warten"}` : "Alles korrigiert"; }],
+  ["fragen", "#0F9D63", "lupe", "Fragenpool", ()=>"Fragen durchsuchen"],
+  ["einstellungen", "#3B3F7A", "zahnrad", "Einstellungen", ()=>"Daten und Sicherung"]
 ];
-const TK_FARBEN = ["01","05","06","04","03","13","02","10"];
-const tkFarbe = i => `--tk:url(../img/grafik/entdecken/kachel-${TK_FARBEN[i%TK_FARBEN.length]}.webp?v=3)`;
+const TK_FARBEN = ["#3D5AFE","#D6247F","#7B3FE4","#0F9D63","#E8730C","#0E9AAE","#D93A3A","#3B3F7A"];
+const tkFarbe = i => `--tf:${TK_FARBEN[i%TK_FARBEN.length]}`;
 SEITEN.start = el => {
   const D=ST.daten;
-  const std=new Date().getHours(), gruss=std<11?"Guten Morgen":std<17?"Hallo":"Guten Abend";
-  const offen=offeneKorrekturen();
-  el.innerHTML=`<div class="ein-kopf"><h1>${gruss}!</h1><p>Was möchtest du tun?</p></div>
-    <div class="ein-kacheln">${START_KACHELN.map(([id,farbe,sym,titel,text,knopf])=>`
-      <button type="button" class="tk" data-ziel="${id}" style="--tk:url(../img/grafik/entdecken/kachel-${farbe}.webp?v=3)">
-        ${id==="korrigieren"&&offen?`<span class="tk-zahl" aria-label="${offen} offen">${offen}</span>`:""}
-        <img class="tk-sym" src="../img/grafik/diverse/${sym}.webp" alt="" width="160" height="160">
-        <span class="tk-tx"><b>${h(titel)}</b><span>${h(text(D))}</span></span>
-        <span class="tk-los">${h(knopf)} ›</span>
+  const std=new Date().getHours(), gruss=std<11?"Guten Morgen":std<17?"Guten Tag":"Guten Abend";
+  const kinder=D.klassen.reduce((s,x)=>s+(x.schueler||[]).length,0), offen=offeneKorrekturen();
+  const fertige=D.abgaben.filter(a=>!a.offen), sn=schnitt(fertige.map(a=>a.note));
+  let heute=""; try{ heute=new Date().toLocaleDateString("de-CH",{weekday:"long", day:"numeric", month:"long", year:"numeric"}); }catch(e){}
+  const tests=[...D.tests].sort((a,b)=>String(b.erstellt).localeCompare(String(a.erstellt))).slice(0,5);
+  const letzte=[...D.abgaben].sort((a,b)=>String(b.datum).localeCompare(String(a.datum))).slice(0,5);
+  el.innerHTML=`<div class="ein-kopf2"><div><h1>${gruss}</h1><p>${h(heute)}</p></div>
+      <div class="ein-akt"><button type="button" class="k" data-ziel="klassen">+ Klasse</button><button type="button" class="k p" data-ziel="neu" ${D.klassen.length?"":"disabled"}>+ Neuer Test</button></div></div>
+    <div class="ein-zahlen">
+      <div data-ziel="klassen" role="button" tabindex="0"><span>Klassen</span><b>${zahl(D.klassen.length)}</b><small>${zahl(kinder)} Kinder</small></div>
+      <div data-ziel="tests" role="button" tabindex="0"><span>Tests</span><b>${zahl(D.tests.length)}</b><small>${D.tests.filter(t=>t.aktiv!==false).length} offen</small></div>
+      <div data-ziel="auswertung" role="button" tabindex="0"><span>Ø Note</span><b class="note ${noteKlasse(sn)}">${fmtNote(sn)}</b><small>${fertige.length} korrigierte Abgaben</small></div>
+      <div data-ziel="korrigieren" role="button" tabindex="0" class="${offen?"warn":""}"><span>Zu korrigieren</span><b>${zahl(offen)}</b><small>${offen?"Abgaben warten":"alles erledigt"}</small></div>
+    </div>
+    <div class="ein-kacheln">${START_KACHELN.map(([id,farbe,sym,titel,text])=>`
+      <button type="button" class="kk" data-ziel="${id}" style="--tf:${farbe}">
+        <span class="kk-ic"><img src="../img/grafik/diverse/${sym}.webp" alt="" width="160" height="160"></span>
+        <span class="kk-tx"><b>${h(titel)}</b><small>${h(text(D))}</small></span>
+        ${id==="korrigieren"&&offen?`<span class="kk-zahl">${offen}</span>`:`<span class="kk-pf" aria-hidden="true">›</span>`}
       </button>`).join("")}</div>
-    <div class="ein-mehr"><span>Mehr:</span><button type="button" class="chip" data-ziel="uebersicht">Überblick</button><button type="button" class="chip" data-ziel="auswertung">Auswertung</button><button type="button" class="chip" data-ziel="kinder">Alle Kinder</button><button type="button" class="chip" data-ziel="lehrplan">Lehrplan 21</button><button type="button" class="chip" data-ziel="liga">Klassen-Liga</button><button type="button" class="chip" data-ziel="meldungen">Fehlermeldungen</button></div>`;
+    <div class="ein-zwei">
+      <section class="ein-box"><div class="ein-boxkopf"><h2>Neueste Tests</h2><button type="button" class="link klein" data-ziel="tests">Alle anzeigen</button></div>
+        ${tests.length?`<ul class="ein-liste">${tests.map(t=>{ const kl=klasseVon(t.klasseId), ab=abgabenVon(t.code), s=schnitt(ab.filter(a=>!a.offen).map(a=>a.note));
+          return `<li data-ziel="test/${h(t.code)}" role="button" tabindex="0"><span><b>${h(t.titel)}</b><small>${h(kl?.name||"ohne Klasse")} · <span class="code">${h(t.code)}</span></small></span><span class="r"><small>${ab.length}/${(kl?.schueler||[]).length}</small><b class="note ${noteKlasse(s)}">${fmtNote(s)}</b></span></li>`; }).join("")}</ul>`
+          : `<p class="mu">Noch keine Tests.</p>`}</section>
+      <section class="ein-box"><div class="ein-boxkopf"><h2>Letzte Abgaben</h2><button type="button" class="link klein" data-ziel="auswertung">Auswertung</button></div>
+        ${letzte.length?`<ul class="ein-liste">${letzte.map(a=>{ const t=D.tests.find(x=>x.code===a.code); return `<li data-ziel="test/${h(a.code)}" role="button" tabindex="0"><span><b>${h(a.name)}</b><small>${h(t?.titel||"")}</small></span><span class="r"><small>${datumZeit(a.datum)}</small>${noteZelle(a)}</span></li>`; }).join("")}</ul>`
+          : `<p class="mu">Noch keine Abgaben.</p>`}</section>
+    </div>
+    <div class="ein-mehr"><span>Weitere:</span><button type="button" class="link" data-ziel="kinder">Alle Kinder</button><button type="button" class="link" data-ziel="lehrplan">Lehrplan 21</button><button type="button" class="link" data-ziel="liga">Klassen-Liga</button><button type="button" class="link" data-ziel="meldungen">Fehlermeldungen</button></div>`;
   zielBinden(el);
 };
 
@@ -809,10 +828,11 @@ SEITEN.klassen = el => {
   el.innerHTML=`<div class="kopfzeile"><div><h1>Klassen</h1><p>Klassen mit Kindern und PINs. Jedes Kind löst Tests mit dem Test-Code und seinem PIN.</p></div></div>
     <div class="ein-kacheln klein">
       ${D.klassen.map((k,i)=>{ const ts=testsVon(k.id), codes=new Set(ts.map(t=>t.code)); const s=schnitt(D.abgaben.filter(a=>codes.has(a.code) && !a.offen).map(a=>a.note)), n=(k.schueler||[]).length;
-        return `<button type="button" class="tk" data-ziel="klasse/${h(k.id)}" style="${tkFarbe(i)}">${s!=null?`<span class="tk-note">Ø ${fmtNote(s)}</span>`:""}
-          <span class="tk-tx voll"><b>${h(k.name)}</b><span>${h(sjName(k.schuljahr))} · Zyklus ${h(k.zyklus||"")}</span><span>${n} ${n===1?"Kind":"Kinder"} · ${ts.length} ${ts.length===1?"Test":"Tests"}</span></span>
-          <span class="tk-los">Öffnen ›</span></button>`; }).join("")}
-      <button type="button" class="tk-plus" id="kPlus"><span aria-hidden="true">+</span><b>Neue Klasse</b></button>
+        return `<button type="button" class="kc" data-ziel="klasse/${h(k.id)}" style="${tkFarbe(i)}">
+          <span class="kc-kopf"><b>${h(k.name)}</b>${s!=null?`<span class="note ${noteKlasse(s)}">Ø ${fmtNote(s)}</span>`:""}</span>
+          <small>${h(sjName(k.schuljahr))} · Zyklus ${h(k.zyklus||"")}</small>
+          <span class="kc-fuss"><span>${n} ${n===1?"Kind":"Kinder"}</span><span>${ts.length} ${ts.length===1?"Test":"Tests"}</span></span></button>`; }).join("")}
+      <button type="button" class="kc-plus" id="kPlus">+ Neue Klasse</button>
     </div>
     <div class="box" id="kForm" ${D.klassen.length?"hidden":""}><h2>Neue Klasse anlegen</h2>
       <div class="formular">
@@ -950,10 +970,10 @@ SEITEN.tests = el => {
     <div class="leiste"><select id="teK" aria-label="Klasse"><option value="">Alle Klassen</option>${D.klassen.map(k=>`<option value="${h(k.id)}" ${k.id===F.klasse?"selected":""}>${h(k.name)}</option>`).join("")}</select><span class="mu">${liste.length} ${liste.length===1?"Test":"Tests"}</span></div>
     ${liste.length?`<div class="ein-kacheln klein">
       ${liste.map((t,i)=>{ const k=klasseVon(t.klasseId), ab=abgabenVon(t.code), s=schnitt(ab.filter(a=>!a.offen).map(a=>a.note)), off=ab.filter(a=>a.offen).length;
-        return `<button type="button" class="tk" data-ziel="test/${h(t.code)}" style="${tkFarbe(i+2)}">${s!=null?`<span class="tk-note">Ø ${fmtNote(s)}</span>`:""}
-          <span class="tk-tx voll"><b>${h(t.titel)}</b><span>${h(k?.name||"ohne Klasse")} · ${t.fragen.length} Fragen</span><span class="tk-code">${h(t.code)}</span>
-          <span>${ab.length} von ${(k?.schueler||[]).length} abgegeben${off?` · ${off} zu korrigieren`:""}${t.aktiv===false?" · geschlossen":""}</span></span>
-          <span class="tk-los">Resultate ›</span></button>`; }).join("")}
+        return `<button type="button" class="kc" data-ziel="test/${h(t.code)}" style="${tkFarbe(i+2)}">
+          <span class="kc-kopf"><b>${h(t.titel)}</b>${s!=null?`<span class="note ${noteKlasse(s)}">Ø ${fmtNote(s)}</span>`:""}</span>
+          <small>${h(k?.name||"ohne Klasse")} · ${t.fragen.length} Fragen · Code <span class="code">${h(t.code)}</span></small>
+          <span class="kc-fuss"><span>${ab.length} von ${(k?.schueler||[]).length} abgegeben</span>${off?`<span class="marke wa">${off} zu korrigieren</span>`:""}${t.aktiv===false?`<span class="marke">geschlossen</span>`:`<span class="marke ok">offen</span>`}</span></button>`; }).join("")}
     </div>`:`<div class="box">${leer(D.klassen.length?"Noch keine Tests.":"Lege zuerst eine Klasse an, dann kannst du Tests erstellen.", D.klassen.length?`<button type="button" class="k p" data-ziel="neu">Ersten Test erstellen</button>`:`<button type="button" class="k p" data-ziel="klassen">Klasse anlegen</button>`)}</div>`}`;
   zielBinden(el);
   $("#teK").onchange=e=>neu(()=>{ F.klasse=e.target.value; });
