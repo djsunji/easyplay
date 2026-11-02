@@ -205,6 +205,53 @@ tr.geaendert td:first-child{box-shadow:inset 3px 0 0 var(--wa)}
 @media (max-width:900px){.zwei{grid-template-columns:minmax(0,1fr)}}
 select{max-width:100%}
 @media (max-width:640px){main{padding:12px}main table{display:block;overflow-x:auto;max-width:100%}.leiste input[type=search]{min-width:0!important;flex:1 1 180px}.held{padding:18px}.held h2{font-size:22px}}
+/* Postfach */
+.po{display:grid;grid-template-columns:190px minmax(0,340px) minmax(0,1fr);gap:12px;align-items:start}
+.po-seite{display:grid;gap:2px;position:sticky;top:60px}
+.po-seite button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:7px 10px;cursor:pointer;color:var(--tx)}
+.po-seite button:hover{background:var(--fl)}
+.po-seite button.an{background:var(--fl);font-weight:600;box-shadow:inset 3px 0 0 var(--ak)}
+.po-seite button small{margin-left:auto;font-size:11px;font-weight:700;background:var(--ak);color:#fff;border-radius:99px;padding:1px 7px}
+.po-seite .gr{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:12px 10px 4px}
+.po-seite .neu{background:var(--grad);color:#fff;font-weight:600;justify-content:center;margin-bottom:6px}
+.po-seite .neu:hover{background:var(--grad);filter:brightness(1.08)}
+.po-punkt{width:9px;height:9px;border-radius:50%;flex:none}
+.po-liste{background:var(--fl);border:1px solid var(--li);border-radius:10px;overflow:hidden}
+.po-liste .kopf{display:flex;gap:6px;padding:8px;border-bottom:1px solid var(--li)}
+.po-liste .kopf input{flex:1;min-width:0}
+.po-m{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 8px;padding:9px 10px;border-bottom:1px solid var(--li);cursor:pointer;position:relative}
+.po-m:hover{background:var(--zb)}
+.po-m.wahl{background:color-mix(in srgb,var(--ak) 12%,var(--fl))}
+.po-m.neu .wer,.po-m.neu .betr{font-weight:700}
+.po-m.neu::before{content:"";position:absolute;left:3px;top:14px;width:6px;height:6px;border-radius:50%;background:var(--ak)}
+.po-m .wer{grid-column:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.po-m .zeit{grid-column:3;font-size:12px;color:var(--mu);white-space:nowrap}
+.po-m .betr{grid-column:2/4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.po-m .ali{grid-column:1;grid-row:1/3;align-self:center}
+.po-m .zus{grid-column:2/4;font-size:12px;color:var(--mu)}
+.po-fuss{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;font-size:12px;color:var(--mu)}
+.po-lesen{background:var(--fl);border:1px solid var(--li);border-radius:10px;min-height:420px;display:flex;flex-direction:column;min-width:0}
+.po-lesen .leer{margin:auto;color:var(--mu);text-align:center;padding:30px}
+.po-lesen .leer img{width:110px;height:auto;display:block;margin:0 auto 8px}
+.po-kopf{padding:14px 16px 10px;border-bottom:1px solid var(--li);display:grid;gap:6px}
+.po-kopf h2{font-size:18px;margin:0;overflow-wrap:anywhere}
+.po-kopf .zeile{font-size:13px;color:var(--mu);overflow-wrap:anywhere}
+.po-kopf .zeile b{color:var(--tx);font-weight:600}
+.po-knoepfe{display:flex;flex-wrap:wrap;gap:6px;padding:8px 16px;border-bottom:1px solid var(--li)}
+.po-text{padding:14px 16px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;flex:1}
+.po-rahmen{flex:1;border:0;width:100%;min-height:460px;background:#fff;border-radius:0 0 10px 10px}
+.po-anh{display:flex;flex-wrap:wrap;gap:6px;padding:8px 16px;border-bottom:1px solid var(--li)}
+.po-anh button{font-size:12px}
+.po-bilder{padding:6px 16px;font-size:12px;background:var(--zb);border-bottom:1px solid var(--li)}
+.po-zurueck{display:none}
+dialog:has(.po-schreiben){max-width:800px}
+.po-schreiben{width:100%;box-sizing:border-box}
+.po-schreiben input[type=text],.po-schreiben select{width:100%;box-sizing:border-box}
+.po-schreiben .formular{grid-template-columns:70px 1fr}
+.po-schreiben textarea{min-height:300px;font-family:inherit;line-height:1.5}
+@media (max-width:1100px){.po{grid-template-columns:170px minmax(0,1fr)}.po-lesen{grid-column:1/-1}}
+@media (max-width:760px){.po{grid-template-columns:1fr}.po-seite{position:static;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.po-seite .gr{grid-column:1/-1}
+  .po.lesend .po-liste,.po.lesend .po-seite{display:none}.po:not(.lesend) .po-lesen{display:none}.po-zurueck{display:inline-block}}
 </style>
 </head>
 <body>
@@ -226,6 +273,7 @@ select{max-width:100%}
   <div class="gr">Überblick</div>
   <button data-t="uebersicht" class="an">Übersicht</button>
   <button data-t="statistik">Besucher</button>
+  <button data-t="post">Postfach <small id="nPost"></small></button>
   <div class="gr">Inhalte</div>
   <button data-t="fragen">Fragen <small id="nFragen"></small></button>
   <button data-t="artikel">Artikel <small id="nArtikel"></small></button>
@@ -1713,6 +1761,202 @@ function isoWoche(d){ const x = d ? new Date(d) : new Date(); const t = new Date
 const tagKey = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
 function dialog(html, binden){ const d = $("#dlg"); d.innerHTML = html; d.showModal(); const zu = d.querySelector("[data-zu]"); if(zu) zu.onclick = () => d.close(); if(binden) binden(d); return d; }
 
+/* ======================= Postfach ======================= */
+// Liest das Hostpoint-Postfach über den Server (/api/admin/post/…). info@, sponsor@ usw. sind Aliase und erscheinen wie Ordner.
+const PO = { ordner:"INBOX", an:"", suche:"", seite:1, uid:null, info:null, liste:null, mail:null, bilder:false };
+const PO_FARBE = ["#5b45e8", "#E94A9B", "#1f9d6b", "#FF7A1A", "#3D8BFD", "#a05cd6", "#c9a400"];
+const poFarbe = a => { const l = PO.info ? PO.info.adressen.map(x => x.split("@")[0]) : []; const i = l.indexOf(a); return i < 0 ? "var(--mu)" : PO_FARBE[i % PO_FARBE.length]; };
+const ROLLE_NAME = {eingang:"Posteingang", gesendet:"Gesendet", entwuerfe:"Entwürfe", spam:"Spam", papierkorb:"Papierkorb", archiv:"Archiv"};
+const ROLLE_ICON = {eingang:"📥", gesendet:"📤", entwuerfe:"📝", spam:"⚠️", papierkorb:"🗑️", archiv:"🗄️"};
+const poRolle = p => { const o = PO.info && PO.info.ordner.find(x => x.pfad === p); return o ? o.rolle : null; };
+const poZeit = d => { if(!d) return ""; const x = new Date(d), h = new Date(); return x.toDateString() === h.toDateString() ? x.toLocaleTimeString("de-CH", {hour:"2-digit", minute:"2-digit"}) : x.getFullYear() === h.getFullYear() ? x.toLocaleDateString("de-CH", {day:"2-digit", month:"2-digit"}) : x.toLocaleDateString("de-CH"); };
+const poName = a => a ? (a.name || a.mail) : "";
+const poSignatur = () => store.get("ep-admin-post-signatur", "Freundliche Grüsse\nDejan Ehrbar\neasyplay · Spiel dich schlau!\nhttps://easyplay.ch");
+const poAbsName = () => store.get("ep-admin-post-name", "easyplay");
+
+async function poZaehler(){
+  try{ PO.info = await api("post/zaehler"); }catch(e){ return null; }
+  const n = PO.info.ungelesen[""] || 0; const b = $("#nPost"); if(b) b.textContent = n ? n : "";
+  return PO.info;
+}
+
+TABS.post = async () => {
+  const kopf = `<div class="leiste"><h2 style="margin:0">Postfach</h2><span class="mu klein">info@, sponsor@, feedback@ und schule@easyplay.ch an einem Ort</span><span class="rechts"></span><button class="k" id="poSig">Signatur</button><button class="k" id="poNeuLaden">Aktualisieren</button></div>`;
+  if(onlineFehlt(kopf)) return;
+  let st; try{ st = await api("post/status"); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
+  if(!st.an){ $("#inhalt").innerHTML = kopf.replace(/<button[^]*<\/button>/, "") + poEinrichtung(st); return; }
+  $("#inhalt").innerHTML = kopf + `<div class="po" id="po"><div class="po-seite" id="poSeite"><p class="mu klein">Lädt …</p></div>
+    <div class="po-liste" id="poListe"><p class="mu klein" style="padding:10px">Lädt …</p></div>
+    <div class="po-lesen" id="poLesen"><div class="leer"><img src="../img/kids/duo-winken.webp" alt="" width="110">Wähle links eine Mail.</div></div></div>`;
+  $("#poNeuLaden").onclick = () => { poSeite(); poListe(); };
+  $("#poSig").onclick = poSignaturDialog;
+  await poZaehler();
+  if(!PO.info){ try{ await api("post/zaehler"); }catch(e){ $("#po").outerHTML = `<div class="hinweis fe">${esc(e.message)}</div>`; return; } }
+  if(!PO.info.ordner.some(o => o.pfad === PO.ordner)) PO.ordner = "INBOX";
+  poSeite(); await poListe();
+  if(PO.uid) poLesen(PO.uid);
+};
+
+function poEinrichtung(st){
+  return `<div class="zwei"><div class="box"><b>Postfach einrichten</b><ol class="klein" style="line-height:1.7">
+    <li>Bei Hostpoint (Control Panel, <b>E-Mail</b>) ein Postfach <code>post@easyplay.ch</code> mit einem sicheren Passwort anlegen.</li>
+    <li>Dort die Weiterleitungen (Aliase) ${st.adressen.map(a => `<code>${esc(a)}</code>`).join(", ")} auf <code>post@easyplay.ch</code> anlegen.</li>
+    <li>Bei Deploio in der App easyplay die Variablen <code>IMAP_USER</code> = <code>post@easyplay.ch</code> und <code>IMAP_PASS</code> (das Passwort, als geheim markieren) eintragen. Server: <code>${esc(st.host)}</code>, das ist schon voreingestellt.</li>
+    <li>Die App startet neu. Danach diese Seite neu laden.</li></ol>
+    ${st.mail ? "" : '<p class="fe klein">Zum Antworten braucht es ausserdem den Mailversand (siehe «Technik»).</p>'}</div>
+    <div class="box klein"><b>So funktioniert es</b><ul><li>Alle Adressen landen im selben Postfach. Hier erscheinen sie wie Ordner, mit eigener Farbe und eigenem Zähler.</li>
+    <li>Antworten gehen immer von der Adresse weg, an die die Mail geschickt wurde, über den Mailversand (Brevo). Eine Kopie landet in «Gesendet».</li>
+    <li>Du kannst das Postfach auch weiterhin im Hostpoint-Webmail oder auf dem Handy lesen.</li></ul></div></div>`;
+}
+
+function poSeite(){
+  const i = PO.info; if(!i) return;
+  const al = i.adressen.map(x => x.split("@")[0]);
+  const ord = i.ordner.slice().sort((a, b) => { const r = ["eingang","entwuerfe","gesendet","archiv","spam","papierkorb"]; return (a.rolle ? r.indexOf(a.rolle) : 9) - (b.rolle ? r.indexOf(b.rolle) : 9) || a.name.localeCompare(b.name); });
+  const n = x => x ? `<small>${x}</small>` : "";
+  $("#poSeite").innerHTML = `<button class="neu" id="poNeu">✏️ Neue Mail</button>
+    <div class="gr">Adressen</div>
+    <button data-an="" class="${!PO.an ? "an" : ""}"><span class="po-punkt" style="background:var(--tx)"></span>Alle${n(PO.ordner === "INBOX" ? i.ungelesen[""] : 0)}</button>
+    ${al.map(a => `<button data-an="${esc(a)}" class="${PO.an === a ? "an" : ""}"><span class="po-punkt" style="background:${poFarbe(a)}"></span>${esc(a)}@${n(PO.ordner === "INBOX" ? i.ungelesen[a] : 0)}</button>`).join("")}
+    <div class="gr">Ordner</div>
+    ${ord.map(o => `<button data-ordner="${esc(o.pfad)}" class="${PO.ordner === o.pfad ? "an" : ""}"><span aria-hidden="true">${ROLLE_ICON[o.rolle] || "📁"}</span>${esc(ROLLE_NAME[o.rolle] || o.name)}${o.rolle === "eingang" ? n(i.ungelesen[""]) : o.rolle === "spam" ? n(i.spamUngelesen) : ""}</button>`).join("")}`;
+  $("#poNeu").onclick = () => poSchreiben({von: PO.an || "info"});
+  $$("#poSeite [data-an]").forEach(b => b.onclick = () => { PO.an = b.dataset.an; PO.seite = 1; poSeite(); poListe(); });
+  $$("#poSeite [data-ordner]").forEach(b => b.onclick = () => { PO.ordner = b.dataset.ordner; PO.seite = 1; PO.uid = null; poSeite(); poListe(); poLeer(); });
+}
+function poLeer(){ const l = $("#poLesen"); if(l) l.innerHTML = `<div class="leer"><img src="../img/kids/duo-winken.webp" alt="" width="110">Wähle links eine Mail.</div>`; $("#po") && $("#po").classList.remove("lesend"); }
+
+async function poListe(){
+  const box = $("#poListe"); if(!box) return;
+  const suchFeld = `<div class="kopf"><input type="search" id="poSuche" placeholder="Suchen (Betreff, Absender, Text)" value="${esc(PO.suche)}"><button class="k" id="poSuchen">Suchen</button></div>`;
+  if(!$("#poSuche")) box.innerHTML = suchFeld + '<div id="poMails"><p class="mu klein" style="padding:10px">Lädt …</p></div>';
+  else $("#poMails").innerHTML = '<p class="mu klein" style="padding:10px">Lädt …</p>';
+  const los = () => { PO.suche = $("#poSuche").value.trim(); PO.seite = 1; poListe(); };
+  $("#poSuchen").onclick = los; $("#poSuche").onkeydown = e => { if(e.key === "Enter") los(); };
+  let r; try{ r = await api(`post/liste?ordner=${encodeURIComponent(PO.ordner)}&an=${encodeURIComponent(PO.an)}&suche=${encodeURIComponent(PO.suche)}&seite=${PO.seite}`); }
+  catch(e){ $("#poMails").innerHTML = `<div class="hinweis fe" style="margin:8px">${esc(e.message)}</div>`; return; }
+  PO.liste = r;
+  const gesendet = poRolle(r.ordner) === "gesendet";
+  $("#poMails").innerHTML = (r.mails.length ? r.mails.map(m => {
+    const wer = gesendet ? "An: " + (m.an.map(poName).join(", ") || "-") : poName(m.von) || "(ohne Absender)";
+    return `<div class="po-m${m.gelesen ? "" : " neu"}${PO.uid === m.uid ? " wahl" : ""}" data-uid="${m.uid}" tabindex="0">
+      <span class="ali po-punkt" title="${esc(m.alias ? m.alias + "@" : "")}" style="background:${m.alias ? poFarbe(m.alias) : "transparent"}"></span>
+      <span class="wer">${esc(wer)}</span><span class="zeit">${m.stern ? "⭐ " : ""}${m.anhang ? "📎 " : ""}${esc(poZeit(m.datum))}</span>
+      <span class="betr">${m.beantwortet ? "↩︎ " : ""}${esc(m.betreff || "(kein Betreff)")}</span></div>`; }).join("")
+    : `<p class="mu klein" style="padding:14px">${PO.suche ? "Nichts gefunden." : "Keine Mails in diesem Ordner."}</p>`)
+    + `<div class="po-fuss"><span>${zahl(r.gesamt)} Mail${r.gesamt === 1 ? "" : "s"}</span>${r.seiten > 1 ? `<span><button class="k" id="poVor"${r.seite <= 1 ? " disabled" : ""}>‹</button> ${r.seite} / ${r.seiten} <button class="k" id="poNach"${r.seite >= r.seiten ? " disabled" : ""}>›</button></span>` : ""}</div>`;
+  $$("#poMails .po-m").forEach(el => { el.onclick = () => poLesen(+el.dataset.uid); el.onkeydown = e => { if(e.key === "Enter") poLesen(+el.dataset.uid); }; });
+  const v = $("#poVor"), w = $("#poNach"); if(v) v.onclick = () => { PO.seite--; poListe(); }; if(w) w.onclick = () => { PO.seite++; poListe(); };
+}
+
+function poRahmen(html){
+  const fremd = /<img[^>]+src=["']?https?:/i.test(html);
+  const csp = `default-src 'none'; style-src 'unsafe-inline'; font-src data:; img-src data:${PO.bilder ? " https: http:" : ""}`;
+  const doc = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${csp}"><base target="_blank"><style>body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.5;color:#1d1640;background:#fff;margin:14px;overflow-wrap:anywhere}img{max-width:100%;height:auto}table{max-width:100%}</style></head><body>${html}</body></html>`;
+  return (fremd && !PO.bilder ? `<div class="po-bilder">Bilder von fremden Seiten sind blockiert (Schutz vor Lesebestätigungen). <a class="link" id="poBilder">Bilder anzeigen</a></div>` : "")
+    + `<iframe class="po-rahmen" sandbox="allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" title="Inhalt der Mail" srcdoc="${esc(doc)}"></iframe>`;
+}
+
+async function poLesen(uid){
+  PO.uid = uid; $$("#poMails .po-m").forEach(el => el.classList.toggle("wahl", +el.dataset.uid === uid));
+  $("#po").classList.add("lesend");
+  const l = $("#poLesen"); l.innerHTML = '<div class="leer">Lädt …</div>';
+  let m; try{ m = await api(`post/mail?ordner=${encodeURIComponent(PO.ordner)}&uid=${uid}`); }catch(e){ l.innerHTML = `<div class="hinweis fe" style="margin:12px">${esc(e.message)}</div>`; return; }
+  PO.mail = m; PO.bilder = false;
+  const el = $(`#poMails .po-m[data-uid="${uid}"]`); if(el && el.classList.contains("neu")){ el.classList.remove("neu"); poZaehler().then(poSeite); }
+  const rolle = poRolle(PO.ordner), adr = l => l.map(a => a.name ? `${esc(a.name)} &lt;${esc(a.mail)}&gt;` : esc(a.mail)).join(", ");
+  const knoepfe = rolle === "papierkorb"
+    ? `<button class="k" data-a="eingang">Wiederherstellen</button><button class="k g" data-a="endgueltig">Endgültig löschen</button>`
+    : `<button class="k p" data-w="antworten">↩︎ Antworten</button><button class="k" data-w="allen">Allen antworten</button><button class="k" data-w="weiter">Weiterleiten</button>
+       <span style="flex:1"></span><button class="k" data-a="${m.stern ? "ohnestern" : "stern"}">${m.stern ? "⭐ Stern weg" : "☆ Stern"}</button><button class="k" data-a="ungelesen">Ungelesen</button>
+       ${rolle === "spam" ? '<button class="k" data-a="eingang">Kein Spam</button>' : '<button class="k" data-a="spam">Spam</button>'}<button class="k g" data-a="loeschen">Löschen</button>`;
+  const body = () => m.html ? poRahmen(m.html) : `<div class="po-text">${esc(m.text || "(leer)")}</div>`;
+  l.innerHTML = `<div class="po-kopf"><div><button class="k po-zurueck" id="poZurueck">‹ Zurück</button></div><h2>${esc(m.betreff || "(kein Betreff)")}</h2>
+    <div class="zeile">Von <b>${m.von ? adr([m.von]) : "-"}</b></div>
+    <div class="zeile">An ${adr(m.an) || "-"}${m.cc.length ? ` · Cc ${adr(m.cc)}` : ""}</div>
+    <div class="zeile">${m.datum ? esc(datum(m.datum)) : ""}${m.alias ? ` · <span class="po-punkt" style="display:inline-block;background:${poFarbe(m.alias)}"></span> ${esc(m.alias)}@` : ""}</div></div>
+    <div class="po-knoepfe">${knoepfe}</div>
+    ${m.anhaenge.filter(a => !a.inline).length ? `<div class="po-anh">${m.anhaenge.filter(a => !a.inline).map(a => `<button class="k" data-nr="${a.nr}">📎 ${esc(a.name)} <span class="mu">(${groesse(a.groesse)})</span></button>`).join("")}</div>` : ""}
+    <div id="poInhalt" style="display:flex;flex-direction:column;flex:1">${body()}</div>`;
+  const bilderKnopf = () => { const b = $("#poBilder"); if(b) b.onclick = () => { PO.bilder = true; $("#poInhalt").innerHTML = body(); }; };
+  bilderKnopf();
+  $("#poZurueck").onclick = () => $("#po").classList.remove("lesend");
+  $$("#poLesen [data-w]").forEach(b => b.onclick = () => poAntwort(b.dataset.w));
+  $$("#poLesen [data-a]").forEach(b => b.onclick = () => poAktion(b.dataset.a, [uid]));
+  $$("#poLesen [data-nr]").forEach(b => b.onclick = async () => {
+    try{ const r = await api(`post/anhang?ordner=${encodeURIComponent(PO.ordner)}&uid=${uid}&nr=${b.dataset.nr}`, {roh:true});
+      const url = URL.createObjectURL(await r.blob()), a = document.createElement("a"); a.href = url; a.download = m.anhaenge[+b.dataset.nr].name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000); }
+    catch(e){ melde(e.message, "fe"); } });
+}
+
+async function poAktion(aktion, uids){
+  if(aktion === "endgueltig" && !confirm("Diese Mail endgültig löschen? Das lässt sich nicht rückgängig machen.")) return;
+  try{ await api("post/aktion", {method:"POST", body:{ordner:PO.ordner, uids, aktion}}); }catch(e){ melde(e.message, "fe"); return; }
+  const weg = ["loeschen","spam","eingang","archiv","endgueltig"].includes(aktion);
+  melde({loeschen:"In den Papierkorb verschoben.", spam:"Als Spam verschoben.", eingang:"In den Posteingang verschoben.", endgueltig:"Endgültig gelöscht.", ungelesen:"Als ungelesen markiert.", stern:"Mit Stern markiert.", ohnestern:"Stern entfernt."}[aktion] || "Erledigt.");
+  if(weg){ PO.uid = null; poLeer(); } else if(aktion === "stern" || aktion === "ohnestern") poLesen(uids[0]);
+  if(aktion === "ungelesen"){ PO.uid = null; poLeer(); }
+  await poZaehler(); poSeite(); poListe();
+}
+
+function poKlartext(m){
+  if(m.text) return m.text; if(!m.html) return "";
+  const d = new DOMParser().parseFromString(m.html, "text/html"); d.querySelectorAll("script,style,head,title").forEach(x => x.remove());
+  d.querySelectorAll("br").forEach(x => x.replaceWith("\n")); d.querySelectorAll("p,div,li,tr,h1,h2,h3").forEach(x => x.append("\n"));
+  return (d.body.textContent || "").replace(/\n{3,}/g, "\n\n").trim();
+}
+function poAntwort(art){
+  const m = PO.mail; if(!m) return;
+  const eigene = (PO.info ? PO.info.adressen : []).concat([]);
+  const istEigen = a => eigene.includes(a.mail) || /@easyplay\.ch$/i.test(a.mail);
+  const klartext = poKlartext(m);
+  const zitat = `\n\n${m.datum ? "Am " + datum(m.datum) + " schrieb" : "Nachricht von"} ${poName(m.von)}:\n` + klartext.trim().split("\n").map(z => "> " + z).join("\n");
+  const re = s => /^(re|aw|antw):/i.test(s) ? s : "Re: " + s;
+  const von = m.alias || PO.an || "info";
+  if(art === "weiter") return poSchreiben({von, betreff: /^(fwd|wg|fw):/i.test(m.betreff) ? m.betreff : "Fwd: " + m.betreff,
+    text: `\n\n${poSignatur()}\n\n---------- Weitergeleitete Nachricht ----------\nVon: ${poName(m.von)} <${m.von ? m.von.mail : ""}>\nDatum: ${m.datum ? datum(m.datum) : ""}\nBetreff: ${m.betreff}\nAn: ${m.an.map(a => a.mail).join(", ")}\n\n${poKlartext(m)}`,
+    hinweis: m.anhaenge.length ? "Anhänge werden beim Weiterleiten nicht mitgeschickt." : ""});
+  const ziel = (m.antwortAn.length ? m.antwortAn : m.von ? [m.von] : []).filter(a => !istEigen(a));
+  const cc = art === "allen" ? m.an.concat(m.cc).filter(a => !istEigen(a) && !ziel.some(z => z.mail === a.mail)) : [];
+  poSchreiben({von, an: ziel.map(a => a.mail).join(", "), cc: cc.map(a => a.mail).join(", "), betreff: re(m.betreff || ""), text: `\n\n${poSignatur()}${zitat}`,
+    antwort: {uid: m.uid, ordner: PO.ordner, messageId: m.messageId, referenzen: m.referenzen}});
+}
+
+function poSchreiben(v){
+  v = Object.assign({von:"info", an:"", cc:"", betreff:"", text:`\n\n${poSignatur()}`}, v);
+  const al = PO.info ? PO.info.adressen : ["info@easyplay.ch"];
+  dialog(`<form method="dialog" class="po-schreiben" id="poForm"><div class="leiste"><h2 style="margin:0">${v.antwort ? "Antworten" : "Neue Mail"}</h2><span class="rechts"></span><button class="k" type="button" data-zu>Schliessen</button></div>
+    <div class="formular">
+      <label for="poVon">Von</label><select id="poVon">${al.map(a => { const k = a.split("@")[0]; return `<option value="${esc(k)}"${k === v.von ? " selected" : ""}>${esc(poAbsName())} &lt;${esc(a)}&gt;</option>`; }).join("")}</select>
+      <label for="poAn">An</label><input type="text" id="poAn" value="${esc(v.an)}" placeholder="name@beispiel.ch, mehrere mit Komma">
+      <label for="poCc">Cc</label><input type="text" id="poCc" value="${esc(v.cc)}">
+      <label for="poBetreff">Betreff</label><input type="text" id="poBetreff" value="${esc(v.betreff)}" maxlength="200">
+    </div>
+    <textarea id="poText" style="margin-top:10px">${esc(v.text)}</textarea>
+    ${v.hinweis ? `<p class="wa klein">${esc(v.hinweis)}</p>` : ""}
+    <div class="leiste" style="margin:10px 0 0"><span id="poInfo" class="klein"></span><span class="rechts"></span><button class="k p" type="button" id="poSenden">Senden</button></div></form>`, d => {
+    const t = $("#poText", d); t.focus(); t.setSelectionRange(0, 0);
+    if(!v.an) $("#poAn", d).focus();
+    $("#poSenden", d).onclick = async () => {
+      const b = $("#poSenden", d); b.disabled = true; b.textContent = "Wird gesendet …"; $("#poInfo", d).textContent = "";
+      try{ const r = await api("post/senden", {method:"POST", body:{von:$("#poVon", d).value, name:poAbsName(), an:$("#poAn", d).value, cc:$("#poCc", d).value, betreff:$("#poBetreff", d).value, text:t.value, antwort:v.antwort}});
+        d.close(); melde(r.kopie ? "Gesendet. Eine Kopie liegt in «Gesendet»." : "Gesendet. Die Kopie in «Gesendet» konnte nicht abgelegt werden.");
+        if($("#po")){ await poZaehler(); poSeite(); poListe(); } }
+      catch(e){ $("#poInfo", d).innerHTML = `<span class="fe">${esc(e.message)}</span>`; b.disabled = false; b.textContent = "Senden"; } };
+  });
+}
+
+function poSignaturDialog(){
+  dialog(`<div class="po-schreiben"><div class="leiste"><h2 style="margin:0">Signatur und Absendername</h2><span class="rechts"></span><button class="k" data-zu>Schliessen</button></div>
+    <div class="formular"><label for="poSigName">Name</label><input type="text" id="poSigName" value="${esc(poAbsName())}" maxlength="60"></div>
+    <p class="mu klein">So erscheinst du beim Empfänger, zum Beispiel «easyplay» oder «Dejan von easyplay».</p>
+    <textarea id="poSigText" style="min-height:140px">${esc(poSignatur())}</textarea>
+    <p class="mu klein">Wird bei neuen Mails und Antworten unten eingefügt. Gespeichert in diesem Browser.</p>
+    <div class="leiste"><span class="rechts"></span><button class="k p" id="poSigOk">Speichern</button></div></div>`, d => {
+    $("#poSigOk", d).onclick = () => { store.set("ep-admin-post-signatur", $("#poSigText", d).value, true); store.set("ep-admin-post-name", $("#poSigName", d).value.trim() || "easyplay", true); d.close(); melde("Signatur gespeichert."); };
+  });
+}
+
 /* ======================= Namen prüfen ======================= */
 const NM = { quelle:"", nur:true, suche:"" };
 const QUELLE = {konto:"Konto", kommentar:"Kommentar", duell:"Duell", liga:"Klassen-Liga"};
@@ -2310,6 +2554,7 @@ function starten(){
   try{ localStorage.removeItem("ep-admin-gh"); }catch(e){}   // alte, unverschlüsselte Ablage entfernen
   $("#login").hidden = true; $("#login").style.display = "none"; $("#app").hidden = false;
   statusZeigen(); aenderungenZeigen();
+  setTimeout(() => { poZaehler(); setInterval(poZaehler, 180000); }, 1500);   // Zähler ungelesener Mails im Menü
   zeige(TABS[location.hash.slice(1)] ? location.hash.slice(1) : "uebersicht");
   setInterval(() => { if(!angemeldet()) abmelden(); }, 60000);
   // Nach 30 Minuten ohne Aktivität abmelden (nur wenn nichts Ungespeichertes offen ist)

@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { sql, alsPerson } from "./db.js";
 import { personAusAnfrage, sitzungGueltig, anmeldeSperren } from "./auth.js";
 import { mailAn, mailSenden, mailVorlage } from "./mail.js";
+import { postAnfrage, postAn } from "./postfach.js";
 
 const E = process.env;
 const START = new Date();
@@ -31,6 +32,7 @@ const KONTO_SPALTEN = "id, email, email_confirmed_at, raw_user_meta_data, raw_ap
 export async function adminAnfrage(req, res, pfad, wurzel) {
   const p = await istAdmin(req);
   if (!p) return res.json(403, { code: "42501", message: "nur fuer Admins" });
+  if (pfad.startsWith("post/")) return postAnfrage(req, res, pfad.slice(5), p, protokoll);
 
   if (pfad === "status" && req.method === "GET") {
     const db = { ok: false };
@@ -48,6 +50,7 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
       version: version(wurzel), start: START, laufzeit_s: Math.round(process.uptime()), node: process.version,
       speicher_mb: Math.round(process.memoryUsage().rss / 1048576), umgebung: E.NODE_ENV || "", public_url: E.PUBLIC_URL || "",
       site_urls: String(E.SITE_URLS || "").split(",").map(x => x.trim()).filter(Boolean),
+      post: { an: postAn(), benutzer: E.IMAP_USER || "" },
       mail: { an: mailAn(), absender: E.MAIL_FROM || "", host: E.SMTP_HOST || "", port: +E.SMTP_PORT || (E.SMTP_HOST ? 587 : null), test: !!E.MAIL_TEST_DATEI },
       anbieter: { email: true, google: !!(E.GOOGLE_CLIENT_ID && E.GOOGLE_CLIENT_SECRET), apple: !!(E.APPLE_CLIENT_ID && E.APPLE_TEAM_ID && E.APPLE_KEY_ID && E.APPLE_PRIVATE_KEY) },
       registrierung: E.SIGNUP !== "0", admin_email: !!E.ADMIN_EMAIL, trust_proxy: E.TRUST_PROXY !== "0",

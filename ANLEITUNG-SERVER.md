@@ -41,10 +41,12 @@ Domain: im Reiter **Hosts** `easyplay.ch` und `www.easyplay.ch` eintragen (www l
 | `ADMIN_EMAIL` | E-Mail-Adresse(n) der Verwaltung, mit Komma. Sobald das Konto existiert, bekommt es beim nächsten Start Admin-Rechte. | ja |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Postausgang deines Mail-Anbieters (meist Port 587 oder 465) | für Mails |
 | `MAIL_FROM` | Absender, z. B. `easyplay <noreply@easyplay.ch>` | für Mails |
+| `IMAP_USER`, `IMAP_PASS` | Postfach für die Verwaltung (Bereich «Postfach»), z. B. `post@easyplay.ch` bei Hostpoint. `IMAP_HOST` (Standard `imap.mail.hostpoint.ch`) und `IMAP_PORT` (993) nur bei Bedarf. | für das Postfach |
+| `POST_ADRESSEN` | Adressen, die im Postfach als Ordner erscheinen und als Absender wählbar sind, ohne @easyplay.ch, mit Komma. Standard `info,sponsor,feedback,schule`. Bei Hostpoint als Aliase auf das Postfach anlegen. | nein |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | aus Schritt 4 | für Google |
 | `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` | aus Schritt 5 | für Apple |
 
-Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofort als bestätigt, und «Passwort vergessen» geht nicht. `JWT_SECRET`, `SMTP_PASS`, `GOOGLE_CLIENT_SECRET` und `APPLE_PRIVATE_KEY` im Cockpit als **geheim** markieren.
+Ohne `SMTP_HOST` verschickt der Server keine Mails: Neue Konten gelten dann sofort als bestätigt, und «Passwort vergessen» geht nicht. `JWT_SECRET`, `SMTP_PASS`, `IMAP_PASS`, `GOOGLE_CLIENT_SECRET` und `APPLE_PRIVATE_KEY` im Cockpit als **geheim** markieren.
 
 ## 4. Anmeldung mit Google
 

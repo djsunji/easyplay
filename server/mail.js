@@ -18,6 +18,8 @@ function holen() {
   return transport;
 }
 
+export const transportHolen = () => holen();
+
 export async function mailSenden(an, betreff, text, html) {
   if (!mailAn()) throw new Error("Mailversand ist nicht eingerichtet (SMTP_HOST, MAIL_FROM)");
   if (E.MAIL_TEST_DATEI) {                       // nur für Tests: Mail in eine Datei statt verschicken
