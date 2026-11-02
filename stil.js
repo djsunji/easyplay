@@ -3022,3 +3022,55 @@ html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte small{font:600 .95rem/1.4
 html body.ep-app #app .ap-profil3 .ap-akgrid .ak-los{font:800 1rem Lexend,system-ui,sans-serif!important}
 @media (min-width:700px){html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte small{font-size:1.2rem!important}html body.ep-app #app .ap-profil3 .ap-akgrid .ak-los{font-size:1.15rem!important;height:52px!important;padding:0 18px!important}}`;
 document.head.appendChild(c); })();
+
+/* ===== App-Ansicht Profil-Tab angemeldet: neue Seite (profilEinHTML in app.js) mit Dejans Glanz-Kacheln und Symbolen ===== */
+(function(){
+  const E = "img/grafik/entdecken/";
+  const K = {violett:"06", orange:"03", blau:"01", gruen:"07", mag:"05", tuer:"02", lila:"08"};
+  const c = document.createElement("style"); c.id = "ep-appprofil7-css";
+  c.textContent = `
+html body.ep-app #app .ap-pein{gap:9px!important}
+html body.ep-app #app .ap-pein .ap-pkach{position:relative;display:flex;align-items:center;gap:10px;width:100%;margin:0;text-align:left;color:#fff;cursor:pointer;background:none;border:0 solid transparent;border-width:18px;border-radius:0;border-image:url("${E}kachel-06.webp?v=3") 46 fill / 18px stretch;filter:drop-shadow(0 6px 10px rgba(30,30,90,.28));padding:0 2px;font-family:Lexend,system-ui,sans-serif;box-sizing:border-box}
+${Object.entries(K).map(([k, n]) => `html body.ep-app #app .ap-pein .ap-pkach.k-${k}{border-image-source:url("${E}kachel-${n}.webp?v=3")}`).join("\n")}
+html body.ep-app #app .ap-pein :is(b,small,em){text-shadow:0 1px 3px rgba(0,0,0,.5);font-style:normal}
+html body.ep-app #app .ap-pein .ap-pav2{flex:none;width:68px;height:68px;border-radius:50%;overflow:hidden;background:#fff;border:4px solid #FFD54A;box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 16px rgba(255,214,80,.7)}
+html body.ep-app #app .ap-pein .ap-pav2 :is(img,svg){width:100%;height:100%;object-fit:cover;display:block}
+html body.ep-app #app .ap-pein .ap-pkn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+html body.ep-app #app .ap-pein .ap-pkn b{font:800 1.35rem/1.1 Lexend,system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body.ep-app #app .ap-pein .ap-pkn small{font:700 .85rem Lexend,sans-serif}
+html body.ep-app #app .ap-pein .ap-pkn em,html body.ep-app #app .ap-pein .ap-ptx em{font:600 .75rem Lexend,sans-serif;opacity:.95}
+html body.ep-app #app .ap-pein .ap-pbar{display:block;height:10px;border-radius:99px;background:rgba(20,10,60,.45);overflow:hidden;margin:3px 0 1px;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+html body.ep-app #app .ap-pein .ap-pbar i{display:block;height:100%;min-width:6px;border-radius:inherit;background:linear-gradient(90deg,#FFE34D,#FFB020)}
+html body.ep-app #app .ap-pein .ap-pzu{flex:none;font:800 1.7rem Lexend,sans-serif;opacity:.9;padding-right:2px}
+html body.ep-app #app .ap-pein .ap-pmz{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);box-shadow:0 3px 6px rgba(0,0,0,.3),inset 0 -2px 3px rgba(150,90,0,.35)}
+html body.ep-app #app .ap-pein .ap-pmz img{width:72%;height:72%;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(80,40,0,.3))}
+html body.ep-app #app .ap-pein .ap-pzahl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+html body.ep-app #app .ap-pein .ap-pzahl .ap-pkach{flex-direction:column;justify-content:center;gap:1px;text-align:center;cursor:default;border-width:15px;padding:0}
+html body.ep-app #app .ap-pein .ap-pzahl .ap-pmz{width:36px;height:36px}
+html body.ep-app #app .ap-pein .ap-pzahl b{font:800 1.3rem/1.1 Lexend,sans-serif}
+html body.ep-app #app .ap-pein .ap-pzahl small{font:700 .7rem Lexend,sans-serif}
+html body.ep-app #app .ap-pein .ap-ptx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+html body.ep-app #app .ap-pein .ap-ptx small{font:700 .7rem Lexend,sans-serif;text-transform:uppercase;letter-spacing:.06em;opacity:.95}
+html body.ep-app #app .ap-pein .ap-ptx b{font:800 1.02rem/1.2 Lexend,sans-serif}
+html body.ep-app #app .ap-pein .ap-pv{flex:1 1 0;min-height:0;flex-direction:column;align-items:stretch;gap:8px;justify-content:center}
+html body.ep-app #app .ap-pein .ap-pvk{display:flex;align-items:center;gap:8px}
+html body.ep-app #app .ap-pein .ap-pvk img{width:30px;height:30px;object-fit:contain}
+html body.ep-app #app .ap-pein .ap-pvk b{flex:1;font:800 1.02rem Lexend,sans-serif}
+html body.ep-app #app .ap-pein .ap-pvk span{font:700 .78rem Lexend,sans-serif;background:rgba(255,255,255,.22);border-radius:99px;padding:3px 9px}
+html body.ep-app #app .ap-pein .ap-pvg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:start}
+html body.ep-app #app .ap-pein .ap-pvb{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+html body.ep-app #app .ap-pein .ap-pvm{width:clamp(44px,8vh,64px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff,#F4EEFF 60%,#DCD2FF);border:4px solid var(--st);box-shadow:0 0 0 2px #fff,0 0 14px color-mix(in srgb,var(--st) 70%,transparent)}
+html body.ep-app #app .ap-pein .ap-pvm img{width:66%;height:66%;object-fit:contain}
+html body.ep-app #app .ap-pein .ap-pvb small{font:700 .66rem/1.15 Lexend,sans-serif;overflow-wrap:anywhere}
+html body.ep-app #app .ap-pein .ap-pvb.aus .ap-pvm{filter:grayscale(1);opacity:.55;box-shadow:0 0 0 2px rgba(255,255,255,.6)}
+html body.ep-app #app .ap-pein .ap-pvb.aus small{opacity:.75}
+html body.ep-app #app .ap-pein .ap-pkach:active{filter:drop-shadow(0 3px 6px rgba(30,30,90,.3)) brightness(.97);transform:translateY(1px)}
+@media (max-height:700px){html body.ep-app #app .ap-pein .ap-pav2{width:54px;height:54px}html body.ep-app #app .ap-pein .ap-pmz{width:36px;height:36px}html body.ep-app #app .ap-pein .ap-pzahl .ap-pmz{width:28px;height:28px}html body.ep-app #app .ap-pein .ap-pkach{border-width:14px}html body.ep-app #app .ap-pein .ap-ptx em{display:none}}
+@media (min-width:700px){html body.ep-app #app .ap-pein .ap-pkn b{font-size:1.8rem}html body.ep-app #app .ap-pein .ap-pav2{width:92px;height:92px}html body.ep-app #app .ap-pein .ap-ptx b{font-size:1.3rem}html body.ep-app #app .ap-pein .ap-pmz{width:58px;height:58px}html body.ep-app #app .ap-pein .ap-pzahl b{font-size:1.8rem}html body.ep-app #app .ap-pein .ap-pvb small{font-size:.9rem}html body.ep-app #app .ap-pein .ap-pvm{width:clamp(60px,9vh,96px)}}`;
+  document.head.appendChild(c);
+})();
+(function(){ const c = document.createElement("style");
+c.textContent = `html body.ep-app #app .ap-pein .ap-pv{justify-content:space-evenly!important}
+html body.ep-app #app .ap-pein .ap-pvg{row-gap:12px}
+@media (max-height:760px){html body.ep-app #app .ap-pein .ap-pvb:nth-child(n+5){display:none}}`;
+document.head.appendChild(c); })();

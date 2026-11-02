@@ -785,6 +785,7 @@ function profilHTML(){
       ${p ? kn('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "rot") : ""}
     </nav>`;
   }
+  if(p) return `<div class="ap ap-profil ap-profil3 ap-pein">${profilEinHTML(p, s, lv, ab, av)}</div>`;
   return `<div class="ap ap-profil ap-profil3">
     ${kopf}
     ${p ? `<div class="ap-stats">
@@ -793,6 +794,34 @@ function profilHTML(){
       <div class="apf f-gold"><small>Abzeichen</small><b>${ab.hat}<em>/${ab.alle}</em></b></div>
     </div>` : ""}
   </div>`;
+}
+
+/* Profil-Tab angemeldet: Kopf, drei Zahlen, nächstes Ziel, heute, Vitrine (Dejans Symbole) */
+const PF_IC = {lvl:"stern", rich:"haken", ser:"flamme", tq:"festkalender", perf:"ziel", feh:"muskel", run:"controller", the:"landkarte", kt:"berg", les:"buecher", tst:"klemmbrett"};
+const PF_ST = ["#C68346","#9AA4B5","#E0A800","#3FB6C9","#5B8CFF","#E043B8"];
+function profilEinHTML(p, s, lv, ab, av){
+  const G = "img/grafik/diverse/", gi = n => `${G}${n}.webp?v=2`;
+  let fam = []; try{ fam = window.EP_LEVEL.familien(); }catch(e){}
+  const pr = lv ? Math.round((lv.anteil || 0) * 100) : 0;
+  const xpTxt = lv ? (lv.max ? "Höchstes Level erreicht" : `${(lv.imLevel || 0).toLocaleString("de-CH")} / ${(lv.proLevel || 0).toLocaleString("de-CH")} XP`) : "";
+  /* nächstes Ziel: Abzeichen-Familie, die am nächsten an der nächsten Stufe ist */
+  const offen = fam.filter(f => f.naechste != null).map(f => { const vor = f.stufe ? f.grenzen[f.stufe - 1] : 0; return {f, q:Math.max(0, Math.min(1, (f.wert - vor) / Math.max(1, f.naechste - vor)))}; }).sort((x, y) => y.q - x.q);
+  const z = offen[0];
+  const ziel = z ? `<button type="button" class="ap-pz ap-pkach k-mag" data-x="abzeichen"><span class="ap-pmz"><img src="${gi(PF_IC[z.f.id] || "ziel")}" alt=""></span><span class="ap-ptx"><small>Nächstes Abzeichen</small><b>${h(z.f.name)} · ${PF_ST[z.f.stufe] ? ["Bronze","Silber","Gold","Platin","Diamant","Regenbogen"][z.f.stufe] : ""}</b><span class="ap-pbar"><i style="width:${Math.round(z.q * 100)}%"></i></span><em>${z.f.wert.toLocaleString("de-CH")} von ${z.f.naechste.toLocaleString("de-CH")} ${h(z.f.text)}</em></span></button>` : "";
+  let tq = null; try{ tq = E().tagesquiz(); }catch(e){}
+  const heute = `<button type="button" class="ap-pz ap-pkach k-tuer" data-x="tagesquiz"><span class="ap-pmz"><img src="${gi(tq ? "haken" : "festkalender")}" alt=""></span><span class="ap-ptx"><small>Heute</small><b>${tq ? "Tagesquiz geschafft" : "Tagesquiz wartet"}</b><em>${tq ? `${tq.r || 0} von ${tq.n || 0} richtig` : "5 Fragen, dann ist die Serie gesichert"}</em></span><span class="ap-pzu" aria-hidden="true">›</span></button>`;
+  const hat = []; fam.forEach(f => { if(f.stufe) hat.push(f); });
+  hat.sort((x, y) => y.stufe - x.stufe);
+  const zeig = hat.slice(0, 8), rest = offen.filter(o => !zeig.includes(o.f)).slice(0, 8 - zeig.length).map(o => o.f);
+  const coin = (f, an) => `<span class="ap-pvb${an ? "" : " aus"}"><span class="ap-pvm" style="--st:${an ? PF_ST[f.stufe - 1] : "#B9B4D6"}"><img src="${gi(PF_IC[f.id] || "stern")}" alt=""></span><small>${h(f.name)}</small></span>`;
+  const vitrine = `<button type="button" class="ap-pv ap-pkach k-lila" data-x="abzeichen"><span class="ap-pvk"><img src="${gi("abzeichen")}" alt=""><b>Meine Vitrine</b><span>${ab.hat} von ${ab.alle}</span></span><span class="ap-pvg">${zeig.map(f => coin(f, true)).join("")}${rest.map(f => coin(f, false)).join("")}</span></button>`;
+  return `<button type="button" class="ap-pkopf2 ap-pkach k-violett" data-x="meinprofil"><span class="ap-pav2">${av}</span><span class="ap-pkn"><b>${h(p.name || "")}</b><small>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</small><span class="ap-pbar"><i style="width:${pr}%"></i></span><em>${xpTxt}</em></span><span class="ap-pzu" aria-hidden="true">›</span></button>
+    <div class="ap-pzahl">
+      <span class="ap-pkach k-orange"><span class="ap-pmz"><img src="${gi("flamme")}" alt=""></span><b>${s.n || 0}</b><small>Tage Serie</small></span>
+      <span class="ap-pkach k-blau"><span class="ap-pmz"><img src="${gi("blitz")}" alt=""></span><b>${lv ? (lv.xp || 0).toLocaleString("de-CH") : 0}</b><small>XP total</small></span>
+      <span class="ap-pkach k-gruen"><span class="ap-pmz"><img src="${gi("pokal")}" alt=""></span><b>${ab.hat}</b><small>Abzeichen</small></span>
+    </div>
+    ${heute}${ziel}${vitrine}`;
 }
 
 /* ---------- Einpassen: jeder Bereich so hoch wie der freie Bildschirm ---------- */
@@ -828,6 +857,7 @@ function binden(wurzel){
     else if(a === "meinprofil") go("profil");
     else if(a === "verzieren") go("x-garderobe");
     else if(a === "abmelden"){ AP_SUB = ""; try{ abmelden(); }catch(err){} }
+    else if(a === "abzeichen") go("profil");
     else if(a === "psubmehr"){ AP_SUB = "mehr"; render(); }
     else if(a === "psubzu"){ AP_SUB = ""; render(); }
     else if(a === "pentdecken") go("x-entdecken");
