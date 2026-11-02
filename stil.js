@@ -2584,3 +2584,50 @@ ${A} .du2 details.du2-ein > summary .zus{color:#5D5C80!important}
 @media (prefers-reduced-motion: reduce){${A} .du3-play{animation:none}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Entdecken: Kacheln mit grösserem Symbol, grösserer Schrift und dem Symbol als helle Silhouette im Hintergrund.
+   JS sucht in jeder Glanz-Kachel (Liste KACHELN) das erste Symbol-Bild, markiert es (.ep-kic), den Titel (.ep-kti)
+   und legt eine Silhouette .ep-wz in die Kachel. Neue Kachelarten in KACHELN eintragen. ===== */
+(function(){
+  const KACHELN = [".x-kachel", ".wdh-karte", ".spr-thema", ".spr-sp", ".spr-modus", ".spr-wdh", ".xmt-kachel", ".xsw-kachel", ".xf-karte", ".xfo-karte", ".xfo-kat",
+    ".xs-stueck", ".xs-fxk", ".hlf-k", ".xel-kpi", ".xof-karte", ".xui-karte", ".fq-karte", ".xel-karte", ".xf-ab"];
+  const SEL = KACHELN.map(k => "#app .xseite " + k + ", #app .x-kacheln " + k).join(",");
+  function machen(){
+    try{
+      document.querySelectorAll(SEL).forEach(k => {
+        if(k.dataset.wz) return;
+        const img = k.querySelector("img.ep-gi, img.ep-welt-ic, .spr-m-ic img, img.ep-emo, img.ep-gimg, img[src*='img/grafik/'], img[src*='qeels-icons']");
+        if(!img){ return; }
+        k.dataset.wz = "1"; img.classList.add("ep-kic");
+        const t = k.querySelector("b, h3, strong"); if(t) t.classList.add("ep-kti");
+        const w = document.createElement("i"); w.className = "ep-wz"; w.setAttribute("aria-hidden", "true");
+        w.style.backgroundImage = `url("${img.getAttribute("src")}")`; k.appendChild(w);
+        if(getComputedStyle(k).position === "static") k.style.position = "relative";
+      });
+    }catch(e){}
+  }
+  const app = document.getElementById("app");
+  if(app) new MutationObserver(() => requestAnimationFrame(machen)).observe(app, {childList:true, subtree:true});
+  const K = KACHELN.map(k => `html body #app ${k}`).join(",");
+  const c = document.createElement("style"); c.id = "ep-kachel-wz-css";
+  c.textContent = `
+${KACHELN.map(k => `html body #app ${k}[data-wz]`).join(",")}{isolation:isolate}
+html body #app .ep-wz{position:absolute;right:2%;bottom:3%;width:46%;max-width:150px;aspect-ratio:1;max-height:82%;background:center/contain no-repeat;
+  filter:brightness(0) invert(1);opacity:.17;transform:rotate(-14deg);pointer-events:none;z-index:-1}
+html body #app .xseite img.ep-kic,html body #app .xseite .ep-kic{width:60px!important;height:60px!important;max-width:none!important;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+html body #app .xseite :is(.spr-th-emo,.xmt-emo,.xf-emo,.xfo-k-emo,.xs-emo,.hlf-emo,.xof-emo,.xsw-emo):has(.ep-kic){width:auto!important;height:auto!important;font-size:0!important;line-height:0!important;background:none!important;box-shadow:none!important}
+html body #app .xseite .ep-kti{font-size:1.18rem!important;line-height:1.15!important}
+html body #app .xseite :is(${KACHELN.join(",")})[data-wz] small{font-size:.86rem!important;line-height:1.3!important}
+html body #app .xseite .spr-sp img.ep-kic{width:78px!important;height:78px!important}
+html body #app .xseite .xf-ab .ep-kti{font-size:inherit!important;line-height:inherit!important}
+html body #app .xseite .xf-ab img.ep-kic{width:40px!important;height:40px!important}
+@media (max-width:700px){
+  html body #app .xseite img.ep-kic,html body #app .xseite .ep-kic{width:44px!important;height:44px!important}
+  html body #app .xseite .spr-sp img.ep-kic{width:56px!important;height:56px!important}
+  html body #app .xseite .xf-ab img.ep-kic{width:32px!important;height:32px!important}
+  html body #app .xseite .ep-kti{font-size:1rem!important}
+  html body #app .xseite :is(${KACHELN.join(",")})[data-wz] small{font-size:.74rem!important}
+  html body #app .ep-wz{width:52%;opacity:.15}
+}`;
+  document.head.appendChild(c);
+})();
