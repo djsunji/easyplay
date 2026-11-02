@@ -18,6 +18,8 @@ const PACKEN = new Set([".html", ".js", ".mjs", ".css", ".json", ".webmanifest",
 /* Nicht ausliefern: Server, Werkzeuge, Datenbank-Dateien, Abläufe, App-Bau, versteckte Dateien, Anleitungen */
 const GESPERRT = /^(server|tools|supabase|app|node_modules|\.github|\.git)(\/|$)|(^|\/)\.|\.(md|py|sh|sql|mjs\.map|br|gz)$|^(CLAUDE|README|Dockerfile)/i;
 
+/* Ausnahmen aus tools/: Listen, die die Verwaltung (admin/) für «Artikel» und «Bilder wechseln» lädt */
+const FREI = new Set(["tools/bildseiten.json", "tools/artikelseiten.json", "tools/bilder_freigegeben.json"]);
 const PUFFER = new Map(); let pufferBytes = 0; const PUFFER_MAX = (+process.env.PUFFER_MB || 24) * 1024 * 1024;   // klein halten (micro: 256 MB)
 async function gepackt(pfad, groesse, mtime, art) {
   const k = `${pfad}|${mtime}|${art}`;
@@ -54,7 +56,7 @@ export function statischMacher(wurzel) {
     try { rel = decodeURIComponent(req.pfad).replace(/^\/+/, ""); } catch (e) { return false; }
     if (rel === "" || rel.endsWith("/")) rel += "index.html";
     rel = normalize(rel).split(sep).join("/");
-    if (rel.startsWith("..") || GESPERRT.test(rel)) return false;
+    if (rel.startsWith("..") || (GESPERRT.test(rel) && !FREI.has(rel))) return false;
     let pfad = join(wurzel, rel);
     let st; try { st = await stat(pfad); } catch (e) {
       /* Adressen der Website wie /bibliothek/natur/loewe (adresse.js): ohne Dateiendung die Startseite ausliefern */
