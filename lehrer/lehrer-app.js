@@ -421,7 +421,7 @@ async function start(){
   if(lsGet(LT_SITZUNG,false)){ kontoTest(); return weiterNachLogin(); }
   if(SUPA && AUTH.user){ kontoSupabase(); return weiterNachLogin(); }
   if(!SUPA){ const p=lsGet("ep-profil",null); if(p && (p.email || p.name) && !lsGet("ep-abgemeldet",false)){ kontoLokal(p); return weiterNachLogin(); } }
-  zeigeLogin("anmelden");
+  zeigeWahl();
 }
 function weiterNachLogin(){ if(!ST.sp.istLehrer()) return zeigeRolle(); appStart(); }
 
@@ -443,12 +443,59 @@ async function abmelden(){
   else { lsSet("ep-abgemeldet", true); const p=lsGet("ep-profil",null); if(p) lsSet("ep-profil-alt", p); lsDel("ep-profil"); }
   ST.konto=null; ST.sp=null; ST.daten=null; ST.neu=null;
   history.replaceState(null, "", location.pathname+location.search);
-  zeigeLogin("anmelden"); melde("Du bist abgemeldet.");
+  zeigeWahl(); melde("Du bist abgemeldet.");
+}
+
+/* ---------- Auswahl: Schüler oder Lehrer ---------- */
+function loginBreit(an){ $("#login").classList.toggle("wahl", !!an); }
+function zeigeWahl(){
+  $("#app").hidden=true; $("#login").hidden=false; loginBreit(true); document.title="easyplay Lehrerbereich";
+  $("#loginKarte").innerHTML=`
+    <h1>Wer bist du?</h1>
+    <p class="mu klein">Wähle aus, damit wir dich an den richtigen Ort bringen.</p>
+    <div class="wahlkacheln">
+      <button type="button" class="wk wk-s" id="wahlSchueler">
+        <img class="wk-kid" src="../img/kids/lumi-sprung.webp" alt="" width="497" height="760">
+        <span class="wk-tx"><small>Bist du</small><b>Schülerin oder Schüler?</b><span>Gib deine Test-ID ein und starte den Test.</span></span>
+        <span class="wk-los">Zum Test ›</span>
+      </button>
+      <button type="button" class="wk wk-l" id="wahlLehrer">
+        <img class="wk-kid" src="../img/kids/milo-zeigen.webp" alt="" width="441" height="760">
+        <span class="wk-tx"><small>Bist du</small><b>Lehrerin oder Lehrer?</b><span>Klassen, Tests und Resultate in der Lehrerverwaltung.</span></span>
+        <span class="wk-los">Zur Verwaltung ›</span>
+      </button>
+    </div>
+    <p class="kinder"><a class="link" href="../">‹ Zurück zu easyplay</a></p>`;
+  $("#wahlSchueler").onclick=zeigeSchueler;
+  $("#wahlLehrer").onclick=()=>zeigeLogin("anmelden");
+}
+function zeigeSchueler(){
+  $("#app").hidden=true; $("#login").hidden=false; loginBreit(false); document.title="easyplay: Test starten";
+  $("#loginKarte").innerHTML=`
+    <h1>Test starten</h1>
+    <p class="mu klein">Gib die Test-ID ein, die du von deiner Lehrperson bekommen hast. Danach fragt easyplay nach deinem PIN.</p>
+    <form id="tidForm" novalidate autocomplete="off">
+      <label for="tid">Test-ID</label>
+      <input id="tid" class="tidfeld" maxlength="7" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="6 Zeichen" aria-describedby="tidFehler">
+      <p class="fehlertext klein" id="tidFehler" aria-live="polite"></p>
+      <button class="k p knopfbreit" type="submit" id="tidGo">Weiter zum Test</button>
+    </form>
+    <p class="kinder"><button type="button" class="link" id="zurWahl">‹ Zurück zur Auswahl</button></p>`;
+  const f=$("#tid");
+  f.oninput=()=>{ const v=normCode(f.value); if(f.value!==v) f.value=v; $("#tidFehler").textContent=""; };
+  $("#tidForm").onsubmit=e=>{ e.preventDefault();
+    const code=normCode(f.value);
+    if(code.length!==6){ $("#tidFehler").textContent="Die Test-ID hat 6 Zeichen."; f.focus(); return; }
+    $("#tidGo").disabled=true; $("#tidGo").textContent="Test wird geöffnet …";
+    location.href=new URL("../", location.href).href+"#test="+encodeURIComponent(code);
+  };
+  $("#zurWahl").onclick=zeigeWahl;
+  f.focus();
 }
 
 /* ---------- Anmeldemaske ---------- */
 function zeigeLogin(modus, vorMail){
-  $("#app").hidden=true; $("#login").hidden=false; document.title="easyplay Lehrerbereich: Anmelden";
+  $("#app").hidden=true; $("#login").hidden=false; loginBreit(false); document.title="easyplay Lehrerbereich: Anmelden";
   const reg = modus==="registrieren";
   const letzte = vorMail || lsGet("ep-letztemail","") || "";
   $("#loginKarte").innerHTML=`
@@ -475,11 +522,12 @@ function zeigeLogin(modus, vorMail){
     <div class="trenner">oder</div>
     <button type="button" id="testKnopf"><span aria-hidden="true">🧪</span> Test-Zugang ausprobieren</button>
     <p class="zugang">Zugangsdaten: Benutzer <code>${TEST_MAIL}</code> · Passwort <code>${TEST_PW}</code><br>Testzugang mit Beispielklassen. Daten nur auf diesem Gerät.</p>
-    <p class="kinder">Bist du ein Kind und hast einen Test-Code? <a class="link" href="../">Zu easyplay, dort «Test mit Code»</a></p>
+    <p class="kinder"><button type="button" class="link" id="zurWahl">‹ Zurück zur Auswahl</button></p>
     <p class="modus">${SUPA ? (AUTH.sb ? "Anmeldung über den easyplay-Server." : "Die Online-Datenbank ist im Moment nicht erreichbar. Der Testzugang funktioniert trotzdem.") : "Ohne Online-Datenbank: Konten, Klassen und Resultate bleiben in diesem Browser."}</p>`;
   $$("[data-lm]").forEach(b=>b.onclick=()=>zeigeLogin(b.dataset.lm, ($("#lMail")||$("#rMail"))?.value));
   $$("[data-zeig]").forEach(b=>b.onclick=()=>{ const i=$("#"+b.dataset.zeig); i.type=i.type==="password"?"text":"password"; b.textContent=i.type==="password"?"zeigen":"verbergen"; });
   $("#testKnopf").onclick=testStarten;
+  $("#zurWahl").onclick=zeigeWahl;
   const err=t=>{ $("#lFehler").textContent=t; };
   if(reg){
     if(vorMail) $("#rMail").value=vorMail;
@@ -539,7 +587,7 @@ function zeigeLogin(modus, vorMail){
   }
 }
 function zeigeRolle(){
-  $("#app").hidden=true; $("#login").hidden=false;
+  $("#app").hidden=true; $("#login").hidden=false; loginBreit(false);
   if(ST.sp && ST.sp.beantragt && ST.sp.beantragt()){
     $("#loginKarte").innerHTML=`<h1>Dein Lehrerkonto wird geprüft</h1>
       <p class="mu">Danke! Angemeldet als <b>${h(ST.konto.email||ST.konto.name)}</b>. Sobald dein Konto freigegeben ist, kannst du Klassen anlegen und Tests verteilen.</p>
@@ -1668,5 +1716,5 @@ function testdatenAnlegen(){
 }
 
 /* ================= 9. Start ================= */
-start().catch(e=>{ console.error("Lehrerbereich", e); zeigeLogin("anmelden"); });
+start().catch(e=>{ console.error("Lehrerbereich", e); zeigeWahl(); });
 })();
