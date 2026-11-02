@@ -1573,7 +1573,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
 (function(){
   const app = () => document.body.classList.contains("ep-app");
   const PUNKTE = [
-    {id:"start",  t:"Start",      i:"img/grafik/sprachen/haus.webp?v=2", go:() => go("home")},
+    {id:"start",  t:"Start",      i:"img/grafik/sprachen/haus.webp?v=2", go:() => { try{ window.EP_NP_START && window.EP_NP_START(); }catch(e){} go("home"); }},
     {id:"themen", t:"Themen",     i:"img/grafik/diverse/buecher.webp?v=2", go:() => { try{ window.EP_NP_WAHL && window.EP_NP_WAHL(); }catch(e){} go("home"); }},
     {id:"duell",  t:"Duell",      i:"img/qeels-icons/themen/duell.webp", go:() => go("duell")},
     {id:"entd",   t:"Entdecken",  i:"img/grafik/mathe/entdecken.webp?v=2", go:() => go("x-entdecken")},
@@ -1649,7 +1649,11 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
 @media (max-width:1100px){#ep-hnav button{font-size:.9rem;gap:6px}#ep-hnav .hn-ic,#ep-hnav .hn-ic img,#ep-hnav .hn-ic svg{width:34px;height:34px}}
 @media (max-width:820px){#ep-hnav .hn-t{display:none}}
 body.ep-app #ep-hnav{display:none!important}
-html[data-scr="home"] body:not(.ep-np-wahl) #ep-hnav{max-width:none}
+body:not(.ep-app) #ep-hnav{max-width:none}
+/* Alle Seiten am Computer so breit wie die Startseite (1360 px), Menüleiste springt nicht mehr */
+body:not(.ep-app) .wrap{max-width:1360px}
+body:not(.ep-app) #app :is(.st-kopf,.themen,.modes,.bereiche,.xseite,.du2,.pp-seite,.statgrid,.statcard,.pp-restzeile,p.label,.libkopf,.ak-wahl,.ak-login,.kf-seite,.dukopf,.rlkopf,.pagehead,.crumbs){max-width:none!important}
+@media (min-width:701px){body:not(.ep-app) #app .x-kacheln{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}}
 body:not(.ep-app) #nav #navKonto{display:none!important}
 body:not(.ep-app) #app .crumbs{display:none!important}
 body:not(.ep-app) #app > .np-zurueck-unter{display:none!important}

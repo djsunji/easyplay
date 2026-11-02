@@ -15,12 +15,13 @@ const K = "img/kacheln/", KIDS = "img/kids/";
 const STUFEN = [[1, "Entdecker", "bis 9 Jahre"], [2, "Könner", "10 bis 14 Jahre"], [3, "Profis", "ab 15 Jahre"], [4, "Alle Stufen", "alles gemischt"]];
 const E = () => window.EP_START || {};
 let WAHL = false;
-window.EP_NP_WAHL = () => { WAHL = true; };   /* nach «Jetzt spielen»: zuerst Bereich wählen, dann im Bereich das Thema */
+window.EP_NP_WAHL = () => { WAHL = true; };
+window.EP_NP_START = () => { WAHL = false; };   /* «Start» in der Menüleiste: immer zur Startseite, auch aus der Bereichswahl */   /* nach «Jetzt spielen»: zuerst Bereich wählen, dann im Bereich das Thema */
 
 const css = document.createElement("style"); css.id = "ep-neustart-css";
 css.textContent = `
 body.ep-neustart .wrap{max-width:1360px}
-body.ep-neustart.ep-np-wahl .wrap{max-width:972px}
+body.ep-neustart.ep-np-wahl .wrap{max-width:1360px}
 body.ep-np-wahl .np-wahl{padding-top:0}
 .np{display:flex;flex-direction:column;gap:22px;padding-top:16px;font-family:Nunito,system-ui,sans-serif}
 .np a,.np button{font-family:inherit}

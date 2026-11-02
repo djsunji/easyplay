@@ -56,7 +56,7 @@
     const teile = p.replace(/^\/+|\/+$/g, "").split("/").map(x => { try{ return decodeURIComponent(x); }catch(e){ return x; } });
     const ganz = teile.join("/"), a = teile[0] || "";
     const zu = sc => { if(still) S.screen = sc; else go(sc); return true; };
-    if(!a) return zu("home");
+    if(!a){ try{ window.EP_NP_START && window.EP_NP_START(); }catch(e){} return zu("home"); }
     if(ZURUECK[ganz]) return zu(ZURUECK[ganz]);
     if(a === "entdecken"){ if(!teile[1]) return zu("x-entdecken"); return zu("x-" + teile[1]); }
     if(a === "themen"){
