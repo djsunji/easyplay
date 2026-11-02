@@ -8,7 +8,7 @@
     info:     {t:"Allgemeine Fragen",      s:"Alles rund um easyplay",            i:"brief",       k:"01"},
     feedback: {t:"Feedback & Fehler",      s:"Ideen, Lob, falsche Fragen melden", i:"sprechblase", k:"05"},
     schule:   {t:"Schulen & Lehrpersonen", s:"Klassen, Tests, Lehrerbereich",     i:"doktorhut",   k:"04"},
-    sponsor:  {t:"Sponsoring & Werbung",   s:"Partner werden, Werbung in Qeels",  i:"handschlag",  k:"03"}
+    sponsor:  {t:"Sponsoring & Werbung",   s:"Partner werden, Werbung auf easyplay",  i:"handschlag",  k:"03"}
   };
   const STD = ["info", "feedback", "schule", "sponsor"];
   const K = {an:"info", adressen:null, domain:"easyplay.ch", start:0, gesendet:null, laeuft:false};
@@ -100,8 +100,9 @@
     return vorRender.apply(this, arguments);
   };
   /* Links «Kontakt» (Fuss der Seite, Profil in der App) öffnen die Seite ohne Neuladen */
-  document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-kontakt]"); if(!a) return; e.preventDefault(); go("kontakt"); });
-  window.EP_KONTAKT = { oeffnen: () => go("kontakt") };
+  document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-kontakt]"); if(!a) return; e.preventDefault(); if(a.dataset.kontakt) K.an = a.dataset.kontakt; go("kontakt"); });
+  /* oeffnen("sponsor") wählt gleich den Empfänger (sponsoren.js) */
+  window.EP_KONTAKT = { oeffnen: an => { if(an) K.an = an; K.gesendet = null; go("kontakt"); } };
 
   const css = document.createElement("style"); css.id = "ep-kontakt-css";
   css.textContent = `

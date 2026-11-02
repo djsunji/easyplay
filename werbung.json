@@ -15,5 +15,30 @@
       "von": "",
       "bis": ""
     }
-  ]
+  ],
+  "startseite": {
+    "_hilfe": "Werbung auf der Startseite. «folie»: eigene Folie im Karussell oben (Handy/iPad), an dritter Stelle, immer mit «Werbung» angeschrieben. «partner»: Logos im Fuss der Startseite (Computer), höchstens 6. Beides erscheint nur mit \"aktiv\": true und zwischen «von» und «bis» (JJJJ-MM-TT, leer = immer). bild/logo: img/... oder https://..., link: https://... Ist nichts aktiv und «platzhalter» true, steht dort «Hier könnte Ihre Werbung stehen» mit Link zum Kontakt (sponsor@).",
+    "platzhalter": true,
+    "folie": {
+      "aktiv": false,
+      "sponsor": "",
+      "titel": "",
+      "text": "",
+      "bild": "",
+      "link": "",
+      "knopf": "Mehr erfahren",
+      "von": "",
+      "bis": ""
+    },
+    "partner": [
+      {
+        "aktiv": false,
+        "name": "",
+        "logo": "",
+        "link": "",
+        "von": "",
+        "bis": ""
+      }
+    ]
+  }
 }
