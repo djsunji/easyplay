@@ -2873,3 +2873,26 @@ html body #app .regbox.ak-steps .social{margin-top:6px}
 @media (prefers-reduced-motion:reduce){html body #app :is(.ak-kid,.ak-kopfkid,.ak-duo,.ak-skid,.ak-karte::after){animation:none!important}html body #app .regbox.ak-steps > .regsek.ak-jetzt{animation:none!important}}`;
   document.head.appendChild(css);
 })();
+
+/* ===== Hauptmenü (Knopf «Menü» oben rechts) im neuen Stil: weisse Glas-Karte, Dejans Symbole, gewählt Violett-Pink =====
+   Lehrerbereich, Test mit Code, Meine Tests, Suchen und Fragendatenbank sind ausgeblendet (.m-weg), bleiben aber im DOM,
+   weil app.js (menuKlick) und lehrer.js sie anklicken. ===== */
+(function(){
+  const css = document.createElement("style"); css.id = "ep-hauptmenue-css";
+  css.textContent = `
+html body #hauptmenue.menu{--bg:#F3F6FF;--surface:#FFFFFF;--ink:#1B2240;--line:#E2DCFA;min-width:290px;padding:10px;gap:4px;border:4px solid #fff;border-radius:28px;
+  background:linear-gradient(180deg,#FFFFFF,#F3EFFF);box-shadow:0 22px 44px -14px rgba(50,30,130,.45),inset 0 -4px 0 rgba(120,90,220,.1);color:#2A1F5C}
+html body #hauptmenue.menu > button{display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:18px;font:800 1rem Lexend,system-ui,sans-serif;color:#3A2F72;background:transparent;transition:background .15s,color .15s,transform .15s}
+html body #hauptmenue .mi{flex:none;width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:rgba(123,91,255,.08)}
+html body #hauptmenue .mi img{width:30px;height:30px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(40,20,100,.25))}
+html body #hauptmenue .mi-av{background:none}
+html body #hauptmenue .mi-av :is(img,svg,.avimg){width:34px;height:34px;border-radius:50%;box-shadow:0 0 0 2px #fff,0 2px 5px rgba(40,20,100,.3)}
+html body #hauptmenue.menu > button:hover,html body #hauptmenue.menu > button:focus-visible{outline:none;color:#fff;background:linear-gradient(135deg,#6A4BFF 0%,#A43BE0 55%,#E8409F 100%);transform:translateX(2px);box-shadow:0 6px 14px rgba(140,50,200,.35)}
+html body #hauptmenue.menu > button:hover .mi,html body #hauptmenue.menu > button:focus-visible .mi{background:rgba(255,255,255,.9)}
+html body #hauptmenue hr{border:0;border-top:2px solid #E7E1FA;margin:4px 8px}
+html body #hauptmenue.menu > .m-out{color:#D6362E}
+html body #hauptmenue .badge2{margin-left:auto}
+html body #hauptmenue .mgruppe.m-weg,html body #hauptmenue .m-weg [data-lm],html body #hauptmenue > [data-lm]{display:none!important}
+@media (max-width:600px){html body #hauptmenue.menu{min-width:250px}html body #hauptmenue.menu > button{font-size:.95rem}}`;
+  document.head.appendChild(css);
+})();

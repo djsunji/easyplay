@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-02-33";
+window.EP_BUILD="ep-2026-11-02-34";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4297,6 +4297,7 @@ function abmelden(){
 function anmelden(){ go("login"); }
 function renderNav(){
   const p=S.profil;
+  const MI=src=>`<span class="mi"><img src="${src}" alt="" draggable="false"></span>`;
   $("#nav").innerHTML =
     (p ? `<button class="navbtn" id="navProfil" type="button"><span class="av">${avatar(p.avatar)}</span>${esc(p.name)}</button>`
        : `<button class="navbtn primary" id="navKonto" type="button">👤 <span class="tlab">Anmelden</span></button>`) +
@@ -4304,22 +4305,23 @@ function renderNav(){
     `<button class="navbtn reelsnav" id="navReels" type="button" title="Zu den Qeels wechseln"><img class="rnlogo" src="img/qeels-logo-klein.webp" alt="Qeels" width="480" height="156" draggable="false"></button>` +
     `<div class="menuwrap"><button class="navbtn menubtn" id="navMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hauptmenue">☰ <span class="tlab">Menü</span>${S.canEdit && S.pending?.length?`<span class="badge2">${S.pending.length}</span>`:""}</button>
       <div class="menu" id="hauptmenue" role="menu" hidden>
-        <button role="menuitem" type="button" data-m="home">🏠 Startseite</button>
-        <button role="menuitem" type="button" data-m="lib">📖 Bibliothek (Lesen)</button>
-        <button role="menuitem" type="button" data-m="reels">🅠 Qeels</button>
-        <button role="menuitem" type="button" data-m="spielmodi">🎮 Wettbewerb, Duell & Hardcore</button>
-        <button role="menuitem" type="button" data-m="board">🏆 Rangliste</button>
-        ${p? `<button role="menuitem" type="button" data-m="profil">👤 Mein Profil</button>`:""}
-        <button role="menuitem" type="button" data-m="set">🎨 Hintergrund</button>
-        ${S.canEdit? `<button role="menuitem" type="button" data-m="werkstatt">🛠️ Fragen-Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>`:""}
-        <div class="mgruppe" role="group" aria-label="Lehrerbereich">
-          <button role="menuitem" type="button" data-lm="lehrer" class="mkopf">🎓 Lehrerbereich</button>
-          <button role="menuitem" type="button" data-m="suche" class="msub">🔎 Suchen & Test erstellen</button>
-          <button role="menuitem" type="button" data-lm="lcode" class="msub">🔢 Test mit Code</button>
-          <button role="menuitem" type="button" data-m="meinetests" class="msub">📝 Meine Tests</button>
-          <button role="menuitem" type="button" data-m="bib" class="msub">📚 Fragendatenbank</button>
+        <button role="menuitem" type="button" data-m="home">${MI("img/grafik/sprachen/haus.webp?v=2")}Startseite</button>
+        <button role="menuitem" type="button" data-m="lib">${MI("img/grafik/diverse/buch.webp?v=2")}Bibliothek</button>
+        <button role="menuitem" type="button" data-m="reels">${MI("img/grafik/sym-frage-regenbogen.webp")}Qeels</button>
+        <button role="menuitem" type="button" data-m="spielmodi">${MI("img/qeels-icons/themen/duell.webp")}Wettbewerb, Duell & Hardcore</button>
+        <button role="menuitem" type="button" data-m="board">${MI("img/grafik/diverse/pokal.webp?v=2")}Rangliste</button>
+        ${p? `<button role="menuitem" type="button" data-m="profil"><span class="mi mi-av">${avatar(p.avatar)}</span>Mein Profil</button>`:""}
+        <button role="menuitem" type="button" data-m="set">${MI("img/grafik/diverse/palette.webp?v=2")}Hintergrund</button>
+        <button role="menuitem" type="button" data-kontakt>${MI("img/grafik/diverse/brief.webp?v=2")}Kontakt</button>
+        ${S.canEdit? `<button role="menuitem" type="button" data-m="werkstatt">${MI("img/grafik/diverse/zahnrad.webp?v=2")}Fragen-Werkstatt${S.pending?.length?` <span class="badge2">${S.pending.length}</span>`:""}</button>`:""}
+        <div class="mgruppe m-weg" aria-hidden="true">
+          <button type="button" data-lm="lehrer" tabindex="-1">Lehrerbereich</button>
+          <button type="button" data-m="suche" tabindex="-1">Suchen & Test erstellen</button>
+          <button type="button" data-lm="lcode" tabindex="-1">Test mit Code</button>
+          <button type="button" data-m="meinetests" tabindex="-1">Meine Tests</button>
+          <button type="button" data-m="bib" tabindex="-1">Fragendatenbank</button>
         </div>
-        ${p? `<hr><button role="menuitem" type="button" data-m="out" class="m-out">🚪 Abmelden</button>`:""}
+        ${p? `<hr><button role="menuitem" type="button" data-m="out" class="m-out">${MI("img/grafik/sym-beenden.webp")}Abmelden</button>`:""}
       </div></div>`;
   $("#navProfil") && ($("#navProfil").onclick=()=>go("profil"));
   $("#navReels") && ($("#navReels").onclick=()=>oeffneReels());
