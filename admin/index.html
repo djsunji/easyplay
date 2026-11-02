@@ -212,7 +212,7 @@ select{max-width:100%}
 <div id="login"><div class="punkte" aria-hidden="true"><i style="width:180px;height:180px;left:6%;top:12%"></i><i style="width:90px;height:90px;right:12%;top:18%;animation-delay:-3s"></i><i style="width:240px;height:240px;right:-60px;bottom:8%;animation-delay:-5s"></i></div>
 <div class="wrap"><img src="../img/kinder.webp" alt="easyplay mit Lumi und Milo" width="760" height="507"><form id="lForm" autocomplete="on">
   <h1>Verwaltung</h1><p class="mu klein" style="margin:0 0 6px">Hallo! Bitte melde dich an.</p>
-  <label class="klein mu" for="lName">Benutzername</label><input id="lName" name="username" autocomplete="username" required>
+  <label class="klein mu" for="lName">E-Mail deines easyplay-Kontos</label><input id="lName" name="username" type="email" autocomplete="username" required>
   <label class="klein mu" for="lPw">Passwort</label><input id="lPw" name="password" type="password" autocomplete="current-password" required>
   <button class="k p" type="submit" id="lGo">Anmelden</button><p id="lFehler" class="fe klein" style="margin:0;min-height:1em"></p>
 </form></div></div>
@@ -1651,8 +1651,7 @@ TABS.zugang = async () => {
     </div>
   </div><div>
     <div class="box"><b>Admin-Konto auf dem Server (Benutzer, Statistik, Kommentare, Spiele)</b>
-      ${!sbAn() ? `<p class="wa">${NICHT_SERVER}</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zIp">IP-Erkennung prüfen</button> <span id="zIpInfo" class="klein"></span> <button class="k" id="zSbAus">Abmelden</button>` :
-      `<p class="mu klein">Mit deinem normalen easyplay-Konto (E-Mail und Passwort), das Admin-Rechte hat.</p><div class="formular"><label>E-Mail</label><input type="email" id="zMail" autocomplete="username"><label>Passwort</label><input type="password" id="zPw" autocomplete="current-password"></div><div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k p" id="zSbAn">Anmelden</button></div>`}
+      ${!sbAn() ? `<p class="wa">${NICHT_SERVER}</p>` : s ? `<p>Angemeldet als <b>${esc(s.mail)}</b> <span id="zAdmin" class="mu">prüfe Admin-Rechte …</span></p><button class="k" id="zIp">IP-Erkennung prüfen</button> <span id="zIpInfo" class="klein"></span> <button class="k" id="zSbAus">Abmelden</button>` : `<p class="fe">Nicht mehr angemeldet. Bitte neu anmelden.</p><button class="k p" id="zSbAus">Zur Anmeldung</button>`}
       <p id="zSbInfo" class="klein"></p>
       <details class="klein"><summary>So wird ein Konto Admin</summary><ol>
         <li>Auf easyplay.ch mit deiner E-Mail ein Konto erstellen und die E-Mail bestätigen.</li>
@@ -1666,13 +1665,13 @@ TABS.zugang = async () => {
       <div class="leiste" style="margin-top:8px"><span class="rechts"></span><button class="k" id="zGweg">Entfernen</button><button class="k p" id="zGok">Speichern</button></div></div>
     <div class="box klein"><b>Sicherheit</b><ul>
       <li>Diese Seite ist nirgends verlinkt und für Suchmaschinen gesperrt. Die Adresse allein schützt aber nicht: Speichern geht nur mit dem GitHub-Schlüssel, Benutzer und Statistik nur mit einem Admin-Konto.</li>
-      <li>Der Schlüssel liegt nur in diesem Browser. Mit «merken» wird er mit deinem Passwort verschlüsselt gespeichert und nach der Anmeldung automatisch geladen. Auf fremden Geräten nicht anhaken.</li>
+      <li>Der Schlüssel liegt nur in diesem Browser. Mit «merken» wird er mit dem Passwort deines easyplay-Kontos verschlüsselt gespeichert und nach der Anmeldung automatisch geladen. Auf fremden Geräten nicht anhaken.</li>
       <li>Nach 8 Stunden wirst du automatisch abgemeldet. Nach 5 falschen Passwörtern ist die Anmeldung 5 Minuten gesperrt.</li>
       <li>Der Server prüft bei jeder Aktion, ob du Admin bist, und hält jede Änderung im «Protokoll» fest.</li></ul></div>
   </div></div>`;
   $("#zGhOk").onclick = async () => { const t = $("#zGh").value.trim(); if(!t){ store.del("ep-admin-gh"); statusZeigen(); return; }
     store.set("ep-admin-gh", t);
-    if($("#zGhMerken").checked){ if(!SCHLUESSEL){ const pw = prompt("Zum verschlüsselten Speichern bitte dein Verwaltungs-Passwort eingeben:"); if(pw) SCHLUESSEL = await aesAusPasswort(pw); }
+    if($("#zGhMerken").checked){ if(!SCHLUESSEL){ const pw = prompt("Zum verschlüsselten Speichern bitte das Passwort deines easyplay-Kontos eingeben:"); if(pw) SCHLUESSEL = await aesAusPasswort(pw); }
       if(!(await tokenVerschluesseln(t))) melde("Nicht gespeichert: Passwort fehlt.", "fe"); } else { try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} }
     try{ const r = await gh(""); const ok = r.permissions && r.permissions.push; $("#zGhInfo").innerHTML = (ok ? '<span class="ok">Verbunden, Schreibrechte vorhanden.</span>' : '<span class="fe">Verbunden, aber ohne Schreibrechte. Contents: Read and write setzen.</span>') + await tokenRisiko(t); }
     catch(e){ $("#zGhInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; store.del("ep-admin-gh"); }
@@ -1680,8 +1679,7 @@ TABS.zugang = async () => {
   $("#zGok").onclick = () => { const key = $("#zGk").value.trim(), cx = $("#zGcx").value.trim(); if(key && cx){ store.set("ep-admin-google", {key, cx}, true); melde("Google-Suche gespeichert."); } else melde("Schlüssel und ID ausfüllen.", "fe"); };
   $("#zGweg").onclick = () => { store.del("ep-admin-google"); $("#zGk").value = ""; $("#zGcx").value = ""; melde("Google-Suche entfernt."); };
   $("#zGhWeg").onclick = () => { store.del("ep-admin-gh"); try{ localStorage.removeItem("ep-admin-gh-enc"); }catch(e){} $("#zGh").value = ""; statusZeigen(); $("#zGhInfo").textContent = "Entfernt."; };
-  const an = $("#zSbAn"); if(an) an.onclick = async () => { try{ await sbLogin($("#zMail").value.trim(), $("#zPw").value); notiz("anmeldung", "Verwaltung"); statusZeigen(); zeige("zugang"); }catch(e){ $("#zSbInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
-  const aus = $("#zSbAus"); if(aus) aus.onclick = () => { store.del("ep-admin-sb"); statusZeigen(); zeige("zugang"); };
+  const aus = $("#zSbAus"); if(aus) aus.onclick = abmelden;
   const ip = $("#zIp"); if(ip) ip.onclick = async () => { try{ const r = await rpc("admin_ip_pruefen"); $("#zIpInfo").innerHTML = `genutzt: <b>${esc(r && r.genutzt)}</b> · weitergeleitet: ${esc(r && r.x_forwarded_for)}<br><span class="mu">Unter «genutzt» muss deine eigene öffentliche IP stehen, sonst wirken die Mengenbremsen für alle gemeinsam.</span>`; }catch(e){ $("#zIpInfo").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } };
   if(s && $("#zAdmin")){ try{ const ja = await rpc("ist_admin"); $("#zAdmin").innerHTML = ja ? '<span class="ok">Admin</span>' : '<span class="fe">kein Admin (siehe Einrichtung, Schritt 4)</span>'; }catch(e){ $("#zAdmin").innerHTML = `<span class="fe">${esc(e.message)}</span>`; } }
 };
@@ -2272,8 +2270,7 @@ $("#aeSpeichern").onclick = async () => { const b = $("#aeSpeichern"); b.disable
   finally{ b.disabled = false; b.textContent = "Speichern"; } };
 
 /* ======================= Anmeldung ======================= */
-// Passwörter sind nur als PBKDF2-Prüfwert (600 000 Runden) gespeichert, nie im Klartext.
-const KONTEN = { "dejan": {salt:"WXVz6pnTgdTR2ly0OPBwXA==", hash:"5cggyOEtQecO1+4vC3xiZF2gzFI3KBRRuZLfQfhIAug="} };
+// Eine einzige Anmeldung: das easyplay-Konto auf dem eigenen Server. Der Server prüft das Passwort und die Admin-Rechte.
 const ab64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 async function pbkdf2(pw, salt, bits){ const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
   return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt, iterations:600000}, k, bits)); }
@@ -2285,22 +2282,27 @@ async function tokenVerschluesseln(t){ if(!SCHLUESSEL) return false; const iv = 
 async function tokenEntschluesseln(){ try{ const e = JSON.parse(localStorage.getItem("ep-admin-gh-enc") || "null"); if(!e || !SCHLUESSEL) return "";
   return new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM", iv:ab64(e.iv)}, SCHLUESSEL, ab64(e.c))); }catch(e){ return ""; } }
 function abmelden(){ if(offen() && !confirm("Nicht gespeicherte Änderungen gehen verloren. Trotzdem abmelden?")) return;
-  AE.fragen.clear(); AE.bilder.clear(); store.del("ep-admin-sitzung"); try{ sessionStorage.removeItem("ep-admin-gh"); }catch(e){} SCHLUESSEL = null; location.replace(location.pathname); }
-function angemeldet(){ const l = store.get("ep-admin-sitzung", null); return l && l.bis > Date.now() && KONTEN[l.name]; }
+  AE.fragen.clear(); AE.bilder.clear(); store.del("ep-admin-sitzung"); store.del("ep-admin-sb"); try{ sessionStorage.removeItem("ep-admin-gh"); }catch(e){} SCHLUESSEL = null; location.replace(location.pathname); }
+function angemeldet(){ const l = store.get("ep-admin-sitzung", null); return l && l.bis > Date.now() && sbSitzung(); }
 async function anmelden(e){
   e.preventDefault(); const f = $("#lFehler"), btn = $("#lGo");
   const sperre = store.get("ep-admin-sperre", {n:0, bis:0});
   if(sperre.bis > Date.now()){ f.textContent = `Zu viele Fehlversuche. Bitte ${Math.ceil((sperre.bis - Date.now())/60000)} Minuten warten.`; return; }
+  const fehlt = t => { f.textContent = t; btn.disabled = false; btn.textContent = "Anmelden"; };
+  if(!sbAn()) return fehlt("Die Verwaltung geht nur auf easyplay.ch/admin (eigener Server).");
   btn.disabled = true; btn.textContent = "Prüfe …"; f.textContent = "";
-  const name = $("#lName").value.trim().toLowerCase(), pw = $("#lPw").value, k = KONTEN[name];
-  let ok = false;
-  try{ const h = await pbkdf2(pw, ab64(k ? k.salt : "AAAAAAAAAAAAAAAAAAAAAA=="), 256); ok = !!k && b64(h) === k.hash; }catch(err){}
-  if(!ok){ sperre.n++; if(sperre.n >= 5){ sperre.bis = Date.now() + 5*60000; sperre.n = 0; } store.set("ep-admin-sperre", sperre, true);
-    f.textContent = "Benutzername oder Passwort falsch."; btn.disabled = false; btn.textContent = "Anmelden"; return; }
+  const mail = $("#lName").value.trim().toLowerCase(), pw = $("#lPw").value;
+  let fehler = "";
+  try{ await sbLogin(mail, pw); }catch(err){ fehler = /invalid|credentials|falsch/i.test(err.message) ? "E-Mail oder Passwort falsch." : err.message; }
+  if(!fehler){ try{ if(!(await rpc("ist_admin"))) fehler = "Dieses Konto hat keine Admin-Rechte."; }catch(err){ fehler = err.message; } }
+  if(fehler){ store.del("ep-admin-sb");
+    if(fehler === "E-Mail oder Passwort falsch."){ sperre.n++; if(sperre.n >= 5){ sperre.bis = Date.now() + 5*60000; sperre.n = 0; } store.set("ep-admin-sperre", sperre, true); }
+    return fehlt(fehler); }
   store.del("ep-admin-sperre");
-  store.set("ep-admin-sitzung", {name, bis: Date.now() + 8*3600000});
+  store.set("ep-admin-sitzung", {name: mail, bis: Date.now() + 8*3600000});
   SCHLUESSEL = await aesAusPasswort(pw);
   const t = await tokenEntschluesseln(); if(t) store.set("ep-admin-gh", t);
+  notiz("anmeldung", "Verwaltung");
   $("#lPw").value = ""; starten();
 }
 $("#lForm").onsubmit = anmelden;
