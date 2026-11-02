@@ -1578,6 +1578,7 @@ ${P} .xsw-knopf:focus-visible,${P} .xsw-opt:focus-visible{outline:3px solid #FFE
         try{ p.go(); scrollTo(0, 0); }catch(x){} });
       top.insertAdjacentElement("afterend", n);
     }
+    { const pk = n.querySelector('[data-hn="profil"]'); if(pk){ let an = false; try{ an = !!S.profil; }catch(e){} pk.hidden = !an; pk.style.display = an ? "" : "none"; } }
     const pi = n.querySelector('[data-hn="profil"] .hn-ic'); const pb = profilBild(); if(pi && pi.dataset.av !== pb){ pi.innerHTML = pb; pi.dataset.av = pb; }
     let a = ""; try{ a = aktiv(S.screen); }catch(e){}
     n.querySelectorAll("[data-hn]").forEach(b => { const an = b.dataset.hn === a; b.classList.toggle("an", an); if(an) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
