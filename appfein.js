@@ -377,13 +377,37 @@ function kachelnFuellen(){
   const h = k.getBoundingClientRect().height, neu = Math.min(230, Math.floor(h + frei / reihen));
   if(neu > h) tp.style.setProperty("--af-th", neu + "px");
 }
+/* Seiten, die nur ein wenig zu lang sind (bis 18 %), werden leicht verkleinert statt gescrollt (2.11., Dejans Wunsch:
+   nirgends scrollen, wo man nicht muss). Nicht bei Lese- und Listenseiten, und nur wenn kein anderer Teil schon zoomt. */
+const NIE_KLEINER = ["libseite", "libbuch", "libkapitel", "libartikel", "libthema", "board", "historie", "meinetests", "testergebnis", "suche", "done", "checkdone", "quiz", "check", "duellplay", "liveplay", "livehost"];
+/* Zoom als Klasse mit !important: andere Teile setzen app.style.zoom beim Zeichnen zurück */
+(function(){ const c = document.createElement("style"); c.id = "af-kleiner"; c.textContent = "html body.ep-app #app[data-afzoom]{zoom:var(--af-z)!important}"; document.head.appendChild(c); })();
+const zoomWeg = a => { delete a.dataset.afzoom; a.style.removeProperty("--af-z"); };
+function kleinerMachen(){
+  const a = document.getElementById("app"); if(!a) return false;
+  let sc = ""; try{ sc = S.screen; }catch(e){}
+  if(NIE_KLEINER.includes(sc) || a.style.zoom || document.documentElement.classList.contains("ep-nofit-scroll")) return false;
+  scrollTo(0, 0);
+  const oben = a.getBoundingClientRect().top, platz = unten() - oben, noetig = inhaltEnde() - oben;
+  if(platz <= 0 || noetig <= platz) return false;
+  let z = platz / noetig; if(z < .82) return false;
+  for(let i = 0; i < 4; i++){
+    a.style.setProperty("--af-z", z.toFixed(3)); a.dataset.afzoom = "1";
+    if(inhaltEnde() <= unten() + 1) return true;
+    z -= .02; if(z < .82) break;
+  }
+  zoomWeg(a); return false;
+}
 function scrollWaechter(){
   const h = document.documentElement;
   if(!app() || document.getElementById("reels")){ h.classList.remove("af-fest"); return; }
   const y = scrollY; h.classList.remove("af-fest");
+  const a = document.getElementById("app");
+  if(a && a.dataset.afzoom) zoomWeg(a);
   try{ themenEinpassen(); }catch(e){}
   try{ kachelnFuellen(); }catch(e){}
-  const passt = inhaltEnde() <= unten() + scrollY + 1;
+  let passt = inhaltEnde() <= unten() + scrollY + 1;
+  if(!passt){ try{ passt = kleinerMachen(); }catch(e){} }
   if(passt){ h.classList.add("af-fest"); if(scrollY) scrollTo(0, 0); } else if(y && scrollY !== y) scrollTo(0, y);
 }
 function alles(){
