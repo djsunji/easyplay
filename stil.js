@@ -2743,3 +2743,107 @@ html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti){font-size:1rem!impo
 }`;
   document.head.appendChild(c);
 })();
+
+/* ===== Anmelden, Konto-Wahl und Registrieren im neuen Stil mit den Kids =====
+   Konto-Wahl (.ak-wahl), Anmelden (.ak-login mit Seitenbild .ak-seite), Registrieren Schritt für Schritt (.regbox.ak-steps, regSchritte() in index.html). ===== */
+(function(){
+  const G = "img/grafik/", E = G + "entdecken/";
+  const css = document.createElement("style"); css.id = "ep-anmelden-css";
+  css.textContent = `
+@keyframes akHuepf{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes akEin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes akGlanz{0%{transform:translateX(-140%) skewX(-20deg)}60%,100%{transform:translateX(260%) skewX(-20deg)}}
+html body #app .ak-wahl{max-width:980px;margin:6px auto 30px;display:grid;gap:26px}
+html body #app :is(.ak-kopf,.ak-seite){border:0 solid transparent;border-width:30px;border-image:url("${E}kopf.webp?v=1") 50 fill / 30px stretch;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));color:#fff;box-sizing:border-box}
+html body #app .ak-kopf{display:flex;align-items:center;justify-content:center;gap:18px;text-align:center;padding:0 4px;min-height:110px}
+html body #app .ak-kopf h1{margin:0;font:700 clamp(1.5rem,3.4vw,2.5rem)/1.1 Fredoka,Lexend,system-ui,sans-serif;color:#fff!important;text-shadow:0 3px 6px rgba(30,10,80,.45)}
+html body #app .ak-kopf p{margin:6px 0 0;font-weight:700;font-size:1.08rem;color:#fff!important;text-shadow:0 2px 4px rgba(30,10,80,.4)}
+html body #app .ak-kopfkid{flex:none;width:120px;height:140px;object-fit:contain;margin:-52px 0 -30px;filter:drop-shadow(0 6px 8px rgba(20,0,60,.35));animation:akHuepf 3.2s ease-in-out infinite}
+html body #app .ak-kopfkid.ak-r{animation-delay:-1.6s}
+html body #app .ak-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+html body #app .ak-karte{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-height:270px;padding:6px 42% 10px 10px;
+  border:0 solid transparent;border-width:22px;border-image:url("${E}kachel-01.webp?v=3") 46 fill / 22px stretch;color:#fff;filter:drop-shadow(0 12px 18px rgba(30,30,90,.3));transition:transform .2s,filter .2s;overflow:visible}
+html body #app .ak-karte.ak-reg{border-image-source:url("${E}kachel-05.webp?v=3")}
+html body #app .ak-karte:hover{transform:translateY(-5px) scale(1.015);filter:drop-shadow(0 18px 24px rgba(30,30,90,.35)) brightness(1.04)}
+html body #app .ak-karte:focus-visible{outline:4px solid #FFE34D;outline-offset:6px}
+html body #app .ak-ic{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF7CF,#FFC93A 55%,#E58E0C);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 8px 14px rgba(0,0,0,.25)}
+html body #app .ak-ic img{width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+html body #app .ak-karte b{font:700 2.1rem/1.1 Fredoka,Lexend,system-ui,sans-serif;color:#fff;text-shadow:0 3px 5px rgba(0,0,0,.4);margin-top:4px}
+html body #app .ak-karte small{font-size:1.1rem;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+html body #app .ak-los{position:relative;overflow:hidden;margin-top:12px;display:inline-flex;align-items:center;height:56px;padding:0 8px;box-sizing:border-box;border:0 solid transparent;border-width:17px 29px;
+  border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 17px 29px stretch;color:#3A1C00;font:700 1.12rem Fredoka,Lexend,system-ui,sans-serif;filter:drop-shadow(0 4px 6px rgba(120,70,0,.3))}
+html body #app .ak-kid{position:absolute;right:-8px;bottom:-22px;height:calc(100% + 30px);max-height:330px;width:auto;max-width:48%;object-fit:contain;object-position:bottom right;pointer-events:none;
+  filter:drop-shadow(0 8px 10px rgba(10,0,40,.35));animation:akHuepf 3.4s ease-in-out infinite}
+html body #app .ak-reg .ak-kid{animation-delay:-1.7s}
+html body #app .ak-karte::after{content:"";position:absolute;inset:-22px auto -22px 0;width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);animation:akGlanz 4.5s ease-in-out infinite;pointer-events:none;border-radius:20px}
+html body #app .ak-wahl .ak-vorteile{justify-content:center}
+html body #app .ak-vorteile{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+html body #app .ak-vorteile li{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.94);border:3px solid #fff;border-radius:999px;padding:6px 18px 6px 8px;font-weight:800;color:#2A1F5C;box-shadow:0 8px 18px rgba(40,30,120,.16)}
+html body #app .ak-vorteile img{width:32px;height:32px;object-fit:contain}
+/* Anmelden */
+html body #app .ak-login{max-width:1010px;margin:6px auto 30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,480px);gap:26px;align-items:stretch}
+html body #app .ak-seite{position:relative;display:flex;flex-direction:column;gap:14px;padding:6px 4px 0;min-height:420px}
+html body #app .ak-seite h2{margin:0;font:700 clamp(1.6rem,3vw,2.3rem)/1.1 Fredoka,Lexend,system-ui,sans-serif;color:#fff!important;text-shadow:0 3px 6px rgba(30,10,80,.45)}
+html body #app .ak-seite p{margin:0;font-weight:700;font-size:1.05rem;color:#fff!important;text-shadow:0 2px 4px rgba(30,10,80,.4)}
+html body #app .ak-seite .ak-vorteile{flex-direction:column;align-items:flex-start}
+html body #app .ak-seite .ak-vorteile li{font-size:.95rem}
+html body #app .ak-duo{margin-top:auto;align-self:center;width:min(100%,360px);height:auto;margin-bottom:-30px;filter:drop-shadow(0 8px 10px rgba(10,0,40,.35));animation:akHuepf 3.6s ease-in-out infinite}
+html body #app .ak-login .authbox{margin:0!important;max-width:none!important;width:100%;box-sizing:border-box}
+html body #app .authicon.ak-icon{background:radial-gradient(circle at 35% 30%,#FFF7CF,#FFC93A 55%,#E58E0C)!important;box-shadow:0 0 0 4px #fff,0 10px 18px rgba(200,120,0,.35)!important;width:80px;height:80px}
+html body #app .authicon.ak-icon img{width:52px;height:52px;object-fit:contain}
+html body #app .ak-lbl{display:flex!important;align-items:center;gap:8px}
+html body #app .ak-lbl img{width:26px;height:26px;object-fit:contain}
+html body #app .ak-box .big.gold.ak-go{width:100%!important;margin-top:6px}
+html body #app .authbox .authkopf h1{font-family:Fredoka,Lexend,system-ui,sans-serif;font-weight:700}
+html body #app .authbox :is(input[type=email],input[type=password],input[type=text]){border-radius:18px!important;background:#F6F4FF!important;border-color:#E2DCFA!important}
+html body #app .authbox :is(input[type=email],input[type=password],input[type=text]):focus{border-color:#8A5BFF!important;box-shadow:0 0 0 4px rgba(138,91,255,.18)}
+html body #app .ak-zukid{width:120px;height:140px;object-fit:contain;margin:-40px auto 0;display:block;filter:drop-shadow(0 6px 8px rgba(40,20,100,.25));animation:akHuepf 3s ease-in-out infinite}
+/* Registrieren Schritt für Schritt */
+html body #app .regbox.ak-steps > .regsek{display:none!important;border-top:0!important;padding-top:8px}
+html body #app .regbox.ak-steps > .regsek.ak-jetzt{display:grid!important;animation:akEin .35s ease}
+html body #app .regbox.ak-steps .authkopf .regav,html body #app .regbox.ak-steps .authkopf > p{display:none}
+html body #app .regbox.ak-steps .authkopf h1{font-size:1.5rem;margin:0 0 4px}
+html body #app .regbox.ak-steps .regsek h3{font:700 1.45rem Fredoka,Lexend,system-ui,sans-serif;color:#2A1F5C}
+html body #app .regbox.ak-steps .regnr{background:radial-gradient(circle at 35% 30%,#FFF7CF,#FFC93A 55%,#E58E0C)!important;color:#3A1C00!important}
+html body #app .ak-schritte{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:16px;margin:8px 0 4px;text-align:left;padding:10px 16px;border-radius:24px;background:linear-gradient(135deg,#EFE9FF,#FFF1F8)}
+html body #app .ak-skid{width:96px;height:112px;object-fit:contain;margin:-26px 0 -10px;filter:drop-shadow(0 6px 8px rgba(40,20,100,.25));animation:akHuepf 3s ease-in-out infinite}
+html body #app .ak-sbalken{display:flex;gap:6px}
+html body #app .ak-sbalken i{flex:1;height:12px;border-radius:99px;background:#DCD4F7;transition:background .3s}
+html body #app .ak-sbalken i.an{background:linear-gradient(90deg,#FFD84D,#FF9A3C)}
+html body #app .ak-sbalken i.fertig{background:linear-gradient(90deg,#6A4BFF,#E8409F)}
+html body #app .ak-stxt{margin:8px 0 0!important;font-weight:800;color:#6A4BFF!important;font-size:.9rem!important}
+html body #app .ak-ssag{margin:2px 0 0!important;font:700 1.15rem Fredoka,Lexend,system-ui,sans-serif;color:#2A1F5C!important}
+html body #app .regbox.ak-steps .regknoepfe{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+html body #app .regbox.ak-steps .regknoepfe [hidden]{display:none!important}
+html body #app .regbox.ak-steps .regknoepfe .gold{margin-left:auto}
+html body #app .regbox.ak-steps .social{margin-top:6px}
+@media (max-width:820px){
+  html body #app .ak-login{grid-template-columns:1fr;gap:14px}
+  html body #app .ak-seite{min-height:0;flex-direction:row;align-items:center;padding:0;gap:10px}
+  html body #app .ak-seite > :is(p,.ak-vorteile){display:none}
+  html body #app .ak-seite h2{flex:1;font-size:1.35rem}
+  html body #app .ak-duo{order:-1;width:120px;margin:-20px 0 -24px}
+}
+@media (max-width:640px){
+  html body #app .ak-wahl{gap:16px}
+  html body #app .ak-kopf{min-height:0;gap:6px;border-width:22px;border-image-width:22px}
+  html body #app .ak-kopf h1{font-size:1.3rem}html body #app .ak-kopf p{font-size:.88rem}
+  html body #app .ak-kopfkid{width:62px;height:78px;margin:-30px 0 -20px}
+  html body #app .ak-grid{grid-template-columns:1fr;gap:14px}
+  html body #app .ak-karte{min-height:150px;padding:2px 40% 4px 4px;border-width:18px;border-image-width:18px;gap:3px}
+  html body #app .ak-ic{width:48px;height:48px}html body #app .ak-ic img{width:32px;height:32px}
+  html body #app .ak-karte b{font-size:1.5rem}html body #app .ak-karte small{font-size:.9rem}
+  html body #app .ak-los{height:46px;border-width:14px 24px;border-image-width:14px 24px;font-size:.98rem;margin-top:6px}
+  html body #app .ak-kid{bottom:-18px;height:calc(100% + 24px);max-width:44%}
+  html body #app .ak-los{white-space:nowrap}
+  html body #app .ak-wahl > .ak-vorteile{display:none}
+  html body #app .regbox.ak-steps .namerow{grid-template-columns:1fr!important;gap:0!important}
+  html body #app .ak-vorteile{gap:6px}html body #app .ak-vorteile li{font-size:.8rem;padding:4px 12px 4px 6px}html body #app .ak-vorteile img{width:24px;height:24px}
+  html body #app .ak-schritte{gap:10px;padding:8px 12px}
+  html body #app .ak-skid{width:64px;height:78px;margin:-14px 0 -6px}
+  html body #app .ak-ssag{font-size:1rem}
+  html body #app .regbox.ak-steps .regsek h3{font-size:1.2rem}
+}
+@media (prefers-reduced-motion:reduce){html body #app :is(.ak-kid,.ak-kopfkid,.ak-duo,.ak-skid,.ak-karte::after){animation:none!important}html body #app .regbox.ak-steps > .regsek.ak-jetzt{animation:none!important}}`;
+  document.head.appendChild(css);
+})();

@@ -74,7 +74,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-02-23";
+window.EP_BUILD="ep-2026-11-02-24";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -5535,10 +5535,10 @@ function renderRegister(){
   const p=S.profil, edit=!!p;
   if(!edit && !S.profilErgaenzen && AUTH.regZu){
     $("#app").innerHTML = `${crumbs()}
-      <div class="authbox"><div class="authkopf"><span class="authicon">🔒</span><h1>Registrieren</h1>
+      <div class="authbox"><div class="authkopf"><img class="ak-zukid" src="img/kids/milo-denken.webp" alt=""><h1>Registrieren</h1>
         <p>Die Registrierung ist im Moment geschlossen. Bitte versuche es in ein paar Tagen nochmals.</p>
         <p>Du kannst trotzdem ohne Profil spielen, lernen und lesen. Dein Fortschritt bleibt auf diesem Gerät gespeichert.</p></div>
-        <button class="big" id="regZuWeiter" type="button" style="width:100%">Weiterspielen</button>
+        <button class="big gold" id="regZuWeiter" type="button" style="width:100%">Weiterspielen</button>
         <p class="authwechsel">Schon ein Profil? <button type="button" class="linkbtn" id="zuLogin">Hier anmelden</button></p></div>`;
     $("#regZuWeiter").onclick=()=>go("home"); $("#zuLogin").onclick=()=>go("login");
     return;
@@ -5580,6 +5580,7 @@ function renderRegister(){
       <p class="err" id="err" aria-live="polite"></p>
       <div class="regknoepfe">
         <button class="big alt" id="cancel" type="button">Abbrechen</button>
+        ${!edit ? `<button class="big alt" id="regZur" type="button" hidden>Zurück</button><button class="big gold" id="regWeiter" type="button">Weiter</button>` : ""}
         <button class="big gold" id="save" type="button">${edit? "Speichern" : "Registrieren"}</button>
       </div>
       ${(S.online||AUTH.modus==="supabase")? "" : `<p class="note">Hinweis: In dieser Ansicht wird dein Profil nur auf diesem Gerät gespeichert.</p>`}
@@ -5642,8 +5643,51 @@ function renderRegister(){
     const after=S.after; S.after=null;
     if(after==="mode" && S.thema) go("mode"); else if(after==="hardcoreinfo") go("hardcoreinfo"); else go("profil");
   };
+  if(!edit) regSchritte();
   S.loginHinweis=false;
   $("#pvor").focus();
+}
+/* Registrierung Schritt für Schritt: eine Frage pro Seite, Kind und Fortschritt oben */
+function regSchritte(){
+  const box=$(".regbox"); if(!box) return;
+  const seks=[...box.querySelectorAll(":scope > .regsek")]; if(seks.length<5) return;
+  const N=seks.length, KIDS=["lumi-winken","milo-zeigen","leni-denken","ben-staunen","lumi-sprung"];
+  const SAG=["Wie heisst du?","Damit du dich später wieder anmelden kannst.","Wie alt bist du ungefähr?","Wer soll dich begleiten?","Fast geschafft!"];
+  box.classList.add("ak-steps");
+  const kopf=box.querySelector(".authkopf");
+  kopf.insertAdjacentHTML("beforeend",`<div class="ak-schritte"><img class="ak-skid" id="regKid" src="img/kids/${KIDS[0]}.webp" alt=""><div class="ak-sinfo"><div class="ak-sbalken">${seks.map(()=>"<i></i>").join("")}</div><p class="ak-stxt" id="regStxt"></p><p class="ak-ssag" id="regSag"></p></div></div>`);
+  const soc=box.querySelector(":scope > .social"); const tr=box.querySelector(":scope > .regtr"); const hint=box.querySelector(":scope > .loginhint");
+  if(hint) seks[0].prepend(hint);
+  if(soc){ seks[0].append(soc); } if(tr) tr.remove();
+  const ok=box.querySelector(".regchk"); if(ok) seks[N-1].append(ok);
+  let st=0;
+  const zeig=()=>{
+    seks.forEach((x,i)=>x.classList.toggle("ak-jetzt",i===st));
+    box.querySelectorAll(".ak-sbalken i").forEach((x,i)=>{ x.classList.toggle("an",i<=st); x.classList.toggle("fertig",i<st); });
+    $("#regStxt").textContent=`Schritt ${st+1} von ${N}`; $("#regSag").textContent=SAG[st]||"";
+    $("#regKid").src=`img/kids/${KIDS[st]||KIDS[0]}.webp`;
+    $("#regZur").hidden=st===0; $("#cancel").hidden=st>0;
+    $("#regWeiter").hidden=st===N-1; $("#save").hidden=st<N-1;
+    $("#err").textContent="";
+    const f=seks[st].querySelector("input:not([type=checkbox]),button.seg[aria-pressed=true],button"); try{ f&&f.focus({preventScroll:true}); }catch(e){}
+    try{ if(box.getBoundingClientRect().top<0) box.scrollIntoView({block:"start",behavior:"smooth"}); }catch(e){}
+  };
+  const pruef=()=>{
+    const err=$("#err"), re=/^[\p{L}][\p{L}' \-]{1,29}$/u, clean=v=>v.trim().replace(/\s+/g," ");
+    if(st===0){ if(!re.test(clean($("#pvor").value))){ err.textContent="Bitte gib deinen Vornamen ein (nur Buchstaben)."; $("#pvor").focus(); return false; }
+      if(!re.test(clean($("#pnach").value))){ err.textContent="Bitte gib deinen Nachnamen ein (nur Buchstaben)."; $("#pnach").focus(); return false; } }
+    if(st===1){ const m=$("#rMail").value.trim().toLowerCase(), pw=$("#rPw").value;
+      if(!emailOk(m)){ err.textContent="Bitte gib eine gültige E-Mail-Adresse ein."; $("#rMail").focus(); return false; }
+      if(pw.length<8){ err.textContent="Dein Passwort braucht mindestens 8 Zeichen."; $("#rPw").focus(); return false; }
+      if(pw!==$("#rPw2").value){ err.textContent="Die beiden Passwörter sind nicht gleich."; $("#rPw2").focus(); return false; } }
+    return true;
+  };
+  $("#regWeiter").onclick=()=>{ if(!pruef()) return; st=Math.min(N-1,st+1); zeig(); };
+  $("#regZur").onclick=()=>{ st=Math.max(0,st-1); zeig(); };
+  box.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.matches("input:not([type=checkbox])") && st<N-1){ e.preventDefault(); $("#regWeiter").click(); } });
+  /* Fehler vom Server zur E-Mail: zurück zu Schritt 2 */
+  const errEl=$("#err"); new MutationObserver(()=>{ if(st===N-1 && /E-Mail|Passw/.test(errEl.textContent) && !/Kanton|Einverst/.test(errEl.textContent)){ const t=errEl.textContent; st=1; zeig(); errEl.textContent=t; } if(st===N-1 && /Vornamen|Nachnamen/.test(errEl.textContent)){ const t=errEl.textContent; st=0; zeig(); errEl.textContent=t; } }).observe(errEl,{childList:true,characterData:true,subtree:true});
+  zeig();
 }
 
 /* ---------- Profil ---------- */
@@ -8040,29 +8084,35 @@ function bindSocial(){
 }
 function renderKonto(){
   $("#app").innerHTML = `${crumbs()}
-    <div class="kwahl">
-      <div class="kwkopf"><h1>Willkommen bei easyplay</h1><p>Hast du schon ein Profil oder bist du neu hier?</p></div>
-      <div class="kwgrid">
-        <button type="button" class="kwkarte kw-in" id="kwIn"><span class="kwic">🔑</span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="kwlos">Zur Anmeldung</span></button>
-        <button type="button" class="kwkarte kw-reg" id="kwReg"><span class="kwic">✨</span><b>Registrieren</b><small>Ich bin neu hier</small><span class="kwlos">Profil erstellen</span></button>
+    <div class="ak-wahl">
+      <div class="ak-kopf"><img class="ak-kopfkid" src="img/kids/lumi-winken.webp" alt=""><div><h1>Willkommen bei easyplay!</h1><p>Hast du schon ein Profil oder bist du neu hier?</p></div><img class="ak-kopfkid ak-r" src="img/kids/milo-winken.webp" alt=""></div>
+      <div class="ak-grid">
+        <button type="button" class="ak-karte ak-in" id="kwIn"><img class="ak-kid" src="img/kids/leni-daumen.webp" alt=""><span class="ak-ic"><img src="img/grafik/diverse/schloss.webp?v=2" alt=""></span><b>Anmelden</b><small>Ich habe schon ein Profil</small><span class="ak-los">Zur Anmeldung</span></button>
+        <button type="button" class="ak-karte ak-reg" id="kwReg"><img class="ak-kid" src="img/kids/ben-sprung.webp" alt=""><span class="ak-ic"><img src="img/grafik/diverse/funkeln.webp?v=2" alt=""></span><b>Registrieren</b><small>Ich bin neu hier</small><span class="ak-los">Profil erstellen</span></button>
       </div>
+      ${akVorteile()}
     </div>`;
   $("#kwIn").onclick=()=>go("login"); $("#kwReg").onclick=()=>go("register");
 }
+function akVorteile(){
+  return `<ul class="ak-vorteile"><li><img src="img/grafik/diverse/pokal.webp?v=2" alt="">In der Rangliste mitspielen</li><li><img src="img/grafik/diverse/speicher.webp?v=2" alt="">Fortschritt auf allen Geräten</li><li><img src="img/grafik/diverse/abzeichen.webp?v=2" alt="">Abzeichen sammeln</li></ul>`;
+}
 function renderLogin(){
   $("#app").innerHTML = `${crumbs()}
-    <div class="authbox">
-      <div class="authkopf"><span class="authicon">🔑</span><h1>Anmelden</h1><p>Schön, dass du wieder da bist! Melde dich mit der E-Mail-Adresse an, mit der du dich registriert hast.</p></div>
-      <label for="lMail">E-Mail-Adresse</label>
+    <div class="ak-login">
+    <aside class="ak-seite"><h2>Schön, bist du wieder da!</h2><p>Lumi und Milo haben schon auf dich gewartet.</p>${akVorteile()}<img class="ak-duo" src="img/kids/duo-winken.webp" alt=""></aside>
+    <div class="authbox ak-box">
+      <div class="authkopf"><span class="authicon ak-icon"><img src="img/grafik/diverse/schloss.webp?v=2" alt=""></span><h1>Anmelden</h1><p>Melde dich mit der E-Mail-Adresse an, mit der du dich registriert hast.</p></div>
+      <label for="lMail" class="ak-lbl"><img src="img/grafik/diverse/brief.webp?v=2" alt="">E-Mail-Adresse</label>
       <input id="lMail" type="email" autocomplete="email" placeholder="name@beispiel.ch" value="${esc(store.get("ep-letztemail",""))}">
-      <label for="lPw">Passwort</label>
+      <label for="lPw" class="ak-lbl"><img src="img/grafik/diverse/schloss.webp?v=2" alt="">Passwort</label>
       <div class="pwfeld"><input id="lPw" type="password" autocomplete="current-password" placeholder="Dein Passwort"><button type="button" class="pwzeig" data-for="lPw" aria-label="Passwort anzeigen">👁️</button></div>
       <p class="err" id="lErr" aria-live="polite"></p>
-      <button class="big" id="lGo" type="button" style="width:100%">Anmelden</button>
+      <button class="big gold ak-go" id="lGo" type="button">Anmelden</button>
       <button type="button" class="linkbtn" id="lVergessen">Passwort vergessen?</button>
       ${socialHTML()}
       <p class="authwechsel">Noch kein Profil? <button type="button" class="linkbtn" id="zuReg">Jetzt registrieren</button></p>
-    </div>`;
+    </div></div>`;
   bindPwZeigen(); bindSocial();
   $("#zuReg").onclick=()=>go("register");
   const los=async()=>{
