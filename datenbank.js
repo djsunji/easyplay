@@ -52,19 +52,28 @@ function createClient(url, schluessel){
   const kopf = async () => { const s = await gueltigeSitzung(); return s ? { Authorization: "Bearer " + s.access_token } : {}; };
 
   /* Anmeldung aus dem Link (Bestätigung, neues Passwort, Google, Apple): #access_token=… in der Adresse */
+  /* Auch für die App: Google, Apple und Microsoft kommen dort über ch.easyplay.app://anmeldung#… zurück (app/native.js) */
+  function ausLink(h){
+    h = String(h || ""); if(h.includes("#")) h = h.slice(h.indexOf("#"));
+    if(!/(^#|&)(access_token|error_description)=/.test(h)) return Promise.resolve({ error: null, leer: true });
+    const p = new URLSearchParams(h.slice(1));
+    if(p.get("error_description")){ setTimeout(() => melden("ERROR", null), 0); return Promise.resolve({ error: { message: p.get("error_description") } }); }
+    const s = { access_token: p.get("access_token"), refresh_token: p.get("refresh_token"), expires_in: +p.get("expires_in") || 3600, expires_at: +p.get("expires_at") || Math.floor(Date.now() / 1000) + 3600, token_type: "bearer", user: null };
+    sitzung = s; schreiben(s);
+    return anfrage("/auth/v1/user", { headers: { Authorization: "Bearer " + s.access_token } }).then(r => {
+      if(r.fehler){ setzen(null, "SIGNED_OUT"); return { error: r.fehler }; }
+      setzen({ ...s, user: r.j }, p.get("type") === "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN");
+      return { error: null };
+    });
+  }
   (function ausAdresse(){
     try{
       const h = location.hash || "";
       if(!/(^#|&)(access_token|error_description)=/.test(h)) return;
-      const p = new URLSearchParams(h.slice(1));
       history.replaceState(null, "", location.pathname + location.search);
-      if(p.get("error_description")){ setTimeout(() => melden("ERROR", null), 0); window.EP_ANMELDEFEHLER = p.get("error_description"); return; }
-      const s = { access_token: p.get("access_token"), refresh_token: p.get("refresh_token"), expires_in: +p.get("expires_in") || 3600, expires_at: +p.get("expires_at") || Math.floor(Date.now() / 1000) + 3600, token_type: "bearer", user: null };
-      sitzung = s; schreiben(s);
-      anfrage("/auth/v1/user", { headers: { Authorization: "Bearer " + s.access_token } }).then(r => {
-        if(r.fehler) return setzen(null, "SIGNED_OUT");
-        setzen({ ...s, user: r.j }, p.get("type") === "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN");
-      });
+      const p = new URLSearchParams(h.slice(1));
+      if(p.get("error_description")) window.EP_ANMELDEFEHLER = p.get("error_description");
+      ausLink(h);
     }catch(e){}
   })();
   if(sitzung) setzen(sitzung);   // Zeitgeber für das Erneuern starten
@@ -107,6 +116,7 @@ function createClient(url, schluessel){
       if(sitzung){ sitzung = { ...sitzung, user: r.j }; schreiben(sitzung); melden("USER_UPDATED", sitzung); }
       return { data: { user: r.j }, error: null };
     },
+    sitzungAusLink(link){ return ausLink(link); },
     async signInWithOAuth({ provider, options = {} }){
       const ziel = options.redirectTo || (location.origin + location.pathname);
       location.assign(B + "/auth/v1/authorize?provider=" + encodeURIComponent(provider) + "&redirect_to=" + encodeURIComponent(ziel));

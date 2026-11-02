@@ -183,6 +183,44 @@ function erinnerungenPlanen(){
 }
 document.addEventListener("visibilitychange", function(){ if(document.visibilityState === "hidden") erinnerungenPlanen(); });
 setTimeout(erinnerungenPlanen, 8000);
+/* ---------- 5. Anmelden mit Google, Apple und Microsoft ----------
+   Google erlaubt keine Anmeldung im Fenster der App selbst. Darum öffnet die App die Anmeldung des Servers im
+   System-Browser (Safari-Fenster bzw. Chrome Custom Tab, Plugin @capacitor/browser). Der Server schickt danach
+   zur Adresse ch.easyplay.app://anmeldung#access_token=… zurück (server/auth.js, APP_ZIELE). iOS und Android
+   öffnen damit wieder die App (Info.plist CFBundleURLTypes, AndroidManifest intent-filter, siehe Abläufe in
+   .github/workflows), das Plugin App meldet «appUrlOpen» und die Sitzung wird übernommen (datenbank.js sitzungAusLink). */
+var APP_ZIEL = "ch.easyplay.app://anmeldung";
+function anmeldeFehler(text){
+  try{ var el = document.getElementById("socErr"); if(el) el.textContent = text; else alert(text); }catch(e){}
+}
+if(nativ()){
+  window.EP_NATIV_OAUTH = function(anbieter){
+    var B = P().Browser;
+    if(!B || !B.open) return Promise.reject(new Error("Diese Anmeldung braucht eine neuere Version der App."));
+    var server = String(window.EP_SERVER_APP || "https://easyplay.ch").replace(/\/$/, "");
+    var url = server + "/auth/v1/authorize?provider=" + encodeURIComponent(anbieter) + "&redirect_to=" + encodeURIComponent(APP_ZIEL);
+    return B.open({url:url, presentationStyle:"popover"});
+  };
+  var linkVerarbeiten = function(link){
+    if(!link || String(link).indexOf(APP_ZIEL) !== 0) return;
+    try{ var B = P().Browser; if(B && B.close) B.close().catch(function(){}); }catch(e){}
+    var versuche = 0;
+    (function los(){
+      /* AUTH entsteht in index.html; beim Kaltstart über den Link kurz warten, bis die Verbindung zum Server steht */
+      var sb = (typeof AUTH !== "undefined" && AUTH && AUTH.sb) ? AUTH.sb : null;
+      if(!sb){ if(++versuche < 40) return setTimeout(los, 250); return anmeldeFehler("Keine Verbindung zum easyplay-Server. Bitte nochmals versuchen."); }
+      sb.auth.sitzungAusLink(link).then(function(r){
+        if(r && r.error) anmeldeFehler(r.error.message || "Die Anmeldung hat nicht geklappt.");
+      }).catch(function(){ anmeldeFehler("Die Anmeldung hat nicht geklappt."); });
+    })();
+  };
+  try{
+    var A0 = P().App;
+    if(A0 && A0.addListener) A0.addListener("appUrlOpen", function(e){ linkVerarbeiten(e && e.url); });
+    if(A0 && A0.getLaunchUrl) A0.getLaunchUrl().then(function(r){ linkVerarbeiten(r && r.url); }).catch(function(){});
+  }catch(e){}
+}
+
 /* Tippen auf eine Erinnerung: Tagesquiz öffnen, wenn möglich */
 try{ var N0 = P().LocalNotifications; N0 && N0.addListener && N0.addListener("localNotificationActionPerformed", function(a){
   try{ if(a && a.notification && a.notification.id === 1 && typeof window.go === "function") window.go("home"); }catch(e){}

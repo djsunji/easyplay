@@ -82,6 +82,13 @@ jobs:
           /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" $P || true
           /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName easyplay" $P || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string easyplay" $P
           /usr/libexec/PlistBuddy -c "Add :CFBundleDevelopmentRegion string de" $P || /usr/libexec/PlistBuddy -c "Set :CFBundleDevelopmentRegion de" $P
+          # Eigenes Schema ch.easyplay.app:// für die Rückkehr nach Google-, Apple- und Microsoft-Anmeldung (app/native.js)
+          /usr/libexec/PlistBuddy -c "Delete :CFBundleURLTypes" $P || true
+          /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes array" $P
+          /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0 dict" $P
+          /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLName string ch.easyplay.app" $P
+          /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes array" $P
+          /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string ch.easyplay.app" $P
       - name: Bauen
         working-directory: app/ios/App
         run: |

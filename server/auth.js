@@ -114,9 +114,13 @@ function erlaubteZiele() {
 }
 /* Rücksprung in die Qeels-App nach Google, Apple oder Microsoft: nur genau diese App-Adressen (APP_ZIELE, mit Komma) */
 const appZiele = () => String(E.APP_ZIELE || "qeels://auth").split(",").map(x => x.trim()).filter(Boolean);
+/* Die App (iPhone, iPad, Android) öffnet Google, Apple und Microsoft im System-Browser und bekommt die Anmeldung
+   über ihr eigenes Schema zurück (app/native.js). Nur genau diese Adresse ist erlaubt. */
+const APP_ZIELE = ["ch.easyplay.app://anmeldung"];
 export function zielPruefen(url) {
   if (appZiele().includes(String(url || ""))) return String(url);
   const erlaubt = erlaubteZiele();
+  if (APP_ZIELE.includes(String(url || ""))) return String(url);
   try {
     const u = new URL(String(url || ""));
     if (erlaubt.some(e => { const o = new URL(e); return o.origin === u.origin && u.pathname.startsWith(o.pathname); })) return u.origin + u.pathname + u.search;

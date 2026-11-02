@@ -489,3 +489,45 @@ ${F} .ic,${F} svg,${F} img{width:26px!important;height:26px!important;flex:none}
 ${F} b{font-size:17px!important}
 @media (min-width:700px){${F}{font-size:26px!important}${F} .ic,${F} svg,${F} img{width:30px!important;height:30px!important}}`;
 document.head.appendChild(c); })();
+
+/* Qeels: Knöpfe rechts (Gefällt mir, Kommentare, Erklärung, Teilen, Vorlesen) immer sichtbar, 2.11.
+   Die Knöpfe liegen als Kopie in der festen Ebene #rrailfest (index.html, rlRailFest). Auf dem iPhone kam diese
+   Kopie manchmal nicht zustande oder lag ausserhalb des Bildschirms, dann fehlte das Menü ganz. Ein Wächter prüft
+   alle 0,5 s, ob die Kopie zum sichtbaren Qeel passt und auf dem Bildschirm liegt, und baut sie sonst neu.
+   Klappt das nicht, zeigt jedes Qeel wieder seine eigenen Knöpfe (Klasse af-rail-ok fehlt). Gilt überall. */
+(function(){
+"use strict";
+const st = document.createElement("style"); st.id = "af-qeels-rail";
+st.textContent = `#reels:not(.af-rail-ok) .reel > .rrail{visibility:visible!important;pointer-events:auto!important}
+#reels:not(.af-rail-ok) #rrailfest{display:none!important}`;
+document.head.appendChild(st);
+let letzte = "";
+function sichtbar(el){
+  if(!el || !el.children.length) return false;
+  const r = el.getBoundingClientRect();
+  return r.width > 10 && r.height > 10 && r.right > 8 && r.left < innerWidth - 8 && r.bottom > 40 && r.top < innerHeight - 40;
+}
+function pruefen(){
+  const o = document.getElementById("reels");
+  if(!o || o.hidden || !document.body.classList.contains("reelsauf")) return;
+  try{
+    const f = document.getElementById("rfeed"); if(!f) return;
+    const r = f.getBoundingClientRect(), mass = [r.left, r.top, r.width, r.height].map(Math.round).join(",");
+    if(mass !== letzte && typeof rlRailPlatz === "function"){ letzte = mass; rlRailPlatz(); if(typeof rlRailKopie === "function") rlRailKopie(); }
+    const akt = typeof rlAktiv === "function" ? rlAktiv() : null;
+    if(akt && typeof RL !== "undefined" && RL.railSec !== akt && typeof rlRailFest === "function") rlRailFest();
+    let k = document.querySelector("#rrailfest > .rrail");
+    if(akt && !sichtbar(k) && typeof rlRailKopie === "function"){ o.classList.add("af-rail-ok"); try{ RL.railOben = null; }catch(x){} rlRailKopie(); k = document.querySelector("#rrailfest > .rrail"); }
+    o.classList.toggle("af-rail-ok", sichtbar(k));
+  }catch(e){ o.classList.remove("af-rail-ok"); }
+}
+setInterval(pruefen, 500);
+})();
+
+/* Anmelden/Registrieren in der App-Ansicht: Google, Apple und Microsoft in einer Reihe statt 2 + 1, 2.11. */
+(function(){ const c=document.createElement("style"); c.id="af-anbieter";
+c.textContent=`html body.ep-app #app .provbtns:has(> .sbtn:nth-child(3)):not(:has(> .sbtn:nth-child(4))){grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+html body.ep-app #app .provbtns:has(> .sbtn:nth-child(3)) .sbtn{font-size:.8rem!important;gap:5px!important;padding:0 4px!important;min-height:42px}
+html body.ep-app #app .provbtns:has(> .sbtn:nth-child(3)) .sbtn svg{width:17px!important;height:17px!important}
+@media (min-width:700px){html body.ep-app #app .provbtns:has(> .sbtn:nth-child(3)) .sbtn{font-size:.95rem!important;gap:8px!important}}`;
+document.head.appendChild(c); })();

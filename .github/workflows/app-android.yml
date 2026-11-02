@@ -27,6 +27,20 @@ jobs:
           npx cap add android
           npx capacitor-assets generate --android --iconBackgroundColor '#2B1466' --iconBackgroundColorDark '#2B1466' --splashBackgroundColor '#2B1466' --splashBackgroundColorDark '#2B1466'
           npx cap sync android
+          # Eigenes Schema ch.easyplay.app:// für die Rückkehr nach Google-, Apple- und Microsoft-Anmeldung (app/native.js)
+          python3 - <<'PY'
+          p = "android/app/src/main/AndroidManifest.xml"
+          s = open(p).read()
+          if "ch.easyplay.app\"" not in s.split("<application", 1)[1]:
+              f = ('<intent-filter>\n<action android:name="android.intent.action.VIEW" />\n'
+                   '<category android:name="android.intent.category.DEFAULT" />\n'
+                   '<category android:name="android.intent.category.BROWSABLE" />\n'
+                   '<data android:scheme="ch.easyplay.app" />\n</intent-filter>\n')
+              i = s.index("</activity>")
+              s = s[:i] + f + s[i:]
+              open(p, "w").write(s)
+          print("AndroidManifest: Schema ch.easyplay.app eingetragen")
+          PY
       - name: Versionsnummer setzen
         working-directory: app/android/app
         run: |
