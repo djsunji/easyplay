@@ -2600,8 +2600,9 @@ ${A} .du2 details.du2-ein > summary .zus{color:#5D5C80!important}
         if(!img){ return; }
         k.dataset.wz = "1"; img.classList.add("ep-kic");
         const t = k.querySelector("b, h3, strong"); if(t) t.classList.add("ep-kti");
-        const w = document.createElement("i"); w.className = "ep-wz"; w.setAttribute("aria-hidden", "true");
-        w.style.backgroundImage = `url("${img.getAttribute("src")}")`; k.appendChild(w);
+        const box = document.createElement("span"); box.className = "ep-wzbox"; box.setAttribute("aria-hidden", "true");
+        const w = document.createElement("i"); w.className = "ep-wz"; w.style.backgroundImage = `url("${img.getAttribute("src")}")`;
+        box.appendChild(w); k.appendChild(box);
         if(getComputedStyle(k).position === "static") k.style.position = "relative";
       });
     }catch(e){}
@@ -2612,8 +2613,9 @@ ${A} .du2 details.du2-ein > summary .zus{color:#5D5C80!important}
   const c = document.createElement("style"); c.id = "ep-kachel-wz-css";
   c.textContent = `
 ${KACHELN.map(k => `html body #app ${k}[data-wz]`).join(",")}{isolation:isolate}
-html body #app .ep-wz{position:absolute;right:2%;bottom:3%;width:46%;max-width:150px;aspect-ratio:1;max-height:82%;background:center/contain no-repeat;
-  filter:brightness(0) invert(1);opacity:.17;transform:rotate(-14deg);pointer-events:none;z-index:-1}
+html body #app .ep-wzbox{position:absolute;inset:0;overflow:hidden;container-type:size;z-index:-1;pointer-events:none;border-radius:14px;display:block!important;padding:0!important;margin:0!important;background:none!important}
+html body #app .ep-wz{position:absolute;right:-18cqmin;bottom:-26cqmin;width:120cqmin;height:120cqmin;background:center/contain no-repeat;
+  filter:brightness(0) invert(1);opacity:.17;transform:rotate(-16deg);pointer-events:none}
 html body #app .xseite img.ep-kic,html body #app .xseite .ep-kic{width:60px!important;height:60px!important;max-width:none!important;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 3px 4px rgba(0,0,0,.3))}
 html body #app .xseite :is(.spr-th-emo,.xmt-emo,.xf-emo,.xfo-k-emo,.xs-emo,.hlf-emo,.xof-emo,.xsw-emo):has(.ep-kic){width:auto!important;height:auto!important;font-size:0!important;line-height:0!important;background:none!important;box-shadow:none!important}
 html body #app .xseite .ep-kti{font-size:1.18rem!important;line-height:1.15!important}
@@ -2627,7 +2629,7 @@ html body #app .xseite .xf-ab img.ep-kic{width:40px!important;height:40px!import
   html body #app .xseite .xf-ab img.ep-kic{width:32px!important;height:32px!important}
   html body #app .xseite .ep-kti{font-size:1rem!important}
   html body #app .xseite :is(${KACHELN.join(",")})[data-wz] small{font-size:.74rem!important}
-  html body #app .ep-wz{width:52%;opacity:.15}
+  html body #app .ep-wz{opacity:.15}
 }`;
   document.head.appendChild(c);
 })();
