@@ -407,7 +407,7 @@ async function authInit(){
   }catch(e){ console.warn("Lehrerbereich: Supabase nicht erreichbar", e); AUTH.fehler=e.message; }
   AUTH.bereit=true;
 }
-function kontoTest(){ ST.konto={art:"test", email:TEST_MAIL, name:"Testlehrperson", vorname:"Testlehrperson", kanton:"SO"}; ST.sp=testSpeicher(); ST.daten=null; }
+function kontoTest(){ ST.konto={art:"test", email:TEST_MAIL, name:"Lehrperson", vorname:"", kanton:"SO"}; ST.sp=testSpeicher(); ST.daten=null; }
 function kontoLokal(profil){ const mail=String(profil.email||"").toLowerCase();
   ST.konto={art:"lokal", email:mail, name:profil.name||profil.vorname||mail, vorname:profil.vorname||"", kanton:profil.kanton||""};
   const lid = () => ST.konto?.email ? "m:"+ST.konto.email : (profil.name ? "n:"+profil.name : null);
@@ -428,7 +428,7 @@ function weiterNachLogin(){ if(!ST.sp.istLehrer()) return zeigeRolle(); appStart
 async function testStarten(){
   lsSet(LT_SITZUNG, true);
   if(!lsGet(LT_DATEN,null)) testdatenAnlegen(); else bruecke();
-  kontoTest(); melde("Testzugang geöffnet. Alle Daten bleiben auf diesem Gerät.");
+  kontoTest(); melde("Willkommen im Lehrerbereich!");
   appStart();
 }
 async function testZuruecksetzen(){
@@ -436,14 +436,14 @@ async function testZuruecksetzen(){
   brueckeEntfernen(); lsDel(LT_DATEN); lsDel(LT_MELD); testdatenAnlegen(); ST.daten=null; ST.neu=null; melde("Die Testdaten sind wieder wie neu."); zeige("uebersicht");
 }
 async function abmelden(){
-  if(!await bestaetige("Abmelden?", ST.konto?.art==="test" ? "Der Testzugang wird geschlossen. Die Testdaten bleiben auf diesem Gerät, bis du sie zurücksetzt." : "Du wirst vom Lehrerbereich abgemeldet. Deine Klassen und Tests bleiben gespeichert.", "Abmelden")) return;
+  if(!await bestaetige(ST.konto?.art==="test" ? "Lehrerbereich verlassen?" : "Abmelden?", ST.konto?.art==="test" ? "Deine Klassen, Tests und Resultate bleiben auf diesem Gerät gespeichert." : "Du wirst vom Lehrerbereich abgemeldet. Deine Klassen und Tests bleiben gespeichert.", "Abmelden")) return;
   const art=ST.konto?.art;
   if(art==="test") lsDel(LT_SITZUNG);
   else if(art==="supabase"){ try{ await AUTH.sb.auth.signOut(); }catch(e){} }
   else { lsSet("ep-abgemeldet", true); const p=lsGet("ep-profil",null); if(p) lsSet("ep-profil-alt", p); lsDel("ep-profil"); }
-  ST.konto=null; ST.sp=null; ST.daten=null; ST.neu=null;
+  ST.konto=null; ST.sp=null; ST.daten=null; ST.neu=null; document.body.classList.remove("ein");
   history.replaceState(null, "", location.pathname+location.search);
-  zeigeWahl(); melde("Du bist abgemeldet.");
+  zeigeWahl(); melde(art==="test" ? "Bis bald!" : "Du bist abgemeldet.");
 }
 
 /* ---------- Auswahl: Schüler oder Lehrer ---------- */
@@ -467,7 +467,7 @@ function zeigeWahl(){
     </div>
     <p class="kinder"><a class="link" href="../">‹ Zurück zu easyplay</a></p>`;
   $("#wahlSchueler").onclick=zeigeSchueler;
-  $("#wahlLehrer").onclick=()=>zeigeLogin("anmelden");
+  $("#wahlLehrer").onclick=()=>testStarten(); // Anmeldemaske vorläufig aus: eine Lehrperson auf diesem Gerät
 }
 function zeigeSchueler(){
   $("#app").hidden=true; $("#login").hidden=false; loginBreit(false); document.title="easyplay: Test starten";
@@ -617,7 +617,7 @@ const NAV = [
   ["Konto", [["einstellungen","Einstellungen"]]]
 ];
 const NAV_ELTERN = {klasse:"klassen", kind:"kinder", test:"tests"};
-const TITEL = {uebersicht:"Übersicht", auswertung:"Auswertung", klassen:"Klassen", klasse:"Klasse", kinder:"Kinder", kind:"Kind", tests:"Tests", test:"Test", neu:"Neuer Test", lehrplan:"Lehrplan 21", korrigieren:"Korrigieren", fragen:"Fragenpool", liga:"Klassen-Liga", meldungen:"Fehlermeldungen", einstellungen:"Einstellungen"};
+const TITEL = {start:"Start", uebersicht:"Übersicht", auswertung:"Auswertung", klassen:"Klassen", klasse:"Klasse", kinder:"Kinder", kind:"Kind", tests:"Tests", test:"Test", neu:"Neuer Test", lehrplan:"Lehrplan 21", korrigieren:"Korrigieren", fragen:"Fragenpool", liga:"Klassen-Liga", meldungen:"Fehlermeldungen", einstellungen:"Einstellungen"};
 
 function appStart(){
   $("#login").hidden=true; $("#app").hidden=false; ST.daten=null;
@@ -626,13 +626,17 @@ function appStart(){
   route();
 }
 function kopfZeichnen(){
+  document.body.classList.add("ein");
   const k=ST.konto, test=k.art==="test";
   $("#testPill").hidden=!test;
   const sp = test ? "Testzugang, nur dieses Gerät" : k.art==="supabase" ? "easyplay-Server" : "dieses Gerät";
   $("#status").innerHTML=`<span class="nurgross">Speicher: <b>${h(sp)}</b></span><span class="nurgross">Angemeldet: <b>${h(k.name||k.email)}</b></span><a class="k nurgross" href="../">Zu easyplay</a><button type="button" class="k" id="stAus">Abmelden</button>`;
   $("#stAus").onclick=abmelden;
-  $("#zurStart").onclick=()=>zeige("uebersicht");
-  const band=$("#testband"); band.hidden=!test;
+  $("#zurStart").onclick=()=>zeige("start");
+  $("#testPill").hidden=true;
+  $("#status").innerHTML=`<a class="k" href="../">Zu easyplay</a><button type="button" class="k" id="stAus">Beenden</button>`;
+  $("#stAus").onclick=abmelden;
+  const band=$("#testband"); band.hidden=true; return;
   if(test) band.innerHTML=`<span><b>Testzugang:</b> Beispieldaten, Daten nur auf diesem Gerät. Echte Konten bleiben getrennt.</span><span class="rechts"><button type="button" class="k klein" id="tbReset">Testdaten zurücksetzen</button><button type="button" class="k klein" id="tbEnde">Testzugang beenden</button></span>`;
   if(test){ $("#tbReset").onclick=testZuruecksetzen; $("#tbEnde").onclick=abmelden; }
 }
@@ -654,7 +658,7 @@ function zeige(tab, param){
 function route(){
   if(!ST.konto) return;
   const m=String(location.hash||"").replace(/^#/,"").split("/");
-  const tab=TITEL[m[0]] ? m[0] : "uebersicht";
+  const tab=TITEL[m[0]] ? m[0] : "start";
   const wechsel = tab!==ST.tab || decodeURIComponent(m[1]||"")!==ST.param;
   ST.tab=tab; ST.param=decodeURIComponent(m[1]||"");
   zeichne();
@@ -678,7 +682,8 @@ async function zeichne(){
     if(!ST.daten){ el.innerHTML=`<div class="hinweis"><b>Daten nicht erreichbar.</b><p>${h(ST.fehler)}</p></div><button type="button" class="k p" id="nochmal">Nochmals versuchen</button>`; $("#nochmal").onclick=neuLaden; return; }
   }
   navZeichnen();
-  try{ (SEITEN[ST.tab]||SEITEN.uebersicht)(el); }
+  try{ (SEITEN[ST.tab]||SEITEN.start)(el);
+    if(ST.tab!=="start"){ el.insertAdjacentHTML("afterbegin", `<button type="button" class="ein-zurueck" id="einZurueck">‹ Übersicht</button>`); $("#einZurueck").onclick=()=>zeige("start"); } }
   catch(e){ console.error("Lehrerbereich", e); el.innerHTML=`<div class="hinweis"><b>Hoppla, hier ist etwas schiefgelaufen.</b><p>${h(e.message||e)}</p></div>`; }
 }
 // Neu zeichnen und Scroll-Position behalten
@@ -733,6 +738,34 @@ function themenBalken(l){
 const SEITEN = {};
 
 /* ---------- Übersicht ---------- */
+/* ---------- Start: einfache Kacheln ---------- */
+const START_KACHELN = [
+  // id, Farbe (Glanz-Kachel), Symbol, Titel, Text-Funktion, Knopf
+  ["klassen", "01", "familie", "Meine Klassen", D=>{ const n=D.klassen.reduce((s,x)=>s+(x.schueler||[]).length,0); return D.klassen.length ? `${D.klassen.length} ${D.klassen.length===1?"Klasse":"Klassen"} · ${n} Kinder` : "Klasse anlegen und Kinder eintragen"; }, "Öffnen"],
+  ["neu", "05", "rakete", "Neuer Test", D=>D.klassen.length ? "Fragen wählen, Code verteilen" : "Zuerst eine Klasse anlegen", "Erstellen"],
+  ["tests", "06", "pokal", "Tests & Resultate", D=>D.tests.length ? `${D.tests.length} ${D.tests.length===1?"Test":"Tests"} · ${D.abgaben.length} Abgaben` : "Noch keine Tests", "Ansehen"],
+  ["korrigieren", "03", "haken", "Korrigieren", D=>{ const o=offeneKorrekturen(); return o ? `${o} ${o===1?"Abgabe wartet":"Abgaben warten"}` : "Alles korrigiert"; }, "Korrigieren"],
+  ["fragen", "04", "lupe", "Fragenpool", ()=>"Rund 128'000 Fragen durchsuchen", "Suchen"],
+  ["einstellungen", "10", "zahnrad", "Einstellungen", ()=>"Daten, Sicherung und mehr", "Öffnen"]
+];
+const TK_FARBEN = ["01","05","06","04","03","13","02","10"];
+const tkFarbe = i => `--tk:url(../img/grafik/entdecken/kachel-${TK_FARBEN[i%TK_FARBEN.length]}.webp?v=3)`;
+SEITEN.start = el => {
+  const D=ST.daten;
+  const std=new Date().getHours(), gruss=std<11?"Guten Morgen":std<17?"Hallo":"Guten Abend";
+  const offen=offeneKorrekturen();
+  el.innerHTML=`<div class="ein-kopf"><h1>${gruss}!</h1><p>Was möchtest du tun?</p></div>
+    <div class="ein-kacheln">${START_KACHELN.map(([id,farbe,sym,titel,text,knopf])=>`
+      <button type="button" class="tk" data-ziel="${id}" style="--tk:url(../img/grafik/entdecken/kachel-${farbe}.webp?v=3)">
+        ${id==="korrigieren"&&offen?`<span class="tk-zahl" aria-label="${offen} offen">${offen}</span>`:""}
+        <img class="tk-sym" src="../img/grafik/diverse/${sym}.webp" alt="" width="160" height="160">
+        <span class="tk-tx"><b>${h(titel)}</b><span>${h(text(D))}</span></span>
+        <span class="tk-los">${h(knopf)} ›</span>
+      </button>`).join("")}</div>
+    <div class="ein-mehr"><span>Mehr:</span><button type="button" class="chip" data-ziel="uebersicht">Überblick</button><button type="button" class="chip" data-ziel="auswertung">Auswertung</button><button type="button" class="chip" data-ziel="kinder">Alle Kinder</button><button type="button" class="chip" data-ziel="lehrplan">Lehrplan 21</button><button type="button" class="chip" data-ziel="liga">Klassen-Liga</button><button type="button" class="chip" data-ziel="meldungen">Fehlermeldungen</button></div>`;
+  zielBinden(el);
+};
+
 SEITEN.uebersicht = el => {
   const D=ST.daten, k=ST.konto;
   const kinder=D.klassen.reduce((s,x)=>s+(x.schueler||[]).length,0);
@@ -774,11 +807,14 @@ SEITEN.uebersicht = el => {
 SEITEN.klassen = el => {
   const D=ST.daten;
   el.innerHTML=`<div class="kopfzeile"><div><h1>Klassen</h1><p>Klassen mit Kindern und PINs. Jedes Kind löst Tests mit dem Test-Code und seinem PIN.</p></div></div>
-    ${D.klassen.length?`<div class="tabwrap abschnitt"><table><thead><tr><th>Klasse</th><th>Schuljahr</th><th>Zyklus</th><th class="r">Kinder</th><th class="r">Tests</th><th class="r">Ø Note</th></tr></thead><tbody>
-      ${D.klassen.map(k=>{ const ts=testsVon(k.id), codes=new Set(ts.map(t=>t.code)); const s=schnitt(D.abgaben.filter(a=>codes.has(a.code) && !a.offen).map(a=>a.note));
-        return `<tr class="klick" data-ziel="klasse/${h(k.id)}"><td><b>${h(k.name)}</b></td><td>${h(sjName(k.schuljahr))}</td><td>${h(k.zyklus||"")}</td><td class="r">${(k.schueler||[]).length}</td><td class="r">${ts.length}</td><td class="r"><span class="note ${noteKlasse(s)}">${fmtNote(s)}</span></td></tr>`; }).join("")}
-    </tbody></table></div>`:`<div class="box">${leer("Noch keine Klasse. Lege unten deine erste Klasse an.")}</div>`}
-    <div class="box"><h2>Neue Klasse anlegen</h2>
+    <div class="ein-kacheln klein">
+      ${D.klassen.map((k,i)=>{ const ts=testsVon(k.id), codes=new Set(ts.map(t=>t.code)); const s=schnitt(D.abgaben.filter(a=>codes.has(a.code) && !a.offen).map(a=>a.note)), n=(k.schueler||[]).length;
+        return `<button type="button" class="tk" data-ziel="klasse/${h(k.id)}" style="${tkFarbe(i)}">${s!=null?`<span class="tk-note">Ø ${fmtNote(s)}</span>`:""}
+          <span class="tk-tx voll"><b>${h(k.name)}</b><span>${h(sjName(k.schuljahr))} · Zyklus ${h(k.zyklus||"")}</span><span>${n} ${n===1?"Kind":"Kinder"} · ${ts.length} ${ts.length===1?"Test":"Tests"}</span></span>
+          <span class="tk-los">Öffnen ›</span></button>`; }).join("")}
+      <button type="button" class="tk-plus" id="kPlus"><span aria-hidden="true">+</span><b>Neue Klasse</b></button>
+    </div>
+    <div class="box" id="kForm" ${D.klassen.length?"hidden":""}><h2>Neue Klasse anlegen</h2>
       <div class="formular">
         <label for="kName">Name der Klasse</label><input id="kName" maxlength="60" placeholder="z. B. 4b Schulhaus Lindenhof">
         <label for="kSj">Schuljahr</label><select id="kSj">${sjOptionen("h6")}</select>
@@ -790,6 +826,7 @@ SEITEN.klassen = el => {
     </div>
     ${datenschutz()}`;
   zielBinden(el);
+  $("#kPlus").onclick=()=>{ const f=$("#kForm"); f.hidden=false; f.scrollIntoView({behavior:"smooth", block:"center"}); setTimeout(()=>$("#kName").focus(),300); };
   $("#kSj").onchange=e=>{ const s=sjObj(e.target.value); if(s) $("#kZy").value=String(s.zyklus); };
   $("#kNeu").onclick=async()=>{
     const err=$("#kErr"); const name=$("#kName").value.trim().replace(/\s+/g," ").slice(0,60); if(!name){ err.textContent="Bitte gib der Klasse einen Namen."; $("#kName").focus(); return; }
@@ -911,11 +948,13 @@ SEITEN.tests = el => {
   el.innerHTML=`<div class="kopfzeile"><div><h1>Tests</h1><p>Jeder Test hat einen Code. Die Kinder öffnen easyplay, tippen auf «Test mit Code» und geben Code und PIN ein.</p></div>
       <div class="leiste"><button type="button" class="k p" data-ziel="neu" ${D.klassen.length?"":"disabled"}>Neuer Test</button></div></div>
     <div class="leiste"><select id="teK" aria-label="Klasse"><option value="">Alle Klassen</option>${D.klassen.map(k=>`<option value="${h(k.id)}" ${k.id===F.klasse?"selected":""}>${h(k.name)}</option>`).join("")}</select><span class="mu">${liste.length} ${liste.length===1?"Test":"Tests"}</span></div>
-    ${liste.length?`<div class="tabwrap abschnitt"><table><thead><tr><th>Test</th><th>Klasse</th><th>Code</th><th class="r">Fragen</th><th class="r">Abgaben</th><th class="r">Ø Note</th><th>Korrektur</th><th>Status</th><th>Erstellt</th></tr></thead><tbody>
-      ${liste.map(t=>{ const k=klasseVon(t.klasseId), ab=abgabenVon(t.code), s=schnitt(ab.filter(a=>!a.offen).map(a=>a.note)), off=ab.filter(a=>a.offen).length, hatOffen=t.fragen.some(istOffen);
-        return `<tr class="klick" data-ziel="test/${h(t.code)}"><td><b>${h(t.titel)}</b></td><td>${h(k?.name||"ohne Klasse")}</td><td class="code">${h(t.code)}</td><td class="r">${t.fragen.length}</td><td class="r">${ab.length}/${(k?.schueler||[]).length}</td><td class="r"><span class="note ${noteKlasse(s)}">${fmtNote(s)}</span></td>
-          <td>${hatOffen?(off?`<span class="marke wa">${off} offen</span>`:ab.length?`<span class="marke ok">erledigt</span>`:`<span class="mu">·</span>`):`<span class="mu">automatisch</span>`}</td><td>${t.aktiv===false?`<span class="marke">geschlossen</span>`:`<span class="marke ok">offen</span>`}</td><td class="nowrap">${datum(t.erstellt)}</td></tr>`; }).join("")}
-    </tbody></table></div>`:`<div class="box">${leer(D.klassen.length?"Noch keine Tests.":"Lege zuerst eine Klasse an, dann kannst du Tests erstellen.", D.klassen.length?`<button type="button" class="k p" data-ziel="neu">Ersten Test erstellen</button>`:`<button type="button" class="k p" data-ziel="klassen">Klasse anlegen</button>`)}</div>`}`;
+    ${liste.length?`<div class="ein-kacheln klein">
+      ${liste.map((t,i)=>{ const k=klasseVon(t.klasseId), ab=abgabenVon(t.code), s=schnitt(ab.filter(a=>!a.offen).map(a=>a.note)), off=ab.filter(a=>a.offen).length;
+        return `<button type="button" class="tk" data-ziel="test/${h(t.code)}" style="${tkFarbe(i+2)}">${s!=null?`<span class="tk-note">Ø ${fmtNote(s)}</span>`:""}
+          <span class="tk-tx voll"><b>${h(t.titel)}</b><span>${h(k?.name||"ohne Klasse")} · ${t.fragen.length} Fragen</span><span class="tk-code">${h(t.code)}</span>
+          <span>${ab.length} von ${(k?.schueler||[]).length} abgegeben${off?` · ${off} zu korrigieren`:""}${t.aktiv===false?" · geschlossen":""}</span></span>
+          <span class="tk-los">Resultate ›</span></button>`; }).join("")}
+    </div>`:`<div class="box">${leer(D.klassen.length?"Noch keine Tests.":"Lege zuerst eine Klasse an, dann kannst du Tests erstellen.", D.klassen.length?`<button type="button" class="k p" data-ziel="neu">Ersten Test erstellen</button>`:`<button type="button" class="k p" data-ziel="klassen">Klasse anlegen</button>`)}</div>`}`;
   zielBinden(el);
   $("#teK").onchange=e=>neu(()=>{ F.klasse=e.target.value; });
 };

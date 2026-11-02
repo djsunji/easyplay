@@ -294,6 +294,57 @@ details.regeln ul{margin:6px 0;padding-left:20px}
   #login.wahl .wrap>img{width:min(260px,70%);margin-bottom:-16px}
 }
 @media (prefers-reduced-motion:reduce){.wk,.wk-kid,.wk-hut{transition:none}}
+/* Einfacher Lehrerbereich im Stil der Auswahlseite */
+body.ein{background:radial-gradient(1200px 600px at 10% 0%,#c79bff 0,transparent 60%),radial-gradient(900px 600px at 100% 100%,#7d93ff 0,transparent 60%),linear-gradient(135deg,#8A3FE0,#3D5AFE) fixed;min-height:100vh}
+body.ein header{position:sticky;top:12px;margin:12px auto 0;width:min(1180px,calc(100% - 32px));border-radius:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(20,0,70,.25)}
+body.ein header::before{display:none}
+body.ein #rahmen{display:block;min-height:0}
+body.ein nav#tabs{display:none}
+body.ein main{margin:16px auto 32px;width:min(1180px,calc(100% - 32px));max-width:none;background:var(--fl);border-radius:24px;box-shadow:0 20px 60px rgba(20,0,70,.3);padding:26px 30px 32px}
+body.ein .festleiste{margin:12px -30px -32px;border-radius:0 0 24px 24px}
+.ein-zurueck{display:inline-flex;align-items:center;gap:4px;margin:0 0 14px;padding:8px 16px;border-radius:999px;border:0;cursor:pointer;font:700 14px system-ui,sans-serif;color:#fff;background:var(--grad);box-shadow:0 4px 12px rgba(80,40,200,.3)}
+.ein-zurueck:hover{filter:brightness(1.08)}
+.ein-kopf{text-align:center;margin:4px 0 22px}
+.ein-kopf h1{font-size:32px;margin:0}
+.ein-kopf p{margin:4px 0 0;color:var(--mu);font-size:16px}
+.ein-kacheln{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.tk{position:relative;overflow:hidden;display:grid;align-content:space-between;gap:14px;min-height:200px;padding:20px 20px 18px;border:0;border-radius:22px;cursor:pointer;text-align:left;color:#fff;font:inherit;background:var(--tk) center/100% 100% no-repeat,#5b45e8;box-shadow:0 12px 26px rgba(40,0,90,.22);text-shadow:0 2px 6px rgba(20,0,60,.35);transition:transform .15s,filter .15s}
+.tk:hover{transform:translateY(-3px);filter:brightness(1.05)}
+.tk:focus-visible{outline:3px solid #ffcc33;outline-offset:3px}
+.tk-sym{position:absolute;right:14px;top:50%;width:104px;height:auto;transform:translateY(-58%) rotate(-8deg);filter:drop-shadow(0 8px 14px rgba(10,0,60,.35));pointer-events:none;transition:transform .2s}
+.tk:hover .tk-sym{transform:translateY(-64%) rotate(-3deg)}
+.tk-tx{position:relative;z-index:1;display:grid;gap:6px;padding-right:110px}
+.tk-tx b{font:800 24px/1.1 "Bricolage Grotesque",system-ui,sans-serif}
+.tk-tx>span{font-size:14px;line-height:1.35;opacity:.95}
+.tk-los{position:relative;z-index:1;justify-self:start;background:linear-gradient(180deg,#ffd54a,#ffab00);color:#3a2100;text-shadow:none;font-weight:800;border-radius:999px;padding:8px 16px;box-shadow:0 4px 0 #c27a00,0 8px 16px rgba(0,0,0,.2);white-space:nowrap}
+.tk-zahl{position:absolute;top:12px;right:12px;z-index:2;min-width:30px;height:30px;padding:0 8px;border-radius:999px;background:#fff;color:#c2410c;font:800 15px/30px system-ui,sans-serif;text-align:center;text-shadow:none;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.ein-kacheln.klein{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-bottom:18px}
+.ein-kacheln.klein .tk{min-height:170px}
+.tk-tx.voll{padding-right:64px}
+.ein-kacheln.klein .tk-tx b{font-size:20px}
+.tk-tx.voll>span{font-size:13.5px}
+.tk-note{position:absolute;top:14px;right:14px;z-index:2;background:rgba(255,255,255,.95);color:#2a1a6e;text-shadow:none;font:800 15px system-ui,sans-serif;border-radius:12px;padding:5px 10px;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+.tk-code{font:800 22px/1.1 "Bricolage Grotesque",ui-monospace,monospace!important;letter-spacing:.14em;opacity:1!important}
+.tk-plus{display:grid;place-items:center;align-content:center;gap:6px;min-height:170px;border:3px dashed color-mix(in srgb,var(--v) 45%,var(--li));border-radius:22px;background:color-mix(in srgb,var(--v) 5%,var(--fl));color:var(--ak);cursor:pointer;font:inherit;transition:background .15s}
+.tk-plus span{font:800 44px/1 system-ui,sans-serif}
+.tk-plus b{font:800 20px "Bricolage Grotesque",system-ui,sans-serif}
+.tk-plus:hover{background:color-mix(in srgb,var(--v) 12%,var(--fl))}
+.ein-mehr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin-top:22px;color:var(--mu);font-size:13px}
+.ein-mehr .chip{padding:5px 14px;font-size:13px}
+.ein-mehr .chip:hover{border-color:var(--v);color:var(--ak)}
+@media (max-width:1000px){.ein-kacheln{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  body.ein main{padding:18px 16px 24px;width:calc(100% - 20px)}
+  body.ein header{width:calc(100% - 20px)}
+  body.ein .festleiste{margin:12px -16px -24px}
+  .ein-kacheln{grid-template-columns:1fr;gap:12px}
+  .tk{min-height:140px;padding:16px}
+  .tk-sym{width:80px}
+  .tk-tx{padding-right:84px}
+  .tk-tx b{font-size:21px}
+  .ein-kopf h1{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){.tk,.tk-sym{transition:none}}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Handy und kleines Tablet: Seitenleiste wird zur Tab-Leiste oben */
 @media (max-width:800px){
