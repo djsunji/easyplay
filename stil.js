@@ -2639,7 +2639,7 @@ html body #app .xseite .xf-ab img.ep-kic{width:40px!important;height:40px!import
    höchstens 3 Zeilen). Danach bekommen alle Titel einer Kachelgruppe die gleiche (kleinste) Grösse. ===== */
 (function(){
   const MIN = 11;
-  const MAX = el => el.closest(".xf-ab") ? (innerWidth <= 700 ? 13 : 15) : (innerWidth <= 700 ? 22 : 30);
+  const MAX = el => el.closest(".xf-ab") ? (innerWidth <= 700 ? 13 : 15) : (innerWidth <= 700 ? 14 : 30);
   function passe(el){
     try{
       const k = el.closest("[data-wz]") || el.parentElement; if(!k || !k.clientWidth) return 0;
@@ -2647,7 +2647,7 @@ html body #app .xseite .xf-ab img.ep-kic{width:40px!important;height:40px!import
       const rechts = r.right - (parseFloat(cs.borderRightWidth) || 0) - (parseFloat(cs.paddingRight) || 0) + 2;
       let s = MAX(el); const setz = () => el.style.setProperty("font-size", s + "px", "important"); setz();
       const zu = () => { const e = el.getBoundingClientRect(); return el.scrollWidth > el.clientWidth + 1 || e.right > rechts || e.height > s * 1.12 * 3 + 2; };
-      const min = el.closest(".xf-ab") ? 8 : MIN; let n = 0; while(zu() && s > min && n++ < 40){ s -= 1; setz(); }
+      const min = el.closest(".xf-ab") || innerWidth <= 700 ? 8 : MIN; let n = 0; while(zu() && s > min && n++ < 40){ s -= 1; setz(); }
       return s;
     }catch(e){ return 0; }
   }
@@ -2683,5 +2683,59 @@ html body #app .xseite .xs-stueck .xs-emo{order:1}
 html body #app .xseite .xmt-kachel .xmt-k1 > .ep-kti{flex:1 1 auto!important}
 html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti){font-size:1rem!important;line-height:1.3!important;hyphens:none!important;overflow-wrap:normal!important}
 @media (max-width:700px){html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti){font-size:.84rem!important}}`;
+  document.head.appendChild(c);
+})();
+
+/* ===== Entdecken am Handy: Kacheln kompakter (kleinere Schrift, Symbole, Abstände, Silhouette) ===== */
+(function(){
+  const K = ".x-kachel,.wdh-karte,.spr-thema,.spr-sp,.spr-modus,.spr-wdh,.xmt-kachel,.xsw-kachel,.xf-karte,.xfo-karte,.xfo-kat,.xs-stueck,.xs-fxk,.hlf-k,.xel-kpi,.xof-karte,.xui-karte,.fq-karte,.xel-karte";
+  const S = `html body #app :is(${K})`;
+  const c = document.createElement("style"); c.id = "ep-entdecken-handy-css";
+  c.textContent = `@media (max-width:700px){
+  ${S}[data-wz]{min-height:0!important;padding:4px 2px!important;gap:4px!important;border-width:14px!important;border-image-width:14px!important}
+  html body #app .xseite img.ep-kic,html body #app .xseite .ep-kic,html body #app .x-kacheln img.ep-kic{width:34px!important;height:34px!important}
+  html body #app .xseite .spr-sp img.ep-kic{width:42px!important;height:42px!important}
+  ${S}[data-wz] small:not(.ep-kti){font-size:.72rem!important;line-height:1.25!important}
+  html body #app .ep-wz{opacity:.12!important}
+  html body #app .x-kacheln{gap:10px!important}
+  html body #app .xseite .spr-modi,html body #app .xseite .spr-themen,html body #app .xseite .xmt-kacheln,html body #app .xseite .xfo-liste,html body #app .xseite .xs-stuecke{gap:10px!important}
+  html body #app .xseite .xmt-kachel .xmt-k1{gap:3px!important}
+  html body #app .xseite .xf-karte .ep-kti{font-size:inherit}
+}`;
+  document.head.appendChild(c);
+})();
+
+/* ===== Entdecken am Handy: drei Kacheln pro Reihe, ohne Untertitel, damit die Kacheln klein und ruhig sind ===== */
+(function(){
+  const G = ["x-kacheln","xmt-kacheln","xsw-kacheln","xs-stuecke","xfo-liste","spr-modi","spr-wahl"];
+  const K = ".x-kachel,.xmt-kachel,.xsw-kachel,.xs-stueck,.xfo-karte,.spr-modus,.spr-sp";
+  const c = document.createElement("style"); c.id = "ep-entdecken-handy3-css";
+  c.textContent = `@media (max-width:700px){
+  ${G.map(g => `html body #app .${g}.${g}`).join(",")}{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+  html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti),html body #app .x-kacheln :is(${K})[data-wz] small:not(.ep-kti){display:none!important}
+  html body #app :is(${K})[data-wz]{min-height:0!important;aspect-ratio:1/1;justify-content:center!important;align-items:flex-start!important;padding:2px!important}
+  html body #app :is(${K})[data-wz] img.ep-kic{width:32px!important;height:32px!important}
+  html body #app .xseite .xs-stueck .xs-play{transform:scale(.75);transform-origin:right top}
+  html body #app .xseite .xmt-kachel .xmt-k2,html body #app .xseite .xfo-karte .xfo-meta{font-size:.62rem!important}
+  html body #app :is(${K})[data-wz] .x-tag,html body #app :is(${K})[data-wz] .xmt-tag{font-size:.55rem!important;padding:1px 5px!important}
+}`;
+  document.head.appendChild(c);
+})();
+
+/* ===== Entdecken am Handy: Gruppen mit 2 oder 4 Kacheln als kompakte Zeilen-Kacheln (Symbol links, Titel rechts), 2 pro Reihe ===== */
+(function(){
+  const c = document.createElement("style"); c.id = "ep-entdecken-handy-zeile-css";
+  const K = ".x-kachel,.xsw-kachel,.spr-sp";
+  c.textContent = `@media (max-width:700px){
+  html body #app .x-kacheln.x-kacheln,html body #app .xsw-kacheln.xsw-kacheln,html body #app .spr-wahl.spr-wahl{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  html body #app :is(${K})[data-wz]{aspect-ratio:auto!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;min-height:64px!important;padding:2px 4px!important;text-align:left!important}
+  html body #app :is(${K})[data-wz] > *:not(.ep-wzbox){margin:0!important}
+  html body #app :is(${K})[data-wz] :is(.x-emo,.spr-th-emo,.xsw-emo,span:first-child:has(img.ep-kic)){flex:none!important}
+  html body #app :is(${K})[data-wz] img.ep-kic{width:36px!important;height:36px!important}
+  html body #app .xsw-kachel[data-wz] .xsw-best{display:none!important}
+  html body #app .xseite .xmt-kachel .xmt-k2{flex-wrap:nowrap!important;white-space:nowrap!important;gap:4px!important}
+  html body #app .xseite .xmt-kachel .xmt-k2 > :last-child:not(.xmt-st){display:none!important}
+  html body #app .xseite .xmt-kachel .xmt-k2 .xmt-bar{flex:1 1 auto!important;min-width:0!important}
+}`;
   document.head.appendChild(c);
 })();
