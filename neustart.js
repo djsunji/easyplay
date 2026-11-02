@@ -1,17 +1,14 @@
 /* easyplay: neue, kompakte Startseite für den Computer (Entwurf A «Zwei grosse Türen»).
-   Zum Testen: easyplay.ch/?neu schaltet sie auf diesem Gerät ein, easyplay.ch/?alt wieder aus.
+   Seit 02.11. für alle am Computer die einzige Startseite (die alte Startseite aus startseite.js ist archiviert:
+   sie wird nur noch kurz gezeichnet und sofort ersetzt, ?neu/?alt gibt es nicht mehr).
    Oben zwei grosse Karten (Spielen mit Stufenwahl, Bibliothek mit Suche), darunter vier Kacheln
    (Entdecken, Thema der Woche, Duell, Truhe). Alles auf einem Bildschirm. In der App-Ansicht (Handy, iPad) aus. */
 (function(){
 "use strict";
 if(typeof window.renderHome !== "function") return;
 const SCHLUESSEL = "ep-neustart";
-try{
-  const q = location.search;
-  if(/[?&]neu\b/.test(q)) localStorage.setItem(SCHLUESSEL, "1");
-  if(/[?&]alt\b/.test(q)) localStorage.removeItem(SCHLUESSEL);
-}catch(e){}
-const an = () => { try{ return localStorage.getItem(SCHLUESSEL) === "1" && !document.body.classList.contains("ep-app") && !window.EP_NATIV; }catch(e){ return false; } };
+try{ localStorage.removeItem(SCHLUESSEL); }catch(e){}   /* früherer Test-Schalter ?neu/?alt, nicht mehr nötig */
+const an = () => { try{ return !document.body.classList.contains("ep-app") && !window.EP_NATIV; }catch(e){ return false; } };
 const h = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const zahl = n => { try{ return Number(n).toLocaleString("de-CH"); }catch(e){ return String(n); } };
 const K = "img/kacheln/", KIDS = "img/kids/";
@@ -264,7 +261,7 @@ window.renderHome = function(){
 /* Beim Verlassen der Startseite die breitere Seite wieder zurücksetzen */
 const vorRender = window.render;
 if(typeof vorRender === "function") window.render = function(){ const r = vorRender.apply(this, arguments); try{ if(S.screen !== "home"){ document.body.classList.remove("ep-neustart"); document.body.classList.remove("ep-np-wahl"); WAHL = false; } }catch(e){} return r; };
-window.EP_NEUSTART = { an, ein(){ try{ localStorage.setItem(SCHLUESSEL, "1"); }catch(e){} render(); }, aus(){ try{ localStorage.removeItem(SCHLUESSEL); }catch(e){} render(); } };
+window.EP_NEUSTART = { an };
 })();
 
 /* Unterseiten am Computer: weisser «Zurück»-Knopf über dem Kopf, führt eine Stufe zurück (Brotkrumen) */
