@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { sql, alsPerson } from "./db.js";
 import { personAusAnfrage, sitzungGueltig, anmeldeSperren } from "./auth.js";
-import { mailAn, mailSenden } from "./mail.js";
+import { mailAn, mailSenden, mailVorlage } from "./mail.js";
 
 const E = process.env;
 const START = new Date();
@@ -59,8 +59,8 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
     if (!mailAn()) return res.json(400, { code: "mail", message: "Mailversand ist nicht eingerichtet (SMTP_HOST und MAIL_FROM fehlen)." });
     if (!p.email) return res.json(400, { code: "mail", message: "Dein Konto hat keine E-Mail-Adresse." });
     try {
-      await mailSenden(p.email, "easyplay: Testmail aus der Verwaltung",
-        `Hallo!\n\nDiese Testmail kommt vom easyplay-Server (${E.PUBLIC_URL || "ohne PUBLIC_URL"}).\nWenn du sie liest, funktioniert der Mailversand.\n\nZeit: ${new Date().toLocaleString("de-CH", { timeZone: "Europe/Zurich" })}`);
+      const tt = `Hallo!\n\nDiese Testmail kommt vom easyplay-Server (${E.PUBLIC_URL || "ohne PUBLIC_URL"}).\nWenn du sie liest, funktioniert der Mailversand.\n\nZeit: ${new Date().toLocaleString("de-CH", { timeZone: "Europe/Zurich" })}`;
+      await mailSenden(p.email, "easyplay: Testmail aus der Verwaltung", tt, mailVorlage({ titel: "Testmail", text: tt }));
       await protokoll(p, "testmail", p.email);
       return res.json(200, { ok: true, an: p.email });
     } catch (e) { return res.json(502, { code: "mail", message: "Senden fehlgeschlagen: " + e.message }); }
@@ -111,9 +111,10 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
     if (!an.length) return res.json(400, { code: "an", message: "Keine Empfänger gefunden." });
     if (an.length > 500) return res.json(400, { code: "an", message: "Mehr als 500 Empfänger: bitte über einen Newsletter-Dienst verschicken." });
     const fuss = `\n\n--\nDiese Nachricht kommt von easyplay (${E.PUBLIC_URL || "easyplay.ch"}), weil Sie dort als Lehrperson registriert sind.`;
+    const html = mailVorlage({ titel: betreff, text, fuss: `Diese Nachricht kommt von easyplay, weil Sie dort als Lehrperson registriert sind.` });
     let ok = 0; const fehler = [];
     for (const mail of an) {
-      try { await mailSenden(mail, betreff, text + fuss); ok++; } catch (e) { fehler.push(mail); }
+      try { await mailSenden(mail, betreff, text + fuss, html); ok++; } catch (e) { fehler.push(mail); }
     }
     await protokoll(p, "rundmail", b.an === "ich" ? "Probe an mich" : `${ok} Lehrpersonen`, { betreff, gesendet: ok, fehler: fehler.length });
     return res.json(200, { ok: true, gesendet: ok, fehler });

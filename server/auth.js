@@ -3,7 +3,7 @@
 import { randomBytes, scrypt as scryptCb, createHash, createHmac, timingSafeEqual, createPrivateKey, sign as signieren } from "node:crypto";
 import { promisify } from "node:util";
 import { sql } from "./db.js";
-import { mailSenden, mailAn } from "./mail.js";
+import { mailSenden, mailAn, mailVorlage } from "./mail.js";
 
 const scrypt = promisify(scryptCb);
 const E = process.env;
@@ -130,14 +130,7 @@ function mitFehler(ziel, code, text) {
 
 /* ---------- Mails ---------- */
 function mailHtml(titel, text, knopf, link) {
-  const e = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  return `<!doctype html><html lang="de-CH"><body style="margin:0;background:#f3f0ff;font-family:Arial,Helvetica,sans-serif;color:#1d1640">
-<div style="max-width:520px;margin:0 auto;padding:28px 18px"><div style="background:#fff;border-radius:18px;padding:26px 24px">
-<h1 style="font-size:22px;margin:0 0 12px;color:#2B1466">${e(titel)}</h1><p style="font-size:16px;line-height:1.5;margin:0 0 20px">${e(text)}</p>
-<p style="margin:0 0 22px"><a href="${e(link)}" style="display:inline-block;background:#5B4BF5;color:#fff;text-decoration:none;font-weight:bold;padding:13px 22px;border-radius:12px">${e(knopf)}</a></p>
-<p style="font-size:13px;color:#6b6790;line-height:1.5;margin:0">Falls der Knopf nicht geht, kopiere diesen Link in den Browser:<br>${e(link)}</p>
-<p style="font-size:13px;color:#6b6790;line-height:1.5;margin:16px 0 0">Du hast das nicht angefordert? Dann kannst du diese Mail einfach löschen.</p>
-</div><p style="font-size:12px;color:#8a85ad;text-align:center;margin:14px 0 0">easyplay, spielend lernen</p></div></body></html>`;
+  return mailVorlage({ titel, text, knopf, link, klein: "Du hast das nicht angefordert? Dann kannst du diese Mail einfach löschen." });
 }
 async function bestaetigungSenden(u, ziel) {
   const code = zufall(32);
@@ -145,7 +138,7 @@ async function bestaetigungSenden(u, ziel) {
   const link = `${OEFFENTLICH()}/auth/v1/verify?type=signup&token=${code}&redirect_to=${encodeURIComponent(ziel)}`;
   await mailSenden(u.email, "easyplay: Bitte bestätige deine E-Mail-Adresse",
     `Hallo! Bitte bestätige deine E-Mail-Adresse für easyplay:\n\n${link}\n\nDer Link gilt 24 Stunden.`,
-    mailHtml("Willkommen bei easyplay!", "Bitte bestätige deine E-Mail-Adresse. Danach kannst du dich anmelden. Der Link gilt 24 Stunden.", "E-Mail bestätigen", link));
+    mailHtml("Willkommen bei easyplay!", "Bitte bestätige deine E-Mail-Adresse. Danach kannst du dich anmelden und losspielen. Der Link gilt 24 Stunden.", "E-Mail bestätigen", link));
 }
 async function wiederherstellungSenden(u, ziel) {
   const code = zufall(32);
