@@ -281,7 +281,7 @@ window.renderDuell = function(){
     ${du3Kopf()}
     <div class="du2">
       ${teamBox()}
-      <button type="button" class="du3-play" id="du3Play"><img src="img/grafik/diverse/play.webp?v=2" alt=""><span><b>${h(DU3_MODI[du3Modus()].los)}</b><small>${h(DU3_MODI[du3Modus()].text)}</small></span></button>
+      <button type="button" class="du3-play" id="du3Play"><img src="img/grafik/duell/play-symbol.webp" alt=""><span><b>${h(DU3_MODI[du3Modus()].los)}</b><small>${h(DU3_MODI[du3Modus()].text)}</small></span></button>
       <div class="du2-modi">
         <button type="button" class="du2-m online" id="duRandom"><span class="tag">Neu</span><span class="ic">🌐</span><span class="tx"><b>Online</b><small>${sp ? "Sucht ein Kind, das jetzt auch spielen will. Findet sich niemand, spielt Leni oder Ben." : "Spiel gegen Leni oder Ben. Mit Supabase gegen andere Kinder."}</small></span><span class="los">⚡ Gegner suchen</span></button>
         <button type="button" class="du2-m geraet" id="duSplit"><span class="ic">📱</span><span class="tx"><b>Auf einem Gerät</b><small>Zu zweit, Handy dazwischen, ohne Internet.</small></span><span class="los">⚔️ Starten</span></button>

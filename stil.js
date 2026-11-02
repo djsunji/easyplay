@@ -2561,11 +2561,11 @@ ${A} .du3-m.an{background:#fff;color:#2B1466;border-color:#FFE680;box-shadow:0 0
 ${A} .du3-m:focus-visible{outline:3px solid #FFE680;outline-offset:2px}
 ${A} .du3-kopf > img.du3-kids{grid-area:kids;position:static!important;align-self:end;height:170px;width:auto;max-width:none;margin:-60px -14px -34px 0;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));pointer-events:none}
 ${A} .du3-play{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:16px;width:min(560px,100%);margin:22px auto 18px;
-  min-height:112px;padding:0 44px;border:0 solid transparent;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 46px 76px stretch;
+  height:116px;padding:0 64px;border:0 solid transparent;border-image:url("img/grafik/duell/play-knopf.webp") 0 130 fill / 0 61px stretch;
   filter:drop-shadow(0 10px 16px rgba(160,90,0,.35));color:#5A2C00;text-align:left;animation:du3Puls 2.4s ease-in-out infinite}
-${A} .du3-play img{width:58px;height:58px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
-${A} .du3-play b{display:block;font:900 2rem/1 Fredoka,"Bricolage Grotesque",sans-serif;color:#5A2C00;text-shadow:0 1px 0 rgba(255,255,255,.55);letter-spacing:.01em}
-${A} .du3-play small{display:block;margin-top:4px;font:700 .85rem Lexend,sans-serif;color:#7A4300}
+${A} .du3-play img{width:72px;height:72px;margin-top:-6px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+${A} .du3-play b{display:block;font:900 2.1rem/1 Fredoka,"Bricolage Grotesque",sans-serif;color:#fff;text-shadow:0 3px 0 #B4400A,0 0 2px #B4400A,0 5px 10px rgba(120,40,0,.35);letter-spacing:.01em}
+${A} .du3-play small{display:block;margin-top:6px;font:700 .85rem Lexend,sans-serif;color:#fff;text-shadow:0 1px 2px rgba(120,40,0,.6)}
 ${A} .du3-play:hover{transform:translateY(-2px) scale(1.01)}
 ${A} .du3-play:active{transform:translateY(2px)}
 @keyframes du3Puls{0%,100%{filter:drop-shadow(0 10px 16px rgba(160,90,0,.35))}50%{filter:drop-shadow(0 10px 16px rgba(160,90,0,.35)) drop-shadow(0 0 16px rgba(255,214,60,.85))}}
@@ -2575,8 +2575,8 @@ ${A} .du3-play:active{transform:translateY(2px)}
   ${A} .du3-ic{width:46px;height:46px}${A} .du3-titel h1{font-size:1.8rem}
   ${A} .du3-elo{justify-self:stretch;min-width:0;padding:8px 12px}${A} .du3-zahl{font-size:1.5rem}
   ${A} .du3-modi{gap:6px}${A} .du3-m{flex-direction:column;gap:3px;padding:8px 4px;font-size:.78rem;text-align:center}${A} .du3-m img{width:28px;height:28px}
-  ${A} .du3-play{min-height:96px;gap:12px;padding:0 26px;border-image-width:38px 62px;margin:16px auto 12px}
-  ${A} .du3-play b{font-size:1.55rem}${A} .du3-play small{font-size:.72rem}${A} .du3-play img{width:44px;height:44px}
+  ${A} .du3-play{height:96px;gap:10px;padding:0 44px;border-image-width:0 50px;margin:16px auto 12px}
+  ${A} .du3-play b{font-size:1.55rem}${A} .du3-play small{font-size:.66rem}${A} .du3-play img{width:56px;height:56px}
 }
 ${A} .du2 details.du2-ein > summary{background:rgba(255,255,255,.93)!important;color:#2B1466!important;border:1.5px solid #fff!important;box-shadow:0 3px 0 rgba(40,20,100,.14),0 6px 14px rgba(40,20,100,.12)!important;text-shadow:none!important}
 ${A} .du2 details.du2-ein > summary *{color:#2B1466!important;text-shadow:none!important}
