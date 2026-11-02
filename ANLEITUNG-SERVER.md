@@ -38,6 +38,7 @@ Domain: im Reiter **Hosts** `easyplay.ch` und `www.easyplay.ch` eintragen (www l
 | `JWT_SECRET` | langer Zufallstext, mindestens 32 Zeichen (z. B. `openssl rand -base64 48`). Nie ändern, sonst sind alle abgemeldet. | ja |
 | `PUBLIC_URL` | die eigene Adresse, `https://easyplay.ch` | ja |
 | `SITE_URLS` | weitere Adressen, die zum Server dürfen, mit Komma, `https://www.easyplay.ch` | nein |
+| `APP_ZIELE` | App-Adressen, zu denen nach Google/Apple/Microsoft zurückgesprungen werden darf, mit Komma. Standard `qeels://auth` (Qeels-App) | nein |
 | `ADMIN_EMAIL` | E-Mail-Adresse(n) der Verwaltung, mit Komma. Sobald das Konto existiert, bekommt es beim nächsten Start Admin-Rechte. | ja |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Postausgang deines Mail-Anbieters (meist Port 587 oder 465) | für Mails |
 | `MAIL_FROM` | Absender, z. B. `easyplay <noreply@easyplay.ch>` | für Mails |

@@ -112,7 +112,10 @@ const gesperrt = u => u.banned_until && new Date(u.banned_until) > new Date();
 function erlaubteZiele() {
   return [OEFFENTLICH(), ...String(E.SITE_URLS || "").split(",")].map(x => x.trim().replace(/\/$/, "")).filter(Boolean);
 }
+/* Rücksprung in die Qeels-App nach Google, Apple oder Microsoft: nur genau diese App-Adressen (APP_ZIELE, mit Komma) */
+const appZiele = () => String(E.APP_ZIELE || "qeels://auth").split(",").map(x => x.trim()).filter(Boolean);
 export function zielPruefen(url) {
+  if (appZiele().includes(String(url || ""))) return String(url);
   const erlaubt = erlaubteZiele();
   try {
     const u = new URL(String(url || ""));
