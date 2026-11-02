@@ -748,6 +748,7 @@ function profilHTML(){
       ${S.canEdit ? zeile('data-m="werkstatt"', I.werkzeug, "Fragen-Werkstatt") : ""}
       <a href="impressum.html">${SV(I.info, 20)}<span>Impressum</span>${SV(I.pfeil, 18)}</a>
       <a href="datenschutz.html">${SV(I.schild, 20)}<span>Datenschutz</span>${SV(I.pfeil, 18)}</a>
+      <a href="/kontakt" data-kontakt>${SV(I.info, 20)}<span>Kontakt</span>${SV(I.pfeil, 18)}</a>
       ${p ? zeile('data-x="abmelden"', I.tuer, "Abmelden", "rot") : ""}
     </nav>
   </div>`;

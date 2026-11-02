@@ -16,7 +16,7 @@
     lib: "bibliothek", duell: "duell", profil: "profil", konto: "anmelden", login: "login", register: "registrieren",
     board: "rangliste", suche: "suche", meinetests: "meine-tests", live: "live", hardcore: "hardcore", hardcoreinfo: "hardcore/regeln",
     epwoche: "wochen-challenge", spielmodi: "spielmodi", historie: "verlauf", hcboard: "hardcore/rangliste", bibliothek: "fragen",
-    chat: "tagesquiz", duellgeraet: "duell/ein-geraet"
+    chat: "tagesquiz", kontakt: "kontakt", duellgeraet: "duell/ein-geraet"
   };
   const ZURUECK = {}; Object.keys(EINFACH).forEach(k => ZURUECK[EINFACH[k]] = k);
   /* kurzlebige Seiten bekommen die Adresse ihrer Eltern-Seite */

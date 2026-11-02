@@ -2570,7 +2570,7 @@ ${A} .du3-play{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align
 ${A} .du3-play img{width:72px;height:72px;margin-top:-6px;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
 ${A} .du3-play b{display:block;font:900 2.1rem/1 Fredoka,"Bricolage Grotesque",sans-serif;color:#fff;text-shadow:0 3px 0 #B4400A,0 0 2px #B4400A,0 5px 10px rgba(120,40,0,.35);letter-spacing:.01em}
 ${A} .du3-play small{display:block;margin-top:6px;font:700 .85rem Lexend,sans-serif;color:#fff;text-shadow:0 1px 2px rgba(120,40,0,.6)}
-${A} .du3-play:hover{transform:translateY(-2px) scale(1.01)}
+${A} .du3-play:hover{transform:translateY(-2px)}
 ${A} .du3-play:active{transform:translateY(2px)}
 @keyframes du3Puls{0%,100%{filter:drop-shadow(0 10px 16px rgba(160,90,0,.35))}50%{filter:drop-shadow(0 10px 16px rgba(160,90,0,.35)) drop-shadow(0 0 16px rgba(255,214,60,.85))}}
 @media (max-width:760px){
@@ -2764,7 +2764,7 @@ html body #app .ak-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 html body #app .ak-karte{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-height:270px;padding:6px 42% 10px 10px;
   border:0 solid transparent;border-width:22px;border-image:url("${E}kachel-01.webp?v=3") 46 fill / 22px stretch;color:#fff;filter:drop-shadow(0 12px 18px rgba(30,30,90,.3));transition:transform .2s,filter .2s;overflow:visible}
 html body #app .ak-karte.ak-reg{border-image-source:url("${E}kachel-05.webp?v=3")}
-html body #app .ak-karte:hover{transform:translateY(-5px) scale(1.015);filter:drop-shadow(0 18px 24px rgba(30,30,90,.35)) brightness(1.04)}
+html body #app .ak-karte:hover{transform:translateY(-5px);filter:drop-shadow(0 18px 24px rgba(30,30,90,.35)) brightness(1.04)}
 html body #app .ak-karte:focus-visible{outline:4px solid #FFE34D;outline-offset:6px}
 html body #app .ak-ic{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF7CF,#FFC93A 55%,#E58E0C);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 8px 14px rgba(0,0,0,.25)}
 html body #app .ak-ic img{width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
@@ -2798,6 +2798,7 @@ html body #app .authbox .authkopf h1{font-family:Fredoka,Lexend,system-ui,sans-s
 html body #app .authbox :is(input[type=email],input[type=password],input[type=text]){border-radius:18px!important;background:#F6F4FF!important;border-color:#E2DCFA!important}
 html body #app .authbox :is(input[type=email],input[type=password],input[type=text]):focus{border-color:#8A5BFF!important;box-shadow:0 0 0 4px rgba(138,91,255,.18)}
 html body #app .ak-zukid{width:120px;height:140px;object-fit:contain;margin:-40px auto 0;display:block;filter:drop-shadow(0 6px 8px rgba(40,20,100,.25));animation:akHuepf 3s ease-in-out infinite}
+/* Neun-Teile-Bilder (border-image) nie skalieren, sonst entstehen helle Striche an den Nahtstellen */
 /* Registrieren Schritt für Schritt */
 html body #app .regbox.ak-steps > .regsek{display:none!important;border-top:0!important;padding-top:8px}
 html body #app .regbox.ak-steps > .regsek.ak-jetzt{display:grid!important;animation:akEin .35s ease}

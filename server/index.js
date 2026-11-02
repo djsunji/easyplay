@@ -8,6 +8,7 @@ import { authAnfrage, personAusAnfrage, sitzungGueltig } from "./auth.js";
 import { rpcAnfrage, tabellenAnfrage } from "./rest.js";
 import { statischMacher } from "./statisch.js";
 import { adminAnfrage } from "./admin.js";
+import { kontaktAnfrage } from "./kontakt.js";
 
 const E = process.env;
 const WURZEL = E.STATIC_DIR || join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -82,6 +83,14 @@ const server = createServer(async (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       if (!BEREIT) return res.json(503, { ok: false, app: "easyplay", zustand: FEHLER ? "Datenbank-Fehler: " + FEHLER : "startet" });
       await sql`select 1`; return res.json(200, { ok: true, app: "easyplay" });
+    }
+    /* Kontaktformular (Website und App) */
+    if (req.pfad === "/api/kontakt") {
+      const o = req.headers.origin;
+      if (o && herkunftErlaubt(o)) { res.setHeader("Access-Control-Allow-Origin", o); res.setHeader("Vary", "Origin"); res.setHeader("Access-Control-Allow-Headers", "content-type"); res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); }
+      if (req.method === "OPTIONS") return res.leer(o && herkunftErlaubt(o) ? 204 : 403);
+      if (req.method === "POST" && o && !herkunftErlaubt(o)) return res.json(403, { message: "Nicht erlaubt" });
+      return await kontaktAnfrage(req, res);
     }
     if (!BEREIT && (req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/"))) return res.json(503, { code: "503", message: "Der Server startet noch" });
     if (req.pfad.startsWith("/api/admin/")) {
