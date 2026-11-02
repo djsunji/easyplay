@@ -134,6 +134,14 @@ html body.ep-app .ap-karu .ap-held.hs-werbung .spw-ecke{position:absolute;right:
 html body.ep-app .ap-karu .ap-held.hs-werbung-leer>img.hs-kid{transform:scaleX(-1)}
 html body.ep-app .ap-karu .ap-held.hs-werbung h1.aph-klein{font-size:clamp(17px,4.6vw,24px)!important;line-height:1.12!important;white-space:normal!important}
 @media (prefers-color-scheme:dark){.spw-leiste{background:rgba(255,255,255,.88)}}
+/* Fuss am Computer: weisses Band über die ganze Breite, oben weich aus der Landschaft eingeblendet (Dejans Wunsch, auch abends) */
+html body:not(.ep-app){overflow-x:clip}
+html body:not(.ep-app) footer.eplegal{position:relative;z-index:2;isolation:isolate;padding-top:96px!important;padding-bottom:30px!important;margin-bottom:0!important}
+html body:not(.ep-app) footer.eplegal::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.55) 40px,rgba(255,255,255,.9) 76px,#fff 104px)}
+html body:not(.ep-app) footer.eplegal>a{background:none!important;color:#4A4560!important;opacity:1!important;box-shadow:none!important}
+html body:not(.ep-app) footer.eplegal>a:hover{color:#2A1052!important}
+html body:not(.ep-app) footer.eplegal .spw-leiste{background:#fff;box-shadow:0 4px 18px rgba(42,16,82,.12)}
 `;
   document.head.appendChild(css);
 })();
