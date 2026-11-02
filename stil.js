@@ -1011,6 +1011,28 @@ ${N} #alpen,${N} #himmel,${N} #flocken,${N} #clouds,${N} #pattern{display:none!i
 document.head.appendChild(c);
 })();
 
+/* ===== Dejans gemalte Hintergründe (Einstellungen › Hintergrund, ids «b-…», Bilder img/hg/bild-<name>.webp) ===== */
+(function(){ if(document.getElementById("bgbild")) return;
+const NAMEN = ["sommerwiese","bergsee","herbst","winter","dorf","wolkenmeer","sternennacht","pastell"];
+const L = document.createElement("div"); L.id = "bgbild"; L.setAttribute("aria-hidden", "true");
+(document.body || document.documentElement).appendChild(L);
+const B = ':root[data-bg^="b-"]';
+const c = document.createElement("style"); c.id = "ep-bgbild-css";
+c.textContent = `
+#bgbild{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;background:#9FC8F5 center bottom/cover no-repeat}
+${B} #bgbild{display:block}
+${B} #alpen,${B} #himmel,${B} #flocken,${B} #clouds,${B} #pattern,${B} #bgneu{display:none!important}
+${B} body,${B} body.dark{background:#9FC8F5!important;background-image:none!important}
+/* dunkler Modus: Bild abdunkeln, damit helle Schrift lesbar bleibt (Sternennacht ist schon dunkel) */
+#bgbild::after{content:"";position:absolute;inset:0;background:rgba(14,18,48,.5);opacity:0;transition:opacity .6s}
+${B} body.dark #bgbild::after{opacity:1}
+:root[data-bg="b-sternennacht"] body.dark #bgbild::after{opacity:.15}
+${NAMEN.map(n => `:root[data-bg="b-${n}"] #bgbild{background-image:url("img/hg/bild-${n}.webp")}
+.prev-b-${n}{background:url("img/hg/bild-${n}-klein.webp") center bottom/cover no-repeat,#9FC8F5}`).join("\n")}
+`;
+document.head.appendChild(c);
+})();
+
 /* ================= Quiz-Knöpfe als farbige Pillen mit Symbol (Dejans Bilder, img/grafik/neu/knopf-*-symbol.webp) ================= */
 (function(){
 // Die Bilder haben das Symbol schon drin: ganzes Bild als Hintergrund, Text und kleines Symbol ausblenden (bleibt für Vorleser lesbar).
