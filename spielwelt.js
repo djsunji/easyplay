@@ -252,7 +252,7 @@ function bildHTML(){
     ${beantwortet ? `<div class="xsw-rueck ${gut ? "gut" : "naja"}"><span>${gut ? `Richtig, das ist <b>${h(e.t)}</b>!` : `Das ist: <b>${h(e.t)}</b>`} <small>(${h(e.kt)})</small></span>${weiterKnopf()}</div>` : ""}
     <div class="xsw-optionen" role="group" aria-label="Antworten">${A.opts.map((o, i) => {
       let cls = ""; if(beantwortet){ if(o === e.t) cls = " richtig"; else if(i === A.wahl) cls = " falsch"; }
-      return `<button type="button" class="xsw-opt${cls}" data-opt="${i}" ${beantwortet ? "disabled" : ""} ${i === 0 && !beantwortet ? "data-fokus" : ""}>${h(o)}</button>`; }).join("")}</div>`;
+      return `<button type="button" class="xsw-opt${cls}" data-opt="${i}" ${beantwortet ? "disabled" : ""} ${i === 0 && !beantwortet ? "data-fokus" : ""}><span class="xsw-key" aria-hidden="true">${"ABCD"[i] || ""}</span><span class="xsw-otx">${h(o)}</span></button>`; }).join("")}</div>`;
 }
 function bindeBild(){
   const A = SP.bild && SP.bild.akt; if(!A) return;

@@ -1551,6 +1551,13 @@ ${P} .xsw-opt{--ah:62px;--ab:url("img/qeels-antwort-a.webp");min-height:var(--ah
 ${P} .xsw-opt:nth-child(4n+2){--ab:url("img/qeels-antwort-b.webp")}
 ${P} .xsw-opt:nth-child(4n+3){--ab:url("img/qeels-antwort-c.webp")}
 ${P} .xsw-opt:nth-child(4n+4){--ab:url("img/qeels-antwort-d.webp")}
+${P} .xsw-opt:has(.xsw-key){--ak:url("img/qeels-antwort-a-knopf.webp");display:flex!important;align-items:center;gap:10px;text-align:left!important}
+${P} .xsw-opt:nth-child(4n+2):has(.xsw-key){--ak:url("img/qeels-antwort-b-knopf.webp")}
+${P} .xsw-opt:nth-child(4n+3):has(.xsw-key){--ak:url("img/qeels-antwort-c-knopf.webp")}
+${P} .xsw-opt:nth-child(4n+4):has(.xsw-key){--ak:url("img/qeels-antwort-d-knopf.webp")}
+${P} .xsw-key{flex:none;width:calc(var(--ah)*.8);height:calc(var(--ah)*.8);margin:calc(var(--ah)*-.3) 0 calc(var(--ah)*-.3) calc(var(--ah)*-.42);background:center/contain no-repeat var(--ak);border-radius:50%;color:transparent;font-size:0}
+${P} .xsw-otx{flex:1;min-width:0;overflow-wrap:normal;word-break:normal;hyphens:auto;-webkit-hyphens:auto;line-height:1.15}
+@media (max-width:480px){${P} .xsw-opt:has(.xsw-key){font-size:.95rem!important;gap:7px}}
 ${P} .xsw-opt:hover:not([disabled]){filter:brightness(1.08) drop-shadow(0 8px 14px rgba(0,0,0,.3));transform:translateY(-2px)}
 ${P} .xsw-opt[disabled]:not(.richtig):not(.falsch){opacity:1;filter:grayscale(.7) brightness(.9) drop-shadow(0 3px 6px rgba(0,0,0,.2))}
 ${P} .xsw-rueck{background:rgba(255,255,255,.95)!important;color:#2A1F5C!important;border:3px solid #fff;border-left:8px solid #E0344F!important;border-radius:22px!important;box-shadow:0 10px 22px rgba(40,30,120,.2)!important}
