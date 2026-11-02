@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-02-27";
+window.EP_BUILD="ep-2026-11-02-28";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6191,7 +6191,15 @@ const HINTERGRUENDE = [
   {id:"muster", emo:"✏️", name:"Lern-Muster", text:"Verspielt wie ein Schulheft"},
   {id:"unterwasser", emo:"🐠", name:"Unterwasser", text:"Blubberblasen, Seegras und Sand"},
   {id:"baender", emo:"🎀", name:"Farbbänder", text:"Sanft wogende Farbstreifen"},
-  {id:"formen", emo:"🔷", name:"Formen-Muster", text:"Kreise, Sterne und Wellen"}
+  {id:"formen", emo:"🔷", name:"Formen-Muster", text:"Kreise, Sterne und Wellen"},
+  {id:"b-sommerwiese", emo:"🌼", name:"Sommerwiese", text:"Alpwiese mit Chalet und Blumen"},
+  {id:"b-bergsee", emo:"🏞️", name:"Bergsee", text:"Türkiser See mit Steg"},
+  {id:"b-herbst", emo:"🍁", name:"Herbst", text:"Goldene Lärchen und Wanderweg"},
+  {id:"b-winter", emo:"⛄", name:"Winter", text:"Schnee, Tannen und warmes Chalet"},
+  {id:"b-dorf", emo:"⛲", name:"Schweizer Dorf", text:"Brunnen, Kirchturm und Berge"},
+  {id:"b-wolkenmeer", emo:"🎈", name:"Wolkenmeer", text:"Sonnenaufgang über den Wolken"},
+  {id:"b-sternennacht", emo:"🌌", name:"Sternennacht", text:"Milchstrasse über der Alp"},
+  {id:"b-pastell", emo:"🎨", name:"Pastell", text:"Ruhige Farben und sanfte Berge"}
 ];
 function segRow(name, opts, cur){ return `<div class="segs setsegs" role="radiogroup" aria-label="${esc(name)}">${opts.map(([v,l])=>`<button type="button" role="radio" class="seg" data-v="${v}" aria-checked="${cur===v}" aria-pressed="${cur===v}">${l}</button>`).join("")}</div>`; }
 function einstellungenHTML(){
