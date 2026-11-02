@@ -76,7 +76,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-01-52";
+window.EP_BUILD="ep-2026-11-02-01";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -7276,7 +7276,7 @@ function renderLibBuch(){
   $("#app").innerHTML = `${crumbs()}
     <div class="offen zbo" data-buch="${B.id}" style="--bf:${B.farbe};--bf2:${B.farbe2}">
       ${zSchmuck()}
-      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne">${zRunen("mkpfad")}<img class="mbild" src="img/grafik/buecher/${B.id}.webp?v=1" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
+      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne">${zRunen("mkpfad")}<img class="mbild" src="img/grafik/buecher/${B.id}.webp?v=2" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
         <p class="libdesc">${esc(B.desc ? B.desc : B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
         <p class="bstat"><span class="siegel"><b>${D.seiten.length.toLocaleString("de-CH")}</b>Seiten</span><span class="siegel"><b>${D.kap.length}</b>Kapitel</span></p>
         ${suchfeldHTML("buchSuche", LIB.q, "🔎 In diesem Buch suchen …")}
