@@ -2183,3 +2183,51 @@ ${P}[data-af] .apb-kopf b,${P}[data-af] .apb-kopf small{text-shadow:0 2px 4px rg
   new MutationObserver(bald).observe(document.body, {childList:true, subtree:true});
   addEventListener("resize", bald);
 })();
+
+/* ===== Startseite Handy/iPad: Karussell oben im neuen Glanz-Stil (Dejans Glanz-Kacheln, Goldmünze als Symbol,
+   goldener Grafik-Knopf, goldene Punkte, Funkeln). Farbe je Folie in Liste FARBE. ===== */
+(function(){
+  const E = "img/grafik/entdecken/", G = "img/grafik/", P = "html body.ep-app .ap-karu .ap-held";
+  const FARBE = {"hs-start":"kopf.webp?v=1", "hs-forscher":"kachel-04.webp?v=3", "hs-x":"kachel-06.webp?v=3", "hs-lib1":"kachel-03.webp?v=3",
+    "hs-lib2":"kachel-12.webp?v=3", "hs-tq":"kachel-01.webp?v=3", "hs-live":"kachel-05.webp?v=3", "hs-duell":"kachel-02.webp?v=3", "hs-wdh":"kachel-11.webp?v=3"};
+  const c = document.createElement("style"); c.id = "ep-karussell-css";
+  c.textContent = `
+${P}{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;border-width:26px!important;
+  border-image:url("${E}kachel-06.webp?v=3") 46 fill / 26px stretch!important;padding:0 2px!important;box-sizing:border-box!important;filter:none!important}
+${P}::before{display:none!important}
+${P}::after{display:none!important}
+${Object.entries(FARBE).map(([k, f]) => `${P}.${k}{border-image-source:url("${E}${f}")!important}`).join("\n")}
+${P}.hs-start{border-image-slice:50 fill!important}
+${P} .apht{gap:6px!important}
+${P} h1{text-shadow:0 3px 0 rgba(20,8,60,.25),0 0 18px rgba(255,255,255,.25)!important}
+${P} .aphoi{font:800 13px/1.1 Lexend,system-ui,sans-serif!important;color:#FFE9A8!important;letter-spacing:.01em;white-space:normal;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+${P} .aph-ic{width:34px!important;height:34px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD34D 45%,#E59A12 100%)!important;
+  box-shadow:0 0 0 2px #FFF3C2,0 4px 8px rgba(80,40,0,.35),0 0 14px rgba(255,214,110,.7)!important;font-size:18px!important}
+${P} .aph-ic{flex:none!important;overflow:visible!important;line-height:0!important;padding:0!important}
+${P} .aphoi{overflow:visible!important;padding:4px 0 4px 4px!important;margin:-4px 0 -4px -4px!important;contain:none!important}
+${P} .apht{overflow:visible!important;contain:none!important}
+${P} .aph-ic img,${P} .aph-ic .ic img{width:22px!important;height:22px!important;max-width:none!important;object-fit:contain!important;margin:0!important;transform:none!important;position:static!important}
+${P} .aph-ic .ic{display:grid!important;place-items:center!important;width:22px!important;height:22px!important;margin:0!important;padding:0!important;background:none!important;box-shadow:none!important;border:0!important;overflow:visible!important}
+${P} .apzahlen{color:rgba(255,255,255,.95)!important;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+${P} .ap-weissbtn{all:unset;box-sizing:border-box!important;display:inline-flex!important;align-items:center;justify-content:center;gap:6px;height:46px!important;padding:0 8px!important;
+  margin-top:auto!important;cursor:pointer;border:0 solid transparent!important;border-width:13px 22px!important;border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 13px 22px stretch!important;
+  color:#3A1C00!important;font:800 15px/1 Fredoka,Lexend,system-ui,sans-serif!important;white-space:nowrap;filter:drop-shadow(0 4px 5px rgba(120,70,0,.3));align-self:flex-start}
+${P} .ap-weissbtn svg{width:15px;height:15px;color:#3A1C00}
+${P} .apht{position:relative;z-index:4!important;overflow:visible!important}
+${P} .ap-weissbtn{max-width:none!important;flex:none!important;width:auto!important;min-width:max-content!important}
+${P} .ap-weissbtn img{width:20px!important;height:20px!important}
+${P} .ap-weissbtn:active{transform:scale(.96)}
+${P} .ep-funkel{position:absolute;z-index:3;pointer-events:none;color:#FFF3C2;text-shadow:0 0 8px #FFD34D,0 0 14px rgba(255,214,110,.8);animation:epFunkel 2.6s ease-in-out infinite}
+@keyframes epFunkel{0%,100%{opacity:.15;transform:scale(.6) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(25deg)}}
+html body.ep-app .ap-karu-punkte i{background:rgba(255,255,255,.45)!important;box-shadow:none!important}
+html body.ep-app .ap-karu-punkte i.an{background:linear-gradient(90deg,#FFE680,#FFB000)!important;box-shadow:0 0 8px rgba(255,200,60,.8)!important}
+@media (prefers-reduced-motion: reduce){${P} .ep-funkel{animation:none}}
+@media (max-width:380px){${P} .ap-weissbtn{height:40px!important;font-size:13px!important;border-width:11px 18px!important;border-image-width:11px 18px!important}}`;
+  document.head.appendChild(c);
+  /* drei kleine Funkelsterne pro Folie */
+  function funkeln(){ document.querySelectorAll("body.ep-app .ap-karu .ap-held").forEach(s => { if(s.querySelector(".ep-funkel")) return;
+    [["8%","58%","14px","0s"],["30%","88%","10px",".9s"],["74%","50%","12px","1.7s"]].forEach(([t, l, f, d]) => {
+      const i = document.createElement("i"); i.className = "ep-funkel"; i.textContent = "✦"; i.setAttribute("aria-hidden", "true");
+      i.style.cssText = `top:${t};left:${l};font-size:${f};animation-delay:${d}`; s.appendChild(i); }); }); }
+  let tm; new MutationObserver(() => { clearTimeout(tm); tm = setTimeout(funkeln, 80); }).observe(document.body, {childList:true, subtree:true});
+})();
