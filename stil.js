@@ -3001,3 +3001,16 @@ html body.ep-app #app .ap-profil3 .ap-pk .apb{background:rgba(255,255,255,.92);b
 html body.ep-app #app .ap-profil3 .ap-psubkopf b{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.45)}`;
   document.head.appendChild(c);
 })();
+
+/* ===== App-Ansicht Profil-Tab abgemeldet: Anmelden und Registrieren untereinander (Dejan) ===== */
+(function(){ const c = document.createElement("style"); c.id = "ep-appprofil5-css";
+c.textContent = `
+html body.ep-app #app .ap-profil3 .ap-akgrid{grid-template-columns:1fr!important;gap:12px!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte{min-height:170px!important;padding:6px 44% 6px 8px!important;align-items:flex-start!important;text-align:left!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte b{font-size:1.6rem!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte small{font-size:.9rem!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-ic{width:48px!important;height:48px!important}html body.ep-app #app .ap-profil3 .ap-akgrid .ak-ic img{width:30px!important;height:30px!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-los{height:44px!important;font-size:.95rem!important;padding:0 10px!important;margin-top:8px!important}
+html body.ep-app #app .ap-profil3 .ap-akgrid .ak-kid{max-width:42%!important;height:calc(100% + 26px)!important;bottom:-18px!important;right:4px!important}
+@media (min-width:700px){html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte{min-height:230px!important}html body.ep-app #app .ap-profil3 .ap-akgrid .ak-karte b{font-size:2.2rem!important}}`;
+document.head.appendChild(c); })();

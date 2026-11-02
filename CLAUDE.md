@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad abgemeldet: Kacheln Anmelden und Registrieren untereinander statt nebeneinander, grösser (Block «… Anmelden und Registrieren untereinander» am Ende von `stil.js`). Kein App-Bau. Version ep-2026-11-02-44.
 - 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad abgemeldet: Serie, Level und Abzeichen ausgeblendet, nur noch Anmelden/Registrieren (`profilHTML` in `app.js`). Kein App-Bau. Version ep-2026-11-02-43.
 - 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad: Menü-Knöpfe darunter ganz entfernt (Dejans Wunsch), nur noch Kopf (bzw. Anmelden/Registrieren) und die drei Zahlen; `profilHTML` in `app.js` baut `karte` noch, setzt sie aber nicht mehr ein. Kein App-Bau. Version ep-2026-11-02-42.
 - 02.11. Sitzung «Hauptseite»: Profil-Tab Handy/iPad ohne weisse Karte (Dejans Wunsch): die Menüknöpfe sind einzelne Glanz-Kacheln in wechselnden Farben direkt auf dem Hintergrund, Abmelden rot, Symbole in weissem Kreis. Block «App-Ansicht Profil-Tab: ohne weisse Karte» am Ende von `stil.js`. Kein App-Bau. Version ep-2026-11-02-41.
