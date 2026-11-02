@@ -2633,3 +2633,55 @@ html body #app .xseite .xf-ab img.ep-kic{width:40px!important;height:40px!import
 }`;
   document.head.appendChild(c);
 })();
+
+/* ===== Entdecken-Kacheln: Titel so gross wie möglich, ohne Abschneiden und ohne Trennstrich.
+   passe() startet bei der Höchstgrösse und verkleinert, bis der Titel in der Kachel Platz hat (kein Wort ragt hinaus,
+   höchstens 3 Zeilen). Danach bekommen alle Titel einer Kachelgruppe die gleiche (kleinste) Grösse. ===== */
+(function(){
+  const MIN = 11;
+  const MAX = el => el.closest(".xf-ab") ? (innerWidth <= 700 ? 13 : 15) : (innerWidth <= 700 ? 22 : 30);
+  function passe(el){
+    try{
+      const k = el.closest("[data-wz]") || el.parentElement; if(!k || !k.clientWidth) return 0;
+      const cs = getComputedStyle(k), r = k.getBoundingClientRect();
+      const rechts = r.right - (parseFloat(cs.borderRightWidth) || 0) - (parseFloat(cs.paddingRight) || 0) + 2;
+      let s = MAX(el); const setz = () => el.style.setProperty("font-size", s + "px", "important"); setz();
+      const zu = () => { const e = el.getBoundingClientRect(); return el.scrollWidth > el.clientWidth + 1 || e.right > rechts || e.height > s * 1.12 * 3 + 2; };
+      const min = el.closest(".xf-ab") ? 8 : MIN; let n = 0; while(zu() && s > min && n++ < 40){ s -= 1; setz(); }
+      return s;
+    }catch(e){ return 0; }
+  }
+  function alle(){
+    document.querySelectorAll("#app .xseite .xf-ab > small").forEach(x => x.classList.add("ep-kti"));
+    const gr = new Map();
+    document.querySelectorAll("#app .xseite .ep-kti, #app .x-kacheln .ep-kti").forEach(el => {
+      /* Bindestrich nie als Trennstelle: geschützter Bindestrich, weiche Trennstellen weg */
+      const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n;
+      while((n = tw.nextNode())) if(/[-\u00AD]/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/\u00AD/g, "").replace(/-/g, "\u2011");
+      const s = passe(el); if(!s || el.closest(".xf-ab")) return;
+      const k = el.closest("[data-wz]") || el.parentElement, p = k && k.parentElement; if(!p) return;
+      const g = gr.get(p) || []; g.push([el, s]); gr.set(p, g); });
+    gr.forEach(g => { const m = Math.min(...g.map(x => x[1])); g.forEach(([el]) => el.style.setProperty("font-size", m + "px", "important")); });
+  }
+  let t = 0, t2 = 0; const plan = () => { clearTimeout(t); clearTimeout(t2); t = setTimeout(alle, 80); t2 = setTimeout(alle, 900); };
+  const app = document.getElementById("app");
+  if(app) new MutationObserver(m => { if(m.some(x => [...x.addedNodes].some(n => n.nodeType === 1 && !n.classList.contains("ep-wzbox")))) plan(); }).observe(app, {childList:true, subtree:true});
+  addEventListener("resize", plan); if(document.fonts) document.fonts.ready.then(plan);
+  const K = ".x-kachel,.wdh-karte,.spr-thema,.spr-sp,.spr-modus,.spr-wdh,.xmt-kachel,.xsw-kachel,.xf-karte,.xfo-karte,.xfo-kat,.xs-stueck,.xs-fxk,.hlf-k,.xel-kpi,.xof-karte,.xui-karte,.fq-karte,.xel-karte";
+  const c = document.createElement("style"); c.id = "ep-kti-fit-css";
+  c.textContent = `html body #app .ep-kti.ep-kti{display:block!important;max-width:100%!important;min-width:0!important;line-height:1.12!important;hyphens:none!important;-webkit-hyphens:none!important;
+  overflow-wrap:normal!important;word-break:normal!important;white-space:normal!important;overflow:visible!important;font-weight:800!important}
+html body #app [data-wz],html body #app [data-wz] *:has(> .ep-kti){min-width:0!important}
+html body #app .xseite .xmt-kachel .xmt-k1{padding-right:0!important;flex-direction:column!important;align-items:flex-start!important;gap:6px!important}
+html body #app .xseite .xmt-kachel .xmt-k1 > .ep-kti{width:100%!important}
+html body #app .xseite .xfo-karte.xfo-karte{flex-direction:column!important;align-items:flex-start!important;gap:6px!important}
+html body #app .xseite .xfo-karte .xfo-k-tx{width:100%!important;min-width:0!important}
+html body #app .xseite .xs-stueck.xs-stueck{flex-wrap:wrap!important;align-items:center!important;row-gap:6px!important;position:relative}
+html body #app .xseite .xs-stueck .xs-txt{flex:1 1 100%!important;order:3;min-width:0!important;width:100%!important}
+html body #app .xseite .xs-stueck .xs-play{margin-left:auto!important;order:2}
+html body #app .xseite .xs-stueck .xs-emo{order:1}
+html body #app .xseite .xmt-kachel .xmt-k1 > .ep-kti{flex:1 1 auto!important}
+html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti){font-size:1rem!important;line-height:1.3!important;hyphens:none!important;overflow-wrap:normal!important}
+@media (max-width:700px){html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti){font-size:.84rem!important}}`;
+  document.head.appendChild(c);
+})();
