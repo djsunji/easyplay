@@ -55,8 +55,13 @@ export function statischMacher(wurzel) {
     if (rel === "" || rel.endsWith("/")) rel += "index.html";
     rel = normalize(rel).split(sep).join("/");
     if (rel.startsWith("..") || GESPERRT.test(rel)) return false;
-    const pfad = join(wurzel, rel);
-    let st; try { st = await stat(pfad); } catch (e) { return false; }
+    let pfad = join(wurzel, rel);
+    let st; try { st = await stat(pfad); } catch (e) {
+      /* Adressen der Website wie /bibliothek/natur/loewe (adresse.js): ohne Dateiendung die Startseite ausliefern */
+      if (/\.[a-z0-9]{1,6}$/i.test(rel) || /^(qeels|qeels-ch|admin|lehrer|api|auth|rest)(\/|$)/.test(rel)) return false;
+      rel = "index.html"; pfad = join(wurzel, rel);
+      try { st = await stat(pfad); } catch (e2) { return false; }
+    }
     if (st.isDirectory()) { res.weiter("/" + rel.replace(/^\/+/, "") + "/" + (req.suche || "")); return true; }
     const ext = extname(rel).toLowerCase();
     const etag = st.size <= 8 * 1024 * 1024 ? await inhaltsEtag(pfad, st) : `W/"${st.size.toString(36)}-${Math.floor(st.mtimeMs).toString(36)}"`;

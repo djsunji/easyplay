@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-11-02-25";
+const VERSION = "ep-2026-11-02-26";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 // Bilder in einem festen Speicher: überlebt Updates (nur bilder/, img/, flags/), wird täglich still geprüft
 const CACHE_BILDER = "ep-bilder";
@@ -23,7 +23,7 @@ const HUELLE = [
   "level.js",
   "hinweis.js",
   "startseite.js",
-  "app.js", "stil.js", "neustart.js", "appfein.js", "quizstil.js", "duellgeraet.js", "img/app2/entdecken.webp", "img/app2/th-welt.webp", "img/app2/th-natur.webp", "img/app2/th-schweiz.webp", "img/app2/th-alltag.webp", "img/app2/th-mix.webp", "img/app2/th-lib.webp", "img/app2/ic-wuerfel.webp", "img/app2/ic-buch.webp", "img/kacheln/tag-grund.webp", "img/kacheln/tag-symbol.webp", "img/kacheln/serie-grund.webp", "img/kacheln/serie-symbol.webp", "img/kacheln/level-grund.webp", "img/kacheln/level-symbol.webp", "img/kacheln/live-grund.webp", "img/kacheln/live-symbol.webp", "img/kacheln/abzeichen-grund.webp", "img/kacheln/abzeichen-symbol.webp", "img/kacheln/wissen-grund.webp", "img/kacheln/wissen-symbol.webp", "img/kacheln/fehler-grund.webp", "img/kacheln/fehler-symbol.webp", "img/kacheln/truhe-grund.webp", "img/kacheln/truhe-symbol.webp", "img/kacheln/anmelden.webp", "img/kacheln/ton.webp", "img/kacheln/menue.webp", "img/kacheln/qeels.webp", "img/kacheln/sprache-de.webp", "img/kacheln/bereich-welt.webp", "img/kacheln/bereich-natur.webp", "img/kacheln/bereich-geld.webp", "img/kacheln/bereich-alltag.webp", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "hilfen.js", "mathe.js", "sprachen.js", "familie.js", "forscher.js", "eltern.js", "offline.js", "i18n.js", "regionen.js", "online.js", "img/logo.webp", "img/kinder.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
+  "app.js", "stil.js", "neustart.js", "appfein.js", "quizstil.js", "duellgeraet.js", "adresse.js", "img/app2/entdecken.webp", "img/app2/th-welt.webp", "img/app2/th-natur.webp", "img/app2/th-schweiz.webp", "img/app2/th-alltag.webp", "img/app2/th-mix.webp", "img/app2/th-lib.webp", "img/app2/ic-wuerfel.webp", "img/app2/ic-buch.webp", "img/kacheln/tag-grund.webp", "img/kacheln/tag-symbol.webp", "img/kacheln/serie-grund.webp", "img/kacheln/serie-symbol.webp", "img/kacheln/level-grund.webp", "img/kacheln/level-symbol.webp", "img/kacheln/live-grund.webp", "img/kacheln/live-symbol.webp", "img/kacheln/abzeichen-grund.webp", "img/kacheln/abzeichen-symbol.webp", "img/kacheln/wissen-grund.webp", "img/kacheln/wissen-symbol.webp", "img/kacheln/fehler-grund.webp", "img/kacheln/fehler-symbol.webp", "img/kacheln/truhe-grund.webp", "img/kacheln/truhe-symbol.webp", "img/kacheln/anmelden.webp", "img/kacheln/ton.webp", "img/kacheln/menue.webp", "img/kacheln/qeels.webp", "img/kacheln/sprache-de.webp", "img/kacheln/bereich-welt.webp", "img/kacheln/bereich-natur.webp", "img/kacheln/bereich-geld.webp", "img/kacheln/bereich-alltag.webp", "duell2.js", "extras.js", "sound.js", "karte.js", "album.js", "garderobe.js", "abenteuer.js", "spielwelt.js", "truhe.js", "feste.js", "hilfen.js", "mathe.js", "sprachen.js", "familie.js", "forscher.js", "eltern.js", "offline.js", "i18n.js", "regionen.js", "online.js", "img/logo.webp", "img/kinder.webp", "img/kids/leni.webp", "img/kids/ben.webp", "img/kids/lb-jubel.webp", "img/kids/lb-schock.webp", "img/kids/lb-daumen.webp", "img/kids/lb-denken.webp", "img/kids/lb-sitzen.webp",
   "img/kids/duo-jubel.webp",
   "img/kids/duo-winken.webp",
   "img/kids/duo-bereit.webp",
@@ -228,6 +228,12 @@ async function seiteSpeichern(antwort) {
   }
 }
 
+// Adressen der Website wie /bibliothek/natur/… (adresse.js): keine Datei, sondern die Startseite
+function istSeitenAdresse(pfad, basis) {
+  if (!pfad.startsWith(basis)) return false;
+  const rest = pfad.slice(basis.length);
+  return !!rest && !/\.[a-z0-9]{1,6}$/i.test(rest) && !/^(qeels|qeels-ch|admin|lehrer|api|auth|rest)(\/|$)/.test(rest);
+}
 // Seiten: zuerst Netz, sonst gespeicherte Seite (Hülle oder Offline-Paket), sonst freundliche Offline-Seite
 async function netzZuerst(event) {
   try {
@@ -236,13 +242,13 @@ async function netzZuerst(event) {
     catch (e1) { antwort = await fetch(event.request); }
     const pfad = new URL(event.request.url).pathname, basis = new URL("./", self.location.href).pathname;
     if (speicherbar(antwort)) {
-      if (pfad === basis || pfad === basis + "index.html") event.waitUntil(seiteSpeichern(antwort.clone()).catch(() => null));
+      if (pfad === basis || pfad === basis + "index.html" || istSeitenAdresse(pfad, basis)) event.waitUntil(seiteSpeichern(antwort.clone()).catch(() => null));
       else event.waitUntil(caches.open(CACHE_HUELLE).then((c) => c.put(schluessel(event.request.url), antwort.clone())).catch(() => null));   // z. B. qeels/ unter eigenem Namen
     }
     return antwort;
   } catch (e) {
     const pfad = new URL(event.request.url).pathname, basis = new URL("./", self.location.href).pathname;
-    const startseite = pfad === basis || pfad === basis + "index.html";
+    const startseite = pfad === basis || pfad === basis + "index.html" || istSeitenAdresse(pfad, basis);
     const t = (await finde(event.request, [CACHE_HUELLE]))
       || (startseite ? (await finde("./", [CACHE_HUELLE])) || (await finde("index.html", [CACHE_HUELLE])) : null);
     if (t) return t.antwort;
