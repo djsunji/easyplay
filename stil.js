@@ -2230,3 +2230,43 @@ html body.ep-app .ap-karu-punkte i.an{background:linear-gradient(90deg,#FFE680,#
       i.style.cssText = `top:${t};left:${l};font-size:${f};animation-delay:${d}`; s.appendChild(i); }); }); }
   let tm; new MutationObserver(() => { clearTimeout(tm); tm = setTimeout(funkeln, 80); }).observe(document.body, {childList:true, subtree:true});
 })();
+
+/* ===== Entdecken-Unterseiten: alle übrigen alten Knöpfe im neuen Stil.
+   Hauptknöpfe = goldener Grafik-Knopf, Nebenknöpfe = weisse Grafik-Pille, Reiter/Filter = weisse Glas-Pillen (gewählt: Violett-Pink).
+   Neue Knopf-Klassen in den Listen GOLD, WEISS, PILLE eintragen. ===== */
+(function(){
+  const G = "img/grafik/", E = G + "entdecken/", W = "html body #app .xseite";
+  const GOLD = [".spr-knopf", ".fq-weiter", ".xmt-weiter", ".xt-btn", ".xf-btn", ".xfo-btn", ".xel-btn.hell", ".xof-btn.xof-haupt", ".wdh-btn2", ".fq-start"];
+  const WEISS = [".xmt-zur", ".hlf-btn", ".xof-btn:not(.xof-haupt)"];
+  const PILLE = [".xel-btn:not(.hell)", ".xfo-tab", ".xa-tab", ".xel-tab", ".alb-chip", ".xf-ab", ".xs-schalter", ".hlf-sw", ".fq-figwahl", ".fq-plus", ".fq-seg button", ".hlf-k button:not(.hlf-btn)", ".spr-stufen button", ".spr-richtung button", ".spr-modi button", ".xmt-seg button", ".xmt-chip", ".xmt-opt"];
+  const GOLD2 = [".spr-knopf", ".fq-weiter", ".spr-zur", ".xmt-los", ".xsw-los"];
+  const sel = (l, z = "") => l.map(k => `${W} ${k}${z}`).join(",");
+  const c = document.createElement("style"); c.id = "ep-welten-knoepfe-css";
+  c.textContent = `
+${sel(GOLD)}{background:none!important;background-color:transparent!important;box-shadow:none!important;border-radius:0!important;border:0 solid transparent!important;border-width:15px 26px!important;
+  border-image:url("${G}knopf-gold.webp?v=1") 52 87 fill / 15px 26px stretch!important;min-height:52px!important;padding:0 8px!important;box-sizing:border-box!important;
+  color:#3A1C00!important;font-weight:800!important;text-shadow:none!important;filter:drop-shadow(0 4px 6px rgba(120,70,0,.28));cursor:pointer}
+${sel(GOLD, " *")}{color:#3A1C00!important;text-shadow:none!important}
+${sel(WEISS)}{background:none!important;background-color:transparent!important;box-shadow:none!important;border-radius:0!important;border:0 solid transparent!important;border-width:14px 24px!important;
+  border-image:url("${G}knopf-zurueck.webp?v=1") 70 118 fill / 14px 24px stretch!important;min-height:48px!important;padding:0 6px!important;box-sizing:border-box!important;
+  color:#28304A!important;font-weight:800!important;text-shadow:none!important;filter:drop-shadow(0 3px 5px rgba(40,30,120,.2));cursor:pointer}
+${sel(WEISS, " *")}{color:#28304A!important;text-shadow:none!important}
+${sel(PILLE)}{background:rgba(255,255,255,.9)!important;color:#2A1F5C!important;border:2px solid #fff!important;border-radius:999px!important;
+  box-shadow:0 4px 10px rgba(40,30,120,.18)!important;text-shadow:none!important;font-weight:800!important;backdrop-filter:blur(6px)}
+${sel(PILLE, " :is(span,b,small,i)")}{color:inherit!important;text-shadow:none!important}
+${sel(PILLE.map(k => k + ":is(.an,[aria-pressed=true],[aria-selected=true],[aria-checked=true])"))}{background:linear-gradient(135deg,#7B3FE4,#E2457A)!important;color:#fff!important;border-color:#fff!important;
+  box-shadow:0 6px 14px rgba(123,63,228,.45)!important}
+${sel(PILLE.map(k => k + " i"))}{background:rgba(42,31,92,.12)!important;color:inherit!important;border-radius:999px;padding:1px 7px;font-style:normal}
+${sel(PILLE.map(k => k + ":is(.an,[aria-pressed=true],[aria-selected=true]) i"))}{background:rgba(255,255,255,.25)!important}
+/* Forscher: Abzeichen-Karten auf Glanz-Kacheln, Medaillen-Felder als helles Glas */
+${W} .xfo-abz-k.xfo-abz-k{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-radius:0!important;border-width:20px!important;
+  border-image:url("${E}kachel-04.webp?v=3") 46 fill / 20px stretch!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.25));box-sizing:border-box}
+${[["1","04"],["2","12"],["3","06"],["4","01"],["5","05"],["6","13"]].map(([n, k]) => `${W} .xfo-abz-k:nth-child(6n+${n}){border-image-source:url("${E}kachel-${k}.webp?v=3")!important}`).join("\n")}
+${W} .xfo-abz-k :is(b,small){text-shadow:0 1px 2px rgba(0,0,0,.45)}
+${W} .xfo-abz-k .xfo-med{background:rgba(255,255,255,.18)!important;border:1.5px solid rgba(255,255,255,.35)!important;border-radius:16px!important}
+${W} :is(.xfo-liste-kopf b,.xfo-liste-kopf small,.xfo-liste-kopf>span){background:rgba(255,255,255,.9)!important;color:#2A1F5C!important;text-shadow:none!important}
+${W} :is(.xfo-tipp,.xfo-abz-fuss,.xfo-hinweis){background:rgba(255,255,255,.9)!important;color:#2A1F5C!important;border:2px solid #fff!important;text-shadow:none!important}
+@media (max-width:700px){${sel(GOLD)}{border-width:13px 22px!important;border-image-width:13px 22px!important;min-height:46px!important}
+  ${sel(WEISS)}{border-width:12px 20px!important;border-image-width:12px 20px!important;min-height:44px!important}}`;
+  document.head.appendChild(c);
+})();
