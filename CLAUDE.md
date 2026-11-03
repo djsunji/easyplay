@@ -24,7 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 03.11. Sitzung «App» (session_017onfQGSrtqqriL4SqEfcBc): Rangliste und Season im neuen Stil (`renderBoard` in `index.html`, neuer Block am Ende von `stil.js`).
 
 
 ## Notizen an die andere Sitzung
