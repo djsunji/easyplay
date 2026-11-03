@@ -3074,3 +3074,60 @@ c.textContent = `html body.ep-app #app .ap-pein .ap-pv{justify-content:space-eve
 html body.ep-app #app .ap-pein .ap-pvg{row-gap:12px}
 @media (max-height:760px){html body.ep-app #app .ap-pein .ap-pvb:nth-child(n+5){display:none}}`;
 document.head.appendChild(c); })();
+
+/* ===== Handy/iPad (App-Ansicht): Themen-Kacheln der vier Bereiche und Bibliothek-Kachel im Themen-Tab im Glanz-Stil =====
+   Bereich-Seiten (ep-s-bereich, ep-s-submenu): jede Themen-Kachel auf Dejans Glanz-Kachel in der Bereichsfarbe (Tabelle FB),
+   Qeels-Symbol gross mit hellem Schein, Titel weiss, Fragenzahl als weisse Pille, Symbol zusätzlich als helle Silhouette unten rechts.
+   «Aus allen Themen spielen» als goldener Grafik-Knopf. Themen-Tab: Bibliothek als nachtblaue Glanz-Kachel mit Dejans Büchern. */
+(function(){
+  const E = "img/grafik/entdecken/";
+  const FB = {welt:"01", natur:"04", geld:"02", alltag:"03"};
+  const T = "html body.ep-app:is(.ep-s-bereich,.ep-s-submenu) #app .thema";
+  const c = document.createElement("style"); c.id = "ep-appthemen-css";
+  c.textContent = `
+${T}{position:relative;overflow:hidden;background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:16px!important;border-radius:0!important;
+  border-image:url("${E}kachel-${FB.welt}.webp?v=3") 46 fill / 16px stretch!important;filter:drop-shadow(0 6px 10px rgba(30,30,90,.3));color:#fff!important;padding:0 2px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;text-align:center!important;transition:transform .2s,filter .2s}
+${Object.entries(FB).map(([b, n]) => `html[data-epb="${b}"] body.ep-app:is(.ep-s-bereich,.ep-s-submenu) #app .thema{border-image-source:url("${E}kachel-${n}.webp?v=3")!important}`).join("\n")}
+${T}:active{transform:translateY(2px);filter:drop-shadow(0 3px 5px rgba(30,30,90,.3)) brightness(.97)}
+${T} .emo{position:relative;z-index:1;width:46px!important;height:46px!important;flex:none!important;min-width:0!important;margin:0!important;background:radial-gradient(circle,rgba(255,255,255,.95) 0 38%,rgba(255,255,255,.35) 60%,transparent 72%)!important;border:0!important;box-shadow:none!important;border-radius:50%!important;display:grid!important;place-items:center!important}
+${T} .emo .ic,${T} .emo img{width:38px!important;height:38px!important;font-size:30px!important;background:none!important;box-shadow:none!important;filter:drop-shadow(0 3px 4px rgba(0,0,0,.28))}
+${T} > span:not(.emo){position:relative;z-index:1;display:flex!important;flex-direction:column;align-items:center;gap:4px;min-width:0;width:100%}
+${T} b{color:#fff!important;font:800 12px/1.15 Lexend,system-ui,sans-serif!important;text-shadow:0 1px 3px rgba(0,0,0,.5)!important;hyphens:manual!important;-webkit-hyphens:manual!important;overflow-wrap:normal!important;word-break:normal!important;display:block!important;-webkit-line-clamp:unset!important;line-clamp:unset!important;overflow:visible!important;white-space:normal!important;max-height:none!important}
+${T} .t{display:none!important}
+${T} .n{display:inline-block!important;flex:none;background:rgba(255,255,255,.94)!important;color:#3A2F72!important;font:800 10.5px Lexend,sans-serif!important;border-radius:99px!important;padding:3px 9px!important;box-shadow:0 2px 5px rgba(0,0,0,.2)!important;text-shadow:none!important;margin:0!important;border:0!important}
+${T} .ep-wz2{position:absolute;z-index:0;right:-18%;bottom:-20%;width:72%;opacity:.2;transform:rotate(-16deg);filter:brightness(0) invert(1);pointer-events:none}
+html body.ep-app:is(.ep-s-bereich,.ep-s-submenu) #app .np-allethemen{background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:14px 26px!important;border-radius:0!important;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 14px 26px stretch!important;min-height:52px!important;justify-content:center!important;color:#5A2A00!important;filter:drop-shadow(0 5px 8px rgba(160,90,0,.35))}
+html body.ep-app:is(.ep-s-bereich,.ep-s-submenu) #app .np-allethemen *{color:#5A2A00!important;text-shadow:0 1px 0 rgba(255,255,255,.5)!important;font-family:Lexend,system-ui,sans-serif!important;font-weight:800!important}
+@media (min-width:700px){${T} .emo{width:76px!important;height:76px!important}${T} .emo .ic,${T} .emo img{width:62px!important;height:62px!important}${T} b{font-size:17px!important}${T} .n{font-size:13px!important}}
+/* Bibliothek-Kachel im Themen-Tab */
+html body.ep-app #app .ap-bibk{position:relative;overflow:hidden;background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:18px!important;border-radius:0!important;border-image:url("${E}kachel-10.webp?v=3") 46 fill / 18px stretch!important;filter:drop-shadow(0 8px 14px rgba(20,20,80,.35));color:#fff!important;padding:0 4px!important;display:flex!important;align-items:center!important;gap:12px!important;min-height:80px}
+html body.ep-app #app .ap-bibk .apico{flex:none;width:52px!important;height:52px!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800)!important;box-shadow:0 3px 8px rgba(0,0,0,.35),inset 0 -2px 3px rgba(150,90,0,.35)!important}
+html body.ep-app #app .ap-bibk .apico img{width:72%;height:72%;object-fit:contain}
+html body.ep-app #app .ap-bibk .aptx{flex:1;min-width:0;position:relative;z-index:1}
+html body.ep-app #app .ap-bibk .aptx b{font:800 1.25rem/1.1 Lexend,system-ui,sans-serif!important;color:#FFE38A!important;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+html body.ep-app #app .ap-bibk .aptx small{font:600 .78rem/1.3 Lexend,sans-serif!important;color:#fff!important;opacity:1!important;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+html body.ep-app #app .ap-bibb{flex:none;display:flex;align-items:flex-end;height:74px;margin:-10px 0 -18px}
+html body.ep-app #app .ap-bibb img{height:100%;width:auto;margin-left:-22px;filter:drop-shadow(-3px 3px 4px rgba(0,0,0,.45))}
+html body.ep-app #app .ap-bibb img:nth-child(1){transform:rotate(-8deg) translateY(4px)}
+html body.ep-app #app .ap-bibb img:nth-child(3){transform:rotate(7deg) translateY(3px)}
+html body.ep-app #app .ap-bibzu{flex:none;font:800 1.7rem Lexend,sans-serif;color:#FFE38A;padding-right:2px}
+@media (max-width:360px){html body.ep-app #app .ap-bibb{display:none}}
+@media (min-width:700px){html body.ep-app #app .ap-bibk .aptx b{font-size:1.6rem!important}html body.ep-app #app .ap-bibk .aptx small{font-size:1rem!important}html body.ep-app #app .ap-bibb{height:96px}}`;
+  document.head.appendChild(c);
+  function mach(){
+    try{ const b = (typeof S !== "undefined" && S.bereich && S.bereich.id) || ""; if(document.documentElement.dataset.epb !== b) document.documentElement.dataset.epb = b; }catch(e){}
+    if(!document.body.classList.contains("ep-app")) return;
+    document.querySelectorAll("#app .thema").forEach(k => { if(k.querySelector(".ep-wz2")) return; const i = k.querySelector(".emo img"); if(!i) return;
+      const w = document.createElement("img"); w.className = "ep-wz2"; w.src = i.getAttribute("src"); w.alt = ""; w.setAttribute("aria-hidden", "true"); k.appendChild(w); });
+    /* Titel: kein Wort darf über die Kachel ragen, höchstens 3 Zeilen; jeder Titel so gross wie möglich */
+    if(!document.body.matches(".ep-s-bereich,.ep-s-submenu")) return;
+    const bs = [...document.querySelectorAll("#app .thema b")]; if(!bs.length || !bs[0].clientWidth) return;
+    const max = innerWidth >= 700 ? 17 : 13; let m = max;
+    bs.forEach(b => { let f = max; const set = () => b.style.setProperty("font-size", f + "px", "important"); set();
+      let n = 0; while((b.scrollWidth > b.clientWidth + 1 || b.getBoundingClientRect().height > f * 1.15 * 3 + 2) && f > 9 && n++ < 10){ f -= .5; set(); }
+      m = Math.min(m, f); });
+  }
+  const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300); let pl = 0; new MutationObserver(() => { clearTimeout(pl); pl = setTimeout(mach, 120); }).observe(app, {childList:true, subtree:true}); mach(); };
+  start(); addEventListener("resize", () => setTimeout(mach, 200));
+})();

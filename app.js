@@ -695,7 +695,7 @@ function themenHTML(){
       return `<div class="apb" style="--c:var(${b.c})"><span class="apwm" aria-hidden="true">${em}</span><button type="button" class="apb-kopf" data-b="${b.id}"><span class="apem" aria-hidden="true">${em}</span><span class="apn">${zahl(c)}<i> Fragen</i></span><b>${h(b.name)}</b><small>${h(b.text)}</small></button>
         <div class="apb-liste">${chips}</div><button type="button" class="apb-alle" data-b="${b.id}">Alle ${th.length} Themen ${SV(I.pfeil, 16)}</button></div>`; }).join("")}</div>
     <div class="ap-unten">
-      <button type="button" class="apf f-gold apzeile" data-x="lib"><span class="apico">${SV(I.buch, 20)}</span><span class="aptx"><b>Bibliothek</b><small>Lesen und entdecken</small></span></button>
+      <button type="button" class="apf f-gold apzeile ap-bibk" data-x="lib"><span class="apico"><img src="img/grafik/diverse/buch.webp?v=2" alt="" draggable="false"></span><span class="aptx"><b>Bibliothek</b><small>Über 16'000 Seiten zum Lesen und Entdecken</small></span><span class="ap-bibb" aria-hidden="true"><img src="img/grafik/buecher/natur.webp?v=2" alt=""><img src="img/grafik/buecher/geschichte.webp?v=2" alt=""><img src="img/grafik/buecher/schweiz.webp?v=2" alt=""></span><span class="ap-bibzu" aria-hidden="true">›</span></button>
       ${zl ? `<button type="button" class="apf f-blau apzeile ap-weiter" data-x="weiter"><span class="apico">${SV(I.play, 20)}</span><span class="aptx"><b>${h(zl.name)}</b><small>Da weitermachen, wo du warst</small></span></button>` : ""}
     </div>
   </div>`;
