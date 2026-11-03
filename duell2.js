@@ -1,7 +1,7 @@
 /* easyplay · duell2.js
    Duell-Menü neu: Online zuerst, kompakt, Einstellungen als Untermenü.
    Online sucht per Zufall einen Gegner, der gerade auch spielen will (Supabase, supabase/duell.sql).
-   Findet sich innert 20 Sekunden niemand oder gibt es kein Supabase, spielt Leni oder Ben als Übungsgegner.
+   Findet sich innert 15 Sekunden niemand oder gibt es kein Supabase, spielt Leni oder Ben als Übungsgegner.
    Im Spiel sieht man Name, Fortschritt sowie richtige und falsche Antworten des Gegners.
    Team Lumi oder Milo: gewählte Kachel färbt sich, das Kind leuchtet. Läuft nach app.js und stil.js. */
 (function(){
@@ -259,11 +259,12 @@ function teamBox(){
 }
 /* Kompakter Duell-Kopf: Titel, Elo/Liga und Wahl des Modus; der grosse Play-Knopf startet den gewählten Modus */
 const DU3_MODI = {
-  online:{name:"Online", bild:"online", los:"Gegner suchen", text:"Online gegen ein Kind in deiner Stärke", knopf:"duRandom"},
+  online:{name:"Online", bild:"online", los:"Duell starten", text:"Gegner in deiner Stärke, sonst gegen Leni oder Ben", knopf:"duRandom"},
   geraet:{name:"Auf einem Gerät", bild:"handy", los:"Duell starten", text:"2 bis 4 Kinder, abwechselnd, ohne Internet", knopf:"duSplit"},
   link:{name:"Per Link", bild:"link", los:"Jetzt spielen", text:"Du spielst zuerst, dann schickst du den Link", knopf:"duLink"}
 };
-function du3Modus(){ const m = LS.get("ep-duell-modus", "online"); return DU3_MODI[m] ? m : "online"; }
+/* Dejan 03.11.: nur noch Online. Findet sich kein Gegner, spielt man nach 15 s gegen Leni oder Ben (matchStart). */
+function du3Modus(){ return "online"; }
 function du3Kopf(){
   const d = eloDaten(), l = liga(d.r), nx = naechsteLiga(d.r), m = du3Modus();
   const pro = nx ? Math.max(4, Math.min(100, Math.round((d.r - l.min) / (nx.min - l.min) * 100))) : 100;
@@ -271,8 +272,7 @@ function du3Kopf(){
     <div class="du3-titel"><img class="du3-ic" src="img/qeels-icons/themen/duell.webp" alt=""><div><h1>Duell</h1><p>Wer weiss mehr?</p></div></div>
     <div class="du3-elo" style="--lc:${l.c}"><small>Deine Liga</small><b>${l.e} ${h(l.n)}</b><span class="du3-zahl">${d.r} <i>Elo</i></span>
       <span class="du3-bar"><i style="width:${pro}%"></i></span><em>${nx ? `noch ${nx.min - d.r} bis ${nx.e} ${h(nx.n)}` : "Höchste Liga!"}${d.n ? ` · ${d.s} Siege` : ""}</em></div>
-    <div class="du3-modi" role="radiogroup" aria-label="Duell-Modus">${Object.entries(DU3_MODI).map(([id, x]) => `<button type="button" role="radio" class="du3-m${id === m ? " an" : ""}" data-du3="${id}" aria-checked="${id === m}"><img src="img/grafik/diverse/${x.bild}.webp?v=2" alt=""><b>${h(x.name)}</b></button>`).join("")}</div>
-    <img class="du3-kids" src="${KIDS}duo-jubel.webp" alt=""></section>`;
+        <img class="du3-kids" src="${KIDS}duo-jubel.webp" alt=""></section>`;
 }
 window.renderDuell = function(){
   duellLeave(); if(DU.match) matchStop();
@@ -306,7 +306,7 @@ window.renderDuell = function(){
     const M = DU3_MODI[b.dataset.du3], pl = $("#du3Play"); if(pl){ pl.querySelector("b").textContent = M.los; pl.querySelector("small").textContent = M.text; }
     const nm = $("#du2Namen"); if(nm) nm.hidden = b.dataset.du3 !== "geraet"; });
   $("#du3Play").onclick = () => { const k = document.getElementById(DU3_MODI[du3Modus()].knopf); if(k) k.click(); };
-  { const nm = $("#du2Namen"); if(nm) nm.hidden = du3Modus() !== "geraet"; }
+  { const nm = $("#du2Namen"); if(nm) nm.hidden = true; }
   $("#duHost") && ($("#duHost").onclick = duOnlineHost);
   $("#duJoin") && ($("#duJoin").onclick = () => duOnlineJoin($("#duPin").value.trim()));
 };
@@ -362,7 +362,7 @@ async function matchStart(){
         if(!DU.match || DU.match.laeuft) return; if(st && st.gegner){ DU.match.gegner = {name:String(st.gegner).slice(0, 30), team:st.gegner_team || "", elo:+st.gegner_elo || eloDaten().r, i:0, score:0, ant:"", letzt:Date.now()}; matchLos(); } }, 1500);
     }
   }
-  DU.match.timeout = setTimeout(() => { if(DU.match && !DU.match.laeuft) botStart(); }, sp ? 20000 : 1200);
+  DU.match.timeout = setTimeout(() => { if(DU.match && !DU.match.laeuft) botStart(); }, sp ? 15000 : 1200);
 }
 function botStart(){
   const M = DU.match; if(!M) return; clearInterval(M.poll); if(M.id && M.rolle === "host") rpc("duell_abbrechen", {p_id:M.id, p_token:M.token}); M.id = null; M.rolle = "bot";
@@ -422,7 +422,7 @@ function renderDuellLobby2(gefunden){
   const av = (name, bild, tm) => `<div><span class="pav">${bild ? `<img src="${KIDS}${bild}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:top">` : (tm === "lumi" ? "🩷" : tm === "milo" ? "💙" : "👤")}</span><b>${h(name)}</b></div>`;
   $("#app").innerHTML = `${crumbs()}<div class="card lwait dulobby du2-lobby">
     <h2>⚔️ ${gefunden ? "Gegner gefunden!" : "Suche einen Gegner …"}</h2>
-    ${gefunden ? "" : `<img class="ep-kid du2-lkid" src="${KIDS}lb-denken.webp" alt=""><p class="du2-mu">Gegner in deiner Stärke: ${ligaChip(eloDaten().r)}</p><div class="du2-such"><i>🔎</i></div><p>Wer jetzt auch auf «Online» tippt, spielt gegen dich. ${M && M.id ? "Nach 20 Sekunden" : "Gleich"} spielt sonst Leni oder Ben mit dir.</p>`}
+    ${gefunden ? "" : `<img class="ep-kid du2-lkid" src="${KIDS}lb-denken.webp" alt=""><p class="du2-mu">Gegner in deiner Stärke: ${ligaChip(eloDaten().r)}</p><div class="du2-such"><i>🔎</i></div><p>Wer jetzt auch ein Duell startet, spielt gegen dich. ${M && M.id ? "Nach 15 Sekunden" : "Gleich"} spielt sonst Leni oder Ben mit dir.</p>`}
     <div class="duvs">${av(meinName(), t ? (t.id === "lumi" ? "m1.webp" : "j1.webp") : null, t && t.id)}<span class="vs">VS</span>${g ? av(g.name, g.bild || (g.team === "lumi" ? "m1.webp" : g.team === "milo" ? "j1.webp" : null), g.team) : `<div><span class="pav pfrei">?</span><b>Wartet …</b></div>`}</div>
     ${M && M.hinweis ? `<p class="du2-mu">${h(M.hinweis)}</p>` : ""}
     ${gefunden ? `<p><b>Gleich geht es los!</b> ${DU.list.length} Fragen, ${Math.round(DUELL_ZEIT / 1000)} Sekunden pro Frage.</p>` : `<button class="du2-klein" id="duBot" type="button">Sofort gegen Leni oder Ben spielen</button>`}
