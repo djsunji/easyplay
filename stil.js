@@ -3140,3 +3140,15 @@ html body.ep-app #app .ap-bibzu{flex:none;font:800 1.7rem Lexend,sans-serif;colo
   const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300); let pl = 0; new MutationObserver(() => { clearTimeout(pl); pl = setTimeout(mach, 120); }).observe(app, {childList:true, subtree:true}); mach(); };
   start(); addEventListener("resize", () => setTimeout(mach, 200));
 })();
+/* Profil-Tab: Seite «Einstellungen» (profilEinstHTML in app.js), alle Punkte als Glanz-Kacheln auf einer Seite */
+(function(){ const c = document.createElement("style"); c.id = "ep-appeinst-css";
+c.textContent = `
+html body.ep-app #app .ap-peinst .ap-psubkopf{display:flex;align-items:center;gap:10px;flex:none}
+html body.ep-app #app .ap-peinst .ap-psubkopf b{font:800 1.3rem Lexend,system-ui,sans-serif;color:#fff;text-shadow:0 2px 5px rgba(0,0,0,.45)}
+html body.ep-app #app .ap-peinst .ap-pzur{border:0;border-radius:99px;padding:8px 15px;background:linear-gradient(120deg,#6A4BFF,#A43BE0 55%,#E8409F);color:#fff;font:800 14px Lexend,sans-serif;cursor:pointer;box-shadow:0 4px 10px rgba(60,20,120,.35)}
+html body.ep-app #app .ap-peinst .ap-eg{flex:1 1 0;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(0,1fr);gap:7px}
+html body.ep-app #app .ap-peinst .ap-ek{flex-direction:column!important;justify-content:center!important;gap:4px!important;text-align:center!important;text-decoration:none;border-width:14px!important;padding:0!important;min-height:0}
+html body.ep-app #app .ap-peinst .ap-ek .ap-pmz{width:clamp(28px,5.2vh,46px)!important;height:clamp(28px,5.2vh,46px)!important}
+html body.ep-app #app .ap-peinst .ap-ek b{font:800 11.5px/1.15 Lexend,system-ui,sans-serif!important;color:#fff}
+@media (min-width:700px){html body.ep-app #app .ap-peinst .ap-eg{grid-template-columns:repeat(4,1fr);gap:12px}html body.ep-app #app .ap-peinst .ap-ek b{font-size:16px!important}}`;
+document.head.appendChild(c); })();

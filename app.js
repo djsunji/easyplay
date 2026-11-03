@@ -785,6 +785,7 @@ function profilHTML(){
       ${p ? kn('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "rot") : ""}
     </nav>`;
   }
+  if(p && AP_SUB === "einst") return `<div class="ap ap-profil ap-profil3 ap-pein ap-peinst">${profilEinstHTML()}</div>`;
   if(p) return `<div class="ap ap-profil ap-profil3 ap-pein">${profilEinHTML(p, s, lv, ab, av)}</div>`;
   return `<div class="ap ap-profil ap-profil3">
     ${kopf}
@@ -799,6 +800,31 @@ function profilHTML(){
 /* Profil-Tab angemeldet: Kopf, drei Zahlen, nächstes Ziel, heute, Vitrine (Dejans Symbole) */
 const PF_IC = {lvl:"stern", rich:"haken", ser:"flamme", tq:"festkalender", perf:"ziel", feh:"muskel", run:"controller", the:"landkarte", kt:"berg", les:"buecher", tst:"klemmbrett"};
 const PF_ST = ["#C68346","#9AA4B5","#E0A800","#3FB6C9","#5B8CFF","#E043B8"];
+/* Einstellungen des Profil-Tabs: alles auf einer Seite (Dejan 03.11.) */
+function profilEinstHTML(){
+  const G = "img/grafik/diverse/", gi = n => `${G}${n}.webp?v=2`;
+  const k = (attr, bild, txt, f, cls = "") => `<button type="button" ${attr} class="ap-ek ap-pkach k-${f}${cls ? " " + cls : ""}"><span class="ap-pmz"><img src="${bild}" alt=""></span><b>${txt}</b></button>`;
+  const l = (href, bild, txt, f, extra = "") => `<a href="${href}"${extra} class="ap-ek ap-pkach k-${f}"><span class="ap-pmz"><img src="${bild}" alt=""></span><b>${txt}</b></a>`;
+  return `<div class="ap-psubkopf"><button type="button" class="ap-pzur" data-x="psubzu">‹ Zurück</button><b>Einstellungen</b></div>
+    <div class="ap-eg">
+      ${k('data-x="verzieren"', gi("funkeln"), "Profil verzieren", "violett")}
+      ${k('data-x="peditieren"', gi("teddy"), "Profil bearbeiten", "blau")}
+      ${k('data-x="peinst"', gi("zahnrad"), "Stimme & Profil-Code", "lila")}
+      ${k('data-m="set"', gi("palette"), "Hintergrund", "mag")}
+      ${k('data-x="philfen"', gi("lautsprecher"), "Lesen & Hören", "gruen")}
+      ${k('data-x="peltern"', "img/grafik/welten/eltern.webp", "Eltern-Ecke", "orange")}
+      ${k('data-x="board"', gi("pokal"), "Rangliste", "tuer")}
+      ${k('data-x="lib"', gi("buch"), "Bibliothek", "blau")}
+      ${k('data-x="pentdecken"', "img/grafik/welten/karte.webp", "Entdecken", "gruen")}
+      ${k('data-lm="lcode"', gi("klemmbrett"), "Test mit Code", "orange")}
+      ${k('data-x="pvorschlag"', gi("zeigefinger"), "Frage vorschlagen", "violett")}
+      ${S.canEdit ? k('data-m="werkstatt"', gi("zahnrad"), "Fragen-Werkstatt", "lila") : ""}
+      ${l("/kontakt", gi("brief"), "Kontakt", "mag", " data-kontakt")}
+      ${l("impressum.html", gi("notizbuch"), "Impressum", "lila")}
+      ${l("datenschutz.html", gi("schloss"), "Datenschutz", "blau")}
+      ${k('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "tuer", "rot")}
+    </div>`;
+}
 function profilEinHTML(p, s, lv, ab, av){
   const G = "img/grafik/diverse/", gi = n => `${G}${n}.webp?v=2`;
   let fam = []; try{ fam = window.EP_LEVEL.familien(); }catch(e){}
@@ -821,7 +847,7 @@ function profilEinHTML(p, s, lv, ab, av){
       <span class="ap-pkach k-blau"><span class="ap-pmz"><img src="${gi("blitz")}" alt=""></span><b>${lv ? (lv.xp || 0).toLocaleString("de-CH") : 0}</b><small>XP total</small></span>
       <span class="ap-pkach k-gruen"><span class="ap-pmz"><img src="${gi("pokal")}" alt=""></span><b>${ab.hat}</b><small>Abzeichen</small></span>
     </div>
-    ${heute}${ziel}${vitrine}`;
+    <button type="button" class="ap-pz ap-pkach k-tuer" data-x="psubeinst"><span class="ap-pmz"><img src="${gi("zahnrad")}" alt=""></span><span class="ap-ptx"><small>Einstellungen</small><b>Profil, Hintergrund, Hilfen</b><em>Verzieren, Rangliste, Kontakt, Abmelden</em></span><span class="ap-pzu" aria-hidden="true">›</span></button>${ziel}${vitrine}`;
 }
 
 /* ---------- Einpassen: jeder Bereich so hoch wie der freie Bildschirm ---------- */
@@ -860,6 +886,9 @@ function binden(wurzel){
     else if(a === "abzeichen") go("profil");
     else if(a === "psubmehr"){ AP_SUB = "mehr"; render(); }
     else if(a === "psubzu"){ AP_SUB = ""; render(); }
+    else if(a === "psubeinst"){ AP_SUB = "einst"; render(); }
+    else if(a === "peditieren") go("register");
+    else if(a === "peltern") go("x-eltern");
     else if(a === "pentdecken") go("x-entdecken");
     else if(a === "philfen") go("x-hilfen");
     else if(a === "pvorschlag"){ try{ window.EP_VORSCHLAG && window.EP_VORSCHLAG.oeffnen(); }catch(err){} }
