@@ -521,8 +521,7 @@ body.ep-app .crumbs{display:none!important}
 .ap-zbtn{display:inline-flex;align-items:center;gap:6px;height:48px;padding:0 16px 0 12px;border:1px solid rgba(255,255,255,.18);border-radius:24px;background:rgba(27,34,64,.7);color:#fff;font:700 15px "Lexend",system-ui,sans-serif;cursor:pointer;flex:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 20px -12px rgba(27,34,64,.7)}
 @media (min-width:700px){.ap-kz h1{font-size:32px}}
 .ap-kz.ap-kz-tab h1{visibility:hidden}
-.ap.ap-duellmehr{display:flex;flex-direction:column;gap:12px;margin:14px 0 8px}
-.ap.ap-duellmehr .ap-zwei{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
 /* Deko auf Unterseiten weg, damit nichts abgeschnitten wird */
 body.ep-app .gaeste,body.ep-app .libgast,body.ep-app .bereichgaeste,body.ep-app .libbuchani{display:none!important}
 body.ep-app .libhero{padding:14px 16px!important;min-height:0!important}
@@ -1041,25 +1040,6 @@ function kopfzeile(){
   d.querySelector("button").onclick = zurueck;
   app.prepend(d);
 }
-/* Duell-Reiter: unter der neuen Duell-Seite Live-Quiz, Wettbewerb, Top 10 und Season (aus dem bisherigen Reiter) */
-function duellMehr(){
-  const app = document.getElementById("app"); if(!app || S.screen !== "duell" || app.querySelector(".ap-duellmehr")) return;
-  const ein = app.querySelector("#du2Ein"); if(!ein) return;
-  const tmp = document.createElement("div"); tmp.innerHTML = duellHTML();
-  const alt = tmp.querySelector(".ap-duell"); if(!alt) return;
-  alt.querySelectorAll(".ap-titel, .ap-bereit, .ap-top").forEach(e => e.remove());
-  alt.className = "ap ap-duellmehr";
-  ein.after(alt);
-  binden(alt);
-  /* Duell bleibt eine Seite ohne Scrollen: was unten keinen Platz hat, fällt weg (kleines iPhone) */
-  requestAnimationFrame(() => {
-    const t = document.getElementById("epTabs"), r = t && getComputedStyle(t).display !== "none" ? t.getBoundingClientRect() : null;
-    const unten = (r && r.width > innerWidth / 2 ? r.top : innerHeight) - 6;
-    const k = [...alt.children];
-    while(k.length && alt.getBoundingClientRect().bottom > unten) k.pop().remove();
-    if(!alt.children.length) alt.remove();
-  });
-}
 /* Rangliste: Season mit Symbol, Umschalter als Leiste unten */
 function schmuckSeiten(){
   const app = document.getElementById("app"); if(!app) return;
@@ -1153,7 +1133,7 @@ window.render = function(){
     [...document.body.classList].filter(k => k.startsWith("ep-s-")).forEach(k => document.body.classList.remove(k));
     if(an()) document.body.classList.add("ep-s-" + (S.libModus && S.screen === "lib" ? "lib" : S.screen));
     leiste();
-    if(an()){ kopfzeile(); schmuckSeiten(); if(S.screen === "duell") duellMehr(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); if(S.libModus && S.screen === "lib") libKompakt(); }
+    if(an()){ kopfzeile(); schmuckSeiten(); requestAnimationFrame(seitenEinpassen); if(S.screen === "bereich" || S.screen === "submenu") requestAnimationFrame(themenSeiten); if(S.screen === "done") doneKompakt(); if(S.libModus && S.screen === "lib") libKompakt(); }
   }catch(e){ console.warn("app.js", e); }
   return r;
 };

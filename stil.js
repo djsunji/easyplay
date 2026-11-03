@@ -3240,6 +3240,8 @@ html.ep-dfit,html.ep-dfit body{overflow:hidden!important;overscroll-behavior:non
   const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300);
     new MutationObserver(los).observe(app, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "open"]}); los(); };
   start(); addEventListener("resize", los);
+  /* Team gewählt: Joker-Zeile sofort mitwechseln, nicht erst 80 ms später (sonst springt die Seite) */
+  document.addEventListener("click", e => { if(e.target.closest && e.target.closest("#app [data-team]")) jokerZeile(); });
 })();
 
 /* ===== Duell: Play-Knopf schmaler (nicht ganze Breite) und Einstellungen im neuen Stil ===== */
@@ -3352,4 +3354,51 @@ html body.ep-app #app .thema[data-gp] .emo::after{font-size:9.5px;padding:2px 5p
   let t = 0; const los = () => { clearTimeout(t); t = setTimeout(mach, 60); };
   const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300); new MutationObserver(los).observe(app, {childList:true, subtree:true}); los(); };
   start();
+})();
+
+/* ===== Duell (Computer und Handy/iPad): Zahnrad mit Hinweis im Kopf, Einstellungen nur offen sichtbar,
+   Kachel Rangliste und Season (rangSeasonHTML in duell2.js), Joker-Zeile mit fester Höhe.
+   Dazu: Ton- und Sprachknopf oben nur auf der Startseite. Sitzung «App», 03.11. ===== */
+(function(){
+  const E = "img/grafik/entdecken/", A = "html body #app";
+  const c = document.createElement("style"); c.id = "ep-duell-zahn-css";
+  c.textContent = `
+html:not([data-scr="home"]) body :is(.xs-knopf,.xui-knopf),html body.ep-app #app .ap-kz :is(.xs-knopf,.xui-knopf){display:none!important}
+html body.ep-app.ep-s-duell #app > .ap-kz.ap-kz-tab{display:none!important}
+${A} .du3-kopf{position:relative}
+${A} .du3-zahn{position:absolute;top:2px;right:2px;z-index:4;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;margin:0;padding:0;border:0;background:none;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
+${A} .du3-zm{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 -2px 3px rgba(150,90,0,.35);transition:transform .35s}
+${A} .du3-zm img{width:70%;height:70%;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(80,40,0,.3))}
+${A} .du3-zahn[aria-expanded="true"] .du3-zm{transform:rotate(60deg)}
+${A} .du3-zahn:active .du3-zm{transform:translateY(1px)}
+${A} .du3-zh{max-width:min(42vw,260px);padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.95);color:#4A2F9A;font:700 11px/1.2 Lexend,system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 3px 8px rgba(30,20,90,.25)}
+${A} details.du2-ein#du2Ein:not([open]){display:none!important}
+${A} .du2-team2 .du-jkz{height:58px;box-sizing:border-box;overflow:hidden}
+${A} .du2-team2 .du-jkz > span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+${A} .du2-joker-info{min-height:4.4em}
+/* Kachel Rangliste und Season */
+${A} .du-rs{display:grid;grid-template-columns:1fr 1fr;margin:12px auto 4px;max-width:760px;border:0 solid transparent;border-width:18px;border-image:url("${E}kachel-10.webp?v=3") 46 fill / 18px stretch;filter:drop-shadow(0 8px 14px rgba(20,20,80,.35));color:#fff}
+${A} .du-rs-k{position:relative;display:flex;align-items:center;gap:10px;min-width:0;margin:0;padding:2px 6px;border:0;background:none;color:#fff;text-align:left;cursor:pointer;font:inherit}
+${A} .du-rs-se{border-left:1px solid rgba(255,255,255,.28);padding-left:12px;padding-bottom:14px}
+${A} .du-rs-m{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);box-shadow:0 3px 6px rgba(0,0,0,.3),inset 0 -2px 3px rgba(150,90,0,.35)}
+${A} .du-rs-m img{width:72%;height:72%;object-fit:contain}
+${A} .du-rs-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+${A} .du-rs-t :is(small,b,em){text-shadow:0 1px 3px rgba(0,0,0,.5);font-style:normal}
+${A} .du-rs-t small{font:800 10px Lexend,sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+${A} .du-rs-t b{font:800 15px/1.15 Lexend,sans-serif;overflow-wrap:anywhere}
+${A} .du-rs-t em{font:600 11px/1.25 Lexend,sans-serif;opacity:.95}
+${A} .du-rs-x{display:inline-block;padding:0 6px;border-radius:99px;background:#FFD54A;color:#5A2A00;font-style:normal;text-shadow:none}
+${A} .du-rs-bar{position:absolute;left:12px;right:6px;bottom:0;height:7px;display:flex;border-radius:99px;overflow:visible;background:rgba(0,0,0,.25)}
+${A} .du-rs-bar > span{display:block;position:static!important;flex:none;height:100%!important;margin:0!important;background:rgba(255,255,255,.35)}
+${A} .du-rs-bar > span:first-child{border-radius:99px 0 0 99px}
+${A} .du-rs-bar > span.du-rs-s2{background:#FFB020}
+${A} .du-rs-bar > span.du-rs-s3{background:#FF5F6D;border-radius:0 99px 99px 0}
+${A} .du-rs-bar > i{position:absolute;top:50%;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px #FFD54A,0 1px 4px rgba(0,0,0,.4)}
+${A} .du-rs-k:active{transform:translateY(1px)}
+@media (max-width:420px){${A} .du-rs{border-width:14px;border-image-width:14px}${A} .du-rs-m{width:36px;height:36px}${A} .du-rs-t b{font-size:13px}${A} .du-rs-t em{font-size:10px}${A} .du-rs-k{gap:7px}${A} .du3-zm{width:40px;height:40px}${A} .du3-zh{font-size:10px;max-width:46vw}}
+@media (min-width:700px){${A} .du-rs-m{width:58px;height:58px}${A} .du-rs-t b{font-size:19px}${A} .du-rs-t em{font-size:13px}${A} .du-rs-t small{font-size:12px}${A} .du3-zm{width:56px;height:56px}${A} .du3-zh{font-size:13px;padding:5px 12px}${A} .du2-team2 .du-jkz{height:72px}}
+/* Computer: Zahnrad in der leeren Zeile unter dem Titel statt über der Liga-Karte */
+html body:not(.ep-app) #app .du3-kopf .du3-zahn{position:static;grid-area:modi;justify-self:start;flex-direction:row}
+@media (max-width:420px){${A} .du-rs-rang em{display:none}${A} .du3-zh{max-width:40vw}}`;
+  document.head.appendChild(c);
 })();

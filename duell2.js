@@ -272,7 +272,33 @@ function du3Kopf(){
     <div class="du3-titel"><img class="du3-ic" src="img/qeels-icons/themen/duell.webp" alt=""><div><h1>Duell</h1><p>Wer weiss mehr?</p></div></div>
     <div class="du3-elo" style="--lc:${l.c}"><small>Deine Liga</small><b>${l.e} ${h(l.n)}</b><span class="du3-zahl">${d.r} <i>Elo</i></span>
       <span class="du3-bar"><i style="width:${pro}%"></i></span><em>${nx ? `noch ${nx.min - d.r} bis ${nx.e} ${h(nx.n)}` : "Höchste Liga!"}${d.n ? ` · ${d.s} Siege` : ""}</em></div>
-        <img class="du3-kids" src="${KIDS}duo-jubel.webp" alt=""></section>`;
+        <img class="du3-kids" src="${KIDS}duo-jubel.webp" alt="">
+    <button type="button" class="du3-zahn" id="du3Zahn" aria-controls="du2Ein" aria-label="Einstellungen: ${h(einstHinweis())}"><i class="du3-zm"><img src="img/grafik/diverse/zahnrad.webp?v=2" alt=""></i><span class="du3-zh">${h(einstHinweis())}</span></button></section>`;
+}
+/* kurzer Hinweis unter dem Zahnrad: Thema · Stufe · Anzahl */
+function einstHinweis(){
+  let kn = "Alle Themen"; try{ kn = ((duellKats().find(k => k[0] === DU.cat) || ["", "Alle Themen"])[1]).replace(/^[^:]+: /, ""); }catch(e){}
+  if(kn.length > 16) kn = kn.slice(0, 15) + "…";
+  const st = ["Gemischt", "Entdecker", "Könner", "Profis"][DU.stufe] || "Gemischt";
+  return `${DU.cat === "alle" ? st : kn} · ${DU.n} Fragen`;
+}
+/* Kachel Rangliste und aktuelle Season (Dejan 03.11.) */
+function rangSeasonHTML(){
+  let se = null, p = null, pkt = 0, lauf = 0, n1 = 0, n2 = 0;
+  try{ se = aktuelleSeason(); p = seasonPhase(se); pkt = seasonPunkte(S.profil, se.id);
+    const t = heuteUTC(); lauf = Math.min(100, Math.max(0, (t - se.start) / (se.ende - se.start + 86400000) * 100));
+    n1 = (se.tage - 14) / se.tage * 100; n2 = 7 / se.tage * 100; }catch(e){ se = null; }
+  const G = "img/grafik/diverse/";
+  const seTeil = se && p ? `<button type="button" class="du-rs-k du-rs-se" id="duSeason">
+      <span class="du-rs-m"><img src="${G}festkalender.webp?v=2" alt=""></span>
+      <span class="du-rs-t"><small>Season${p.mult > 1 ? ` · <i class="du-rs-x">×${p.mult}</i>` : ""}</small><b>${h(se.name)}</b><em>noch ${p.rest} ${p.rest === 1 ? "Tag" : "Tage"}${S.profil ? ` · ${pkt.toLocaleString("de-CH")} Punkte` : ""}</em></span>
+      <span class="du-rs-bar" aria-hidden="true"><span style="width:${n1}%"></span><span class="du-rs-s2" style="width:${n2}%"></span><span class="du-rs-s3" style="width:${n2}%"></span><i style="left:${lauf}%"></i></span>
+    </button>` : "";
+  return `<section class="du-rs" aria-label="Rangliste und Season">
+    <button type="button" class="du-rs-k du-rs-rang" id="duRang">
+      <span class="du-rs-m"><img src="${G}pokal.webp?v=2" alt=""></span>
+      <span class="du-rs-t"><small>Rangliste</small><b>Top 10 der Schweiz</b><em>Gewertete Tests bringen dich nach oben</em></span>
+    </button>${seTeil}</section>`;
 }
 window.renderDuell = function(){
   duellLeave(); if(DU.match) matchStop();
@@ -288,6 +314,7 @@ window.renderDuell = function(){
         <button type="button" class="du2-m link" id="duLink"><span class="ic">🔗</span><span class="tx"><b>Per Link</b><small>Du spielst zuerst, dann schickst du den Link.</small></span><span class="los">▶ Spielen</span></button>
       </div>
       ${einstellungen()}
+      ${rangSeasonHTML()}
       <details class="du2-ein" id="du2Namen"><summary>📱 Namen für «Auf einem Gerät» <span class="pf">▸</span></summary><div class="inhalt"><div class="du2-namen"><input id="duP1" class="sel" maxlength="14" placeholder="Spieler 1" value="${h((S.profil && S.profil.name || "").split(" ")[0] || "")}"><input id="duP2" class="sel" maxlength="14" placeholder="Spieler 2"></div></div></details>
       ${typeof liveRoom === "function" && window.claude && window.claude.use ? `<details class="du2-ein"><summary>🔢 Mit PIN beitreten <span class="pf">▸</span></summary><div class="inhalt"><div class="du2-pin"><input id="duPin" class="sel" inputmode="numeric" maxlength="4" placeholder="PIN"><button class="du2-klein" id="duJoin" type="button">Beitreten</button></div><button class="du2-klein" id="duHost" type="button">Eigenes Duell mit PIN erstellen</button></div></details>` : ""}
       <p class="du2-fehler" id="duErr" aria-live="polite"></p>
@@ -305,6 +332,9 @@ window.renderDuell = function(){
     document.querySelectorAll("[data-du3]").forEach(x => { x.classList.toggle("an", x === b); x.setAttribute("aria-checked", x === b); });
     const M = DU3_MODI[b.dataset.du3], pl = $("#du3Play"); if(pl){ pl.querySelector("b").textContent = M.los; pl.querySelector("small").textContent = M.text; }
     const nm = $("#du2Namen"); if(nm) nm.hidden = b.dataset.du3 !== "geraet"; });
+  { const z = $("#du3Zahn"), e = $("#du2Ein"); if(z && e){ z.setAttribute("aria-expanded", e.open); z.onclick = () => { e.open = !e.open; DU.einOffen = e.open; z.setAttribute("aria-expanded", e.open); if(e.open) setTimeout(() => e.scrollIntoView({behavior:"smooth", block:"nearest"}), 60); }; e.addEventListener("toggle", () => z.setAttribute("aria-expanded", e.open)); } }
+  $("#duRang") && ($("#duRang").onclick = () => { try{ S.boardModus = "gesamt"; }catch(e){} go("board"); });
+  $("#duSeason") && ($("#duSeason").onclick = () => { try{ S.boardModus = "season"; S.boardSeason = aktuelleSeason().id; }catch(e){} go("board"); });
   $("#du3Play").onclick = () => { const k = document.getElementById(DU3_MODI[du3Modus()].knopf); if(k) k.click(); };
   { const nm = $("#du2Namen"); if(nm) nm.hidden = true; }
   $("#duHost") && ($("#duHost").onclick = duOnlineHost);
