@@ -3419,8 +3419,8 @@ ${A} .rlkopf .rlregeln>div b{display:flex!important;align-items:center;gap:8px;c
 ${A} .rlkopf .rlregeln>div span{color:#4E4880!important;font:500 12.5px/1.4 Lexend,sans-serif!important}
 ${A} .rl-mz{flex:none;width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;background:${MZ};box-shadow:0 2px 4px rgba(0,0,0,.25)}
 ${A} .rl-mz img{width:72%;height:72%;object-fit:contain}
-${A} .rlkopf .rlpokal span{font-size:0!important}
-${A} .rlkopf .rlpokal span img{width:70%;height:70%;object-fit:contain}
+${A} .rlkopf .rlpokal span{font-size:0!important;width:74%;height:74%;display:grid;place-items:center;line-height:0}
+${A} .rlkopf .rlpokal span img{width:100%;height:100%;object-fit:contain;display:block}
 /* Umschalter Gesamt/Seasons und Stufen */
 ${A} .segs.rlmodus,${A} .segs.rlsegs{display:flex!important;flex-wrap:wrap;justify-content:center;gap:6px!important;width:fit-content;max-width:100%;margin:16px auto 12px!important;padding:6px!important;border-radius:999px!important;background:rgba(255,255,255,.9)!important;border:0!important;box-shadow:0 6px 16px rgba(30,20,90,.2)!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 ${A} .segs.rlmodus .seg,${A} .segs.rlsegs .seg{display:inline-flex!important;align-items:center;gap:6px;min-height:40px!important;padding:6px 16px!important;border-radius:999px!important;border:0!important;background:transparent!important;color:#3A2F72!important;font:700 14px Lexend,system-ui,sans-serif!important;box-shadow:none!important}
@@ -3478,12 +3478,16 @@ ${A} .podium .pname{color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.5)}
 ${A} .podium .pkt{color:#FFE9A8!important;font-weight:800!important;text-shadow:0 1px 2px rgba(0,0,0,.4)}
 ${A} .podium .pav{box-shadow:0 0 0 4px #FFD54A,0 4px 10px rgba(0,0,0,.35)!important;background:#fff}
 ${A} .podium .pav.pfrei{background:rgba(255,255,255,.18)!important;color:#fff!important;box-shadow:0 0 0 3px rgba(255,255,255,.55)!important;border:0!important}
-${A} .podium .psockel{box-shadow:inset 0 3px 0 rgba(255,255,255,.55),0 -2px 10px rgba(0,0,0,.15)!important;border:0!important}
-${A} .podium .p1 .psockel{background:linear-gradient(180deg,#FFE680,#FFC21A 55%,#E09A00)!important}
-${A} .podium .p2 .psockel{background:linear-gradient(180deg,#F4F6FA,#C5CCD8 55%,#9AA4B5)!important}
-${A} .podium .p3 .psockel{background:linear-gradient(180deg,#F6C79A,#D98D4E 55%,#B0652B)!important}
-${A} .podium .pnr{color:#fff!important;text-shadow:0 2px 4px rgba(0,0,0,.35)!important}
-${A} .podium .pst.leer .psockel{opacity:.8!important}
+/* Dejans Podest-Blöcke (img/grafik/podest/block-1..3.webp, gleicher Massstab) statt gemalter Sockel */
+${A} .podium .psockel{height:auto!important;margin:0 auto!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:center bottom / 100% 100% no-repeat!important;filter:drop-shadow(0 6px 10px rgba(20,10,60,.35))}
+${A} .podium .psockel > *{opacity:0!important;font-size:0!important}
+${A} .podium .p1 .psockel{width:min(100%,210px)!important;aspect-ratio:408/506;background-image:url("img/grafik/podest/block-1.webp")!important}
+${A} .podium .p2 .psockel{width:min(100%,182px)!important;aspect-ratio:368/379;background-image:url("img/grafik/podest/block-2.webp")!important}
+${A} .podium .p3 .psockel{width:min(100%,182px)!important;aspect-ratio:367/282;background-image:url("img/grafik/podest/block-3.webp")!important}
+${A} .podium .pst.leer .psockel{opacity:1!important}
+${A} .podium .pfigur{margin-bottom:-4px}
+${A} .podium .pav{display:grid!important;place-items:center!important;overflow:hidden}
+${A} .podium .pav > :is(svg,img){width:88%!important;height:88%!important;max-width:none!important;object-fit:contain}
 /* Liste */
 ${A} .rlliste{background:rgba(255,255,255,.96)!important;border:0!important;border-radius:24px!important;box-shadow:0 10px 24px rgba(30,20,90,.2)!important;padding:0 0 12px!important;overflow:hidden}
 ${A} .rlkopfleiste{margin:0 0 12px!important;padding:12px 18px;background:${VP};color:#fff}
