@@ -803,26 +803,16 @@ const PF_ST = ["#C68346","#9AA4B5","#E0A800","#3FB6C9","#5B8CFF","#E043B8"];
 /* Einstellungen des Profil-Tabs: alles auf einer Seite (Dejan 03.11.) */
 function profilEinstHTML(){
   const G = "img/grafik/diverse/", gi = n => `${G}${n}.webp?v=2`;
-  const k = (attr, bild, txt, f, cls = "") => `<button type="button" ${attr} class="ap-ek ap-pkach k-${f}${cls ? " " + cls : ""}"><span class="ap-pmz"><img src="${bild}" alt=""></span><b>${txt}</b></button>`;
-  const l = (href, bild, txt, f, extra = "") => `<a href="${href}"${extra} class="ap-ek ap-pkach k-${f}"><span class="ap-pmz"><img src="${bild}" alt=""></span><b>${txt}</b></a>`;
+  const z = (attr, bild, txt, cls = "") => `<button type="button" ${attr} class="ap-ez${cls ? " " + cls : ""}"><img src="${bild}" alt=""><span>${txt}</span><i aria-hidden="true">›</i></button>`;
+  const l = (href, bild, txt, extra = "") => `<a href="${href}"${extra} class="ap-ez"><img src="${bild}" alt=""><span>${txt}</span><i aria-hidden="true">›</i></a>`;
+  const gr = (titel, inhalt) => `<section class="ap-eg2"><h3>${titel}</h3><div class="ap-el">${inhalt}</div></section>`;
   return `<div class="ap-psubkopf"><button type="button" class="ap-pzur" data-x="psubzu">‹ Zurück</button><b>Einstellungen</b></div>
-    <div class="ap-eg">
-      ${k('data-x="verzieren"', gi("funkeln"), "Profil verzieren", "violett")}
-      ${k('data-x="peditieren"', gi("teddy"), "Profil bearbeiten", "blau")}
-      ${k('data-x="peinst"', gi("zahnrad"), "Stimme & Profil-Code", "lila")}
-      ${k('data-m="set"', gi("palette"), "Hintergrund", "mag")}
-      ${k('data-x="philfen"', gi("lautsprecher"), "Lesen & Hören", "gruen")}
-      ${k('data-x="peltern"', "img/grafik/welten/eltern.webp", "Eltern-Ecke", "orange")}
-      ${k('data-x="board"', gi("pokal"), "Rangliste", "tuer")}
-      ${k('data-x="lib"', gi("buch"), "Bibliothek", "blau")}
-      ${k('data-x="pentdecken"', "img/grafik/welten/karte.webp", "Entdecken", "gruen")}
-      ${k('data-lm="lcode"', gi("klemmbrett"), "Test mit Code", "orange")}
-      ${k('data-x="pvorschlag"', gi("zeigefinger"), "Frage vorschlagen", "violett")}
-      ${S.canEdit ? k('data-m="werkstatt"', gi("zahnrad"), "Fragen-Werkstatt", "lila") : ""}
-      ${l("/kontakt", gi("brief"), "Kontakt", "mag", " data-kontakt")}
-      ${l("impressum.html", gi("notizbuch"), "Impressum", "lila")}
-      ${l("datenschutz.html", gi("schloss"), "Datenschutz", "blau")}
-      ${k('data-x="abmelden"', "img/grafik/sym-beenden.webp", "Abmelden", "tuer", "rot")}
+    <div class="ap-escroll">
+    ${gr("Profil", z('data-x="verzieren"', gi("funkeln"), "Profil verzieren") + z('data-x="peditieren"', gi("teddy"), "Profil bearbeiten") + z('data-x="peinst"', gi("zahnrad"), "Stimme und Profil-Code"))}
+    ${gr("Anzeige und Hilfen", z('data-m="set"', gi("palette"), "Hintergrund") + z('data-x="philfen"', gi("lautsprecher"), "Lesen & Hören") + z('data-x="peltern"', "img/grafik/welten/eltern.webp", "Eltern-Ecke"))}
+    ${gr("Spielen und Lernen", z('data-x="board"', gi("pokal"), "Rangliste") + z('data-x="lib"', gi("buch"), "Bibliothek") + z('data-x="pentdecken"', "img/grafik/welten/karte.webp", "Entdecken") + z('data-lm="lcode"', gi("klemmbrett"), "Test mit Code") + z('data-x="pvorschlag"', gi("zeigefinger"), "Frage vorschlagen") + (S.canEdit ? z('data-m="werkstatt"', gi("zahnrad"), "Fragen-Werkstatt") : ""))}
+    ${gr("Info", l("/kontakt", gi("brief"), "Kontakt", " data-kontakt") + l("impressum.html", gi("notizbuch"), "Impressum") + l("datenschutz.html", gi("schloss"), "Datenschutz"))}
+    <button type="button" data-x="abmelden" class="ap-eab"><img src="img/grafik/sym-beenden.webp" alt=""><span>Abmelden</span></button>
     </div>`;
 }
 function profilEinHTML(p, s, lv, ab, av){

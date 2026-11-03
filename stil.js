@@ -3140,15 +3140,29 @@ html body.ep-app #app .ap-bibzu{flex:none;font:800 1.7rem Lexend,sans-serif;colo
   const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300); let pl = 0; new MutationObserver(() => { clearTimeout(pl); pl = setTimeout(mach, 120); }).observe(app, {childList:true, subtree:true}); mach(); };
   start(); addEventListener("resize", () => setTimeout(mach, 200));
 })();
-/* Profil-Tab: Seite «Einstellungen» (profilEinstHTML in app.js), alle Punkte als Glanz-Kacheln auf einer Seite */
+/* Profil-Tab: Seite «Einstellungen» (profilEinstHTML in app.js) als Menü: Gruppen mit Überschrift, weisse Liste mit Zeilen */
 (function(){ const c = document.createElement("style"); c.id = "ep-appeinst-css";
 c.textContent = `
+html body.ep-app #app .ap-peinst{gap:8px!important}
 html body.ep-app #app .ap-peinst .ap-psubkopf{display:flex;align-items:center;gap:10px;flex:none}
 html body.ep-app #app .ap-peinst .ap-psubkopf b{font:800 1.3rem Lexend,system-ui,sans-serif;color:#fff;text-shadow:0 2px 5px rgba(0,0,0,.45)}
-html body.ep-app #app .ap-peinst .ap-pzur{border:0;border-radius:99px;padding:8px 15px;background:linear-gradient(120deg,#6A4BFF,#A43BE0 55%,#E8409F);color:#fff;font:800 14px Lexend,sans-serif;cursor:pointer;box-shadow:0 4px 10px rgba(60,20,120,.35)}
-html body.ep-app #app .ap-peinst .ap-eg{flex:1 1 0;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(0,1fr);gap:7px}
-html body.ep-app #app .ap-peinst .ap-ek{flex-direction:column!important;justify-content:center!important;gap:4px!important;text-align:center!important;text-decoration:none;border-width:14px!important;padding:0!important;min-height:0}
-html body.ep-app #app .ap-peinst .ap-ek .ap-pmz{width:clamp(28px,5.2vh,46px)!important;height:clamp(28px,5.2vh,46px)!important}
-html body.ep-app #app .ap-peinst .ap-ek b{font:800 11.5px/1.15 Lexend,system-ui,sans-serif!important;color:#fff}
-@media (min-width:700px){html body.ep-app #app .ap-peinst .ap-eg{grid-template-columns:repeat(4,1fr);gap:12px}html body.ep-app #app .ap-peinst .ap-ek b{font-size:16px!important}}`;
+html body.ep-app #app .ap-peinst .ap-pzur{border:0;border-radius:99px;padding:8px 15px;background:rgba(255,255,255,.95);color:#3A2F72;font:800 14px Lexend,sans-serif;cursor:pointer;box-shadow:0 4px 10px rgba(30,20,90,.25)}
+html body.ep-app #app .ap-peinst .ap-escroll{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:10px;padding:2px 2px 6px;-webkit-overflow-scrolling:touch}
+html body.ep-app #app .ap-peinst .ap-eg2 h3{margin:0 0 4px 12px;font:800 11px Lexend,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+html body.ep-app #app .ap-peinst .ap-el{background:rgba(255,255,255,.96);border-radius:18px;box-shadow:0 8px 20px rgba(30,20,90,.22);overflow:hidden}
+html body.ep-app #app .ap-peinst .ap-ez{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:5px 14px;border:0;background:none;color:#2E2560;text-decoration:none;font:700 15px Lexend,system-ui,sans-serif;text-align:left;cursor:pointer;box-sizing:border-box}
+html body.ep-app #app .ap-peinst .ap-ez + .ap-ez{border-top:1px solid rgba(58,47,114,.1)}
+html body.ep-app #app .ap-peinst .ap-ez:active{background:rgba(123,91,255,.1)}
+html body.ep-app #app .ap-peinst .ap-ez img{flex:none;width:28px;height:28px;object-fit:contain}
+html body.ep-app #app .ap-peinst .ap-ez span{flex:1;min-width:0}
+html body.ep-app #app .ap-peinst .ap-ez i{font:700 20px Lexend,sans-serif;font-style:normal;color:#A79CD6}
+html body.ep-app #app .ap-peinst .ap-eab{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border:0;border-radius:18px;background:rgba(255,255,255,.96);color:#D6362E;font:800 15px Lexend,sans-serif;box-shadow:0 8px 20px rgba(30,20,90,.22);cursor:pointer;flex:none}
+html body.ep-app #app .ap-peinst .ap-eab img{width:24px;height:24px}
+@media (max-height:760px){html body.ep-app #app .ap-peinst .ap-ez{min-height:38px;font-size:14px}html body.ep-app #app .ap-peinst .ap-ez img{width:24px;height:24px}}
+@media (min-width:700px){html body.ep-app #app .ap-peinst .ap-escroll{display:grid;grid-template-columns:1fr 1fr;align-content:start;gap:14px}html body.ep-app #app .ap-peinst .ap-eab{grid-column:1/-1}html body.ep-app #app .ap-peinst .ap-ez{min-height:52px;font-size:17px}}`;
+document.head.appendChild(c); })();
+
+/* Duell am Handy: Band «Wähle dein Team» kleiner */
+(function(){ const c = document.createElement("style");
+c.textContent = `@media (max-width:700px){html body #app .du2-team.du2-team2 > h2.tk-titel.lbl{font-size:1rem!important;padding:5px 16px!important;margin:0 auto 12px!important;letter-spacing:0!important;min-height:0!important;line-height:1.3!important}}`;
 document.head.appendChild(c); })();
