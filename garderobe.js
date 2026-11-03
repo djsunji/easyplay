@@ -190,7 +190,7 @@ function dekoSetzen(teil){ const d = {...rohDeko(), ...teil}; LS.set(K.deko, d);
 function oeffentlich(){
   const d = deko(), z = stand(), fam = famListe();
   return { deko:{hg:d.hg, ra:d.rahmen, ef:d.effekt, st:d.sticker, ti:d.titel, vi:d.vitrine.map(id => { const f = fam.find(x => x.id === id); return f ? id + ":" + f.stufe : null; }).filter(Boolean)},
-    zahlen:{f:z.fragen, t:z.tests, a:z.artikel, l:z.level, s:z.serie, ab:z.abzeichen} };
+    zahlen:Object.assign({f:z.fragen, t:z.tests, a:z.artikel, l:z.level, s:z.serie, ab:z.abzeichen}, Object.fromEntries(fam.map(f => ["ab_" + f.id, f.stufe]))) };
 }
 let pubT = null, zuletztGesendet = "";
 function veroeffentlichen(){
@@ -231,14 +231,14 @@ function kopfHTML(p, ich){
 }
 function zahlenHTML(z){
   const k = [["❓", z.f, "Fragen beantwortet"], ["📝", z.t, "Tests gemacht"], ["📚", z.a, "Artikel gelesen"], ["⭐", z.l, "Level"], ["🔥", z.s, "Tage Serie (Rekord)"], ["🏅", z.ab, "Abzeichen"]];
-  return `<div class="pp-zahlen">${k.map(([e, n, t]) => `<div class="pp-zahl"><span aria-hidden="true">${e}</span><b>${zahl(n)}</b><small>${t}</small></div>`).join("")}</div>`;
+  return `<div class="pp-zahlen">${k.map(([e, n, t]) => t === "Abzeichen" ? `<button type="button" class="pp-zahl pp-zahl-ab" data-abz="alle"><span aria-hidden="true">${e}</span><b>${zahl(n)}</b><small>${t} ansehen ›</small></button>` : `<div class="pp-zahl"><span aria-hidden="true">${e}</span><b>${zahl(n)}</b><small>${t}</small></div>`).join("")}</div>`;
 }
 function vitrineHTML(vi, ich){
   const fam = famListe(), stufen = (window.EP_LEVEL && window.EP_LEVEL.STUFEN) || [];
   const l = (vi || []).map(x => { const [id, s] = String(x).split(":"); const f = fam.find(y => y.id === id); return f ? {f, s:Math.max(1, Math.min(+s || 1, stufen.length || 6))} : null; }).filter(Boolean);
   if(!l.length) return ich ? `<section class="pp-vitrine leer"><h2>🏅 Vitrine</h2><p>Hier zeigst du deine besten Abzeichen. Lies Artikel, beantworte Fragen und mach Tests, dann kommen die ersten.</p></section>` : "";
   return `<section class="pp-vitrine"><h2>🏅 Vitrine</h2><div class="pp-vit">${l.map(({f, s}) => { const st = stufen[s - 1] || ["", "#E0A800"];
-    return `<div class="pp-med" style="--mf:${st[1]}"><span>${f.emo}</span><b>${h(f.name)}</b><small>${h(st[0])}</small></div>`; }).join("")}</div></section>`;
+    return `<button type="button" class="pp-med" data-abz="${f.id}" style="--mf:${st[1]}"><span>${ABZ_BILD(f.id, f.emo)}</span><b>${h(f.name)}</b><small>${h(st[0])}</small></button>`; }).join("")}</div><button type="button" class="pp-alleab" data-abz="alle">Alle Abzeichen ansehen ›</button></section>`;
 }
 function naechsteHTML(){
   const st = stand();
@@ -323,6 +323,58 @@ window.EP_GARDEROBE = {
 };
 window.EP_PROFIL = { gelesen, zahlen, deko, oeffentlich, kopfHTML, zahlenHTML };
 
+/* ---------- Abzeichen wie Erfolge in einem Spiel (Dejan 03.11.) ----------
+   Klick auf eine Medaille der Vitrine oder auf «Abzeichen» öffnet ein Fenster: was das Abzeichen bedeutet, die sechs Stufen
+   mit Grenze, eigener Stand, und wie viele Spielerinnen und Spieler jede Stufe haben (aus der Rangliste S.spieler,
+   Feld zahlen.ab_<id> = erreichte Stufe, veröffentlicht von oeffentlich()), dazu Seltenheit. */
+const ABZ_IC = {lvl:"stern", rich:"haken", ser:"flamme", tq:"festkalender", perf:"ziel", feh:"muskel", run:"controller", the:"landkarte", kt:"berg", les:"buecher", tst:"klemmbrett"};
+function ABZ_BILD(id, emo){ return ABZ_IC[id] ? `<img src="img/grafik/diverse/${ABZ_IC[id]}.webp?v=2" alt="">` : (emo || "🏅"); }
+const SELTEN = [[50, "Häufig", "#8C93A8"], [20, "Ungewöhnlich", "#1FA45B"], [8, "Selten", "#2E7CF6"], [2, "Episch", "#9B3FE0"], [0, "Legendär", "#E0A800"]];
+function seltenheit(pct){ if(pct <= 0) return [0, "Noch niemand", "#A8A3C2"]; for(const r of SELTEN) if(pct >= r[0]) return r; return SELTEN[SELTEN.length - 1]; }
+function abzStatistik(id){
+  let l = []; try{ l = ((typeof S !== "undefined" && (S.online || S.rang)) ? S.spieler : []) || []; }catch(e){}
+  const mit = l.filter(p => p && p.zahlen && ("ab_" + id) in p.zahlen);
+  const n = mit.length, stufen = (window.EP_LEVEL && window.EP_LEVEL.STUFEN) || [];
+  return {n, pro:stufen.map((_, i) => n ? mit.filter(p => (+p.zahlen["ab_" + id] || 0) >= i + 1).length / n * 100 : null)};
+}
+const abzPz = v => v == null ? "–" : (v > 0 && v < 1 ? "<1" : Math.round(v)) + " %";
+function abzListe(){
+  const fam = famListe(), stufen = (window.EP_LEVEL && window.EP_LEVEL.STUFEN) || [];
+  const hat = fam.reduce((n, f) => n + f.stufe, 0), alle = fam.reduce((n, f) => n + f.grenzen.length, 0);
+  return `<section class="abz-k" role="dialog" aria-modal="true" aria-labelledby="abzT"><div class="abz-kopf"><h2 id="abzT">Abzeichen</h2><span class="abz-zahl">${hat} von ${alle} Stufen</span><button type="button" class="abz-zu" data-abzzu aria-label="Schliessen">✕</button></div>
+    <div class="abz-gitter">${fam.map(f => { const st = abzStatistik(f.id), s = f.stufe, farbe = s ? (stufen[s - 1] || [])[1] : "#B9B4D6";
+      const p = s ? st.pro[s - 1] : st.pro[0], r = p == null ? null : seltenheit(p);
+      return `<button type="button" class="abz-it${s ? "" : " aus"}" data-abzgeh="${f.id}" style="--mf:${farbe}"><span class="abz-med">${ABZ_BILD(f.id, f.emo)}</span><b>${h(f.name)}</b><small>${s ? h((stufen[s - 1] || [""])[0]) : "noch nicht"}</small>${r ? `<em style="--sf:${r[2]}">${r[1]}</em>` : ""}</button>`; }).join("")}</div>
+    <p class="abz-fuss">Tippe auf ein Abzeichen für Stufen und Seltenheit. Die Prozente stammen aus der Rangliste aller Spielerinnen und Spieler.</p></section>`;
+}
+function abzDetail(id){
+  const fam = famListe(), stufen = (window.EP_LEVEL && window.EP_LEVEL.STUFEN) || [];
+  const f = fam.find(x => x.id === id); if(!f) return abzListe();
+  const st = abzStatistik(id), s = f.stufe, farbe = s ? (stufen[s - 1] || [])[1] : "#B9B4D6";
+  const vor = s ? f.grenzen[s - 1] : 0, anteil = f.naechste != null ? Math.max(0, Math.min(1, (f.wert - vor) / Math.max(1, f.naechste - vor))) : 1;
+  const rNow = s && st.pro[s - 1] != null ? seltenheit(st.pro[s - 1]) : null;
+  return `<section class="abz-k" role="dialog" aria-modal="true" aria-labelledby="abzT"><div class="abz-kopf"><button type="button" class="abz-zur" data-abzgeh="alle">‹ Alle</button><h2 id="abzT">${h(f.name)}</h2><button type="button" class="abz-zu" data-abzzu aria-label="Schliessen">✕</button></div>
+    <div class="abz-held" style="--mf:${farbe}"><span class="abz-med gross">${ABZ_BILD(f.id, f.emo)}</span>
+      <div><p class="abz-was">${h(f.text)}</p><p class="abz-stand">${s ? `Deine Stufe: <b style="color:${farbe}">${h((stufen[s - 1] || [""])[0])}</b>` : "Noch nicht erreicht"}${rNow ? ` <em style="--sf:${rNow[2]}">${rNow[1]}</em>` : ""}</p>
+      ${f.naechste != null ? `<div class="abz-bar"><i style="width:${Math.round(anteil * 100)}%"></i></div><small>${zahl(f.wert)} von ${zahl(f.naechste)} bis ${h((stufen[s] || [""])[0])}</small>` : `<small>Höchste Stufe erreicht!</small>`}</div></div>
+    <ol class="abz-stufen">${f.grenzen.map((g, i) => { const ok = s > i, sf = stufen[i] || ["", "#999"], p = st.pro[i], r = p == null ? null : seltenheit(p);
+      return `<li class="${ok ? "ok" : ""}" style="--mf:${sf[1]}"><span class="abz-pkt">${ok ? "✓" : i + 1}</span><span class="abz-sn"><b>${h(sf[0])}</b><small>${zahl(g)} ${h(f.text)}</small></span><span class="abz-pz"><b>${abzPz(p)}</b>${r ? `<em style="--sf:${r[2]}">${r[1]}</em>` : ""}</span></li>`; }).join("")}</ol>
+    <p class="abz-fuss">${st.n ? `Prozent der ${zahl(st.n)} Spielerinnen und Spieler in der Rangliste, die diese Stufe haben.` : "Noch keine Werte aus der Rangliste. Sobald andere spielen, siehst du hier, wie selten jede Stufe ist."}</p></section>`;
+}
+function abzFenster(ziel){
+  let box = document.getElementById("abzFenster");
+  if(!box){ box = document.createElement("div"); box.id = "abzFenster"; box.className = "abz-f"; document.body.appendChild(box);
+    box.addEventListener("click", e => {
+      if(e.target === box || e.target.closest("[data-abzzu]")){ box.hidden = true; document.documentElement.classList.remove("abz-offen"); return; }
+      const k = e.target.closest("[data-abzgeh]"); if(k){ box.innerHTML = k.dataset.abzgeh === "alle" ? abzListe() : abzDetail(k.dataset.abzgeh); try{ ton("klick"); }catch(x){} } });
+    addEventListener("keydown", e => { if(e.key === "Escape" && !box.hidden){ box.hidden = true; document.documentElement.classList.remove("abz-offen"); } }); }
+  box.innerHTML = !ziel || ziel === "alle" ? abzListe() : abzDetail(ziel);
+  box.hidden = false; document.documentElement.classList.add("abz-offen");
+  const zuK = box.querySelector(".abz-zu"); if(zuK) zuK.focus();
+}
+document.addEventListener("click", e => { const k = e.target.closest("[data-abz]"); if(!k || k.closest("#abzFenster")) return; e.preventDefault(); try{ ton("klick"); }catch(x){} abzFenster(k.dataset.abz); });
+window.EP_ABZEICHEN = { oeffnen:abzFenster };
+
 /* ---------- Stil ---------- */
 const css = document.createElement("style"); css.id = "ep-x-profil";
 css.textContent = `
@@ -400,7 +452,7 @@ css.textContent = `
 
 /* Profil über die ganze Seite und Zahnrad (Selektoren absichtlich stark, damit der Kopf-Rahmen aus stil.js nicht greift) */
 .pp-vollhg{position:fixed;inset:0;z-index:-1;pointer-events:none;background-size:cover}
-html.pp-ganz-an #himmel,html.pp-ganz-an #alpen,html.pp-ganz-an #flocken,html.pp-ganz-an #clouds,html.pp-ganz-an #pattern,html.pp-ganz-an #eventlayer,html.pp-ganz-an #bgneu{display:none!important}
+html.pp-ganz-an #bgbild,html.pp-ganz-an #himmel,html.pp-ganz-an #alpen,html.pp-ganz-an #flocken,html.pp-ganz-an #clouds,html.pp-ganz-an #pattern,html.pp-ganz-an #eventlayer,html.pp-ganz-an #bgneu{display:none!important}
 html.pp-ganz-an body{background:transparent!important}
 html body #app .pp-seite .pp-kopf.pp-ganz{background:transparent!important;border:0!important;border-image:none!important;box-shadow:none!important;filter:none!important;border-radius:0!important;overflow:visible!important;min-height:300px;padding:34px 12px 22px!important;margin:0 0 10px!important}
 html body #app .pp-seite .pp-kopf.pp-ganz::after,html body #app .pp-seite .pp-kopf.pp-ganz::before{display:none!important}
@@ -579,7 +631,7 @@ function ganzeSeite(p, ich, box){
   const kopf = box.querySelector(".pp-kopf"); if(!kopf) return;
   kopf.classList.add("pp-ganz");
   if(!ich) return;
-  const knopfAlt = kopf.querySelector("#ppVerzieren"); if(knopfAlt) knopfAlt.remove();
+  const knopfAlt = kopf.querySelector("#ppVerzieren"); if(knopfAlt){ knopfAlt.classList.add("pp-knopf-gold"); knopfAlt.onclick = () => { ton("klick"); go("x-garderobe"); scrollTo(0, 0); }; }
   const rad = document.createElement("button");
   rad.type = "button"; rad.className = "pp-zahnrad"; rad.id = "ppZahnrad"; rad.setAttribute("aria-label", "Einstellungen"); rad.setAttribute("aria-haspopup", "dialog");
   rad.innerHTML = `<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.2.4.5.4h4c.3 0 .5-.2.5-.4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6L19.4 13ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg>`;

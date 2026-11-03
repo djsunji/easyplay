@@ -3268,3 +3268,47 @@ ${A} details.du2-ein#du2Ein .anzahl input[type=range]{flex:1;accent-color:#A43BE
 html.ep-dfit body.ep-app #app details.du2-ein#du2Ein[open]{position:relative;z-index:5}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Profil: Abzeichen anklickbar wie Erfolge in einem Spiel (Fenster #abzFenster aus garderobe.js),
+   Vitrine-Medaillen mit Dejans Symbolen, Knopf «Profil verzieren» golden ===== */
+(function(){ const c = document.createElement("style"); c.id = "ep-abz-css";
+c.textContent = `
+.abz-f{position:fixed;inset:0;z-index:9000;background:rgba(18,12,48,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px}
+.abz-f[hidden]{display:none}
+html.abz-offen,html.abz-offen body{overflow:hidden}
+.abz-k{width:min(640px,100%);max-height:min(88vh,860px);overflow:auto;background:#fff;color:#2E2560;border-radius:26px;box-shadow:0 24px 60px rgba(20,10,60,.45);padding:16px 16px 14px;font-family:Lexend,system-ui,sans-serif}
+.abz-kopf{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.abz-kopf h2{flex:1;margin:0;font:800 1.35rem Lexend,sans-serif;color:#2E2560}
+.abz-zahl{font:700 12px Lexend,sans-serif;background:#F1ECFF;color:#5A2BB0;border-radius:99px;padding:4px 10px}
+.abz-zu,.abz-zur{border:0;cursor:pointer;border-radius:99px;background:#F1ECFF;color:#5A2BB0;font:800 14px Lexend,sans-serif;height:36px;min-width:36px;padding:0 12px}
+.abz-gitter{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.abz-it{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px 10px;border-radius:18px;border:2px solid #EEE9FF;background:#FBFAFF;cursor:pointer;color:#2E2560;font-family:inherit;text-align:center}
+.abz-it:hover{border-color:var(--mf)}
+.abz-it b{font:800 13px/1.15 Lexend,sans-serif}.abz-it small{font:600 11px Lexend,sans-serif;color:#7A70A8}
+.abz-it.aus .abz-med{filter:grayscale(1);opacity:.5}
+.abz-med{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff,#F4EEFF 62%,#E2D8FF);border:4px solid var(--mf,#E0A800);box-shadow:0 0 0 2px #fff,0 0 14px color-mix(in srgb,var(--mf,#E0A800) 60%,transparent);font-size:30px}
+.abz-med img{width:64%;height:64%;object-fit:contain}
+.abz-med.gross{width:96px;height:96px;flex:none;font-size:44px;border-width:5px}
+.abz-k em{display:inline-block;font-style:normal;font:800 10.5px Lexend,sans-serif;color:#fff;background:var(--sf);border-radius:99px;padding:2px 8px;letter-spacing:.02em}
+.abz-held{display:flex;gap:16px;align-items:center;padding:14px;border-radius:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--mf) 14%,#fff),#fff);border:2px solid color-mix(in srgb,var(--mf) 35%,#fff);margin-bottom:12px}
+.abz-held > div{flex:1;min-width:0}
+.abz-was{margin:0 0 4px;font:800 1.05rem/1.3 Lexend,sans-serif}
+.abz-stand{margin:0 0 8px;font:600 13px Lexend,sans-serif;color:#5D5486}
+.abz-bar{height:10px;border-radius:99px;background:#EAE5FA;overflow:hidden;margin-bottom:4px}.abz-bar i{display:block;height:100%;background:linear-gradient(90deg,#FFE34D,#FFB020);border-radius:inherit}
+.abz-held small{font:600 12px Lexend,sans-serif;color:#7A70A8}
+.abz-stufen{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.abz-stufen li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:#FBFAFF;border:2px solid #EEE9FF}
+.abz-stufen li.ok{border-color:color-mix(in srgb,var(--mf) 55%,#fff);background:color-mix(in srgb,var(--mf) 9%,#fff)}
+.abz-pkt{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#E7E2F7;color:#7A70A8;font:800 13px Lexend,sans-serif}
+.abz-stufen li.ok .abz-pkt{background:var(--mf);color:#fff}
+.abz-sn{flex:1;min-width:0;display:flex;flex-direction:column}.abz-sn b{font:800 14px Lexend,sans-serif;color:var(--mf)}.abz-sn small{font:600 11.5px Lexend,sans-serif;color:#7A70A8}
+.abz-pz{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px}.abz-pz b{font:800 15px Lexend,sans-serif}
+.abz-fuss{margin:12px 2px 0;font:500 11.5px/1.4 Lexend,sans-serif;color:#8A82B0}
+@media (max-width:480px){.abz-f{padding:8px;align-items:end}.abz-k{max-height:86vh;border-radius:24px 24px 18px 18px}.abz-gitter{grid-template-columns:repeat(3,1fr);gap:7px}.abz-med{width:52px;height:52px}.abz-it{padding:10px 4px 8px}.abz-it b{font-size:12px}.abz-held{flex-direction:column;text-align:center}}
+/* Vitrine und Zahl anklickbar */
+html body #app .pp-vit .pp-med{cursor:pointer;font-family:inherit;color:inherit}
+html body #app .pp-vit .pp-med > span img{width:70%;height:70%;object-fit:contain}
+html body #app .pp-zahl-ab{cursor:pointer;font-family:inherit;color:inherit}
+html body #app .pp-alleab{margin:10px auto 0;display:block;border:0;cursor:pointer;border-radius:99px;padding:9px 18px;background:rgba(255,255,255,.95);color:#5A2BB0;font:800 14px Lexend,sans-serif;box-shadow:0 4px 10px rgba(30,20,90,.25)}
+html body #app .pp-kopf .pp-knopf.pp-knopf-gold{border:0 solid transparent!important;border-width:12px 24px!important;border-radius:0!important;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 12px 24px stretch!important;background:none!important;color:#5A2A00!important;font:800 15px Lexend,sans-serif!important;padding:0 6px!important;margin-top:10px;box-shadow:none!important;text-shadow:0 1px 0 rgba(255,255,255,.5)}`;
+document.head.appendChild(c); })();
