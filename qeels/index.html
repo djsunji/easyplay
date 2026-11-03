@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-03-07";
+window.EP_BUILD="ep-2026-11-03-08";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -8085,10 +8085,12 @@ async function authInit(){
   AUTH.bereit=true;
 }
 function socialHTML(){
-  /* Google, Apple und Microsoft nur, wenn der Server sie anbietet, und nicht in der App (dort nur E-Mail) */
-  const da=PROVIDER.filter(p=>!window.EP_NATIV && AUTH.anbieter && AUTH.anbieter[p.oauth||p.id]);
+  /* Google, Apple und Microsoft nur, wenn der Server sie anbietet. In der App nur, wenn sie den System-Browser
+     öffnen kann (app/native.js, window.EP_NATIV_OAUTH); Google erlaubt keine Anmeldung im App-eigenen Fenster. */
+  const nativOk=!window.EP_NATIV || typeof window.EP_NATIV_OAUTH==="function";
+  const da=PROVIDER.filter(p=>nativOk && AUTH.anbieter && AUTH.anbieter[p.oauth||p.id]);
   if(AUTH.modus==="supabase" && !da.length) return "";
-  return `<div class="social"><p class="trenner"><span>oder weiter mit</span></p><div class="provbtns">${(AUTH.modus==="supabase"?PROVIDER.filter(p=>!window.EP_NATIV && AUTH.anbieter && AUTH.anbieter[p.oauth||p.id]):PROVIDER).map(p=>`<button type="button" class="sbtn s-${p.id}" data-prov="${p.id}">${p.icon}<span>${p.name}</span></button>`).join("")}</div>
+  return `<div class="social"><p class="trenner"><span>oder weiter mit</span></p><div class="provbtns">${(AUTH.modus==="supabase"?da:PROVIDER).map(p=>`<button type="button" class="sbtn s-${p.id}" data-prov="${p.id}">${p.icon}<span>${p.name}</span></button>`).join("")}</div>
     <p class="err" id="socErr" aria-live="polite"></p></div>`;
 }
 function bindSocial(){
@@ -8096,6 +8098,12 @@ function bindSocial(){
     const err=$("#socErr");
     if(AUTH.modus!=="supabase"){ err.textContent = window.claude ? "Die Anmeldung mit "+b.textContent.trim()+" funktioniert nur auf deiner eigenen Website, nicht in der claude.ai-Vorschau." : "Die Anmeldung mit "+b.textContent.trim()+" ist noch nicht eingerichtet. Dafür braucht es den easyplay-Server (siehe ANLEITUNG-SERVER.md)."; return; }
     const pv=PROVIDER.find(x=>x.id===b.dataset.prov)||{id:b.dataset.prov};
+    if(window.EP_NATIV && typeof window.EP_NATIV_OAUTH==="function"){
+      err.textContent="";
+      try{ await window.EP_NATIV_OAUTH(pv.oauth||pv.id); }
+      catch(e){ err.textContent="Das hat nicht geklappt: "+(e.message||"unbekannter Fehler"); }
+      return;
+    }
     const opt={redirectTo: location.origin+location.pathname}; if(pv.scopes) opt.scopes=pv.scopes;
     try{ const {error}=await AUTH.sb.auth.signInWithOAuth({provider:pv.oauth||pv.id, options:opt}); if(error) throw error; }
     catch(e){ err.textContent="Das hat nicht geklappt: "+(e.message||"unbekannter Fehler"); }
