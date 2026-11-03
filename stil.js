@@ -3322,3 +3322,34 @@ html body #app .pp-zahl-ab{cursor:pointer;font-family:inherit;color:inherit}
 html body #app .pp-alleab{margin:10px auto 0;display:block;border:0;cursor:pointer;border-radius:99px;padding:9px 18px;background:rgba(255,255,255,.95);color:#5A2BB0;font:800 14px Lexend,sans-serif;box-shadow:0 4px 10px rgba(30,20,90,.25)}
 html body #app .pp-kopf .pp-knopf.pp-knopf-gold{border:0 solid transparent!important;border-width:12px 24px!important;border-radius:0!important;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 12px 24px stretch!important;background:none!important;color:#5A2A00!important;font:800 15px Lexend,sans-serif!important;padding:0 6px!important;margin-top:10px;box-shadow:none!important;text-shadow:0 1px 0 rgba(255,255,255,.5)}`;
 document.head.appendChild(c); })();
+
+/* ===== Themen-Kacheln: Fortschrittsring ums Symbol (Dejans Wahl, Vorschlag B) =====
+   Goldener Ring um das Symbol (.emo::before, conic-gradient bis --gp) und Prozent-Pille oben rechts (.emo::after, data-gp).
+   Anteil = gelöste Fragen (mindestens einmal richtig) in der gewählten Stufe, aus window.EP_GELOEST (lernen.js). */
+(function(){
+  const c = document.createElement("style"); c.id = "ep-gring-css";
+  c.textContent = `
+html body #app .thema[data-gp] .emo{position:relative!important;overflow:visible!important}
+html body #app .thema[data-gp] .emo::before{content:"";position:absolute;inset:-7px;border-radius:calc(var(--gr,22px) + 7px);padding:5px;background:conic-gradient(#FFD54A var(--gp), rgba(255,255,255,.28) 0);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none;z-index:1;filter:drop-shadow(0 0 4px rgba(255,210,60,.45))}
+html body #app .thema[data-gp] .emo::after{content:attr(data-gp);position:absolute;right:-16px;top:-12px;z-index:3;background:#fff;color:#2E2560;font:800 11px/1 Lexend,system-ui,sans-serif;border-radius:99px;padding:3px 7px;box-shadow:0 2px 6px rgba(0,0,0,.25);white-space:nowrap;pointer-events:none}
+html body.ep-app #app .thema[data-gp] .emo{--gr:50%;margin-top:7px!important}
+html body.ep-app #app .thema[data-gp] .emo::before{inset:-5px;padding:4px;border-radius:50%}
+html body.ep-app #app .thema[data-gp] .emo::after{font-size:9.5px;padding:2px 5px;right:-20px;top:auto;bottom:-4px}`;
+  document.head.appendChild(c);
+  function mach(){
+    const G = window.EP_GELOEST; if(!G) return;
+    let st = 0; try{ st = S.stufe; }catch(e){}
+    document.querySelectorAll("#app .thema[data-t]").forEach(k => {
+      const id = k.dataset.t; let a = 0; try{ if(!THEMA[id]) return; a = G.anteil(id, st); }catch(e){ return; }
+      const p = Math.round(a * 100), txt = (a > 0 && p === 0 ? "<1" : p) + " %";
+      const e = k.querySelector(".emo"); if(!e) return;
+      if(k.dataset.gp !== txt){ k.dataset.gp = txt; e.dataset.gp = txt; }
+      e.style.setProperty("--gp", (a * 100).toFixed(1) + "%");
+      if(!e.dataset.gr){ const r = getComputedStyle(e).borderTopLeftRadius; e.dataset.gr = "1"; if(r && !/%/.test(r)) e.style.setProperty("--gr", r); }
+    });
+  }
+  let t = 0; const los = () => { clearTimeout(t); t = setTimeout(mach, 60); };
+  const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300); new MutationObserver(los).observe(app, {childList:true, subtree:true}); los(); };
+  start();
+})();

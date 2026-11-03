@@ -69,6 +69,20 @@ function fragenZu(eintraege, max){
   return raus;
 }
 
+/* ---------- Gelöste Fragen: jede Frage, die einmal richtig beantwortet wurde (ep-geloest, Liste der Nummern) ----------
+   window.EP_GELOEST.anteil(themaId, stufe) gibt 0..1 zurück: Anteil der Fragen dieses Themas (in der Stufe), die gelöst sind. */
+let GEL = null;
+function geloestSet(){ if(!GEL){ const l = LS.get("ep-geloest", []); GEL = new Set(Array.isArray(l) ? l.map(Number).filter(n => n > 0) : []); } return GEL; }
+let gelT = 0;
+function geloestDazu(nr){ const s = geloestSet(); if(s.has(+nr)) return; s.add(+nr); GEL_CACHE.clear(); clearTimeout(gelT); gelT = setTimeout(() => LS.set("ep-geloest", [...s]), 400); }
+const GEL_CACHE = new Map();
+function geloestAnteil(id, l){
+  const k = id + "|" + (l || 0); if(GEL_CACHE.has(k)) return GEL_CACHE.get(k);
+  let a = 0; try{ const arr = byL(pool(id), l); if(arr.length){ const s = geloestSet(); let n = 0; for(const f of arr) if(s.has(nrVon(f))) n++; a = n / arr.length; } }catch(e){}
+  GEL_CACHE.set(k, a); return a;
+}
+window.EP_GELOEST = { anteil:geloestAnteil, anzahl:() => geloestSet().size };
+
 /* ---------- Antworten mitschreiben ---------- */
 const vorAnswer = window.answer;
 window.answer = function(i){
@@ -93,6 +107,8 @@ window.answer = function(i){
     if(tg[t] === 5){ const se = serieStand(); if(se.letzter !== t){ se.n = se.letzter === vortag(t) ? se.n + 1 : 1; se.letzter = t; se.best = Math.max(se.best, se.n); LS.set(K.serie, se); } }
     // Themen: richtig / beantwortet
     if(f.t){ const th = LS.get(K.themen, {}); const e = th[f.t] || [0,0]; e[1]++; if(ok) e[0]++; th[f.t] = e; LS.set(K.themen, th); }
+    // Gelöste Fragen (mindestens einmal richtig) für den Fortschrittsring der Themen-Kacheln
+    if(ok && nr) geloestDazu(nr);
   }catch(e){ console.warn("lernen.js", e); }
   return r;
 };
