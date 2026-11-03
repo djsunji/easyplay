@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-03-08";
+window.EP_BUILD="ep-2026-11-03-09";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4493,7 +4493,7 @@ function renderBereich(){
     <div class="themen">
       ${b.themen.filter(t=>!t.versteckt&&(t.menu||[1,2,3].some(l=>countThema(t.id,l)))).map(t=>{ const st=trainStars(t.id), bp=myBest(t.id); return `<button class="thema" type="button" data-t="${t.id}" style="--c:var(${b.c})">
         <span class="emo" aria-hidden="true">${themaIcon(t)}</span>
-        <span><b>${t.name}</b><span class="t">${st!=null ? stars(st) : t.text}${bp? " · Test: "+bp+" P." : ""}</span>
+        <span><b>${t.name}</b><span class="t">${t.text}</span>
         <span class="n">${countThema(t.id,S.stufe)} Fragen</span></span></button>`; }).join("")}
     </div>`;
   ($("#backHome")||{}).onclick=()=>go("home");
@@ -5886,7 +5886,7 @@ function renderSubMenu(){
     <div class="themen">
       ${m.kids.map(id=>{ const t=THEMA[id], st=trainStars(id), bp=myBest(id); return `<button class="thema" type="button" data-t="${id}" style="--c:var(${b.c})">
         <span class="emo" aria-hidden="true">${themaIcon(t)}</span>
-        <span><b>${esc(t.name)}</b><span class="t">${st!=null ? stars(st) : esc(t.text)}${bp? " · Test: "+bp+" P." : ""}</span>
+        <span><b>${esc(t.name)}</b><span class="t">${esc(t.text)}</span>
         <span class="n">${countThema(id,S.stufe)} Fragen</span></span></button>`; }).join("")}
     </div>
     `;
