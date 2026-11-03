@@ -1051,6 +1051,14 @@ function duellMehr(){
   alt.className = "ap ap-duellmehr";
   ein.after(alt);
   binden(alt);
+  /* Duell bleibt eine Seite ohne Scrollen: was unten keinen Platz hat, fällt weg (kleines iPhone) */
+  requestAnimationFrame(() => {
+    const t = document.getElementById("epTabs"), r = t && getComputedStyle(t).display !== "none" ? t.getBoundingClientRect() : null;
+    const unten = (r && r.width > innerWidth / 2 ? r.top : innerHeight) - 6;
+    const k = [...alt.children];
+    while(k.length && alt.getBoundingClientRect().bottom > unten) k.pop().remove();
+    if(!alt.children.length) alt.remove();
+  });
 }
 /* Rangliste: Season mit Symbol, Umschalter als Leiste unten */
 function schmuckSeiten(){
