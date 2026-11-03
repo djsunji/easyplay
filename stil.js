@@ -3526,3 +3526,40 @@ html body.ep-app.ep-s-board #app .segs.rlmodus{margin:0!important}html body.ep-a
   }
   let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(schmuck, 30); }).observe(document.documentElement, {childList:true, subtree:true});
 })();
+
+/* ===== Season-Zeitstrahl wie der Fortschrittsbalken im Quiz, leuchtend (Rangliste › Seasons). Sitzung «App», 03.11.
+   Dick, dunkle Spur mit weissem Rand, Abschnitte ×1/×2/×3 mit wandernden Streifen und Glanz, Lichtstreif läuft darüber,
+   alles bis heute leuchtet, der Rest ist gedämpft (--pos aus dem Heute-Punkt), Heute-Punkt pulsiert golden. ===== */
+(function(){
+  const A = 'html[data-scr="board"] body #app';
+  const GL = "linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 55%)";
+  const ST = "repeating-linear-gradient(-45deg,rgba(255,255,255,.24) 0 10px,rgba(255,255,255,0) 10px 20px)";
+  const c = document.createElement("style"); c.id = "ep-season-balken-css";
+  c.textContent = `
+${A} .stimeline{margin:10px 4px 16px!important;background:none!important;box-shadow:none!important;border:0!important;padding:0!important;overflow:visible!important}
+${A} .stl-bar.stl-bar{position:relative;height:30px!important;border-radius:999px!important;background:rgba(27,34,64,.9)!important;border:2px solid rgba(255,255,255,.85);box-sizing:border-box;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.3),0 0 12px rgba(255,190,60,.6),0 0 26px rgba(232,64,159,.4)!important;animation:ep-sb-glow 2.6s ease-in-out infinite}
+${A} .stl-bar.stl-bar > span{position:relative;height:100%;background-size:100% 100%,28px 28px,100% 100%!important;animation:ep-streifen 1s linear infinite}
+${A} .stl-bar.stl-bar > .seg1{background:${GL},${ST},linear-gradient(90deg,#6A4BFF,#8E5BFF 60%,#B05CFF)!important;border-radius:999px 0 0 999px}
+${A} .stl-bar.stl-bar > .seg2{background:${GL},${ST},linear-gradient(90deg,#FFB020,#FF8A1F)!important}
+${A} .stl-bar.stl-bar > .seg3{background:${GL},${ST},linear-gradient(90deg,#FF5FA2,#E8409F)!important;border-radius:0 999px 999px 0}
+${A} .stl-bar.stl-bar > span i{position:relative;z-index:2;font:900 12px/1 Lexend,system-ui,sans-serif!important;color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 6px rgba(0,0,0,.3)!important}
+/* noch nicht erreicht: gedämpft */
+${A} .stl-bar.stl-bar::after{content:"";position:absolute;z-index:1;top:0;bottom:0;left:var(--pos,100%);right:0;border-radius:0 999px 999px 0;background:rgba(27,34,64,.28);pointer-events:none}
+/* Lichtstreif läuft über den erreichten Teil */
+${A} .stl-bar.stl-bar::before{content:"";position:absolute;z-index:1;top:0;bottom:0;left:0;width:var(--pos,100%);border-radius:999px;pointer-events:none;overflow:hidden;
+  background:linear-gradient(100deg,transparent 0 35%,rgba(255,255,255,.65) 48%,transparent 60% 100%) no-repeat;background-size:40% 100%;animation:ep-sb-licht 3.2s ease-in-out infinite}
+${A} .stl-bar.stl-bar > .stl-heute{z-index:3;width:26px!important;height:26px!important;margin-left:-13px!important;top:0!important;border-radius:50%!important;
+  background:radial-gradient(circle at 35% 30%,#fff,#FFF3C4 60%,#FFD54A)!important;border:0!important;box-shadow:0 0 0 3px #FFD54A,0 0 12px 4px rgba(255,214,80,.9),0 2px 6px rgba(0,0,0,.4)!important;animation:ep-sb-puls 1.6s ease-in-out infinite}
+${A} .stl-bar.stl-bar > .stl-heute::after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:#E09A00;font-size:13px}
+@keyframes ep-sb-glow{0%,100%{box-shadow:inset 0 2px 4px rgba(0,0,0,.3),0 0 10px rgba(255,190,60,.5),0 0 22px rgba(232,64,159,.3)}50%{box-shadow:inset 0 2px 4px rgba(0,0,0,.3),0 0 18px rgba(255,190,60,.85),0 0 36px rgba(232,64,159,.55)}}
+@keyframes ep-sb-licht{0%{background-position:-60% 0}60%,100%{background-position:160% 0}}
+@keyframes ep-sb-puls{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes ep-streifen{from{background-position:0 0,0 0,0 0}to{background-position:0 0,28px 0,0 0}}
+@media (prefers-reduced-motion:reduce){${A} .stl-bar.stl-bar,${A} .stl-bar.stl-bar > span,${A} .stl-bar.stl-bar::before,${A} .stl-bar.stl-bar > .stl-heute{animation:none!important}}
+@media (max-width:560px){${A} .stl-bar.stl-bar{height:26px!important}${A} .stl-bar.stl-bar > .stl-heute{width:22px!important;height:22px!important;margin-left:-11px!important}}`;
+  document.head.appendChild(c);
+  /* --pos = Stelle von heute (aus dem Heute-Punkt), damit Leuchten und Dämpfung dort wechseln */
+  function pos(){ document.querySelectorAll("#app .stl-bar").forEach(b => { const h = b.querySelector(".stl-heute"); const p = h ? h.style.left || "100%" : "100%"; if(b.style.getPropertyValue("--pos") !== p) b.style.setProperty("--pos", p); }); }
+  let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(pos, 40); }).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:["style"]});
+})();
