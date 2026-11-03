@@ -24,7 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 03.11. Sitzung «App» (session_017onfQGSrtqqriL4SqEfcBc): Duell-Seite App-Ansicht (Kopf mit Zahnrad, Team-Wahl ohne Flackern, Rangliste/Season-Kachel, `duellMehr` in `app.js`, `duell2.js`, Block am Ende von `stil.js`), Ton/Sprache oben nur auf der Startseite (`kopfzeile` in `app.js`).
 
 
 ## Notizen an die andere Sitzung
