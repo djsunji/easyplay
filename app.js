@@ -1043,7 +1043,6 @@ function kopfzeile(){
 /* Rangliste: Season mit Symbol, Umschalter als Leiste unten */
 function schmuckSeiten(){
   const app = document.getElementById("app"); if(!app) return;
-  app.querySelectorAll(".seasonband .stier").forEach(e => { if(!e.dataset.ap){ e.dataset.ap = "1"; e.innerHTML = SV(I.pokal, 30); } });
   app.querySelectorAll(".rlmodus .seg").forEach(b => { if(b.dataset.ap) return; b.dataset.ap = "1";
     const m = b.dataset.bm || (b.textContent.includes("Hardcore") ? "hc" : ""); const ic = m === "gesamt" ? I.pokal : m === "season" ? I.kal : I.flamme;
     const txt = b.textContent.replace(/^[^A-Za-zÄÖÜäöü]+/, "").trim(); b.innerHTML = SV(ic, 20) + `<span>${h(txt)}</span>`; });

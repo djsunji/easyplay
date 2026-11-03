@@ -3402,3 +3402,123 @@ html body:not(.ep-app) #app .du3-kopf .du3-zahn{position:static;grid-area:modi;j
 @media (max-width:420px){${A} .du-rs-rang em{display:none}${A} .du3-zh{max-width:40vw}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Rangliste und Season im neuen Stil (renderBoard in index.html), Computer und Handy/iPad. Sitzung «App», 03.11.
+   Regeln als weisse Karten mit Symbol in goldener Münze, Umschalter als weisse Glas-Pillen (gewählt Violett-Pink),
+   Season-Band als Glanz-Kachel, Zeitstrahl golden, Tier-Karte und Kalender als weisse Karten mit Tier in Münze,
+   Podest auf nachtblauer Bühne mit Gold-, Silber- und Bronze-Sockel, Liste als weisse Karte mit violettem Kopfband. ===== */
+(function(){
+  const E = "img/grafik/entdecken/", G = "img/grafik/diverse/", A = 'html[data-scr="board"] body #app';
+  const MZ = "radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800)";
+  const VP = "linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F)";
+  const c = document.createElement("style"); c.id = "ep-rangliste-neu-css";
+  c.textContent = `
+/* Regeln im Kopf */
+${A} .rlkopf .rlregeln>div{background:rgba(255,255,255,.95)!important;border:0!important;border-radius:18px!important;box-shadow:0 6px 16px rgba(20,10,80,.25)!important;color:#3A2F72!important;padding:12px 14px!important}
+${A} .rlkopf .rlregeln>div b{display:flex!important;align-items:center;gap:8px;color:#4A2BB0!important;font:800 14px/1.2 Lexend,system-ui,sans-serif!important;margin-bottom:4px}
+${A} .rlkopf .rlregeln>div span{color:#4E4880!important;font:500 12.5px/1.4 Lexend,sans-serif!important}
+${A} .rl-mz{flex:none;width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;background:${MZ};box-shadow:0 2px 4px rgba(0,0,0,.25)}
+${A} .rl-mz img{width:72%;height:72%;object-fit:contain}
+${A} .rlkopf .rlpokal span{font-size:0!important}
+${A} .rlkopf .rlpokal span img{width:70%;height:70%;object-fit:contain}
+/* Umschalter Gesamt/Seasons und Stufen */
+${A} .segs.rlmodus,${A} .segs.rlsegs{display:flex!important;flex-wrap:wrap;justify-content:center;gap:6px!important;width:fit-content;max-width:100%;margin:16px auto 12px!important;padding:6px!important;border-radius:999px!important;background:rgba(255,255,255,.9)!important;border:0!important;box-shadow:0 6px 16px rgba(30,20,90,.2)!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+${A} .segs.rlmodus .seg,${A} .segs.rlsegs .seg{display:inline-flex!important;align-items:center;gap:6px;min-height:40px!important;padding:6px 16px!important;border-radius:999px!important;border:0!important;background:transparent!important;color:#3A2F72!important;font:700 14px Lexend,system-ui,sans-serif!important;box-shadow:none!important}
+${A} .segs.rlmodus .seg[aria-pressed="true"],${A} .segs.rlsegs .seg[aria-pressed="true"]{background:${VP}!important;color:#fff!important;box-shadow:0 4px 10px rgba(110,50,200,.35)!important}
+${A} .segs.rlsegs .seg .sgi img,${A} .segs.rlmodus .seg img{width:24px;height:24px;object-fit:contain;vertical-align:middle}
+${A} .segs.rlsegs .seg .sgt{color:inherit!important}
+/* Auswahlfelder */
+${A} :is(.seasonwahl,.kpick){display:flex;align-items:center;justify-content:center;gap:10px;margin:0 auto 14px!important}
+${A} .seasonwahl label b{color:#fff;text-shadow:0 1px 3px rgba(20,10,60,.5);font:800 15px Lexend,sans-serif}
+${A} :is(.seasonwahl,.kpick) select.sel{min-height:46px;border-radius:16px!important;border:0!important;background:rgba(255,255,255,.96)!important;color:#2E2560!important;font:700 14px Lexend,sans-serif!important;padding:0 14px!important;box-shadow:0 6px 14px rgba(30,20,90,.18)!important}
+/* Season-Band als Glanz-Kachel */
+${A} .seasonkopf{max-width:1040px;margin:0 auto}
+${A} .seasonband{background:none!important;border:0 solid transparent!important;border-width:18px!important;border-radius:0!important;border-image:url("${E}kachel-06.webp?v=3") 46 fill / 18px stretch!important;filter:drop-shadow(0 8px 14px rgba(20,20,80,.3));color:#fff!important;padding:4px 6px!important;box-shadow:none!important;margin:6px 0 10px!important}
+${A} .seasonband.phase2{border-image-source:url("${E}kachel-03.webp?v=3")!important}
+${A} .seasonband.phase3{border-image-source:url("${E}kachel-04.webp?v=3")!important}
+${A} .seasonband .stier{flex:none;width:58px!important;height:58px!important;border-radius:50%!important;display:grid!important;place-items:center;background:${MZ}!important;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 -2px 3px rgba(150,90,0,.35)!important;font-size:32px!important;border:0!important}
+${A} .seasonband :is(.sbname,strong,small,span){color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+${A} .seasonband .sbname{font:800 11px Lexend,sans-serif!important;letter-spacing:.08em;text-transform:uppercase;opacity:.95}
+${A} .seasonband strong{font:800 17px/1.2 Lexend,sans-serif!important}
+${A} .seasonband small{font:500 12.5px/1.35 Lexend,sans-serif!important;opacity:.95}
+${A} .seasonband .smult{background:${MZ}!important;color:#5A2A00!important;text-shadow:none!important;border:0!important;box-shadow:0 2px 5px rgba(0,0,0,.25)!important;font:900 20px Lexend,sans-serif!important;border-radius:14px!important;padding:6px 10px!important}
+/* Zeitstrahl */
+${A} .stimeline{margin:4px 6px 14px!important}
+${A} .stl-bar{height:16px!important;background:rgba(255,255,255,.75)!important;box-shadow:inset 0 1px 3px rgba(30,20,90,.25),0 3px 8px rgba(30,20,90,.15)}
+${A} .stl-bar>span{display:flex;align-items:center;justify-content:center}
+${A} .stl-bar .seg1{background:linear-gradient(90deg,#9C8CFF,#7B5BFF)!important;border-radius:999px 0 0 999px}
+${A} .stl-bar .seg2{background:linear-gradient(90deg,#FFC23D,#FF9A1F)!important}
+${A} .stl-bar .seg3{background:linear-gradient(90deg,#FF6B8B,#E8409F)!important;border-radius:0 999px 999px 0}
+${A} .stl-bar i{font:900 10px Lexend,sans-serif!important;color:#fff!important;font-style:normal;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+${A} .stl-bar .stl-heute{width:22px!important;height:22px!important;margin-left:-11px!important;top:-3px!important;border-radius:50%!important;background:#fff!important;box-shadow:0 0 0 4px #FFD54A,0 2px 6px rgba(0,0,0,.35)!important;border:0!important}
+${A} .stl-lbl span{color:#3A2F72!important;font:700 11.5px Lexend,sans-serif!important;background:rgba(255,255,255,.8);border-radius:99px;padding:1px 8px}
+/* Tier-Karte */
+${A} .stierkarte{background:rgba(255,255,255,.96)!important;border:0!important;border-left:6px solid var(--tc)!important;border-radius:20px!important;box-shadow:0 6px 16px rgba(30,20,90,.18)!important;color:#3A2F72!important}
+${A} .stierkarte .stk-emo{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:${MZ};box-shadow:0 3px 6px rgba(0,0,0,.25);font-size:28px}
+${A} .stierkarte b{color:#4A2BB0!important;font:800 15px Lexend,sans-serif}
+${A} .stierkarte p{color:#4E4880!important;font:500 13px/1.45 Lexend,sans-serif;margin:4px 0 0}
+${A} .stierkarte .stk-wissen{background:#FFF6D6;border-radius:12px;padding:6px 10px;color:#6A4A00!important}
+${A} .seasonkopf>.help{color:#3A2F72!important;background:rgba(255,255,255,.82);border-radius:16px;padding:10px 14px;margin:12px 0!important;font:500 13px/1.45 Lexend,sans-serif}
+/* Kalender */
+${A} details.skalender{background:rgba(255,255,255,.94);border-radius:22px;padding:6px 14px 14px;box-shadow:0 8px 20px rgba(30,20,90,.18);margin:0 0 18px}
+${A} details.skalender>summary{display:flex;align-items:center;gap:10px;padding:10px 2px;cursor:pointer;list-style:none;color:#2E2560;font:800 15px Lexend,sans-serif}
+${A} details.skalender>summary::-webkit-details-marker{display:none}
+${A} details.skalender>summary::after{content:"▸";margin-left:auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(123,91,255,.12);color:#6A4BFF;font-size:12px;transition:transform .2s}
+${A} details.skalender[open]>summary::after{transform:rotate(90deg)}
+${A} details.skalender .help{color:#6B6295!important}
+${A} .skitem{background:#fff!important;border:0!important;border-top:5px solid var(--tc)!important;border-radius:16px!important;box-shadow:0 4px 10px rgba(30,20,90,.12)!important;color:#3A2F72!important}
+${A} .skitem>span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--tc) 22%,#fff);font-size:24px;margin-bottom:2px}
+${A} .skitem b{color:#2E2560!important;font:800 13px/1.2 Lexend,sans-serif}
+${A} .skitem small{color:#6B6295!important}
+${A} .skneu{color:#4A2BB0!important;font:800 12px Lexend,sans-serif;background:#F1ECFF;border-radius:99px;padding:4px 12px;width:fit-content;margin:6px auto!important;grid-column:1/-1}
+/* Podest auf Bühne */
+${A} .podium{background:linear-gradient(165deg,#2E2BA8,#5B2BC8 50%,#B23BA8)!important;border:0!important;box-shadow:0 12px 26px rgba(30,20,90,.35),inset 0 2px 0 rgba(255,255,255,.25)!important;overflow:hidden}
+${A} .podium::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 45% at 50% 0%,rgba(255,255,255,.28),transparent 70%),radial-gradient(ellipse 70% 40% at 50% 100%,rgba(255,214,80,.35),transparent 70%)}
+${A} .podium .pname{color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+${A} .podium .pkt{color:#FFE9A8!important;font-weight:800!important;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+${A} .podium .pav{box-shadow:0 0 0 4px #FFD54A,0 4px 10px rgba(0,0,0,.35)!important;background:#fff}
+${A} .podium .pav.pfrei{background:rgba(255,255,255,.18)!important;color:#fff!important;box-shadow:0 0 0 3px rgba(255,255,255,.55)!important;border:0!important}
+${A} .podium .psockel{box-shadow:inset 0 3px 0 rgba(255,255,255,.55),0 -2px 10px rgba(0,0,0,.15)!important;border:0!important}
+${A} .podium .p1 .psockel{background:linear-gradient(180deg,#FFE680,#FFC21A 55%,#E09A00)!important}
+${A} .podium .p2 .psockel{background:linear-gradient(180deg,#F4F6FA,#C5CCD8 55%,#9AA4B5)!important}
+${A} .podium .p3 .psockel{background:linear-gradient(180deg,#F6C79A,#D98D4E 55%,#B0652B)!important}
+${A} .podium .pnr{color:#fff!important;text-shadow:0 2px 4px rgba(0,0,0,.35)!important}
+${A} .podium .pst.leer .psockel{opacity:.8!important}
+/* Liste */
+${A} .rlliste{background:rgba(255,255,255,.96)!important;border:0!important;border-radius:24px!important;box-shadow:0 10px 24px rgba(30,20,90,.2)!important;padding:0 0 12px!important;overflow:hidden}
+${A} .rlkopfleiste{margin:0 0 12px!important;padding:12px 18px;background:${VP};color:#fff}
+${A} .rlkopfleiste b,${A} .rlkopfleiste span,${A} .rlkopfleiste strong{color:#fff!important;font-family:Lexend,system-ui,sans-serif}
+${A} .rlkopfleiste b{font-weight:800;font-size:16px}
+${A} .rlkopfleiste strong{background:${MZ};color:#5A2A00!important;border-radius:99px;padding:1px 8px}
+${A} .rlsuche{margin:0 14px 10px!important}
+${A} .rlsuche input.sel{min-height:44px;border-radius:14px!important;border:2px solid #E4DEFA!important;background:#F7F4FF!important;color:#2E2560!important;font:600 14px Lexend,sans-serif!important}
+${A} .board.rlscroll{margin:0 12px!important;border:0!important;background:none!important;display:flex;flex-direction:column;gap:6px}
+${A} .rrow{border:0!important;border-left:5px solid #9C8CFF!important;border-radius:14px!important;background:#fff!important;box-shadow:0 3px 8px rgba(30,20,90,.1)!important;color:#2E2560!important}
+${A} .rrow:nth-child(3n+2){border-left-color:#FF9A1F!important}${A} .rrow:nth-child(3n){border-left-color:#3FB6C9!important}
+${A} .rrow .rnum{display:inline-grid;place-items:center;min-width:34px;height:34px;border-radius:50%;background:#F1ECFF;color:#4A2BB0;font:800 14px Lexend,sans-serif}
+${A} .rrow .rav{box-shadow:0 0 0 3px #FFD54A;border-radius:50%;overflow:hidden;background:#fff}
+${A} .rrow .rname b{color:#2E2560!important;font:800 15px Lexend,sans-serif}
+${A} .rrow .rname span{color:#6B6295!important}
+${A} .rrow .rpts{color:#5A2A00!important;background:${MZ};border-radius:14px;padding:4px 12px;text-align:center;font:900 16px/1.1 Lexend,sans-serif}
+${A} .rrow .rpts small{display:block;color:#7A4A00!important;font:700 9.5px Lexend,sans-serif}
+${A} .rrow.me{background:${VP}!important;border-left-color:#FFD54A!important}
+${A} .rrow.me :is(b,span){color:#fff!important}
+${A} .rlliste .empty{margin:0 12px;border:2px dashed #DCD2FF!important;border-radius:16px!important;background:#FBF9FF!important;color:#4E4880!important;font:600 14px/1.45 Lexend,sans-serif}
+${A} .note{color:#3A2F72;background:rgba(255,255,255,.82);border-radius:14px;padding:8px 12px;max-width:1040px;margin:0 auto 20px;text-align:center}
+html body.ep-app.ep-s-board #app .segs.rlmodus{margin:0!important}html body.ep-app.ep-s-board #app{padding-bottom:76px}
+@media (max-width:560px){${A} .segs.rlmodus .seg,${A} .segs.rlsegs .seg{padding:5px 10px!important;font-size:12.5px!important;min-height:36px!important}${A} .segs.rlsegs .seg .sgi img{width:20px;height:20px}${A} .rrow{padding:8px 10px!important;gap:8px!important;grid-template-columns:40px 42px 1fr auto!important}${A} .rrow .rpts{font-size:14px;padding:3px 8px}${A} .seasonband{border-width:14px!important;border-image-width:14px!important}${A} .seasonband .stier{width:46px!important;height:46px!important;font-size:24px!important}${A} .seasonband strong{font-size:15px!important}}`;
+  document.head.appendChild(c);
+  /* Emoji im Kopf durch Dejans Symbole ersetzen */
+  const SYM = [["📊", "stern"], ["🚀", "rakete"], ["🏔️", "berg"], ["🏔", "berg"]];
+  function schmuck(){
+    if(document.documentElement.dataset.scr !== "board") return;
+    document.querySelectorAll("#app .rlkopf .rlregeln>div>b").forEach(b => { if(b.dataset.rlz) return;
+      for(const [e, n] of SYM){ if(b.textContent.trim().startsWith(e)){ b.dataset.rlz = "1"; b.innerHTML = `<i class="rl-mz"><img src="${G}${n}.webp?v=2" alt=""></i>` + b.innerHTML.replace(e, "").trim(); break; } } });
+    const pk = document.querySelector("#app .rlkopf .rlpokal span"); if(pk && !pk.querySelector("img")) pk.innerHTML = `<img src="${G}pokal.webp?v=2" alt="">`;
+    document.querySelectorAll("#app .rlmodus .seg").forEach(b => { if(b.dataset.rlz) return;
+      const tx = b.textContent.trim(), m = b.dataset.bm || (tx.includes("Hardcore") ? "hc" : "");
+      const bild = {gesamt:"pokal", season:"festkalender", hc:"flamme"}[m]; if(!bild) return;
+      b.dataset.rlz = "1"; b.innerHTML = `<img src="${G}${bild}.webp?v=2" alt=""> ${{gesamt:"Gesamt", season:"Seasons", hc:"Hardcore"}[m]}`; });
+  }
+  let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(schmuck, 30); }).observe(document.documentElement, {childList:true, subtree:true});
+})();
