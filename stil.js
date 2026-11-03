@@ -3215,7 +3215,7 @@ html.ep-dfit,html.ep-dfit body{overflow:hidden!important;overscroll-behavior:non
   }
   function passen(){
     const app = document.getElementById("app"); if(!app) return;
-    let an = false; try{ an = document.body.classList.contains("ep-app") && S.screen === "duell"; }catch(e){}
+    let an = false; try{ an = document.body.classList.contains("ep-app") && S.screen === "duell" && !document.querySelector("#du2Ein[open]"); }catch(e){}
     document.documentElement.classList.toggle("ep-dfit", an);
     if(!an){ if(app.dataset.dfit){ app.style.zoom = ""; delete app.dataset.dfit; } return; }
     jokerZeile();
@@ -3228,6 +3228,43 @@ html.ep-dfit,html.ep-dfit body{overflow:hidden!important;overscroll-behavior:non
   }
   let t = 0; const los = () => { clearTimeout(t); t = setTimeout(passen, 80); };
   const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300);
-    new MutationObserver(los).observe(app, {childList:true, subtree:true, attributes:true, attributeFilter:["class"]}); los(); };
+    new MutationObserver(los).observe(app, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "open"]}); los(); };
   start(); addEventListener("resize", los);
+})();
+
+/* ===== Duell: Play-Knopf schmaler (nicht ganze Breite) und Einstellungen im neuen Stil ===== */
+(function(){
+  const A = "html body #app";
+  const c = document.createElement("style"); c.id = "ep-duellein-css";
+  c.textContent = `
+${A} .du3-play.du3-play{width:auto!important;min-width:250px;max-width:min(380px,100%)!important;height:72px!important;padding:0 38px 0 26px!important;margin:14px auto 10px!important;gap:12px!important}
+${A} .du3-play.du3-play small{display:none!important}
+${A} .du3-play.du3-play b{font-size:1.45rem!important;white-space:nowrap}
+${A} .du3-play.du3-play img{width:44px!important;height:44px!important}
+html body.ep-app #app .du3-play.du3-play{height:58px!important;min-width:220px;padding:0 30px 0 20px!important;margin:10px auto 8px!important}
+html body.ep-app #app .du3-play.du3-play b{font-size:1.2rem!important}
+html body.ep-app #app .du3-play.du3-play img{width:36px!important;height:36px!important}
+/* Einstellungen */
+${A} details.du2-ein#du2Ein{max-width:560px;margin:8px auto 0!important;background:rgba(255,255,255,.96)!important;border:0!important;border-radius:20px!important;box-shadow:0 8px 20px rgba(30,20,90,.2)!important;overflow:hidden;padding:0!important;color:#2E2560!important;backdrop-filter:none!important}
+${A} details.du2-ein#du2Ein > summary{display:flex!important;align-items:center;gap:12px;padding:8px 14px!important;min-height:0!important;list-style:none;cursor:pointer;background:none!important;border:0!important;color:#2E2560!important;font:700 14px Lexend,system-ui,sans-serif!important}
+${A} details.du2-ein#du2Ein > summary::-webkit-details-marker{display:none}
+${A} details.du2-ein#du2Ein .du-eic{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);box-shadow:0 2px 5px rgba(0,0,0,.25),inset 0 -2px 3px rgba(150,90,0,.3)}
+${A} details.du2-ein#du2Ein .du-eic img{width:70%;height:70%;object-fit:contain}
+${A} details.du2-ein#du2Ein .du-etx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;text-align:left}
+${A} details.du2-ein#du2Ein .du-etx b{font:800 15px Lexend,sans-serif;color:#2E2560}
+${A} details.du2-ein#du2Ein .du-etx .zus{font:600 12px Lexend,sans-serif;color:#6B6295;opacity:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+${A} details.du2-ein#du2Ein .pf{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(123,91,255,.12);color:#6A4BFF;font-size:13px;transition:transform .2s}
+${A} details.du2-ein#du2Ein[open] .pf{transform:rotate(90deg)}
+${A} details.du2-ein#du2Ein .inhalt{padding:4px 14px 14px!important;border-top:1px solid rgba(58,47,114,.1);background:none!important}
+${A} details.du2-ein#du2Ein .pick-lbl{margin:10px 0 6px!important;font:800 11px Lexend,sans-serif!important;letter-spacing:.08em;text-transform:uppercase;color:#7A70A8!important}
+${A} details.du2-ein#du2Ein select.sel{width:100%;min-height:44px;border-radius:14px!important;border:2px solid #E4DEFA!important;background:#F7F4FF!important;color:#2E2560!important;font:700 14px Lexend,sans-serif!important;padding:0 12px!important}
+${A} details.du2-ein#du2Ein .segs{display:grid!important;grid-template-columns:repeat(4,1fr);gap:6px;background:none!important;padding:0!important;border:0!important}
+${A} details.du2-ein#du2Ein .seg{display:flex!important;flex-direction:column;align-items:center;gap:3px;padding:7px 2px!important;border-radius:14px!important;border:2px solid #E4DEFA!important;background:#F7F4FF!important;color:#2E2560!important;font:700 12px Lexend,sans-serif!important;box-shadow:none!important;min-height:0!important}
+${A} details.du2-ein#du2Ein .seg .sgi img{width:30px;height:30px;object-fit:contain;display:block}
+${A} details.du2-ein#du2Ein .seg[aria-pressed="true"]{background:linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F)!important;border-color:transparent!important;color:#fff!important;box-shadow:0 4px 10px rgba(110,50,200,.35)!important}
+${A} details.du2-ein#du2Ein .anzahl{display:flex!important;align-items:center;gap:12px;background:none!important;padding:0!important}
+${A} details.du2-ein#du2Ein .anzahl b{flex:none;min-width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);color:#5A2A00;font:800 17px Lexend,sans-serif;box-shadow:0 2px 5px rgba(0,0,0,.2)}
+${A} details.du2-ein#du2Ein .anzahl input[type=range]{flex:1;accent-color:#A43BE0}
+html.ep-dfit body.ep-app #app details.du2-ein#du2Ein[open]{position:relative;z-index:5}`;
+  document.head.appendChild(c);
 })();

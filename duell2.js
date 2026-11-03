@@ -236,13 +236,13 @@ function einstellungen(){
   const max = Math.min(20, duellPool(DU.cat, DU.stufe).length); if(DU.n > max) DU.n = Math.max(3, max);
   const kn = (kats.find(k => k[0] === DU.cat) || ["", "Alle Themen"])[1].replace(/^[^:]+: /, "");
   const sn = ["Gemischt", "Entdecker", "Könner", "Profis"][DU.stufe] || "Gemischt";
-  return `<details class="du2-ein" id="du2Ein"><summary>⚙️ Einstellungen <span class="zus">${h(kn)} · ${sn} · ${DU.n} Fragen</span><span class="pf">▸</span></summary>
+  return `<details class="du2-ein" id="du2Ein"><summary><i class="du-eic"><img src="img/grafik/diverse/zahnrad.webp?v=2" alt=""></i><span class="du-etx"><b>Einstellungen</b><span class="zus">${h(kn)} · ${sn} · ${DU.n} Fragen</span></span><span class="pf">▸</span></summary>
     <div class="inhalt">
       <label class="pick-lbl" for="duCat">Thema</label>
       <select id="duCat" class="sel">${kats.map(([id, l]) => `<option value="${id}" ${id === DU.cat ? "selected" : ""}>${h(l)} (${duellPool(id, DU.stufe).length})</option>`).join("")}</select>
       <p class="pick-lbl">Stufe</p>
-      <div class="segs">${[[0,"🎲","Gemischt"],[1,"🌱","Entdecker"],[2,"🚀","Könner"],[3,"🏅","Profis"]].map(([v, e, l]) => `<button class="seg" type="button" data-dst="${v}" aria-pressed="${DU.stufe === v}"><span class="sgi">${e}</span><span class="sgt">${l}</span></button>`).join("")}</div>
-      <div class="anzahl"><b id="duNv">${DU.n}</b><input type="range" id="duN" min="3" max="${Math.max(3, max)}" value="${DU.n}"></div>
+      <div class="segs">${[[0,"img/qeels-icons/themen/zufall.webp?v=2","Gemischt"],[1,"img/qeels-icons/stufen/entdecker.webp","Entdecker"],[2,"img/qeels-icons/stufen/koenner.webp","Könner"],[3,"img/qeels-icons/stufen/profis.webp","Profis"]].map(([v, e, l]) => `<button class="seg" type="button" data-dst="${v}" aria-pressed="${DU.stufe === v}"><span class="sgi"><img src="${e}" alt=""></span><span class="sgt">${l}</span></button>`).join("")}</div>
+      <p class="pick-lbl">Anzahl Fragen</p><div class="anzahl"><b id="duNv">${DU.n}</b><input type="range" id="duN" min="3" max="${Math.max(3, max)}" value="${DU.n}"></div>
     </div></details>`;
 }
 function teamBox(){
