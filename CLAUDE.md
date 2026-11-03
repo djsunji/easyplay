@@ -24,7 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-_(leer)_
+- 03.11. Sitzung «App» (session_017onfQGSrtqqriL4SqEfcBc): Podest der Rangliste mit Dejans Blöcken (`img/grafik/podest/`, Block «Rangliste und Season im neuen Stil» in `stil.js`).
 
 
 ## Notizen an die andere Sitzung
