@@ -3166,3 +3166,68 @@ document.head.appendChild(c); })();
 (function(){ const c = document.createElement("style");
 c.textContent = `@media (max-width:700px){html body #app .du2-team.du2-team2 > h2.tk-titel.lbl{font-size:1rem!important;padding:5px 16px!important;margin:0 auto 12px!important;letter-spacing:0!important;min-height:0!important;line-height:1.3!important}}`;
 document.head.appendChild(c); })();
+
+/* ===== Duell am Handy/iPad (App-Ansicht): ganze Seite ohne Scrollen =====
+   Kopf kompakt, vier Team-Karten in einer Reihe (nur Kind und Name), der Joker des gewählten Teams als eine Zeile
+   darunter (.du-jkz, per JS aus der Karte), Play-Knopf und Einstellungen flacher. Passt es trotzdem nicht, wird #app per zoom verkleinert. */
+(function(){
+  const D = "html body.ep-app.ep-s-duell #app";
+  const c = document.createElement("style"); c.id = "ep-duellfit-css";
+  c.textContent = `
+${D} .du3-kopf{padding-top:0!important;padding-bottom:0!important;min-height:0!important;margin-bottom:8px!important}
+${D} .du3-kopf .du3-titel p,${D} .du3-kopf .du3-kids{display:none!important}
+${D} .du3-kopf h1{font-size:1.35rem!important;margin:0!important}
+${D} .du3-kopf .du3-ic{width:36px!important;height:36px!important}
+${D} .du3-kopf .du3-elo{padding:6px 12px!important;margin-top:6px!important}
+${D} .du3-kopf .du3-elo .du3-zahl{font-size:1.2rem!important}
+${D} .du2-team.du2-team2 > h2.tk-titel.lbl{font-size:.9rem!important;padding:4px 14px!important;margin:0 auto 8px!important}
+${D} .du2-team2 .du2-kids{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important}
+${D} .du2-team2 .du2-tk{min-height:0!important;height:auto!important;aspect-ratio:auto!important;padding:4px 2px 6px!important;gap:0!important;border-width:12px!important;border-image-width:12px!important}
+${D} .du2-team2 .du2-tk .tk-joker,${D} .du2-team2 .du2-tk .tk-haken,${D} .du2-team2 .du2-tk .tk-fk{display:none!important}
+${D} .du2-team.du2-team2 .du2-kids .du2-tk.du2-tk > span.tk-joker.tk-joker{display:none!important}
+${D} .du2-team.du2-team2 .du2-kids .du2-tk.du2-tk .tk-bild{height:78px!important}
+@media (min-width:700px){${D} .du2-team.du2-team2 .du2-kids .du2-tk.du2-tk .tk-bild{height:150px!important}}
+${D} .du2-team2 .du2-tk .tk-bild{height:78px!important;width:auto!important;max-width:100%!important;margin:0 auto!important;position:static!important;transform:none!important}
+${D} .du2-team2 .du2-tk .tk-name{margin:2px 0 0!important;position:static!important}
+${D} .du2-team2 .du2-tk .tk-name img{width:100%!important;height:auto!important;max-height:38px!important;object-fit:contain}
+${D} .du2-team.du2-team2 .du2-kids:has(.an) .du2-tk.du2-tk:not(.an){opacity:.62!important;filter:saturate(.75)!important}
+${D} .du2-team.du2-team2 .du2-kids .du2-tk.du2-tk.an{opacity:1!important;filter:drop-shadow(0 0 3px #FFE34D) drop-shadow(0 0 9px rgba(255,200,40,.9))!important}
+${D} .du-jkz{display:flex;align-items:center;gap:10px;margin:8px 0 0;padding:7px 12px;border-radius:16px;background:rgba(255,255,255,.95);box-shadow:0 6px 14px rgba(30,20,90,.2);color:#2E2560;font:600 12px/1.3 Lexend,system-ui,sans-serif}
+${D} .du-jkz i{flex:none;width:34px;height:34px;display:grid;place-items:center;font-style:normal}
+${D} .du-jkz i img{width:100%;height:100%;object-fit:contain}
+${D} .du-jkz b{display:block;font-weight:800;font-size:13px;color:#5A2BB0}
+${D} .du2-joker-info{display:none!important}
+${D} .du3-play{min-height:0!important;margin:10px auto 6px!important;padding-top:0!important;padding-bottom:0!important;height:64px!important}
+${D} .du3-play b{font-size:1.15rem!important}${D} .du3-play small{font-size:.7rem!important}
+${D} .du3-play img{width:40px!important;height:40px!important}
+${D} .du2-ein{margin-top:4px!important}${D} .du2-ein summary{padding:8px 14px!important;min-height:0!important}
+@media (min-width:700px){${D} .du2-team2 .du2-tk .tk-bild{height:150px!important}${D} .du2-team2 .du2-tk .tk-name img{max-height:60px!important}${D} .du-jkz{font-size:15px;padding:10px 16px}${D} .du-jkz b{font-size:16px}${D} .du-jkz i{width:46px;height:46px}${D} .du3-play{height:84px!important}}
+html.ep-dfit,html.ep-dfit body{overflow:hidden!important;overscroll-behavior:none!important}`;
+  document.head.appendChild(c);
+  function jokerZeile(){
+    const box = document.querySelector("#app .du2-team2"); if(!box) return;
+    const an = box.querySelector(".du2-tk.an") || box.querySelector(".du2-tk"); if(!an) return;
+    let z = box.querySelector(".du-jkz"); if(!z){ z = document.createElement("div"); z.className = "du-jkz"; z.setAttribute("aria-live", "polite"); box.appendChild(z); }
+    const j = an.querySelector(".tk-joker"); if(!j) return;
+    const mz = j.querySelector(".tk-muenze"), b = j.querySelector("b"), s = j.querySelector("small");
+    const neu = `<i>${mz ? mz.innerHTML : ""}</i><span><b>${b ? b.textContent : ""}</b>${s ? s.textContent : ""} · 1× pro Duell</span>`;
+    if(z.innerHTML !== neu) z.innerHTML = neu;
+  }
+  function passen(){
+    const app = document.getElementById("app"); if(!app) return;
+    let an = false; try{ an = document.body.classList.contains("ep-app") && S.screen === "duell"; }catch(e){}
+    document.documentElement.classList.toggle("ep-dfit", an);
+    if(!an){ if(app.dataset.dfit){ app.style.zoom = ""; delete app.dataset.dfit; } return; }
+    jokerZeile();
+    app.style.zoom = ""; app.dataset.dfit = "1"; if(scrollY) scrollTo(0, 0);
+    const tb = document.getElementById("epTabs"), quer = tb && tb.getBoundingClientRect().width < innerWidth / 3;
+    const unten = tb && !quer ? tb.getBoundingClientRect().top - 8 : innerHeight - 8;
+    let last = 0; app.querySelectorAll(":scope > *, :scope .du2 > *").forEach(e => { const r = e.getBoundingClientRect(); if(r.height) last = Math.max(last, r.bottom); });
+    const oben = app.getBoundingClientRect().top;
+    if(last > unten) app.style.zoom = Math.max(.62, (unten - oben) / (last - oben)).toFixed(3);
+  }
+  let t = 0; const los = () => { clearTimeout(t); t = setTimeout(passen, 80); };
+  const start = () => { const app = document.getElementById("app"); if(!app) return setTimeout(start, 300);
+    new MutationObserver(los).observe(app, {childList:true, subtree:true, attributes:true, attributeFilter:["class"]}); los(); };
+  start(); addEventListener("resize", los);
+})();
