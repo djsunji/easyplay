@@ -19,7 +19,10 @@ let BEREIT = false, FEHLER = "";
 /* Wer darf die Schnittstelle aus dem Browser aufrufen (CORS)? Eigene Adresse, SITE_URLS, die App. */
 function herkunftErlaubt(o) {
   if (!o) return false;
-  const liste = [E.PUBLIC_URL, ...String(E.SITE_URLS || "").split(","), "capacitor://localhost", "https://localhost", "ionic://localhost"]
+  /* Die iPhone-App meldet sich als capacitor://localhost. new URL(…).origin ergibt bei solchen Schemata «null»,
+     darum diese Adressen direkt vergleichen (sonst lehnte der Server jede Anfrage der iPhone-App ab). */
+  if (["capacitor://localhost", "ionic://localhost", "https://localhost"].includes(o)) return true;
+  const liste = [E.PUBLIC_URL, ...String(E.SITE_URLS || "").split(",")]
     .map(x => { try { return new URL(String(x).trim()).origin; } catch (e) { return ""; } }).filter(Boolean);
   if (liste.includes(o)) return true;
   return E.NODE_ENV !== "production" && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o);
