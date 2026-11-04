@@ -964,8 +964,11 @@ function namenSetzen(){
     const asp = img.naturalWidth / img.naturalHeight, w = Math.min(ir.width, ir.height * asp), hgt = w / asp, links = ir.right - w - hr.left, oben = ir.bottom - hgt - hr.top;
     const l = held.querySelector(".epname.eplumi"), m = held.querySelector(".epname.epmilo");
     if(l){ l.style.left = Math.round(links + w * .02) + "px"; l.style.top = Math.round(oben + hgt * .50) + "px"; l.style.right = "auto"; }
-    if(m){ m.style.left = Math.round(links + w * .60) + "px"; m.style.top = Math.round(oben + hgt * .40) + "px"; m.style.right = "auto"; } };
+    if(m){ m.style.left = Math.round(links + w * .60) + "px"; m.style.top = Math.round(oben + hgt * .40) + "px"; m.style.right = "auto"; }
+    /* Schilder nie über den Rand der Folie hinaus (sonst schneidet das Karussell sie ab) */
+    [l, m].forEach(e => { if(!e) return; const max = held.clientWidth - e.offsetWidth - 6; if(parseFloat(e.style.left) > max) e.style.left = Math.max(6, Math.round(max)) + "px"; }); };
   if(img.complete) go2(); else img.addEventListener("load", go2, {once:true});
+  if(!held.__epNamenRO && window.ResizeObserver){ held.__epNamenRO = new ResizeObserver(() => go2()); held.__epNamenRO.observe(held); }
 }
 addEventListener("resize", () => { try{ namenSetzen(); }catch(e){} });
 

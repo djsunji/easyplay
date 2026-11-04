@@ -20,6 +20,10 @@ html body.ep-app footer.eplegal{display:none!important}
 
 /* ---- Startseite: Begrüssung, Ton und Sprache rechts ---- */
 html body.ep-app .ap-heute{position:relative;overflow:hidden!important;overscroll-behavior:none}
+/* Nie Text abschneiden (Dejan 04.11.): Themen-Chips dürfen zweizeilig werden statt «…», Bibliothek-Kachel am iPad quer über die ganze Breite */
+html body.ep-app .ap-ber .apc .apcn{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:normal;hyphens:manual;line-height:1.12!important}
+@media (min-width:1000px) and (orientation:landscape){html body.ep-app .ap-unten > .ap-bibk{grid-column:1/-1}}
+html body.ep-app .ap-heute.af-karu-eng .ap-held .apht h1{font-size:20px!important;line-height:1.1!important}html body.ep-app .ap-heute.af-karu-eng .ap-held .apht .apzahlen{font-size:11.5px!important}html body.ep-app .ap-heute.af-karu-eng .ap-held .apht .aphoi{display:none!important}
 html body.ep-app .ap-heute .ap-gruss .ap-logo{display:none!important}
 html body.ep-app .ap-heute .ap-gruss > span{display:none!important}
 html body.ep-app .ap-heute .ap-gruss > b{padding-right:110px!important;white-space:nowrap;overflow:hidden!important;text-overflow:ellipsis;font-size:32px}
@@ -36,7 +40,7 @@ html body.ep-app .ap-held h1{font-size:clamp(24px,7vw,46px)!important;line-heigh
 html body.ep-app .ap-held .aph-klein{font-size:clamp(17px,5vw,30px)!important;line-height:1.1!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 html body.ep-app .ap-held .aphoi{font-size:12px!important;line-height:1.2;display:flex!important;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html body.ep-app .ap-held .aph-ic{flex:none;transform:scale(.85);transform-origin:left center}
-html body.ep-app .ap-held .apzahlen,html body.ep-app .ap-held .aph-text{font-size:12.5px!important;line-height:1.25!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html body.ep-app .ap-held .apzahlen,html body.ep-app .ap-held .aph-text{font-size:12.5px!important;line-height:1.25!important;display:block!important;-webkit-line-clamp:none!important;line-clamp:none!important;overflow:visible!important}
 html body.ep-app .ap-held .ap-weissbtn{margin-top:6px!important;padding:7px 14px!important;min-height:0!important;height:auto!important;font-size:14px!important;line-height:1.2!important;border-radius:999px!important;gap:6px;box-shadow:0 4px 0 rgba(27,34,64,.25)!important;flex:none;white-space:nowrap}
 html body.ep-app .ap-held .ap-weissbtn svg{width:14px;height:14px}
 @media (min-width:700px){html body.ep-app .ap-held .ap-weissbtn{font-size:17px!important;padding:10px 20px!important}html body.ep-app .ap-held .aphoi{font-size:15px!important}html body.ep-app .ap-held .apzahlen,html body.ep-app .ap-held .aph-text{font-size:15px!important}}
@@ -337,9 +341,16 @@ function gruss(){
 function heuteEinpassen(){
   const ap = document.querySelector("#app > .ap-heute"); if(!ap) return;
   ["ap-woche", "ap-weiter", "ap-fakt"].forEach(k => { const e = ap.querySelector(":scope > ." + k); if(e) e.style.display = ""; });
-  ap.classList.remove("af-eng");
-  const zuViel = () => ap.scrollHeight > ap.clientHeight + 1;
+  ap.classList.remove("af-eng", "af-karu-eng");
+  /* Karussell: passt der Inhalt jeder Folie (Titel, Text, Knopf) in ihre Höhe? Sonst würden Texte abgeschnitten. */
+  const karuEng = () => [...ap.querySelectorAll(".ap-karu .ap-held .apht")].some(t => {
+    const cs = getComputedStyle(t), gap = parseFloat(cs.rowGap) || 0, kids = [...t.children].filter(k => getComputedStyle(k).display !== "none");
+    const noetig = kids.reduce((n, k) => { const kc = getComputedStyle(k); return n + Math.max(k.scrollHeight, k.offsetHeight) + (parseFloat(kc.marginTop) || 0) + (parseFloat(kc.marginBottom) || 0); }, 0) + gap * Math.max(0, kids.length - 1);
+    return noetig > t.clientHeight + 1; });
+  const zuViel = () => ap.scrollHeight > ap.clientHeight + 1 || karuEng();
   for(const k of ["ap-weiter", "ap-fakt", "ap-woche"]){ if(!zuViel()) break; const e = ap.querySelector(":scope > ." + k); if(e) e.style.display = "none"; }
+  /* immer noch zu eng (sehr kleine Geräte): Folien-Text kompakter statt abschneiden */
+  if(karuEng()) ap.classList.add("af-karu-eng");
   ap.scrollTop = 0;
 }
 function themen(){
