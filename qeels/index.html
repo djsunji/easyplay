@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-04-04";
+window.EP_BUILD="ep-2026-11-04-05";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4284,7 +4284,7 @@ function bindSpeak(){
   
 }
 
-function go(screen){ stopSpeak(); if(S.screen==="quiz" && screen!=="quiz" && S.quiz && !S.quiz.flushed) flushRun(false); S.screen=screen; render(); scrollTo({top:0}); }
+function go(screen){ stopSpeak(); if(screen==="board" && S.screen!=="board") S.boardStufe=0; if(S.screen==="board" && screen!=="board"){ S.boardModus=null; S.boardSeason=null; S.rlAuf=null; } if(S.screen==="quiz" && screen!=="quiz" && S.quiz && !S.quiz.flushed) flushRun(false); S.screen=screen; render(); scrollTo({top:0}); }
 
 let kontoSyncT=0;
 function kontoSync(){
@@ -5759,7 +5759,7 @@ function podiumHTML(top, meId){
 }
 function renderBoard(){
   const stufe=(S.boardStufe===0||S.boardStufe) ? S.boardStufe : S.stufe, kf=S.boardKanton||"";
-  const sMod=S.boardModus==="season", sid=S.boardSeason||aktuelleSeason().id, seA=alleSeasons().find(x=>x.id===sid)||aktuelleSeason();
+  const sMod=S.boardModus!=="gesamt", sid=S.boardSeason||aktuelleSeason().id, seA=alleSeasons().find(x=>x.id===sid)||aktuelleSeason();
   const ptsVon=p=> sMod ? seasonPunkte(p,sid,stufe||0) : stufe===0 ? [1,2,3].reduce((n,l)=>n+sumBest(p,l),0) : sumBest(p,stufe);
   const thVon=p=> stufe===0 ? [1,2,3].reduce((n,l)=>n+themenGespielt(p,l),0) : themenGespielt(p,stufe);
   let list = (S.online||S.rang) ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []);
@@ -5775,23 +5775,26 @@ function renderBoard(){
     <div class="rlkopf">
       <div class="rlpokal" aria-hidden="true"><span>🏆</span><i class="rs a">✦</i><i class="rs b">★</i><i class="rs c">✧</i></div>
       <h1>Rangliste der Schweiz</h1>
+      <details class="rl-auf rl-erkl" data-rlauf="erkl" ${S.rlAuf?.erkl?"open":""}><summary><i class="rl-mz"><img src="img/grafik/diverse/gluehbirne.webp?v=2" alt=""></i><span>So funktioniert die Rangliste</span></summary>
       <p class="rlintro">Wer weiss am meisten? Hier messen sich alle Spielerinnen und Spieler aus der ganzen Schweiz. Jede Stufe hat ihre eigene Rangliste, damit alle fair gegen Gleichaltrige antreten.</p>
       <div class="rlregeln">
         <div><b>📊 So entstehen deine Punkte</b><span>Für jedes Thema zählt dein bester gewerteter Test. Alle Bestwerte zusammen ergeben deine Ranglistenpunkte.</span></div>
         <div><b>🚀 So kletterst du nach oben</b><span>Spiele Tests in neuen Themen oder verbessere deinen Bestwert: richtig, schnell und in Serie gibt bis zu 350 Punkte pro Frage.</span></div>
-        <div><b>🏔️ Dein Kanton</b><span>Wähle unten einen Kanton und sieh, wer in deiner Region vorne liegt.</span></div>
+        <div><b>🏔️ Dein Kanton</b><span>Wähle bei «Region» einen Kanton und sieh, wer dort vorne liegt.</span></div>
       </div>
+      </details>
     </div>
-    <div class="segs rlmodus" role="group" aria-label="Art der Rangliste"><button class="seg" type="button" data-bm="gesamt" aria-pressed="${!sMod}">🏆 Gesamt</button><button class="seg" type="button" data-bm="season" aria-pressed="${sMod}">${aktuelleSeason().tier.e} Seasons</button></div>
-    ${sMod ? `<div class="seasonkopf">
-      <div class="seasonwahl"><label for="seasonSel"><b>Season:</b></label><select id="seasonSel" class="sel">${[...new Set(alleSeasons().map(x=>x.jahr))].map(j=>`<optgroup label="${j}">${alleSeasons().filter(x=>x.jahr===j).map(x=>`<option value="${x.id}" ${x.id===sid?"selected":""}>${x.tier.e} ${esc(x.name)} (${esc(x.zeitraum)})${x.id===aktuelleSeason().id?" · läuft":""}</option>`).join("")}</optgroup>`).join("")}</select></div>
+    <div class="segs rlmodus" role="group" aria-label="Art der Rangliste"><button class="seg" type="button" data-bm="season" aria-pressed="${sMod}">${aktuelleSeason().tier.e} Seasons</button><button class="seg" type="button" data-bm="gesamt" aria-pressed="${!sMod}">🏆 Gesamt</button></div>
+    ${sMod ? `<div class="seasonkopf"><details class="rl-auf rl-sinfo" data-rlauf="sinfo" ${S.rlAuf?.sinfo?"open":""}><summary><i class="rl-mz rl-mz-tier">${seA.tier.e}</i><span>${esc(seA.name)}<small>${esc(seA.zeitraum)}${seA.id===aktuelleSeason().id?` · noch ${seasonPhase(seA).rest} Tage`+(seasonPhase(seA).mult>1?` · ×${seasonPhase(seA).mult}`:""):" · abgeschlossen"}</small></span><em>Infos zur Season</em></summary><div class="rl-swahl"><span class="rl-fl">Andere Season ansehen</span><div class="seasonwahl"><label for="seasonSel" class="sr-only">Season</label><select id="seasonSel" class="sel">${[...new Set(alleSeasons().map(x=>x.jahr))].map(j=>`<optgroup label="${j}">${alleSeasons().filter(x=>x.jahr===j).map(x=>`<option value="${x.id}" ${x.id===sid?"selected":""}>${x.tier.e} ${esc(x.name)} (${esc(x.zeitraum)})${x.id===aktuelleSeason().id?" · läuft":""}</option>`).join("")}</optgroup>`).join("")}</select></div></div>
       ${seA.id===aktuelleSeason().id ? seasonBannerHTML(false)+seasonTimelineHTML(seA)+seasonTierHTML(seA) : `<div class="seasonband"><span class="stier">${seA.tier.e}</span><div class="sbtext"><span class="sbname">Abgeschlossen</span><div class="sbinfo"><span><strong>${esc(seA.name)}</strong><small>${esc(seA.zeitraum)} · Die besten 10 haben einen Pokal erhalten 🏆</small></span></div></div></div>`}
       <p class="help" style="text-align:center">In jeder Season zählt jeder gewertete Test. Die ersten Wochen gibt es normale Punkte, in der zweitletzten Woche doppelte und in der letzten Woche dreifache. Die besten 10 jeder Stufe bekommen einen Pokal für ihr Profil.</p>
       ${seasonKalenderHTML()}
-    </div>` : ""}
-    <div class="segs rlsegs" role="group" aria-label="Stufe">${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${stufe===s.id}"><span class="sgi">${STUFE_EMO[s.id]}</span><span class="sgt">${s.name}</span></button>`).join("")}<button class="seg alle" type="button" data-s="0" aria-pressed="${stufe===0}"><span class="sgi">🌍</span><span class="sgt">Alle Stufen</span></button></div>
-    <div class="kpick" style="max-width:420px;margin-bottom:18px"><span class="kprev">${kf? wappen(kf) : ico("flag")}</span>
-      <select id="bK" class="sel"><option value="">Ganze Schweiz</option>${KANTONE.map(k=>`<option value="${k.kuerzel}" ${k.kuerzel===kf?"selected":""}>${esc(k.kurz)}</option>`).join("")}</select></div>
+    </details></div>` : ""}
+    <div class="rl-filter">
+      <div class="rl-fz"><span class="rl-fl">Stufe</span><div class="segs rlsegs" role="group" aria-label="Stufe"><button class="seg alle" type="button" data-s="0" aria-pressed="${stufe===0}"><span class="sgi"><img src="img/grafik/diverse/landkarte.webp?v=2" alt=""></span><span class="sgt">Alle Stufen</span></button>${STUFEN.map(s=>`<button class="seg" type="button" data-s="${s.id}" aria-pressed="${stufe===s.id}"><span class="sgi">${STUFE_EMO[s.id]}</span><span class="sgt">${s.name}</span></button>`).join("")}</div></div>
+      <div class="rl-fz"><span class="rl-fl">Region</span><div class="kpick"><span class="kprev">${kf? wappen(kf) : ico("flag")}</span>
+      <select id="bK" class="sel"><option value="">Ganze Schweiz</option>${KANTONE.map(k=>`<option value="${k.kuerzel}" ${k.kuerzel===kf?"selected":""}>${esc(k.kurz)}</option>`).join("")}</select></div></div>
+    </div>
     <div class="podwrap"><img class="gast pgl" src="${GAESTE.maedchen}" alt="" aria-hidden="true">${podiumHTML(list.slice(0,3), meId)}<img class="gast pgr" src="${GAESTE.junge}" alt="" aria-hidden="true"></div>
     <div class="rlliste">
       <div class="rlkopfleiste"><b>${sMod?`${seA.tier.e} ${esc(seA.name)} · `:""}${stufe===0?(sMod?"Alle Stufen":"🌍 Gesamtrangliste aller Stufen"):`${sMod?"":STUFE_EMO[stufe]+" Rangliste "}${esc(stufeObj(stufe).name)}`}</b><span>${list.length} ${list.length===1?"Person":"Personen"}${meinRang?` · dein Rang: <strong>${meinRang}</strong>`:""}</span></div>
@@ -5805,6 +5808,7 @@ function renderBoard(){
 `;
   document.querySelectorAll(".rlsegs .seg").forEach(b=>b.onclick=()=>{ S.boardStufe=+b.dataset.s; render(); });
   document.querySelectorAll("[data-bm]").forEach(b=>b.onclick=()=>{ S.boardModus=b.dataset.bm; render(); });
+  document.querySelectorAll("details[data-rlauf]").forEach(d=>d.addEventListener("toggle",()=>{ S.rlAuf={...(S.rlAuf||{}),[d.dataset.rlauf]:d.open}; }));
   $("#seasonSel") && ($("#seasonSel").onchange=e=>{ S.boardSeason=e.target.value; render(); });
   document.querySelectorAll("[data-pid]").forEach(el=>{ const auf=()=>{ S.spielerId=el.dataset.pid; go("spieler"); scrollTo(0,0); }; el.onclick=auf; el.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); auf(); } }; });
   const bs=$("#bSuche"); let btm; bs.oninput=()=>{ clearTimeout(btm); btm=setTimeout(()=>{ S.boardQ=bs.value; const pos=bs.selectionStart; const y=scrollY; render(); scrollTo(0,y); const n=$("#bSuche"); n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){} },250); };
