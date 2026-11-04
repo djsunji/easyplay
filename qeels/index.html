@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-04-03";
+window.EP_BUILD="ep-2026-11-04-04";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -3633,6 +3633,7 @@ function ico(k, cls=""){
 }
 /* Dejans gezeichnete Symbole (img/grafik/ic-*.webp) statt Emoji */
 const GICO = {ballot:"ballot", bank:"bank", bike:"bike", castle:"castle", chains:"chains", coin:"coin", columns:"columns", globe:"globe", health:"health", house:"house", microscope:"microscope", numbers:"numbers", tree:"leaf"};
+function sterneBild(n){ return [0,1,2].map(i=>`<span class="ep-st ${i<n?"an":"aus"}" style="--d:${i*.22}s"><img src="img/grafik/diverse/stern.webp?v=2" alt=""></span>`).join(""); }
 function stars(n){ return ico("star").repeat(n) + ico("starEmpty").repeat(3-n); }
 function medalSvg(i){ const m=["🥇","🥈","🥉"][i]; return m ? `<span class="ic emo-i medal" aria-hidden="true">${m}</span>` : `<span class="rnum">${i+1}</span>`; }
 
@@ -4668,6 +4669,7 @@ function renderQuiz(){
       <p class="tasthinweis" aria-hidden="true">⌨️ Tasten <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> <kbd>D</kbd> zum Antworten · <kbd>←</kbd> <kbd>→</kbd> für vorherige und nächste Frage</p>
       ${answered ? `<div class="feedback pop"><p>${f.opts[Q.picked].ok ? `${ico("check")} Richtig!${test && !Q.custom && Q.lastBreak?.ok ? ` <b class="ppos">+${Q.lastBreak.pts} Punkte</b>`:""}` : `${ico("cross")} Nicht ganz.${test && !Q.custom ? ` <b class="pneg">${PUNKTE.falsch} Punkte</b>`:""}`}</p>
         ${test && !Q.custom && Q.lastBreak?.ok ? `<p class="pdetail">✅ 100${Q.lastBreak.tempo?` · ⚡ Tempo +${Q.lastBreak.tempo} (${Q.lastBreak.sek} s)`:` · ⚡ kein Tempo-Bonus (${Q.lastBreak.sek} s)`}${Q.lastBreak.faktor>1?` · 🚀 ×${String(Q.lastBreak.faktor).replace(".",",")}`:""}${Q.lastBreak.serie?` · 🔥 Serie +${Q.lastBreak.serie}`:""}</p>` : ""}
+        ${test && !f.opts[Q.picked].ok && (f.e||f.m) ? `<div class="ep-terkl"><img class="ep-terkl-ic" src="img/grafik/diverse/gluehbirne.webp?v=2" alt=""><div>${f.e?`<div class="ep-terkl-t">${esc(f.e)}</div>`:""}${f.m?`<div class="ep-terkl-m"><span class="ep-terkl-mk">Merke dir:</span> ${esc(f.m)}</div>`:""}</div></div>` : ""}
         <span class="row" style="margin:0">${test? "" : `<button class="big alt" id="toExplain" type="button">Erklärung ansehen</button>`}
         <button class="big" id="next" type="button">${nextLbl}</button></span></div>` : ""}`;
   let body;
@@ -5515,12 +5517,12 @@ function renderDone(){
   const msg = Q.stars===3?"Perfekt, alles richtig!":Q.stars===2?"Stark gemacht!":Q.stars===1?"Guter Anfang, probier es nochmals.":"Nicht schlimm, jetzt kennst du die Antworten.";
   $("#app").innerHTML = `<div class="card done pop" style="--c:var(${t.bereich.c})"><div class="ep-done-kopf">
       ${test? `<span class="modebadge">${ico("trophy")} Gewerteter Test · ${esc(t.name)}</span>` : ""}
-      <div class="stars" aria-label="${Q.stars} von 3 Sternen">${stars(Q.stars)}</div>
+      <div class="stars ep-sterne" aria-label="${Q.stars} von 3 Sternen">${sterneBild(Q.stars)}</div>
       <h1>${test? `${Q.points} Punkte` : msg}</h1>
       ${Q.timeout ? `<p class="timeup">${ico("timer")} Die 30 Minuten sind abgelaufen, nicht beantwortete Fragen zählen als falsch.</p>` : ""}
       <p>${Q.score} von ${Q.list.length} richtig · Zeit ${fmtZeit(Q.zeit)}${test && Q.newBest ? " · Neuer Bestwert!" : ""}</p>
       ${test && !Q.custom && Q.seasonPts!=null ? `<p><span class="seasonbonus m${Q.seasonMult}">${aktuelleSeason().tier.e} Season: +${Q.seasonPts.toLocaleString("de-CH")} Punkte${Q.seasonMult>1?` (×${Q.seasonMult} Bonus!)`:""}</span></p>` : ""}
-      ${test && !Q.custom ? `<div class="pbilanz"><span>✅ ${Q.score} richtig</span><span>⚡ Tempo +${Q.sumTempo||0}</span><span>🔥 Serien +${Q.sumSerie||0}${Q.maxSerie>1?` (beste: ${Q.maxSerie})`:""}</span><span>❌ Abzug ${Q.sumAbzug||0}</span></div>` : ""}
+      ${test && !Q.custom ? `<div class="pbilanz ep-pb"><span class="pb-ok"><img src="img/grafik/diverse/haken.webp?v=2" alt=""><b>${Q.score}</b> richtig</span><span class="pb-tempo"><img src="img/grafik/diverse/blitz.webp?v=2" alt="">Tempo <b>+${Q.sumTempo||0}</b></span><span class="pb-serie"><img src="img/grafik/diverse/flamme.webp?v=2" alt="">Serien <b>+${Q.sumSerie||0}</b>${Q.maxSerie>1?` (beste: ${Q.maxSerie})`:""}</span><span class="pb-ab"><img src="img/grafik/sound/falsch.webp?v=2" alt="">Abzug <b>${Q.sumAbzug||0}</b></span></div>` : ""}
       ${test? `<p>${msg}</p>`:""}
       </div>
       <div class="row">
@@ -6508,7 +6510,7 @@ function renderFremdDone(){
   const link=`${TEST_BASE}#r=${b64e(r)}`;
   const pct=Math.round(Q.score/Q.list.length*100);
   $("#app").innerHTML = `<div class="card done pop">
-    <div class="stars">${stars(Q.stars||0)}</div>
+    <div class="stars ep-sterne">${sterneBild(Q.stars||0)}</div>
     <h1>${Q.score} von ${Q.list.length} richtig</h1>
     <p>${pct} % · Zeit ${fmtZeit(Q.zeit)} · ${esc(F.titel)}</p>
     <div class="statcard" style="text-align:left;margin-top:18px"><h2>📨 Resultat an ${esc(F.von)} schicken</h2>
