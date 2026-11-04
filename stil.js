@@ -3242,7 +3242,7 @@ html.ep-dfit,html.ep-dfit body{overflow:hidden!important;overscroll-behavior:non
     new MutationObserver(los).observe(app, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "open"]}); los(); };
   start(); addEventListener("resize", los);
   /* Team gewählt: Joker-Zeile sofort mitwechseln, nicht erst 80 ms später (sonst springt die Seite) */
-  document.addEventListener("click", e => { if(e.target.closest && e.target.closest("#app [data-team]")) jokerZeile(); });
+  document.addEventListener("click", e => { if(document.body.classList.contains("ep-app") && e.target.closest && e.target.closest("#app [data-team]")) jokerZeile(); });
 })();
 
 /* ===== Duell: Play-Knopf schmaler (nicht ganze Breite) und Einstellungen im neuen Stil ===== */
@@ -3566,3 +3566,5 @@ ${A} .stl-bar.stl-bar > .stl-heute::after{content:"✦";position:absolute;inset:
   function pos(){ document.querySelectorAll("#app .stl-bar").forEach(b => { const h = b.querySelector(".stl-heute"); const p = h ? h.style.left || "100%" : "100%"; if(b.style.getPropertyValue("--pos") !== p) b.style.setProperty("--pos", p); }); }
   let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(pos, 40); }).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:["style"]});
 })();
+/* Joker-Zeile .du-jkz gehört nur in die App-Ansicht; am Computer stehen die Joker in den Team-Karten */
+(function(){ const c = document.createElement("style"); c.textContent = `html body:not(.ep-app) #app .du-jkz{display:none!important}`; document.head.appendChild(c); })();
