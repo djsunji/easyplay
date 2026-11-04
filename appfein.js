@@ -457,7 +457,9 @@ ${Q} #next:active,${Q} #toExplain:active{transform:translateY(2px)}
 ${Q} .feedback .row{display:flex!important;gap:10px!important;width:100%;align-items:center}
 @media (min-width:700px){${Q} #next,${Q} #toExplain{height:64px!important;border-width:19px 31px!important}
   ${Q} #next{border-image-width:19px 31px!important;font-size:20px!important}${Q} #toExplain{border-image-width:19px 31px!important;font-size:17px!important}}
-html body.ep-app .ap-zbtn{height:48px!important;padding:0 6px!important;background:none!important;border:0 solid transparent!important;border-width:14px 24px!important;border-radius:0!important;
+html body.ep-app #app .ap-kz h1{overflow:visible!important;white-space:normal!important;text-overflow:clip!important;line-height:1.08!important;overflow-wrap:normal}
+html body #app .qnav button#qGrid{background-color:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html body.ep-app .ap-zbtn{height:48px!important;padding:0 6px!important;background:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;border:0 solid transparent!important;border-width:14px 24px!important;border-radius:0!important;
   border-image:url("img/grafik/knopf-zurueck.webp?v=1") 70 118 fill / 14px 24px stretch!important;color:#28304A!important;font:800 15px Lexend,system-ui,sans-serif!important;filter:drop-shadow(0 3px 5px rgba(10,10,40,.35));box-sizing:border-box}
 html body.ep-app .ap-zbtn svg{color:#28304A!important;stroke:currentColor}`;
 document.head.appendChild(c); })();
