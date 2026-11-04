@@ -2791,7 +2791,7 @@ html body #app .xseite :is(${K})[data-wz] small:not(.ep-kti){font-size:1rem!impo
   css.textContent = `
 @keyframes akHuepf{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes akEin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
-@keyframes akGlanz{0%{transform:translateX(-140%) skewX(-20deg)}60%,100%{transform:translateX(260%) skewX(-20deg)}}
+@keyframes akGlanz{0%{background-position:100% 0}60%,100%{background-position:0% 0}}
 html body #app .ak-wahl{max-width:980px;margin:6px auto 30px;display:grid;gap:26px}
 html body #app :is(.ak-kopf,.ak-seite){border:0 solid transparent;border-width:30px;border-image:url("${E}kopf.webp?v=1") 50 fill / 30px stretch;filter:drop-shadow(0 12px 20px rgba(60,30,160,.3));color:#fff;box-sizing:border-box}
 html body #app .ak-kopf{display:flex;align-items:center;justify-content:center;gap:18px;text-align:center;padding:0 4px;min-height:110px}
@@ -2814,7 +2814,8 @@ html body #app .ak-los{position:relative;overflow:hidden;margin-top:12px;display
 html body #app .ak-kid{position:absolute;right:-8px;bottom:-22px;height:calc(100% + 30px);max-height:330px;width:auto;max-width:48%;object-fit:contain;object-position:bottom right;pointer-events:none;
   filter:drop-shadow(0 8px 10px rgba(10,0,40,.35));animation:akHuepf 3.4s ease-in-out infinite}
 html body #app .ak-reg .ak-kid{animation-delay:-1.7s}
-html body #app .ak-karte::after{content:"";position:absolute;inset:-22px auto -22px 0;width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);animation:akGlanz 4.5s ease-in-out infinite;pointer-events:none;border-radius:20px}
+html body #app .ak-karte::after{content:"";position:absolute;inset:-14px;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.3) 50%,transparent 60%) no-repeat;background-size:300% 100%;animation:akGlanz 4.5s ease-in-out infinite;pointer-events:none;border-radius:22px;z-index:1}
+html body #app .ak-karte > .ak-kid{z-index:2}
 html body #app .ak-wahl .ak-vorteile{justify-content:center}
 html body #app .ak-vorteile{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 html body #app .ak-vorteile li{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.94);border:3px solid #fff;border-radius:999px;padding:6px 18px 6px 8px;font-weight:800;color:#2A1F5C;box-shadow:0 8px 18px rgba(40,30,120,.16)}
