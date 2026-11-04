@@ -222,14 +222,20 @@ function stimmeDa(){
 }
 function stillePlease(){
   if(!meinSprechen) return;
-  meinSprechen = false;
-  try{ speechSynthesis.cancel(); }catch(e){}
+  meinSprechen = false; sagNr++;
+  try{ if(speechSynthesis.speaking || speechSynthesis.pending) zuletztAbgebrochen = Date.now(); speechSynthesis.cancel(); }catch(e){}
   document.querySelectorAll(".hlf-sag.an").forEach(b => b.classList.remove("an"));
 }
 /* teile: Liste von Texten, werden satzweise in die Warteschlange gestellt (wie speakText der Seite). */
+let sagNr = 0, zuletztAbgebrochen = 0;
 function sag(teile, knopf){
   if(!stimmeDa()) return false;
+  /* Chrome und Safari verschlucken die ersten Sätze, wenn direkt nach cancel() gesprochen wird
+     (darum fehlte bei der nächsten Frage die Frage selbst und es kamen nur die Antworten). Nach einem Abbruch kurz warten. */
+  let lief = false; try{ lief = speechSynthesis.speaking || speechSynthesis.pending; }catch(e){}
   try{ if(typeof stopSpeak === "function") stopSpeak(); else speechSynthesis.cancel(); }catch(e){}
+  if(lief) zuletztAbgebrochen = Date.now();
+  const nr = ++sagNr, warte = Math.max(150, 300 - (Date.now() - zuletztAbgebrochen));
   document.querySelectorAll(".hlf-sag.an").forEach(b => b.classList.remove("an"));
   let v = null; try{ v = typeof bestVoice === "function" ? bestVoice() : null; }catch(e){}
   const saetze = [];
@@ -237,7 +243,7 @@ function sag(teile, knopf){
   if(!saetze.length) return false;
   meinSprechen = true;
   if(knopf) knopf.classList.add("an");
-  saetze.forEach((p, i) => {
+  const los = () => { if(nr !== sagNr) return; saetze.forEach((p, i) => {
     try{
       const u = new SpeechSynthesisUtterance(p);
       if(v){ u.voice = v; u.lang = v.lang; } else u.lang = "de-CH";
@@ -245,7 +251,8 @@ function sag(teile, knopf){
       if(i === saetze.length - 1) u.onend = u.onerror = () => { meinSprechen = false; if(knopf) knopf.classList.remove("an"); };
       speechSynthesis.speak(u);
     }catch(e){}
-  });
+  }); };
+  if(warte > 0) setTimeout(los, warte); else los();
   return true;
 }
 

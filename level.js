@@ -233,7 +233,10 @@ function karteAktualisieren(){
 }
 
 /* ---------- XP vergeben ---------- */
+/* Ohne Anmeldung gibt es keine XP, kein Level und keine Abzeichen (Dejan 04.11.) */
+const angemeldet = () => { try{ return typeof S !== "undefined" && !!S.profil; }catch(e){ return false; } };
 function abzeichenPruefen(still){
+  if(!angemeldet()) return;
   const ids = abzIds();
   if(!Array.isArray(D.abz)){ D.abz = ids; speichern(); return; }
   const neu = ids.filter(i => !D.abz.includes(i));
@@ -245,6 +248,7 @@ function abzeichenPruefen(still){
     toast(f.emo, `Neues Abzeichen: ${f.name} ${STUFEN[st][0]}`, `${zahl(f.grenzen[st])} ${f.text}`, STUFEN[st][1]); });
 }
 function gib(n, grund){
+  if(!angemeldet()) return 0;
   n = Math.max(0, Math.round(n)); if(!n) return 0;
   const t = heute(), schon = D.tage[t] || 0;
   if(schon >= XP.tagesgrenze) n = Math.max(1, Math.round(n * XP.nachGrenze));
@@ -261,7 +265,7 @@ window.answer = function(i){
   const Q = S.quiz, f = Q && Q.list && Q.list[Q.i], schon = Q && Q.picked != null;
   const r = vorAnswer.apply(this, arguments);
   try{
-    if(!f || schon || !f.opts || !f.opts[i]) return r;
+    if(!f || schon || !f.opts || !f.opts[i] || !angemeldet()) return r;
     const ok = !!f.opts[i].ok;
     let n;
     if(ok){ Q._xpSerie = (Q._xpSerie || 0) + 1;

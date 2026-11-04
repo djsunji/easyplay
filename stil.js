@@ -1777,7 +1777,7 @@ document.head.appendChild(c); })();
     try{
       if(x === "zufall"){ const se = window.EP_LERNEN && EP_LERNEN.serie(); return se && se.heute ? {t:`Heute ${se.heute} Fragen`, bar:Math.min(1, se.heute / 5)} : {t:`${zahl(FRAGEN.length)} Fragen`}; }
       if(x === "lib"){ const n = typeof bibSeitenZahl === "function" ? bibSeitenZahl() : 0; return {t: n ? `${zahl(n)} Seiten` : "9 Bücher"}; }
-      if(x === "profil"){ const s = EP_LEVEL.stand(); return {t: s.max ? "Höchstes Level!" : `Noch ${zahl(s.proLevel - s.imLevel)} XP`, bar:s.anteil}; }
+      if(x === "profil"){ if(!S.profil) return {t:"Mit Konto XP sammeln"}; const s = EP_LEVEL.stand(); return {t: s.max ? "Höchstes Level!" : `Noch ${zahl(s.proLevel - s.imLevel)} XP`, bar:s.anteil}; }
       if(x === "chat"){ const se = EP_LERNEN.serie(); return {t: se.aktiv ? "Heute geschafft" : (se.n ? `Serie ${se.n} ${se.n === 1 ? "Tag" : "Tage"}` : "5 neue Fragen"), bar:Math.min(1, (se.heute || 0) / 5), neu:!se.aktiv}; }
       if(x === "fehler"){ const l = EP_LERNEN.fehlerListe(); return {t: l && l.length ? `${l.length} zum Üben` : "Alles geübt", neu:!!(l && l.length)}; }
     }catch(e){}
@@ -3342,6 +3342,8 @@ html body.ep-app #app .thema[data-gp] .emo::after{font-size:9.5px;padding:2px 5p
   function mach(){
     const G = window.EP_GELOEST; if(!G) return;
     let st = 0; try{ st = S.stufe; }catch(e){}
+    let an = false; try{ an = !!S.profil; }catch(e){}
+    if(!an){ document.querySelectorAll("#app .thema[data-gp]").forEach(k => { delete k.dataset.gp; const e = k.querySelector(".emo"); if(e) delete e.dataset.gp; }); return; }
     document.querySelectorAll("#app .thema[data-t]").forEach(k => {
       const id = k.dataset.t; let a = 0; try{ if(!THEMA[id]) return; a = G.anteil(id, st); }catch(e){ return; }
       const p = Math.round(a * 100), txt = (a > 0 && p === 0 ? "<1" : p) + " %";

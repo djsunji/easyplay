@@ -671,7 +671,7 @@ function heuteHTML(){
     <div class="ap-tag ap-tagswipe" id="apTag">
       <button type="button" class="apf f-lila" data-x="zufall"><span class="apico">${SV(I.wuerfel, 20)}</span><b>Zufällige Fragen</b><small>Aus allen Themen</small></button>
       <button type="button" class="apf f-gold" data-x="lib"><span class="apico">${SV(I.buch, 20)}</span><b>Bibliothek</b><small>Lesen und entdecken</small></button>
-      <button type="button" class="apf f-navy" data-x="profil"><span class="apico">${SV(I.stern, 20)}</span><b>Mein Level</b><small>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : "Level 1"}</small></button>
+      <button type="button" class="apf f-navy" data-x="profil"><span class="apico">${SV(I.stern, 20)}</span><b>Mein Level</b><small>${!S.profil ? "Erst mit Konto" : lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : "Level 1"}</small></button>
       <button type="button" class="apf f-blau${tq ? " ok" : ""}" data-x="chat"><span class="apico">${SV(I.kal, 20)}</span><b>Tagesquiz</b><small>${tq ? `Erledigt: ${tq.r} von ${tq.n}` : "5 neue Fragen"}</small></button>
       <button type="button" class="apf f-pink${li && li.st === "ok" ? " ok" : ""}" data-x="live"><span class="apico">${SV(I.live, 20)}</span><b>Live ${li ? li.zeit : ""}</b><small>${liveTxt}</small></button>
       <button type="button" class="apf f-orange${nf ? "" : " ok"}" data-x="fehler"${nf ? "" : " disabled"}><span class="apico">${SV(I.ziel, 20)}</span><b>Fehler üben</b><small>${nf ? nf + " offen" : "Alles geübt"}</small></button>
