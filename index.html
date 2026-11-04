@@ -8081,7 +8081,7 @@ async function authInit(){
         const gleich=lokal&&lokal.email===AUTH.user.email;   /* lokale Felder (Season, Hardcore, Eltern-Code, Verzierung) nie verlieren */
         S.profil={...(gleich?lokal:{}), ...p, ...(gleich?{best:lokal.best||p.best, tests:lokal.tests||p.tests, saison:lokal.saison||p.saison, hc:lokal.hc||p.hc, code:lokal.code||p.code}:{})};
         store.set("ep-profil",S.profil); store.set("ep-abgemeldet",false);
-        if(!S.profil.kanton){ S.profilErgaenzen=true; go("register"); } else if(S.screen==="login"||S.screen==="register") go("profil"); else render();
+        if(!S.profil.kanton){ S.profilErgaenzen=true; go("register"); } else if(S.screen==="login"||S.screen==="register"||S.screen==="konto") go("profil"); else render();
       }
     });
   }catch(e){ AUTH.modus="lokal"; AUTH.regZu=true; }   /* eigener Server nicht erreichbar: keine neuen Konten nur auf diesem Gerät */

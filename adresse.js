@@ -130,6 +130,10 @@
       });
     } else {
       if(r === false) S.screen = "home";
+      /* Rückkehr von Google, Apple oder Microsoft auf /login, /anmelden oder /registrieren: Ist die Anmeldung
+         schon durch (Antwort des Servers kam vor diesem Skript), nicht zurück auf die Anmeldeseite, sondern
+         zum Profil bzw. zum Ergänzen (Kanton) bei einem neuen Konto */
+      try{ if(typeof AUTH !== "undefined" && AUTH.user && /^(login|register|konto)$/.test(S.screen)) S.screen = S.profilErgaenzen ? "register" : "profil"; }catch(e){}
       setTimeout(() => { still = false; }, 1500);
     }
   }
