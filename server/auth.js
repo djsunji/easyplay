@@ -131,6 +131,27 @@ function mitSitzung(ziel, s, typ) {
   const h = new URLSearchParams({ access_token: s.access_token, refresh_token: s.refresh_token, expires_in: String(s.expires_in), expires_at: String(s.expires_at), token_type: "bearer", type: typ });
   return ziel + "#" + h.toString();
 }
+/* Rückkehr in die easyplay-App: Ein 302 auf ch.easyplay.app:// wird im Safari-Fenster (nach dem Formular von Apple)
+   und im Chrome-Tab oft still blockiert, weil er nicht direkt vom Tippen kommt. Darum eine kleine Seite, die es
+   sofort versucht (meta refresh) und sonst einen grossen Knopf «Zurück zur App» zeigt (Tippen klappt immer). */
+function istAppZiel(url) { return APP_ZIELE.some(z => String(url || "").startsWith(z)); }
+function zurAppSeite(url, fehler) {
+  const e = s => String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  return `<!doctype html><html lang="de-CH"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><meta http-equiv="refresh" content="0;url=${e(url)}">
+<title>Zurück zur App · easyplay</title><style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#2B1466,#5B4BF5);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1d1640}
+main{background:#fff;border-radius:20px;padding:28px 24px;width:min(380px,calc(100vw - 32px));box-sizing:border-box;box-shadow:0 18px 40px rgba(0,0,0,.25);text-align:center}
+h1{margin:0 0 8px;font-size:24px;color:#2B1466}p{margin:0 0 20px;line-height:1.45}
+a{display:block;font-size:19px;font-weight:700;padding:15px;border-radius:14px;background:#FFC83D;color:#2B1466;text-decoration:none;box-shadow:0 4px 0 #d99a00}
+</style></head><body><main><h1>${fehler ? "Das hat nicht geklappt" : "Fertig angemeldet!"}</h1>
+<p>${fehler ? e(fehler) + " Tippe auf den Knopf und versuche es in der App nochmals." : "Tippe auf den Knopf, dann geht es in der easyplay-App weiter."}</p>
+<a href="${e(url)}">Zurück zur App</a></main></body></html>`;
+}
+function weiterZiel(res, url, fehler) {
+  if (istAppZiel(url)) return res.html(200, zurAppSeite(url, fehler));
+  return res.weiter(url);
+}
 function mitFehler(ziel, code, text) {
   return ziel + "#" + new URLSearchParams({ error: code, error_description: text }).toString();
 }
@@ -427,8 +448,8 @@ export async function authAnfrage(req, res, pfad) {
   if (pfad === "/authorize" && m === "GET") {
     const anbieter = String(q.provider || "");
     const ziel = zielPruefen(q.redirect_to);
-    if (!ANBIETER[anbieter] || !ANBIETER[anbieter]()) return res.weiter(mitFehler(ziel, "provider_disabled", "Diese Anmeldung ist nicht eingerichtet."));
-    if (!bremse("oauth:" + ip, 30, 600)) return res.weiter(mitFehler(ziel, "over_request_rate_limit", "Zu viele Versuche."));
+    if (!ANBIETER[anbieter] || !ANBIETER[anbieter]()) return weiterZiel(res, mitFehler(ziel, "provider_disabled", "Diese Anmeldung ist nicht eingerichtet."), "Diese Anmeldung ist nicht eingerichtet.");
+    if (!bremse("oauth:" + ip, 30, 600)) return weiterZiel(res, mitFehler(ziel, "over_request_rate_limit", "Zu viele Versuche."), "Zu viele Versuche.");
     return res.weiter(anmeldenBei(anbieter, ziel));
   }
   if (pfad === "/callback" && (m === "GET" || m === "POST")) {
@@ -436,17 +457,18 @@ export async function authAnfrage(req, res, pfad) {
     const code = b.code || q.code, st = jwtPruefen(b.state || q.state);
     if (!st || st.typ !== "zustand") return res.weiter(mitFehler(zielPruefen(""), "invalid_request", "Die Anmeldung ist abgelaufen. Bitte nochmals."));
     const ziel = zielPruefen(st.r);
-    if (b.error || q.error) return res.weiter(mitFehler(ziel, "access_denied", "Anmeldung abgebrochen."));
+    if (b.error || q.error) return weiterZiel(res, mitFehler(ziel, "access_denied", "Anmeldung abgebrochen."), "Anmeldung abgebrochen.");
     try {
       const d = await codeEinloesen(st.p, String(code || ""), st.v);
       if (d.nonce && d.nonce !== st.n) throw new Error("Antwort des Anbieters ungültig");
       let name = null; try { name = b.user ? JSON.parse(b.user).name : null; } catch (e) {}
       const u = await kontoFuerAnbieter(st.p, d, name);
-      if (gesperrt(u)) return res.weiter(mitFehler(ziel, "user_banned", "Dieses Konto ist gesperrt."));
-      return res.weiter(mitSitzung(ziel, await sitzungErstellen(u, req), "signin"));
+      if (gesperrt(u)) return weiterZiel(res, mitFehler(ziel, "user_banned", "Dieses Konto ist gesperrt."), "Dieses Konto ist gesperrt.");
+      return weiterZiel(res, mitSitzung(ziel, await sitzungErstellen(u, req), "signin"));
     } catch (e) {
       console.error("OAuth:", e.message);
-      return res.weiter(mitFehler(ziel, "server_error", e.anzeigen ? e.message : "Die Anmeldung hat nicht geklappt. Bitte nochmals."));
+      const t = e.anzeigen ? e.message : "Die Anmeldung hat nicht geklappt. Bitte nochmals.";
+      return weiterZiel(res, mitFehler(ziel, "server_error", t), t);
     }
   }
 
