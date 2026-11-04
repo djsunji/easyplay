@@ -34,6 +34,7 @@ _(leer)_
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 1-.6-. Sitzung «Hauptseite»: Französisch: Fragen der Stufen Entdecker und Könner werden übersetzt (94 Pakete, 18660 neue Fragen, 140 ausgelassen; jetzt 56312 Fragen auf Französisch, neue Dateien ab `welten/i18n/fr/q-20.json`, Werkzeuge in der Sitzung `/home/claude/fragen-fr2/`). Kein App-Bau. Version ep-2026-11-05-02.
 - 1-.6-. Sitzung «Hauptseite»: Französisch: Fragen der Stufen Entdecker und Könner werden übersetzt (64 Pakete, 12677 neue Fragen, 123 ausgelassen; jetzt 50329 Fragen auf Französisch, neue Dateien ab `welten/i18n/fr/q-20.json`, Werkzeuge in der Sitzung `/home/claude/fragen-fr2/`). Kein App-Bau. Version ep-2026-11-05-01.
 - 1-.6-. Sitzung «Hauptseite»: Französisch: Fragen der Stufen Entdecker und Könner werden übersetzt (34 Pakete, 6688 neue Fragen, 112 ausgelassen; jetzt 44340 Fragen auf Französisch, neue Dateien ab `welten/i18n/fr/q-20.json`, Werkzeuge in der Sitzung `/home/claude/fragen-fr2/`). Kein App-Bau. Version ep-2026-11-04-15.
 - 1-.6-. Sitzung «Hauptseite»: Französisch: Fragen der Stufen Entdecker und Könner werden übersetzt (4 Pakete, 794 neue Fragen, 6 ausgelassen; jetzt 38446 Fragen auf Französisch, neue Dateien ab `welten/i18n/fr/q-20.json`, Werkzeuge in der Sitzung `/home/claude/fragen-fr2/`). Kein App-Bau. Version ep-2026-11-04-14.
