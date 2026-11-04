@@ -3568,3 +3568,39 @@ ${A} .stl-bar.stl-bar > .stl-heute::after{content:"✦";position:absolute;inset:
 })();
 /* Joker-Zeile .du-jkz gehört nur in die App-Ansicht; am Computer stehen die Joker in den Team-Karten */
 (function(){ const c = document.createElement("style"); c.textContent = `html body:not(.ep-app) #app .du-jkz{display:none!important}`; document.head.appendChild(c); })();
+/* ===== Abschluss-Resultate: Dejans Sterne (springen nacheinander auf), Punkte-Bilanz als lesbare Pillen,
+   Erklärung nach falscher Antwort im gewerteten Test (.ep-terkl in renderQuiz) ===== */
+(function(){ const c = document.createElement("style"); c.textContent = `
+html body #app .stars.ep-sterne{display:flex;justify-content:center;align-items:flex-end;gap:6px;margin:2px 0 6px}
+html body #app .stars.ep-sterne .ep-st{position:relative;display:inline-block;width:64px;height:64px}
+html body #app .stars.ep-sterne .ep-st:nth-child(2){width:84px;height:84px}
+html body #app .stars.ep-sterne .ep-st img{width:100%;height:100%;object-fit:contain;display:block}
+html body #app .stars.ep-sterne .ep-st.an img{filter:drop-shadow(0 0 10px rgba(255,214,70,.9)) drop-shadow(0 4px 4px rgba(120,60,0,.35));animation:epStPop .55s cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--d)}
+html body #app .stars.ep-sterne .ep-st.an::after{content:"";position:absolute;inset:-18%;background:url("img/grafik/diverse/funkeln.webp?v=2") center/contain no-repeat;opacity:0;animation:epStFunk 1.2s ease-out both;animation-delay:calc(var(--d) + .3s);pointer-events:none}
+html body #app .stars.ep-sterne .ep-st.aus img,html body.ep-app #app .card.done .ep-done-kopf .stars.ep-sterne .ep-st.aus img{filter:brightness(0) invert(1) opacity(.5) drop-shadow(0 2px 3px rgba(30,10,80,.3))}
+@keyframes epStPop{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:none;opacity:1}}
+@keyframes epStFunk{0%{opacity:0;transform:scale(.6)}35%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){html body #app .stars.ep-sterne .ep-st img,html body #app .stars.ep-sterne .ep-st::after{animation:none!important}}
+@media (max-width:600px){html body #app .stars.ep-sterne .ep-st{width:48px;height:48px}html body #app .stars.ep-sterne .ep-st:nth-child(2){width:62px;height:62px}}
+
+html body #app .pbilanz.ep-pb{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0 6px}
+html body #app .pbilanz.ep-pb span{display:inline-flex;align-items:center;gap:6px;padding:6px 14px 6px 8px;border-radius:999px;border:2px solid #fff;
+  background:#fff;color:#2E2560!important;text-shadow:none!important;font:600 .95rem Lexend,system-ui,sans-serif;box-shadow:0 3px 8px rgba(30,10,80,.25)}
+html body #app .pbilanz.ep-pb span b{font-weight:800;color:inherit}
+html body #app .pbilanz.ep-pb span img{width:24px;height:24px;object-fit:contain}
+html body #app .pbilanz.ep-pb .pb-ok b{color:#0E8A5F}
+html body #app .pbilanz.ep-pb .pb-tempo b{color:#B26A00}
+html body #app .pbilanz.ep-pb .pb-serie b{color:#D2451E}
+html body #app .pbilanz.ep-pb .pb-ab b{color:#D0213F}
+html body #app .card.done .ep-done-kopf .seasonbonus{text-shadow:none!important}
+@media (max-width:600px){html body #app .pbilanz.ep-pb{gap:6px}html body #app .pbilanz.ep-pb span{font-size:.8rem;padding:4px 10px 4px 6px}html body #app .pbilanz.ep-pb span img{width:19px;height:19px}}
+
+html body #app .feedback .ep-terkl{display:flex;gap:12px;align-items:flex-start;text-align:left;margin:10px auto 12px;max-width:640px;padding:12px 16px;border-radius:20px;
+  background:#fff;border:3px solid #FFD25A;box-shadow:0 6px 16px rgba(40,30,120,.15);color:#2E2560}
+html body #app .feedback .ep-terkl .ep-terkl-ic{width:34px;height:34px;flex:none;object-fit:contain}
+html body #app .feedback .ep-terkl :is(.ep-terkl-t,.ep-terkl-m){display:block;margin:0 0 6px;color:#2E2560!important;-webkit-text-fill-color:#2E2560!important;opacity:1!important;font:500 1rem/1.45 Lexend,system-ui,sans-serif!important;text-shadow:none!important}
+html body #app .feedback .ep-terkl .ep-terkl-m .ep-terkl-mk{display:inline!important;font-weight:800!important;margin:0!important;color:#2E2560!important;-webkit-text-fill-color:#2E2560!important;text-shadow:none!important}
+html body #app .feedback .ep-terkl > div > :last-child{margin-bottom:0}
+html body #app .feedback .ep-terkl .ep-terkl-m{background:#FFF6D6;border-radius:12px;padding:6px 10px}
+@media (max-width:600px){html body #app .feedback .ep-terkl{padding:9px 11px;gap:8px}html body #app .feedback .ep-terkl :is(.ep-terkl-t,.ep-terkl-m){font-size:.88rem!important}html body #app .feedback .ep-terkl .ep-terkl-ic{width:26px;height:26px}}
+`; document.head.appendChild(c); })();
