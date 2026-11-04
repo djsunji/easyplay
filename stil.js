@@ -3665,4 +3665,58 @@ ${A} .rl-sinfo>.help{color:#3A2F72!important;background:#F7F4FF!important}
 }`;
   document.head.appendChild(c);
 })();
-html[data-scr="board"] body:not(.ep-app) #app .rlkopf details.rl-erkl>summary{margin:0}
+(function(){ const c = document.createElement("style"); c.textContent = `html[data-scr="board"] body:not(.ep-app) #app .rlkopf details.rl-erkl>summary{margin:0}`; document.head.appendChild(c); })();
+/* ===== Flaggen in Fragen (.qimg .flag[data-fk], flagSvg in index.html): anklickbar, öffnet die Flagge gross.
+   Nach der Antwort steht auf allen Geräten darunter, von welchem Land die Flagge ist (auch in der grossen Ansicht).
+   Name aus FLAGS, sonst aus dem Feld s der Fragen («Flagge Argentinien»), sonst Intl.DisplayNames. ===== */
+(function(){
+  let KARTE = null;
+  function name(k){
+    try{ if(typeof FLAGS !== "undefined" && FLAGS[k]?.name) return FLAGS[k].name; }catch(e){}
+    if(!KARTE){ KARTE = {}; try{ FRAGEN.forEach(x => { if(x.img && x.img.startsWith("f:") && /^Flagge /.test(x.s||"")) KARTE[x.img.slice(2)] = x.s.slice(7).trim(); }); }catch(e){ KARTE = null; } }
+    if(KARTE && KARTE[k]) return KARTE[k];
+    try{ if(/^[a-z]{2}$/.test(k)) return new Intl.DisplayNames(["de"], {type:"region"}).of(k.toUpperCase()); }catch(e){}
+    return "";
+  }
+  const beantwortet = () => !!document.querySelector("#app .answers .ans.right, #app .answers .ans.wrong, #app .answers .ans[disabled], #app .feedback");
+  function gross(fl){
+    const k = fl.dataset.fk, n = beantwortet() ? name(k) : "";
+    const d = document.createElement("div"); d.className = "ep-flgross"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", "Flagge gross");
+    const kopie = fl.cloneNode(true); kopie.classList.remove("qbig"); kopie.removeAttribute("loading");
+    d.innerHTML = `<div class="ep-flg-box"><button class="ep-flg-zu" type="button" aria-label="Schliessen">✕</button><div class="ep-flg-bild"></div>${n ? `<p class="ep-flg-name">Flagge von <b>${String(n).replace(/[<>&]/g,"")}</b></p>` : `<p class="ep-flg-hinweis">Nach deiner Antwort siehst du hier, welches Land es ist.</p>`}</div>`;
+    d.querySelector(".ep-flg-bild").appendChild(kopie);
+    const zu = () => { d.remove(); document.removeEventListener("keydown", taste); fl.focus?.(); };
+    const taste = e => { if(e.key === "Escape") zu(); };
+    d.onclick = e => { if(e.target === d || e.target.closest(".ep-flg-zu")) zu(); };
+    document.addEventListener("keydown", taste);
+    document.body.appendChild(d); d.querySelector(".ep-flg-zu").focus();
+  }
+  function pruefen(){
+    document.querySelectorAll("#app .qimg .flag[data-fk]").forEach(fl => {
+      const box = fl.closest(".qimg");
+      if(!fl.dataset.flz){ fl.dataset.flz = "1"; fl.setAttribute("tabindex", "0"); fl.setAttribute("role", "button"); fl.setAttribute("aria-label", "Flagge gross ansehen");
+        fl.addEventListener("click", () => gross(fl)); fl.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); gross(fl); } }); }
+      let cap = box.querySelector(".ep-flname");
+      if(beantwortet()){ const n = name(fl.dataset.fk); if(n && !cap){ cap = document.createElement("p"); cap.className = "ep-flname"; cap.innerHTML = `Flagge von <b></b>`; cap.querySelector("b").textContent = n; box.appendChild(cap); } }
+      else if(cap) cap.remove();
+    });
+  }
+  let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(pruefen, 30); }).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:["class","disabled"]});
+  const c = document.createElement("style"); c.textContent = `
+#app .qimg:has(.flag[data-fk]){flex-direction:column;align-items:center;gap:8px}
+#app .qimg .flag[data-fk]{cursor:zoom-in;transition:transform .15s,filter .15s;border-radius:6px}
+#app .qimg .flag[data-fk]:hover{transform:translateY(-2px);filter:drop-shadow(0 12px 18px rgba(27,34,64,.28))}
+#app .qimg .flag[data-fk]:focus-visible{outline:3px solid #7B3FE4;outline-offset:4px}
+#app .qimg .ep-flname{margin:0;display:inline-block;padding:5px 14px;border-radius:999px;background:#fff;color:#2E2560!important;text-shadow:none!important;font:600 .95rem Lexend,system-ui,sans-serif;box-shadow:0 3px 10px rgba(30,20,90,.18);animation:epFlIn .3s ease-out}
+#app .qimg .ep-flname b{color:#4A2BB0;font-weight:800}
+@keyframes epFlIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.ep-flgross{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:rgba(20,14,50,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);cursor:zoom-out}
+.ep-flg-box{position:relative;cursor:default;background:#fff;border-radius:28px;padding:28px 28px 20px;box-shadow:0 24px 60px rgba(0,0,0,.4);text-align:center;max-width:min(92vw,760px)}
+.ep-flg-bild :is(svg,img){display:block;width:min(80vw,680px);height:auto;max-height:70vh;border-radius:8px;box-shadow:0 6px 18px rgba(27,34,64,.2)}
+.ep-flg-name{margin:16px 0 0;color:#2E2560;font:600 1.25rem Lexend,system-ui,sans-serif}.ep-flg-name b{color:#4A2BB0;font-weight:800}
+.ep-flg-hinweis{margin:14px 0 0;color:#6B6295;font:500 .95rem Lexend,system-ui,sans-serif}
+.ep-flg-zu{position:absolute;top:-12px;right:-12px;width:40px;height:40px;border-radius:50%;border:3px solid #fff;background:linear-gradient(135deg,#6A4BFF,#E8409F);color:#fff;font:800 16px Lexend,sans-serif;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+@media (max-width:600px){#app .qimg .ep-flname{font-size:.82rem;padding:4px 11px}.ep-flg-box{padding:20px 16px 14px}.ep-flg-name{font-size:1.05rem}}
+@media (prefers-reduced-motion:reduce){#app .qimg .ep-flname{animation:none}}`;
+  document.head.appendChild(c);
+})();
