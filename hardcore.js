@@ -95,9 +95,9 @@ function hcZuendschnur(){
   const p = Math.min(1, Math.max(0, 1 - HC.rest/HC_SEK));
   const zustand = HC.vorbei ? (HC.grund==="zeit" ? "weg" : "aus") : (HC.pick!=null ? "halt" : "");
   return `<div class="hczuend ${zustand} ${HC.rest<=5&&!HC.vorbei?"knapp":""}" id="hcZuend" style="--p:${p.toFixed(4)}" role="img" aria-label="Zündschnur: noch ${Math.ceil(HC.rest)} Sekunden">
-    <div class="hcz-bahn"><div class="hcz-asche"></div><div class="hcz-seil"></div><div class="hcz-funke"><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="hcz-bahn"><div class="hcz-asche"></div><div class="hcz-seil"></div><div class="hcz-funke"><i></i><i></i><i></i><i></i><i></i></div><div class="hcz-info"><span class="hcz-serie"><img src="img/grafik/diverse/flamme.webp?v=2" alt=""><b>${HC.n}</b> <span class="hcz-w">${HC.n===1?"richtige Antwort":"richtige Antworten"}</span><span class="hcz-k">richtig</span></span><span class="hcz-zeit"><img src="img/grafik/diverse/sanduhr.webp?v=2" alt=""><b id="hcSekZ">${Math.ceil(HC.rest)}</b> s</span></div></div>
     <div class="hcz-fass"><img class="hcz-f1" src="img/grafik/hardcore/fass.webp?v=1" alt=""><img class="hcz-f2" src="img/grafik/hardcore/fass-boom.webp?v=1" alt=""></div>
-    <span class="hcz-zeit"><b id="hcSekZ">${Math.ceil(HC.rest)}</b> s</span>
+
   </div>`;
 }
 function themaName(f){ try{ return (THEMA[f.t] && THEMA[f.t].name) || ""; }catch(e){ return ""; } }
@@ -278,9 +278,20 @@ css.textContent = `
 .hczuend.boom .hcz-funke,.hczuend.aus .hcz-funke,.hczuend.weg .hcz-funke,.hczuend.boom .hcz-seil,.hczuend.weg .hcz-seil{display:none}
 .hczuend.halt .hcz-funke::before{animation:none;opacity:.6}
 @keyframes hczBoom{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.25)}100%{opacity:1;transform:scale(1.1)}}
-.hcz-zeit{position:absolute;left:6px;bottom:14px;padding:4px 14px;border-radius:999px;background:#fff;color:#2E2560;font:800 1.15rem Lexend,system-ui,sans-serif;box-shadow:0 3px 10px rgba(30,20,90,.2);font-variant-numeric:tabular-nums;z-index:3}
-.hczuend.knapp .hcz-zeit{color:#E0312B;animation:hcpuls .5s ease-in-out infinite alternate}
-@media (max-width:600px){.hczuend{--fh:96px;--sy:11px;--sd:6px}.hcz-zeit{font-size:.95rem;padding:3px 11px;bottom:10px}}
+.hckopf{display:none!important}
+.hczuend{background:rgba(255,255,255,.94);border-radius:26px;padding:14px 18px 14px 22px;box-shadow:0 12px 28px rgba(20,10,60,.28);box-sizing:content-box;margin:6px 0 16px}
+.hcz-info{position:absolute;left:0;right:6px;bottom:4px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hcz-info>span{display:inline-flex;align-items:center;gap:8px;color:#2E2560;font:600 1rem Lexend,system-ui,sans-serif}
+.hcz-info img{width:34px;height:34px;object-fit:contain;flex:none}
+.hcz-serie b{font:900 1.9rem/1 Lexend,system-ui,sans-serif;color:#E0312B}
+.hcz-zeit{padding:5px 16px 5px 8px;border-radius:999px;background:#F3F0FF;font-variant-numeric:tabular-nums}
+.hcz-zeit b{font:900 1.6rem/1 Lexend,system-ui,sans-serif;color:#4A2BB0;min-width:1.4em;text-align:right}
+.hczuend.knapp .hcz-zeit{background:#FFE3E3}
+.hcz-k{display:none}
+.hcz-info{flex-wrap:nowrap}
+.hczuend.knapp .hcz-zeit b{color:#E0312B;animation:hcpuls .5s ease-in-out infinite alternate;display:inline-block}
+.hcz-asche{background:repeating-linear-gradient(90deg,rgba(70,60,70,.3) 0 6px,transparent 6px 11px)}
+@media (max-width:600px){.hczuend{--fh:96px;--sy:11px;--sd:6px;padding:10px 12px 10px 14px;border-radius:20px}.hcz-info{bottom:0;gap:6px}.hcz-info>span{font-size:.8rem;gap:5px}.hcz-info img{width:24px;height:24px}.hcz-serie b{font-size:1.4rem}.hcz-zeit{padding:3px 11px 3px 6px}.hcz-zeit b{font-size:1.2rem}.hcz-w{display:none}.hcz-k{display:inline}}
 @media (prefers-reduced-motion:reduce){.hcz-funke::before,.hcz-funke i,.hczuend.knapp .hcz-fass .hcz-f1{animation:none}}
 .hcende{text-align:center;margin-bottom:16px;border:3px solid #E0312B}
 .hcgross{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2rem;font-weight:800;margin-bottom:6px}
