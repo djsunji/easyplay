@@ -118,7 +118,7 @@ function hcZeichne(){
   if(HC.vorbei){
     const best = hcBest(S.profil);
     ende = `<div class="card hcende pop">
-      <div class="hcgross">${HC.grund==="zeit" ? "💥 Bumm! Die Zeit ist abgelaufen." : "💥 Falsche Antwort!"}</div>
+      <div class="hcgross"><img class="hc-gic" src="${HC.grund==="zeit" ? "img/grafik/hardcore/fass-boom.webp?v=1" : "img/grafik/hardcore/funke.webp?v=1"}" alt="">${HC.grund==="zeit" ? "Bumm! Die Zeit ist abgelaufen." : "Falsche Antwort!"}</div>
       <p class="hcpunkte">Du hast <b>${HC.n}</b> ${HC.n===1?"Frage":"Fragen"} hintereinander richtig beantwortet.</p>
       ${S.profil ? `<p class="hcbest">${HC.neu ? "🏆 Neuer persönlicher Rekord!" : `Dein Rekord: <b>${best}</b>`}</p>` : `<p class="hcbest">Registriere dich, damit dein Ergebnis in die Hardcore-Rangliste kommt.</p>`}
       <div class="hcerkl"><b>Richtig wäre gewesen:</b> ${esc(f.a[0])}${f.e?`<p>${esc(f.e)}</p>`:""}</div>
@@ -139,12 +139,12 @@ function hcInfo(){
   hcStop();
   const best = hcBest(S.profil);
   $("#app").innerHTML = `<div class="hcwrap">
-    <div class="pagehead hcpagehead"><div class="bigav hcicon">🔥</div><div><h1>Hardcore</h1><p class="help">Wie weit kommst du ohne einen einzigen Fehler?</p></div></div>
+    <div class="pagehead hcpagehead hc-kopf2"><img class="hc-titel" src="img/grafik/hardcore/titel.webp?v=1" alt="Hardcore"><h1 class="sr-only">Hardcore</h1><p class="help">Wie weit kommst du ohne einen einzigen Fehler?</p><img class="hc-kfass" src="img/grafik/hardcore/fass.webp?v=1" alt=""></div>
     <div class="card hcregeln">
-      <div><b>🌍 Alles gemischt</b><span>Fragen aus allen Themen. Am Anfang leicht, dann immer schwieriger: Entdecker, Könner und zuletzt Profis.</span></div>
-      <div><b>♾️ Ohne Ende</b><span>Es geht so lange weiter, bis du eine Frage falsch beantwortest.</span></div>
-      <div><b>🧨 45 Sekunden</b><span>Pro Frage brennt die Zündschnur 45 Sekunden lang. Erreicht der Funke das Fass, ist das Spiel vorbei.</span></div>
-      <div><b>🏆 Eigene Rangliste</b><span>Es zählt deine längste Serie. Bei Gleichstand gewinnt, wer schneller war.</span></div>
+      <div><b><img class="hc-ic" src="img/grafik/ic-globe.webp" alt="">Alles gemischt</b><span>Fragen aus allen Themen. Am Anfang leicht, dann immer schwieriger: Entdecker, Könner und zuletzt Profis.</span></div>
+      <div><b><img class="hc-ic" src="img/grafik/hardcore/unendlich.webp?v=1" alt="">Ohne Ende</b><span>Es geht so lange weiter, bis du eine Frage falsch beantwortest.</span></div>
+      <div><b><img class="hc-ic" src="img/grafik/hardcore/fass.webp?v=1" alt="">45 Sekunden</b><span>Pro Frage brennt die Zündschnur 45 Sekunden lang. Erreicht der Funke das Fass, ist das Spiel vorbei.</span></div>
+      <div><b><img class="hc-ic" src="img/grafik/diverse/pokal.webp?v=2" alt="">Eigene Rangliste</b><span>Es zählt deine längste Serie. Bei Gleichstand gewinnt, wer schneller war.</span></div>
     </div>
     ${S.profil ? `<p class="hcbest" style="text-align:center">Dein Rekord: <b>${best}</b> ${best===1?"Frage":"Fragen"}</p>` : `<p class="hcbest" style="text-align:center">Ohne Profil kannst du spielen, kommst aber nicht in die Rangliste.</p>`}
     <div class="row" style="justify-content:center"><button class="big gold" type="button" id="hcLos">🔥 Hardcore starten</button><button class="big alt" type="button" id="hcRang2">🏆 Hardcore-Rangliste</button></div>
@@ -261,10 +261,10 @@ css.textContent = `
 .hcz-asche{left:0;right:0;top:calc(var(--sy) - 1px);height:3px;border-radius:2px;background:repeating-linear-gradient(90deg,rgba(70,60,70,.45) 0 6px,transparent 6px 11px)}
 .hcz-seil{left:calc(var(--p) * 100%);right:-10px;background:url("img/grafik/hardcore/zuendschnur.webp?v=1") left center / auto 100% repeat-x;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
 .hcz-funke{position:absolute;top:var(--sy);left:calc(var(--p) * 100%);width:0;height:0;z-index:2}
-.hcz-funke::before{content:"";position:absolute;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,#FFFDE8 0 18%,#FFD54A 32%,rgba(255,120,30,.75) 52%,rgba(255,80,0,0) 72%);animation:hczFlacker .12s ease-in-out infinite alternate;filter:drop-shadow(0 0 10px #FF9A1F)}
+.hcz-funke::before{content:"";position:absolute;left:-22px;top:-22px;width:44px;height:44px;background:url("img/grafik/hardcore/funke.webp?v=1") center/contain no-repeat;animation:hczFlacker .14s ease-in-out infinite alternate;filter:drop-shadow(0 0 8px rgba(255,150,30,.9))}
 .hcz-funke i{position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:#FFE27A;box-shadow:0 0 6px #FF9A1F;animation:hczSpritz .55s linear infinite}
 .hcz-funke i:nth-child(1){--dx:-14px;--dy:-22px}.hcz-funke i:nth-child(2){--dx:12px;--dy:-24px;animation-delay:.11s}.hcz-funke i:nth-child(3){--dx:-22px;--dy:10px;animation-delay:.22s}.hcz-funke i:nth-child(4){--dx:20px;--dy:14px;animation-delay:.33s}.hcz-funke i:nth-child(5){--dx:2px;--dy:-28px;animation-delay:.44s}
-@keyframes hczFlacker{from{transform:scale(.85)}to{transform:scale(1.15)}}
+@keyframes hczFlacker{from{transform:scale(.85) rotate(-12deg)}to{transform:scale(1.15) rotate(12deg)}}
 @keyframes hczSpritz{0%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
 .hcz-fass{position:relative;flex:none;width:var(--fh);height:var(--fh);z-index:2}
 .hcz-fass img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3));transform-origin:50% 100%;pointer-events:none;-webkit-user-drag:none}
@@ -301,6 +301,19 @@ css.textContent = `
 .hcregeln{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
 .hcregeln div{display:flex;flex-direction:column;gap:4px}
 .hcicon{font-size:2.2rem;display:grid;place-items:center}
+.hc-kopf2{position:relative;display:flex!important;flex-direction:column;align-items:flex-start;gap:6px;padding-right:160px!important;min-height:150px}
+.hc-kopf2 .hc-titel{width:min(420px,100%);height:auto;filter:drop-shadow(0 6px 10px rgba(60,10,0,.35))}
+.hc-kopf2 .help{margin:0;font-size:1.1rem}
+.hc-kopf2 .hc-kfass{position:absolute;right:10px;bottom:-6px;width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(0,0,0,.35));animation:hczSchweb 3s ease-in-out infinite}
+@keyframes hczSchweb{50%{transform:translateY(-6px) rotate(-3deg)}}
+.hcregeln b{display:flex;align-items:center;gap:8px}
+@media (min-width:900px){.hcregeln{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media (min-width:601px) and (max-width:899px){.hcregeln{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.hcregeln .hc-ic{width:34px;height:34px;object-fit:contain;flex:none}
+.hcgross{display:flex;align-items:center;justify-content:center;gap:12px}
+.hcgross .hc-gic{width:72px;height:72px;object-fit:contain;flex:none}
+@media (max-width:600px){.hc-kopf2{padding-right:96px!important;min-height:110px}.hc-kopf2 .hc-kfass{width:92px;height:92px;right:2px}.hc-kopf2 .help{font-size:.9rem}.hcgross{font-size:1.4rem!important}.hcgross .hc-gic{width:52px;height:52px}}
+@media (prefers-reduced-motion:reduce){.hc-kopf2 .hc-kfass{animation:none}}
 .smgitter{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:10px}
 .smkarte{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:26px 18px;border:0;border-radius:26px;color:#fff;cursor:pointer;background:linear-gradient(150deg,var(--f1),var(--f2));box-shadow:0 7px 0 rgba(0,0,0,.25);transition:transform .15s}
 .smkarte:hover{transform:translateY(-4px)}.smkarte .smemo{font-size:3rem}.smkarte b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.6rem}.smkarte span{font-size:.95rem;opacity:.95}
