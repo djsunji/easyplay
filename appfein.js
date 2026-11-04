@@ -470,7 +470,7 @@ document.head.appendChild(c); })();
   let fbHoehe = 140, schluessel = "", z = 1, laeuft = false;
   function frei(){ try{ if(window.EP_NATIV || navigator.standalone || matchMedia("(display-mode: standalone)").matches) return 8; }catch(e){} return /iPhone|iPad|Android/.test(navigator.userAgent) ? 78 : 12; }
   function einpassen(neu){
-    if(laeuft) return; laeuft = true;
+    if(laeuft || document.hidden) return; laeuft = true;   /* im Hintergrund meldet iOS falsche Grössen: dann nicht messen */
     try{
       const an = document.body.classList.contains("ep-app") && typeof S !== "undefined" && S.screen === "quiz" && app.querySelector(".answers");
       if(!an){ if(app.style.zoom){ app.style.zoom = ""; z = 1; } schluessel = ""; return; }
@@ -483,7 +483,9 @@ document.head.appendChild(c); })();
       for(const k of app.children){ if(getComputedStyle(k).position === "fixed") continue; const r = k.getBoundingClientRect(); if(r.height) unten = Math.max(unten, r.bottom); }
       let noetig = Math.max(200, unten - t0 + 10);
       if(fb){ fbHoehe = Math.max(80, fb.getBoundingClientRect().height + 12); } else noetig += fbHoehe;
-      const platz = (window.visualViewport ? visualViewport.height : innerHeight) - oben - frei();
+      const hoch = Math.max(window.visualViewport ? visualViewport.height : 0, innerHeight);
+      if(hoch < 320) return;                                     /* unplausibel klein (App wechselt gerade): nichts ändern */
+      const platz = hoch - oben - frei();
       let w = Math.min(1, platz / noetig); w = Math.max(.55, Math.floor(w * 100) / 100);
       if(q === schluessel && fb && !neu) w = Math.min(w, z);    /* nach der Antwort nur noch kleiner, nie springen */
       z = w; schluessel = q;
@@ -493,6 +495,16 @@ document.head.appendChild(c); })();
   new MutationObserver(() => requestAnimationFrame(() => einpassen(false))).observe(app, {childList:true, subtree:true});
   addEventListener("resize", () => einpassen(true));
   if(window.visualViewport) visualViewport.addEventListener("resize", () => einpassen(true));
+  /* zurück in die App: neu messen, als wäre die Frage neu (sonst bliebe eine im Hintergrund gemessene, zu kleine Grösse) */
+  const zurueck = () => { if(document.hidden) return; [60, 350, 900].forEach(ms => setTimeout(() => { z = 1; einpassen(true); }, ms)); };
+  document.addEventListener("visibilitychange", zurueck); addEventListener("pageshow", zurueck); addEventListener("focus", zurueck);
+})();
+
+/* Zurück in die App (Handy/iPad): alle Einpass-Regeln (Startseite, Duell, Profil, Themen, Verkleinern) nochmals rechnen lassen,
+   weil iOS die Bildschirmgrösse beim Zurückkehren nicht immer neu meldet. */
+(function(){
+  let t = []; const neu = () => { if(document.hidden) return; t.forEach(clearTimeout); t = [250, 900].map(ms => setTimeout(() => { try{ dispatchEvent(new Event("resize")); }catch(e){} }, ms)); };
+  document.addEventListener("visibilitychange", neu); addEventListener("pageshow", neu);
 })();
 
 /* Quiz am Handy kompakter, damit weniger verkleinert werden muss: Hinweis zur Vorlesestimme aus,

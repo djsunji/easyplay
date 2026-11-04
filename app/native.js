@@ -218,6 +218,8 @@ if(nativ()){
     var A0 = P().App;
     if(A0 && A0.addListener) A0.addListener("appUrlOpen", function(e){ linkVerarbeiten(e && e.url); });
     if(A0 && A0.getLaunchUrl) A0.getLaunchUrl().then(function(r){ linkVerarbeiten(r && r.url); }).catch(function(){});
+    /* zurück in die App: Seite neu einpassen lassen (appfein.js hört auf pageshow), iOS meldet die Grösse sonst nicht immer neu */
+    if(A0 && A0.addListener) A0.addListener("resume", function(){ try{ window.dispatchEvent(new Event("pageshow")); }catch(e){} });
   }catch(e){}
 }
 
