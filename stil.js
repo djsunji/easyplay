@@ -3604,3 +3604,65 @@ html body #app .feedback .ep-terkl > div > :last-child{margin-bottom:0}
 html body #app .feedback .ep-terkl .ep-terkl-m{background:#FFF6D6;border-radius:12px;padding:6px 10px}
 @media (max-width:600px){html body #app .feedback .ep-terkl{padding:9px 11px;gap:8px}html body #app .feedback .ep-terkl :is(.ep-terkl-t,.ep-terkl-m){font-size:.88rem!important}html body #app .feedback .ep-terkl .ep-terkl-ic{width:26px;height:26px}}
 `; document.head.appendChild(c); })();
+/* ===== Rangliste: Auswahl neu geordnet (renderBoard). Oben die Art (Seasons zuerst, Gesamt, Hardcore), darunter eine weisse
+   Filter-Karte mit Season, Stufe (Alle Stufen zuerst) und Region. Erklärung und Season-Infos sind aufklappbar (details.rl-auf),
+   standardmässig zu. Beim Öffnen der Rangliste immer Seasons und Alle Stufen (go() in index.html). ===== */
+(function(){
+  const A = 'html[data-scr="board"] body #app', P = 'html[data-scr="board"] body:not(.ep-app) #app';
+  const MZ = "radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800)";
+  const VP = "linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F)";
+  const c = document.createElement("style"); c.textContent = `
+/* Art der Rangliste: grosse Reiter am Computer */
+${P} .segs.rlmodus{gap:8px!important;padding:8px!important;margin:18px auto 14px!important;border-radius:26px!important;box-shadow:0 10px 24px rgba(30,20,90,.22)!important}
+${P} .segs.rlmodus .seg{min-height:56px!important;min-width:170px;justify-content:center;padding:8px 22px!important;border-radius:20px!important;font:800 16px Lexend,system-ui,sans-serif!important;gap:10px!important}
+${P} .segs.rlmodus .seg img{width:32px!important;height:32px!important}
+${P} .segs.rlmodus .seg:not([aria-pressed="true"]):hover{background:#F1ECFF!important}
+/* Filter-Karte */
+${A} .rl-filter{max-width:1040px;margin:0 auto 18px;padding:12px 16px;border-radius:24px;background:rgba(255,255,255,.95);box-shadow:0 10px 24px rgba(30,20,90,.18);display:grid;gap:10px}
+${A} .rl-fz{display:flex;align-items:center;gap:14px;min-width:0}
+${A} .rl-fz + .rl-fz{border-top:1px solid #EEE9FB;padding-top:10px}
+${A} .rl-fl{flex:none;width:72px;color:#6A4BFF;font:800 11.5px Lexend,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+${A} .rl-filter .segs.rlsegs{margin:0!important;width:auto;flex:1 1 auto;justify-content:flex-start!important;background:#F3F0FF!important;box-shadow:none!important;padding:5px!important;border-radius:18px!important}
+${A} .rl-filter .segs.rlsegs .seg{flex:1 1 0;justify-content:center;border-radius:14px!important;min-height:44px!important}
+${A} .rl-filter .segs.rlsegs .seg .sgi img{width:26px!important;height:26px!important}
+${A} .rl-filter :is(.seasonwahl,.kpick){margin:0!important;flex:1 1 auto;justify-content:flex-start;max-width:none!important}
+${A} .rl-filter :is(.seasonwahl,.kpick) select.sel{flex:1 1 auto;width:100%;min-height:46px;background:#F3F0FF!important;box-shadow:none!important;border:2px solid #E4DEFA!important;border-radius:14px!important;cursor:pointer}
+${A} .rl-filter .kpick .kprev{flex:none;width:40px;height:40px;display:grid;place-items:center}
+${A} .rl-filter .kpick .kprev :is(img,svg){width:34px;height:34px;object-fit:contain}
+/* Aufklappbare Teile */
+${A} details.rl-auf>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px}
+${A} details.rl-auf>summary::-webkit-details-marker{display:none}
+${A} details.rl-auf>summary::after{content:"▸";flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(123,91,255,.14);color:#6A4BFF;font-size:12px;transition:transform .2s}
+${A} details.rl-auf[open]>summary::after{transform:rotate(90deg)}
+${A} details.rl-auf>summary:focus-visible{outline:3px solid #7B3FE4;outline-offset:3px}
+${A} .rlkopf details.rl-erkl{margin:6px auto 0}
+${A} .rlkopf details.rl-erkl>summary{width:fit-content;margin:0 auto;padding:6px 10px 6px 6px;border-radius:999px;background:rgba(255,255,255,.95);color:#4A2BB0!important;text-shadow:none!important;font:800 14px Lexend,sans-serif;box-shadow:0 4px 12px rgba(20,10,80,.25)}
+${A} .rlkopf details.rl-erkl>summary span{color:#4A2BB0!important;text-shadow:none!important}
+${A} .rlkopf details.rl-erkl[open]>summary{margin-bottom:12px}
+${A} .seasonkopf details.rl-sinfo{background:rgba(255,255,255,.95);border-radius:24px;box-shadow:0 10px 24px rgba(30,20,90,.18);padding:8px 14px;margin:0 0 14px}
+${A} .seasonkopf details.rl-sinfo[open]{padding-bottom:14px}
+${A} .seasonkopf details.rl-sinfo>summary{padding:4px 0}
+${A} .seasonkopf details.rl-sinfo[open]>summary{margin-bottom:10px}
+${A} .rl-sinfo>summary .rl-mz-tier{width:46px;height:46px;font-size:26px;font-style:normal;background:${MZ}}
+${A} .rl-sinfo>summary>span{display:flex;flex-direction:column;color:#2E2560;font:800 16px/1.2 Lexend,sans-serif;min-width:0}
+${A} .rl-sinfo>summary>span small{color:#6B6295;font:600 12.5px Lexend,sans-serif;margin-top:2px}
+${A} .rl-sinfo>summary>em{margin-left:auto;font:700 12.5px Lexend,sans-serif;font-style:normal;color:#6A4BFF;white-space:nowrap}
+${A} .rl-sinfo details.skalender{box-shadow:none;background:#F7F4FF;margin:10px 0 0}
+${A} .rl-sinfo .rl-swahl{display:flex;align-items:center;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+${A} .rl-sinfo .rl-swahl .rl-fl{width:auto}
+${A} .rl-sinfo .rl-swahl .seasonwahl{margin:0!important;flex:1 1 260px;justify-content:flex-start}
+${A} .rl-sinfo .rl-swahl select.sel{width:100%;background:#F3F0FF!important;box-shadow:none!important;border:2px solid #E4DEFA!important;border-radius:14px!important}
+${A} .rl-sinfo>.help{color:#3A2F72!important;background:#F7F4FF!important}
+@media (max-width:640px){
+  ${A} .rl-filter{padding:10px 10px;border-radius:20px;gap:8px}
+  ${A} .rl-fz{flex-direction:column;align-items:stretch;gap:5px}
+  ${A} .rl-filter .rl-fl{display:none}
+  ${A} .rl-fz + .rl-fz{padding-top:8px}
+  ${A} .rl-filter .segs.rlsegs{flex-wrap:nowrap!important}
+  ${A} .rl-filter .segs.rlsegs .seg{flex-direction:column;gap:2px!important;padding:5px 4px!important;font-size:11.5px!important;min-height:52px!important;min-width:0}
+  ${A} .rl-filter .segs.rlsegs .seg .sgi img{width:22px!important;height:22px!important}
+  ${A} .rl-sinfo>summary>em{display:none}
+}`;
+  document.head.appendChild(c);
+})();
+html[data-scr="board"] body:not(.ep-app) #app .rlkopf details.rl-erkl>summary{margin:0}
