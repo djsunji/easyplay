@@ -95,8 +95,8 @@ function hcZuendschnur(){
   const p = Math.min(1, Math.max(0, 1 - HC.rest/HC_SEK));
   const zustand = HC.vorbei ? (HC.grund==="zeit" ? "weg" : "aus") : (HC.pick!=null ? "halt" : "");
   return `<div class="hczuend ${zustand} ${HC.rest<=5&&!HC.vorbei?"knapp":""}" id="hcZuend" style="--p:${p.toFixed(4)}" role="img" aria-label="Zündschnur: noch ${Math.ceil(HC.rest)} Sekunden">
-    <div class="hcz-bahn"><div class="hcz-asche"></div><div class="hcz-seil"></div><div class="hcz-funke"><i></i><i></i><i></i><i></i><i></i></div><div class="hcz-info"><span class="hcz-serie"><img src="img/grafik/diverse/flamme.webp?v=2" alt=""><b>${HC.n}</b> <span class="hcz-w">${HC.n===1?"richtige Antwort":"richtige Antworten"}</span><span class="hcz-k">richtig</span></span><span class="hcz-zeit"><img src="img/grafik/diverse/sanduhr.webp?v=2" alt=""><b id="hcSekZ">${Math.ceil(HC.rest)}</b> s</span></div></div>
-    <div class="hcz-fass"><img class="hcz-f1" src="img/grafik/hardcore/fass.webp?v=1" alt=""><img class="hcz-f2" src="img/grafik/hardcore/fass-boom.webp?v=1" alt=""></div>
+    <div class="hcz-bahn"><div class="hcz-seil"></div><div class="hcz-funke"><i></i><i></i><i></i><i></i><i></i></div><div class="hcz-info"><span class="hcz-serie"><img src="img/grafik/diverse/flamme.webp?v=2" alt=""><b>${HC.n}</b> <span class="hcz-w">${HC.n===1?"richtige Antwort":"richtige Antworten"}</span><span class="hcz-k">richtig</span></span><span class="hcz-zeit"><img src="img/grafik/diverse/sanduhr.webp?v=2" alt=""><b id="hcSekZ">${Math.ceil(HC.rest)}</b> s</span></div></div>
+    <div class="hcz-fass"><img class="hcz-f1" src="img/grafik/hardcore/fass.webp?v=2" alt=""><img class="hcz-f2" src="img/grafik/hardcore/fass-boom.webp?v=1" alt=""></div>
 
   </div>`;
 }
@@ -139,11 +139,11 @@ function hcInfo(){
   hcStop();
   const best = hcBest(S.profil);
   $("#app").innerHTML = `<div class="hcwrap">
-    <div class="pagehead hcpagehead hc-kopf2"><img class="hc-titel" src="img/grafik/hardcore/titel.webp?v=1" alt="Hardcore"><h1 class="sr-only">Hardcore</h1><p class="help">Wie weit kommst du ohne einen einzigen Fehler?</p><img class="hc-kfass" src="img/grafik/hardcore/fass.webp?v=1" alt=""></div>
+    <div class="pagehead hcpagehead hc-kopf2"><img class="hc-titel" src="img/grafik/hardcore/titel.webp?v=1" alt="Hardcore"><h1 class="sr-only">Hardcore</h1><p class="help">Wie weit kommst du ohne einen einzigen Fehler?</p><img class="hc-kfass" src="img/grafik/hardcore/fass.webp?v=2" alt=""></div>
     <div class="card hcregeln">
       <div><b><img class="hc-ic" src="img/grafik/ic-globe.webp" alt="">Alles gemischt</b><span>Fragen aus allen Themen. Am Anfang leicht, dann immer schwieriger: Entdecker, Könner und zuletzt Profis.</span></div>
       <div><b><img class="hc-ic" src="img/grafik/hardcore/unendlich.webp?v=1" alt="">Ohne Ende</b><span>Es geht so lange weiter, bis du eine Frage falsch beantwortest.</span></div>
-      <div><b><img class="hc-ic" src="img/grafik/hardcore/fass.webp?v=1" alt="">45 Sekunden</b><span>Pro Frage brennt die Zündschnur 45 Sekunden lang. Erreicht der Funke das Fass, ist das Spiel vorbei.</span></div>
+      <div><b><img class="hc-ic" src="img/grafik/hardcore/fass.webp?v=2" alt="">45 Sekunden</b><span>Pro Frage brennt die Zündschnur 45 Sekunden lang. Erreicht der Funke das Fass, ist das Spiel vorbei.</span></div>
       <div><b><img class="hc-ic" src="img/grafik/diverse/pokal.webp?v=2" alt="">Eigene Rangliste</b><span>Es zählt deine längste Serie. Bei Gleichstand gewinnt, wer schneller war.</span></div>
     </div>
     ${S.profil ? `<p class="hcbest" style="text-align:center">Dein Rekord: <b>${best}</b> ${best===1?"Frage":"Fragen"}</p>` : `<p class="hcbest" style="text-align:center">Ohne Profil kannst du spielen, kommst aber nicht in die Rangliste.</p>`}
@@ -255,11 +255,11 @@ css.textContent = `
 .hcbalken i{display:block;height:100%;background:linear-gradient(90deg,#E0312B,#F2A000);border-radius:999px;transition:width .1s linear}
 .hcmeta{margin:0 0 6px;opacity:.7;font-size:.9rem}
 #hcUhr{display:none}
-.hczuend{--p:0;--fh:130px;--sy:15px;--sd:8px;position:relative;display:flex;align-items:flex-start;height:var(--fh);margin:2px 0 12px;padding:0 4px}
+.hczuend{--p:0;--fh:130px;--sy:calc(var(--fh) * .1312);--sd:calc(var(--fh) * .046);position:relative;display:flex;align-items:flex-start;height:var(--fh);margin:2px 0 12px;padding:0 4px}
 .hcz-bahn{position:relative;flex:1 1 auto;height:var(--fh);min-width:0;z-index:1}
 .hcz-seil,.hcz-asche{position:absolute;top:calc(var(--sy) - var(--sd) / 2);height:var(--sd)}
 .hcz-asche{left:0;right:0;top:calc(var(--sy) - 1px);height:3px;border-radius:2px;background:repeating-linear-gradient(90deg,rgba(70,60,70,.45) 0 6px,transparent 6px 11px)}
-.hcz-seil{left:calc(var(--p) * 100%);right:-10px;background:url("img/grafik/hardcore/zuendschnur.webp?v=1") left center / auto 100% repeat-x;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+.hcz-seil{left:calc(var(--p) * 100%);right:calc(var(--fh) * -.16 - 3px);background:url("img/grafik/hardcore/zuendschnur.webp?v=1") left center / auto 100% repeat-x;filter:brightness(.93) drop-shadow(0 2px 2px rgba(0,0,0,.25))}
 .hcz-funke{position:absolute;top:var(--sy);left:calc(var(--p) * 100%);width:0;height:0;z-index:2}
 .hcz-funke::before{content:"";position:absolute;left:-22px;top:-22px;width:44px;height:44px;background:url("img/grafik/hardcore/funke.webp?v=1") center/contain no-repeat;animation:hczFlacker .14s ease-in-out infinite alternate;filter:drop-shadow(0 0 8px rgba(255,150,30,.9))}
 .hcz-funke i{position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:#FFE27A;box-shadow:0 0 6px #FF9A1F;animation:hczSpritz .55s linear infinite}
@@ -291,7 +291,7 @@ css.textContent = `
 .hcz-info{flex-wrap:nowrap}
 .hczuend.knapp .hcz-zeit b{color:#E0312B;animation:hcpuls .5s ease-in-out infinite alternate;display:inline-block}
 .hcz-asche{background:repeating-linear-gradient(90deg,rgba(70,60,70,.3) 0 6px,transparent 6px 11px)}
-@media (max-width:600px){.hczuend{--fh:96px;--sy:11px;--sd:6px;padding:10px 12px 10px 14px;border-radius:20px}.hcz-info{bottom:0;gap:6px}.hcz-info>span{font-size:.8rem;gap:5px}.hcz-info img{width:24px;height:24px}.hcz-serie b{font-size:1.4rem}.hcz-zeit{padding:3px 11px 3px 6px}.hcz-zeit b{font-size:1.2rem}.hcz-w{display:none}.hcz-k{display:inline}}
+@media (max-width:600px){.hczuend{--fh:104px;padding:10px 12px 10px 14px;border-radius:20px}.hcz-info{bottom:0;gap:6px}.hcz-info>span{font-size:.8rem;gap:5px}.hcz-info img{width:24px;height:24px}.hcz-serie b{font-size:1.4rem}.hcz-zeit{padding:3px 11px 3px 6px}.hcz-zeit b{font-size:1.2rem}.hcz-w{display:none}.hcz-k{display:inline}}
 @media (prefers-reduced-motion:reduce){.hcz-funke::before,.hcz-funke i,.hczuend.knapp .hcz-fass .hcz-f1{animation:none}}
 .hcende{text-align:center;margin-bottom:16px;border:3px solid #E0312B}
 .hcgross{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:2rem;font-weight:800;margin-bottom:6px}
