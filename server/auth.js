@@ -88,7 +88,7 @@ export function benutzerJson(u) {
     email_confirmed_at: u.email_confirmed_at, confirmed_at: u.email_confirmed_at,
     last_sign_in_at: u.last_sign_in_at, created_at: u.created_at, updated_at: u.updated_at,
     app_metadata: u.raw_app_meta_data || {}, user_metadata: u.raw_user_meta_data || {},
-    identities: [],
+    identities: [], hat_passwort: !!u.encrypted_password,
   };
 }
 async function sitzungErstellen(u, req, sitzungId) {
@@ -389,6 +389,29 @@ export async function authAnfrage(req, res, pfad) {
       }
       if (b.email && String(b.email).toLowerCase() !== u.email) return fehler(res, 400, "email_change_not_supported", "E-Mail-Adresse ändern geht nur über die Verwaltung");
       return res.json(200, benutzerJson(u));
+    }    /* Eigenes Konto löschen. Mit Passwort, wenn das Konto eines hat (bei Google, Apple, Microsoft ohne Passwort reicht
+       die Bestätigung «LÖSCHEN»). Gelöscht werden das Konto mit Profil, Punkten und Rangliste, alle Sitzungen,
+       Anmeldungen über Google/Apple/Microsoft, Kommentare und bei Lehrpersonen Klassen, Tests und Abgaben.
+       Vorgeschlagene Fragen bleiben ohne Namen erhalten. */
+    if (m === "DELETE") {
+      if (!bremse("loeschen:" + p.sub, 5, 3600) || !bremse("loeschen:" + ip, 20, 3600)) return fehler(res, 429, "over_request_rate_limit", "Zu viele Versuche. Bitte später nochmals.");
+      const b = await req.body().catch(() => ({})) || {};
+      const [u] = await sql`select * from auth.users where id = ${p.sub}`;
+      if (!u) return fehler(res, 404, "user_not_found", "User not found");
+      if (String(b.bestaetigung || "").trim().toUpperCase() !== "LÖSCHEN") return fehler(res, 400, "bestaetigung_fehlt", "Bitte zur Bestätigung LÖSCHEN eintippen.");
+      if (u.encrypted_password && !(await pwPruefen(String(b.password || ""), u.encrypted_password))) return fehler(res, 400, "invalid_credentials", "Das Passwort stimmt nicht.");
+      let admin = false;
+      try { [{ admin }] = await sql`select exists (select 1 from public.admins where user_id = ${u.id}) as admin`; } catch (e) {}
+      if (admin) return fehler(res, 403, "admin_konto", "Ein Admin-Konto kann nur in der Verwaltung gelöscht werden.");
+      await sql.begin(async t => {
+        for (const [tab, spalte] of [["kommentare", "wer"], ["live_runden", "user_id"]]) {
+          const [{ da }] = await t`select to_regclass(${"public." + tab}) is not null as da`;
+          if (da) await t.unsafe(`delete from public."${tab}" where "${spalte}" = $1`, [u.id]);
+        }
+        await t`delete from auth.users where id = ${u.id}`;
+      });
+      SITZUNG_OK.clear();
+      return res.json(200, { geloescht: true });
     }
   }
 
