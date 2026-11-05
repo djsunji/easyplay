@@ -20,16 +20,22 @@ if(window.EP_I18N) return;
 const BASIS = "welten/i18n/";
 const K = { spr:"ep-x-i18n-sprache", gefragt:"ep-x-i18n-gefragt", nur:"ep-x-i18n-nur", cache:"ep-x-i18n-cache-" };
 const SPRACHEN = ["de", "fr", "it"];
+/* Im Menü gezeigt: «bald» = noch nicht fertig übersetzt (Kennzeichen), «zu» = noch nicht wählbar */
+const ZEIGE = ["de", "fr", "it", "en"];
+const BALD = { it:1, en:1 }, ZU = { en:1 };
+const BALD_T = { de:"bald", fr:"bientôt", it:"presto", en:"soon" };
 const INFO = {
   de:{ name:"Deutsch", kurz:"DE", lang:"de-CH", hallo:"Hoi!" },
   fr:{ name:"Français", kurz:"FR", lang:"fr-CH", hallo:"Salut !" },
-  it:{ name:"Italiano", kurz:"IT", lang:"it-CH", hallo:"Ciao!" }
+  it:{ name:"Italiano", kurz:"IT", lang:"it-CH", hallo:"Ciao!" },
+  en:{ name:"English", kurz:"EN", lang:"en-GB", hallo:"Hello!" }
 };
 /* Fahnen als kindliche, wehende Comic-Fahne am Stab (SVG, weil Emoji-Fahnen unter Windows fehlen) */
 const STREIFEN = {
   de:`<rect x="6" y="3" width="24" height="7" fill="#1A1A1A"/><rect x="6" y="10" width="24" height="6" fill="#E8262B"/><rect x="6" y="16" width="24" height="8" fill="#FFCC00"/>`,
   fr:`<rect x="6" y="3" width="8" height="21" fill="#1E5BD8"/><rect x="14" y="3" width="8" height="21" fill="#FFFFFF"/><rect x="22" y="3" width="8" height="21" fill="#F0384A"/>`,
-  it:`<rect x="6" y="3" width="8" height="21" fill="#14A34A"/><rect x="14" y="3" width="8" height="21" fill="#FFFFFF"/><rect x="22" y="3" width="8" height="21" fill="#F0384A"/>`
+  it:`<rect x="6" y="3" width="8" height="21" fill="#14A34A"/><rect x="14" y="3" width="8" height="21" fill="#FFFFFF"/><rect x="22" y="3" width="8" height="21" fill="#F0384A"/>`,
+  en:`<rect x="6" y="3" width="24" height="21" fill="#1E3FA8"/><path d="M6 3L30 24M30 3L6 24" stroke="#FFFFFF" stroke-width="4.6"/><path d="M6 3L30 24M30 3L6 24" stroke="#E8262B" stroke-width="1.6"/><path d="M18 3V24M6 13.5H30" stroke="#FFFFFF" stroke-width="6"/><path d="M18 3V24M6 13.5H30" stroke="#E8262B" stroke-width="3.4"/>`
 };
 const TUCH = "M8 6.5C12 4 15.5 8.5 19.5 6.5S26 4 28.5 6.5V19.5C25 22 22 17.5 18 19.5S11.5 22 8 19.5Z";
 const fahne = (l, cls) => `<span class="xui-fl${cls ? " " + cls : ""}" aria-hidden="true"><svg viewBox="0 0 32 32" focusable="false">
@@ -549,7 +555,7 @@ function knopfAktuell(){
   if(!knopfEl) return;
   knopfEl.innerHTML = fahne(L) + `<span class="xui-kb" aria-hidden="true">${INFO[L].kurz}</span>`;
   knopfEl.setAttribute("aria-label", `${T[L].knopf}: ${INFO[L].name}`);
-  knopfEl.title = "Deutsch · Français · Italiano";
+  knopfEl.title = "Deutsch · Français · Italiano · English";
   knopfEl.dataset.l = L;
   if(menuEl) menuInhalt();
 }
@@ -565,9 +571,9 @@ function menuInhalt(){
   if(!menuEl) return;
   menuEl.setAttribute("aria-label", T[L].menu);
   menuEl.innerHTML = `<b class="xui-mt">🌐 ${hx(T[L].menu)}</b>
-    <div role="radiogroup" aria-label="${hx(T[L].menu)}" class="xui-wl">${SPRACHEN.map(l => `<button type="button" role="radio" aria-checked="${l === L}" class="xui-wahl${l === L ? " an" : ""}" data-l="${l}" lang="${INFO[l].lang}">${fahne(l)}<span>${INFO[l].name}</span>${l === L ? "<em aria-hidden=\"true\">✓</em>" : ""}</button>`).join("")}</div>
+    <div role="radiogroup" aria-label="${hx(T[L].menu)}" class="xui-wl">${ZEIGE.map(l => `<button type="button" role="radio" aria-checked="${l === L}"${ZU[l] ? ' aria-disabled="true"' : ""} class="xui-wahl${l === L ? " an" : ""}${ZU[l] ? " zu" : ""}" data-l="${l}" lang="${INFO[l].lang}">${fahne(l)}<span>${INFO[l].name}</span>${BALD[l] ? `<i class="xui-soon">${BALD_T[L] || "bald"}</i>` : ""}${l === L ? "<em aria-hidden=\"true\">✓</em>" : ""}</button>`).join("")}</div>
     <button type="button" class="xui-mehr">${hx(T[L].mehr)} ›</button>`;
-  menuEl.querySelectorAll(".xui-wahl").forEach(b => b.onclick = () => { const l = b.dataset.l; menuZu(); if(l !== L) setze(l); });
+  menuEl.querySelectorAll(".xui-wahl").forEach(b => b.onclick = () => { const l = b.dataset.l; if(ZU[l]){ b.classList.remove("wackel"); void b.offsetWidth; b.classList.add("wackel"); return; } menuZu(); if(l !== L) setze(l); });
   menuEl.querySelector(".xui-mehr").onclick = () => { menuZu(); try{ go("x-sprache"); }catch(e){} };
   menuEl.addEventListener("keydown", e => {
     const bs = [...menuEl.querySelectorAll(".xui-wahl")]; const i = bs.indexOf(document.activeElement);
@@ -675,13 +681,13 @@ const anzahl = l => { const m = FQ.nr[l]; return m ? m.size : 0; };
 function welt(box, api){
   const zeichnen = () => {
     const nur = nurAn();
-    box.innerHTML = `<div class="x-kopf xui-kopf" style="background:linear-gradient(135deg,#2E5BFF,#8A3FE0)"><span class="x-kopf-emo" aria-hidden="true">🌐</span><div><h1>Sprache</h1><p>Spiel easyplay auf Deutsch, Französisch oder Italienisch.</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
-      <div class="xui-karten" role="radiogroup" aria-label="Sprache">${SPRACHEN.map(l => {
+    box.innerHTML = `<div class="x-kopf xui-kopf" style="background:linear-gradient(135deg,#2E5BFF,#8A3FE0)"><span class="x-kopf-emo" aria-hidden="true">🌐</span><div><h1>Sprache</h1><p>Spiel easyplay auf Deutsch, Französisch oder Italienisch. Englisch kommt bald.</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
+      <div class="xui-karten" role="radiogroup" aria-label="Sprache">${ZEIGE.map(l => {
         const n = anzahl(l);
-        return `<button type="button" role="radio" aria-checked="${l === L}" class="xui-karte xui-k-${l}${l === L ? " an" : ""}" data-l="${l}">
+        return `<button type="button" role="radio" aria-checked="${l === L}" class="xui-karte xui-k-${l}${l === L ? " an" : ""}${ZU[l] ? " zu" : ""}" data-l="${l}"${ZU[l] ? ' aria-disabled="true"' : ""}>${BALD[l] ? `<i class="xui-soon">${BALD_T[L] || "bald"}</i>` : ""}
           ${fahne(l, "gross")}<b translate="no" lang="${INFO[l].lang}">${INFO[l].name}</b>
           <small translate="no" lang="${INFO[l].lang}">${hx(INFO[l].hallo)}</small>
-          <span class="xui-kz">${l === "de" ? "Alle Fragen" : (FQ.geladen[l] ? (n ? `${n.toLocaleString("de-CH")} übersetzte Fragen` : "Fragen folgen bald") : "Fragen werden geladen …")}</span>
+          <span class="xui-kz">${ZU[l] ? "Kommt bald" : l === "de" ? "Alle Fragen" : (FQ.geladen[l] ? (n ? `${n.toLocaleString("de-CH")} übersetzte Fragen` : "Fragen folgen bald") : "Fragen werden geladen …")}</span>
           ${l === L ? `<em class="xui-kh">✓ Aktiv</em>` : ""}</button>`; }).join("")}</div>
       <section class="xui-box">
         <label class="xui-schalter"><input type="checkbox" id="xuiNur" ${nur ? "checked" : ""}><span class="xui-sl" aria-hidden="true"></span>
@@ -689,7 +695,7 @@ function welt(box, api){
         <p class="xui-info">🔊 ${L === "de" ? "Vorlesen mit deutscher Stimme" : (stimme(L) ? "Vorlesen in deiner Sprache" : "Dieses Gerät hat keine Stimme in deiner Sprache, darum wird deutsch vorgelesen.")}</p>
         <p class="xui-info">📚 Bibliothek, Abenteuer-Geschichten und lange Erklärtexte gibt es vorerst nur auf Deutsch.</p>
       </section>`;
-    box.querySelectorAll(".xui-karte").forEach(b => b.onclick = () => { const l = b.dataset.l; if(l !== L) setze(l); else api.ton("klick"); });
+    box.querySelectorAll(".xui-karte").forEach(b => b.onclick = () => { const l = b.dataset.l; if(ZU[l]){ api.ton("klick"); b.classList.remove("wackel"); void b.offsetWidth; b.classList.add("wackel"); return; } if(l !== L) setze(l); else api.ton("klick"); });
     const cb = box.querySelector("#xuiNur"); if(cb) cb.onchange = () => { LS.set(K.nur, cb.checked); api.ton("klick"); };
   };
   zeichnen();
@@ -760,6 +766,15 @@ body:not(.ep-app) .xui-frage{bottom:24px}
 .xui-k-de{background:linear-gradient(135deg,#D7263D,#F46036)}
 .xui-k-fr{background:linear-gradient(135deg,#2E5BFF,#5B4BF5)}
 .xui-k-it{background:linear-gradient(135deg,#0B8A5A,#0FA968)}
+.xui-k-en{background:linear-gradient(135deg,#1E3FA8,#C8283C)}
+.xui-soon{font-style:normal;display:inline-block;margin-left:4px;padding:2px 7px;border-radius:999px;background:#FF5FA2;color:#fff;font:900 10.5px/1.25 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 0 0 1.5px #fff;white-space:nowrap}
+.xui-wahl .xui-soon{width:auto;height:auto;border-radius:999px;background:#FF5FA2;font-size:10.5px;margin-left:auto}
+.xui-wahl .xui-soon + em{margin-left:8px}
+.xui-karte .xui-soon{position:absolute;right:14px;bottom:14px;margin:0;font-size:12px}
+.xui-wahl.zu,.xui-karte.zu{cursor:default;opacity:.62}
+.xui-wahl.zu:hover{background:rgba(255,255,255,.1)}
+.xui-wahl.wackel,.xui-karte.wackel{animation:xuiWackel .4s}
+@keyframes xuiWackel{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
 .xui-karte.an{border-color:#FFE34D;box-shadow:0 0 0 3px rgba(255,227,77,.35),0 10px 24px rgba(27,34,64,.22)}
 .xui-karte:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 .xui-karte b{font-size:22px}
