@@ -763,15 +763,16 @@ body:not(.ep-app) .xui-frage{bottom:24px}
 .xui-dk.alt{background:rgba(255,255,255,.18);color:#fff}
 .xui-karten{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
 .xui-karte{position:relative;display:grid;gap:4px;justify-items:start;align-content:start;text-align:left;padding:18px;border:3px solid transparent;border-radius:24px;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(27,34,64,.22);font:inherit;min-height:120px}
-.xui-k-de{background:linear-gradient(135deg,#D7263D,#F46036)}
-.xui-k-fr{background:linear-gradient(135deg,#2E5BFF,#5B4BF5)}
+.xui-k-de{background:linear-gradient(135deg,#6A3FE0,#9B4BF5)}
+.xui-k-fr{background:linear-gradient(135deg,#2E5BFF,#3E8BFF)}
 .xui-k-it{background:linear-gradient(135deg,#0B8A5A,#0FA968)}
-.xui-k-en{background:linear-gradient(135deg,#1E3FA8,#C8283C)}
+.xui-k-en{background:linear-gradient(135deg,#D7263D,#F0384A)}
 .xui-soon{font-style:normal;display:inline-block;margin-left:4px;padding:2px 7px;border-radius:999px;background:#FF5FA2;color:#fff;font:900 10.5px/1.25 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 0 0 1.5px #fff;white-space:nowrap}
 .xui-wahl .xui-soon{width:auto;height:auto;border-radius:999px;background:#FF5FA2;font-size:10.5px;margin-left:auto}
 .xui-wahl .xui-soon + em{margin-left:8px}
 .xui-karte .xui-soon{position:absolute;right:14px;bottom:14px;margin:0;font-size:12px}
-.xui-wahl.zu,.xui-karte.zu{cursor:default;opacity:.62}
+.xui-wahl.zu{cursor:default;opacity:.62}
+.xui-karte.zu{cursor:default;opacity:.85}
 .xui-wahl.zu:hover{background:rgba(255,255,255,.1)}
 .xui-wahl.wackel,.xui-karte.wackel{animation:xuiWackel .4s}
 @keyframes xuiWackel{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}

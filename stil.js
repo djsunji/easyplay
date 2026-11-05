@@ -3720,3 +3720,11 @@ ${A} .rl-sinfo>.help{color:#3A2F72!important;background:#F7F4FF!important}
 @media (prefers-reduced-motion:reduce){#app .qimg .ep-flname{animation:none}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Sprach-Karten (Seite «Sprache»): feste Farbe je Sprache. Deutsch violett, Französisch blau, Italienisch grün, Englisch rot ===== */
+(function(){ if(document.getElementById("ep-sprachkarten-css")) return;
+  const c = document.createElement("style"); c.id = "ep-sprachkarten-css"; const G = "img/grafik/entdecken/";
+  const F = {de:"06", fr:"01", it:"04", en:"02"};
+  c.textContent = Object.entries(F).map(([l, n]) => `html body #app .xseite .xui-karte.xui-k-${l}.xui-karte{border-image-source:url("${G}kachel-${n}.webp?v=3")!important}`).join("\n");
+  document.head.appendChild(c);
+})();
