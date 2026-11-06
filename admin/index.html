@@ -1781,7 +1781,7 @@ async function poZaehler(){
 }
 
 TABS.post = async () => {
-  const kopf = `<div class="leiste"><h2 style="margin:0">Postfach</h2><span class="mu klein">info@, sponsor@, feedback@ und schule@easyplay.ch an einem Ort</span><span class="rechts"></span><button class="k" id="poSig">Signatur</button><button class="k" id="poNeuLaden">Aktualisieren</button></div>`;
+  const kopf = `<div class="leiste"><h2 style="margin:0">Postfach</h2><span class="mu klein">info@, sponsor@, feedback@, schule@ und dejan@easyplay.ch an einem Ort</span><span class="rechts"></span><button class="k" id="poSig">Signatur</button><button class="k" id="poNeuLaden">Aktualisieren</button></div>`;
   if(onlineFehlt(kopf)) return;
   let st; try{ st = await api("post/status"); }catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">${esc(e.message)}</div>`; return; }
   if(!st.an){ $("#inhalt").innerHTML = kopf.replace(/<button[^]*<\/button>/, "") + poEinrichtung(st); return; }

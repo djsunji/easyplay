@@ -3,7 +3,7 @@
 // POST /api/kontakt  -> {an, name, mail, betreff, text, website (Falle für Roboter), dauer (ms seit Öffnen)}
 // Die Nachricht geht über Brevo (mail.js) an <an>@<Domain von MAIL_FROM>, Antworten gehen direkt an die angegebene Adresse (Reply-To).
 import { mailAn, transportHolen } from "./mail.js";
-import { adressen } from "./postfach.js";
+import { kontaktAdressen as adressen } from "./postfach.js";
 
 const E = process.env;
 const domain = () => { const m = /@([a-z0-9.-]+)/i.exec(String(E.MAIL_FROM || "")); return m ? m[1].toLowerCase() : "easyplay.ch"; };
