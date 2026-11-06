@@ -1,6 +1,6 @@
 /* easyplay: Sprache (Deutsch / Français / Italiano)
    Übersetzt die Oberfläche zur Laufzeit, ohne den bestehenden Code umzuschreiben:
-   - Wörterbuch DE → FR/IT in welten/i18n/ui-fr.json und ui-it.json
+   - Wörterbuch DE → FR/IT/EN in welten/i18n/ui-fr.json, ui-it.json und ui-en.json
        {"w": {"Deutsch": "Übersetzung", "# Fragen": "# questions", "Deine Antwort: *": "Ta réponse : *"}, "r": [["^regex$", "Ersatz $1"]]}
        #  steht für eine Zahl (in der Übersetzung der Reihe nach, oder #1, #2 … für eine andere Reihenfolge)
        *  steht für beliebigen Text, der wenn möglich ebenfalls übersetzt wird (*1, *2 … für eine andere Reihenfolge)
@@ -19,10 +19,10 @@ if(window.EP_I18N) return;
 
 const BASIS = "welten/i18n/";
 const K = { spr:"ep-x-i18n-sprache", gefragt:"ep-x-i18n-gefragt", nur:"ep-x-i18n-nur", cache:"ep-x-i18n-cache-" };
-const SPRACHEN = ["de", "fr", "it"];
+const SPRACHEN = ["de", "fr", "it", "en"];
 /* Im Menü gezeigt: «bald» = noch nicht fertig übersetzt (Kennzeichen), «zu» = noch nicht wählbar */
 const ZEIGE = ["de", "fr", "it", "en"];
-const BALD = { it:1, en:1 }, ZU = { en:1 };
+const BALD = { it:1, en:1 }, ZU = {};
 const BALD_T = { de:"bald", fr:"bientôt", it:"presto", en:"soon" };
 const INFO = {
   de:{ name:"Deutsch", kurz:"DE", lang:"de-CH", hallo:"Hoi!" },
@@ -55,7 +55,11 @@ const T = {
   it:{ knopf:"Scegli la lingua", menu:"Lingua", mehr:"Altre opzioni", inhalt:"Questo contenuto è ancora in tedesco.",
        bald:"Presto in italiano! Questo tema non ha ancora domande tradotte.", deutsch:"Gioca in tedesco", zurueck:"Indietro",
        baldThema:"Presto in italiano! Questo tema non ha ancora domande tradotte. Puoi giocare in tedesco.",
-       frage:"Auch auf Italiano?", ja:"Sì, in italiano", nein:"Nein danke" }
+       frage:"Auch auf Italiano?", ja:"Sì, in italiano", nein:"Nein danke" },
+  en:{ knopf:"Choose language", menu:"Language", mehr:"More options", inhalt:"This content is still in German.",
+       bald:"Coming soon in English! This topic has no translated questions yet.", deutsch:"Play in German", zurueck:"Back",
+       baldThema:"Coming soon in English! This topic has no translated questions yet. You can play in German.",
+       frage:"Auch auf English?", ja:"Yes, in English", nein:"Nein danke" }
 };
 
 const LS = {
@@ -133,7 +137,10 @@ const DZ = {
        tag:d => d === 1 ? "1er" : String(d), spanne:(a, b) => "du " + a + " au " + b },
   it:{ wk:["lun","mar","mer","gio","ven","sab","dom"], wl:["lunedì","martedì","mercoledì","giovedì","venerdì","sabato","domenica"],
        mk:["gen.","feb.","mar.","apr.","mag.","giu.","lug.","ago.","set.","ott.","nov.","dic."], ml:["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"],
-       tag:d => d === 1 ? "1°" : String(d), spanne:(a, b) => "da " + a + " a " + b }
+       tag:d => d === 1 ? "1°" : String(d), spanne:(a, b) => "da " + a + " a " + b },
+  en:{ wk:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], wl:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+       mk:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"], ml:["January","February","March","April","May","June","July","August","September","October","November","December"],
+       tag:d => String(d), spanne:(a, b) => a + " to " + b }
 };
 function datum(wt, tag, mon, jahr){
   const z = DZ[L]; if(!z) return null;
@@ -145,7 +152,7 @@ function datenErsetzen(k){
   if(!DZ[L]) return k;
   let out = k.replace(RE_TAGE, (x, t1, t2, m, j) => "\uE000" + DZ[L].spanne(DZ[L].tag(+t1), datum(null, t2, m, j)) + "\uE001");
   out = out.replace(RE_MBIS, (x, a, b) => { const z = DZ[L], ma = z.ml[MONAT[a]], mb = z.ml[MONAT[b]];
-    return "\uE000" + (L === "fr" ? (/^[aeiouéo]/i.test(ma) ? "d’" : "de ") + ma + " à " + mb : "da " + ma + " a " + mb) + "\uE001"; });
+    return "\uE000" + (L === "fr" ? (/^[aeiouéo]/i.test(ma) ? "d’" : "de ") + ma + " à " + mb : L === "en" ? ma + " to " + mb : "da " + ma + " a " + mb) + "\uE001"; });
   out = out.replace(RE_SPANNE, (x, w1, t1, m1, j1, w2, t2, m2, j2) => "\uE000" + DZ[L].spanne(datum(w1, t1, m1, j1), datum(w2, t2, m2, j2)) + "\uE001");
   out = out.replace(RE_DATUM, (x, w, t, m, j) => "\uE000" + datum(w, t, m, j) + "\uE001");
   return out;
@@ -472,7 +479,7 @@ function stimme(l){
   try{
     const re = new RegExp("^" + l + "(\\b|-|_)", "i");
     const vs = speechSynthesis.getVoices().filter(v => re.test(v.lang)); if(!vs.length) return null;
-    const pkt = v => (/natural|neural|online|premium|enhanced/i.test(v.name) ? 50 : 0) + (/[-_]CH/i.test(v.lang) ? 12 : 0) + (/google/i.test(v.name) ? 10 : 0) + (v.localService === false ? 5 : 0);
+    const pkt = v => (/natural|neural|online|premium|enhanced/i.test(v.name) ? 50 : 0) + (/[-_](CH|GB)/i.test(v.lang) ? 12 : 0) + (/google/i.test(v.name) ? 10 : 0) + (v.localService === false ? 5 : 0);
     return [...vs].sort((a, b) => pkt(b) - pkt(a))[0];
   }catch(e){ return null; }
 }
@@ -666,7 +673,7 @@ function frageZu(){ if(frageEl){ frageEl.remove(); frageEl = null; } }
 function frageZeigen(){
   if(LS.get(K.gefragt, false) || LS.get(K.spr, null)) return;
   let nl = ""; try{ nl = String((navigator.languages && navigator.languages[0]) || navigator.language || "").toLowerCase(); }catch(e){}
-  const l = nl.startsWith("fr") ? "fr" : nl.startsWith("it") ? "it" : ""; if(!l) return;
+  const l = nl.startsWith("fr") ? "fr" : nl.startsWith("it") ? "it" : nl.startsWith("en") ? "en" : ""; if(!l) return;
   const t = T[l];
   const d = document.createElement("div"); d.className = "xui-frage"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", t.frage); d.setAttribute("translate", "no");
   d.innerHTML = `<span class="xui-fi" aria-hidden="true">🌐</span><b>${hx(t.frage)}</b><button type="button" class="xui-ja" lang="${INFO[l].lang}">${hx(t.ja)}</button><button type="button" class="xui-nein-k" aria-label="${hx(t.nein)}" title="${hx(t.nein)}">✕</button>`;
@@ -681,7 +688,7 @@ const anzahl = l => { const m = FQ.nr[l]; return m ? m.size : 0; };
 function welt(box, api){
   const zeichnen = () => {
     const nur = nurAn();
-    box.innerHTML = `<div class="x-kopf xui-kopf" style="background:linear-gradient(135deg,#2E5BFF,#8A3FE0)"><span class="x-kopf-emo" aria-hidden="true">🌐</span><div><h1>Sprache</h1><p>Spiel easyplay auf Deutsch, Französisch oder Italienisch. Englisch kommt bald.</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
+    box.innerHTML = `<div class="x-kopf xui-kopf" style="background:linear-gradient(135deg,#2E5BFF,#8A3FE0)"><span class="x-kopf-emo" aria-hidden="true">🌐</span><div><h1>Sprache</h1><p>Spiel easyplay auf Deutsch, Französisch, Italienisch oder Englisch.</p></div><img src="img/kids/duo-winken.webp" alt=""></div>
       <div class="xui-karten" role="radiogroup" aria-label="Sprache">${ZEIGE.map(l => {
         const n = anzahl(l);
         return `<button type="button" role="radio" aria-checked="${l === L}" class="xui-karte xui-k-${l}${l === L ? " an" : ""}${ZU[l] ? " zu" : ""}" data-l="${l}"${ZU[l] ? ' aria-disabled="true"' : ""}>${BALD[l] ? `<i class="xui-soon">${BALD_T[L] || "bald"}</i>` : ""}
@@ -796,10 +803,10 @@ body:not(.ep-app) .xui-frage{bottom:24px}
 .xui-info{margin:0;font-size:14px;opacity:.95}
 @media (prefers-reduced-motion: reduce){.xui-knopf,.xui-frage,.xui-sl,.xui-sl::after{transition:none}}
 /* Längere französische und italienische Texte */
-html[lang=fr] .ans span:last-child,html[lang=it] .ans span:last-child{overflow-wrap:anywhere}
-html[lang=fr] .ap-liste .x-ein-emo,html[lang=it] .ap-liste .x-ein-emo{flex:none}
-html[lang=fr] .ap-liste>* span,html[lang=it] .ap-liste>* span{white-space:normal;line-height:1.15}
-html[lang=fr] .ap-kopf .aplbl,html[lang=it] .ap-kopf .aplbl,html[lang=fr] .ap-chips .glas,html[lang=it] .ap-chips .glas{white-space:nowrap}
+html[lang=fr] .ans span:last-child,html[lang=it] .ans span:last-child,html[lang=en] .ans span:last-child{overflow-wrap:anywhere}
+html[lang=fr] .ap-liste .x-ein-emo,html[lang=it] .ap-liste .x-ein-emo,html[lang=en] .ap-liste .x-ein-emo{flex:none}
+html[lang=fr] .ap-liste>* span,html[lang=it] .ap-liste>* span,html[lang=en] .ap-liste>* span{white-space:normal;line-height:1.15}
+html[lang=fr] .ap-kopf .aplbl,html[lang=it] .ap-kopf .aplbl,html[lang=en] .ap-kopf .aplbl,html[lang=fr] .ap-chips .glas,html[lang=it] .ap-chips .glas,html[lang=en] .ap-chips .glas{white-space:nowrap}
 `;
 document.head.appendChild(css);
 

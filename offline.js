@@ -55,7 +55,7 @@ const FLAGGEN = ("ad ae af ag al am ao ar at au az ba bb bd be bf bg bh bi bj bn
 const WELTEN = ["welten/album/karten.json", "welten/feste/fragen.json", "welten/karte/kantone.js", "welten/forscher/auftraege.json",
   "welten/spielwelt/bilder.json", "welten/spielwelt/paare.json", "welten/spielwelt/reihen.json",
   "welten/sprachen/en.json", "welten/sprachen/fr.json",
-  "welten/i18n/index.json", "welten/i18n/ui-fr.json", "welten/i18n/ui-it.json",
+  "welten/i18n/index.json", "welten/i18n/ui-fr.json", "welten/i18n/ui-it.json", "welten/i18n/ui-en.json",
   "welten/hilfen/atkinson-hyperlegible-latin-400-normal.woff2", "welten/hilfen/atkinson-hyperlegible-latin-700-normal.woff2",
   "welten/hilfen/atkinson-hyperlegible-latin-ext-400-normal.woff2", "welten/hilfen/atkinson-hyperlegible-latin-ext-700-normal.woff2"];
 const BILD_KLEIN = /^bilder\/[a-z0-9]{2}\/[a-z0-9]+\.webp$/;
