@@ -23,7 +23,7 @@ const JSPDF_SRI = "sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoV
 const SUPA_JS = "../datenbank.js";   // eigener Server (server/), ersetzt supabase-js
 const SUPA_SRI = "sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug";
 // Kontakt für Fehlermeldungen; erst beim Klick zusammengesetzt, damit Adress-Sammler sie nicht im Klartext finden
-const ADMIN_MAIL_TEILE = ["ch", "bluewin", "dejan.ehrbar"];
+const ADMIN_MAIL_TEILE = ["ch", "easyplay", "dejan"];
 const adminMail = () => ADMIN_MAIL_TEILE[2] + "@" + ADMIN_MAIL_TEILE[1] + "." + ADMIN_MAIL_TEILE[0];
 
 /* ================= 1. Schuljahre und Lehrplan 21 (wie lehrer.js) ================= */

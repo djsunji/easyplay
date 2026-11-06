@@ -1149,7 +1149,7 @@ function seiteMeldungen(){
     </tbody></table></div>`:`<p class="empty">Noch keine Meldungen. In der Fragendatenbank und in der Bibliothek gibt es bei jedem Eintrag den Knopf «Fehler melden».</p>`}`);
   $q("#lzaMail") && ($q("#lzaMail").onclick=()=>{
     const txt=offen.map((m,i)=>`${i+1}. ${m.art==="frage"?"Frage Nr. "+m.ref:"Bibliothek: "+m.ref}\n   ${m.titel}\n   Grund: ${m.grund}${m.text?"\n   "+m.text:""}`).join("\n\n");
-    location.href=`mailto:dejan.ehrbar@bluewin.ch?subject=${encodeURIComponent("easyplay: "+offen.length+" Fehlermeldung"+(offen.length===1?"":"en"))}&body=${encodeURIComponent("Hallo\n\nIch habe folgende Fehler gefunden:\n\n"+txt+"\n\nFreundliche Grüsse")}`;
+    location.href=`mailto:dejan@easyplay.ch?subject=${encodeURIComponent("easyplay: "+offen.length+" Fehlermeldung"+(offen.length===1?"":"en"))}&body=${encodeURIComponent("Hallo\n\nIch habe folgende Fehler gefunden:\n\n"+txt+"\n\nFreundliche Grüsse")}`;
     lsSet(LS_MELD, l.map(m=>({...m, gesendet:true}))); setTimeout(rerender, 400); });
   $q("#lzaMLeer") && ($q("#lzaMLeer").onclick=()=>{ if(!confirm("Alle Meldungen aus dieser Liste löschen?")) return; lsSet(LS_MELD, []); rerender(); });
   $a("[data-mdel]").forEach(b=>b.onclick=()=>{ lsSet(LS_MELD, meldungenLokal().filter(m=>m.id!==b.dataset.mdel)); rerender(); });

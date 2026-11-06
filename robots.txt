@@ -3,7 +3,7 @@
 # Alle Inhalte von easyplay (Fragen, Erklärungen, Bibliothekstexte, Bilder, Figuren, Gestaltung) sind
 # urheberrechtlich geschützt. Automatisches Kopieren, Sammeln (Scraping), Text- und Data-Mining und die
 # Verwendung für das Training von KI-Modellen sind nicht erlaubt (Vorbehalt nach Art. 4 Abs. 3 der
-# EU-Richtlinie 2019/790). Ausnahmen nur mit schriftlicher Zustimmung: dejan.ehrbar@bluewin.ch
+# EU-Richtlinie 2019/790). Ausnahmen nur mit schriftlicher Zustimmung: dejan@easyplay.ch
 #
 # Suchmaschinen dürfen nur die Seiten selbst lesen, damit easyplay gefunden wird, nicht die Daten.
 

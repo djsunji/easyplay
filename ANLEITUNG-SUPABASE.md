@@ -56,7 +56,7 @@ Jede Datei darf mehrmals ausgeführt werden, es geht nichts verloren.
 1. Auf <https://djsunji.github.io/easyplay/> mit deiner E-Mail registrieren und die Bestätigungs-E-Mail anklicken.
 2. Im **SQL Editor** ausführen (E-Mail anpassen):
    ```sql
-   insert into public.admins (user_id) select id from auth.users where email = 'dejan.ehrbar@bluewin.ch';
+   insert into public.admins (user_id) select id from auth.users where email = 'dejan@easyplay.ch';
    ```
 3. Die Verwaltung öffnen (`/admin/`), unter **Zugang** bei Supabase mit derselben E-Mail anmelden.
    Dort muss «Admin» erscheinen.
