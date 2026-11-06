@@ -21,7 +21,7 @@ def pruefe(aus, ein):
         a = v.get("a")
         if not isinstance(v.get("q"), str) or len(v["q"].strip()) < 3: f.append(f"{k}: Frage fehlt")
         if not isinstance(a, list) or len(a) != len(o["a"]) or not all(isinstance(x, str) and x.strip() for x in a): f.append(f"{k}: genau {len(o['a'])} Antworten nötig"); continue
-        if len(set(x.strip().lower() for x in a)) != len(a): f.append(f"{k}: zwei Antworten sind gleich")
+        if len(set(x.strip() for x in a)) != len(a): f.append(f"{k}: zwei Antworten sind gleich")
         for feld in ("e", "m"):
             if o.get(feld) and not (isinstance(v.get(feld), str) and v[feld].strip()): f.append(f"{k}: «{feld}» fehlt")
         alles = " ".join([v.get("q", ""), *a, v.get("e", "") or "", v.get("m", "") or ""])
