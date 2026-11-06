@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prüft eine englische Übersetzungsdatei. Aufruf: pruefe.py <ausgabe.json> <eingabe.json>"""
 import json, re, sys
-DE = re.compile(r"\b(und|der|das|nicht|ist|ein|eine|mit|für|auf|wie|welche[rsn]?|wer|wird|sind|oder|auch|zum|vom|beim)\b")
+DE = re.compile(r"\b(und|das|nicht|ist|ein|eine|mit|für|auf|wie|welche[rsn]?|wer|wird|sind|oder|auch|zum|vom|beim)\b")
 def pruefe(aus, ein):
     f = []
     try: d = json.load(open(aus, encoding="utf-8"))
