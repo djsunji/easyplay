@@ -22,7 +22,7 @@ const K = { spr:"ep-x-i18n-sprache", gefragt:"ep-x-i18n-gefragt", nur:"ep-x-i18n
 const SPRACHEN = ["de", "fr", "it", "en"];
 /* Im Menü gezeigt: «bald» = noch nicht fertig übersetzt (Kennzeichen), «zu» = noch nicht wählbar */
 const ZEIGE = ["de", "fr", "it", "en"];
-const BALD = { it:1 }, ZU = {};
+const BALD = {}, ZU = {};
 const BALD_T = { de:"bald", fr:"bientôt", it:"presto", en:"soon" };
 const INFO = {
   de:{ name:"Deutsch", kurz:"DE", lang:"de-CH", hallo:"Hoi!" },
