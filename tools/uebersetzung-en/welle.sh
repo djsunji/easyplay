@@ -10,12 +10,12 @@ grep -q "$NEU" index.html || { echo "EP_BUILD nicht gesetzt"; exit 1; }
 GES=$(python3 -c "import json,glob;print(sum(len(json.load(open(f))) for f in glob.glob('welten/i18n/en/q-*.json')))")
 python3 - "$NEU" "$GES" "$R" <<'P'
 import sys,re;n,g,r=sys.argv[1:4];p='CLAUDE.md';s=open(p).read();h="## Erledigt (neueste oben)\n"
-z=f"- {n[11:13]}.{n[8:10]}. Sitzung «Hauptseite»: Englisch: Fragen der Stufen Entdecker und Könner werden übersetzt (zuletzt {r}; jetzt {g} Fragen auf Englisch in `welten/i18n/en/`, Werkzeuge `tools/uebersetzung-en/`, Pakete neu bauen mit `pakete.py`). Kein App-Bau. Version {n}.\n"
-s=re.sub(r"- [^\n]{0,12}Sitzung «Hauptseite»: Englisch: Fragen der Stufen Entdecker und Könner werden übersetzt.*\n","",s)
+z=f"- {n[11:13]}.{n[8:10]}. Sitzung «Hauptseite»: Englisch: Fragen der Stufe Profis werden übersetzt (zuletzt {r}; jetzt {g} Fragen auf Englisch in `welten/i18n/en/`, Werkzeuge `tools/uebersetzung-en/`, Pakete neu bauen mit `pakete.py`). Kein App-Bau. Version {n}.\n"
+s=re.sub(r"- [^\n]{0,12}Sitzung «Hauptseite»: Englisch: Fragen der Stufe Profis werden übersetzt.*\n","",s)
 s=s.replace(h,h+z,1);open(p,'w').write(s)
 P
 git add sw.js index.html CLAUDE.md welten/i18n/index.json welten/i18n/en/ tools/uebersetzung-en/
-git commit -qm "Englisch: weitere Fragen Entdecker/Könner übersetzt ($NEU)
+git commit -qm "Englisch: weitere Fragen Profis übersetzt ($NEU)
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_015F4ypguKCiePf7SvTB76p6"

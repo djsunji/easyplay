@@ -24,6 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
+- Sitzung «Hauptseite» (ab 07.11.): Englisch, Fragen der Stufe Profis werden in Wellen übersetzt (`welten/i18n/en/`, `welten/i18n/index.json`), Pushes mehrmals täglich. Bitte dort nichts ändern.
 
 
 ## Notizen an die andere Sitzung
