@@ -39,13 +39,15 @@
   }
   // Startseite: Stufe wählen (Entdecker, Könner, Profis oder alle)
   const STUFEN_START = [
-    {id:1, name:"Entdecker", text:"Leicht", emo:"🌱"},
-    {id:2, name:"Könner", text:"Mittel", emo:"🚀"},
-    {id:3, name:"Profis", text:"Schwer", emo:"🏅"},
-    {id:4, name:"Alle Stufen", text:"Alles gemischt", emo:"🌍"}
+    {id:1, name:"Entdecker", text:"Leicht", bild:"img/qeels-icons/stufen/entdecker.webp", k:"04"},
+    {id:2, name:"Könner", text:"Mittel", bild:"img/qeels-icons/stufen/koenner.webp", k:"01"},
+    {id:3, name:"Profis", text:"Schwer", bild:"img/qeels-icons/stufen/profis.webp", k:"03"},
+    {id:4, name:"Alle Stufen", text:"Alles gemischt", bild:"img/grafik/stufe-alle.webp", k:"06"}
   ];
   // Schwebende Symbole im Hintergrund: [Symbol, links %, oben %, Grösse rem, Dauer s, Verzögerung s]
-  const DEKO = [["❓",4,12,2.6,6,0],["⭐",90,10,2.2,7,1],["💡",8,70,2.4,8,.5],["🏆",88,64,2.6,6.5,1.5],["🧠",48,4,2,7.5,.8],["✨",72,30,1.8,5,.3],["🎯",20,40,1.8,9,2],["📚",94,40,2,8,2.4],["🚀",30,88,2,7,1.2],["🎉",66,90,2.2,6,.6]];
+  // Dejans Symbole statt Emoji
+  const G = "img/grafik/", D = G + "diverse/";
+  const DEKO = [[G+"sym-frage-regenbogen.webp",4,12,2.6,6,0],[D+"stern.webp",90,10,2.2,7,1],[D+"gluehbirne.webp",8,70,2.4,8,.5],[D+"pokal.webp",88,64,2.6,6.5,1.5],[D+"funkeln.webp",48,4,2,7.5,.8],[D+"funkeln.webp",72,30,1.8,5,.3],[D+"ziel.webp",20,40,1.8,9,2],[D+"buecher.webp",94,40,2,8,2.4],[D+"rakete.webp",30,88,2,7,1.2],[D+"konfetti.webp",66,90,2.2,6,.6]];
   const zahl = n => n.toLocaleString("de-CH");
   // Anzahl Fragen pro Stufe eintragen, sobald die Fragen geladen sind
   function fragenZaehlen(o, versuch){
@@ -150,6 +152,49 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
 @media (max-width:400px){#qstart .qslos{display:none}}
 @media (max-height:760px){#qstart .qslogo{width:min(300px,70%)}}
 @media (max-height:700px){#qstart .qslogo{width:min(220px,66%)}}
+/* ===== Neuer Glanz-Stil wie auf easyplay (Dejans Grafiken): Kopf auf kopf.webp, Stufen auf Glanz-Kacheln,
+   Symbole in goldener Münze, goldener Grafik-Knopf, weisse Glas-Pillen. Elemente mit border-image nie mit scale() bewegen. */
+#qstart .qshero{background:none!important;border:30px solid transparent;border-image:url("img/grafik/entdecken/kopf.webp?v=1") 50 fill / 30px stretch;border-radius:0;padding:4px 10px!important;box-shadow:none!important;filter:drop-shadow(0 14px 24px rgba(60,30,160,.35));color:#fff}
+#qstart .qshero::before{display:none}
+#qstart h1{background:none!important;-webkit-background-clip:border-box;background-clip:border-box;color:#fff!important;font-family:Fredoka,Lexend,system-ui,sans-serif;text-shadow:0 2px 0 rgba(40,10,110,.45),0 6px 14px rgba(40,10,110,.35)}
+#qstart .qsinfo{color:rgba(255,255,255,.94);text-shadow:0 1px 3px rgba(40,10,110,.5)}
+#qstart .qsmaskott{display:none}
+#qstart .qsaufruf{--gh:52px;height:var(--gh);box-sizing:border-box;background:none;box-shadow:none;border:0 solid transparent;border-width:calc(var(--gh)*.3) calc(var(--gh)*.5);
+  border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / calc(var(--gh)*.3) calc(var(--gh)*.5) stretch;border-radius:0;padding:0 4px;
+  color:#3A1C00;font:700 1.05rem Fredoka,Lexend,system-ui,sans-serif;text-shadow:0 1px 0 rgba(255,255,255,.5);filter:drop-shadow(0 4px 6px rgba(20,20,60,.25))}
+#qstart .qsaufruf{white-space:nowrap}
+#qstart .qsgrid button:focus-visible{outline:none;filter:drop-shadow(0 0 3px #FFD43B) drop-shadow(0 0 10px rgba(255,212,59,.9))}
+#qstart .qsaufruf img{width:26px;height:26px;object-fit:contain;animation:qsHuepf 1.1s ease-in-out infinite}
+#qstart .qsgrid button{background:none!important;border:24px solid transparent;border-image:var(--k) 46 fill / 24px stretch;border-radius:0;padding:0 2px 2px!important;
+  box-shadow:none!important;filter:drop-shadow(0 8px 14px rgba(30,30,90,.3));overflow:visible;text-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .14s,filter .14s}
+#qstart .qsgrid button::after{display:none}
+#qstart .qsgrid button::before{display:none}
+#qstart .qsgrid button:hover{transform:translateY(-4px);filter:drop-shadow(0 12px 18px rgba(30,30,90,.38))}
+#qstart .qsgrid button:active{transform:translateY(3px);box-shadow:none!important}
+#qstart .qsgrid button:has(.qszuletzt){animation:qsRein .5s cubic-bezier(.2,.9,.3,1.3) both,qsLeucht 2s ease-in-out .8s infinite}
+@keyframes qsRein{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes qsLeucht{0%,100%{filter:drop-shadow(0 8px 14px rgba(30,30,90,.3)) drop-shadow(0 0 0 rgba(255,212,59,0))}50%{filter:drop-shadow(0 8px 14px rgba(30,30,90,.3)) drop-shadow(0 0 12px rgba(255,212,59,.95))}}
+#qstart .qsemo{width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD34D 45%,#E59A12 100%);box-shadow:0 0 0 3px #FFF3C2,0 4px 8px rgba(80,40,0,.35)}
+#qstart .qsemo img{width:74%;height:74%;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(80,40,0,.3))}
+#qstart .qsname{font-family:Fredoka,Lexend,system-ui,sans-serif;font-weight:700;font-size:1.45rem}
+#qstart .qszahl{background:#fff;color:#2A1F5C;text-shadow:none;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+#qstart .qswz{right:-14px;bottom:-16px;width:46%;max-width:120px;height:auto;opacity:.22;filter:brightness(0) invert(1);font-size:0}
+#qstart .qslos{right:2px;bottom:2px;text-shadow:none}
+#qstart .qszuletzt{top:-2px;right:-2px;text-shadow:none}
+#qstart .qsvorteile span{background:rgba(255,255,255,.88);color:#2A1F5C;box-shadow:0 4px 12px rgba(20,20,60,.18),inset 0 0 0 1.5px #fff}
+#qstart .qsvorteile img{width:22px;height:22px;object-fit:contain}
+#qstart .qsdeko i img{width:var(--g,2rem);height:var(--g,2rem);object-fit:contain;display:block}
+@media (max-width:760px){
+  #qstart .qshero{border-width:22px;border-image-width:22px;padding:2px 4px!important}
+  #qstart .qsaufruf{--gh:40px;font-size:.84rem;gap:5px}
+  #qstart .qsaufruf img{width:20px;height:20px}
+  #qstart .qsgrid button{border-width:18px;border-image-width:18px;min-height:136px}
+  #qstart .qsemo{width:50px;height:50px}
+  #qstart .qsname{font-size:1.2rem}
+  #qstart .qswz{width:42%}
+}
+@media (min-width:761px) and (max-width:1060px){#qstart .qslos{display:none}}
+@media (max-width:760px) and (max-height:700px){#qstart .qsgrid button{min-height:108px}#qstart .qsemo{width:42px;height:42px}}
 @media (prefers-reduced-motion:reduce){#qstart *,#qstart *::before{animation:none!important}}`;
       document.head.appendChild(css);
     }
@@ -157,7 +202,7 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
     const o = document.createElement("div"); o.id = "qstart"; o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true"); o.setAttribute("aria-labelledby", "qsTitel");
     o.innerHTML = `<div class="qsbox">
       <img class="qslogo" src="qeels/img/qeels-logo.webp" alt="Qeels" width="900" height="292">
-      <div class="qsdeko" aria-hidden="true">${DEKO.map(([e, x, y, g, t, v]) => `<i style="left:${x}%;top:${y}%;--g:${g}rem;--t:${t}s;--v:${v}s">${e}</i>`).join("")}</div>
+      <div class="qsdeko" aria-hidden="true">${DEKO.map(([e, x, y, g, t, v]) => `<i style="left:${x}%;top:${y}%;--g:${g}rem;--t:${t}s;--v:${v}s"><img src="${e}" alt=""></i>`).join("")}</div>
       <div class="qshero">
         <img class="qsmaskott" src="qeels/img/icon-512.webp" alt="" aria-hidden="true">
         <span class="qsfunk" style="left:46%;top:14%;--g:1.6rem" aria-hidden="true">✦</span>
@@ -166,12 +211,12 @@ body:has(#qstart:not(.zu))>*:not(#qstart):not(#himmel):not(#alpen):not(#flocken)
         <div class="qstext1">
           <h1 id="qsTitel">Welche Stufe möchtest du spielen?</h1>
           <p class="qsinfo">Wische durch Quizfragen und kurze Artikel. Die Stufe kannst du jederzeit oben rechts unter «Was möchtest du sehen?» wechseln.</p>
-          <div class="qsaufruf"><b>👇</b> Wähle und leg los!</div>
+          <div class="qsaufruf"><img src="img/grafik/diverse/zeigefinger.webp" alt=""> Wähle und leg los!</div>
         </div>
         <img class="qsduo" src="img/kids/duo-winken.webp" alt="" aria-hidden="true">
       </div>
-      <div class="qsgrid">${STUFEN_START.map(s => `<button type="button" data-s="${s.id}"><span class="qsemo" aria-hidden="true">${s.emo}</span><span class="qsname">${s.name}</span><span class="qstext">${s.text}</span><span class="qszahl" hidden></span><span class="qswz" aria-hidden="true">${s.emo}</span><span class="qslos" aria-hidden="true">▶</span>${s.id === zuletzt ? '<span class="qszuletzt">Zuletzt</span>' : ""}</button>`).join("")}</div>
-      <div class="qsvorteile"><span>🧠 Quiz und Artikel</span><span>🔥 Serien sammeln</span><span>❤️ Liken und teilen</span><span>🇨🇭 Schweiz-Wissen</span></div>
+      <div class="qsgrid">${STUFEN_START.map(s => `<button type="button" data-s="${s.id}" style="--k:url('img/grafik/entdecken/kachel-${s.k}.webp?v=3')"><span class="qsemo" aria-hidden="true"><img src="${s.bild}" alt=""></span><span class="qsname">${s.name}</span><span class="qstext">${s.text}</span><span class="qszahl" hidden></span><img class="qswz" src="${s.bild}" alt="" aria-hidden="true"><span class="qslos" aria-hidden="true">▶</span>${s.id === zuletzt ? '<span class="qszuletzt">Zuletzt</span>' : ""}</button>`).join("")}</div>
+      <div class="qsvorteile"><span><img src="img/grafik/sym-frage-regenbogen.webp" alt="">Quiz und Artikel</span><span><img src="img/grafik/diverse/flamme.webp" alt="">Serien sammeln</span><span><img src="img/grafik/diverse/teilen.webp" alt="">Liken und teilen</span><span><img src="img/grafik/diverse/landkarte.webp" alt="">Schweiz-Wissen</span></div>
     </div>`;
     document.body.appendChild(o);
     fragenZaehlen(o);
