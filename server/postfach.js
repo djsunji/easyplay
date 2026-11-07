@@ -1,6 +1,6 @@
 // easyplay-Server: Postfach in der Verwaltung (/api/admin/post/…), nur für Admins (Prüfung in admin.js).
 // Liest das Postfach bei Hostpoint per IMAP (IMAP_USER, IMAP_PASS, optional IMAP_HOST, IMAP_PORT).
-// Die Adressen info@, sponsor@, feedback@, schule@ und dejan@ sind bei Hostpoint Aliase auf dieses eine Postfach;
+// Die Adressen info@, sponsor@, feedback@, schule@, dejan@ und carla@ sind bei Hostpoint Aliase auf dieses eine Postfach;
 // die Verwaltung zeigt sie wie Ordner (Filter nach Empfänger). Gesendet wird über den normalen Mailversand (Brevo),
 // danach landet eine Kopie im Ordner «Gesendet» des Postfachs.
 import { ImapFlow } from "imapflow";
@@ -12,9 +12,9 @@ const E = process.env;
 export const postAn = () => !!(E.IMAP_USER && E.IMAP_PASS);
 const DOMAIN = () => (E.POST_DOMAIN || "easyplay.ch").toLowerCase();
 // Adressen, die nur im Postfach erscheinen, nicht als Empfänger im Kontaktformular
-export const NUR_POSTFACH = ["dejan"];
+export const NUR_POSTFACH = ["dejan", "carla"];
 export const kontaktAdressen = () => adressen().filter(a => !NUR_POSTFACH.includes(a));
-export const adressen = () => (E.POST_ADRESSEN || "info,sponsor,feedback,schule,dejan").split(",").map(x => x.trim().toLowerCase()).filter(x => /^[a-z0-9._-]+$/.test(x));
+export const adressen = () => (E.POST_ADRESSEN || "info,sponsor,feedback,schule,dejan,carla").split(",").map(x => x.trim().toLowerCase()).filter(x => /^[a-z0-9._-]+$/.test(x));
 const voll = a => `${a}@${DOMAIN()}`;
 const PRO_SEITE = 40;
 
