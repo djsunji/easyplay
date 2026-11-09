@@ -737,6 +737,8 @@ window.EP_EXTRAS.register({
   hinweis(){ const b = bestwerte(); return SPIELE.some(s => b[s.id]) ? "" : "Neu"; },
   render(box, api){
     stil(); BOX = box; API = api;
+    // Neu betreten (vorher eine andere Seite): immer die Übersicht zeigen, nicht das alte Spiel
+    if(document.body.dataset.xwelt !== "spielwelt" && SP){ SP = null; LAUF++; }
     if(START){ const id = START; START = null; neueRunde(id); return; }
     zeichne();
   }
