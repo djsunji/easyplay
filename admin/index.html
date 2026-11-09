@@ -156,6 +156,9 @@ nav button.unter{padding-left:22px;font-size:13px}
 .bw-aktion small{opacity:.75;font-size:11px}
 .bw h3{justify-content:center}
 .bw-link{max-width:760px;margin:10px auto 0;display:grid;gap:8px}
+.bw-prompt{max-width:760px;margin:14px auto 0;display:grid;gap:8px;text-align:left}
+.bw-prompt textarea{width:100%;min-height:190px;box-sizing:border-box;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;padding:10px 12px;border-radius:12px;border:1px solid var(--li);background:var(--fl);color:inherit;resize:vertical}
+.bw-prompt .knoepfe{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .bw-link .zeile{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .bw-link .zeile input{flex:1;min-width:240px}
 .bw-treffer{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;align-items:start;background:var(--fl);border:2px solid var(--li);border-radius:12px;padding:10px;text-align:left}
@@ -1120,6 +1123,7 @@ function bwListe(){
 }
 TABS.bildwechsel = async () => {
   await ladeBilder(); await ladeFreigegeben();
+  try{ await ladeArtikelSeiten(); }catch(e){ console.warn(e); }
   const buecher = [...new Set(DATEN.seiten.map(s => s.b))].sort();
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Bilder wechseln</h2>
     <select id="bwBuch"><option value="">alle Bücher</option>${buecher.map(b => `<option${BW.buch===b?" selected":""}>${esc(b)}</option>`).join("")}</select>
@@ -1157,6 +1161,10 @@ function bwZeigen(){
       <div class="zeile"><input type="url" id="bwLinkUrl" placeholder="Link zum Bild einfügen (Wikipedia, Commons, Openverse oder direkte Bildadresse)" autocomplete="off"><button class="k" id="bwLinkLos">Übernehmen</button></div>
       <p class="mu klein" style="margin:0;text-align:center">Bei Wikipedia, Wikimedia Commons und Openverse werden Urheber, Lizenz und Quelle automatisch eingetragen.</p>
       <div id="bwLinkErg"></div></div>
+    <div class="bw-prompt"><h3 style="margin:8px 0 0;text-align:center">Prompt für ChatGPT</h3>
+      <textarea id="bwPrompt" readonly spellcheck="false">${esc(bildPrompt(s, null))}</textarea>
+      <div class="knoepfe"><button class="k p" id="bwPromptKopie">Prompt kopieren</button><a class="k" id="bwPromptOffen" href="#" target="_blank" rel="noopener noreferrer">In ChatGPT öffnen</a><button class="k" id="bwPromptHoch">Fertiges Bild hochladen</button></div>
+      <p class="mu klein" style="margin:0;text-align:center">Bild in ChatGPT erstellen, herunterladen und mit «Fertiges Bild hochladen» hier übernehmen.</p></div>
     <input type="file" id="bwDatei" accept="image/*" hidden>
     <p class="mu klein" style="margin-top:10px">Eigene Bilder werden auf 480 und 960 Pixel verkleinert. Vorschläge von Google und Openverse: Lizenz selbst prüfen.</p>
   </div>`;
@@ -1185,6 +1193,13 @@ function bwZeigen(){
       AE.bilder.set(s.k, {upload:{klein, gross}, vorschau:URL.createObjectURL(gross), alt:DATEN.bildindex[s.k] || null,
         eintrag:[basis + bildPfad(s.k, true), s.t, "easyplay", "eigenes Bild", "", "e", bildPfad(s.k), bildPfad(s.k, true)]});
       AE.freigabe.delete(s.k); aenderungenZeigen(); bwZeigen(); melde("Eigenes Bild übernommen."); }catch(err){ melde(err.message, "fe"); } };
+  const pSetzen = t => { const ta = $("#bwPrompt"); if(!ta) return; ta.value = t; $("#bwPromptOffen").href = "https://chatgpt.com/?q=" + encodeURIComponent(t); };
+  pSetzen(bildPrompt(s, null));
+  artikelAktuell(s.k).then(teile => { if(BW.liste[BW.i] === s && teile) pSetzen(bildPrompt(s, teile)); }).catch(() => {});
+  $("#bwPromptKopie").onclick = async () => { const t = $("#bwPrompt").value;
+    try{ await navigator.clipboard.writeText(t); }catch(err){ const ta = $("#bwPrompt"); ta.select(); document.execCommand("copy"); }
+    melde("Prompt kopiert."); };
+  $("#bwPromptHoch").onclick = () => $("#bwDatei").click();
   bwVorschlaege(s, false);
   // Bilder der nächsten Seite schon vorladen
   const n = BW.liste[BW.i + 1]; if(n && !BW.cache?.[n.k]) setTimeout(() => sucheVorschlaege(n.t).then(r => { BW.cache = BW.cache || {}; BW.cache[n.k + "|" + n.t] = r; }).catch(() => {}), 400);
@@ -1208,6 +1223,33 @@ function bwVorschlaegeZeigen(s, laeuft){
     + `<p class="mu klein" style="grid-column:1/-1;text-align:center;margin:4px 0 0">${zahl(l.length)} Treffer, Vorschläge ${BW.vs + 1} bis ${Math.min(l.length, BW.vs + 4)}${laeuft ? " · weitere Quellen laden noch …" : ""}</p>`;
   $$("#bwVs .bw-karte[data-j]").forEach(b => b.onclick = () => bwWaehle(s, teil[+b.dataset.j]));
   $("#bwHoch").onclick = () => $("#bwDatei").click();
+}
+/* Prompt für ChatGPT: aus Titel, Buch, Kapitel und dem Anfang des Artikels ein Bildauftrag */
+const BP_BUCH = {
+  geschichte: "Historisch genaue Szene aus der passenden Zeit: Kleidung, Gebäude, Werkzeuge und Landschaft stimmen mit der Epoche überein.",
+  natur: "Naturgetreu und biologisch korrekt, im typischen Lebensraum, mit natürlichen Farben und Proportionen.",
+  welt: "Geografisch korrekt: typische Landschaft, Wahrzeichen, Bauweise und Alltag dieses Ortes.",
+  wissen: "Wissenschaftlich korrekt und anschaulich. Abstrakte Begriffe als einfache, sofort verständliche Bildidee zeigen.",
+  politik: "Sachlich und neutral, ohne Parteisymbole, Fahnenkult oder politische Botschaft. Religionen respektvoll darstellen.",
+  alltag: "Lebensnah und freundlich, wie man es aus dem Alltag kennt.",
+  leben: "Lebensnah, ruhig und ermutigend, mit Kindern oder Familien in alltäglichen Situationen.",
+  geld: "Anschaulich mit Schweizer Bezug (zum Beispiel Schweizer Franken, Schweizer Umgebung), ohne echte Firmenlogos.",
+  schweiz: "Typisch Schweiz: Landschaft, Orte, Bauten und Menschen so, wie sie in der Schweiz wirklich aussehen."
+};
+const BP_NAME = {geschichte:"Geschichte", natur:"Natur", welt:"Welt", wissen:"Wissen", politik:"Politik & Gesellschaft", alltag:"Alltag & Kultur", leben:"Leben", geld:"Geld", schweiz:"Schweiz"};
+function bildPrompt(s, teile){
+  const rein = t => String(t || "").replace(/\*\*/g, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  let kontext = "";
+  if(teile){ const ein = rein(teile.einleitung); const wi = (teile.wichtigste || []).slice(0, 3).map(rein).join(" ");
+    kontext = (ein + " " + wi).trim(); if(kontext.length > 650) kontext = kontext.slice(0, 650).replace(/\s\S*$/, "") + " …"; }
+  return [
+    `Erstelle ein Bild für den Lexikon-Artikel «${s.t}» (Buch: ${BP_NAME[s.b] || s.b}, Kapitel: ${s.kap}) einer Lern-Website für Kinder und Jugendliche von 6 bis 16 Jahren in der Schweiz.`,
+    kontext ? `Worum es im Artikel geht: ${kontext}` : "",
+    `Bildidee: Zeige das Thema so, dass man auf einen Blick erkennt, worum es geht. Ein klares Hauptmotiv in der Bildmitte, ruhiger Hintergrund, keine überladene Szene. ${BP_BUCH[s.b] || ""}`,
+    "Stil: hochwertige, detailreiche digitale Illustration wie in einem modernen Kinder-Sachbuch, warme und leuchtende Farben, weiches Licht, freundliche Stimmung, sachlich richtig.",
+    "Format: Querformat 3:2, Motiv nicht am Rand abgeschnitten.",
+    "Wichtig: kein Text, keine Schrift, keine Buchstaben, keine Zahlen, keine Logos, kein Wasserzeichen. Kindgerecht: keine Gewalt, kein Blut, keine Angst machenden Darstellungen, keine nackte Haut."
+  ].filter(Boolean).join("\n\n");
 }
 function bwWaehle(s, v){
   AE.bilder.set(s.k, {eintrag:[v.url, s.t, v.urheber || "", v.lizenz || "Lizenz prüfen", v.quelle || "", v.code], vorschau:v.url, alt:DATEN.bildindex[s.k] || null});
