@@ -3728,3 +3728,22 @@ ${A} .rl-sinfo>.help{color:#3A2F72!important;background:#F7F4FF!important}
   c.textContent = Object.entries(F).map(([l, n]) => `html body #app .xseite .xui-karte.xui-k-${l}.xui-karte{border-image-source:url("${G}kachel-${n}.webp?v=3")!important}`).join("\n");
   document.head.appendChild(c);
 })();
+
+/* ===== Französisch & Englisch: Sprach-Karten mit grosser Flagge im Hintergrund (Dejans Wunsch) ===== */
+(function(){
+  if(document.getElementById("ep-sprflagge-css")) return;
+  const c = document.createElement("style"); c.id = "ep-sprflagge-css";
+  const S = "html body #app .xseite .spr-sp.spr-sp";
+  const FL = {fr:"img/flaggen/fr-gross.svg?v=1", en:"img/flaggen/gb-gross.svg?v=1"};
+  c.textContent = Object.entries(FL).map(([l, u]) => `${S}.spr-sp-${l}{background:
+      linear-gradient(180deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 32%),
+      linear-gradient(90deg,rgba(12,18,60,.62) 0%,rgba(12,18,60,.32) 55%,rgba(12,18,60,.08) 100%),
+      url("${u}") center/cover no-repeat!important;
+    border:3px solid rgba(255,255,255,.85)!important;border-image:none!important;border-radius:22px!important;
+    box-shadow:0 10px 22px rgba(20,20,70,.3),inset 0 0 0 1px rgba(0,0,0,.08)!important;overflow:hidden!important;padding:18px 20px!important}`).join("\n")
+  + `\n${S} .ep-wzbox,${S} .ep-wz{display:none!important}
+${S} :is(b,small,span){text-shadow:0 2px 4px rgba(0,0,0,.6)!important}
+${S}[aria-pressed="true"]{outline:4px solid #FFD43B!important;outline-offset:3px}
+@media (max-width:700px){${S}{padding:12px 14px!important;border-radius:16px!important}}`;
+  document.head.appendChild(c);
+})();
