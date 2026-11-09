@@ -156,6 +156,28 @@ nav button.unter{padding-left:22px;font-size:13px}
 .bw-aktion small{opacity:.75;font-size:11px}
 .bw h3{justify-content:center}
 .bw-link{max-width:760px;margin:10px auto 0;display:grid;gap:8px}
+.bw-umsch{display:inline-flex;gap:4px}
+.bw-drop{outline:3px dashed var(--ak,#7c3aed);outline-offset:6px;border-radius:12px}
+.bw-r-hilfe{text-align:center;margin:4px 0 10px}
+.bw-raster{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.bw-r{position:relative;display:flex;flex-direction:column;gap:3px;background:var(--fl);border:3px solid var(--li);border-radius:14px;padding:8px;cursor:pointer;text-align:left;font-size:12px;transition:border-color .12s,opacity .12s}
+.bw-r:hover{border-color:#a78bfa}
+.bw-r .bild{position:relative;aspect-ratio:4/3;border-radius:9px;overflow:hidden;background:var(--bg);display:grid;place-items:center;color:var(--mu)}
+.bw-r .bild img{width:100%;height:100%;object-fit:cover;display:block}
+.bw-r .x{position:absolute;inset:0;display:none;place-items:center;font-size:54px;font-weight:800;color:#fff;background:rgba(220,38,38,.55)}
+.bw-r.weg{border-color:#dc2626}
+.bw-r.weg .x{display:grid}
+.bw-r.leer{border-style:dashed}
+.bw-r.ok{border-color:#16a34a}
+.bw-r.neu{border-color:#f59e0b}
+.bw-r b{font-size:13px;line-height:1.25;margin-top:3px}
+.bw-r .mu{font-size:11px;line-height:1.25}
+.bw-r .grund{display:flex;flex-wrap:wrap;gap:3px;min-height:4px}
+.bw-r .grund i{font-style:normal;font-size:10.5px;font-weight:700;background:#fef3c7;color:#92400e;border-radius:99px;padding:1px 7px}
+.bw-r .bw-oeffnen{position:absolute;top:12px;right:12px;padding:3px 9px;font-size:11px;opacity:0;transition:opacity .12s}
+.bw-r:hover .bw-oeffnen,.bw-r:focus-within .bw-oeffnen{opacity:1}
+.bw-r-fuss{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0 6px;position:sticky;bottom:8px}
+.bw-r-fuss .k{padding:10px 18px;font-size:15px;box-shadow:0 4px 14px rgba(0,0,0,.15)}
 .bw-prompt{max-width:760px;margin:14px auto 0;display:grid;gap:8px;text-align:left}
 .bw-prompt textarea{width:100%;min-height:190px;box-sizing:border-box;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;padding:10px 12px;border-radius:12px;border:1px solid var(--li);background:var(--fl);color:inherit;resize:vertical}
 .bw-prompt .knoepfe{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -1111,14 +1133,58 @@ async function bilderSpeichern(){
 }
 
 /* ======================= Bilder wechseln (eine Seite nach der anderen prüfen) ======================= */
-const BW = { buch:"", filter:"offen", i:0, liste:[], vorschlag:[], vs:0, suche:"", laedt:false };
+const BW = { buch:"", filter:"offen", i:0, liste:[], vorschlag:[], vs:0, suche:"", laedt:false,
+  ansicht:(() => { try{ return localStorage.getItem("ep-admin-bw-ansicht") || "raster"; }catch(e){ return "raster"; } })(),
+  sort:"verdacht", markiert:new Set(),
+  schlecht:new Set((() => { try{ return JSON.parse(localStorage.getItem("ep-admin-bw-schlecht") || "[]"); }catch(e){ return []; } })()) };
+const bwSchlechtMerken = () => { try{ localStorage.setItem("ep-admin-bw-schlecht", JSON.stringify([...BW.schlecht])); }catch(e){} };
+const bwSchlechtWeg = k => { if(BW.schlecht.delete(k)) bwSchlechtMerken(); };
+/* Verdacht: Bilder, die wahrscheinlich nicht passen, nach vorne */
+const BV_NORM = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss");
+const BV_STOP = new Set(["der","die","das","und","oder","von","vom","zum","zur","mit","fuer","eine","einer","eines","ein","den","dem","des","auf","aus","bei","wie","was","ist","sind","im","in","am","an","the","and","of"]);
+const BV_ART = [
+  [/\.svg\b|\.svg\.png/, "Grafik statt Foto", 3, null],
+  [/(^|[^a-z])(karte|map|locator|location|topograph|orthographic)/, "Karte", 3, /karte|lage|grenze|kanton|land|gebiet|region|bezirk/],
+  [/flag|flagge|fahne/, "Flagge", 3, /flagge|fahne/],
+  [/wappen|coat.of.arms|blason|emblem|siegel/, "Wappen", 3, /wappen|siegel|emblem/],
+  [/logo/, "Logo", 3, /logo|marke|firma/],
+  [/diagram|chart|schema|graph|plot|kurve|grafik|tabelle|statisti/, "Diagramm", 3, /diagramm|statistik|kurve|tabelle|grafik/],
+  [/icon|pictogram|piktogramm|symbol/, "Symbol", 2, /symbol|zeichen/],
+  [/signatur|signature|unterschrift/, "Unterschrift", 3, null]
+];
+const BV_CACHE = new Map();
+function bwVerdacht(s){
+  const e = bildEintrag(s.k); const key = s.k + "|" + (e ? e[0] : "");
+  if(BV_CACHE.has(key)) return BV_CACHE.get(key);
+  let p = 0; const g = [];
+  if(!e){ BV_CACHE.set(key, {p:100, g:["kein Bild"]}); return BV_CACHE.get(key); }
+  let datei = ""; try{ datei = decodeURIComponent(String(e[0]).split("?")[0].split("/").pop() || ""); }catch(x){ datei = String(e[0]); }
+  const name = BV_NORM(datei.replace(/^\d+px-/, "").replace(/[_-]+/g, " ")), titel = BV_NORM(s.t + " " + s.kap);
+  for(const [re, txt, w, ausser] of BV_ART) if(re.test(name) && !(ausser && ausser.test(titel))){ p += w; g.push(txt); }
+  if(e[5] === "w" || e[5] === "c"){
+    const w = BV_NORM(s.t).split(/[^a-z0-9]+/).filter(x => x.length >= 4 && !BV_STOP.has(x));
+    if(w.length && !w.some(x => name.includes(x.slice(0, Math.max(4, Math.ceil(x.length * .7)))))){ p += 1; g.push("Dateiname passt nicht zum Titel"); }
+  }
+  if(e[5] === "o"){ p += 1; g.push("Openverse"); }
+  const r = {p, g}; BV_CACHE.set(key, r); return r;
+}
+function bwSortieren(l){
+  if(BW.sort === "buch") return l;
+  const v = s => bwVerdacht(s).p;
+  if(BW.sort === "ohne") return l.map((s, i) => [s, i]).sort((a, b) => (bildEintrag(a[0].k) ? 1 : 0) - (bildEintrag(b[0].k) ? 1 : 0) || a[1] - b[1]).map(x => x[0]);
+  return l.map((s, i) => [s, i]).sort((a, b) => { const ea = bildEintrag(a[0].k) ? 0 : 1, eb = bildEintrag(b[0].k) ? 0 : 1;
+    return ea - eb || v(b[0]) - v(a[0]) || a[1] - b[1]; }).map(x => x[0]);
+}
 AE.freigabe = AE.freigabe || new Set();
 let FREIGEGEBEN = null;
 async function ladeFreigegeben(){ if(FREIGEGEBEN) return FREIGEGEBEN; FREIGEGEBEN = new Set(await fetch(B + "tools/bilder_freigegeben.json", {cache:"no-cache"}).then(r => r.ok ? r.json() : []).catch(() => [])); return FREIGEGEBEN; }
 const istGeprueft = k => AE.freigabe.has(k) || AE.bilder.has(k) || (FREIGEGEBEN && FREIGEGEBEN.has(k));
 function bwListe(){
-  BW.liste = DATEN.seiten.filter(s => (!BW.buch || s.b === BW.buch)
-    && (BW.filter === "alle" || (BW.filter === "offen" && !istGeprueft(s.k)) || (BW.filter === "mit" && bildEintrag(s.k) && !istGeprueft(s.k)) || (BW.filter === "ohne" && !bildEintrag(s.k)) || (BW.filter === "geprueft" && istGeprueft(s.k))));
+  const sch = k => BW.schlecht.has(k) && !AE.bilder.has(k) && !AE.freigabe.has(k);
+  BW.liste = bwSortieren(DATEN.seiten.filter(s => (!BW.buch || s.b === BW.buch)
+    && (BW.filter === "alle" || (BW.filter === "schlecht" && sch(s.k))
+      || (BW.filter === "offen" && !istGeprueft(s.k) && !sch(s.k)) || (BW.filter === "mit" && bildEintrag(s.k) && !istGeprueft(s.k) && !sch(s.k))
+      || (BW.filter === "ohne" && !bildEintrag(s.k)) || (BW.filter === "geprueft" && istGeprueft(s.k)))));
   BW.i = Math.min(BW.i, Math.max(0, BW.liste.length - 1));
 }
 TABS.bildwechsel = async () => {
@@ -1127,33 +1193,44 @@ TABS.bildwechsel = async () => {
   const buecher = [...new Set(DATEN.seiten.map(s => s.b))].sort();
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Bilder wechseln</h2>
     <select id="bwBuch"><option value="">alle Bücher</option>${buecher.map(b => `<option${BW.buch===b?" selected":""}>${esc(b)}</option>`).join("")}</select>
-    <select id="bwFilter">${[["offen","noch nicht geprüft"],["mit","mit Bild, ungeprüft"],["ohne","ohne Bild"],["geprueft","schon geprüft"],["alle","alle Seiten"]].map(([v,t]) => `<option value="${v}"${BW.filter===v?" selected":""}>${t}</option>`).join("")}</select>
+    <select id="bwFilter">${[["offen","noch nicht geprüft"],["mit","mit Bild, ungeprüft"],["ohne","ohne Bild"],["schlecht","als unpassend markiert"],["geprueft","schon geprüft"],["alle","alle Seiten"]].map(([v,t]) => `<option value="${v}"${BW.filter===v?" selected":""}>${t}</option>`).join("")}</select>
+    <select id="bwSort" title="Reihenfolge">${[["verdacht","Verdächtige zuerst"],["ohne","Ohne Bild zuerst"],["buch","nach Buch und Titel"]].map(([v,t]) => `<option value="${v}"${BW.sort===v?" selected":""}>${t}</option>`).join("")}</select>
+    <span class="bw-umsch"><button class="k${BW.ansicht==="raster"?" p":""}" id="bwRasterAn">Raster</button><button class="k${BW.ansicht==="einzeln"?" p":""}" id="bwEinzelnAn">Einzeln</button></span>
     <input type="search" id="bwSprung" placeholder="Seite suchen und hinspringen" style="min-width:220px">
     <span class="rechts mu klein" id="bwStand"></span></div><div id="bwBox"></div>`;
   $("#bwBuch").onchange = () => { BW.buch = $("#bwBuch").value; BW.i = 0; bwListe(); bwZeigen(); };
   $("#bwFilter").onchange = () => { BW.filter = $("#bwFilter").value; BW.i = 0; bwListe(); bwZeigen(); };
+  $("#bwSort").onchange = () => { BW.sort = $("#bwSort").value; BW.i = 0; bwListe(); bwZeigen(); };
+  const ansicht = a => { BW.ansicht = a; try{ localStorage.setItem("ep-admin-bw-ansicht", a); }catch(e){}
+    $("#bwRasterAn").classList.toggle("p", a === "raster"); $("#bwEinzelnAn").classList.toggle("p", a === "einzeln"); BW.markiert.clear(); bwZeigen(); };
+  $("#bwRasterAn").onclick = () => { BW.i = Math.floor(BW.i / BW_PRO) * BW_PRO; ansicht("raster"); };
+  $("#bwEinzelnAn").onclick = () => ansicht("einzeln");
   $("#bwSprung").onkeydown = e => { if(e.key !== "Enter") return; const q = e.target.value.trim().toLowerCase(); if(!q) return;
     let j = BW.liste.findIndex(s => s.t.toLowerCase().startsWith(q)); if(j < 0) j = BW.liste.findIndex(s => s.t.toLowerCase().includes(q));
     if(j < 0){ BW.filter = "alle"; $("#bwFilter").value = "alle"; bwListe(); j = BW.liste.findIndex(s => s.t.toLowerCase().includes(q)); }
     if(j >= 0){ BW.i = j; bwZeigen(); } else melde("Keine Seite gefunden.", "fe"); };
   bwListe(); bwZeigen();
 };
-function bwStand(){ const g = DATEN.seiten.filter(s => istGeprueft(s.k)).length; $("#bwStand").textContent = `${zahl(BW.liste.length ? BW.i + 1 : 0)} von ${zahl(BW.liste.length)} · geprüft ${zahl(g)} von ${zahl(DATEN.seiten.length)} (${proz(g, DATEN.seiten.length)})`; }
+function bwStand(){ const g = DATEN.seiten.filter(s => istGeprueft(s.k)).length; const bis = BW.ansicht === "raster" ? ` bis ${zahl(Math.min(BW.liste.length, Math.floor(BW.i / BW_PRO) * BW_PRO + BW_PRO))}` : "";
+  $("#bwStand").textContent = `${zahl(BW.liste.length ? (BW.ansicht === "raster" ? Math.floor(BW.i / BW_PRO) * BW_PRO : BW.i) + 1 : 0)}${bis} von ${zahl(BW.liste.length)} · geprüft ${zahl(g)} von ${zahl(DATEN.seiten.length)} (${proz(g, DATEN.seiten.length)})`; }
+const BW_PRO = 24;
 function bwZeigen(){
   bwStand();
+  if(BW.ansicht === "raster") return bwRaster();
   const s = BW.liste[BW.i], box = $("#bwBox");
   if(!s){ box.innerHTML = `<div class="bw-leer"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><h3>Alles erledigt!</h3><p class="mu">In dieser Auswahl gibt es keine Seiten mehr.</p></div>`; return; }
   const e = bildEintrag(s.k), a = AE.bilder.get(s.k);
   const src = a && a.vorschau ? a.vorschau : e ? (e[6] && !a ? B + (e[7] || e[6]) : e[0]) : "";
-  const status = a ? (a.entfernen ? '<span class="wa">wird entfernt</span>' : '<span class="wa">neues Bild gewählt</span>') : AE.freigabe.has(s.k) ? '<span class="ok">als gut markiert</span>' : (FREIGEGEBEN && FREIGEGEBEN.has(s.k)) ? '<span class="ok">schon geprüft</span>' : '<span class="mu">ungeprüft</span>';
+  const status = a ? (a.entfernen ? '<span class="wa">wird entfernt</span>' : '<span class="wa">neues Bild gewählt</span>') : AE.freigabe.has(s.k) ? '<span class="ok">als gut markiert</span>' : (FREIGEGEBEN && FREIGEGEBEN.has(s.k)) ? '<span class="ok">schon geprüft</span>' : BW.schlecht.has(s.k) ? '<span class="fe">als unpassend markiert</span>' : '<span class="mu">ungeprüft</span>';
+  const vd = bwVerdacht(s);
   BW.suche = BW.suche && BW.sucheFuer === s.k ? BW.suche : s.t;
   box.innerHTML = `<div class="bw">
     <div class="bw-kopf"><button class="k" id="bwZur" ${BW.i ? "" : "disabled"} title="Zurück (Pfeil links)">‹ Zurück</button>
-      <div class="bw-titel"><h2>${esc(s.t)}</h2><span class="mu klein">${esc(s.b)} · ${esc(s.kap)} · ${status}</span></div>
+      <div class="bw-titel"><h2>${esc(s.t)}</h2><span class="mu klein">${esc(s.b)} · ${esc(s.kap)} · ${status}${e && vd.g.length ? ` · <span class="wa">${esc(vd.g.join(", "))}</span>` : ""}</span></div>
       <button class="k" id="bwVor" ${BW.i < BW.liste.length - 1 ? "" : "disabled"} title="Weiter (Pfeil rechts)">Weiter ›</button></div>
     <div class="bw-bild">${src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer">` : '<div class="leer">kein Bild</div>'}</div>
     <p class="mu klein bw-info">${e ? `${esc(e[2] || "")} · ${esc(e[3] || "")}${e[4] ? ` · <a class="link" href="${esc(e[4])}" target="_blank" rel="noopener noreferrer">Quelle</a>` : ""}` : "&nbsp;"}</p>
-    <div class="bw-aktion"><button class="k p" id="bwGut" ${e ? "" : "disabled"}>✓ Bild passt <small>(Enter)</small></button>${e ? '<button class="k g" id="bwWeg">Kein Bild <small>(Entf)</small></button>' : ""}${a || AE.freigabe.has(s.k) ? '<button class="k" id="bwReset">Rückgängig</button>' : ""}</div>
+    <div class="bw-aktion"><button class="k p" id="bwGut" ${e ? "" : "disabled"}>✓ Bild passt <small>(Enter)</small></button>${e ? '<button class="k g" id="bwWeg">Kein Bild <small>(Entf)</small></button>' : ""}${a || AE.freigabe.has(s.k) || BW.schlecht.has(s.k) ? '<button class="k" id="bwReset">Rückgängig</button>' : ""}</div>
     <h3>Vorschläge <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· Taste 1 bis 4 wählt</span></h3>
     <div class="leiste" style="justify-content:center"><input type="search" id="bwSuche" value="${esc(BW.suche)}" style="min-width:280px"><button class="k" id="bwSuchen">Suchen</button><button class="k" id="bwMehr">Andere Vorschläge</button></div>
     <div class="bw-vs" id="bwVs"><p class="mu">Suche Bilder …</p></div>
@@ -1164,14 +1241,14 @@ function bwZeigen(){
     <div class="bw-prompt"><h3 style="margin:8px 0 0;text-align:center">Prompt für ChatGPT</h3>
       <textarea id="bwPrompt" readonly spellcheck="false">${esc(bildPrompt(s, null))}</textarea>
       <div class="knoepfe"><button class="k p" id="bwPromptKopie">Prompt kopieren</button><a class="k" id="bwPromptOffen" href="#" target="_blank" rel="noopener noreferrer">In ChatGPT öffnen</a><button class="k" id="bwPromptHoch">Fertiges Bild hochladen</button></div>
-      <p class="mu klein" style="margin:0;text-align:center">Bild in ChatGPT erstellen, herunterladen und mit «Fertiges Bild hochladen» hier übernehmen.</p></div>
+      <p class="mu klein" style="margin:0;text-align:center">Bild in ChatGPT erstellen, dort mit Rechtsklick «Bild kopieren» und hier mit <b>Ctrl+V</b> (Mac: Cmd+V) einfügen. Hineinziehen geht auch.</p></div>
     <input type="file" id="bwDatei" accept="image/*" hidden>
     <p class="mu klein" style="margin-top:10px">Eigene Bilder werden auf 480 und 960 Pixel verkleinert. Vorschläge von Google und Openverse: Lizenz selbst prüfen.</p>
   </div>`;
   $("#bwZur").onclick = () => bwGehe(-1); $("#bwVor").onclick = () => bwGehe(1);
-  const gut = $("#bwGut"); if(gut) gut.onclick = () => { AE.freigabe.add(s.k); aenderungenZeigen(); bwWeiter(); };
-  const weg = $("#bwWeg"); if(weg) weg.onclick = () => { AE.bilder.set(s.k, {entfernen:true, alt:DATEN.bildindex[s.k]}); AE.freigabe.delete(s.k); aenderungenZeigen(); bwWeiter(); };
-  const rs = $("#bwReset"); if(rs) rs.onclick = () => { AE.bilder.delete(s.k); AE.freigabe.delete(s.k); aenderungenZeigen(); bwZeigen(); };
+  const gut = $("#bwGut"); if(gut) gut.onclick = () => { AE.freigabe.add(s.k); bwSchlechtWeg(s.k); aenderungenZeigen(); bwWeiter(); };
+  const weg = $("#bwWeg"); if(weg) weg.onclick = () => { AE.bilder.set(s.k, {entfernen:true, alt:DATEN.bildindex[s.k]}); AE.freigabe.delete(s.k); bwSchlechtWeg(s.k); aenderungenZeigen(); bwWeiter(); };
+  const rs = $("#bwReset"); if(rs) rs.onclick = () => { AE.bilder.delete(s.k); AE.freigabe.delete(s.k); bwSchlechtWeg(s.k); aenderungenZeigen(); bwZeigen(); };
   $("#bwSuchen").onclick = () => { BW.suche = $("#bwSuche").value.trim() || s.t; BW.sucheFuer = s.k; BW.vs = 0; bwVorschlaege(s, true); };
   $("#bwSuche").onkeydown = ev => { if(ev.key === "Enter"){ ev.stopPropagation(); $("#bwSuchen").click(); } };
   $("#bwMehr").onclick = () => { BW.vs += 4; bwVorschlaegeZeigen(s); };
@@ -1187,22 +1264,69 @@ function bwZeigen(){
     $("#bwLinkNimm").onclick = () => { v.urheber = $("#bwLU").value.trim(); v.lizenz = $("#bwLL").value.trim() || "Lizenz prüfen"; v.quelle = $("#bwLQ").value.trim(); bwWaehle(s, v); }; };
   $("#bwLinkLos").onclick = linkLos;
   $("#bwLinkUrl").onkeydown = ev => { if(ev.key === "Enter"){ ev.stopPropagation(); linkLos(); } };
-  $("#bwDatei").onchange = async ev => { const f = ev.target.files[0]; if(!f) return;
-    try{ const [klein, gross] = await Promise.all([bildVerkleinern(f, [480,400,.62]), bildVerkleinern(f, [960,800,.6])]);
-      const basis = (CFG.teilenUrl || "https://djsunji.github.io/easyplay/").replace(/\/?$/, "/");
-      AE.bilder.set(s.k, {upload:{klein, gross}, vorschau:URL.createObjectURL(gross), alt:DATEN.bildindex[s.k] || null,
-        eintrag:[basis + bildPfad(s.k, true), s.t, "easyplay", "eigenes Bild", "", "e", bildPfad(s.k), bildPfad(s.k, true)]});
-      AE.freigabe.delete(s.k); aenderungenZeigen(); bwZeigen(); melde("Eigenes Bild übernommen."); }catch(err){ melde(err.message, "fe"); } };
-  const pSetzen = t => { const ta = $("#bwPrompt"); if(!ta) return; ta.value = t; $("#bwPromptOffen").href = "https://chatgpt.com/?q=" + encodeURIComponent(t); };
-  pSetzen(bildPrompt(s, null));
-  artikelAktuell(s.k).then(teile => { if(BW.liste[BW.i] === s && teile) pSetzen(bildPrompt(s, teile)); }).catch(() => {});
-  $("#bwPromptKopie").onclick = async () => { const t = $("#bwPrompt").value;
-    try{ await navigator.clipboard.writeText(t); }catch(err){ const ta = $("#bwPrompt"); ta.select(); document.execCommand("copy"); }
-    melde("Prompt kopiert."); };
-  $("#bwPromptHoch").onclick = () => $("#bwDatei").click();
+  $("#bwDatei").onchange = ev => { const f = ev.target.files[0]; ev.target.value = ""; if(f) bwEigenesBild(s, f); };
+  const box2 = $("#bwBox");
+  box2.ondragover = ev => { if([...(ev.dataTransfer?.items || [])].some(i => i.kind === "file")){ ev.preventDefault(); box2.classList.add("bw-drop"); } };
+  box2.ondragleave = ev => { if(ev.target === box2) box2.classList.remove("bw-drop"); };
+  box2.ondrop = ev => { box2.classList.remove("bw-drop"); const f = [...(ev.dataTransfer?.files || [])].find(x => /^image\//.test(x.type)); if(f){ ev.preventDefault(); bwEigenesBild(s, f); } };
   bwVorschlaege(s, false);
   // Bilder der nächsten Seite schon vorladen
   const n = BW.liste[BW.i + 1]; if(n && !BW.cache?.[n.k]) setTimeout(() => sucheVorschlaege(n.t).then(r => { BW.cache = BW.cache || {}; BW.cache[n.k + "|" + n.t] = r; }).catch(() => {}), 400);
+}
+async function bwEigenesBild(s, f){
+  try{ const [klein, gross] = await Promise.all([bildVerkleinern(f, [480,400,.62]), bildVerkleinern(f, [960,800,.6])]);
+    const basis = (CFG.teilenUrl || "https://djsunji.github.io/easyplay/").replace(/\/?$/, "/");
+    AE.bilder.set(s.k, {upload:{klein, gross}, vorschau:URL.createObjectURL(gross), alt:DATEN.bildindex[s.k] || null,
+      eintrag:[basis + bildPfad(s.k, true), s.t, "easyplay", "eigenes Bild", "", "e", bildPfad(s.k), bildPfad(s.k, true)]});
+    AE.freigabe.delete(s.k); bwSchlechtWeg(s.k); aenderungenZeigen(); if(BW.liste[BW.i] === s) bwZeigen(); melde("Eigenes Bild übernommen."); }catch(err){ melde(err.message, "fe"); }
+}
+/* Bild aus der Zwischenablage (Ctrl+V), z. B. aus ChatGPT kopiert */
+document.addEventListener("paste", ev => {
+  if(TAB !== "bildwechsel" || BW.ansicht !== "einzeln") return;
+  const f = [...(ev.clipboardData?.items || [])].filter(i => i.kind === "file" && /^image\//.test(i.type)).map(i => i.getAsFile()).find(Boolean);
+  const s = BW.liste[BW.i]; if(!f || !s) return;
+  ev.preventDefault(); bwEigenesBild(s, f);
+});
+/* Rasteransicht: 24 Seiten auf einmal, nur die unpassenden anklicken */
+function bwRaster(){
+  const box = $("#bwBox"); const start = Math.floor(BW.i / BW_PRO) * BW_PRO; BW.i = start;
+  const teil = BW.liste.slice(start, start + BW_PRO);
+  if(!teil.length){ box.innerHTML = `<div class="bw-leer"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><h3>Alles erledigt!</h3><p class="mu">In dieser Auswahl gibt es keine Seiten mehr.</p></div>`; return; }
+  const mitBild = teil.filter(s => bildEintrag(s.k)).length;
+  box.innerHTML = `<p class="mu klein bw-r-hilfe">Klicke die Bilder an, die <b>nicht</b> passen (werden rot). Dann «Alle übrigen passen» (Enter). Doppelklick oder «öffnen» zeigt eine Seite einzeln mit Vorschlägen und ChatGPT-Prompt.</p>
+    <div class="bw-raster">${teil.map(s => { const e = bildEintrag(s.k), a = AE.bilder.get(s.k), vd = bwVerdacht(s);
+      const src = a && a.vorschau ? a.vorschau : e ? (e[6] && !a ? B + e[6] : e[0]) : "";
+      const st = a ? "neu" : AE.freigabe.has(s.k) || (FREIGEGEBEN && FREIGEGEBEN.has(s.k)) ? "ok" : "";
+      return `<div class="bw-r${BW.markiert.has(s.k) ? " weg" : ""}${e ? "" : " leer"}${st ? " " + st : ""}" data-k="${esc(s.k)}" tabindex="0">
+        <div class="bild">${src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : '<span>kein Bild</span>'}<span class="x">✕</span></div>
+        <b>${esc(s.t)}</b><span class="mu">${esc(s.b)} · ${esc(s.kap)}</span>
+        <span class="grund">${e ? vd.g.map(x => `<i>${esc(x)}</i>`).join("") : "<i>ohne Bild</i>"}</span>
+        <button class="k klein bw-oeffnen" type="button">öffnen</button></div>`; }).join("")}</div>
+    <div class="bw-r-fuss"><button class="k" id="bwRZur" ${start ? "" : "disabled"}>‹ Vorherige</button>
+      <button class="k p" id="bwRGut" ${mitBild ? "" : "disabled"}>Alle übrigen passen <small>(Enter)</small></button>
+      <button class="k" id="bwRVor" ${start + BW_PRO < BW.liste.length ? "" : "disabled"}>Überspringen ›</button></div>`;
+  const zuEinzeln = k => { const j = BW.liste.findIndex(x => x.k === k); if(j < 0) return; BW.i = j; BW.ansicht = "einzeln";
+    try{ localStorage.setItem("ep-admin-bw-ansicht", "einzeln"); }catch(e){} $("#bwRasterAn").classList.remove("p"); $("#bwEinzelnAn").classList.add("p"); BW.markiert.clear(); bwZeigen(); };
+  $$("#bwBox .bw-r").forEach(el => { const k = el.dataset.k;
+    const img = el.querySelector("img"); if(img){ img.onload = () => { if(img.naturalWidth && img.naturalWidth < 300){ el.querySelector(".grund").insertAdjacentHTML("beforeend", "<i>sehr klein</i>"); } };
+      img.onerror = () => { el.querySelector(".grund").insertAdjacentHTML("beforeend", "<i>lädt nicht</i>"); el.classList.add("kaputt"); }; }
+    el.querySelector(".bw-oeffnen").onclick = ev => { ev.stopPropagation(); zuEinzeln(k); };
+    el.ondblclick = () => zuEinzeln(k);
+    el.onclick = () => { if(el.classList.contains("leer")) return zuEinzeln(k); BW.markiert.has(k) ? BW.markiert.delete(k) : BW.markiert.add(k); el.classList.toggle("weg", BW.markiert.has(k)); };
+    el.onkeydown = ev => { if(ev.key === " "){ ev.preventDefault(); el.click(); } }; });
+  $("#bwRZur").onclick = () => { BW.markiert.clear(); BW.i = Math.max(0, start - BW_PRO); bwZeigen(); };
+  $("#bwRVor").onclick = () => { BW.markiert.clear(); BW.i = start + BW_PRO; bwZeigen(); };
+  $("#bwRGut").onclick = () => {
+    let gut = 0, weg = 0;
+    for(const s of teil){ if(!bildEintrag(s.k)) continue;
+      if(BW.markiert.has(s.k)){ BW.schlecht.add(s.k); AE.freigabe.delete(s.k); weg++; }
+      else { AE.freigabe.add(s.k); BW.schlecht.delete(s.k); gut++; } }
+    bwSchlechtMerken(); BW.markiert.clear(); aenderungenZeigen();
+    const erster = teil[0].k; bwListe();
+    if(BW.liste[start] && BW.liste[start].k === erster) BW.i = start + BW_PRO; else BW.i = start;
+    melde(`${gut} als passend markiert${weg ? `, ${weg} als unpassend (Filter «als unpassend markiert»)` : ""}. Zum Veröffentlichen unten «Speichern».`);
+    bwZeigen(); window.scrollTo({top:0});
+  };
 }
 function bwGehe(d){ BW.i = Math.max(0, Math.min(BW.liste.length - 1, BW.i + d)); BW.suche = ""; bwZeigen(); }
 function bwWeiter(){ BW.i = Math.min(BW.i + 1, Math.max(0, BW.liste.length - 1)); BW.suche = ""; bwZeigen(); }
@@ -1252,6 +1376,7 @@ function bildPrompt(s, teile){
   ].filter(Boolean).join("\n\n");
 }
 function bwWaehle(s, v){
+  bwSchlechtWeg(s.k);
   AE.bilder.set(s.k, {eintrag:[v.url, s.t, v.urheber || "", v.lizenz || "Lizenz prüfen", v.quelle || "", v.code], vorschau:v.url, alt:DATEN.bildindex[s.k] || null});
   AE.freigabe.delete(s.k); aenderungenZeigen(); melde("Neues Bild gewählt."); bwWeiter();
 }
@@ -1334,6 +1459,8 @@ async function sucheVorschlaege(q, zwischen){
 }
 document.addEventListener("keydown", e => {
   if(TAB !== "bildwechsel" || /input|textarea|select/i.test((e.target && e.target.tagName) || "") || $("#dlg").open) return;
+  if(BW.ansicht === "raster"){ const id = e.key === "Enter" ? "#bwRGut" : e.key === "ArrowRight" ? "#bwRVor" : e.key === "ArrowLeft" ? "#bwRZur" : null;
+    const b = id && $(id); if(b && !b.disabled){ e.preventDefault(); b.click(); } return; }
   if(e.key === "ArrowRight"){ e.preventDefault(); bwGehe(1); }
   else if(e.key === "ArrowLeft"){ e.preventDefault(); bwGehe(-1); }
   else if(e.key === "Enter"){ const b = $("#bwGut"); if(b && !b.disabled){ e.preventDefault(); b.click(); } }
