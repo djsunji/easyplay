@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-09-10";
+window.EP_BUILD="ep-2026-11-09-11";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -1239,6 +1239,10 @@ a.big{text-decoration:none}
 .wbild figcaption a{color:var(--libacc)}
 .buchseite .wkarten{clear:none}
 @media (max-width:600px){.wbild{float:none;width:100%;margin:6px 0 14px;transform:none}}
+.wbild2{clear:both;margin:18px 0;background:var(--libpaper);border:2px solid var(--libline);border-radius:14px;padding:8px;box-shadow:0 10px 18px -12px rgba(80,50,10,.5)}
+.wbild2 img{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:8px;background:#EEE}
+.wbild2 figcaption{font-size:.72rem;line-height:1.35;color:color-mix(in srgb,var(--libink) 60%,transparent);margin-top:6px}
+.wbild2 figcaption a{color:var(--libacc)}
 
 /* Lumi und Milo lesen in der Bibliothek */
 .obuch{display:none!important}
@@ -7451,6 +7455,7 @@ function renderLibSeite(){
   $("#nochZufall") && ($("#nochZufall").onclick=zufallArtikel);
   $("#zumQuiz") && ($("#zumQuiz").onclick=()=>{ LIB.vonQuiz=false; S.libModus=false; document.documentElement.dataset.mode="spiel"; go("quiz"); scrollTo(0,0); });
   setTimeout(()=>{ if(LIB.seite===s.nr && LIB.buch===B.id){ try{ verlinkeSeite(s, B); }catch(e){ console.warn(e); } } },30);
+  setTimeout(bild2Zeigen, 0);
   if(s.typ!=="art") zeigeWikiBild(null, s.nr, [...[].concat(S.bilder[seiteKey(s)]||[]), s.wiki||null, s.titel!=="Allgemeines"?s.titel:null], s.titel!=="Allgemeines" ? s.titel+" "+(s.kap.qtitel||s.kap.titel) : (s.kap.qtitel||s.kap.titel), s.kap.id==="x_firmen", s);
   $("#textGen") && ($("#textGen").onclick=()=>{ $("#textGen").disabled=true; texteErzeugen([s], $("#textSt")); });
   vor && ($("#sVor").onclick=()=>blatt(vor.nr));
@@ -7720,6 +7725,15 @@ function txNeuZeichnen(keys){
     render();
     if(id){ const n=document.getElementById(id); if(n){ try{ n.focus({preventScroll:true}); n.setSelectionRange(von,bis); }catch(e){} scrollTo(0,sy); } }
   }, /seite$/.test(S.screen) ? 60 : 400); }
+/* Zweites Bild eines Artikels (bildindex-Schlüssel "z"+Seitenschlüssel), mitten im Text */
+function bild2Platz(k){ return `<figure class="wbild2" data-bk="${esc(k)}" hidden></figure>`; }
+function bild2Zeigen(){
+  const f=document.querySelector("figure.wbild2[data-bk]"); if(!f || f.dataset.fertig) return; f.dataset.fertig="1";
+  bildIndex().then(ix=>{ const e=ix["z"+f.dataset.bk]; if(!e || !nurHttps(e[0]) || !f.isConnected) return;
+    f.innerHTML=`<img src="${esc(lokalBild(e)||e[0])}" alt="${esc(e[1]||"")}" loading="lazy"><figcaption>${esc(e[1]||"")} · Bild: ${esc(e[2]||"Wikimedia Commons")}${e[3]?`, ${esc(e[3])}`:""}${nurHttps(e[4])?` · <a href="${esc(nurHttps(e[4]))}" target="_blank" rel="noopener">Quelle</a>`:""}</figcaption>`;
+    const img=f.querySelector("img"); img.onerror=()=>{ f.hidden=true; }; f.hidden=false;
+  }).catch(()=>{});
+}
 function fettHTML(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>"); }
 function satzListe(t){ return String(t).replace(/\s+/g," ").match(/[^.!?]+[.!?]+(\s|$)/g)||[String(t)]; }
 function textHTML(k){
@@ -7728,6 +7742,7 @@ function textHTML(k){
     return `<div class="beschr strukt">
       ${T.einleitung?`<p class="blead">${fettHTML(T.einleitung)}</p>`:""}
       ${Array.isArray(T.wichtigste)&&T.wichtigste.length?`<div class="bwichtig"><b>🎯 Das Wichtigste</b><ul>${T.wichtigste.map(w=>`<li>${fettHTML(w)}</li>`).join("")}</ul></div>`:""}
+      ${bild2Platz(k)}
       ${(T.abschnitte||[]).map(a=>`<section class="babschn"><h4><span class="bem">${esc(a.emoji||"📌")}</span>${esc(a.titel||"")}</h4><p>${fettHTML(a.text||"")}</p></section>`).join("")}
       ${Array.isArray(T.begriffe)&&T.begriffe.length?`<div class="bbegriffe"><b>📖 Wichtige Begriffe</b><dl>${T.begriffe.map(x=>`<dt>${esc(x.wort)}</dt><dd>${fettHTML(x.erklaerung)}</dd>`).join("")}</dl></div>`:""}
       ${T.gewusst&&(!Array.isArray(T.gewusst)||T.gewusst.length)?`<div class="bgewusst"><b>💡 Schon gewusst?</b>${Array.isArray(T.gewusst)?`<ul>${T.gewusst.map(g=>`<li>${fettHTML(g)}</li>`).join("")}</ul>`:`<p>${fettHTML(T.gewusst)}</p>`}</div>`:""}</div>`;
@@ -7737,7 +7752,7 @@ function textHTML(k){
   const lead=sz.slice(0,2).join(" "), rest=sz.slice(2,-1), letzt=sz.length>4?sz[sz.length-1]:"";
   const abs=[]; for(let i=0;i<rest.length;i+=3) abs.push(rest.slice(i,i+3).join(" "));
   if(!letzt && sz.length>2) abs.push(sz[sz.length-1]);
-  return `<div class="beschr strukt"><p class="blead">${fettHTML(lead)}</p>${abs.map(p=>`<section class="babschn"><p>${fettHTML(p)}</p></section>`).join("")}${letzt?`<div class="bgewusst"><b>💡 Schon gewusst?</b><p>${fettHTML(letzt)}</p></div>`:""}</div>`;
+  return `<div class="beschr strukt"><p class="blead">${fettHTML(lead)}</p>${bild2Platz(k)}${abs.map(p=>`<section class="babschn"><p>${fettHTML(p)}</p></section>`).join("")}${letzt?`<div class="bgewusst"><b>💡 Schon gewusst?</b><p>${fettHTML(letzt)}</p></div>`:""}</div>`;
 }
 function seiteKey(s){ const k=(s.kap?.qid||s.kap?.id||"")+"|"+String(s.titel).toLowerCase(); let h=2166136261; for(const c of k){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return "t"+(h>>>0).toString(36); }
 const TX = { run:false, done:0, err:0, ctrl:null, buch:"natur", kap:"" };

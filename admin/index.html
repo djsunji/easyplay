@@ -162,6 +162,9 @@ nav button.unter{padding-left:22px;font-size:13px}
 .bw h3{justify-content:center}
 .bw-link{max-width:760px;margin:10px auto 0;display:grid;gap:8px}
 .bw-umsch{display:inline-flex;gap:4px}
+.bw-slot{display:flex;gap:6px;justify-content:center;margin:6px 0 4px}
+.bw-slot .k{padding:5px 12px;font-size:13px}
+.bw-slot small{opacity:.75;font-weight:400}
 .bw-drop{outline:3px dashed var(--ak,#7c3aed);outline-offset:6px;border-radius:12px}
 .bw-r-hilfe{text-align:center;margin:4px 0 10px}
 .bw-raster{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
@@ -1153,7 +1156,7 @@ async function bilderSpeichern(){
 /* ======================= Bilder wechseln (eine Seite nach der anderen prüfen) ======================= */
 const BW = { buch:"", filter:"offen", i:0, liste:[], vorschlag:[], vs:0, suche:"", laedt:false,
   ansicht:(() => { try{ return localStorage.getItem("ep-admin-bw-ansicht") || "raster"; }catch(e){ return "raster"; } })(),
-  sort:"verdacht", markiert:new Set(),
+  sort:"verdacht", markiert:new Set(), slot:1,
   schlecht:new Set((() => { try{ return JSON.parse(localStorage.getItem("ep-admin-bw-schlecht") || "[]"); }catch(e){ return []; } })()) };
 const bwSchlechtMerken = () => { try{ localStorage.setItem("ep-admin-bw-schlecht", JSON.stringify([...BW.schlecht])); }catch(e){} };
 const bwSchlechtWeg = k => { if(BW.schlecht.delete(k)) bwSchlechtMerken(); };
@@ -1233,10 +1236,14 @@ TABS.bildwechsel = async () => {
 function bwStand(){ const g = DATEN.seiten.filter(s => istGeprueft(s.k)).length; const bis = BW.ansicht === "raster" ? ` bis ${zahl(Math.min(BW.liste.length, Math.floor(BW.i / BW_PRO) * BW_PRO + BW_PRO))}` : "";
   $("#bwStand").textContent = `${zahl(BW.liste.length ? (BW.ansicht === "raster" ? Math.floor(BW.i / BW_PRO) * BW_PRO : BW.i) + 1 : 0)}${bis} von ${zahl(BW.liste.length)} · geprüft ${zahl(g)} von ${zahl(DATEN.seiten.length)} (${proz(g, DATEN.seiten.length)})`; }
 const BW_PRO = 24;
+/* Bild 1 oder Bild 2 der aktuellen Seite (Bild 2 hat den Schlüssel "z"+Schlüssel, erscheint mitten im Artikel) */
+const BW_Z = new Map();
+function bwAktuell(){ const s0 = BW.liste[BW.i]; if(!s0 || BW.slot !== 2) return s0;
+  let z = BW_Z.get(s0.k); if(!z || z.basis !== s0){ z = Object.assign({}, s0, {k:"z" + s0.k, ok:s0.k, slot:2, basis:s0}); BW_Z.set(s0.k, z); } return z; }
 function bwZeigen(){
   bwStand();
   if(BW.ansicht === "raster") return bwRaster();
-  const s = BW.liste[BW.i], box = $("#bwBox");
+  const s = bwAktuell(), box = $("#bwBox");
   if(!s){ box.innerHTML = `<div class="bw-leer"><img src="../img/fragezeichen-zwinkern.webp" alt="" width="180" height="169"><h3>Alles erledigt!</h3><p class="mu">In dieser Auswahl gibt es keine Seiten mehr.</p></div>`; return; }
   const e = bildEintrag(s.k), a = AE.bilder.get(s.k);
   const src = a && a.vorschau ? a.vorschau : e ? (e[6] && !a ? B + (e[7] || e[6]) : e[0]) : "";
@@ -1245,7 +1252,7 @@ function bwZeigen(){
   BW.suche = BW.suche && BW.sucheFuer === s.k ? BW.suche : s.t;
   box.innerHTML = `<div class="bw">
     <div class="bw-kopf"><button class="k" id="bwZur" ${BW.i ? "" : "disabled"} title="Zurück (Pfeil links)">‹ Zurück</button>
-      <div class="bw-titel"><h2>${esc(s.t)}</h2><span class="mu klein">${esc(s.b)} · ${esc(s.kap)} · ${status}${e && vd.g.length ? ` · <span class="wa">${esc(vd.g.join(", "))}</span>` : ""}</span></div>
+      <div class="bw-titel"><h2>${esc(s.t)}</h2><div class="bw-slot"><button class="k${s.slot === 2 ? "" : " p"}" id="bwSlot1">Bild 1 <small>oben</small></button><button class="k${s.slot === 2 ? " p" : ""}" id="bwSlot2">Bild 2 <small>mitten im Text</small>${bildEintrag("z" + (s.ok || s.k)) ? " ✓" : ""}</button></div><span class="mu klein">${esc(s.b)} · ${esc(s.kap)} · ${status}${e && vd.g.length ? ` · <span class="wa">${esc(vd.g.join(", "))}</span>` : ""}</span></div>
       <button class="k" id="bwVor" ${BW.i < BW.liste.length - 1 ? "" : "disabled"} title="Weiter (Pfeil rechts)">Weiter ›</button></div>
     <div class="bw-bild">${src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer">` : '<div class="leer">kein Bild</div>'}</div>
     <p class="mu klein bw-info">${e ? `${esc(e[2] || "")} · ${esc(e[3] || "")}${e[4] ? ` · <a class="link" href="${esc(e[4])}" target="_blank" rel="noopener noreferrer">Quelle</a>` : ""}` : "&nbsp;"}</p>
@@ -1274,7 +1281,7 @@ function bwZeigen(){
   const linkLos = async () => { const u = $("#bwLinkUrl").value.trim(); if(!u) return; const box = $("#bwLinkErg");
     box.innerHTML = '<p class="mu" style="text-align:center">Lese Angaben zum Bild …</p>';
     let v; try{ v = await bildAusLink(u); }catch(err){ box.innerHTML = `<p class="fe" style="text-align:center">${esc(err.message)}</p>`; return; }
-    if(BW.liste[BW.i] !== s) return;
+    if(bwAktuell() !== s) return;
     box.innerHTML = `<div class="bw-treffer"><img src="${esc(v.thumb)}" alt="" referrerpolicy="no-referrer" id="bwLinkBild">
       <div class="felder"><label for="bwLU">Urheber</label><input id="bwLU" value="${esc(v.urheber)}"><label for="bwLL">Lizenz</label><input id="bwLL" value="${esc(v.lizenz)}"><label for="bwLQ">Quelle</label><input id="bwLQ" value="${esc(v.quelle)}"></div>
       <p class="mu klein" style="grid-column:1/-1;margin:0">${esc(v.quelleName)}${v.code === "g" ? " · Angaben bitte selbst prüfen und ergänzen" : ""}</p>
@@ -1288,6 +1295,15 @@ function bwZeigen(){
   box2.ondragover = ev => { if([...(ev.dataTransfer?.items || [])].some(i => i.kind === "file")){ ev.preventDefault(); box2.classList.add("bw-drop"); } };
   box2.ondragleave = ev => { if(ev.target === box2) box2.classList.remove("bw-drop"); };
   box2.ondrop = ev => { box2.classList.remove("bw-drop"); const f = [...(ev.dataTransfer?.files || [])].find(x => /^image\//.test(x.type)); if(f){ ev.preventDefault(); bwEigenesBild(s, f); } };
+  $("#bwSlot1").onclick = () => { if(BW.slot !== 1){ BW.slot = 1; bwZeigen(); } };
+  $("#bwSlot2").onclick = () => { if(BW.slot !== 2){ BW.slot = 2; bwZeigen(); } };
+  const pSetzen = t => { const ta = $("#bwPrompt"); if(!ta) return; ta.value = t; $("#bwPromptOffen").href = "https://chatgpt.com/?q=" + encodeURIComponent(t); };
+  pSetzen(bildPrompt(s, null));
+  artikelAktuell(s.ok || s.k).then(teile => { if(bwAktuell() === s && teile) pSetzen(bildPrompt(s, teile)); }).catch(() => {});
+  $("#bwPromptKopie").onclick = async () => { const t = $("#bwPrompt").value;
+    try{ await navigator.clipboard.writeText(t); }catch(err){ const ta = $("#bwPrompt"); ta.select(); document.execCommand("copy"); }
+    melde("Prompt kopiert."); };
+  $("#bwPromptHoch").onclick = () => $("#bwDatei").click();
   bwVorschlaege(s, false);
   // Bilder der nächsten Seite schon vorladen
   const n = BW.liste[BW.i + 1]; if(n && !BW.cache?.[n.k]) setTimeout(() => sucheVorschlaege(n.t).then(r => { BW.cache = BW.cache || {}; BW.cache[n.k + "|" + n.t] = r; }).catch(() => {}), 400);
@@ -1297,13 +1313,13 @@ async function bwEigenesBild(s, f){
     const basis = (CFG.teilenUrl || "https://djsunji.github.io/easyplay/").replace(/\/?$/, "/");
     AE.bilder.set(s.k, {upload:{klein, gross}, vorschau:URL.createObjectURL(gross), alt:DATEN.bildindex[s.k] || null,
       eintrag:[basis + bildPfad(s.k, true), s.t, "easyplay", "eigenes Bild", "", "e", bildPfad(s.k), bildPfad(s.k, true)]});
-    AE.freigabe.delete(s.k); bwSchlechtWeg(s.k); aenderungenZeigen(); if(BW.liste[BW.i] === s) bwZeigen(); melde("Eigenes Bild übernommen."); }catch(err){ melde(err.message, "fe"); }
+    AE.freigabe.delete(s.k); bwSchlechtWeg(s.k); aenderungenZeigen(); if(bwAktuell() === s) bwZeigen(); melde("Eigenes Bild übernommen."); }catch(err){ melde(err.message, "fe"); }
 }
 /* Bild aus der Zwischenablage (Ctrl+V), z. B. aus ChatGPT kopiert */
 document.addEventListener("paste", ev => {
   if(TAB !== "bildwechsel" || BW.ansicht !== "einzeln") return;
   const f = [...(ev.clipboardData?.items || [])].filter(i => i.kind === "file" && /^image\//.test(i.type)).map(i => i.getAsFile()).find(Boolean);
-  const s = BW.liste[BW.i]; if(!f || !s) return;
+  const s = bwAktuell(); if(!f || !s) return;
   ev.preventDefault(); bwEigenesBild(s, f);
 });
 /* Rasteransicht: 24 Seiten auf einmal, nur die unpassenden anklicken */
@@ -1352,9 +1368,9 @@ function bwWeiter(){ BW.i = Math.min(BW.i + 1, Math.max(0, BW.liste.length - 1))
 async function bwVorschlaege(s, neu){
   const key = s.k + "|" + BW.suche; BW.cache = BW.cache || {};
   if(neu || !BW.cache[key]){ $("#bwVs").innerHTML = '<p class="mu">Suche Bilder …</p>';
-    const zwischen = l => { if(BW.liste[BW.i] !== s || !l.length) return; BW.vorschlag = l; bwVorschlaegeZeigen(s, true); };
+    const zwischen = l => { if(bwAktuell() !== s || !l.length) return; BW.vorschlag = l; bwVorschlaegeZeigen(s, true); };
     try{ BW.cache[key] = await sucheVorschlaege(BW.suche, zwischen); }catch(e){ BW.cache[key] = []; } }
-  if(BW.liste[BW.i] !== s) return;
+  if(bwAktuell() !== s) return;
   BW.vorschlag = BW.cache[key]; bwVorschlaegeZeigen(s);
 }
 function bwVorschlaegeZeigen(s, laeuft){
@@ -1383,8 +1399,15 @@ const BP_NAME = {geschichte:"Geschichte", natur:"Natur", welt:"Welt", wissen:"Wi
 const BP_HAUPTSTADT = {"Afghanistan": "Kabul", "Ägypten": "Kairo", "Albanien": "Tirana", "Algerien": "Algier", "Andorra": "Andorra la Vella", "Angola": "Luanda", "Antigua und Barbuda": "Saint John's", "Äquatorialguinea": "Malabo", "Argentinien": "Buenos Aires", "Armenien": "Jerewan", "Aserbaidschan": "Baku", "Äthiopien": "Addis Abeba", "Australien": "Canberra", "Bahamas": "Nassau", "Bahrain": "Manama", "Bangladesch": "Dhaka", "Barbados": "Bridgetown", "Belarus": "Minsk", "Weissrussland": "Minsk", "Belgien": "Brüssel", "Belize": "Belmopan", "Benin": "Porto-Novo", "Bhutan": "Thimphu", "Bolivien": "Sucre", "Bosnien und Herzegowina": "Sarajevo", "Botswana": "Gaborone", "Brasilien": "Brasília", "Brunei": "Bandar Seri Begawan", "Bulgarien": "Sofia", "Burkina Faso": "Ouagadougou", "Burundi": "Gitega", "Chile": "Santiago de Chile", "China": "Peking", "Costa Rica": "San José", "Dänemark": "Kopenhagen", "Deutschland": "Berlin", "Dominica": "Roseau", "Dominikanische Republik": "Santo Domingo", "Dschibuti": "Dschibuti", "Ecuador": "Quito", "Elfenbeinküste": "Yamoussoukro", "El Salvador": "San Salvador", "Eritrea": "Asmara", "Estland": "Tallinn", "Eswatini": "Mbabane", "Fidschi": "Suva", "Finnland": "Helsinki", "Frankreich": "Paris", "Gabun": "Libreville", "Gambia": "Banjul", "Georgien": "Tiflis", "Ghana": "Accra", "Grenada": "Saint George's", "Griechenland": "Athen", "Guatemala": "Guatemala-Stadt", "Guinea": "Conakry", "Guinea-Bissau": "Bissau", "Guyana": "Georgetown", "Haiti": "Port-au-Prince", "Honduras": "Tegucigalpa", "Indien": "Neu-Delhi", "Indonesien": "Jakarta", "Irak": "Bagdad", "Iran": "Teheran", "Irland": "Dublin", "Island": "Reykjavík", "Israel": "Jerusalem", "Italien": "Rom", "Jamaika": "Kingston", "Japan": "Tokio", "Jemen": "Sanaa", "Jordanien": "Amman", "Kambodscha": "Phnom Penh", "Kamerun": "Yaoundé", "Kanada": "Ottawa", "Kap Verde": "Praia", "Kasachstan": "Astana", "Katar": "Doha", "Kenia": "Nairobi", "Kirgisistan": "Bischkek", "Kiribati": "South Tarawa", "Kolumbien": "Bogotá", "Komoren": "Moroni", "Kongo": "Brazzaville", "Demokratische Republik Kongo": "Kinshasa", "Kosovo": "Pristina", "Kroatien": "Zagreb", "Kuba": "Havanna", "Kuwait": "Kuwait-Stadt", "Laos": "Vientiane", "Lesotho": "Maseru", "Lettland": "Riga", "Libanon": "Beirut", "Liberia": "Monrovia", "Libyen": "Tripolis", "Liechtenstein": "Vaduz", "Litauen": "Vilnius", "Luxemburg": "Luxemburg", "Madagaskar": "Antananarivo", "Malawi": "Lilongwe", "Malaysia": "Kuala Lumpur", "Malediven": "Malé", "Mali": "Bamako", "Malta": "Valletta", "Marokko": "Rabat", "Marshallinseln": "Majuro", "Mauretanien": "Nouakchott", "Mauritius": "Port Louis", "Mexiko": "Mexiko-Stadt", "Mikronesien": "Palikir", "Moldau": "Chișinău", "Moldawien": "Chișinău", "Monaco": "Monaco", "Mongolei": "Ulaanbaatar", "Montenegro": "Podgorica", "Mosambik": "Maputo", "Myanmar": "Naypyidaw", "Namibia": "Windhoek", "Nauru": "Yaren", "Nepal": "Kathmandu", "Neuseeland": "Wellington", "Nicaragua": "Managua", "Niederlande": "Amsterdam", "Niger": "Niamey", "Nigeria": "Abuja", "Nordkorea": "Pjöngjang", "Nordmazedonien": "Skopje", "Norwegen": "Oslo", "Oman": "Maskat", "Österreich": "Wien", "Osttimor": "Dili", "Pakistan": "Islamabad", "Palau": "Ngerulmud", "Panama": "Panama-Stadt", "Papua-Neuguinea": "Port Moresby", "Paraguay": "Asunción", "Peru": "Lima", "Philippinen": "Manila", "Polen": "Warschau", "Portugal": "Lissabon", "Ruanda": "Kigali", "Rumänien": "Bukarest", "Russland": "Moskau", "Salomonen": "Honiara", "Sambia": "Lusaka", "Samoa": "Apia", "San Marino": "San Marino", "São Tomé und Príncipe": "São Tomé", "Saudi-Arabien": "Riad", "Schweden": "Stockholm", "Schweiz": "Bern", "Senegal": "Dakar", "Serbien": "Belgrad", "Seychellen": "Victoria", "Sierra Leone": "Freetown", "Simbabwe": "Harare", "Singapur": "Singapur", "Slowakei": "Bratislava", "Slowenien": "Ljubljana", "Somalia": "Mogadischu", "Spanien": "Madrid", "Sri Lanka": "Sri Jayewardenepura Kotte", "St. Kitts und Nevis": "Basseterre", "St. Lucia": "Castries", "St. Vincent und die Grenadinen": "Kingstown", "Südafrika": "Pretoria", "Sudan": "Khartum", "Südkorea": "Seoul", "Südsudan": "Juba", "Suriname": "Paramaribo", "Syrien": "Damaskus", "Tadschikistan": "Duschanbe", "Taiwan": "Taipeh", "Tansania": "Dodoma", "Thailand": "Bangkok", "Togo": "Lomé", "Tonga": "Nukuʻalofa", "Trinidad und Tobago": "Port of Spain", "Tschad": "N'Djamena", "Tschechien": "Prag", "Tunesien": "Tunis", "Türkei": "Ankara", "Turkmenistan": "Aschgabat", "Tuvalu": "Funafuti", "Uganda": "Kampala", "Ukraine": "Kiew", "Ungarn": "Budapest", "Uruguay": "Montevideo", "USA": "Washington, D.C.", "Vereinigte Staaten": "Washington, D.C.", "Usbekistan": "Taschkent", "Vanuatu": "Port Vila", "Vatikanstadt": "Vatikanstadt", "Venezuela": "Caracas", "Vereinigte Arabische Emirate": "Abu Dhabi", "Vereinigtes Königreich": "London", "Grossbritannien": "London", "Vietnam": "Hanoi", "Zentralafrikanische Republik": "Bangui", "Zypern": "Nikosia"};
 const BP_KANTON = {"Aargau": "Aarau", "Appenzell Ausserrhoden": "Herisau", "Appenzell Innerrhoden": "Appenzell", "Basel-Landschaft": "Liestal", "Basel-Stadt": "Basel", "Bern": "Bern", "Freiburg": "Freiburg", "Genf": "Genf", "Glarus": "Glarus", "Graubünden": "Chur", "Jura": "Delsberg", "Luzern": "Luzern", "Neuenburg": "Neuenburg", "Nidwalden": "Stans", "Obwalden": "Sarnen", "Schaffhausen": "Schaffhausen", "Schwyz": "Schwyz", "Solothurn": "Solothurn", "St. Gallen": "St. Gallen", "Tessin": "Bellinzona", "Thurgau": "Frauenfeld", "Uri": "Altdorf", "Waadt": "Lausanne", "Wallis": "Sitten", "Zug": "Zug", "Zürich": "Zürich"};
 /* Länder: Hauptstadt zeigen, Kantone: Hauptort */
-function bildIdee(s){
+function bildIdee(s, teile){
   const t = String(s.t || "").trim();
+  if(s.slot === 2){
+    const land = (s.b === "welt" || s.b === "politik") && BP_HAUPTSTADT[t];
+    if(land) return `Bildidee: Dies ist das zweite Bild zum Artikel über ${t} (das erste zeigt die Hauptstadt ${land}). Zeige deshalb eine typische, eindrückliche Landschaft oder einen bekannten Ort ausserhalb der Hauptstadt, oder eine typische Alltagsszene im Land, so wie es dort heute wirklich aussieht. Keine Flaggen, keine Landkarte.`;
+    if(/^Kanton\s/.test(t)) return `Bildidee: Dies ist das zweite Bild zum Artikel über den ${t} (das erste zeigt den Hauptort). Zeige deshalb eine typische Landschaft oder einen bekannten Ort im Kanton ausserhalb des Hauptorts, so wie er heute wirklich aussieht. Kein Wappen, keine Karte.`;
+    const ab = teile && (teile.abschnitte || []).find(a => a && a.titel);
+    return `Bildidee: Dies ist das zweite Bild zum Artikel, es steht mitten im Text. Es soll einen anderen Aspekt zeigen als das Hauptbild, zum Beispiel ein Detail, die Umgebung oder wie es im Alltag aussieht${ab ? `, gut passend zum Abschnitt «${ab.titel}»` : ""}. Ein klares Hauptmotiv. ${BP_BUCH[s.b] || ""}`;
+  }
   const land = (s.b === "welt" || s.b === "politik") && BP_HAUPTSTADT[t];
   if(land) return `Bildidee: Zeige ${land}, die Hauptstadt von ${t}, so wie sie heute wirklich aussieht: eine typische, sofort wiedererkennbare Stadtansicht mit dem bekanntesten Wahrzeichen der Stadt, dazu das echte Leben auf Strassen und Plätzen und die landestypische Architektur. Tageslicht, klare Sicht. Keine Flaggen, keine Landkarte.`;
   const k = t.replace(/^Kanton\s+/, "");
@@ -1399,7 +1422,7 @@ function bildPrompt(s, teile){
   return [
     `Erstelle ein fotorealistisches Bild zum Thema «${s.t}» (Bereich: ${BP_NAME[s.b] || s.b}, Kapitel: ${s.kap}) für ein Online-Lexikon.`,
     kontext ? `Worum es geht: ${kontext}` : "",
-    bildIdee(s),
+    bildIdee(s, teile),
     "Stil: fotorealistisch, wie ein hochwertiges Foto (natürliches Licht, echte Farben, scharfe Details, realistische Tiefenschärfe). Keine Illustration, kein Comic, kein 3D-Render, keine Verniedlichung, keine übertriebenen Farben.",
     "Format: Querformat 3:2, Motiv nicht am Rand abgeschnitten.",
     "Wichtig: sachlich richtig. Kein Text, keine Schrift, keine Logos, kein Wasserzeichen. Kein Blut, keine Verletzten, keine nackte Haut."
