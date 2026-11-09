@@ -9,7 +9,7 @@ on:
     branches: [main]
     paths: ["bildindex.json"]
   workflow_run:
-    workflows: ["Bilder für die Bibliothek finden"]
+    workflows: ["Bilder für die Bibliothek finden", "Zweite Bilder für die Bibliothek finden"]
     types: [completed]
 permissions:
   contents: read
