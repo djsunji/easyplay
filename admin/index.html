@@ -8,11 +8,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>easyplay Verwaltung</title>
 <link rel="icon" type="image/webp" href="../img/fragezeichen.webp">
+<script>try{const t=localStorage.getItem("ep-admin-thema");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f5f3fb;--fl:#fff;--tx:#1d1b2e;--mu:#6b6880;--li:#e2def0;--ak:#5b45e8;--v:#8A3FE0;--b:#3D5AFE;--grad:linear-gradient(135deg,#8A3FE0,#3D5AFE);--ok:#1d7a3a;--wa:#a86400;--fe:#b3261e;--zb:#fafafb;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#121126;--fl:#1b1a33;--tx:#ecebf7;--mu:#a3a1bd;--li:#2f2d4d;--ak:#a08cff;--ok:#5cc47e;--wa:#e0a34a;--fe:#ff7a70;--zb:#202028;color-scheme:dark}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121126;--fl:#1b1a33;--tx:#ecebf7;--mu:#a3a1bd;--li:#2f2d4d;--ak:#a08cff;--ok:#5cc47e;--wa:#e0a34a;--fe:#ff7a70;--zb:#202028;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121126;--fl:#1b1a33;--tx:#ecebf7;--mu:#a3a1bd;--li:#2f2d4d;--ak:#a08cff;--ok:#5cc47e;--wa:#e0a34a;--fe:#ff7a70;--zb:#202028;color-scheme:dark}
+#themaKnopf{width:36px;height:36px;border-radius:50%;border:1px solid var(--li);background:var(--bg);color:var(--tx);display:grid;place-items:center;cursor:pointer;padding:0;flex:none}
+#themaKnopf:hover{border-color:var(--ak);color:var(--ak)}
+#themaKnopf svg{width:19px;height:19px}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:8px 16px;border-bottom:1px solid var(--li);background:var(--fl);position:sticky;top:0;z-index:5;min-height:48px}
@@ -292,7 +297,20 @@ dialog:has(.po-schreiben){max-width:800px}
 <header>
   <span class="marke-kopf"><img class="fz" id="kopfFz" src="../img/fragezeichen.webp" alt="" width="180" height="169"><img class="wm" src="../img/logo.webp" alt="easyplay" width="1100" height="294"><span class="pill">Verwaltung</span></span>
   <div id="status"></div>
+  <button id="themaKnopf" type="button" aria-label="Tag- oder Nachtmodus" title="Tag- oder Nachtmodus"></button>
 </header>
+<script>
+(function(){
+  const SONNE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+  const MOND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>';
+  const knopf = document.getElementById("themaKnopf"), html = document.documentElement;
+  const dunkel = () => html.dataset.theme ? html.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const zeigen = () => { const d = dunkel(); knopf.innerHTML = d ? SONNE : MOND; knopf.title = d ? "Zum Tagmodus wechseln" : "Zum Nachtmodus wechseln"; knopf.setAttribute("aria-label", knopf.title); };
+  knopf.onclick = () => { const neu = dunkel() ? "light" : "dark"; html.dataset.theme = neu; try{ localStorage.setItem("ep-admin-thema", neu); }catch(e){} zeigen(); };
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", zeigen);
+  zeigen();
+})();
+</script>
 <div id="rahmen">
 <nav id="tabs">
   <div class="gr">Überblick</div>
