@@ -1226,15 +1226,15 @@ function bwVorschlaegeZeigen(s, laeuft){
 }
 /* Prompt für ChatGPT: aus Titel, Buch, Kapitel und dem Anfang des Artikels ein Bildauftrag */
 const BP_BUCH = {
-  geschichte: "Historisch genaue Szene aus der passenden Zeit: Kleidung, Gebäude, Werkzeuge und Landschaft stimmen mit der Epoche überein.",
-  natur: "Naturgetreu und biologisch korrekt, im typischen Lebensraum, mit natürlichen Farben und Proportionen.",
-  welt: "Geografisch korrekt: typische Landschaft, Wahrzeichen, Bauweise und Alltag dieses Ortes.",
-  wissen: "Wissenschaftlich korrekt und anschaulich. Abstrakte Begriffe als einfache, sofort verständliche Bildidee zeigen.",
-  politik: "Sachlich und neutral, ohne Parteisymbole, Fahnenkult oder politische Botschaft. Religionen respektvoll darstellen.",
-  alltag: "Lebensnah und freundlich, wie man es aus dem Alltag kennt.",
-  leben: "Lebensnah, ruhig und ermutigend, mit Kindern oder Familien in alltäglichen Situationen.",
-  geld: "Anschaulich mit Schweizer Bezug (zum Beispiel Schweizer Franken, Schweizer Umgebung), ohne echte Firmenlogos.",
-  schweiz: "Typisch Schweiz: Landschaft, Orte, Bauten und Menschen so, wie sie in der Schweiz wirklich aussehen."
+  geschichte: "Realistische, historisch genaue Rekonstruktion, als wäre ein Fotograf damals dabei gewesen: echte Kleidung, Gebäude, Werkzeuge und Landschaft der Epoche. Bei Funden, Bauwerken oder Gegenständen, die es heute noch gibt: so, wie sie heute wirklich aussehen.",
+  natur: "Wie ein professionelles Naturfoto: das echte Tier, die echte Pflanze oder Naturerscheinung im natürlichen Lebensraum, mit echten Farben, Proportionen und Details.",
+  welt: "Wie ein echtes Reise-, Natur- oder Reportagefoto: Orte, Landschaften, Bauwerke, Menschen oder Tiere so, wie sie dort heute wirklich aussehen.",
+  wissen: "Wie ein echtes Foto oder eine wissenschaftlich exakte Aufnahme (zum Beispiel Labor, Mikroskop, Teleskop, Technik im Einsatz). Abstrakte Begriffe mit einer realen, typischen Situation zeigen, in der man das Prinzip sieht.",
+  politik: "Wie ein sachliches Reportagefoto: echte Orte, Gebäude, Gegenstände oder Situationen. Neutral, ohne Parteisymbole oder politische Botschaft. Religionen respektvoll und echt zeigen.",
+  alltag: "Wie ein echtes Foto aus dem Alltag: realistische Menschen, Orte und Gegenstände.",
+  leben: "Wie ein echtes Foto einer realistischen Alltagssituation.",
+  geld: "Wie ein echtes Foto mit Schweizer Bezug (zum Beispiel echte Schweizer Franken, Schweizer Umgebung), ohne Firmenlogos.",
+  schweiz: "Wie ein echtes Foto aus der Schweiz: Landschaft, Orte, Bauten und Menschen so, wie sie dort wirklich aussehen."
 };
 const BP_NAME = {geschichte:"Geschichte", natur:"Natur", welt:"Welt", wissen:"Wissen", politik:"Politik & Gesellschaft", alltag:"Alltag & Kultur", leben:"Leben", geld:"Geld", schweiz:"Schweiz"};
 function bildPrompt(s, teile){
@@ -1243,12 +1243,12 @@ function bildPrompt(s, teile){
   if(teile){ const ein = rein(teile.einleitung); const wi = (teile.wichtigste || []).slice(0, 3).map(rein).join(" ");
     kontext = (ein + " " + wi).trim(); if(kontext.length > 650) kontext = kontext.slice(0, 650).replace(/\s\S*$/, "") + " …"; }
   return [
-    `Erstelle ein Bild für den Lexikon-Artikel «${s.t}» (Buch: ${BP_NAME[s.b] || s.b}, Kapitel: ${s.kap}) einer Lern-Website für Kinder und Jugendliche von 6 bis 16 Jahren in der Schweiz.`,
-    kontext ? `Worum es im Artikel geht: ${kontext}` : "",
-    `Bildidee: Zeige das Thema so, dass man auf einen Blick erkennt, worum es geht. Ein klares Hauptmotiv in der Bildmitte, ruhiger Hintergrund, keine überladene Szene. ${BP_BUCH[s.b] || ""}`,
-    "Stil: hochwertige, detailreiche digitale Illustration wie in einem modernen Kinder-Sachbuch, warme und leuchtende Farben, weiches Licht, freundliche Stimmung, sachlich richtig.",
+    `Erstelle ein fotorealistisches Bild zum Thema «${s.t}» (Bereich: ${BP_NAME[s.b] || s.b}, Kapitel: ${s.kap}) für ein Online-Lexikon.`,
+    kontext ? `Worum es geht: ${kontext}` : "",
+    `Bildidee: Zeige das Thema authentisch und so, wie es in Wirklichkeit aussieht, so dass man auf einen Blick erkennt, worum es geht. Ein klares Hauptmotiv. ${BP_BUCH[s.b] || ""}`,
+    "Stil: fotorealistisch, wie ein hochwertiges Foto (natürliches Licht, echte Farben, scharfe Details, realistische Tiefenschärfe). Keine Illustration, kein Comic, kein 3D-Render, keine Verniedlichung, keine übertriebenen Farben.",
     "Format: Querformat 3:2, Motiv nicht am Rand abgeschnitten.",
-    "Wichtig: kein Text, keine Schrift, keine Buchstaben, keine Zahlen, keine Logos, kein Wasserzeichen. Kindgerecht: keine Gewalt, kein Blut, keine Angst machenden Darstellungen, keine nackte Haut."
+    "Wichtig: sachlich richtig. Kein Text, keine Schrift, keine Logos, kein Wasserzeichen. Kein Blut, keine Verletzten, keine nackte Haut."
   ].filter(Boolean).join("\n\n");
 }
 function bwWaehle(s, v){
