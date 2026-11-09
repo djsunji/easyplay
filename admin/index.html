@@ -186,7 +186,10 @@ nav button.unter{padding-left:22px;font-size:13px}
 .bw-r:hover .bw-oeffnen,.bw-r:focus-within .bw-oeffnen{opacity:1}
 .bw-r-fuss{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0 6px;position:sticky;bottom:8px}
 .bw-r-fuss .k{padding:10px 18px;font-size:15px;box-shadow:0 4px 14px rgba(0,0,0,.15)}
-.bw-prompt{max-width:760px;margin:14px auto 0;display:grid;gap:8px;text-align:left}
+.bw-prompts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;max-width:1100px;margin:8px auto 0}
+.bw-prompt{display:grid;gap:8px;text-align:left;padding:10px;border-radius:14px;border:2px solid transparent}
+.bw-prompt.an{border-color:var(--ak,#7c3aed)}
+.bw-prompt h4{margin:0;font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.bw-prompt h4 small{font-weight:400;opacity:.75}.bw-prompt h4 span{margin-left:auto;font-size:12px;font-weight:600}
 .bw-prompt textarea{width:100%;min-height:190px;box-sizing:border-box;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;padding:10px 12px;border-radius:12px;border:1px solid var(--li);background:var(--fl);color:inherit;resize:vertical}
 .bw-prompt .knoepfe{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .bw-link .zeile{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
@@ -1238,8 +1241,8 @@ function bwStand(){ const g = DATEN.seiten.filter(s => istGeprueft(s.k)).length;
 const BW_PRO = 24;
 /* Bild 1 oder Bild 2 der aktuellen Seite (Bild 2 hat den Schlüssel "z"+Schlüssel, erscheint mitten im Artikel) */
 const BW_Z = new Map();
-function bwAktuell(){ const s0 = BW.liste[BW.i]; if(!s0 || BW.slot !== 2) return s0;
-  let z = BW_Z.get(s0.k); if(!z || z.basis !== s0){ z = Object.assign({}, s0, {k:"z" + s0.k, ok:s0.k, slot:2, basis:s0}); BW_Z.set(s0.k, z); } return z; }
+function bwZwei(s0){ let z = BW_Z.get(s0.k); if(!z || z.basis !== s0){ z = Object.assign({}, s0, {k:"z" + s0.k, ok:s0.k, slot:2, basis:s0}); BW_Z.set(s0.k, z); } return z; }
+function bwAktuell(){ const s0 = BW.liste[BW.i]; if(!s0 || BW.slot !== 2) return s0; return bwZwei(s0); }
 function bwZeigen(){
   bwStand();
   if(BW.ansicht === "raster") return bwRaster();
@@ -1264,10 +1267,12 @@ function bwZeigen(){
       <div class="zeile"><input type="url" id="bwLinkUrl" placeholder="Link zum Bild einfügen (Wikipedia, Commons, Openverse oder direkte Bildadresse)" autocomplete="off"><button class="k" id="bwLinkLos">Übernehmen</button></div>
       <p class="mu klein" style="margin:0;text-align:center">Bei Wikipedia, Wikimedia Commons und Openverse werden Urheber, Lizenz und Quelle automatisch eingetragen.</p>
       <div id="bwLinkErg"></div></div>
-    <div class="bw-prompt"><h3 style="margin:8px 0 0;text-align:center">Prompt für ChatGPT</h3>
-      <textarea id="bwPrompt" readonly spellcheck="false">${esc(bildPrompt(s, null))}</textarea>
-      <div class="knoepfe"><button class="k p" id="bwPromptKopie">Prompt kopieren</button><a class="k" id="bwPromptOffen" href="#" target="_blank" rel="noopener noreferrer">In ChatGPT öffnen</a><button class="k" id="bwPromptHoch">Fertiges Bild hochladen</button></div>
-      <p class="mu klein" style="margin:0;text-align:center">Bild in ChatGPT erstellen, dort mit Rechtsklick «Bild kopieren» und hier mit <b>Ctrl+V</b> (Mac: Cmd+V) einfügen. Hineinziehen geht auch.</p></div>
+    <h3 style="margin:14px 0 0;text-align:center">Prompts für ChatGPT</h3>
+    <div class="bw-prompts">${[1, 2].map(n => { const sx = n === 1 ? (s.basis || s) : bwZwei(s.basis || s); const hat = !!bildEintrag(sx.k);
+      return `<div class="bw-prompt${BW.slot === n ? " an" : ""}" data-slot="${n}"><h4>Bild ${n} <small>${n === 1 ? "oben" : "mitten im Text"}</small> <span class="${hat ? "mu" : "wa"}">${hat ? "hat ein Bild" : "fehlt noch"}</span></h4>
+      <textarea class="bwPrompt" readonly spellcheck="false">${esc(bildPrompt(sx, null))}</textarea>
+      <div class="knoepfe"><button class="k p bwPromptKopie">Kopieren</button><a class="k bwPromptOffen" href="#" target="_blank" rel="noopener noreferrer">In ChatGPT öffnen</a><button class="k bwPromptHoch">Bild ${n} hochladen</button></div></div>`; }).join("")}</div>
+    <p class="mu klein" style="margin:4px 0 0;text-align:center">Bild in ChatGPT erstellen, dort mit Rechtsklick «Bild kopieren» und hier mit <b>Ctrl+V</b> (Mac: Cmd+V) einfügen; es gilt für das oben gewählte Bild (${BW.slot === 2 ? "Bild 2" : "Bild 1"}). Hineinziehen geht auch.</p>
     <input type="file" id="bwDatei" accept="image/*" hidden>
     <p class="mu klein" style="margin-top:10px">Eigene Bilder werden auf 480 und 960 Pixel verkleinert. Vorschläge von Google und Openverse: Lizenz selbst prüfen.</p>
   </div>`;
@@ -1297,13 +1302,14 @@ function bwZeigen(){
   box2.ondrop = ev => { box2.classList.remove("bw-drop"); const f = [...(ev.dataTransfer?.files || [])].find(x => /^image\//.test(x.type)); if(f){ ev.preventDefault(); bwEigenesBild(s, f); } };
   $("#bwSlot1").onclick = () => { if(BW.slot !== 1){ BW.slot = 1; bwZeigen(); } };
   $("#bwSlot2").onclick = () => { if(BW.slot !== 2){ BW.slot = 2; bwZeigen(); } };
-  const pSetzen = t => { const ta = $("#bwPrompt"); if(!ta) return; ta.value = t; $("#bwPromptOffen").href = "https://chatgpt.com/?q=" + encodeURIComponent(t); };
-  pSetzen(bildPrompt(s, null));
-  artikelAktuell(s.ok || s.k).then(teile => { if(bwAktuell() === s && teile) pSetzen(bildPrompt(s, teile)); }).catch(() => {});
-  $("#bwPromptKopie").onclick = async () => { const t = $("#bwPrompt").value;
-    try{ await navigator.clipboard.writeText(t); }catch(err){ const ta = $("#bwPrompt"); ta.select(); document.execCommand("copy"); }
-    melde("Prompt kopiert."); };
-  $("#bwPromptHoch").onclick = () => $("#bwDatei").click();
+  const s1 = s.basis || s, sz = [s1, bwZwei(s1)];
+  document.querySelectorAll(".bw-prompt[data-slot]").forEach(box => { const n = +box.dataset.slot, sx = sz[n - 1], ta = box.querySelector("textarea");
+    const setzen = t => { ta.value = t; box.querySelector(".bwPromptOffen").href = "https://chatgpt.com/?q=" + encodeURIComponent(t); };
+    setzen(bildPrompt(sx, null));
+    artikelAktuell(s1.k).then(teile => { if(bwAktuell() === s && teile && ta.isConnected) setzen(bildPrompt(sx, teile)); }).catch(() => {});
+    box.querySelector(".bwPromptKopie").onclick = async () => { try{ await navigator.clipboard.writeText(ta.value); }catch(err){ ta.select(); document.execCommand("copy"); } melde(`Prompt für Bild ${n} kopiert.`); };
+    box.querySelector(".bwPromptHoch").onclick = () => { if(BW.slot !== n){ BW.slot = n; bwZeigen(); } $("#bwDatei").click(); };
+  });
   bwVorschlaege(s, false);
   // Bilder der nächsten Seite schon vorladen
   const n = BW.liste[BW.i + 1]; if(n && !BW.cache?.[n.k]) setTimeout(() => sucheVorschlaege(n.t).then(r => { BW.cache = BW.cache || {}; BW.cache[n.k + "|" + n.t] = r; }).catch(() => {}), 400);
