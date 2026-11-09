@@ -2279,8 +2279,8 @@ html body.ep-app .ap-karu-punkte i.an{background:linear-gradient(90deg,#FFE680,#
    Neue Knopf-Klassen in den Listen GOLD, WEISS, PILLE eintragen. ===== */
 (function(){
   const G = "img/grafik/", E = G + "entdecken/", W = "html body #app .xseite";
-  const GOLD = [".spr-knopf", ".fq-weiter", ".xmt-weiter", ".xt-btn", ".xf-btn", ".xfo-btn", ".xel-btn.hell", ".xof-btn.xof-haupt", ".wdh-btn2", ".fq-start"];
-  const WEISS = [".xmt-zur", ".hlf-btn", ".xof-btn:not(.xof-haupt)"];
+  const GOLD = [".spr-knopf", ".fq-weiter", ".xmt-weiter", ".xt-btn", ".xf-btn:not(.xf-art)", ".xfo-btn", ".xel-btn.hell", ".xof-btn.xof-haupt", ".wdh-btn2", ".fq-start"];
+  const WEISS = [".xmt-zur", ".xf-btn.xf-art", ".hlf-btn", ".xof-btn:not(.xof-haupt)"];
   const PILLE = [".xel-btn:not(.hell)", ".xfo-tab", ".xa-tab", ".xel-tab", ".alb-chip", ".xf-ab", ".xs-schalter", ".hlf-sw", ".fq-figwahl", ".fq-plus", ".fq-seg button", ".hlf-k button:not(.hlf-btn)", ".spr-stufen button", ".spr-richtung button", ".spr-modi button", ".xmt-seg button", ".xmt-chip", ".xmt-opt"];
   const GOLD2 = [".spr-knopf", ".fq-weiter", ".spr-zur", ".xmt-los", ".xsw-los"];
   const sel = (l, z = "") => l.map(k => `${W} ${k}${z}`).join(",");

@@ -253,6 +253,35 @@ function datumText(t){
   const v = t.von === t.bis ? langDatum(t.von) : `${kurzDatum(t.von)} bis ${langDatum(t.bis)}`;
   return t.f.ca ? "ca. " + v : v;
 }
+/* Artikel in der Bibliothek zu jedem Fest (erster Titel, den es gibt) */
+const ARTIKEL = { neujahr:["Neujahr"], dreikoenig:["Dreikönigstag","Dreikönigskuchen"], "fasnacht-lu":["Luzerner Fasnacht","Fasnacht"], "fasnacht-bs":["Basler Fasnacht","Fasnacht"],
+  sechselaeuten:["Sechseläuten"], ostern:["Ostern"], muttertag:["Muttertag"], auffahrt:["Auffahrt"], pfingsten:["Pfingsten"], augustfeier:["Schweizer Bundesfeiertag","Schweizer Bundesfeier"],
+  knabenschiessen:["Knabenschiessen"], alpabzug:["Alpabzug","Erntedankfest"], raebeliechtli:["Räbeliechtli"], martini:["Martinstag"], zibelemaerit:["Zibelemärit"],
+  samichlaus:["Samichlaus","Nikolaus von Myra"], advent:["Advent"], weihnachten:["Weihnachten"], silvester:["Silvester","Silvesterchlausen"],
+  fruehling:["Frühling"], sommer:["Sommer"], herbst:["Herbst","Herbstfärbung"], winter:["Winter","Winterruhe"] };
+const artikelCache = {};
+function artikelFuer(id){
+  if(id in artikelCache) return artikelCache[id];
+  let treffer = null;
+  try{
+    const namen = (ARTIKEL[id] || []).map(x => x.toLowerCase());
+    for(const name of namen){
+      let erste = null;
+      for(const B of (typeof BUECHER !== "undefined" ? BUECHER : [])){ for(const sd of buchDaten(B.id).seiten){ if(String(sd.titel).toLowerCase() !== name) continue;
+        const gut = sd.typ === "art" || sd.teile || (typeof hatText === "function" && hatText(seiteKey(sd)));
+        if(gut){ treffer = [B.id, sd.nr]; break; } if(!erste) erste = [B.id, sd.nr]; } if(treffer) break; }
+      treffer = treffer || erste; if(treffer) break;
+    }
+  }catch(e){ treffer = null; }
+  if(treffer) artikelCache[id] = treffer;   // nur Treffer merken, die Bücher sind beim ersten Zeichnen evtl. noch nicht geladen
+  return treffer;
+}
+function artikelOeffnen(id){
+  const t = artikelFuer(id); if(!t) return;
+  LIB.buch = t[0]; LIB.seite = t[1]; LIB.zufall = false;
+  if(!S.libModus){ S.libModus = true; document.documentElement.dataset.mode = "lib"; }
+  go("libseite"); scrollTo(0, 0);
+}
 function heldHTML(t, n){
   const f = t.f, laeuft = n >= t.von && n <= t.bis, vor = t.von - n;
   const j = aus(n).j, hat = hatAbz(f.id, j);
@@ -265,7 +294,7 @@ function heldHTML(t, n){
       <h2 id="xfHeldT"><span class="xf-held-emo" aria-hidden="true">${window.EP_GI?EP_GI("feste",f.id,f.emo):f.emo}</span> ${A.h(f.name)}</h2>
       <p>${A.h(f.text)}</p>
       ${f.ca ? `<p class="xf-ca">${A.h(f.ca)}</p>` : ""}
-      <div class="xf-knoepfe"><button type="button" class="xf-btn" data-quiz="${f.id}">🎉 Fest-Quiz starten</button>
+      <div class="xf-knoepfe"><button type="button" class="xf-btn" data-quiz="${f.id}">🎉 Fest-Quiz starten</button>${artikelFuer(f.id) ? `<button type="button" class="xf-btn xf-art" data-artikel="${f.id}"><img src="img/grafik/diverse/buch.webp" alt="" width="22" height="22"> Artikel in der Bibliothek</button>` : ""}
         <span class="xf-status">${hat ? `🏅 Abzeichen ${j} gesammelt` : "🏅 Abzeichen ab 60 % richtig"}</span></div>
     </div>
     <div class="xf-cd" role="img" aria-label="${laeuft ? "Das Fest ist jetzt" : `Noch ${vor} ${vor === 1 ? "Tag" : "Tage"}`}"><b>${gross}</b><small>${klein}</small></div>
@@ -275,7 +304,7 @@ function saisonHTML(n){
   const s = jahreszeit(n), na = aus(s.naechsteAb);
   return `<section class="xf-saison" style="background:${s.farbe}" aria-label="Jahreszeit">
     <span class="xf-saison-emo" aria-hidden="true">${s.emo}</span>
-    <div><b>Jetzt ist ${s.name}</b><span>${A.h(s.text)}</span><small>${s.naechste.emo} ${s.naechste.name} beginnt in ${s.inTagen} ${s.inTagen === 1 ? "Tag" : "Tagen"} (${na.t}. ${MOL[na.m - 1]})</small></div>
+    <div><b>Jetzt ist ${s.name}</b><span>${A.h(s.text)}</span><small>${s.naechste.emo} ${s.naechste.name} beginnt in ${s.inTagen} ${s.inTagen === 1 ? "Tag" : "Tagen"} (${na.t}. ${MOL[na.m - 1]})</small>${artikelFuer(s.id) ? `<button type="button" class="xf-btn xf-art xf-art-klein" data-artikel="${s.id}"><img src="img/grafik/diverse/buch.webp" alt="" width="20" height="20"> ${A.h(s.name)} in der Bibliothek</button>` : ""}</div>
     <ul class="xf-saisons">${SAISON.map(x => `<li class="${x.id === s.id ? "an" : ""}"><span aria-hidden="true">${x.emo}</span>${x.name}<small>ab ${x.t}. ${MO[x.m - 1]}</small></li>`).join("")}</ul>
   </section>`;
 }
@@ -318,11 +347,13 @@ function seite(box){
 }
 function binden(box){
   box.querySelectorAll("[data-quiz]").forEach(b => b.onclick = () => quizStarten(b.dataset.quiz));
+  box.querySelectorAll("[data-artikel]").forEach(b => b.onclick = () => artikelOeffnen(b.dataset.artikel));
   box.querySelectorAll("[data-fest]").forEach(b => b.onclick = () => {
     wahl = b.dataset.fest; A.ton("klick");
     const n = heuteNr(), akt = aktivTermin(n), t = (akt && akt.f.id === wahl) ? akt : naechsterTermin(n, wahl);
     const hb = box.querySelector(".xf-heldbox"); if(!hb || !t) return;
     hb.innerHTML = heldHTML(t, n); hb.querySelectorAll("[data-quiz]").forEach(q => q.onclick = () => quizStarten(q.dataset.quiz));
+    hb.querySelectorAll("[data-artikel]").forEach(q => q.onclick = () => artikelOeffnen(q.dataset.artikel));
     box.querySelectorAll(".xf-karte").forEach(k => k.classList.toggle("gewaehlt", k.dataset.fest === wahl));
     try{ const r = hb.getBoundingClientRect(); if(r.top < 0 || r.top > innerHeight * .5) hb.scrollIntoView({behavior:A.ruhig() ? "auto" : "smooth", block:"start"}); }catch(e){}
     try{ hb.querySelector(".xf-btn").focus({preventScroll:true}); }catch(e){}
@@ -346,6 +377,9 @@ css.textContent = `
 .xf-knoepfe{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:auto;padding-top:4px}
 .xf-btn{border:0;border-radius:999px;background:#fff;color:#1B2240;font:800 1rem "Lexend",system-ui,sans-serif;padding:12px 20px;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.18);min-height:44px}
 .xf-btn:hover{transform:translateY(-1px)}
+.xf-art{display:inline-flex;align-items:center;gap:8px}
+.xf-art img{width:22px;height:22px;object-fit:contain}
+.xf-saison .xf-art-klein{margin-top:8px;align-self:flex-start;font-size:.85rem;min-height:38px;padding:6px 14px}
 .xf-btn:focus-visible,.xf-karte:focus-visible,.xf-ab:focus-visible{outline:3px solid #FFE34D;outline-offset:3px}
 .xf-status{font-size:.85rem;font-weight:700;color:#fff;opacity:.95}
 .xf-cd{position:relative;flex:0 0 auto;align-self:center;width:104px;height:104px;border-radius:26px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-sizing:border-box}
