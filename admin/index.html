@@ -1188,10 +1188,11 @@ function bwVerdacht(s){
 }
 function bwSortieren(l){
   if(BW.sort === "buch") return l;
-  const v = s => bwVerdacht(s).p;
-  if(BW.sort === "ohne") return l.map((s, i) => [s, i]).sort((a, b) => (bildEintrag(a[0].k) ? 1 : 0) - (bildEintrag(b[0].k) ? 1 : 0) || a[1] - b[1]).map(x => x[0]);
-  return l.map((s, i) => [s, i]).sort((a, b) => { const ea = bildEintrag(a[0].k) ? 0 : 1, eb = bildEintrag(b[0].k) ? 0 : 1;
-    return ea - eb || v(b[0]) - v(a[0]) || a[1] - b[1]; }).map(x => x[0]);
+  // Reihenfolge: 0 ohne Bild, 1 verdächtig, 2 übrige, 3 schon geändert oder geprüft (zuletzt)
+  const gruppe = s => { if(AE.bilder.has(s.k) || istGeprueft(s.k)) return 3; if(!bildEintrag(s.k)) return 0; return bwVerdacht(s).p > 0 ? 1 : 2; };
+  return l.map((s, i) => [s, i, gruppe(s), bwVerdacht(s).p]).sort((a, b) => {
+    if(a[2] !== b[2]) return a[2] - b[2];
+    return (a[2] === 1 ? b[3] - a[3] : 0) || a[1] - b[1]; }).map(x => x[0]);
 }
 AE.freigabe = AE.freigabe || new Set();
 let FREIGEGEBEN = null;
@@ -1212,7 +1213,7 @@ TABS.bildwechsel = async () => {
   $("#inhalt").innerHTML = `<div class="leiste"><h2 style="margin:0">Bilder wechseln</h2>
     <select id="bwBuch"><option value="">alle Bücher</option>${buecher.map(b => `<option${BW.buch===b?" selected":""}>${esc(b)}</option>`).join("")}</select>
     <select id="bwFilter">${[["offen","noch nicht geprüft"],["mit","mit Bild, ungeprüft"],["ohne","ohne Bild"],["schlecht","als unpassend markiert"],["geprueft","schon geprüft"],["alle","alle Seiten"]].map(([v,t]) => `<option value="${v}"${BW.filter===v?" selected":""}>${t}</option>`).join("")}</select>
-    <select id="bwSort" title="Reihenfolge">${[["verdacht","Verdächtige zuerst"],["ohne","Ohne Bild zuerst"],["buch","nach Buch und Titel"]].map(([v,t]) => `<option value="${v}"${BW.sort===v?" selected":""}>${t}</option>`).join("")}</select>
+    <select id="bwSort" title="Reihenfolge">${[["verdacht","Ohne Bild und Verdächtige zuerst"],["buch","nach Buch und Titel"]].map(([v,t]) => `<option value="${v}"${BW.sort===v?" selected":""}>${t}</option>`).join("")}</select>
     <span class="bw-umsch"><button class="k${BW.ansicht==="raster"?" p":""}" id="bwRasterAn">Raster</button><button class="k${BW.ansicht==="einzeln"?" p":""}" id="bwEinzelnAn">Einzeln</button></span>
     <input type="search" id="bwSprung" placeholder="Seite suchen und hinspringen" style="min-width:220px">
     <span class="rechts mu klein" id="bwStand"></span></div><div id="bwBox"></div>`;
