@@ -872,8 +872,8 @@ css.textContent = `
 .xmt-seg i{flex:1;height:10px;border-radius:5px;background:rgba(255,255,255,.28)}
 .xmt-seg i.an{background:#fff}
 .xmt-best{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.xmt-best>span{background:rgba(15,20,48,.3);border-radius:999px;padding:5px 11px;font-size:.85rem;font-weight:700;color:#fff}
-.xmt-best>.xmt-stern{color:#FFE34D}
+.xmt-best>span{background:rgba(255,255,255,.93);border:1.5px solid #fff;border-radius:999px;padding:5px 12px;font-size:.85rem;font-weight:800;color:#2B1466;box-shadow:0 3px 10px rgba(20,20,60,.18);text-shadow:none}
+.xmt-best>.xmt-stern{color:#F5A400;letter-spacing:1px}
 .xmt-grp{display:flex;flex-direction:column;gap:6px}
 .xmt-lbl{font-size:.78rem;font-weight:700;opacity:.92;text-transform:uppercase;letter-spacing:.04em}
 .xmt-chips{display:flex;flex-wrap:wrap;gap:6px}

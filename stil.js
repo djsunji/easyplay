@@ -2529,7 +2529,7 @@ html body .wk2 .wk2-box li::before{content:""!important;width:24px;height:24px;b
   const KOPF = [".spr-thkopf"];
   const PILLE = [".spr-zur", ".spr-pille", ".spr-hinweis", ".spr-fuss", ".xmt-pill", ".fq-klein", ".xa-pill", ".xfo-titel", ".xfo-pille.dunkel", ".xk-p-status",
     ".xk-nav", ".wdh-pille", ".xt-glas", ".alb-pill", ".alb-zahl", ".xf-pille", ".xf-titel", ".xf-tipp", ".xs-h2", ".xs-hinweis", ".xsw-info", ".hlf-vorschau",
-    ".hlf-pille", ".xof-status", ".xof-netz", ".xof-h2", ".xof-auto", ".xof-tipp", ".xmt-top > span", ".xmt-best"];
+    ".hlf-pille", ".xof-status", ".xof-netz", ".xof-h2", ".xof-auto", ".xof-tipp", ".xmt-top > span"];
   const GOLDK = [".xk-btn.haupt", ".xmt-panel .xmt-go:not(.xmt-zwei)", ".fq-gross", ".wdh-gelernt", ".xmt-t.xmt-ok"];
   const WEISSK = [".xk-btn:not(.haupt)", ".xmt-panel .xmt-go.xmt-zwei", ".xa-btn.weiss"];
   const nr = n => String(n).padStart(2, "0");
