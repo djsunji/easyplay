@@ -29,7 +29,7 @@ except Exception:
     GESPERRT = set()
 
 SCHLECHT = re.compile(r"\.svg|karte|map[_ .\-]|locator|lageplan|lage_|logo|flag|flagge|wappen|coat[_ ]of[_ ]arms|signatur|signature|unterschrift|diagram|schema|chart|graph|icon|symbol|\.pdf|\.tif|\.djvu|stamp|briefmarke|\bplan\b", re.I)
-HEIKEL = re.compile(r"nude|naked|nackt|akt\b|erotic|erotik|sex|porn|breast|brust|bikini|lingerie|dessous|topless|corpse|leiche|blood|blut|gore|wound|wunde|autopsy|execution|hinrichtung|weapon|waffe|gun\b|pistol|drug|droge|cigarette|zigarette", re.I)
+HEIKEL = re.compile(r"mating|copulat|paarung|kopulation|courtship|spawning|laichen|nude|naked|nackt|akt\b|erotic|erotik|sex|porn|breast|brust|bikini|lingerie|dessous|topless|corpse|leiche|blood|blut|gore|wound|wunde|autopsy|execution|hinrichtung|weapon|waffe|gun\b|pistol|drug|droge|cigarette|zigarette", re.I)
 FREI = re.compile(r"^(cc0|cc[- ]?by(?:[- ]sa)?(?:[- ][0-9.]+)?|public domain|pd|pd-.*|gemeinfrei|attribution|no restrictions)", re.I)
 
 
