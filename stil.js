@@ -3817,3 +3817,47 @@ ${P} .p1-vb.an small{color:#2B1466}
 @media (min-width:700px) and (min-height:1000px){${P}{max-width:590px} ${P} > *{zoom:1.4}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Bereichs-Köpfe ohne abgeschnittene Grafik (Dejan 10.11.: «überall eine Korrektur, sonst ein Fade») =====
+   Vorher lag bei Natur, Schweiz/Geld und Alltag das ganze Kopfbild mit cover im Kopf, dadurch wurden oben/unten bzw. seitlich
+   Teile abgeschnitten, und Welt zeigte die Bücher hart abgeschnitten. Jetzt: Grund als Neun-Teile-Bild (kopf-<b>-grund.webp,
+   linke Hälfte gespiegelt), die Grafik als eigenes Bild (kopf-<b>-deko.webp, Ränder weich ausgeblendet) ganz sichtbar rechts
+   (contain). In der App steht die Grafik nur über der Stufenwahl (--dkb per JS), damit sie nicht dahinter verschwindet. */
+(function(){
+const G = "img/grafik/", X = "html body #app .st-kopf.st-kopf.st-kopf";
+const c = document.createElement("style"); c.id = "ep-kopf-ganz";
+c.textContent = `
+${X}:is(.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){position:relative!important;background:none!important;box-shadow:none!important;border:0 solid transparent!important;border-image-slice:22 fill!important;border-image-width:22px!important;border-image-repeat:stretch!important;border-radius:0!important}
+${X}.ep-kopf-natur{border-image-source:url("${G}kopf-natur-grund.webp?v=1")!important}
+${X}.ep-kopf-geld{border-image-source:url("${G}kopf-geld-grund.webp?v=1")!important}
+${X}.ep-kopf-alltag{border-image-source:url("${G}kopf-alltag-grund.webp?v=1")!important}
+${X}:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag)>*{position:relative;z-index:1}
+${X}:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag)::after{content:""!important;display:block!important;position:absolute!important;z-index:0!important;pointer-events:none!important;
+  left:auto!important;right:var(--dkr,14px)!important;top:var(--dkt,10px)!important;bottom:var(--dkb,10px)!important;height:auto!important;width:var(--dkw,40%)!important;max-width:none!important;aspect-ratio:auto!important;
+  background-position:right center!important;background-size:contain!important;background-repeat:no-repeat!important;-webkit-mask:none!important;mask:none!important}
+${X}.ep-kopf-welt::after{background-image:url("${G}kopf-welt-deko2.webp?v=1")!important}
+${X}.ep-kopf-natur::after{background-image:url("${G}kopf-natur-deko.webp?v=1")!important}
+${X}.ep-kopf-geld::after{background-image:url("${G}kopf-geld-deko.webp?v=1")!important}
+${X}.ep-kopf-alltag::after{background-image:url("${G}kopf-alltag-deko.webp?v=1")!important}
+html body:not(.ep-app) #app .st-kopf.st-kopf:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){padding-right:36%!important}
+html body:not(.ep-app) #app .st-kopf.st-kopf:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){--dkw:34%}
+html body.ep-app #app .st-kopf.st-kopf.st-kopf:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){--dkr:10px;--dkt:6px;--dkw:36%}
+html body.ep-app #app .st-kopf.st-kopf.st-kopf:is(.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag){border-image-width:14px!important}
+html body.ep-app #app .st-kopf.st-kopf.st-kopf:is(.ep-kopf-welt,.ep-kopf-natur,.ep-kopf-geld,.ep-kopf-alltag) .bhead{padding-right:38%!important}
+`;
+document.head.appendChild(c);
+/* App: Grafik endet über der Stufenwahl */
+function lage(){
+  const k = document.querySelector("#app .st-kopf.st-kopf"); if(!k) return;
+  if(!document.body.classList.contains("ep-app")){ k.style.removeProperty("--dkb"); return; }
+  const bar = k.querySelector(".sbar"); if(!bar) { k.style.removeProperty("--dkb"); return; }
+  const rk = k.getBoundingClientRect(), rb = bar.getBoundingClientRect();
+  if(!rk.height || !rb.height) return;
+  const v = Math.max(8, Math.round(rk.bottom - rb.top + 4)) + "px";
+  if(k.style.getPropertyValue("--dkb") !== v) k.style.setProperty("--dkb", v);
+}
+let plan = 0; const los = () => { if(!plan) plan = requestAnimationFrame(() => { plan = 0; try{ lage(); }catch(e){} }); };
+const app = document.getElementById("app");
+if(app) new MutationObserver(los).observe(app, {childList:true});
+addEventListener("resize", los); los();
+})();
