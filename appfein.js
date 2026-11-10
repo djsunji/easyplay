@@ -475,7 +475,7 @@ document.head.appendChild(c); })();
     if(laeuft || document.hidden) return; laeuft = true;   /* im Hintergrund meldet iOS falsche Grössen: dann nicht messen */
     try{
       const an = document.body.classList.contains("ep-app") && typeof S !== "undefined" && S.screen === "quiz" && app.querySelector(".answers");
-      if(!an){ if(app.style.zoom){ app.style.zoom = ""; z = 1; } schluessel = ""; return; }
+      if(!an){ if(app.dataset.qfit){ app.style.zoom = ""; delete app.dataset.qfit; z = 1; } schluessel = ""; return; }   /* nur den eigenen Zoom zurücksetzen (Duell und Themen zoomen selbst) */
       const q = (app.querySelector("h2.question") || {}).textContent || "";
       const fb = app.querySelector(".card .feedback");
       if(q === schluessel && !neu && !fb) return;
@@ -491,7 +491,7 @@ document.head.appendChild(c); })();
       let w = Math.min(1, platz / noetig); w = Math.max(.55, Math.floor(w * 100) / 100);
       if(q === schluessel && fb && !neu) w = Math.min(w, z);    /* nach der Antwort nur noch kleiner, nie springen */
       z = w; schluessel = q;
-      if(w < 1) app.style.zoom = String(w);
+      if(w < 1){ app.style.zoom = String(w); app.dataset.qfit = "1"; } else delete app.dataset.qfit;
     }catch(e){} finally{ laeuft = false; }
   }
   new MutationObserver(() => requestAnimationFrame(() => einpassen(false))).observe(app, {childList:true, subtree:true});

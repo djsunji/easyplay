@@ -3242,7 +3242,7 @@ html.ep-dfit,html.ep-dfit body{overflow:hidden!important;overscroll-behavior:non
     new MutationObserver(los).observe(app, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "open"]}); los(); };
   start(); addEventListener("resize", los);
   /* Team gewählt: Joker-Zeile sofort mitwechseln, nicht erst 80 ms später (sonst springt die Seite) */
-  document.addEventListener("click", e => { if(document.body.classList.contains("ep-app") && e.target.closest && e.target.closest("#app [data-team]")) jokerZeile(); });
+  document.addEventListener("click", e => { if(document.body.classList.contains("ep-app") && e.target.closest && e.target.closest("#app [data-team]")){ jokerZeile(); passen(); } });
 })();
 
 /* ===== Duell: Play-Knopf schmaler (nicht ganze Breite) und Einstellungen im neuen Stil ===== */
