@@ -3747,3 +3747,73 @@ ${S}[aria-pressed="true"]{outline:4px solid #FFD43B!important;outline-offset:3px
 @media (max-width:700px){${S}{padding:12px 14px!important;border-radius:16px!important}}`;
   document.head.appendChild(c);
 })();
+
+/* ===== Profil-Tab Handy/iPad angemeldet: «Spielerkarte» (Dejans Wahl 10.11., profilEinHTML in app.js, Klasse .ap-p1).
+   Weisse Karten mit dunkler Schrift, Farbe nur in goldenen Münzen, Zahnrad oben rechts öffnet die Einstellungen ===== */
+(function(){
+  const c = document.createElement("style"); c.id = "ep-profil-p1-css";
+  const P = "html body.ep-app #app .ap-pein.ap-p1";
+  c.textContent = `
+${P}{display:flex!important;flex-direction:column;gap:10px!important;font-family:Lexend,system-ui,sans-serif}
+${P} .p1-kopf{display:flex;align-items:center;justify-content:space-between;flex:none;min-height:46px}
+${P} .p1-kopf h2{margin:0;font:800 1.5rem Lexend,system-ui,sans-serif;color:#fff;text-shadow:0 2px 6px rgba(20,10,60,.55)}
+${P} .p1-zahn{width:46px;height:46px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.95);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(20,10,60,.28)}
+${P} .p1-zahn img{width:30px;height:30px;object-fit:contain}
+${P} .p1-karte{display:flex;width:100%;margin:0;border:0;cursor:pointer;text-align:left;background:rgba(255,255,255,.95);border-radius:24px;color:#2B1466;box-shadow:0 8px 22px rgba(15,8,50,.28);font-family:inherit;padding:12px 16px;box-sizing:border-box}
+${P} .p1-karte *{text-shadow:none!important}
+${P} .p1-karte:active{transform:translateY(1px)}
+${P} .p1-mz{flex:none;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF3B0,#F7C531 55%,#D99A00);display:grid;place-items:center;box-shadow:inset 0 -3px 0 rgba(150,90,0,.35),0 3px 8px rgba(120,70,0,.25)}
+${P} .p1-mz img{width:66%;height:66%;object-fit:contain}
+${P} .p1-bar{display:block;height:11px;border-radius:8px;background:rgba(43,20,102,.12);overflow:hidden}
+${P} .p1-bar i{display:block;height:100%;min-width:6px;border-radius:8px;background:linear-gradient(90deg,#FFD84A,#FF9F1C)}
+/* Spielerkarte */
+${P} .p1-held{flex-direction:column;align-items:center;gap:4px;padding:14px 16px 10px}
+${P} .p1-av{position:relative;width:96px;height:96px;flex:none;border-radius:50%;padding:5px;background:linear-gradient(135deg,#FFE27A,#F2A900);box-shadow:0 6px 16px rgba(0,0,0,.22)}
+${P} .p1-av > :first-child{width:100%!important;height:100%!important;border-radius:50%!important;overflow:hidden;display:block;background:#fff}
+${P} .p1-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+${P} .p1-lv{position:absolute;right:-6px;bottom:-4px;min-width:40px;height:40px;padding:0 4px;box-sizing:border-box;border-radius:20px;display:grid;place-items:center;font:800 19px Lexend,sans-serif;color:#6B3D00;background:radial-gradient(circle at 35% 30%,#FFF3B0,#F7C531 55%,#D99A00);box-shadow:inset 0 -3px 0 rgba(150,90,0,.35),0 3px 8px rgba(120,70,0,.3);border:3px solid #fff}
+${P} .p1-name{font-size:1.5rem;font-weight:800;line-height:1.15;max-width:100%;overflow-wrap:anywhere;text-align:center}
+${P} .p1-titel{font-size:13px;font-weight:700;color:#fff;border-radius:14px;padding:3px 12px;background:linear-gradient(120deg,#6A4BFF,#A43BE0 55%,#E8409F)}
+${P} .p1-xp{display:flex;flex-direction:column;gap:4px;width:100%;margin-top:4px}
+${P} .p1-xp small{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:600;color:#6C5CA0}
+${P} .p1-stats{display:flex;width:100%;margin-top:6px;padding-top:8px;border-top:1px solid #ECE8F7}
+${P} .p1-stats > span{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+${P} .p1-stats > span + span{border-left:1px solid #ECE8F7}
+${P} .p1-stats b{font-size:1.35rem;line-height:1.1}
+${P} .p1-stats small{font-size:11.5px;font-weight:600;color:#7D70A8;text-align:center}
+/* Nächstes Abzeichen */
+${P} .p1-ziel{align-items:center;gap:12px;flex:none}
+${P} .p1-ziel .p1-mz{width:46px;height:46px}
+${P} .p1-zt{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+${P} .p1-zt small{font-size:11px;font-weight:700;color:#9B7FE0;letter-spacing:.06em;text-transform:uppercase}
+${P} .p1-zt b{font-size:1rem;line-height:1.2}
+${P} .p1-zt em{font-size:12px;font-style:normal;color:#6C5CA0;line-height:1.25}
+/* Vitrine */
+${P} .p1-vitr{flex-direction:column;gap:8px;flex:none}
+${P} .p1-vk{display:flex;justify-content:space-between;align-items:center;gap:8px}
+${P} .p1-vk b{font-size:1rem}
+${P} .p1-vk span{font-size:12px;font-weight:600;color:#7D70A8}
+${P} .p1-vg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+${P} .p1-vb{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+${P} .p1-vb > span{width:54px;height:54px;border-radius:50%;background:#ECE8F7;display:grid;place-items:center;box-shadow:0 0 0 3px var(--st)}
+${P} .p1-vb img{width:32px;height:32px;object-fit:contain;opacity:.38;filter:grayscale(1)}
+${P} .p1-vb.an > span{background:radial-gradient(circle at 35% 30%,#FFF3B0,#F7C531 55%,#D99A00)}
+${P} .p1-vb.an img{opacity:1;filter:none}
+${P} .p1-vb small{font-size:11px;font-weight:600;color:#7D70A8;text-align:center;line-height:1.2}
+${P} .p1-vb.an small{color:#2B1466}
+/* niedrige Handys: alles etwas kleiner */
+@media (max-height:740px){
+  ${P}{gap:8px!important}
+  ${P} .p1-kopf{min-height:40px} ${P} .p1-kopf h2{font-size:1.3rem} ${P} .p1-zahn{width:40px;height:40px} ${P} .p1-zahn img{width:26px;height:26px}
+  ${P} .p1-av{width:76px;height:76px} ${P} .p1-lv{min-width:34px;height:34px;font-size:16px}
+  ${P} .p1-name{font-size:1.25rem} ${P} .p1-held{padding:10px 14px 8px}
+  ${P} .p1-stats .p1-mz{width:30px;height:30px} ${P} .p1-stats b{font-size:1.15rem}
+  ${P} .p1-zt em{display:none} ${P} .p1-ziel .p1-mz{width:40px;height:40px}
+  ${P} .p1-vb > span{width:44px;height:44px} ${P} .p1-vb img{width:26px;height:26px}
+}
+/* iPad: Inhalt mittig und nicht zu breit */
+@media (min-width:700px){${P}{max-width:560px;margin-left:auto!important;margin-right:auto!important;width:100%}}
+/* iPad hoch: grösser, damit der Platz genutzt wird (zoom nur auf dieser Karte, nicht auf #app) */
+@media (min-width:700px) and (min-height:1000px){${P}{max-width:590px} ${P} > *{zoom:1.4}}`;
+  document.head.appendChild(c);
+})();

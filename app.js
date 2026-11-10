@@ -788,7 +788,7 @@ function profilHTML(){
     </nav>`;
   }
   if(p && AP_SUB === "einst") return `<div class="ap ap-profil ap-profil3 ap-pein ap-peinst">${profilEinstHTML()}</div>`;
-  if(p) return `<div class="ap ap-profil ap-profil3 ap-pein">${profilEinHTML(p, s, lv, ab, av)}</div>`;
+  if(p) return `<div class="ap ap-profil ap-profil3 ap-pein ap-p1">${profilEinHTML(p, s, lv, ab, av)}</div>`;
   return `<div class="ap ap-profil ap-profil3">
     ${kopf}
     ${p ? `<div class="ap-stats">
@@ -832,14 +832,23 @@ function profilEinHTML(p, s, lv, ab, av){
   hat.sort((x, y) => y.stufe - x.stufe);
   const zeig = hat.slice(0, 8), rest = offen.filter(o => !zeig.includes(o.f)).slice(0, 8 - zeig.length).map(o => o.f);
   const coin = (f, an) => `<span class="ap-pvb${an ? "" : " aus"}"><span class="ap-pvm" style="--st:${an ? PF_ST[f.stufe - 1] : "#B9B4D6"}"><img src="${gi(PF_IC[f.id] || "stern")}" alt=""></span><small>${h(f.name)}</small></span>`;
-  const vitrine = `<button type="button" class="ap-pv ap-pkach k-lila" data-x="abzeichen"><span class="ap-pvk"><img src="${gi("abzeichen")}" alt=""><b>Meine Vitrine</b><span>${ab.hat} von ${ab.alle}</span></span><span class="ap-pvg">${zeig.map(f => coin(f, true)).join("")}${rest.map(f => coin(f, false)).join("")}</span></button>`;
-  return `<button type="button" class="ap-pkopf2 ap-pkach k-violett" data-x="meinprofil"><span class="ap-pav2">${av}</span><span class="ap-pkn"><b>${h(p.name || "")}</b><small>${lv ? `Level ${lv.level} · ${h(lv.titel ? lv.titel.name : "")}` : ""}</small><span class="ap-pbar"><i style="width:${pr}%"></i></span><em>${xpTxt}</em></span><span class="ap-pzu" aria-hidden="true">›</span></button>
-    <div class="ap-pzahl">
-      <span class="ap-pkach k-orange"><span class="ap-pmz"><img src="${gi("flamme")}" alt=""></span><b>${s.n || 0}</b><small>Tage Serie</small></span>
-      <span class="ap-pkach k-blau"><span class="ap-pmz"><img src="${gi("blitz")}" alt=""></span><b>${lv ? (lv.xp || 0).toLocaleString("de-CH") : 0}</b><small>XP total</small></span>
-      <span class="ap-pkach k-gruen"><span class="ap-pmz"><img src="${gi("pokal")}" alt=""></span><b>${ab.hat}</b><small>Abzeichen</small></span>
-    </div>
-    <button type="button" class="ap-pz ap-pkach k-tuer" data-x="psubeinst"><span class="ap-pmz"><img src="${gi("zahnrad")}" alt=""></span><span class="ap-ptx"><small>Einstellungen</small><b>Profil, Hintergrund, Hilfen</b><em>Verzieren, Rangliste, Kontakt, Abmelden</em></span><span class="ap-pzu" aria-hidden="true">›</span></button>${ziel}${vitrine}`;
+  /* Variante «Spielerkarte» (Dejans Wahl 10.11.): weisse Karten, Farbe nur in goldenen Münzen, Zahnrad oben rechts */
+  const vier = zeig.concat(rest).slice(0, 4);
+  const muenze = n => `<span class="p1-mz"><img src="${gi(n)}" alt=""></span>`;
+  const stufeName = z ? (["Bronze","Silber","Gold","Platin","Diamant","Regenbogen"][z.f.stufe] || "") : "";
+  const ziel1 = z ? `<button type="button" class="p1-karte p1-ziel" data-x="abzeichen">${muenze(PF_IC[z.f.id] || "ziel")}<span class="p1-zt"><small>Nächstes Abzeichen</small><b>${h(z.f.name)}${stufeName ? " · " + stufeName : ""}</b><span class="p1-bar"><i style="width:${Math.round(z.q * 100)}%"></i></span><em>${z.f.wert.toLocaleString("de-CH")} von ${z.f.naechste.toLocaleString("de-CH")} ${h(z.f.text)}</em></span></button>` : "";
+  const vitr1 = `<button type="button" class="p1-karte p1-vitr" data-x="abzeichen"><span class="p1-vk"><b>Meine Vitrine</b><span>${ab.hat} von ${ab.alle}</span></span><span class="p1-vg">${vier.map(f => { const an = zeig.includes(f); return `<span class="p1-vb${an ? " an" : ""}" style="--st:${an ? PF_ST[f.stufe - 1] : "transparent"}"><span><img src="${gi(PF_IC[f.id] || "stern")}" alt=""></span><small>${h(f.name)}</small></span>`; }).join("")}</span></button>`;
+  return `<div class="p1-kopf"><h2>Mein Profil</h2><button type="button" class="p1-zahn" data-x="psubeinst" aria-label="Einstellungen"><img src="${gi("zahnrad")}" alt=""></button></div>
+    <button type="button" class="p1-karte p1-held" data-x="meinprofil">
+      <span class="p1-av">${av}<span class="p1-lv">${lv ? lv.level : 1}</span></span>
+      <b class="p1-name">${h(p.name || "")}</b>${lv && lv.titel ? `<span class="p1-titel">${h(lv.titel.name)}</span>` : ""}
+      <span class="p1-xp"><small><span>Level ${lv ? lv.level : 1}</span><span>${xpTxt}</span></small><span class="p1-bar"><i style="width:${pr}%"></i></span></span>
+      <span class="p1-stats">
+        <span>${muenze("flamme")}<b>${s.n || 0}</b><small>Tage Serie</small></span>
+        <span>${muenze("blitz")}<b>${lv ? (lv.xp || 0).toLocaleString("de-CH") : 0}</b><small>XP total</small></span>
+        <span>${muenze("pokal")}<b>${ab.hat}</b><small>Abzeichen</small></span>
+      </span>
+    </button>${ziel1}${vitr1}`;
 }
 
 /* ---------- Einpassen: jeder Bereich so hoch wie der freie Bildschirm ---------- */
