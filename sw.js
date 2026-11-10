@@ -232,7 +232,7 @@ async function seiteSpeichern(antwort) {
 function istSeitenAdresse(pfad, basis) {
   if (!pfad.startsWith(basis)) return false;
   const rest = pfad.slice(basis.length);
-  return !!rest && !/\.[a-z0-9]{1,6}$/i.test(rest) && !/^(qeels|qeels-ch|preflight|admin|lehrer|api|auth|rest)(\/|$)/.test(rest);
+  return !!rest && !/\.[a-z0-9]{1,6}$/i.test(rest) && !/^(qeels|qeels-ch|admin|lehrer|api|auth|rest)(\/|$)/.test(rest);
 }
 // Seiten: zuerst Netz, sonst gespeicherte Seite (Hülle oder Offline-Paket), sonst freundliche Offline-Seite
 async function netzZuerst(event) {
@@ -383,8 +383,6 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
   // Admin-Bereich nie cachen
   if (url.pathname.includes("/admin/")) return;
-  // Preflight-Seite (versteckt, eigenes Programm): nie anfassen
-  if (/\/preflight(\/|$)/.test(url.pathname)) return;
   // Eigener Server (Anmeldung, Daten, Zustand): immer direkt, nie aus dem Speicher, Weiterleitungen normal
   if (/\/(auth|rest)\/v1\/|\/api\//.test(url.pathname)) return;
   // Teilanfragen (z.B. Video/Audio) nicht anfassen
