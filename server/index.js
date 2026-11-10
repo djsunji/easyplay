@@ -9,6 +9,7 @@ import { rpcAnfrage, tabellenAnfrage } from "./rest.js";
 import { statischMacher } from "./statisch.js";
 import { adminAnfrage } from "./admin.js";
 import { kontaktAnfrage } from "./kontakt.js";
+import { feedAnfrage } from "./preflight.js";
 
 const E = process.env;
 const WURZEL = E.STATIC_DIR || join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -95,6 +96,8 @@ const server = createServer(async (req, res) => {
       if (req.method === "POST" && o && !herkunftErlaubt(o)) return res.json(403, { message: "Nicht erlaubt" });
       return await kontaktAnfrage(req, res);
     }
+    /* Preflight: Crew-Kalender abholen (nur gleiche Herkunft, kein CORS) */
+    if (req.pfad === "/preflight/feed") return await feedAnfrage(req, res);
     if (!BEREIT && (req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/"))) return res.json(503, { code: "503", message: "Der Server startet noch" });
     if (req.pfad.startsWith("/api/admin/")) {
       if (!BEREIT) return res.json(503, { code: "503", message: "Der Server startet noch" });
