@@ -8,9 +8,7 @@ on:
       kid:
         description: "Erwartete Key ID (nur zur Kontrolle)"
         default: ""
-  push:
-    branches: [main]
-    paths: ['app/**', '.github/workflows/app-ios.yml']
+  # kein automatischer Bau bei Push: App-Bau nur, wenn Dejan es ausdrücklich sagt (von Hand starten)
 concurrency: { group: app-ios, cancel-in-progress: true }
 jobs:
   ios:

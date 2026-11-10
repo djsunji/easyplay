@@ -3,9 +3,7 @@
 name: App Android
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['app/**', '.github/workflows/app-android.yml']
+  # kein automatischer Bau bei Push: App-Bau nur, wenn Dejan es ausdrücklich sagt (von Hand starten)
 concurrency: { group: app-android, cancel-in-progress: true }
 jobs:
   android:
