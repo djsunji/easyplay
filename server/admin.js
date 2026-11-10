@@ -25,6 +25,35 @@ function version(wurzel) {
   try { return (/const VERSION\s*=\s*"([^"]+)"/.exec(readFileSync(join(wurzel, "sw.js"), "utf8")) || [])[1] || ""; } catch (e) { return ""; }
 }
 
+/* GitHub über den Server: die Verwaltung braucht keinen eigenen Schlüssel mehr. Der Server hat GITHUB_TOKEN
+   (Fine-grained, nur für das easyplay-Repo, Contents lesen/schreiben, Actions/Pages/Metadata lesen) und reicht nur
+   diese Aufrufe an api.github.com/repos/<Repo>/… weiter: lesen überall, schreiben nur Git-Daten (Blobs, Bäume,
+   Commits, Branch nachführen). Workflows starten oder löschen geht darüber nicht. */
+const GH_LESEN = /^(|contents(\/.*)?|git\/.+|commits|actions\/runs|pages|releases\/tags\/[\w.-]+)$/;
+const GH_SCHREIBEN = /^git\/(blobs|trees|commits|refs\/heads\/[\w.-]+)$/;
+export function githubDa() { return !!E.GITHUB_TOKEN; }
+async function githubWeiter(req, res, rest) {
+  if (!E.GITHUB_TOKEN) return res.json(501, { message: "GITHUB_TOKEN ist auf dem Server nicht eingetragen" });
+  const m = req.method;
+  if (!(m === "GET" ? GH_LESEN.test(rest) : (m === "POST" || m === "PATCH") && GH_SCHREIBEN.test(rest)))
+    return res.json(403, { message: "Dieser GitHub-Aufruf ist über den Server nicht erlaubt" });
+  let body;
+  if (m !== "GET") {
+    const teile = []; let n = 0;
+    for await (const c of req) { n += c.length; if (n > 60 * 1024 * 1024) return res.json(413, { message: "Anfrage zu gross" }); teile.push(c); }
+    body = Buffer.concat(teile);
+  }
+  const repo = E.GITHUB_REPO || "djsunji/easyplay";
+  const ziel = "https://api.github.com/repos/" + repo + (rest ? "/" + rest : "") + (req.suche || "");
+  const r = await fetch(ziel, { method: m, body, signal: AbortSignal.timeout(120000), headers: {
+    Authorization: "Bearer " + E.GITHUB_TOKEN, "User-Agent": "easyplay-server", "X-GitHub-Api-Version": "2022-11-28",
+    Accept: /raw/.test(String(req.headers.accept || "")) ? "application/vnd.github.raw+json" : "application/vnd.github+json",
+    ...(body ? { "Content-Type": "application/json" } : {}) } });
+  const daten = Buffer.from(await r.arrayBuffer());
+  res.writeHead(r.status, { "Content-Type": r.headers.get("content-type") || "application/json", "Cache-Control": "no-store", "Content-Length": daten.length });
+  res.end(daten);
+}
+
 /* Tabellen für die Sicherung: alles aus public ausser Zählern, die sich selbst wieder füllen */
 const OHNE = new Set(["bremse_log", "ep_migrationen"]);
 const KONTO_SPALTEN = "id, email, email_confirmed_at, raw_user_meta_data, raw_app_meta_data, created_at, updated_at, last_sign_in_at, banned_until";
@@ -33,6 +62,7 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
   const p = await istAdmin(req);
   if (!p) return res.json(403, { code: "42501", message: "nur fuer Admins" });
   if (pfad.startsWith("post/")) return postAnfrage(req, res, pfad.slice(5), p, protokoll);
+  if (pfad === "github" || pfad.startsWith("github/")) return githubWeiter(req, res, pfad.slice(7));
 
   if (pfad === "status" && req.method === "GET") {
     const db = { ok: false };
@@ -53,7 +83,7 @@ export async function adminAnfrage(req, res, pfad, wurzel) {
       post: { an: postAn(), benutzer: E.IMAP_USER || "" },
       mail: { an: mailAn(), absender: E.MAIL_FROM || "", host: E.SMTP_HOST || "", port: +E.SMTP_PORT || (E.SMTP_HOST ? 587 : null), test: !!E.MAIL_TEST_DATEI },
       anbieter: { email: true, google: !!(E.GOOGLE_CLIENT_ID && E.GOOGLE_CLIENT_SECRET), apple: !!(E.APPLE_CLIENT_ID && E.APPLE_TEAM_ID && E.APPLE_KEY_ID && E.APPLE_PRIVATE_KEY), microsoft: !!(E.MICROSOFT_CLIENT_ID && E.MICROSOFT_CLIENT_SECRET) },
-      registrierung: E.SIGNUP !== "0", admin_email: !!E.ADMIN_EMAIL, trust_proxy: E.TRUST_PROXY !== "0",
+      github: !!E.GITHUB_TOKEN, registrierung: E.SIGNUP !== "0", admin_email: !!E.ADMIN_EMAIL, trust_proxy: E.TRUST_PROXY !== "0",
       sperren, db,
     });
   }

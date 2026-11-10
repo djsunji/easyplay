@@ -123,3 +123,14 @@ Sobald `https://easyplay.ch/api/health` antwortet, leitet die alte Adresse `djsu
 - Die Datenbank-Teile der Verwaltung stehen in `supabase/verwaltung.sql` (Protokoll, Hinweis an alle, Themenplan, Namen prüfen, Spiele, Sicherheit). Der Server spielt sie beim Start ein.
 - Nur für Admins gibt es `/api/admin/status` (Zustand von Server, Datenbank, Mail, Anmelde-Anbietern), `/api/admin/testmail` und `/api/admin/sicherung` (alle Daten als JSON, ohne Passwörter).
 - Jede Änderung über eine `admin_…`-Funktion hält der Server in `public.admin_protokoll` fest (Bereich «Protokoll»).
+
+### GitHub-Schlüssel für die Verwaltung (einmal einrichten)
+
+Damit die Verwaltung (Bilder wechseln, Fragen, Artikel, Werbung) ohne eigenen Schlüssel im Browser speichern kann, bekommt der Server einen festen Schlüssel:
+
+1. github.com › Settings › Developer settings › Fine-grained tokens › «Generate new token».
+2. Repository access: «Only select repositories» › `djsunji/easyplay`. Ablauf: 1 Jahr (oder «No expiration»).
+3. Permissions: **Contents: Read and write**, **Actions: Read-only**, **Pages: Read-only** (Metadata kommt automatisch).
+4. Bei Deploio in der App unter Umgebungsvariablen `GITHUB_TOKEN` = der Schlüssel eintragen (optional `GITHUB_REPO`, Standard `djsunji/easyplay`). Danach startet die App neu.
+
+Die Verwaltung zeigt oben «GitHub: über den Server». Der Server reicht nur Lese-Aufrufe und das Speichern von Dateien weiter (`/api/admin/github/…`, nur für angemeldete Admins); Workflows starten oder etwas löschen geht darüber nicht.

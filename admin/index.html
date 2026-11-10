@@ -390,12 +390,19 @@ const groesse = b => b == null ? "-" : b < 1024 ? b + " B" : b < 1000 * 1024 ? z
 
 /* ======================= GitHub ======================= */
 const ghToken = () => store.get("ep-admin-gh", "");
+/* Ohne eigenen Schlüssel geht GitHub über den eigenen Server (/api/admin/github/…, Schlüssel GITHUB_TOKEN bei Deploio) */
+let SERVER_GH = null;   /* null = unbekannt, true/false aus /api/admin/status */
+const ghUeberServer = () => !ghToken() && sbAn() && !!sbSitzung() && SERVER_GH !== false;
+const ghBereit = () => !!ghToken() || ghUeberServer();
 async function gh(pfad, opt){
   opt = opt || {};
   const h = {Accept: opt.raw ? "application/vnd.github.raw+json" : "application/vnd.github+json", "X-GitHub-Api-Version":"2022-11-28"};
-  const t = ghToken(); if(t) h.Authorization = "Bearer " + t;
+  let ziel = pfad.startsWith("http") ? pfad : GH + pfad;
+  const t = ghToken();
+  if(t) h.Authorization = "Bearer " + t;
+  else if(ghUeberServer() && !pfad.startsWith("http")){ const st = await sbToken(); if(st){ ziel = SB.url + "/api/admin/github" + pfad; h.apikey = SB.key; h.Authorization = "Bearer " + st; delete h["X-GitHub-Api-Version"]; } }
   if(opt.body) h["Content-Type"] = "application/json";
-  const r = await fetch(pfad.startsWith("http") ? pfad : GH + pfad, {method: opt.method || "GET", headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined, cache: "no-store"});
+  const r = await fetch(ziel, {method: opt.method || "GET", headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined, cache: "no-store"});
   if(!r.ok){ let m = r.status + ""; try{ m += " " + (await r.json()).message; }catch(e){} throw new Error("GitHub: " + m); }
   if(r.status === 204) return null;
   return opt.raw ? r.text() : r.json();
@@ -407,7 +414,7 @@ const fragenDatei = liste => "[\n" + liste.map(pyJson).join(",\n") + "\n]\n";
 const b64 = buf => { const b = new Uint8Array(buf); let s = ""; for(let i=0;i<b.length;i+=0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i+0x8000)); return btoa(s); };
 // Mehrere Dateien in einem Commit speichern. bauen(): liefert [{pfad, text}|{pfad, base64}] und wird bei einem Konflikt neu aufgerufen.
 async function ghCommit(nachricht, bauen){
-  if(!ghToken()) throw new Error("Kein GitHub-Schlüssel. Bitte unter «Zugang» eintragen.");
+  if(!ghBereit()) throw new Error("Kein Zugang zu GitHub: in der Verwaltung anmelden (der Server hat den Schlüssel) oder unter «Zugang» einen eigenen Schlüssel eintragen.");
   for(let versuch=0; versuch<3; versuch++){
     const ref = await gh("/git/ref/heads/" + ZWEIG);
     const basis = await gh("/git/commits/" + ref.object.sha);
@@ -496,10 +503,12 @@ async function ladeBilder(){
 /* ======================= Kopfzeile, Tabs ======================= */
 function statusZeigen(){
   const s = sbSitzung(), l = store.get("ep-admin-sitzung", null);
-  $("#status").innerHTML = `<span>GitHub: ${ghToken() ? '<span class="ok">verbunden</span>' : '<a class="link" id="stGh">Schlüssel fehlt</a>'}</span>`
+  $("#status").innerHTML = `<span>GitHub: ${ghToken() ? '<span class="ok">verbunden</span>' : ghUeberServer() ? '<span class="ok">über den Server</span>' : '<a class="link" id="stGh">Schlüssel fehlt</a>'}</span>`
     + `<span>Server: ${!sbAn() ? '<span class="mu">nicht verbunden</span>' : s ? '<span class="ok">' + esc(s.mail||"angemeldet") + '</span>' : '<span class="wa">nicht angemeldet</span>'}</span>`
     + `<span>Angemeldet: <b>${esc(l?.name || "")}</b></span><button class="k" id="stAus">Abmelden</button>`;
   $("#stAus").onclick = abmelden; const g = $("#stGh"); if(g) g.onclick = () => zeige("zugang");
+  /* einmal nachfragen, ob der Server einen GitHub-Schlüssel hat */
+  if(SERVER_GH === null && !ghToken() && sbAn() && s){ SERVER_GH = undefined; api("status").then(st => { SERVER_GH = !!(st && st.github); statusZeigen(); }).catch(() => { SERVER_GH = null; }); }
 }
 function aenderungenZeigen(){
   const n = offen();
@@ -641,7 +650,7 @@ async function ueGithub(){
     ]);
     $("#ueGh").innerHTML = `<div class="spalten"><div class="abschnitt"><h3>Letzte Änderungen</h3>${commitTabelle(commits)}</div><div class="abschnitt"><h3>Automatische Abläufe (letzter Lauf)</h3>${laufTabelle(runs)}</div></div>`;
     zielBinden();
-  }catch(e){ const g = $("#ueGh"); if(g) g.innerHTML = `<div class="abschnitt"><h3>GitHub</h3><div class="hinweis">${esc(e.message)}. ${ghToken() ? "" : "Ohne GitHub-Schlüssel erlaubt GitHub nur wenige Abfragen pro Stunde. Schlüssel unter «Zugang» eintragen."}</div></div>`; }
+  }catch(e){ const g = $("#ueGh"); if(g) g.innerHTML = `<div class="abschnitt"><h3>GitHub</h3><div class="hinweis">${esc(e.message)}. ${ghBereit() ? "" : "Ohne GitHub-Schlüssel erlaubt GitHub nur wenige Abfragen pro Stunde. Schlüssel unter «Zugang» eintragen."}</div></div>`; }
 }
 TABS.uebersicht = async () => {
   const z = zahlenCache();
@@ -789,7 +798,7 @@ async function techGithub(){
     gBox.innerHTML = `<div class="leiste" style="margin:0"><b style="font-size:22px">${zahl(Math.round(mb))} MB</b><span class="mu">von etwa 1'024 MB</span><span class="rechts"><span class="ampel ${st}"></span>${st === "ok" ? "genug Platz" : st === "wa" ? "wird knapp" : "zu gross"}</span></div>
       <div class="balkenlang" role="img" aria-label="${Math.round(q)} Prozent belegt"><i style="width:${q}%"></i></div>
       <p class="mu klein" style="margin:6px 0 0">${seite != null ? `Veröffentlichte Website (aktueller Stand aller Dateien, inklusive Bilder in <code>bilder/</code>). GitHub Pages veröffentlicht höchstens 1 GB. Das Repository mit dem ganzen Verlauf ist ${zahl(Math.round(verlauf))} MB gross; das zählt nicht für die Pages-Grenze, GitHub empfiehlt aber unter 1 GB zu bleiben.` : "Gemessen wurde das Repository mit dem ganzen Verlauf (die veröffentlichte Website ist kleiner). GitHub Pages veröffentlicht höchstens 1 GB."} Einzelne Dateien höchstens 100 MB.</p>`; }
-  else gBox.innerHTML = `<p style="margin:0" class="wa">Grösse nicht abrufbar.</p><p class="mu klein" style="margin:6px 0 0">${esc(fehler)}. ${ghToken() ? "" : "Ohne GitHub-Schlüssel erlaubt GitHub nur wenige Abfragen pro Stunde; mit Schlüssel (unter «Zugang») klappt es zuverlässig. "}GitHub Pages veröffentlicht höchstens 1 GB. Direkt nachsehen: <a class="link" href="https://github.com/${REPO}" target="_blank" rel="noopener">github.com/${REPO}</a>.</p>`;
+  else gBox.innerHTML = `<p style="margin:0" class="wa">Grösse nicht abrufbar.</p><p class="mu klein" style="margin:6px 0 0">${esc(fehler)}. ${ghBereit() ? "" : "Ohne GitHub-Schlüssel erlaubt GitHub nur wenige Abfragen pro Stunde; mit Schlüssel (unter «Zugang») klappt es zuverlässig. "}GitHub Pages veröffentlicht höchstens 1 GB. Direkt nachsehen: <a class="link" href="https://github.com/${REPO}" target="_blank" rel="noopener">github.com/${REPO}</a>.</p>`;
   const ghBox = $("#tGh");
   if(!repo){ if(ghBox) ghBox.innerHTML = `<div class="hinweis">GitHub nicht erreichbar: ${esc(fehler)}</div>`; return; }
   const [commits, laeufe, rel, pages] = await Promise.all([gh("/commits?per_page=15&sha=" + ZWEIG).catch(() => []), gh("/actions/runs?per_page=50").catch(() => ({workflow_runs:[]})), gh("/releases/tags/bilder-app").catch(() => null), gh("/pages").catch(() => null)]);
@@ -947,7 +956,7 @@ async function ladeArtikelSeiten(){
   if(!DATEN.txIndex && CFG.texteIndex) DATEN.txIndex = await fetch(B + CFG.texteIndex).then(r => r.json()).catch(() => null);
   if(!DATEN.korr){
     let t = null;
-    try{ t = ghToken() ? await ghDateiText("korrektur/artikel.json") : await fetch(B + "korrektur/artikel.json", {cache:"no-cache"}).then(r => r.ok ? r.text() : null); }catch(e){ if(!/404/.test(e.message)) throw e; }
+    try{ t = ghBereit() ? await ghDateiText("korrektur/artikel.json") : await fetch(B + "korrektur/artikel.json", {cache:"no-cache"}).then(r => r.ok ? r.text() : null); }catch(e){ if(!/404/.test(e.message)) throw e; }
     try{ DATEN.korr = t ? JSON.parse(t) : {}; }catch(e){ DATEN.korr = {}; }
   }
   zahlenMerken({artikel: DATEN.artikel.length});
@@ -1914,7 +1923,7 @@ TABS.zugang = async () => {
   $("#inhalt").innerHTML = `<h2>Zugang</h2>
   <div class="zwei"><div>
     <div class="box"><b>GitHub (Fragen, Bilder und Welten speichern)</b>
-      <p class="mu klein">Änderungen werden direkt ins Projekt <code>${REPO}</code> gespeichert. Dafür braucht es einen persönlichen Schlüssel (Fine-grained token). Er bleibt nur in diesem Browser.</p>
+      <p class="mu klein">Änderungen werden direkt ins Projekt <code>${REPO}</code> gespeichert. ${SERVER_GH ? '<span class="ok">Der Server hat einen eigenen Schlüssel: Speichern geht ohne Eintrag hier, solange du in der Verwaltung angemeldet bist.</span> Ein eigener Schlüssel hier ist nur noch nötig, wenn der Server nicht erreichbar ist.' : 'Dafür braucht es einen Schlüssel. Am einfachsten einmal bei Deploio als <code>GITHUB_TOKEN</code> eintragen (siehe ANLEITUNG-SERVER.md), dann geht es ohne Eintrag hier. Sonst hier einen persönlichen Schlüssel (Fine-grained token) eintragen, er bleibt nur in diesem Browser.'}</p>
       <div class="leiste"><input type="password" id="zGh" placeholder="github_pat_…" style="flex:1" value="${esc(ghToken())}" autocomplete="off"></div>
       <div class="leiste"><label><input type="checkbox" id="zGhMerken"${localStorage.getItem("ep-admin-gh-enc") ? " checked" : ""}> auf diesem Gerät verschlüsselt merken (mit deinem Passwort)</label><span class="rechts"></span><button class="k" id="zGhWeg">Entfernen</button><button class="k p" id="zGhOk">Speichern und prüfen</button></div>
       <p id="zGhInfo" class="klein"></p>
@@ -2400,7 +2409,7 @@ const wbLeer = () => ({id:"neu" + Math.random().toString(36).slice(2, 6), aktiv:
 TABS.werbung = async () => {
   const kopf = `<div class="leiste"><h2 style="margin:0">Werbung in Qeels</h2><span class="mu klein">Anzeigen von Sponsoren, klar als Werbung gekennzeichnet, ohne Tracking</span><span class="rechts"></span><a class="k" href="../qeels/?werbedemo" target="_blank" rel="noopener">Vorschau in Qeels</a></div>`;
   if(!WB.daten){
-    try{ WB.alt = ghToken() ? await ghDateiText("werbung.json") : await fetch(B + "werbung.json", {cache:"no-cache"}).then(r => r.text()); WB.daten = JSON.parse(WB.alt); }
+    try{ WB.alt = ghBereit() ? await ghDateiText("werbung.json") : await fetch(B + "werbung.json", {cache:"no-cache"}).then(r => r.text()); WB.daten = JSON.parse(WB.alt); }
     catch(e){ $("#inhalt").innerHTML = kopf + `<div class="hinweis fe">werbung.json nicht lesbar: ${esc(e.message)}</div>`; return; }
   }
   let klicks = {};
@@ -2412,7 +2421,7 @@ TABS.werbung = async () => {
   const bildUrl = b => !b ? "" : /^https:\/\//.test(b) ? b : B + b;
   $("#inhalt").innerHTML = kopf + `<div class="abschnitt">${kacheln([["Anzeigen", zahl(d.anzeigen.length)], ["Laufen gerade", zahl(d.anzeigen.filter(a => a.aktiv && (!a.von || a.von <= heute) && (!a.bis || a.bis >= heute)).length)], ["Gesehen (30 Tage)", zahl(Object.values(klicks).reduce((a, x) => a + x.sicht, 0))], ["Geklickt (30 Tage)", zahl(Object.values(klicks).reduce((a, x) => a + x.klick, 0))]])}</div>
     <div class="box leiste" style="align-items:center"><label>Jedes <input type="number" id="wbJedes" min="3" max="100" value="${+d.jedes || 10}" style="width:70px">. Qeel ist eine Anzeige</label><span class="rechts"></span><button class="k" id="wbNeu">Neue Anzeige</button>${geaendert ? '<button class="k" id="wbVerwerfen">Verwerfen</button>' : ""}<button class="k p" id="wbSpeichern"${geaendert ? "" : " disabled"}>Auf GitHub speichern</button></div>
-    ${!ghToken() ? '<div class="hinweis">Zum Speichern braucht es den GitHub-Schlüssel (siehe «Zugang»).</div>' : ""}
+    ${!ghBereit() ? '<div class="hinweis">Zum Speichern braucht es den GitHub-Schlüssel (siehe «Zugang»).</div>' : ""}
     ${d.anzeigen.map((a, i) => `<div class="box" data-i="${i}"><div class="zwei"><div class="formular">
       <label>Kennung</label><input data-f="id" value="${esc(a.id)}" pattern="[a-z0-9]+" title="nur Kleinbuchstaben und Zahlen">
       <label>Status</label><label><input type="checkbox" data-f="aktiv"${a.aktiv ? " checked" : ""}> eingeschaltet · ${zustand(a)}${klicks[a.id] ? ` · <span class="mu">${zahl(klicks[a.id].sicht)}× gesehen, ${zahl(klicks[a.id].klick)}× geklickt (30 Tage)</span>` : ""}</label>
