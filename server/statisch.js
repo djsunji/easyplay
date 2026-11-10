@@ -60,7 +60,7 @@ export function statischMacher(wurzel) {
     let pfad = join(wurzel, rel);
     let st; try { st = await stat(pfad); } catch (e) {
       /* Adressen der Website wie /bibliothek/natur/loewe (adresse.js): ohne Dateiendung die Startseite ausliefern */
-      if (/\.[a-z0-9]{1,6}$/i.test(rel) || /^(qeels|qeels-ch|admin|lehrer|api|auth|rest)(\/|$)/.test(rel)) return false;
+      if (/\.[a-z0-9]{1,6}$/i.test(rel) || /^(qeels|qeels-ch|preflight|admin|lehrer|api|auth|rest)(\/|$)/.test(rel)) return false;
       rel = "index.html"; pfad = join(wurzel, rel);
       try { st = await stat(pfad); } catch (e2) { return false; }
     }
