@@ -2,7 +2,7 @@
    Sorgt für schnelle Wiederholungsbesuche und Offline-Nutzung.
    Bei jeder Änderung an der App-Hülle VERSION hochzählen, damit alte Caches gelöscht werden. */
 
-const VERSION = "ep-2026-11-10-05";
+const VERSION = "ep-2026-11-10-06";
 const CACHE_HUELLE = VERSION + "-huelle";   // App-Hülle, Code, Daten
 // Bilder in einem festen Speicher: überlebt Updates (nur bilder/, img/, flags/), wird täglich still geprüft
 const CACHE_BILDER = "ep-bilder";
@@ -232,7 +232,7 @@ async function seiteSpeichern(antwort) {
 function istSeitenAdresse(pfad, basis) {
   if (!pfad.startsWith(basis)) return false;
   const rest = pfad.slice(basis.length);
-  return !!rest && !/\.[a-z0-9]{1,6}$/i.test(rest) && !/^(qeels|qeels-ch|admin|lehrer|api|auth|rest)(\/|$)/.test(rest);
+  return !!rest && !/\.[a-z0-9]{1,6}$/i.test(rest) && !/^(qeels|qeels-ch|preflight|admin|lehrer|api|auth|rest)(\/|$)/.test(rest);
 }
 // Seiten: zuerst Netz, sonst gespeicherte Seite (Hülle oder Offline-Paket), sonst freundliche Offline-Seite
 async function netzZuerst(event) {
