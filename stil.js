@@ -3366,7 +3366,7 @@ html body.ep-app #app .thema[data-gp] .emo::after{font-size:9.5px;padding:2px 5p
   const E = "img/grafik/entdecken/", A = "html body #app";
   const c = document.createElement("style"); c.id = "ep-duell-zahn-css";
   c.textContent = `
-html:not([data-scr="home"]) body :is(.xs-knopf,.xui-knopf),html body.ep-app #app .ap-kz :is(.xs-knopf,.xui-knopf){display:none!important}
+html:not([data-scr="home"]) body .xui-knopf,html body.ep-app #app .ap-kz .xui-knopf,html body.ep-app:has(#app .ap-themen,#app .ap-p1,#app .ap-profil) .xui-knopf{display:none!important}
 html body.ep-app.ep-s-duell #app > .ap-kz.ap-kz-tab{display:none!important}
 ${A} .du3-kopf{position:relative}
 ${A} .du3-zahn{position:absolute;top:2px;right:2px;z-index:4;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;margin:0;padding:0;border:0;background:none;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}

@@ -9,7 +9,7 @@
      effekteAn(), musikAn(), lautstaerke()
      setze({effekte, musik, lautstaerke})   Einstellungen ändern (lautstaerke 0..1), wird gespeichert
      stuecke(), effekte()                   Listen für eigene Menüs
-   Speicher: ep-x-sound-effekte (Standard an), ep-x-sound-musik (Standard aus), ep-x-sound-vol (Standard 0.6)
+   Speicher: ep-x-sound-effekte (Standard aus, Dejan 10.11.), ep-x-sound-musik (Standard aus), ep-x-sound-vol (Standard 0.6)
    Audio startet erst nach der ersten Berührung/Taste (AudioContext wird erst dann erzeugt). */
 (function(){
 "use strict";
@@ -20,7 +20,7 @@ const LS = {
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
 const K = { fx:"ep-x-sound-effekte", mu:"ep-x-sound-musik", vol:"ep-x-sound-vol" };
-const E = { effekte: LS.get(K.fx, true) !== false, musik: LS.get(K.mu, false) === true, vol: (() => { const v = +LS.get(K.vol, 0.6); return isFinite(v) ? Math.min(1, Math.max(0, v)) : 0.6; })() };
+const E = { effekte: LS.get(K.fx, false) === true, musik: LS.get(K.mu, false) === true, vol: (() => { const v = +LS.get(K.vol, 0.6); return isFinite(v) ? Math.min(1, Math.max(0, v)) : 0.6; })() };
 const hoerer = new Set();
 const melden = () => hoerer.forEach(f => { try{ f(); }catch(e){} });
 
@@ -578,7 +578,14 @@ function platzieren(){
   let ort = null, art = "", gr = null;
   if(appAn && app){
     gr = app.querySelector(".ap-gruss"); const kz = app.querySelector(":scope > .ap-kz");
-    if(gr && gr.querySelector(".ap-logo") && gr.parentNode){ ort = gr.parentNode; art = "gruss"; } else if(kz){ ort = kz; art = "kz"; }
+    if(gr && gr.querySelector(".ap-logo") && gr.parentNode){ ort = gr.parentNode; art = "gruss"; } else if(kz && getComputedStyle(kz).display !== "none"){ ort = kz; art = "kz"; }
+    /* Seiten ohne Kopfzeile (Dejan 10.11.: Knopf auf allen Seiten): Profil-Tab neben dem Zahnrad, Duell neben dem Titel,
+       Themen-Tab neben dem Titel, sonst fest oben rechts (nicht im Quiz und im laufenden Duell, die haben eigene Leisten) */
+    else if(app.querySelector(".p1-kopf")){ ort = app.querySelector(".p1-kopf"); art = "p1"; }
+    else if(app.querySelector(".du3-titel")){ ort = app.querySelector(".du3-titel"); art = "du3"; }
+    else if(app.querySelector(".ap-themen > .ap-titel")){ ort = app.querySelector(".ap-themen > .ap-titel"); art = "titel"; }
+    else { let scr = ""; try{ scr = S.screen; }catch(e){}
+      if(!/^(quiz|duellplay|duellsplit|duellgeraet|livespiel)$/.test(scr) && !document.body.classList.contains("reelsauf")){ ort = document.body; art = "fix"; } }
   } else if(!appAn){
     const nav = document.getElementById("nav"), mw = nav && nav.querySelector(":scope > .menuwrap");
     if(mw && getComputedStyle(nav).display !== "none"){ ort = nav; art = "nav"; }
@@ -587,6 +594,7 @@ function platzieren(){
   k.dataset.ort = art;
   if(art === "nav"){ const mw = ort.querySelector(":scope > .menuwrap"); if(k.parentNode !== ort || k.nextElementSibling !== mw) ort.insertBefore(k, mw); }
   else if(art === "gruss"){ if(k.parentNode !== ort || k.nextElementSibling !== gr) ort.insertBefore(k, gr); }
+  else if(art === "p1"){ const z = ort.querySelector(".p1-zahn"); if(k.parentNode !== ort || k.nextElementSibling !== z) ort.insertBefore(k, z); }
   else if(k.parentNode !== ort) ort.appendChild(k);
   if(art === "gruss") grussLage(gr, k); else { k.style.left = ""; k.style.top = ""; k.style.visibility = ""; k.classList.remove("unten"); }
   menuLage();
@@ -686,6 +694,12 @@ css.textContent = `
 .xs-knopf[data-ort=gruss].unten{width:34px;height:34px}
 .xs-knopf[data-ort=gruss].unten svg{width:18px;height:18px}
 .ap-kz>.xs-knopf{margin-left:auto}
+.xs-knopf[data-ort=p1]{width:40px;height:40px;margin-left:auto;margin-right:8px}
+.xs-knopf[data-ort=p1] svg,.xs-knopf[data-ort=du3] svg,.xs-knopf[data-ort=titel] svg,.xs-knopf[data-ort=fix] svg{width:20px;height:20px}
+.xs-knopf[data-ort=du3]{width:36px;height:36px;margin-left:10px;vertical-align:middle;font-size:1rem}
+.xs-knopf[data-ort=titel]{width:38px;height:38px;margin-left:auto}
+.ap-themen>.ap-titel:has(>.xs-knopf){display:flex;align-items:center;gap:8px}
+.xs-knopf[data-ort=fix]{position:fixed;z-index:60;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;width:40px;height:40px}
 #nav>.xs-knopf{width:58px;height:58px;border:2px solid var(--line,#E3E1F2);background:var(--surface,#fff);color:var(--ink,#1B2240);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 #nav>.xs-knopf svg{width:26px;height:26px}
 @media (min-width:700px){.xs-knopf[data-ort=gruss]:not(.unten){width:48px;height:48px}.xs-knopf[data-ort=gruss]:not(.unten) svg{width:26px;height:26px}}
