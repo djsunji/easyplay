@@ -211,7 +211,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-2968649a.json",
+      "titel": "welten/i18n/en/titel-9c8427e0.json",
       "tx": {
         "geschichte-1": "welten/i18n/en/tx/geschichte-1-08d1b3fe.json",
         "geschichte-2": "welten/i18n/en/tx/geschichte-2-25a410d7.json",
@@ -226,9 +226,11 @@
         "natur-10": "welten/i18n/en/tx/natur-10-89ecac4b.json",
         "natur-11": "welten/i18n/en/tx/natur-11-1472da7e.json",
         "natur-12": "welten/i18n/en/tx/natur-12-929f2c9c.json",
-        "natur-13": "welten/i18n/en/tx/natur-13-aefea18a.json",
-        "natur-14": "welten/i18n/en/tx/natur-14-f23f76ff.json",
-        "natur-15": "welten/i18n/en/tx/natur-15-48e33ab3.json",
+        "natur-13": "welten/i18n/en/tx/natur-13-d0666880.json",
+        "natur-14": "welten/i18n/en/tx/natur-14-739212b6.json",
+        "natur-15": "welten/i18n/en/tx/natur-15-f0ce9e26.json",
+        "natur-16": "welten/i18n/en/tx/natur-16-de324eb7.json",
+        "natur-17": "welten/i18n/en/tx/natur-17-a02c62e8.json",
         "natur-2": "welten/i18n/en/tx/natur-2-f686e13d.json",
         "natur-3": "welten/i18n/en/tx/natur-3-d244a18d.json",
         "natur-4": "welten/i18n/en/tx/natur-4-bf0c27dd.json",
