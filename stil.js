@@ -1661,7 +1661,7 @@ body:not(.ep-app) #ep-hnav{max-width:none}
 body:not(.ep-app) .wrap{max-width:1360px}
 body:not(.ep-app) #app :is(.st-kopf,.themen,.modes,.bereiche,.xseite,.du2,.pp-seite,.statgrid,.statcard,.pp-restzeile,p.label,.libkopf,.ak-wahl,.ak-login,.kf-seite,.dukopf,.rlkopf,.pagehead,.crumbs){max-width:none!important}
 @media (min-width:701px){body:not(.ep-app) #app .x-kacheln{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}}
-body:not(.ep-app) #nav #navKonto{display:none!important}
+body:not(.ep-app) #nav :is(#navKonto,#navProfil){display:none!important}
 body:not(.ep-app) #app .crumbs{display:none!important}
 body:not(.ep-app) #app > .np-zurueck-unter{display:none!important}
 body:not(.ep-app) #app > .ep-zur{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;height:54px;margin:0 0 14px;padding:0 6px;
