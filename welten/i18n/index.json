@@ -159,7 +159,7 @@
   ],
   "bib": {
     "fr": {
-      "titel": "welten/i18n/fr/titel-5fda3979.json",
+      "titel": "welten/i18n/fr/titel-b84ccd8d.json",
       "tx": {
         "geschichte-1": "welten/i18n/fr/tx/geschichte-1-21392c39.json",
         "geschichte-2": "welten/i18n/fr/tx/geschichte-2-1182ccc6.json",
@@ -177,11 +177,12 @@
         "welt-13": "welten/i18n/fr/tx/welt-13-535d4ec1.json",
         "welt-14": "welten/i18n/fr/tx/welt-14-f001e0ae.json",
         "welt-15": "welten/i18n/fr/tx/welt-15-1644ccc0.json",
-        "welt-16": "welten/i18n/fr/tx/welt-16-358c9a4f.json",
-        "welt-17": "welten/i18n/fr/tx/welt-17-540bbee1.json",
-        "welt-18": "welten/i18n/fr/tx/welt-18-b3143592.json",
-        "welt-19": "welten/i18n/fr/tx/welt-19-6944da95.json",
+        "welt-16": "welten/i18n/fr/tx/welt-16-c2d0b643.json",
+        "welt-17": "welten/i18n/fr/tx/welt-17-aafbf01c.json",
+        "welt-18": "welten/i18n/fr/tx/welt-18-09744c50.json",
+        "welt-19": "welten/i18n/fr/tx/welt-19-7462c69e.json",
         "welt-2": "welten/i18n/fr/tx/welt-2-9c9cf8d9.json",
+        "welt-20": "welten/i18n/fr/tx/welt-20-7a0b36a4.json",
         "welt-3": "welten/i18n/fr/tx/welt-3-71153c3b.json",
         "welt-4": "welten/i18n/fr/tx/welt-4-bd195e0b.json",
         "welt-5": "welten/i18n/fr/tx/welt-5-1bbd0c77.json",
