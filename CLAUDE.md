@@ -34,7 +34,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
-- 13.11. Sitzung «Hauptseite»: Bibliothek Französisch: Artikel werden übersetzt (zuletzt 41 Pakete, 20 neue Artikel, jetzt 820 Artikel auf fr; `welten/i18n/fr/tx/`, Welle mit `tools/uebersetzung-bib/welle.sh fr`). Kein App-Bau. Version ep-2026-11-13-45.
+- 13.11. Sitzung «Hauptseite»: Bibliothek Französisch: Artikel werden übersetzt (zuletzt 42 Pakete, 20 neue Artikel, jetzt 840 Artikel auf fr; `welten/i18n/fr/tx/`, Welle mit `tools/uebersetzung-bib/welle.sh fr`). Kein App-Bau. Version ep-2026-11-13-46.
 - 13.11. Sitzung «Hauptseite»: Bibliothek Italienisch: Artikel werden übersetzt (zuletzt 30 Pakete, 20 neue Artikel, jetzt 600 Artikel auf it; `welten/i18n/it/tx/`, Welle mit `tools/uebersetzung-bib/welle.sh it`). Kein App-Bau. Version ep-2026-11-13-44.
 - 13.11. Sitzung «Hauptseite»: Bibliothek Englisch: Artikel werden übersetzt (zuletzt 30 Pakete, 20 neue Artikel, jetzt 600 Artikel auf en; `welten/i18n/en/tx/`, Welle mit `tools/uebersetzung-bib/welle.sh en`). Kein App-Bau. Version ep-2026-11-13-41.
 - 13.11. Sitzung «Release»: Computer: Profil-Knopf (Avatar und Name, `#navProfil`) in der Kopfzeile neben Qeels ausgeblendet, wie seit 02.11. schon `#navKonto`; Profil bleibt in der Menüleiste `#ep-hnav`. Regel in `stil.js` (`body:not(.ep-app) #nav :is(#navKonto,#navProfil)`). Handy/iPad unverändert. Kein App-Bau. Version ep-2026-11-13-39.
