@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-13-35";
+window.EP_BUILD="ep-2026-11-13-36";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6058,7 +6058,7 @@ function korrAnwenden(){ try{ for(const [k,v] of Object.entries(TXL.korr||{})){ 
   const flach=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,"");
   FT.te[k]=T; FT.t[k]=flach; S.teile[k]=T; S.texte[k]=flach; if(Array.isArray(v.bilder)){ FT.bi[k]=v.bilder; S.bilder[k]=v.bilder; } } }catch(e){} }
 function txIndex(){
-  korrLaden();
+  korrLaden(); txuTitel();
   if(!TXL.idxP){ const cfg=window.EP_CONFIG||{};
     TXL.idxP = cfg.texteIndex ? fetch(cfg.texteIndex).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ TXL.idx=j; if(j){ try{ RL.aPool=null; }catch(e){} txAufraeumen(j); } else setTimeout(()=>{ if(!TXL.idx) TXL.idxP=null; }, 5000); return j; }) : Promise.resolve(null); }   /* Fehlschlag: nach 5 s neu versuchen statt für immer aufgeben */
   return TXL.idxP;
@@ -6066,7 +6066,30 @@ function txIndex(){
 // alte Textdateien aus dem Datenspeicher entfernen, die der aktuelle Index nicht mehr kennt
 function txAufraeumen(j){ try{ if(!window.caches) return; const gut=new Set(j.d.map(d=>d.split("/").pop()));
   caches.has("epoff-daten").then(h=>h && caches.open("epoff-daten").then(c=>c.keys().then(ks=>ks.forEach(r=>{ const m=/\/tx\/([^/?#]+)$/.exec(new URL(r.url).pathname); const akt=String((window.EP_CONFIG||{}).texteIndex||"").split("/").pop(); if(m && (m[1].startsWith("index-") ? m[1]!==akt : !gut.has(m[1]))) c.delete(r); })))).catch(()=>{}); }catch(e){} }
-function txDatei(i){ const d=TXL.idx&&TXL.idx.d[i]; if(!d) return Promise.resolve(); return TXL.dateien[d] || (TXL.dateien[d]=ladeTexteTeil(d).then(ok=>{ if(ok===false) delete TXL.dateien[d]; return ok; })); }
+function txDatei(i){ const d=TXL.idx&&TXL.idx.d[i]; if(!d) return Promise.resolve(); return TXL.dateien[d] || (TXL.dateien[d]=ladeTexteTeil(d).then(async ok=>{ if(ok===false) delete TXL.dateien[d]; else await txuDatei(d); return ok; })); }
+/* Bibliothek in anderen Sprachen (Nov. 2026): zu jeder Datei tx/<buch>-<n>-<hash>.json gibt es pro Sprache eine Übersetzung
+   welten/i18n/<l>/tx/<buch>-<n>-<hash>.json = { schlüssel: {t, teile} } (Liste in welten/i18n/index.json unter "bib").
+   Ist eine andere Sprache gewählt, ersetzen die übersetzten Teile S.teile/S.texte; zurück auf Deutsch kommen die deutschen aus FT.
+   Die übersetzten Titel (deutsch → Sprache) gehen als Zusatz-Wörterbuch an i18n.js (EP_I18N.zusatz), das die Titel überall übersetzt.
+   Übersetzte Artikeltexte tragen data-txu, damit i18n.js sie nicht nochmals anfasst. */
+const TXU={ix:null, ixP:null, d:{}, t:{}, ti:{}};
+function txSpr(){ try{ return (window.EP_I18N&&EP_I18N.sprache())||"de"; }catch(e){ return "de"; } }
+function txuIndex(){ if(!TXU.ixP) TXU.ixP=fetch("welten/i18n/index.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ TXU.ix=(j&&j.bib)||{}; if(!j) setTimeout(()=>{ TXU.ixP=null; },5000); return TXU.ix; }); return TXU.ixP; }
+const txBasis=d=>String(d).split("/").pop().replace(/-[0-9a-f]{8}\.json$/,"");
+function txuTitel(l){ l=l||txSpr(); if(l==="de") return Promise.resolve(null); if(TXU.ti[l]) return TXU.ti[l];
+  TXU.ti[l]=txuIndex().then(ix=>{ const p=ix[l]&&ix[l].titel; if(!p) return null; return fetch(p).then(r=>r.ok?r.json():null).catch(()=>null); })
+    .then(j=>{ if(j){ try{ EP_I18N.zusatz(l,j); }catch(e){} } else setTimeout(()=>{ delete TXU.ti[l]; },5000); return j; });
+  return TXU.ti[l]; }
+function txuDatei(datei,l){ l=l||txSpr(); if(l==="de") return Promise.resolve();
+  return txuIndex().then(ix=>{ const p=ix[l]&&ix[l].tx&&ix[l].tx[txBasis(datei)]; if(!p) return; const sch=l+"|"+p; if(TXU.t[sch]) return TXU.t[sch];
+    return (TXU.t[sch]=fetch(p).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ if(!j){ delete TXU.t[sch]; return; }
+      Object.assign(TXU.d[l]||(TXU.d[l]={}), j); const ks=Object.keys(j); if(l===txSpr()){ txuAnwenden(ks); txNeuZeichnen(ks); } })); }); }
+function txuFlach(T){ return [T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); }
+function txuAnwenden(keys){ const l=txSpr(), D=TXU.d[l]; for(const k of (keys||Object.keys(FT.te))){ const u=l!=="de"&&D&&D[k];
+  if(u&&u.teile){ S.teile[k]=u.teile; S.texte[k]=txuFlach(u.teile); } else if(FT.te[k]){ S.teile[k]=FT.te[k]; S.texte[k]=FT.t[k]; } } }
+function txuAktiv(k){ const l=txSpr(); return l!=="de" && !!(TXU.d[l]&&TXU.d[l][k]); }
+document.addEventListener("ep:sprache",()=>{ const l=txSpr(); txuAnwenden(); if(l!=="de"){ txuTitel(l); Object.keys(TXL.dateien).forEach(d=>txuDatei(d,l)); }
+  try{ RL.aPool=null; }catch(e){} try{ if(/^(lib|lbib)/.test(S.screen||"") && !document.getElementById("reels")) render(); }catch(e){} });
 function txGrund(){ return TXL.t1 || (TXL.t1=ladeTexte1()); }
 // Seitenschlüssel hat einen Text (geladen oder laut Index vorhanden)
 function hatText(k){ return !!(S.texte[k] || (TXL.idx && TXL.idx.k[k]!=null) || (TXL.korr && TXL.korr[k])); }
@@ -7711,7 +7734,7 @@ function blickListe(merk,key){
 }
 /* Zusatztexte aus texte2.json (Bibliothek), ergänzen fehlende oder kurze Texte */
 const FT={t:{},bi:{},te:{}};
-function ftMischen(){ for(const k in FT.t){ if(!S.texte[k] || S.texte[k].length<1500){ S.texte[k]=FT.t[k]; if(FT.te[k]) S.teile[k]=FT.te[k]; if(FT.bi[k]) S.bilder[k]=FT.bi[k]; } }  korrAnwenden(); }
+function ftMischen(){ for(const k in FT.t){ if(!S.texte[k] || S.texte[k].length<1500){ S.texte[k]=FT.t[k]; if(FT.te[k]) S.teile[k]=FT.te[k]; if(FT.bi[k]) S.bilder[k]=FT.bi[k]; } }  korrAnwenden(); if(txSpr()!=="de") txuAnwenden(); }
 async function ladeTexteDatei(){ const cfg=window.EP_CONFIG||{}; await Promise.all((cfg.texteDateien2||["texte2-1.json","texte2-2.json","texte2-3.json","texte2-4.json"]).map(f=>ladeTexteTeil(f))); }
 async function ladeTexteTeil(datei){ try{ let r=await fetch(datei,{cache:"force-cache"}).catch(()=>null); if(!r||!r.ok) r=await fetch(datei); if(!r.ok) return false; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); txNeuZeichnen(Object.keys(tj||{})); return true; }catch(e){ return false; } }
 /* Nach dem Laden von Texten neu zeichnen, aber nur wenn es die offene Ansicht betrifft.
@@ -7739,13 +7762,14 @@ function satzListe(t){ return String(t).replace(/\s+/g," ").match(/[^.!?]+[.!?]+
 function textHTML(k){
   const T=S.teile[k];
   if(T && (T.einleitung || T.abschnitte?.length)){
-    return `<div class="beschr strukt">
-      ${T.einleitung?`<p class="blead">${fettHTML(T.einleitung)}</p>`:""}
-      ${Array.isArray(T.wichtigste)&&T.wichtigste.length?`<div class="bwichtig"><b>🎯 Das Wichtigste</b><ul>${T.wichtigste.map(w=>`<li>${fettHTML(w)}</li>`).join("")}</ul></div>`:""}
+    const U=txuAktiv(k)?' data-txu=""':"";   /* übersetzter Artikel: i18n.js lässt diese Texte in Ruhe */
+    return `<div class="beschr strukt"${U?` lang="${txSpr()}"`:""}>
+      ${T.einleitung?`<p class="blead"${U}>${fettHTML(T.einleitung)}</p>`:""}
+      ${Array.isArray(T.wichtigste)&&T.wichtigste.length?`<div class="bwichtig"><b>🎯 Das Wichtigste</b><ul>${T.wichtigste.map(w=>`<li${U}>${fettHTML(w)}</li>`).join("")}</ul></div>`:""}
       ${bild2Platz(k)}
-      ${(T.abschnitte||[]).map(a=>`<section class="babschn"><h4><span class="bem">${esc(a.emoji||"📌")}</span>${esc(a.titel||"")}</h4><p>${fettHTML(a.text||"")}</p></section>`).join("")}
-      ${Array.isArray(T.begriffe)&&T.begriffe.length?`<div class="bbegriffe"><b>📖 Wichtige Begriffe</b><dl>${T.begriffe.map(x=>`<dt>${esc(x.wort)}</dt><dd>${fettHTML(x.erklaerung)}</dd>`).join("")}</dl></div>`:""}
-      ${T.gewusst&&(!Array.isArray(T.gewusst)||T.gewusst.length)?`<div class="bgewusst"><b>💡 Schon gewusst?</b>${Array.isArray(T.gewusst)?`<ul>${T.gewusst.map(g=>`<li>${fettHTML(g)}</li>`).join("")}</ul>`:`<p>${fettHTML(T.gewusst)}</p>`}</div>`:""}</div>`;
+      ${(T.abschnitte||[]).map(a=>`<section class="babschn"><h4${U}><span class="bem">${esc(a.emoji||"📌")}</span>${esc(a.titel||"")}</h4><p${U}>${fettHTML(a.text||"")}</p></section>`).join("")}
+      ${Array.isArray(T.begriffe)&&T.begriffe.length?`<div class="bbegriffe"><b>📖 Wichtige Begriffe</b><dl>${T.begriffe.map(x=>`<dt${U}>${esc(x.wort)}</dt><dd${U}>${fettHTML(x.erklaerung)}</dd>`).join("")}</dl></div>`:""}
+      ${T.gewusst&&(!Array.isArray(T.gewusst)||T.gewusst.length)?`<div class="bgewusst"><b>💡 Schon gewusst?</b>${Array.isArray(T.gewusst)?`<ul>${T.gewusst.map(g=>`<li${U}>${fettHTML(g)}</li>`).join("")}</ul>`:`<p${U}>${fettHTML(T.gewusst)}</p>`}</div>`:""}</div>`;
   }
   const t=S.texte[k]; if(!t) return "";
   const sz=satzListe(t).map(x=>x.trim()).filter(Boolean);

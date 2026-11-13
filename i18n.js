@@ -98,6 +98,7 @@ function baue(l, daten){
 
 /* Fragen: nr → Übersetzung (pro Sprache) und Text-Karte Deutsch → Übersetzung (aktive Sprache) */
 const FQ = { nr:{}, text:new Map(), stand:"", laden:{}, geladen:{} };
+const BIBT = {};   /* Zusatz-Wörterbücher je Sprache (Bibliothekstitel), gesetzt über EP_I18N.zusatz() */
 
 const AFF_L = /^[\s\p{Extended_Pictographic}\p{So}\p{Sm}\p{Sk}‍️⃣›‹•·…←→↑↓▶◀✓✔✕+\-−]+/u;
 const AFF_R = /[\s\p{Extended_Pictographic}\p{So}\p{Sm}\p{Sk}‍️⃣›‹•·…←→↑↓▶◀✓✔✕]+$/u;
@@ -160,6 +161,7 @@ function datenErsetzen(k){
 function trRoh(k, W, tiefe){
   let v = W.map.get(k); if(v != null) return v;
   v = FQ.text.get(k); if(v != null) return v;
+  v = BIBT[L] && BIBT[L].get(k); if(v != null) return v;      /* Titel der Bibliothek (Seiten, Kapitel) */
   if(!hatBuchstaben(k) || /^\uE000[^\uE000\uE001]*\uE001$/.test(k)) return k;
   // Zahlen als Platzhalter
   if(/\d/.test(k)){
@@ -291,7 +293,7 @@ function kontext(){
 const TXT = new WeakMap();   // Textknoten → {o: Original, t: übersetzt}
 const ATT = new WeakMap();   // Element → {attr: {o, t}}
 const ATTRS = ["placeholder", "aria-label", "title", "alt"];
-const NEIN = "script,style,textarea,noscript,[translate=no],.xui-nein,[contenteditable=true],.spr-dwort,.spr-fwort,.spr-dh,.spr-mk-fremd,.spr-mk-vorne small,.spr-bsp,.spr-k-hinten small,.wkq,.wka,.wke";
+const NEIN = "script,style,textarea,noscript,[translate=no],.xui-nein,[data-txu],[contenteditable=true],.spr-dwort,.spr-fwort,.spr-dh,.spr-mk-fremd,.spr-mk-vorne small,.spr-bsp,.spr-k-hinten small,.wkq,.wka,.wke";
 let langerText = false;      // gab es auf dieser Seite einen langen, nicht übersetzten Text?
 
 const aus = el => !el || !!el.closest(NEIN);
@@ -821,6 +823,11 @@ window.EP_I18N = {
   nurUebersetzt(an){ if(typeof an === "boolean") LS.set(K.nur, an); return nurAn(); },
   _zeit: () => ({...ZEIT}),
   _sprich: t => trSprechen(t),
+  /* Bibliothek: übersetzte Titel (deutsch → Sprache l) dazunehmen */
+  zusatz(l, obj){ if(!obj || typeof obj !== "object") return; const m = BIBT[l] || (BIBT[l] = new Map()); let neu = 0;
+    for(const [k, v] of Object.entries(obj)){ if(typeof v !== "string") continue; const nk = norm(k); if(m.get(nk) !== v){ m.set(nk, v); neu++; } }
+    if(neu && l === L){ if(WB[l]) WB[l].cache.clear(); neuUebersetzen(); } },
+  titel: (t, l) => { const m = BIBT[l || L]; return (m && m.get(norm(t))) || null; },
   _uebersetzt: n => !!(n && (TXT.has(n) || ATT.has(n)))   /* für Tests: wurde dieser Knoten übersetzt? */
 };
 registrieren();

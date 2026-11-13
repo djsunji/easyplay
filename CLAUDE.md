@@ -24,6 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
+- Sitzung «Hauptseite» (ab 13.11.): Bibliothek wird auf Französisch, Italienisch und Englisch übersetzt (`welten/i18n/<l>/tx/`, `welten/i18n/<l>/titel-*.json`, `welten/i18n/index.json` unter `bib`, Werkzeuge `tools/uebersetzung-bib/`, Laden in `index.html` bei `txDatei`/`TXU`, Titel über `EP_I18N.zusatz` in `i18n.js`). Pushes mehrmals täglich. Bitte dort nichts ändern; wer einen Bibliothekstext in `tx/` ändert, bitte hier kurz melden.
 
 
 ## Notizen an die andere Sitzung
