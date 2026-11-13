@@ -163,6 +163,15 @@
       "tx": {
         "geschichte-1": "welten/i18n/fr/tx/geschichte-1-b3b78050.json"
       }
+    },
+    "en": {
+      "titel": "welten/i18n/en/titel-f17fb6b4.json",
+      "tx": {
+        "geschichte-1": "welten/i18n/en/tx/geschichte-1-08d1b3fe.json",
+        "geschichte-2": "welten/i18n/en/tx/geschichte-2-25a410d7.json",
+        "geschichte-3": "welten/i18n/en/tx/geschichte-3-786f1a5c.json",
+        "geschichte-4": "welten/i18n/en/tx/geschichte-4-152c2ff2.json"
+      }
     }
   }
 }
