@@ -172,6 +172,15 @@
         "geschichte-3": "welten/i18n/en/tx/geschichte-3-1f82569a.json",
         "geschichte-4": "welten/i18n/en/tx/geschichte-4-152c2ff2.json"
       }
+    },
+    "it": {
+      "titel": "welten/i18n/it/titel-4abb5f72.json",
+      "tx": {
+        "geschichte-1": "welten/i18n/it/tx/geschichte-1-09632b8f.json",
+        "geschichte-2": "welten/i18n/it/tx/geschichte-2-83627f69.json",
+        "geschichte-3": "welten/i18n/it/tx/geschichte-3-8ee51caf.json",
+        "geschichte-4": "welten/i18n/it/tx/geschichte-4-1133a8ae.json"
+      }
     }
   }
 }
