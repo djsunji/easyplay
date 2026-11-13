@@ -193,12 +193,16 @@
       }
     },
     "it": {
-      "titel": "welten/i18n/it/titel-1b9aa644.json",
+      "titel": "welten/i18n/it/titel-ca07e98a.json",
       "tx": {
         "geschichte-1": "welten/i18n/it/tx/geschichte-1-09632b8f.json",
         "geschichte-2": "welten/i18n/it/tx/geschichte-2-e8205e86.json",
         "geschichte-3": "welten/i18n/it/tx/geschichte-3-8ee51caf.json",
-        "geschichte-4": "welten/i18n/it/tx/geschichte-4-1133a8ae.json"
+        "geschichte-4": "welten/i18n/it/tx/geschichte-4-1133a8ae.json",
+        "geschichte-5": "welten/i18n/it/tx/geschichte-5-ceea2dd6.json",
+        "geschichte-6": "welten/i18n/it/tx/geschichte-6-6b517b79.json",
+        "geschichte-7": "welten/i18n/it/tx/geschichte-7-59610df1.json",
+        "geschichte-8": "welten/i18n/it/tx/geschichte-8-3938a247.json"
       }
     }
   }
