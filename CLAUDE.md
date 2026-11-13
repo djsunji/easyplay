@@ -24,7 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- Sitzung «Hauptseite» (ab 07.11.): Englisch, Fragen der Stufe Profis werden in Wellen übersetzt (`welten/i18n/en/`, `welten/i18n/index.json`), Pushes mehrmals täglich. Bitte dort nichts ändern.
+- Sitzung «Hauptseite» (ab 13.11.): Fragen der Stufe Profis werden auf Englisch, Französisch und Italienisch übersetzt (`welten/i18n/en|fr|it/`, `welten/i18n/index.json`), Pushes mehrmals täglich. Bitte dort nichts ändern.
 
 
 ## Notizen an die andere Sitzung
@@ -34,6 +34,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 13.11. Sitzung «Hauptseite»: Übersetzung der Stufe Profis vorbereitet: Englisch wird fertig übersetzt, Französisch und Italienisch folgen. Neu `tools/uebersetzung-fr/` (Anleitung Schweizer Französisch, `pakete.py`, `pruefe.py`, `einbau.py`, ohne Themen Sprache und Französisch), `tools/uebersetzung-it/` nimmt jetzt `EP_STUFEN`/`EP_Z` wie Englisch (Profis: `EP_STUFEN=3`). Kein App-Bau. Version ep-2026-11-13-01.
 - 10.11. Sitzung «Hauptseite»: Verwaltung speichert auf GitHub jetzt auch ohne eigenen Schlüssel im Browser (Dejans Wunsch): neuer Weg `/api/admin/github/…` in `server/admin.js` (`githubWeiter`, nur Admins, Schlüssel `GITHUB_TOKEN` bei Deploio, optional `GITHUB_REPO`), erlaubt nur Lesen (contents, git, commits, actions/runs, pages, releases) und Schreiben von Git-Daten (blobs, trees, commits, refs/heads); `/api/admin/status` meldet `github`. `admin/index.html`: `gh()` geht ohne eigenen Schlüssel über den Server (`ghUeberServer()`, `ghBereit()`, `SERVER_GH`), Kopfzeile «GitHub: über den Server». Anleitung in `ANLEITUNG-SERVER.md`. Kein App-Bau. Version ep-2026-11-10-13.
 - 10.11. Sitzung «App» (session_017onfQGSrtqqriL4SqEfcBc): Bereichs-Köpfe (Welt, Natur, Schweiz/Geld, Alltag; Themenseiten, Untermenüs, Training/Test) zeigen die Grafik jetzt ganz statt abgeschnitten (Dejans Wunsch): Grund als Neun-Teile-Bild `img/grafik/kopf-<natur|geld|alltag>-grund.webp` (linke Hälfte gespiegelt), Grafik als eigenes Bild `kopf-<b>-deko.webp` bzw. `kopf-welt-deko2.webp` mit weich ausgeblendeten Rändern, rechts mit contain; in der App nur über der Stufenwahl (`--dkb` per JS). Block «Bereichs-Köpfe ohne abgeschnittene Grafik» am Ende von `stil.js` (überschreibt die alten cover-Regeln in `stil.js` und `appfein.js`). Kein App-Bau. Version ep-2026-11-10-12.
 - 10.11. Sitzung «App» (session_017onfQGSrtqqriL4SqEfcBc): Ton/Musik: Knopf jetzt auf allen Seiten (Dejans Wunsch), auch in der App auf Themen-Tab (neben dem Titel), Profil-Tab (neben dem Zahnrad), Duell (neben dem Titel) und Seiten ohne Kopfzeile (fest oben rechts, nicht im Quiz/laufenden Duell/Qeels), `platzieren()` in `sound.js`; `stil.js` blendet nur noch den Sprachknopf ausserhalb der Startseite aus (auch auf Themen- und Profil-Tab, dort überdeckte er den Titel). Töne standardmässig aus (`E.effekte` Standard false, Musik war schon aus), wer schon gewählt hat, behält seine Wahl. Kein App-Bau. Version ep-2026-11-10-11.

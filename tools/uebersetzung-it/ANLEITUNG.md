@@ -1,6 +1,6 @@
 # Translating easyplay quiz questions into Italian
 
-easyplay is a Swiss learning quiz for children and teenagers. Field `l` gives the level: 1 = Explorers (age 6 to 10), 2 = Achievers (age 10 to 15). The questions should sound natural to Italian-speaking children in Switzerland (Ticino, Italian-speaking Grisons): standard Italian, with Swiss Italian terms for Swiss things.
+easyplay is a Swiss learning quiz for children and teenagers. Field `l` gives the level: 1 = Explorers (age 6 to 10), 2 = Achievers (age 10 to 15), 3 = Pros (age 15 to 20). The questions should sound natural to Italian-speaking children in Switzerland (Ticino, Italian-speaking Grisons): standard Italian, with Swiss Italian terms for Swiss things.
 
 ## Input
 A JSON list. Each entry: `nr` (number), `t` (topic), `s` (source/keyword, orientation only), `q` (question), `a` (4 answers, **a[0] is always the correct one**), `e` (explanation), `m` (thing to remember).
@@ -17,7 +17,7 @@ One JSON object, keys = `nr` as a string:
 - Questions about English or French words (topics `englisch`, `franzoesisch`, `fremdsprachen`): ask them from Italian, e.g. “Come si dice ‘cane’ in inglese?”, answers stay in the foreign language.
 
 ## Language
-- Italian for children and teenagers: clear sentences, “tu”, friendly, not childish. Achievers may use technical terms as in the original.
+- Italian for children and teenagers: clear sentences, “tu”, friendly, not childish. Achievers and Pros may use technical terms as in the original; Pros questions can be demanding, keep their level.
 - Swiss Italian conventions: Consiglio federale, Consiglio nazionale, Consiglio degli Stati, cantone, comune, AVS, franco (franchi), Posta, FFS. Swiss place names in their Italian form: Zurigo, Ginevra, Lucerna, Berna, Basilea, Grigioni, Ticino, San Gallo, Argovia, Turgovia, Soletta, Friborgo, Vallese, Neuchâtel, Sciaffusa, Appenzello, Glarona, Uri, Svitto, Obvaldo, Nidvaldo, Zugo, Giura, Vaud, Lago Lemano, Lago di Costanza, Lago dei Quattro Cantoni.
 - People, works, terms: the usual Italian form (Guglielmo Tell, Giulio Cesare, Carlo Magno).
 - Numbers stay as digits; units as in the original.

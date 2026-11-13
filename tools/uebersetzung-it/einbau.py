@@ -3,7 +3,7 @@
 import json, glob, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pruefe import pruefe
-W = "/home/claude/easyplay/welten/i18n"; Z = "/home/claude/fragen-it"
+W = "/home/claude/easyplay/welten/i18n"; Z = os.environ.get("EP_Z", "/home/claude/fragen-it")
 os.makedirs(f"{W}/it", exist_ok=True)
 alle = {}
 for f in glob.glob(f"{W}/it/q-*.json"): alle.update(json.load(open(f, encoding="utf-8")))
