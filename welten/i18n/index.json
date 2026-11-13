@@ -202,7 +202,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-f8dce890.json",
+      "titel": "welten/i18n/en/titel-3bc8af45.json",
       "tx": {
         "geschichte-1": "welten/i18n/en/tx/geschichte-1-08d1b3fe.json",
         "geschichte-2": "welten/i18n/en/tx/geschichte-2-25a410d7.json",
@@ -219,7 +219,9 @@
         "natur-4": "welten/i18n/en/tx/natur-4-bf0c27dd.json",
         "natur-5": "welten/i18n/en/tx/natur-5-3fdfb754.json",
         "natur-6": "welten/i18n/en/tx/natur-6-d41e43a1.json",
-        "natur-7": "welten/i18n/en/tx/natur-7-6fe63399.json",
+        "natur-7": "welten/i18n/en/tx/natur-7-07a2d99b.json",
+        "natur-8": "welten/i18n/en/tx/natur-8-f195311b.json",
+        "natur-9": "welten/i18n/en/tx/natur-9-b3effed0.json",
         "welt-1": "welten/i18n/en/tx/welt-1-2b091945.json",
         "welt-10": "welten/i18n/en/tx/welt-10-92d92c13.json",
         "welt-11": "welten/i18n/en/tx/welt-11-e1ab4054.json",
