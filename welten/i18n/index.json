@@ -159,7 +159,7 @@
   ],
   "bib": {
     "fr": {
-      "titel": "welten/i18n/fr/titel-34208c92.json",
+      "titel": "welten/i18n/fr/titel-ae3efb32.json",
       "tx": {
         "geschichte-1": "welten/i18n/fr/tx/geschichte-1-21392c39.json",
         "geschichte-2": "welten/i18n/fr/tx/geschichte-2-1182ccc6.json",
@@ -188,7 +188,9 @@
         "natur-23": "welten/i18n/fr/tx/natur-23-749605ad.json",
         "natur-24": "welten/i18n/fr/tx/natur-24-8a5d15da.json",
         "natur-25": "welten/i18n/fr/tx/natur-25-6d812262.json",
-        "natur-26": "welten/i18n/fr/tx/natur-26-619d19e0.json",
+        "natur-26": "welten/i18n/fr/tx/natur-26-94be9a21.json",
+        "natur-27": "welten/i18n/fr/tx/natur-27-54dfcdae.json",
+        "natur-28": "welten/i18n/fr/tx/natur-28-1df5cced.json",
         "natur-3": "welten/i18n/fr/tx/natur-3-94646923.json",
         "natur-4": "welten/i18n/fr/tx/natur-4-01b018a9.json",
         "natur-5": "welten/i18n/fr/tx/natur-5-cf71cfe8.json",
@@ -216,7 +218,8 @@
         "welt-6": "welten/i18n/fr/tx/welt-6-16e74990.json",
         "welt-7": "welten/i18n/fr/tx/welt-7-65b55c70.json",
         "welt-8": "welten/i18n/fr/tx/welt-8-ee0192f0.json",
-        "welt-9": "welten/i18n/fr/tx/welt-9-4452c18d.json"
+        "welt-9": "welten/i18n/fr/tx/welt-9-4452c18d.json",
+        "wissen-1": "welten/i18n/fr/tx/wissen-1-e409da77.json"
       }
     },
     "en": {
