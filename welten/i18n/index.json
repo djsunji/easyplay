@@ -159,7 +159,7 @@
   ],
   "bib": {
     "fr": {
-      "titel": "welten/i18n/fr/titel-77a5b083.json",
+      "titel": "welten/i18n/fr/titel-fae91a52.json",
       "tx": {
         "geschichte-1": "welten/i18n/fr/tx/geschichte-1-21392c39.json",
         "geschichte-2": "welten/i18n/fr/tx/geschichte-2-1182ccc6.json",
@@ -227,9 +227,11 @@
         "wissen-14": "welten/i18n/fr/tx/wissen-14-bc04d9d3.json",
         "wissen-15": "welten/i18n/fr/tx/wissen-15-647fc3d4.json",
         "wissen-16": "welten/i18n/fr/tx/wissen-16-4f8e82df.json",
-        "wissen-17": "welten/i18n/fr/tx/wissen-17-98d58a30.json",
-        "wissen-18": "welten/i18n/fr/tx/wissen-18-20e24db6.json",
+        "wissen-17": "welten/i18n/fr/tx/wissen-17-8cdec302.json",
+        "wissen-18": "welten/i18n/fr/tx/wissen-18-6adfca19.json",
+        "wissen-19": "welten/i18n/fr/tx/wissen-19-f592ab4e.json",
         "wissen-2": "welten/i18n/fr/tx/wissen-2-54b57925.json",
+        "wissen-20": "welten/i18n/fr/tx/wissen-20-84e45bfb.json",
         "wissen-3": "welten/i18n/fr/tx/wissen-3-3d79ecb2.json",
         "wissen-4": "welten/i18n/fr/tx/wissen-4-451d49fc.json",
         "wissen-5": "welten/i18n/fr/tx/wissen-5-f32cc95f.json",
