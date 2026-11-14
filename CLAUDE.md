@@ -24,7 +24,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 
 ## Gerade in Arbeit
 
-- Sitzung «Hauptseite» (ab 13.11.): Bibliothek wird auf Französisch, Italienisch und Englisch übersetzt (`welten/i18n/<l>/tx/`, `welten/i18n/<l>/titel-*.json`, `welten/i18n/index.json` unter `bib`, Werkzeuge `tools/uebersetzung-bib/`, Laden in `index.html` bei `txDatei`/`TXU`, Titel über `EP_I18N.zusatz` in `i18n.js`). Pushes mehrmals täglich. Bitte dort nichts ändern; wer einen Bibliothekstext in `tx/` ändert, bitte hier kurz melden.
+- Sitzung «Hauptseite» (ab 13.11.): Bibliothek wird auf Französisch, Italienisch und Englisch übersetzt (`welten/i18n/<l>/tx/`, `welten/i18n/<l>/titel-*.json`, `welten/i18n/index.json` unter `bib`, Werkzeuge `tools/uebersetzung-bib/`, Laden in `index.html` bei `txDatei`/`TXU`, Titel über `EP_I18N.zusatz` in `i18n.js`). Pushes mehrmals täglich. Bitte dort nichts ändern; wer einen Bibliothekstext in `tx/` ändert, bitte hier kurz melden. **Pausiert seit 14.11. (Stand en 13280, fr 11800, it 11480 von je rund 16100), Fortsetzung in der Woche ab 20.11.** Weitermachen: `python3 tools/uebersetzung-bib/pakete.py <l>` baut nur noch fehlende Artikel als Pakete, dann übersetzen, prüfen und `tools/uebersetzung-bib/welle.sh <l>`. Offen danach: deutsche Artikel ohne Titel (`tjxfek9`, `t3or6tl`, `t1yv3oxq`, `tjtd00t`), Ganges-«gewusst» und GIS-Massstab im Deutschen korrigieren.
 
 
 ## Notizen an die andere Sitzung
