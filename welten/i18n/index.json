@@ -243,7 +243,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-f9a1cb42.json",
+      "titel": "welten/i18n/en/titel-451cc056.json",
       "tx": {
         "geschichte-1": "welten/i18n/en/tx/geschichte-1-08d1b3fe.json",
         "geschichte-2": "welten/i18n/en/tx/geschichte-2-25a410d7.json",
@@ -285,9 +285,9 @@
         "politik-1": "welten/i18n/en/tx/politik-1-ab173749.json",
         "politik-2": "welten/i18n/en/tx/politik-2-f5ab2a6e.json",
         "politik-3": "welten/i18n/en/tx/politik-3-c51f9371.json",
-        "politik-4": "welten/i18n/en/tx/politik-4-fbd804db.json",
-        "politik-5": "welten/i18n/en/tx/politik-5-3f82bfe8.json",
-        "politik-6": "welten/i18n/en/tx/politik-6-7caa99cd.json",
+        "politik-4": "welten/i18n/en/tx/politik-4-50b66083.json",
+        "politik-5": "welten/i18n/en/tx/politik-5-0ff85784.json",
+        "politik-6": "welten/i18n/en/tx/politik-6-ddc507c5.json",
         "schweiz-1": "welten/i18n/en/tx/schweiz-1-b1a5bf23.json",
         "welt-1": "welten/i18n/en/tx/welt-1-2b091945.json",
         "welt-10": "welten/i18n/en/tx/welt-10-92d92c13.json",
