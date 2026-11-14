@@ -242,7 +242,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-f7300e11.json",
+      "titel": "welten/i18n/en/titel-03b0d7f8.json",
       "tx": {
         "geschichte-1": "welten/i18n/en/tx/geschichte-1-08d1b3fe.json",
         "geschichte-2": "welten/i18n/en/tx/geschichte-2-25a410d7.json",
@@ -281,7 +281,9 @@
         "natur-7": "welten/i18n/en/tx/natur-7-07a2d99b.json",
         "natur-8": "welten/i18n/en/tx/natur-8-b69df0d6.json",
         "natur-9": "welten/i18n/en/tx/natur-9-cd2a30ed.json",
-        "schweiz-1": "welten/i18n/en/tx/schweiz-1-5cbc752d.json",
+        "politik-1": "welten/i18n/en/tx/politik-1-5df4628a.json",
+        "politik-2": "welten/i18n/en/tx/politik-2-d44d71c2.json",
+        "schweiz-1": "welten/i18n/en/tx/schweiz-1-b1a5bf23.json",
         "welt-1": "welten/i18n/en/tx/welt-1-2b091945.json",
         "welt-10": "welten/i18n/en/tx/welt-10-92d92c13.json",
         "welt-11": "welten/i18n/en/tx/welt-11-e1ab4054.json",
@@ -319,7 +321,7 @@
         "wissen-21": "welten/i18n/en/tx/wissen-21-9ed9b27d.json",
         "wissen-22": "welten/i18n/en/tx/wissen-22-b145de09.json",
         "wissen-23": "welten/i18n/en/tx/wissen-23-621e2ba0.json",
-        "wissen-24": "welten/i18n/en/tx/wissen-24-7065b8a1.json",
+        "wissen-24": "welten/i18n/en/tx/wissen-24-d71fb852.json",
         "wissen-3": "welten/i18n/en/tx/wissen-3-934256c0.json",
         "wissen-4": "welten/i18n/en/tx/wissen-4-b2b6fe0c.json",
         "wissen-5": "welten/i18n/en/tx/wissen-5-ed64b4a3.json",
