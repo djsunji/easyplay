@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-14-90";
+window.EP_BUILD="ep-2026-11-14-91";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -4278,6 +4278,13 @@ const STUFE_ALLE = {id:4, name:"Alle Stufen", alter:"alle Fragen"};
 function stufeObj(id){ const k=id??S.stufe; if(k===4) return STUFE_ALLE; return STUFEN.find(s=>s.id===k) || STUFEN[0]; }
 const STUFE_EMO = {1:'<img class="gstufe" src="img/qeels-icons/stufen/entdecker.webp" alt="">',2:'<img class="gstufe" src="img/qeels-icons/stufen/koenner.webp" alt="">',3:'<img class="gstufe" src="img/qeels-icons/stufen/profis.webp" alt="">',4:'<img class="gstufe" src="img/grafik/stufe-alle.webp" alt="">'};
 
+/* Bibliothek: kleine Sprachwahl im Artikel (wie bei Wikipedia) */
+function artSprachen(){
+  const I=window.EP_I18N; if(!I||!I.fahne) return "";
+  const l=I.sprache(), W={de:"4 Sprachen",fr:"4 langues",it:"4 lingue",en:"4 languages"};
+  return `<details class="artspr" translate="no" data-txu=""><summary aria-label="${esc(W[l]||W.de)}"><img class="artspr-ic" src="img/grafik/ic-globe.webp" alt="" aria-hidden="true" draggable="false">${I.fahne(l)}<span>${esc(I.name(l))}</span><span class="artspr-pf" aria-hidden="true">▾</span></summary><div class="artspr-l" role="menu">${["de","fr","it","en"].map(x=>`<button type="button" role="menuitemradio" class="artspr-b${x===l?" an":""}" data-artl="${x}" lang="${x}" aria-checked="${x===l}">${I.fahne(x)}<span>${esc(I.name(x))}</span>${x===l?'<em aria-hidden="true">✓</em>':""}</button>`).join("")}</div></details>`;
+}
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-artl]"); if(!b){ document.querySelectorAll("details.artspr[open]").forEach(d=>{ if(!d.contains(e.target)) d.open=false; }); return; } b.closest("details")&&(b.closest("details").open=false); const l=b.dataset.artl; try{ if(window.EP_I18N&&EP_I18N.sprache()!==l) EP_I18N.setze(l); }catch(x){} });
 function speakBtn(text){ return ("speechSynthesis" in window) ? `<span class="speakrow"><button class="speak" type="button" data-say="${esc(text)}">${ico("speaker")} Vorlesen</button></span>` : ""; }
 function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} try{ clearInterval(RL.vorT); rlVorlesenAus(); }catch(e){} document.querySelectorAll(".speak[data-say]").forEach(b=>{ b.classList.remove("on"); b.innerHTML=`${ico("speaker")} Vorlesen`; }); }
 function bindSpeak(){
@@ -7196,7 +7203,7 @@ function vlIndex(){
   return VL;
 }
 const VL_STOPP=new Set(["Schweiz","Wasser","Sommer","Winter","Frühling","Herbst","Welt","Leben","Zeit","Geld","Menschen","Mensch","Tiere","Natur","Familie","Schule","Arbeit","Luft","Farben","Zahlen","Gold","Silber","Bronze","Olympia"]);
-const VL_SKIP="a,button,h1,figure,.skopf,.blaettern,.libnav,.zufallleiste,.kframe,.kfuss,.verbindungen,.adminleiste,.stkopf,dt,.bibst,.flusstabs,.kkopf,.kinfo,.wikilink,.speak,svg,script,style";
+const VL_SKIP=".artspr,a,button,h1,figure,.skopf,.blaettern,.libnav,.zufallleiste,.kframe,.kfuss,.verbindungen,.adminleiste,.stkopf,dt,.bibst,.flusstabs,.kkopf,.kinfo,.wikilink,.speak,svg,script,style";
 function verlinkeSeite(s, B){
   const root=$(".buchseite"); if(!root) return;
   let V; try{ V=vlIndex(); }catch(e){ return; }
@@ -7365,7 +7372,7 @@ function renderLibBuch(){
   $("#app").innerHTML = `${crumbs()}
     <div class="offen zbo" data-buch="${B.id}" style="--bf:${B.farbe};--bf2:${B.farbe2}">
       ${zSchmuck()}
-      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne">${zRunen("mkpfad")}<img class="mbild" src="img/grafik/buecher/${B.id}.webp?v=2" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
+      <div class="seite links"><div class="zlinks"><div class="minicover"><span class="mbuehne">${zRunen("mkpfad")}<img class="mbild" src="img/grafik/buecher/${(l=>["fr","it","en"].includes(l)?l+"/"+B.id+".webp?v=1":B.id+".webp?v=2")(window.EP_I18N?EP_I18N.sprache():"de")}" alt=""></span><span class="mtext"><span class="bemo2">${buchEmo(B)}</span><span class="btitel">${esc(B.titel)}</span><span class="bunter">${esc(B.untertitel)}</span></span></div>
         <p class="libdesc">${esc(B.desc ? B.desc : B.id==="politik" ? "Wie funktioniert die Schweiz? Hier erfährst du, wie Bund, Kantone und Gemeinden zusammenspielen, wie das Volk mitbestimmt, wer uns regiert und wofür die Parteien stehen." : (bd?.desc||""))}</p>
         <p class="bstat"><span class="siegel"><b>${D.seiten.length.toLocaleString("de-CH")}</b>Seiten</span><span class="siegel"><b>${D.kap.length}</b>Kapitel</span></p>
         ${suchfeldHTML("buchSuche", LIB.q, "🔎 In diesem Buch suchen …")}
@@ -7455,7 +7462,7 @@ function renderLibSeite(){
         <button type="button" class="onav vor" id="oVor" ${vor?"":"disabled"} ${vor?`title="Vorherige Seite: ${esc(vor.titel)}"`:""}><span class="opfeil">←</span><span class="otext"><small>${vor?`S. ${vor.nr}`:"Anfang"}</small><b>${vor?esc(vor.titel):"Keine vorherige Seite"}</b></span></button>
         <button type="button" class="onav nach" id="oNach" ${nach?"":"disabled"} ${nach?`title="Nächste Seite: ${esc(nach.titel)}"`:""}><span class="otext"><small>${nach?`S. ${nach.nr}`:"Ende"}</small><b>${nach?esc(nach.titel):"Keine weitere Seite"}</b></span><span class="opfeil">→</span></button>
       </nav>
-      <header><h1>${esc(s.titel)}</h1></header>
+      <header><h1>${esc(s.titel)}</h1>${artSprachen()}</header>
       ${LIB.vonQuiz&&S.quiz?`<div class="zurueckquiz"><button class="big gold" id="zumQuiz" type="button">↩️ Zurück zum Quiz (Frage ${S.quiz.i+1} von ${S.quiz.list.length})</button></div>`:""}
       ${LIB.zufall?`<div class="zufallleiste"><span>🎲 Zufallsartikel aus «${esc(B.titel)}»</span><button class="big zufallart" id="nochZufall" type="button"><span class="wuerfel">🎲</span> <span class="zlang">Noch ein zufälliger Artikel</span><span class="zkurz">Nächster</span></button></div>`:""}
       <figure class="wbild ersatz" id="wBild">${ersatzBildHTML(s,B)}</figure>

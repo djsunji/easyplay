@@ -1900,6 +1900,7 @@ ${R}[data-buch="geschichte"] .btitel{font-size:17cqi!important}${R}:is([data-buc
 ${FARBE.map(([id, t, st]) => `${R}[data-buch="${id}"],.zauber .zbuch[data-buch="${id}"]{--bt:${t};--bs:${st}}`).join("\n")}
 
 ${IDS.map(id => `${R}[data-buch="${id}"] .bcover,.zauber .zbuch[data-buch="${id}"] .zvorne{background-image:url("${B}${id}.webp?v=2")!important}`).join("\n")}
+${["fr","it","en"].map(l => IDS.map(id => `${R.replace("html ", `html:lang(${l}) `)}[data-buch="${id}"] .bcover,html:lang(${l}) .zauber .zbuch[data-buch="${id}"] .zvorne{background-image:url("${B}${l}/${id}.webp?v=1")!important}`).join("\n")).join("\n")}
 .zauber .zbuch[data-buch] .zvorne{background-color:transparent!important;background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;box-shadow:none!important;border-radius:0!important;padding:16% 24% 30% 17%!important;filter:drop-shadow(0 0 18px rgba(255,214,110,.7))}
 .zauber .zbuch[data-buch] .zvorne::before,.zauber .zbuch[data-buch] .zvorne .bemo2{display:none!important}
 .zauber .zbuch[data-buch] .zvorne .bunter{color:#FFE9A8;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.7)}
@@ -3366,7 +3367,7 @@ html body.ep-app #app .thema[data-gp] .emo::after{font-size:9.5px;padding:2px 5p
   const E = "img/grafik/entdecken/", A = "html body #app";
   const c = document.createElement("style"); c.id = "ep-duell-zahn-css";
   c.textContent = `
-html:not([data-scr="home"]) body .xui-knopf,html body.ep-app #app .ap-kz .xui-knopf,html body.ep-app:has(#app .ap-themen,#app .ap-p1,#app .ap-profil) .xui-knopf{display:none!important}
+html:not([data-scr="home"]) body.ep-app .xui-knopf,html body.ep-app #app .ap-kz .xui-knopf,html body.ep-app:has(#app .ap-themen,#app .ap-p1,#app .ap-profil) .xui-knopf{display:none!important}
 html body.ep-app.ep-s-duell #app > .ap-kz.ap-kz-tab{display:none!important}
 ${A} .du3-kopf{position:relative}
 ${A} .du3-zahn{position:absolute;top:2px;right:2px;z-index:4;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;margin:0;padding:0;border:0;background:none;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -3860,4 +3861,27 @@ let plan = 0; const los = () => { if(!plan) plan = requestAnimationFrame(() => {
 const app = document.getElementById("app");
 if(app) new MutationObserver(los).observe(app, {childList:true});
 addEventListener("resize", los); los();
+})();
+
+/* ===== Bibliothek: Sprachwahl im Artikel (wie bei Wikipedia), Sprachknopf oben am Computer immer sichtbar. Sitzung «Hauptseite», 14.11. ===== */
+(function(){
+  const c = document.createElement("style"); c.id = "ep-artspr-css";
+  c.textContent = `
+#app .libart .artspr{position:relative;display:block;width:max-content;margin:-4px auto 8px 0;z-index:5}
+#app .libart .artspr > summary{list-style:none;display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 7px;border-radius:8px;border:1px solid rgba(74,47,154,.2);background:rgba(255,255,255,.9);color:#4A2F9A;font:700 12px/1.2 Lexend,system-ui,sans-serif;cursor:pointer;user-select:none}
+#app .libart .artspr > summary::-webkit-details-marker{display:none}
+#app .libart .artspr > summary:hover{border-color:rgba(74,47,154,.45);background:#fff}
+#app .libart .artspr-ic{width:18px;height:18px;object-fit:contain;flex:none}
+#app .libart .artspr-pf{font-size:10px;transition:transform .2s}
+#app .libart .artspr[open] .artspr-pf{transform:rotate(180deg)}
+#app .libart .artspr .xui-fl{width:16px;height:16px;display:inline-block;margin:0!important;position:static!important;transform:none!important;flex:none}
+#app .libart .artspr .xui-fl svg{width:100%;height:100%}
+#app .libart .artspr-l{position:absolute;left:0;top:calc(100% + 4px);min-width:160px;padding:5px;border-radius:12px;background:#fff;border:1px solid rgba(74,47,154,.18);box-shadow:0 10px 26px -8px rgba(40,25,110,.35);display:flex;flex-direction:column;gap:2px}
+#app .libart .artspr-b{display:flex;align-items:center;gap:8px;width:100%;padding:6px 10px;border:0;border-radius:8px;background:none;color:#2D2560;font:600 13px/1.2 Lexend,system-ui,sans-serif;text-align:left;cursor:pointer}
+#app .libart .artspr-b:hover{background:#F2EEFF}
+#app .libart .artspr-b.an{background:#EFE9FF;color:#4A2F9A;font-weight:800;cursor:default}
+#app .libart .artspr-b em{margin-left:auto;font-style:normal;color:#7B4DFF}
+#app .libart .artspr-b:focus-visible,#app .libart .artspr > summary:focus-visible{outline:3px solid #FFE34D;outline-offset:2px}
+`;
+  document.head.appendChild(c);
 })();

@@ -827,6 +827,8 @@ window.EP_I18N = {
   zusatz(l, obj){ if(!obj || typeof obj !== "object") return; const m = BIBT[l] || (BIBT[l] = new Map()); let neu = 0;
     for(const [k, v] of Object.entries(obj)){ if(typeof v !== "string") continue; const nk = norm(k); if(m.get(nk) !== v){ m.set(nk, v); neu++; } }
     if(neu && l === L){ if(WB[l]) WB[l].cache.clear(); neuUebersetzen(); } },
+  fahne: l => fahne(l),
+  name: l => INFO[l] ? INFO[l].name : l,
   titel: (t, l) => { const m = BIBT[l || L]; return (m && m.get(norm(t))) || null; },
   _uebersetzt: n => !!(n && (TXT.has(n) || ATT.has(n)))   /* für Tests: wurde dieser Knoten übersetzt? */
 };
