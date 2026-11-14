@@ -235,7 +235,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-541ff077.json",
+      "titel": "welten/i18n/en/titel-f3823e6c.json",
       "tx": {
         "geschichte-1": "welten/i18n/en/tx/geschichte-1-08d1b3fe.json",
         "geschichte-2": "welten/i18n/en/tx/geschichte-2-25a410d7.json",
@@ -301,9 +301,10 @@
         "wissen-12": "welten/i18n/en/tx/wissen-12-b664f3e0.json",
         "wissen-13": "welten/i18n/en/tx/wissen-13-01d63c74.json",
         "wissen-14": "welten/i18n/en/tx/wissen-14-08624060.json",
-        "wissen-15": "welten/i18n/en/tx/wissen-15-58cc0f06.json",
-        "wissen-16": "welten/i18n/en/tx/wissen-16-862da259.json",
-        "wissen-17": "welten/i18n/en/tx/wissen-17-b526d534.json",
+        "wissen-15": "welten/i18n/en/tx/wissen-15-dcc8cb4e.json",
+        "wissen-16": "welten/i18n/en/tx/wissen-16-8f42200f.json",
+        "wissen-17": "welten/i18n/en/tx/wissen-17-5a4df58e.json",
+        "wissen-18": "welten/i18n/en/tx/wissen-18-810f2dd8.json",
         "wissen-2": "welten/i18n/en/tx/wissen-2-1829b809.json",
         "wissen-3": "welten/i18n/en/tx/wissen-3-934256c0.json",
         "wissen-4": "welten/i18n/en/tx/wissen-4-b2b6fe0c.json",
