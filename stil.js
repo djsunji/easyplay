@@ -3940,3 +3940,43 @@ ${P} .xt-punkte i{width:12px!important;height:12px!important}
   const warte = () => { const a = document.getElementById("app"); if(a){ new MutationObserver(plan).observe(a, {childList:true, subtree:true}); } else setTimeout(warte, 300); };
   warte(); addEventListener("resize", plan);
 })();
+
+/* ===== Handy/iPad (App-Ansicht): Duell-Ende ohne Verkleinern auf eine Seite (17.11.) =====
+   Vorher verkleinerte appfein.js die Seite per zoom, bei jedem neuen Zug des Bots neu: am iPhone ruckelte
+   der Bildschirm und die Seite erschien nur halb. Jetzt kompakter Aufbau, passt es nicht, darf sie scrollen. */
+(function(){
+  const P = "html body.ep-app #app .du2-ende";
+  const c = document.createElement("style"); c.id = "ep-duellende-app-css";
+  c.textContent = `
+html[data-scr="duellende"] body.ep-app #app{zoom:1!important}
+${P} .du2-ek{margin:0 0 8px!important}
+${P} .du2-ek > img{height:84px!important;margin:-22px -6px -14px -8px!important}
+${P} .du2-ek h1{font-size:1.15rem!important;margin:0 0 2px!important}
+${P} .du2-ek p{font-size:.85rem!important;gap:4px!important}
+${P} .du2-ek .duvs.gross{margin:4px 0 0!important}
+${P} .du2-ek .duvs .dupkt{font-size:1.4rem!important}
+${P} .du2-ek .duvs b{font-size:.8rem!important}
+${P} .du2-elo{padding:6px 10px!important;margin:0 0 4px!important}
+${P} .du2-hinw{margin:2px 0 6px!important;font-size:.82rem!important}
+${P} .du2-stats{margin:0 0 6px!important}
+${P} .du2-stats > div{padding:5px 7px 4px!important}
+${P} .du2-verlauf{padding:6px 10px!important;margin:0 0 4px!important}
+${P} .row{margin-top:6px!important;gap:10px!important}
+${P} .du2-elo{font-size:.85rem!important}
+${P} .du2-elo .du2-eloz b{font-size:1.6rem!important}
+${P} .du2-elol > b{font-size:1.05rem!important}
+${P} .du2-stats b{font-size:1rem!important}${P} .du2-stats span,${P} .du2-stats small{font-size:.66rem!important}
+${P} .row{flex-wrap:nowrap!important}
+html body.ep-app #app .du2-lobby{padding:14px 14px 12px!important}
+html body.ep-app #app .du2-lobby h2{font-size:1.35rem!important;margin:0 0 4px!important}
+html body.ep-app #app .du2-lobby .du2-lkid{height:96px!important;width:auto!important;margin:0 auto!important}
+html body.ep-app #app .du2-lobby > p{font-size:.88rem!important;margin:4px 0!important}
+html body.ep-app #app .du2-lobby .du2-such{transform:scale(.7);margin:-10px auto!important}
+html body.ep-app #app .du2-lobby .duvs{margin:6px 0!important}
+html body.ep-app #app .du2-lobby .duvs .pav{width:56px!important;height:56px!important}
+html body.ep-app #app .du2-lobby .duvs .vs{font-size:1.4rem!important}
+html body.ep-app #app .du2-lobby :is(.big,.du2-klein){margin-top:6px!important}
+html body #app .du2-lobby .du2-klein{color:#5A2BB0!important;background:#F4EFFF!important;border:2px solid #C9B8F5!important;text-shadow:none!important;font-weight:800!important}
+${P} .row > *{flex:1 1 0!important;min-width:0!important;min-height:0!important;padding-left:8px!important;padding-right:8px!important;font-size:.95rem!important;white-space:nowrap}`;
+  document.head.appendChild(c);
+})();

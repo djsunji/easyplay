@@ -390,7 +390,11 @@ function kachelnFuellen(){
 }
 /* Seiten, die nur ein wenig zu lang sind (bis 18 %), werden leicht verkleinert statt gescrollt (2.11., Dejans Wunsch:
    nirgends scrollen, wo man nicht muss). Nicht bei Lese- und Listenseiten, und nur wenn kein anderer Teil schon zoomt. */
-const NIE_KLEINER = ["libseite", "libbuch", "libkapitel", "libartikel", "libthema", "board", "historie", "meinetests", "testergebnis", "suche", "done", "checkdone", "quiz", "check", "duellplay", "liveplay", "livehost"];
+const NIE_KLEINER = ["libseite", "libbuch", "libkapitel", "libartikel", "libthema", "board", "historie", "meinetests", "testergebnis", "suche", "done", "checkdone", "quiz", "check", "duellplay", "duellende", "duelllobby", "duellannahme", "duellresultat", "liveplay", "livehost"];
+/* Duell (Spiel, Warten, Ende): Seite nie verkleinern und das Scrollen nicht ständig sperren und freigeben.
+   Der Bot antwortet weiter und zeichnet das Ende neu, das Spiel ändert die Höhe bei jeder Antwort; das Hin und Her
+   von zoom und overflow liess am iPhone den ganzen Bildschirm ruckeln und das Ende nur halb erscheinen (17.11.). */
+const DUELL_RUHIG = ["duellplay", "duellende", "duelllobby", "duellannahme", "duellresultat"];
 /* Zoom als Klasse mit !important: andere Teile setzen app.style.zoom beim Zeichnen zurück */
 (function(){ const c = document.createElement("style"); c.id = "af-kleiner"; c.textContent = "html body.ep-app #app[data-afzoom]{zoom:var(--af-z)!important}"; document.head.appendChild(c); })();
 const zoomWeg = a => { delete a.dataset.afzoom; a.style.removeProperty("--af-z"); };
@@ -412,8 +416,10 @@ function kleinerMachen(){
 function scrollWaechter(){
   const h = document.documentElement;
   if(!app() || document.getElementById("reels")){ h.classList.remove("af-fest"); return; }
-  const y = scrollY; h.classList.remove("af-fest");
   const a = document.getElementById("app");
+  let sc0 = ""; try{ sc0 = S.screen; }catch(e){}
+  if(DUELL_RUHIG.includes(sc0)){ h.classList.remove("af-fest"); if(a && a.dataset.afzoom) zoomWeg(a); return; }
+  const y = scrollY; h.classList.remove("af-fest");
   if(a && a.dataset.afzoom) zoomWeg(a);
   try{ themenEinpassen(); }catch(e){}
   try{ kachelnFuellen(); }catch(e){}
