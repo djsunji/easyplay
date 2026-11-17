@@ -3885,3 +3885,58 @@ addEventListener("resize", los); los();
 `;
   document.head.appendChild(c);
 })();
+
+/* ===== Handy/iPad (App-Ansicht): Tägliche Truhe auf einer Seite ohne Scrollen, ohne Kopf. Sitzung «Hauptseite», 17.11. ===== */
+(function(){
+  const P = 'html[data-scr="x-truhe"] body.ep-app #app';
+  const c = document.createElement("style"); c.id = "ep-truhe-app-css";
+  c.textContent = `
+${P} .xt-kopf{display:none!important}
+${P} .xt{margin:0!important;padding:0!important}
+${P} .xt-raster{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important}
+${P} .xt-raster>*{width:auto!important;max-width:none!important;align-self:stretch!important}
+${P} .xt-buehne{padding:12px 12px 14px!important;min-height:0!important;border-width:14px!important}
+${P} .xt-truhe{width:min(150px,40vw)!important;margin-top:4px!important}
+${P} .xt-strahlen{top:80px!important}
+${P} .xt-aktion{gap:8px!important}
+${P} .xt-glas{font-size:.92rem!important;padding:6px 12px!important;line-height:1.25!important}
+${P} .xt-btn{padding:10px 22px!important;font-size:1rem!important}
+${P} .xt-bel-liste{gap:6px!important}
+${P} .xt-bel{padding:6px 10px!important;gap:10px!important}
+${P} .xt-bel b{font-size:.95rem!important}
+${P} .xt-bel small{font-size:.76rem!important;line-height:1.25!important}
+${P} .xt-bic{width:34px!important;height:34px!important;font-size:19px!important}
+${P} .xt-morgen{padding:5px 12px 5px 5px!important;font-size:.88rem!important}
+${P} .xt-morgen-img{width:34px!important;height:34px!important}
+${P} .xt-seite{gap:10px!important}
+${P} .xt-karte{padding:10px 12px!important;border-width:14px!important}
+${P} .xt-karte h2{font-size:1rem!important;margin:0 0 6px!important}
+${P} .xt-kal{gap:4px!important;margin:0 0 8px!important}
+${P} .xt-kal li{padding:4px 1px!important;gap:2px!important;border-radius:10px!important}
+${P} .xt-kt{width:20px!important;height:20px!important;font-size:13px!important}
+${P} .xt-fort{gap:5px!important}
+${P} .xt-fort p{font-size:.76rem!important;line-height:1.3!important}
+${P} .xt-punkte i{width:12px!important;height:12px!important}
+`;
+  document.head.appendChild(c);
+  /* passt es trotzdem nicht, wird #app verkleinert (eigenes Merkmal data-xtfit) */
+  let lauf = 0;
+  function passen(){
+    const app = document.getElementById("app"), d = document.documentElement;
+    if(!app) return;
+    const aktiv = d.dataset.scr === "x-truhe" && document.body.classList.contains("ep-app");
+    if(!aktiv){ if(app.dataset.xtfit){ app.style.zoom = ""; delete app.dataset.xtfit; } return; }
+    app.style.zoom = ""; app.dataset.xtfit = "1";
+    const tabs = document.getElementById("epTabs");
+    const tr = tabs ? tabs.getBoundingClientRect() : null;
+    const unten = tr && tr.width < innerWidth * .9 && tr.left < 10 && tr.height > innerHeight * .5 ? innerHeight : (tr ? tr.top : innerHeight);
+    const oben = app.getBoundingClientRect().top + scrollY;
+    const xt = app.querySelector(".xt"); if(!xt) return;
+    const hoch = xt.getBoundingClientRect().bottom + scrollY - oben, platz = unten - oben - 8;
+    if(hoch > platz && platz > 200){ app.style.zoom = String(Math.max(.6, platz / hoch)); }
+  }
+  const plan = () => { cancelAnimationFrame(lauf); lauf = requestAnimationFrame(() => setTimeout(passen, 30)); };
+  new MutationObserver(plan).observe(document.documentElement, {attributes:true, attributeFilter:["data-scr"]});
+  const warte = () => { const a = document.getElementById("app"); if(a){ new MutationObserver(plan).observe(a, {childList:true, subtree:true}); } else setTimeout(warte, 300); };
+  warte(); addEventListener("resize", plan);
+})();
