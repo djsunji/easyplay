@@ -475,22 +475,23 @@ document.head.appendChild(c); })();
    Antwort eingerechnet, damit nichts springt. Im Browser bleibt unten Platz für die schwebende Adressleiste. */
 (function(){
   const app = document.getElementById("app"); if(!app) return;
-  let fbHoehe = 140, schluessel = "", z = 1, laeuft = false;
+  let fbHoehe = 140, fbDuell = 64, schluessel = "", z = 1, laeuft = false;
   function frei(){ try{ if(window.EP_NATIV || navigator.standalone || matchMedia("(display-mode: standalone)").matches) return 8; }catch(e){} return /iPhone|iPad|Android/.test(navigator.userAgent) ? 78 : 12; }
   function einpassen(neu){
     if(laeuft || document.hidden) return; laeuft = true;   /* im Hintergrund meldet iOS falsche Grössen: dann nicht messen */
     try{
-      const an = document.body.classList.contains("ep-app") && typeof S !== "undefined" && S.screen === "quiz" && app.querySelector(".answers");
+      const an = document.body.classList.contains("ep-app") && typeof S !== "undefined" && (S.screen === "quiz" || S.screen === "duellplay") && app.querySelector(".answers");   /* Duell: auch einpassen, sonst ragt die Rückmeldung am iPhone unter die Adressleiste (18.11.) */
       if(!an){ if(app.dataset.qfit){ app.style.zoom = ""; delete app.dataset.qfit; z = 1; } schluessel = ""; return; }   /* nur den eigenen Zoom zurücksetzen (Duell und Themen zoomen selbst) */
       const q = (app.querySelector("h2.question") || {}).textContent || "";
-      const fb = app.querySelector(".card .feedback");
+      const duell = S.screen === "duellplay";
+      const fb = app.querySelector(duell ? ".dufb" : ".card .feedback");
       if(q === schluessel && !neu && !fb) return;
       app.style.zoom = "";
       const oben = app.getBoundingClientRect().top + scrollY;
       const t0 = app.getBoundingClientRect().top; let unten = 0;
       for(const k of app.children){ if(getComputedStyle(k).position === "fixed") continue; const r = k.getBoundingClientRect(); if(r.height) unten = Math.max(unten, r.bottom); }
       let noetig = Math.max(200, unten - t0 + 10);
-      if(fb){ fbHoehe = Math.max(80, fb.getBoundingClientRect().height + 12); } else noetig += fbHoehe;
+      if(fb){ if(duell) fbDuell = Math.max(50, fb.getBoundingClientRect().height + 10); else fbHoehe = Math.max(80, fb.getBoundingClientRect().height + 12); } else noetig += duell ? fbDuell : fbHoehe;
       const hoch = Math.max(window.visualViewport ? visualViewport.height : 0, innerHeight);
       if(hoch < 320) return;                                     /* unplausibel klein (App wechselt gerade): nichts ändern */
       const platz = hoch - oben - frei();
