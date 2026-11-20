@@ -159,10 +159,10 @@
   ],
   "bib": {
     "fr": {
-      "titel": "welten/i18n/fr/titel-b6fc7f63.json",
+      "titel": "welten/i18n/fr/titel-be981802.json",
       "tx": {
-        "alltag-1": "welten/i18n/fr/tx/alltag-1-d9645590.json",
-        "alltag-2": "welten/i18n/fr/tx/alltag-2-4dcfa7a7.json",
+        "alltag-1": "welten/i18n/fr/tx/alltag-1-a9bf9ef5.json",
+        "alltag-2": "welten/i18n/fr/tx/alltag-2-d7403212.json",
         "alltag-3": "welten/i18n/fr/tx/alltag-3-8e83787a.json",
         "alltag-4": "welten/i18n/fr/tx/alltag-4-a00ddd09.json",
         "alltag-5": "welten/i18n/fr/tx/alltag-5-cd2ad085.json",
@@ -276,10 +276,10 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-e3d49282.json",
+      "titel": "welten/i18n/en/titel-4d497fec.json",
       "tx": {
-        "alltag-1": "welten/i18n/en/tx/alltag-1-c9f09597.json",
-        "alltag-2": "welten/i18n/en/tx/alltag-2-582f5379.json",
+        "alltag-1": "welten/i18n/en/tx/alltag-1-580e55e2.json",
+        "alltag-2": "welten/i18n/en/tx/alltag-2-b30f2cff.json",
         "alltag-3": "welten/i18n/en/tx/alltag-3-3e088780.json",
         "alltag-4": "welten/i18n/en/tx/alltag-4-44130e9e.json",
         "alltag-5": "welten/i18n/en/tx/alltag-5-d285de53.json",
@@ -393,10 +393,10 @@
       }
     },
     "it": {
-      "titel": "welten/i18n/it/titel-f0745157.json",
+      "titel": "welten/i18n/it/titel-83a0eaa1.json",
       "tx": {
-        "alltag-1": "welten/i18n/it/tx/alltag-1-14a24378.json",
-        "alltag-2": "welten/i18n/it/tx/alltag-2-f49ed136.json",
+        "alltag-1": "welten/i18n/it/tx/alltag-1-8edbca44.json",
+        "alltag-2": "welten/i18n/it/tx/alltag-2-c30a3080.json",
         "alltag-3": "welten/i18n/it/tx/alltag-3-36121ddf.json",
         "alltag-4": "welten/i18n/it/tx/alltag-4-3ecf74d9.json",
         "alltag-5": "welten/i18n/it/tx/alltag-5-44b2abbb.json",
