@@ -685,7 +685,7 @@ function aktion(a, el){
   else if(a === "tagesquiz"){ try{ window.EP_LERNEN_TQ(); }catch(e){ go("chat"); } }
   else if(a === "fehler"){ try{ const l = window.EP_LERNEN.fehlerListe(); if(l.length) startListe(l, "Fehler üben"); }catch(e){} }
   else if(a === "live") liveOeffnen();
-  else if(a === "duell") teamWahl(() => go("duell"), "Duell: Für welches Team spielst du?");
+  else if(a === "duell") go("duell");   /* Team (Lumi, Milo, Leni, Ben) wählt man direkt auf der Duell-Seite */
   else if(a === "spielmodi") go("spielmodi");
   else if(a === "profil"){ if(S.profil) go("profil"); else go("register"); }
   else if(a === "qeels"){ try{ oeffneReels(); }catch(e){} }
@@ -746,7 +746,7 @@ function renderChat(){
   naechste();
   app.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c;
     if(c === "tq"){ try{ if(tq){ startListe(window.EP_LERNEN.tagesFragen(), "Tagesquiz (Wiederholung)"); if(S.quiz) S.quiz.list = S.quiz.list.slice(0, 5); } else { startListe(window.EP_LERNEN.tagesFragen(), "Tagesquiz vom " + new Date().toLocaleDateString("de-CH")); if(S.quiz){ S.quiz.tagesquiz = heute(); S.quiz.list = S.quiz.list.slice(0, 5); } } }catch(e){ go("home"); } }
-    else if(c === "duell") teamWahl(() => go("duell"), "Teamkampf: Für welches Team spielst du?");
+    else if(c === "duell") go("duell");
     else if(c === "live") liveOeffnen();
     else if(c === "fehler") aktion("fehler");
     else if(c === "zufall") aktion("zufall");

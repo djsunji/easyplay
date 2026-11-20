@@ -4022,3 +4022,42 @@ ${P} .row > *{flex:1 1 0!important;min-width:0!important;min-height:0!important;
 }`;
   document.head.appendChild(c);
 })();
+
+/* ===== Duell: Kasten «Mit PIN spielen» (#du2Pin in duell2.js) im neuen Stil wie die Einstellungen ===== */
+(function(){ const c = document.createElement("style"); c.id = "ep-dupin-css";
+const P = "html body #app details.du2-ein#du2Pin";
+c.textContent = `
+${P}{max-width:560px;margin:10px auto 0!important;background:rgba(255,255,255,.96)!important;border:0!important;border-radius:20px!important;box-shadow:0 8px 20px rgba(30,20,90,.2)!important;overflow:hidden;padding:0!important;color:#2E2560!important;backdrop-filter:none!important}
+${P} > summary{display:flex!important;align-items:center;gap:12px;padding:8px 14px!important;min-height:0!important;list-style:none;cursor:pointer;background:none!important;border:0!important;color:#2E2560!important;font:700 14px Lexend,system-ui,sans-serif!important}
+${P} > summary::-webkit-details-marker{display:none}
+${P} .du-eic{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);box-shadow:0 2px 5px rgba(0,0,0,.25),inset 0 -2px 3px rgba(150,90,0,.3)}
+${P} .du-eic img{width:70%;height:70%;object-fit:contain}
+${P} .du-etx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;text-align:left}
+${P} .du-etx b{font:800 15px Lexend,sans-serif;color:#2E2560}
+${P} .du-etx .zus{font:600 12px Lexend,sans-serif;color:#6B6295;opacity:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+${P} .pf{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(123,91,255,.12);color:#6A4BFF;font-size:13px;transition:transform .2s}
+${P}[open] .pf{transform:rotate(90deg)}
+${P} .inhalt{display:flex!important;flex-direction:column;gap:10px;padding:12px 14px 14px!important;border-top:1px solid rgba(58,47,114,.1);background:none!important}
+${P} .du2-pin{display:flex!important;gap:8px;align-items:stretch;background:none!important;padding:0!important;margin:0!important}
+${P} #duPin{flex:1;min-width:0;width:auto!important;height:48px!important;border-radius:14px!important;border:2px solid #E4DEFA!important;background:#F7F4FF!important;color:#2E2560!important;font:800 20px Lexend,sans-serif!important;letter-spacing:.3em;text-align:center;padding:0 10px!important;box-shadow:none!important}
+${P} #duPin::placeholder{color:#A79FCC;letter-spacing:.12em;font-weight:700}
+${P} #duPin:focus{outline:none;border-color:#A43BE0!important;box-shadow:0 0 0 3px rgba(164,59,224,.18)!important}
+${P} .du2-klein{border:0!important;cursor:pointer;font:800 15px Lexend,sans-serif!important;border-radius:999px!important;min-height:48px;padding:0 22px!important;margin:0!important;transition:transform .15s,box-shadow .15s}
+${P} #duJoin{flex:none;background:linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F)!important;color:#fff!important;box-shadow:0 4px 10px rgba(110,50,200,.35)!important}
+${P} #duHost{width:100%;background:#fff!important;color:#5A3FD6!important;border:2px solid #E4DEFA!important;box-shadow:0 2px 6px rgba(30,20,90,.1)!important}
+${P} .du2-klein:hover{transform:translateY(-1px)}
+${P} .du2-klein:active{transform:translateY(1px)}
+html body.ep-app #app details.du2-ein#du2Pin > summary{padding:6px 12px!important}
+html body.ep-app #app details.du2-ein#du2Pin .du-etx .zus{display:none}
+/* Live-Wettbewerb: «Wettbewerb erstellen» und «Beitreten» als goldener Grafik-Knopf (vorher schaute hinter dem Bild eine gelbe Fläche hervor, «Beitreten» war noch der alte gelbe Knopf) */
+html body #app :is(#lvHost,#lvJoin).big.big{all:unset;box-sizing:border-box!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;height:62px!important;min-width:240px;max-width:100%;padding:0 12px!important;margin:18px auto 0!important;cursor:pointer;
+  background:none!important;background-color:transparent!important;box-shadow:none!important;border-radius:0!important;outline:0;
+  border:0 solid transparent!important;border-width:18px 31px!important;border-image:url("img/grafik/knopf-gold.webp?v=1") 52 87 fill / 18px 31px stretch!important;
+  color:#3A1C00!important;font:700 1.2rem Fredoka,Lexend,system-ui,sans-serif!important;text-shadow:0 1px 0 rgba(255,255,255,.5)!important;white-space:nowrap;filter:drop-shadow(0 4px 6px rgba(120,70,0,.25));transition:transform .15s}
+html body #app :is(#lvHost,#lvJoin).big.big::before,html body #app :is(#lvHost,#lvJoin).big.big::after{display:none!important}
+html body #app :is(#lvHost,#lvJoin).big.big:hover{transform:translateY(-2px)}
+html body #app :is(#lvHost,#lvJoin).big.big:focus-visible{outline:3px solid #7B3FE4;outline-offset:3px}
+html body #app #lvJoin.big.big{align-self:center}
+`;
+  document.head.appendChild(c);
+})();

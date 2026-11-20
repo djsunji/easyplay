@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-20-28";
+window.EP_BUILD="ep-2026-11-20-29";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -6208,11 +6208,14 @@ function buecherVorwaermen(){
 /* ================= Jahreszeiten & Tageszyklus (Schweizer Zeit) ================= */
 const SONNE = [[8.1,16.9],[7.6,17.6],[6.9,18.4],[6.8,20.1],[6.0,20.8],[5.5,21.4],[5.8,21.3],[6.4,20.6],[7.1,19.6],[7.8,18.6],[7.5,17.0],[8.1,16.6]];
 const SAISONS = {fruehling:{name:"Frühling",emo:"🌸"}, sommer:{name:"Sommer",emo:"☀️"}, herbst:{name:"Herbst",emo:"🍂"}, winter:{name:"Winter",emo:"❄️"}};
-const H = { modus: store.get("ep-tagmodus","auto"), saisonWahl: store.get("ep-saison","auto"), bg: store.get("ep-bg","alpen"), saisonVorschau: null, dunkel:false, phase:"tag" };
+const H = { modus: store.get("ep-tagmodus","auto"), saisonWahl: store.get("ep-saison","auto"), bg: store.get("ep-bg","auto"), saisonVorschau: null, dunkel:false, phase:"tag" };
 function zuerichJetzt(){
   const p=Object.fromEntries(new Intl.DateTimeFormat("de-CH",{timeZone:"Europe/Zurich",hour:"numeric",minute:"numeric",day:"numeric",month:"numeric",year:"numeric",hour12:false}).formatToParts(window.__epDatum ? new Date(window.__epDatum) : new Date()).map(x=>[x.type,x.value]));
   return {h:(+p.hour%24)+(+p.minute)/60, monat:+p.month, tag:+p.day, jahr:+p.year};
 }
+/* Standard «Nach Jahreszeit»: Dejans gemalte Bilder je Jahreszeit, nachts (dunkel) die Sternennacht */
+const BG_SAISON = {fruehling:"b-bergsee", sommer:"b-sommerwiese", herbst:"b-herbst", winter:"b-winter"};
+function bgEffektiv(saison, dunkel){ if(H.bg!=="auto") return H.bg; return dunkel ? "b-sternennacht" : BG_SAISON[saison] || "b-sommerwiese"; }
 function saisonFuer(m,d){ const md=m*100+d; if(md>=320 && md<621) return "fruehling"; if(md>=621 && md<923) return "sommer"; if(md>=923 && md<1221) return "herbst"; return "winter"; }
 const SKY = {
   nacht:["#0A0F2E","#131A3D","#1A2046"],
@@ -6231,7 +6234,7 @@ function himmelAktualisieren(){
   if(H.modus==="auto" && dunkel && phase!=="nacht") phase = h<12 ? "morgen" : "abend";
   H.dunkel=dunkel; H.phase=phase;
   const root=document.documentElement;
-  root.dataset.bg=H.bg; root.dataset.season=saison; root.dataset.theme = dunkel ? "dark" : "light"; root.dataset.phase=phase;
+  root.dataset.bg=bgEffektiv(saison, dunkel); root.dataset.season=saison; root.dataset.theme = dunkel ? "dark" : "light"; root.dataset.phase=phase;
   const c = phase==="tag" ? SKY.tag[saison] : SKY[phase];
   root.style.setProperty("--sky1",c[0]); root.style.setProperty("--sky2",c[1]); root.style.setProperty("--sky3",c[2]);
   // Sonne und Mond auf ihrer Bahn
@@ -6259,6 +6262,7 @@ function saisonWechseln(){ const k=Object.keys(SAISONS); const cur=document.docu
 
 /* ---------- Einstellungen: Hintergrund ---------- */
 const HINTERGRUENDE = [
+  {id:"auto", emo:"🗓️", name:"Nach Jahreszeit", text:"Bergsee, Sommerwiese, Herbst, Winter, nachts Sternennacht"},
   {id:"alpen", emo:"🏔️", name:"Alpenpanorama", text:"Berge, Jahreszeiten, Sonne und Mond"},
   {id:"wolken", emo:"🌈", name:"Farbwolken", text:"Sanfte Farben aus dem Logo"},
   {id:"muster", emo:"✏️", name:"Lern-Muster", text:"Verspielt wie ein Schulheft"},
@@ -6280,7 +6284,7 @@ function einstellungenHTML(){
   return `<div class="setbox" role="dialog" aria-modal="true" aria-labelledby="setTitle">
     <div class="sethead"><h2 id="setTitle">⚙️ Hintergrund</h2><button class="setx" id="setClose" type="button" aria-label="Schliessen">✕</button></div>
     <div class="bgopts">${HINTERGRUENDE.map(b=>`<button type="button" class="bgopt ${H.bg===b.id?"on":""}" data-bg="${b.id}" aria-pressed="${H.bg===b.id}">
-      <span class="bgprev prev-${b.id}"></span><span class="bgname">${b.emo} ${b.name}</span><span class="bgtext">${b.text}</span></button>`).join("")}</div>
+      <span class="bgprev prev-${b.id==="auto" ? bgEffektiv(document.documentElement.dataset.season||"sommer", H.dunkel) : b.id}"></span><span class="bgname">${b.emo} ${b.name}</span><span class="bgtext">${b.text}</span></button>`).join("")}</div>
     ${alpen ? `<div class="subopts">
       <p class="sublbl">Jahreszeit</p>
       ${segRow("Jahreszeit",[["auto","🗓️ Automatisch"],["fruehling","🌸 Frühling"],["sommer","☀️ Sommer"],["herbst","🍂 Herbst"],["winter","❄️ Winter"]],H.saisonWahl||"auto")}
