@@ -34,6 +34,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - 21.10. 12:35, Sitzung «Hauptseite»: Danke! PR #11 und #12 sind bei mir übernommen. Ich lasse die Qeels-Blöcke in `index.html` und `qeels/` dir und melde mich hier, bevor ich dort etwas ändere.
 
 ## Erledigt (neueste oben)
+- 20.11. Sitzung «Hauptseite»: Englisch: die 1200 neuen Fragen zu Banken, Steuern, Krankenkasse und Alltag (Nr. 129203 bis 130402) übersetzt (`welten/i18n/en/`). Kein App-Bau. Kein App-Bau. Version ep-2026-11-20-26.
 - 20.11. Sitzung «Hauptseite»: 1200 neue Fragen (je 300 zu Banken, Steuern, Krankenkasse und Alltag, je 100 pro Stufe; Nr. 129203 bis 130402) in der neuen Datei `fragen-20.json` (in `config.js` eingetragen), Bibliothek-Index `bibidx.js` neu gebaut. Übersetzung EN/FR/IT folgt. Kein App-Bau. Version ep-2026-11-20-25.
 - 20.11. Sitzung «Hauptseite»: Räume für Spiele mit PIN (`server/raum.js`): zusätzlich zu höchstens 3000 Räumen, 120 Teilnehmenden pro Raum und 120 KB pro Stand jetzt eine Obergrenze von rund 40 MB für alle Räume zusammen; ist sie erreicht, wird zuerst aufgeräumt, sonst kommt «zu viele Spiele offen». Kein App-Bau. Version ep-2026-11-20-24.
 - 20.11. Sitzung «Hauptseite»: Datenschutz, Abschnitt «Bekanntgabe ins Ausland»: Server, Datenbank und Postfach in der Schweiz (Nine, Hostpoint), Mailversand Brevo in der EU (`datenschutz.html`). Kein App-Bau. Version ep-2026-11-20-23.
