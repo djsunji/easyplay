@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-20-16";
+window.EP_BUILD="ep-2026-11-20-17";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -3756,7 +3756,7 @@ function renderWerkstatt(){
     <div class="review wlist">${pend.slice(0,60).map(f=>`<div class="rev">
         <b>${f.img?`<span class="wimg">${esc(f.img.slice(2))}</span> `:""}${esc(f.q)}</b>
         <span>${esc(THEMA[f.t]?.name||f.t)} · Stufe ${f.l} · Richtig: <strong>${esc(f.a[0])}</strong> · Falsch: ${f.a.slice(1).map(esc).join(", ")}</span>
-        <span>${esc(f.e)}${f.s?` · Quelle: Wikipedia «${esc(f.s)}»`:""}</span>
+        <span>${esc(f.e)}${f.s?` · Quelle: Wikipedia «${esc(String(f.s).replace(/ß/g,"ss"))}»`:""}</span>
         <span class="row" style="justify-content:flex-start;margin-top:8px"><button class="big alt small" data-ok="${esc(f.id)}" type="button">${ico("check")} Freigeben</button><button class="big alt small" data-del="${esc(f.id)}" type="button">${ico("cross")} Löschen</button></span>
       </div>`).join("")}${pend.length>60?`<p class="note">… und ${pend.length-60} weitere.</p>`:""}</div>`;
   $("#wGo").onclick=()=>{ W8.fokus=$("#wF").value.trim(); werkstattRun($("#wT").value, +$("#wL").value, +$("#wN").value, $("#wB").checked, W8.fokus); };
