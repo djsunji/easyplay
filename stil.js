@@ -3980,3 +3980,34 @@ html body #app .du2-lobby .du2-klein{color:#5A2BB0!important;background:#F4EFFF!
 ${P} .row > *{flex:1 1 0!important;min-width:0!important;min-height:0!important;padding-left:8px!important;padding-right:8px!important;font-size:.95rem!important;white-space:nowrap}`;
   document.head.appendChild(c);
 })();
+
+/* ---------- Meldungen nicht stapeln: immer nur eine kleine Meldung sichtbar ----------
+   Kleine Meldungen (.x-toast, .lvtoast, .ep-meldung, .xof-toast) kommen in eine Warteschlange, solange schon eine
+   Meldung, eine Wissenskarte (.alb-pop) oder das Level-Fenster (.lvup) sichtbar ist. Danach erscheinen sie nacheinander. */
+(function(){
+  if(window.__epMeldeQ) return; window.__epMeldeQ = true;
+  const KLEIN = ".x-toast,.lvtoast,.ep-meldung,.xof-toast";
+  const BLOCK = KLEIN + ",.alb-pop,.lvup";
+  const DAUER = {"x-toast":2800, "lvtoast":4100, "ep-meldung":4200, "xof-toast":3000};
+  const Q = [], anh = Node.prototype.appendChild, weg = Element.prototype.remove;
+  const aktiv = () => { for(const e of document.body.children){ if(e.matches && e.matches(BLOCK) && !e._epAus) return true; } return false; };
+  Node.prototype.appendChild = function(n){
+    try{
+      if(this === document.body && n && n.nodeType === 1 && !n._epQ && n.matches(KLEIN) && aktiv()){
+        n._epQ = true; n._epBis = Infinity;
+        n.remove = function(){ if(Date.now() < n._epBis) return; weg.call(n); };
+        Q.push(n); return n;
+      }
+    }catch(e){}
+    return anh.call(this, n);
+  };
+  function weiter(){
+    if(!Q.length || aktiv()) return;
+    const n = Q.shift(), d = DAUER[[...n.classList].find(c => DAUER[c])] || 3200;
+    n._epBis = Date.now() + d; anh.call(document.body, n);
+    requestAnimationFrame(() => n.classList.add("an"));
+    setTimeout(() => { n._epAus = true; n.classList.remove("an"); setTimeout(() => weg.call(n), 350); }, d);
+  }
+  let t = 0;
+  new MutationObserver(() => { clearTimeout(t); t = setTimeout(weiter, 300); }).observe(document.body || document.documentElement, {childList:true});
+})();
