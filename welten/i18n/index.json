@@ -159,7 +159,7 @@
   ],
   "bib": {
     "fr": {
-      "titel": "welten/i18n/fr/titel-83020e7b.json",
+      "titel": "welten/i18n/fr/titel-b6fc7f63.json",
       "tx": {
         "alltag-1": "welten/i18n/fr/tx/alltag-1-d9645590.json",
         "alltag-2": "welten/i18n/fr/tx/alltag-2-4dcfa7a7.json",
@@ -244,7 +244,7 @@
         "welt-21": "welten/i18n/fr/tx/welt-21-3e3a7c86.json",
         "welt-3": "welten/i18n/fr/tx/welt-3-71153c3b.json",
         "welt-4": "welten/i18n/fr/tx/welt-4-bd195e0b.json",
-        "welt-5": "welten/i18n/fr/tx/welt-5-1bbd0c77.json",
+        "welt-5": "welten/i18n/fr/tx/welt-5-1d771ae9.json",
         "welt-6": "welten/i18n/fr/tx/welt-6-16e74990.json",
         "welt-7": "welten/i18n/fr/tx/welt-7-65b55c70.json",
         "welt-8": "welten/i18n/fr/tx/welt-8-ee0192f0.json",
@@ -276,7 +276,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-a53c87b8.json",
+      "titel": "welten/i18n/en/titel-e3d49282.json",
       "tx": {
         "alltag-1": "welten/i18n/en/tx/alltag-1-c9f09597.json",
         "alltag-2": "welten/i18n/en/tx/alltag-2-582f5379.json",
@@ -361,7 +361,7 @@
         "welt-21": "welten/i18n/en/tx/welt-21-5adc3a59.json",
         "welt-3": "welten/i18n/en/tx/welt-3-356f53a8.json",
         "welt-4": "welten/i18n/en/tx/welt-4-85e23879.json",
-        "welt-5": "welten/i18n/en/tx/welt-5-80c3c169.json",
+        "welt-5": "welten/i18n/en/tx/welt-5-f1f123e6.json",
         "welt-6": "welten/i18n/en/tx/welt-6-ae93eb73.json",
         "welt-7": "welten/i18n/en/tx/welt-7-e817d517.json",
         "welt-8": "welten/i18n/en/tx/welt-8-d8d3f6d9.json",
@@ -393,10 +393,10 @@
       }
     },
     "it": {
-      "titel": "welten/i18n/it/titel-ee7dde55.json",
+      "titel": "welten/i18n/it/titel-f0745157.json",
       "tx": {
         "alltag-1": "welten/i18n/it/tx/alltag-1-14a24378.json",
-        "alltag-2": "welten/i18n/it/tx/alltag-2-f89fd607.json",
+        "alltag-2": "welten/i18n/it/tx/alltag-2-f49ed136.json",
         "alltag-3": "welten/i18n/it/tx/alltag-3-36121ddf.json",
         "alltag-4": "welten/i18n/it/tx/alltag-4-3ecf74d9.json",
         "alltag-5": "welten/i18n/it/tx/alltag-5-44b2abbb.json",
@@ -478,7 +478,7 @@
         "welt-21": "welten/i18n/it/tx/welt-21-a781541d.json",
         "welt-3": "welten/i18n/it/tx/welt-3-7b8dfaf9.json",
         "welt-4": "welten/i18n/it/tx/welt-4-e3492bb1.json",
-        "welt-5": "welten/i18n/it/tx/welt-5-b7236d94.json",
+        "welt-5": "welten/i18n/it/tx/welt-5-7e4aaca8.json",
         "welt-6": "welten/i18n/it/tx/welt-6-441efacc.json",
         "welt-7": "welten/i18n/it/tx/welt-7-19cca486.json",
         "welt-8": "welten/i18n/it/tx/welt-8-74e7833e.json",
