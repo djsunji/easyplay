@@ -616,6 +616,8 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
 @keyframes jkWackel{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .du-joker-msg{margin:8px 0 0;text-align:center;font-weight:800;color:#1E2A9E}
 body.dark .du-joker-msg{color:#FFE9A8}
+#app .du-joker-msg:not(.tipp){width:fit-content;max-width:640px;margin:8px auto 4px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.97);color:#2E2560!important;font:800 .95rem Lexend,system-ui,sans-serif;box-shadow:0 6px 16px rgba(30,20,90,.2);border:2px solid #4CD46A}
+#app .du-joker.lumi ~ .du-joker-msg:not(.tipp){border-color:#FF6FB5}#app .du-joker.milo ~ .du-joker-msg:not(.tipp){border-color:#4F8BFF}#app .du-joker.leni ~ .du-joker-msg:not(.tipp){border-color:#FFA24A}
 #app .du-joker-msg.tipp{max-width:640px;margin:4px auto 12px;padding:10px 16px 10px 52px;border-radius:18px;background:rgba(255,255,255,.97) url("img/grafik/duell/joker-leni.webp?v=2") 12px center/30px auto no-repeat;color:#2E2560!important;font:700 .98rem/1.4 Lexend,system-ui,sans-serif;text-align:left;box-shadow:0 6px 16px rgba(30,20,90,.2);border:2px solid #FFD54A}`;
   document.head.appendChild(css);
 
