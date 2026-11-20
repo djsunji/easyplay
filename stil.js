@@ -4061,3 +4061,71 @@ html body #app #lvJoin.big.big{align-self:center}
 `;
   document.head.appendChild(c);
 })();
+
+/* ===== Rangliste: Umschalter, Filter und Liste im Stil der Duell-Einstellungen (weisse Karten, Symbole in goldenen Münzen,
+   gewählt Violett-Pink). Standard ist Gesamt und Alle Stufen (renderBoard in index.html). ===== */
+(function(){ const c = document.createElement("style"); c.id = "ep-rl3-css";
+const A = 'html[data-scr="board"] body #app';
+const VP = "linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F)";
+const MZ = "radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800)";
+const MS = "0 2px 5px rgba(0,0,0,.25),inset 0 -2px 3px rgba(150,90,0,.3)";
+c.textContent = `
+${A} .segs.rlmodus.rlmodus{background:rgba(255,255,255,.96)!important;border:0!important;box-shadow:0 10px 24px rgba(30,20,90,.22)!important;padding:8px!important;gap:8px!important;border-radius:26px!important}
+${A} .segs.rlmodus.rlmodus .seg{background:#F7F4FF!important;border:2px solid #E4DEFA!important;color:#2E2560!important;font:800 16px Lexend,system-ui,sans-serif!important;border-radius:20px!important;gap:10px!important;padding:6px 20px 6px 8px!important;min-height:56px!important}
+${A} .segs.rlmodus.rlmodus .seg:not([aria-pressed="true"]):hover{background:#EFE9FF!important;transform:translateY(-1px)}
+${A} .segs.rlmodus.rlmodus .seg[aria-pressed="true"]{background:${VP}!important;border-color:transparent!important;color:#fff!important;box-shadow:0 6px 14px rgba(110,50,200,.35)!important}
+${A} .segs.rlmodus.rlmodus .seg img{box-sizing:border-box;width:40px!important;height:40px!important;padding:6px;border-radius:50%;background:${MZ};box-shadow:${MS};object-fit:contain}
+${A} .rl-filter.rl-filter{background:rgba(255,255,255,.96)!important;border-radius:24px!important;box-shadow:0 10px 24px rgba(30,20,90,.2)!important;padding:14px 18px!important}
+${A} .rl-filter .rl-fl{display:flex;align-items:center;gap:8px;width:auto!important;min-width:104px;color:#2E2560!important;font:800 14px Lexend,sans-serif!important;letter-spacing:0!important;text-transform:none!important}
+${A} .rl-filter .rl-fl i{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:${MZ};box-shadow:${MS}}
+${A} .rl-filter .rl-fl i img{width:70%;height:70%;object-fit:contain}
+${A} .rl-filter .segs.rlsegs.rlsegs{background:none!important;padding:0!important;gap:8px!important;border:0!important}
+${A} .rl-filter .segs.rlsegs.rlsegs .seg{background:#F7F4FF!important;border:2px solid #E4DEFA!important;color:#2E2560!important;font:700 14px Lexend,sans-serif!important;border-radius:16px!important;box-shadow:none!important}
+${A} .rl-filter .segs.rlsegs.rlsegs .seg:not([aria-pressed="true"]):hover{background:#EFE9FF!important}
+${A} .rl-filter .segs.rlsegs.rlsegs .seg[aria-pressed="true"]{background:${VP}!important;border-color:transparent!important;color:#fff!important;box-shadow:0 4px 10px rgba(110,50,200,.35)!important}
+${A} .rl-filter .kpick select.sel.sel{background:#F7F4FF!important;border:2px solid #E4DEFA!important;color:#2E2560!important;font:700 15px Lexend,sans-serif!important;border-radius:16px!important}
+${A} .rl-filter .kpick select.sel:focus{outline:none;border-color:#A43BE0!important;box-shadow:0 0 0 3px rgba(164,59,224,.18)!important}
+${A} .rl-filter .kpick .kprev{width:auto!important;height:auto!important}
+${A} .rlliste.rlliste{border-radius:24px!important}
+${A} .rlkopfleiste.rlkopfleiste{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px!important}
+${A} .rlkopfleiste b{display:flex;align-items:center;gap:10px}
+${A} .rlkopfleiste .rl-kmz{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:${MZ};box-shadow:${MS}}
+${A} .rlkopfleiste .rl-kmz img{width:70%;height:70%;object-fit:contain}
+${A} .rlkopfleiste > span{background:rgba(255,255,255,.95);color:#4B2BB8!important;border-radius:999px;padding:5px 14px;font:800 13.5px Lexend,sans-serif!important;white-space:nowrap}
+${A} .rlkopfleiste > span strong{color:#5A2A00!important}
+${A} .rlsuche.rlsuche{position:relative;display:flex;gap:8px;align-items:center}
+${A} .rlsuche .rl-lupe{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:${MZ};box-shadow:${MS};pointer-events:none;z-index:1}
+${A} .rlsuche .rl-lupe img{width:68%;height:68%;object-fit:contain}
+${A} .rlsuche input.sel.sel{padding-left:50px!important;min-height:48px;border-radius:16px!important}
+${A} .rlsuche input.sel:focus{outline:none;border-color:#A43BE0!important;box-shadow:0 0 0 3px rgba(164,59,224,.18)!important}
+${A} .rlliste .empty.empty{display:flex;align-items:center;justify-content:center;gap:14px;border:0!important;background:#F7F4FF!important;padding:14px 18px!important;text-align:left}
+${A} .rlliste .empty .rl-emz{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:${MZ};box-shadow:${MS}}
+${A} .rlliste .empty .rl-emz img{width:70%;height:70%;object-fit:contain}
+@media (max-width:700px){
+  ${A} .segs.rlmodus.rlmodus{flex-wrap:nowrap!important;padding:6px!important;gap:5px!important;width:auto!important}
+  ${A} .segs.rlmodus.rlmodus .seg{flex:1 1 0;justify-content:center;font-size:12.5px!important;padding:3px 8px 3px 4px!important;min-height:42px!important;gap:5px!important;min-width:0!important;white-space:nowrap}
+  ${A} .segs.rlmodus.rlmodus .seg img{width:30px!important;height:30px!important;padding:5px}
+  ${A} .rl-filter .rl-fl{display:none!important}
+  ${A} .rl-filter.rl-filter{padding:10px!important}
+  ${A} .rl-filter .segs.rlsegs.rlsegs{gap:5px!important}
+  ${A} .rl-filter .segs.rlsegs.rlsegs .seg{font-size:11.5px!important}
+  ${A} .rlkopfleiste b{font-size:14px!important}
+  ${A} .rlkopfleiste > span{font-size:12px!important;padding:4px 10px}
+}`;
+document.head.appendChild(c);
+const G = "img/grafik/diverse/";
+function schmuck(){
+  if(document.documentElement.dataset.scr !== "board") return;
+  document.querySelectorAll("#app .rl-filter .rl-fl").forEach(l => { if(l.dataset.rl3) return; l.dataset.rl3 = "1";
+    const bild = /stufe/i.test(l.textContent) ? "img/qeels-icons/stufen/koenner.webp" : /region/i.test(l.textContent) ? G + "landkarte.webp?v=2" : G + "festkalender.webp?v=2";
+    l.insertAdjacentHTML("afterbegin", `<i><img src="${bild}" alt=""></i>`); });
+  const kb = document.querySelector("#app .rlkopfleiste > b");
+  if(kb && !kb.querySelector(".rl-kmz")){ kb.innerHTML = `<i class="rl-kmz"><img src="${G}pokal.webp?v=2" alt=""></i>` + kb.innerHTML.replace(/^\s*(🌍|🌱|🚀|🏅)\s*/u, ""); }
+  const su = document.querySelector("#app .rlsuche");
+  if(su && !su.querySelector(".rl-lupe")){ su.insertAdjacentHTML("afterbegin", `<i class="rl-lupe" aria-hidden="true"><img src="${G}lupe.webp?v=2" alt=""></i>`);
+    const i = su.querySelector("input"); if(i) i.placeholder = (i.placeholder || "").replace(/^🔎\s*/u, ""); }
+  const em = document.querySelector("#app .rlliste .empty");
+  if(em && !em.querySelector(".rl-emz")) em.insertAdjacentHTML("afterbegin", `<i class="rl-emz" aria-hidden="true"><img src="${G}stern.webp?v=2" alt=""></i>`);
+}
+let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(schmuck, 40); }).observe(document.documentElement, {childList:true, subtree:true});
+})();
