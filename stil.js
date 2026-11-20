@@ -2701,8 +2701,9 @@ html body #app .xseite .xf-ab img.ep-kic{width:40px!important;height:40px!import
     document.querySelectorAll("#app .xseite .ep-kti, #app .x-kacheln .ep-kti").forEach(el => {
       /* Bindestrich nie als Trennstelle: geschützter Bindestrich, weiche Trennstellen weg */
       const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n;
-      while((n = tw.nextNode())) if(/[-\u00AD]/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/\u00AD/g, "").replace(/-/g, "\u2011");
-      const s = passe(el); if(!s || el.closest(".xf-ab")) return;
+      const fo = !!el.closest(".xfo-karte");   /* Forscher: Umbruch nach dem Bindestrich erlaubt, damit der Titel grösser bleibt */
+      while((n = tw.nextNode())) if(/[-\u00AD\u2011]/.test(n.nodeValue)) n.nodeValue = fo ? n.nodeValue.replace(/\u00AD/g, "").replace(/\u2011/g, "-") : n.nodeValue.replace(/\u00AD/g, "").replace(/-/g, "\u2011");
+      const s = passe(el); if(!s || el.closest(".xf-ab,.xfo-karte")) return;   /* Forscher-Aufträge: jeder Titel einzeln so gross wie möglich */
       const k = el.closest("[data-wz]") || el.parentElement, p = k && k.parentElement; if(!p) return;
       const g = gr.get(p) || []; g.push([el, s]); gr.set(p, g); });
     gr.forEach(g => { const m = Math.min(...g.map(x => x[1])); g.forEach(([el]) => el.style.setProperty("font-size", m + "px", "important")); });
