@@ -575,14 +575,16 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
    Team Lumi «Lumis Blick»: zwei falsche Antworten verschwinden. Team Milo «Milos zweite Chance»: ist die Antwort falsch,
    darf man nochmals tippen (die Zeit läuft weiter, Punkte wie gewohnt nach Tempo). Beide helfen etwa gleich viel:
    der Blick wirkt sicher, aber man muss ihn vorher einsetzen; die zweite Chance wirkt nur, wenn man danebenliegt.
-   Team Leni «Lenis Zeitstopp»: die Uhr bleibt für diese Frage stehen, volle Tempo-Punkte. Team Ben «Bens Bonus»: ist die
-   Antwort richtig, gibt es 40 Extra-Punkte (falsch: Joker verbraucht).
+   Team Leni «Lenis Tipp» (seit 21.11., vorher Zeitstopp): unter der Frage erscheint ein Hinweis aus dem Merksatz, die richtige
+   Antwort darin wird durch «…» ersetzt; ohne Merksatz verschwindet eine falsche Antwort. Team Ben «Bens Schild» (seit 21.11.,
+   vorher Bonus): ist die Antwort dieser Frage falsch (oder die Zeit um), gibt es trotzdem die Hälfte der Punkte, die eine
+   richtige Antwort im gleichen Tempo gebracht hätte.
    Gilt in allen Duellen mit DU.run (Online, Zufall, Link). ===== */
 (function(){
   const J = {
     lumi:{name:"Lumis Blick", ic:"<img src=\"img/grafik/duell/joker-lumi.webp\" alt=\"\">", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro Duell: Zwei falsche Antworten verschwinden."},
-    leni:{name:"Lenis Zeitstopp", ic:"<img src=\"img/grafik/duell/joker-leni.webp\" alt=\"\">", kurz:"Die Uhr bleibt stehen, volle Tempo-Punkte.", lang:"1× pro Duell: Die Uhr bleibt für eine Frage stehen, du bekommst die vollen Tempo-Punkte."},
-    ben:{name:"Bens Bonus", ic:"<img src=\"img/grafik/duell/joker-ben.webp\" alt=\"\">", kurz:"Richtig? 40 Extra-Punkte.", lang:"1× pro Duell: Ist deine Antwort richtig, gibt es 40 Extra-Punkte."},
+    leni:{name:"Lenis Tipp", ic:"<img src=\"img/grafik/duell/joker-leni.webp?v=2\" alt=\"\">", kurz:"Ein Hinweis zur Frage, ohne die Antwort.", lang:"1× pro Duell: Du bekommst einen Hinweis zur Frage, die Antwort verrät er nicht."},
+    ben:{name:"Bens Schild", ic:"<img src=\"img/grafik/duell/joker-ben.webp?v=2\" alt=\"\">", kurz:"Falsch? Trotzdem halbe Punkte.", lang:"1× pro Duell: Ist deine Antwort falsch, bekommst du trotzdem die Hälfte der Punkte."},
     milo:{name:"Milos zweite Chance", ic:"<img src=\"img/grafik/duell/joker-milo.webp\" alt=\"\">", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro Duell: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
   };
   const teamId = () => { try{ const t = window.EP_START && EP_START.team && EP_START.team(); if(t && t.id) return t.id; }catch(e){} try{ return JSON.parse(localStorage.getItem("ep-team") || "null"); }catch(e){ return null; } };
@@ -612,7 +614,8 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
 #app .answers .ans.jk-falsch{opacity:.35!important;pointer-events:none;animation:jkWackel .4s}
 @keyframes jkWackel{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .du-joker-msg{margin:8px 0 0;text-align:center;font-weight:800;color:#1E2A9E}
-body.dark .du-joker-msg{color:#FFE9A8}`;
+body.dark .du-joker-msg{color:#FFE9A8}
+#app .du-joker-msg.tipp{max-width:640px;margin:4px auto 12px;padding:10px 16px 10px 52px;border-radius:18px;background:rgba(255,255,255,.97) url("img/grafik/duell/joker-leni.webp?v=2") 12px center/30px auto no-repeat;color:#2E2560!important;font:700 .98rem/1.4 Lexend,system-ui,sans-serif;text-align:left;box-shadow:0 6px 16px rgba(30,20,90,.2);border:2px solid #FFD54A}`;
   document.head.appendChild(css);
 
   function weg2(f){ const falsch = f.opts.map((_, i) => i).filter(i => i !== f.c); for(let i = falsch.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [falsch[i], falsch[j]] = [falsch[j], falsch[i]]; } return falsch.slice(0, 2); }
@@ -625,20 +628,31 @@ body.dark .du-joker-msg{color:#FFE9A8}`;
     if(R.jkFalsch != null && R.jkChance === R.i && !R.aus){ const b = ans[R.jkFalsch]; if(b){ b.classList.add("jk-falsch"); b.disabled = true; } }
     if(!j) return;
     const box = document.querySelector("#app .answers"); if(!box || document.querySelector(".du-joker")) return;
-    if(R.jkStopp === R.i && !R.aus){ const z = document.getElementById("duZeit"); if(z) z.textContent = "⏸"; }
-    const benutzt = !!R.jkGenutzt, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i) || (id === "leni" && R.jkStopp === R.i) || (id === "ben" && R.jkBonus === R.i && !R.aus);
-    const AKTIV = {milo:"Aktiv für diese Frage.", lumi:"Zwei Antworten sind weg.", leni:"Die Uhr steht still. Nimm dir Zeit!", ben:"Antworte richtig für 40 Extra-Punkte!"};
+    const benutzt = !!R.jkGenutzt, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i) || (id === "leni" && R.jkTipp === R.i) || (id === "ben" && R.jkSchild === R.i && !R.aus);
+    const AKTIV = {milo:"Aktiv für diese Frage.", lumi:"Zwei Antworten sind weg.", leni:"Lies den Tipp oben bei der Frage!", ben:"Dein Schild schützt diese Frage."};
     const d = document.createElement("div"); d.className = "du-joker " + id + (aktiv ? " an" : "");
     d.innerHTML = `<button type="button" ${benutzt || R.aus ? "disabled" : ""} aria-label="Joker ${esc2(j.name)}"><span class="ji" aria-hidden="true">${j.ic}</span>${esc2(j.name)}</button><small>${aktiv ? AKTIV[id] : benutzt ? "Schon eingesetzt." : esc2(j.kurz) + " 1× pro Duell"}</small>`;
     box.after(d);
-    if(R.jkMsg && R.jkMsg.i === R.i && (!R.aus || R.jkMsg.nachher)){ const m = document.createElement("p"); m.className = "du-joker-msg"; m.textContent = R.jkMsg.t; d.after(m); }
+    if(R.jkMsg && R.jkMsg.i === R.i && (!R.aus || R.jkMsg.nachher || R.jkMsg.tipp)){ const m = document.createElement("p"); m.className = "du-joker-msg" + (R.jkMsg.tipp ? " tipp" : ""); m.textContent = R.jkMsg.t;
+      if(R.jkMsg.tipp) box.before(m); else d.after(m); }
     const btn = d.querySelector("button");
     btn.onclick = () => { if(R.jkGenutzt || R.aus) return; R.jkGenutzt = true;
       if(id === "lumi") R.jkWeg = {i:R.i, l:weg2(f)};
-      else if(id === "leni"){ R.jkStopp = R.i; clearInterval(DU.tick); }
-      else if(id === "ben") R.jkBonus = R.i;
+      else if(id === "leni"){ R.jkTipp = R.i; const t = tippText(f);
+        if(t) R.jkMsg = {i:R.i, t:"Lenis Tipp: " + t, tipp:true};
+        else { R.jkWeg = {i:R.i, l:weg2(f).slice(0, 1)}; R.jkMsg = {i:R.i, t:"💡 Lenis Tipp: Eine falsche Antwort ist weg."}; } }
+      else if(id === "ben") R.jkSchild = R.i;
       else R.jkChance = R.i;
       try{ A_ton(); }catch(e){} renderDuellPlay(); };
+  }
+  /* Hinweis aus dem Merksatz der Frage, die richtige Antwort darin wird durch «…» ersetzt */
+  function tippText(f){
+    let m = String(f.m || "").trim(); if(!m) return "";
+    const rx = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const rich = String(f.opts[f.c] || "").trim();
+    if(rich.length > 1){ m = m.replace(new RegExp(rx(rich), "gi"), "…");
+      rich.split(/[\s,;:()\/–-]+/).filter(w => w.length > 3).forEach(w => { m = m.replace(new RegExp("(^|[^\\p{L}])" + rx(w) + "(?=$|[^\\p{L}])", "giu"), "$1…"); }); }
+    return m.length > 4 && m.replace(/[….,\s]/g, "").length > 4 ? m : "";
   }
   function A_ton(){ try{ window.EP_EXTRAS && EP_EXTRAS.api && EP_EXTRAS.api.ton && EP_EXTRAS.api.ton("klick"); }catch(e){} }
 
@@ -650,10 +664,11 @@ body.dark .du-joker-msg{color:#FFE9A8}`;
     const R = DU.run;
     if(R && !R.aus && i !== -1 && R.jkChance === R.i && R.jkFalsch == null && DU.list[R.i] && i !== DU.list[R.i].c){
       R.jkFalsch = i; R.jkMsg = {i:R.i, t:"🛡️ Milos zweite Chance! Versuch es nochmals."}; renderDuellPlay(); return; }
-    if(R && !R.aus && R.jkStopp === R.i) R.qStart = Date.now();
-    const bonus = !!(R && !R.aus && R.jkBonus === R.i && DU.list[R.i] && i === DU.list[R.i].c);
+    let halb = 0;
+    if(R && !R.aus && R.jkSchild === R.i && DU.list[R.i] && i !== DU.list[R.i].c){
+      const ms = i === -1 ? DUELL_ZEIT : Date.now() - R.qStart; try{ halb = Math.round(duellPunkte(true, ms) / 2); }catch(e){ halb = 0; } }
     const r = vorTipp2.apply(this, arguments);
-    if(bonus){ R.score += 40; R.jkMsg = {i:R.i, t:"Bens Bonus: +40 Punkte!", nachher:true}; try{ renderDuellPlay(); }catch(e){} }
+    if(halb > 0){ R.score += halb; R.jkMsg = {i:R.i, t:"🛡️ Bens Schild: +" + halb + " Punkte trotz falscher Antwort!", nachher:true}; try{ renderDuellPlay(); }catch(e){} }
     return r;
   };
 })();
