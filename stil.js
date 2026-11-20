@@ -4012,3 +4012,13 @@ ${P} .row > *{flex:1 1 0!important;min-width:0!important;min-height:0!important;
   let t = 0;
   new MutationObserver(() => { clearTimeout(t); t = setTimeout(weiter, 300); }).observe(document.body || document.documentElement, {childList:true});
 })();
+
+/* ---------- Familien-Quiz am Handy: Themen-Knöpfe ohne abgeschnittenen Text («Schweiz») ---------- */
+(function(){
+  const c = document.createElement("style"); c.id = "ep-fq-themen-css";
+  c.textContent = `@media (max-width:700px){
+  html body #app .fq-seg:has([data-set="bereich"]) button[data-set="bereich"]{font-size:.72rem!important;padding-left:2px!important;padding-right:2px!important;min-width:0!important;letter-spacing:-.01em}
+  html body #app .fq-seg:has([data-set="bereich"]){gap:4px!important}
+}`;
+  document.head.appendChild(c);
+})();
