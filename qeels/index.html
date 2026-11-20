@@ -77,7 +77,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-20-29";
+window.EP_BUILD="ep-2026-11-20-30";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -5799,8 +5799,8 @@ function podiumHTML(top, meId){
   </div>`;
 }
 function renderBoard(){
-  const stufe=(S.boardStufe===0||S.boardStufe) ? S.boardStufe : S.stufe, kf=S.boardKanton||"";
-  const sMod=S.boardModus!=="gesamt", sid=S.boardSeason||aktuelleSeason().id, seA=alleSeasons().find(x=>x.id===sid)||aktuelleSeason();
+  const stufe=(S.boardStufe===0||S.boardStufe) ? S.boardStufe : 0, kf=S.boardKanton||"";
+  const sMod=S.boardModus==="season", sid=S.boardSeason||aktuelleSeason().id, seA=alleSeasons().find(x=>x.id===sid)||aktuelleSeason();
   const ptsVon=p=> sMod ? seasonPunkte(p,sid,stufe||0) : stufe===0 ? [1,2,3].reduce((n,l)=>n+sumBest(p,l),0) : sumBest(p,stufe);
   const thVon=p=> stufe===0 ? [1,2,3].reduce((n,l)=>n+themenGespielt(p,l),0) : themenGespielt(p,stufe);
   let list = (S.online||S.rang) ? S.spieler : (S.profil ? [{...S.profil, id:"me"}] : []);
@@ -5825,7 +5825,7 @@ function renderBoard(){
       </div>
       </details>
     </div>
-    <div class="segs rlmodus" role="group" aria-label="Art der Rangliste"><button class="seg" type="button" data-bm="season" aria-pressed="${sMod}">${aktuelleSeason().tier.e} Seasons</button><button class="seg" type="button" data-bm="gesamt" aria-pressed="${!sMod}">🏆 Gesamt</button></div>
+    <div class="segs rlmodus" role="group" aria-label="Art der Rangliste"><button class="seg" type="button" data-bm="gesamt" aria-pressed="${!sMod}">🏆 Gesamt</button><button class="seg" type="button" data-bm="season" aria-pressed="${sMod}">${aktuelleSeason().tier.e} Seasons</button></div>
     ${sMod ? `<div class="seasonkopf"><details class="rl-auf rl-sinfo" data-rlauf="sinfo" ${S.rlAuf?.sinfo?"open":""}><summary><i class="rl-mz rl-mz-tier">${seA.tier.e}</i><span>${esc(seA.name)}<small>${esc(seA.zeitraum)}${seA.id===aktuelleSeason().id?` · noch ${seasonPhase(seA).rest} Tage`+(seasonPhase(seA).mult>1?` · ×${seasonPhase(seA).mult}`:""):" · abgeschlossen"}</small></span><em>Infos zur Season</em></summary><div class="rl-swahl"><span class="rl-fl">Andere Season ansehen</span><div class="seasonwahl"><label for="seasonSel" class="sr-only">Season</label><select id="seasonSel" class="sel">${[...new Set(alleSeasons().map(x=>x.jahr))].map(j=>`<optgroup label="${j}">${alleSeasons().filter(x=>x.jahr===j).map(x=>`<option value="${x.id}" ${x.id===sid?"selected":""}>${x.tier.e} ${esc(x.name)} (${esc(x.zeitraum)})${x.id===aktuelleSeason().id?" · läuft":""}</option>`).join("")}</optgroup>`).join("")}</select></div></div>
       ${seA.id===aktuelleSeason().id ? seasonBannerHTML(false)+seasonTimelineHTML(seA)+seasonTierHTML(seA) : `<div class="seasonband"><span class="stier">${seA.tier.e}</span><div class="sbtext"><span class="sbname">Abgeschlossen</span><div class="sbinfo"><span><strong>${esc(seA.name)}</strong><small>${esc(seA.zeitraum)} · Die besten 10 haben einen Pokal erhalten 🏆</small></span></div></div></div>`}
       <p class="help" style="text-align:center">In jeder Season zählt jeder gewertete Test. Die ersten Wochen gibt es normale Punkte, in der zweitletzten Woche doppelte und in der letzten Woche dreifache. Die besten 10 jeder Stufe bekommen einen Pokal für ihr Profil.</p>
