@@ -160,7 +160,7 @@
   ],
   "bib": {
     "fr": {
-      "titel": "welten/i18n/fr/titel-be981802.json",
+      "titel": "welten/i18n/fr/titel-f09ed1dc.json",
       "tx": {
         "alltag-1": "welten/i18n/fr/tx/alltag-1-a9bf9ef5.json",
         "alltag-2": "welten/i18n/fr/tx/alltag-2-d7403212.json",
@@ -168,7 +168,7 @@
         "alltag-4": "welten/i18n/fr/tx/alltag-4-a00ddd09.json",
         "alltag-5": "welten/i18n/fr/tx/alltag-5-cd2ad085.json",
         "alltag-6": "welten/i18n/fr/tx/alltag-6-8f2797a9.json",
-        "alltag-7": "welten/i18n/fr/tx/alltag-7-a1970861.json",
+        "alltag-7": "welten/i18n/fr/tx/alltag-7-117ce9e7.json",
         "alltag-8": "welten/i18n/fr/tx/alltag-8-fe2d6408.json",
         "geld-1": "welten/i18n/fr/tx/geld-1-47e8ac9d.json",
         "geld-2": "welten/i18n/fr/tx/geld-2-523d1faa.json",
@@ -277,7 +277,7 @@
       }
     },
     "en": {
-      "titel": "welten/i18n/en/titel-4d497fec.json",
+      "titel": "welten/i18n/en/titel-8f34ae9e.json",
       "tx": {
         "alltag-1": "welten/i18n/en/tx/alltag-1-580e55e2.json",
         "alltag-2": "welten/i18n/en/tx/alltag-2-b30f2cff.json",
@@ -285,7 +285,7 @@
         "alltag-4": "welten/i18n/en/tx/alltag-4-44130e9e.json",
         "alltag-5": "welten/i18n/en/tx/alltag-5-d285de53.json",
         "alltag-6": "welten/i18n/en/tx/alltag-6-2cac0c14.json",
-        "alltag-7": "welten/i18n/en/tx/alltag-7-929df5ed.json",
+        "alltag-7": "welten/i18n/en/tx/alltag-7-6b1d18b2.json",
         "alltag-8": "welten/i18n/en/tx/alltag-8-4adeece5.json",
         "geld-1": "welten/i18n/en/tx/geld-1-fb7a7e63.json",
         "geld-2": "welten/i18n/en/tx/geld-2-124ea249.json",
@@ -394,7 +394,7 @@
       }
     },
     "it": {
-      "titel": "welten/i18n/it/titel-83a0eaa1.json",
+      "titel": "welten/i18n/it/titel-1f961e3d.json",
       "tx": {
         "alltag-1": "welten/i18n/it/tx/alltag-1-8edbca44.json",
         "alltag-2": "welten/i18n/it/tx/alltag-2-c30a3080.json",
@@ -402,7 +402,7 @@
         "alltag-4": "welten/i18n/it/tx/alltag-4-3ecf74d9.json",
         "alltag-5": "welten/i18n/it/tx/alltag-5-44b2abbb.json",
         "alltag-6": "welten/i18n/it/tx/alltag-6-e13d8e45.json",
-        "alltag-7": "welten/i18n/it/tx/alltag-7-0aa91ec1.json",
+        "alltag-7": "welten/i18n/it/tx/alltag-7-87b7f9ae.json",
         "alltag-8": "welten/i18n/it/tx/alltag-8-24615d21.json",
         "geld-1": "welten/i18n/it/tx/geld-1-47a43ad7.json",
         "geld-2": "welten/i18n/it/tx/geld-2-c2fb43fa.json",
