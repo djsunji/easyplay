@@ -362,7 +362,7 @@ function listeAusIds(ids){
     if(!ID_OK.test(id) || ges.has(id) || aus.length >= 20) return; ges.add(id);
     const f = m[id]; if(!f || !f.q || !Array.isArray(f.a) || f.a.length < 2) return;
     const o = shuffle(f.a.map((t, i) => ({t, ok:i === 0})));
-    aus.push({id, q:f.q, img:f.img || null, opts:o.map(y => y.t), c:o.findIndex(y => y.ok), m:f.m});
+    aus.push({id, q:f.q, img:f.img || null, opts:o.map(y => y.t), c:o.findIndex(y => y.ok), m:f.m, e:f.e});
   });
   return aus;
 }
@@ -576,15 +576,15 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
    Team Lumi «Lumis Blick»: zwei falsche Antworten verschwinden. Team Milo «Milos zweite Chance»: ist die Antwort falsch,
    darf man nochmals tippen (die Zeit läuft weiter, Punkte wie gewohnt nach Tempo). Beide helfen etwa gleich viel:
    der Blick wirkt sicher, aber man muss ihn vorher einsetzen; die zweite Chance wirkt nur, wenn man danebenliegt.
-   Team Leni «Lenis Tipp» (seit 21.11., vorher Zeitstopp): unter der Frage erscheint ein Hinweis aus dem Merksatz, die richtige
-   Antwort darin wird durch «…» ersetzt; ohne Merksatz verschwindet eine falsche Antwort. Team Ben «Bens Schild» (seit 21.11.,
+   Team Leni «Lenis Tipp» (seit 21.11., vorher Zeitstopp): eine falsche Antwort verschwindet, dazu (wenn möglich) ein Hinweis
+   über den Antworten: bei Zahlen ein Bereich, sonst der passendste Satz aus Erklärung/Merksatz mit verdeckter Antwort (tippText). Team Ben «Bens Schild» (seit 21.11.,
    vorher Bonus): ist die Antwort dieser Frage falsch (oder die Zeit um), gibt es trotzdem die Hälfte der Punkte, die eine
    richtige Antwort im gleichen Tempo gebracht hätte.
    Gilt in allen Duellen mit DU.run (Online, Zufall, Link). ===== */
 (function(){
   const J = {
     lumi:{name:"Lumis Blick", ic:"<img src=\"img/grafik/duell/joker-lumi.webp\" alt=\"\">", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro Duell: Zwei falsche Antworten verschwinden."},
-    leni:{name:"Lenis Tipp", ic:"<img src=\"img/grafik/duell/joker-leni.webp?v=2\" alt=\"\">", kurz:"Ein Hinweis zur Frage, ohne die Antwort.", lang:"1× pro Duell: Du bekommst einen Hinweis zur Frage, die Antwort verrät er nicht."},
+    leni:{name:"Lenis Tipp", ic:"<img src=\"img/grafik/duell/joker-leni.webp?v=2\" alt=\"\">", kurz:"Eine falsche Antwort weg und ein Hinweis.", lang:"1× pro Duell: Eine falsche Antwort verschwindet, und du bekommst einen Hinweis, der zur richtigen Antwort führt."},
     ben:{name:"Bens Schild", ic:"<img src=\"img/grafik/duell/joker-ben.webp?v=2\" alt=\"\">", kurz:"Falsch? Trotzdem halbe Punkte.", lang:"1× pro Duell: Ist deine Antwort falsch, bekommst du trotzdem die Hälfte der Punkte."},
     milo:{name:"Milos zweite Chance", ic:"<img src=\"img/grafik/duell/joker-milo.webp\" alt=\"\">", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro Duell: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
   };
@@ -641,21 +641,76 @@ body.dark .du-joker-msg{color:#FFE9A8}
     const btn = d.querySelector("button");
     btn.onclick = () => { if(R.jkGenutzt || R.aus) return; R.jkGenutzt = true;
       if(id === "lumi") R.jkWeg = {i:R.i, l:weg2(f)};
-      else if(id === "leni"){ R.jkTipp = R.i; const t = tippText(f);
-        if(t) R.jkMsg = {i:R.i, t:"Lenis Tipp: " + t, tipp:true};
-        else { R.jkWeg = {i:R.i, l:weg2(f).slice(0, 1)}; R.jkMsg = {i:R.i, t:"💡 Lenis Tipp: Eine falsche Antwort ist weg."}; } }
+      else if(id === "leni"){ R.jkTipp = R.i; let t = ""; try{ t = tippText(f); }catch(e){}
+        /* immer verschwindet eine falsche Antwort, dazu wenn möglich ein Hinweis, der zur richtigen Antwort führt */
+        R.jkWeg = {i:R.i, l:weg2(f).slice(0, 1)};
+        R.jkMsg = {i:R.i, t:t ? "Lenis Tipp: " + t : "Lenis Tipp: Eine falsche Antwort ist weg.", tipp:true}; }
       else if(id === "ben") R.jkSchild = R.i;
       else R.jkChance = R.i;
       try{ A_ton(); }catch(e){} renderDuellPlay(); };
   }
-  /* Hinweis aus dem Merksatz der Frage, die richtige Antwort darin wird durch «…» ersetzt */
+  /* Lenis Tipp: ein hilfreicher Hinweis, ohne die Antwort zu nennen.
+     1. Zahlen und Jahreszahlen: Bereich, der die richtige Zahl enthält und mindestens zwei falsche ausschliesst.
+     2. Sonst der Satz aus Erklärung oder Merksatz, der nach dem Verdecken der Antwort am meisten Neues sagt
+        (nicht nur die Frage wiederholt) und eher zur richtigen als zu falschen Antworten passt.
+     Findet sich nichts Brauchbares, gibt es "" (dann verschwindet eine falsche Antwort). */
   function tippText(f){
-    let m = String(f.m || "").trim(); if(!m) return "";
+    const opts = f.opts.map(o => String(o || "").trim()), rich = opts[f.c] || "";
+    /* 1. Zahlen */
+    const zahl = s => { const m = String(s).replace(/['’ ]/g, "").match(/^-?\d+(?:[.,]\d+)?$/); return m ? parseFloat(m[0].replace(",", ".")) : null; };
+    const zw = opts.map(zahl);
+    if(zw.every(z => z !== null)){
+      const r = zw[f.c], falsch = zw.filter((_, i) => i !== f.c);
+      const jahr = /jahr|wann/i.test(f.q) && Number.isInteger(r) && r > 100 && r < 2200;
+      if(jahr){
+        const jh = z => Math.floor((z - 1) / 100) + 1;
+        if(falsch.filter(z => jh(z) !== jh(r)).length >= 2) return `Die Jahreszahl liegt im ${jh(r)}. Jahrhundert, also zwischen ${(jh(r) - 1) * 100 + 1} und ${jh(r) * 100}.`;
+        const jz = z => Math.floor(z / 10) * 10;
+        if(falsch.filter(z => jz(z) !== jz(r)).length >= 2) return `Die Jahreszahl liegt zwischen ${jz(r)} und ${jz(r) + 9}.`;
+      }
+      const kleiner = falsch.filter(z => z < r), groesser = falsch.filter(z => z > r);
+      if(kleiner.length >= 2 || groesser.length >= 2){
+        const lo = kleiner.length ? Math.max(...kleiner) : null, hi = groesser.length ? Math.min(...groesser) : null;
+        const fmt = z => Number.isInteger(z) ? z.toLocaleString("de-CH") : String(z).replace(".", ",");
+        if(lo !== null && hi !== null) return `Die gesuchte Zahl ist grösser als ${fmt(lo)} und kleiner als ${fmt(hi)}.`;
+        if(lo !== null) return `Die gesuchte Zahl ist grösser als ${fmt(lo)}.`;
+        return `Die gesuchte Zahl ist kleiner als ${fmt(hi)}.`;
+      }
+    }
+    /* 2. Satz aus Erklärung oder Merksatz */
+    const norm = s => String(s || "").toLowerCase();
+    const STOP = new Set("der die das den dem des ein eine einer einem einen eines und oder aber auch nicht mit von vom zur zum zu im in am an auf aus bei für ist sind war waren wird werden wurde wurden hat haben kann können man sich sie er es wie was wer wo wann warum welche welcher welches dass als wenn so sehr mehr nur noch schon über unter durch nach vor bis um diese dieser dieses jede jeder jedes sein seine ihre ihr wir dort hier da heute etwa viele gibt".split(" "));
+    const woerter = s => (norm(s).match(/[\p{L}\d]+/gu) || []).filter(w => w.length > 2 && !STOP.has(w));
+    const stamm = w => w.length > 6 ? w.slice(0, Math.max(5, w.length - 3)) : w;
+    const passt = (w, x) => x === w || (stamm(w).length >= 4 && x.startsWith(stamm(w)));
+    const hat = (satzW, w) => satzW.some(x => passt(w, x));
+    const richW = [...new Set(woerter(rich))];
+    const falschW0 = [...new Set(opts.filter((_, i) => i !== f.c).flatMap(woerter))];
+    const falschW = [...new Set(opts.filter((_, i) => i !== f.c).flatMap(woerter))].filter(w => !richW.some(r => passt(r, w) || passt(w, r)));
+    const frageW = woerter(f.q);
     const rx = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const rich = String(f.opts[f.c] || "").trim();
-    if(rich.length > 1){ m = m.replace(new RegExp(rx(rich), "gi"), "…");
-      rich.split(/[\s,;:()\/–-]+/).filter(w => w.length > 3).forEach(w => { m = m.replace(new RegExp("(^|[^\\p{L}])" + rx(w) + "(?=$|[^\\p{L}])", "giu"), "$1…"); }); }
-    return m.length > 4 && m.replace(/[….,\s]/g, "").length > 4 ? m : "";
+    const verdecken = s => {
+      let t = s;
+      if(rich.length > 1) t = t.replace(new RegExp(rx(rich), "gi"), "…");
+      /* Wörter, die nur in der richtigen Antwort vorkommen (nicht in falschen Antworten, nicht in der Frage), verdecken */
+      richW.filter(w => !falschW0.some(x => passt(w, x) || passt(x, w)) && !frageW.some(q => passt(w, q) || passt(q, w))).forEach(w => { const st = stamm(w); t = t.replace(new RegExp("(^|[^\\p{L}])" + rx(st.length >= 4 ? st : w) + "\\p{L}*", "giu"), "$1…"); });
+      return t;
+    };
+    const saetze = [];
+    [f.e, f.m].forEach(t => String(t || "").split(/(?<=[.!?])\s+/).forEach(s => { s = s.trim(); if(s.length > 15) saetze.push(s); }));
+    let best = "", bestP = 0;
+    for(const s of saetze){
+      const t = verdecken(s), tw = woerter(t);
+      const neu = tw.filter(w => !frageW.some(q => passt(q, w) || passt(w, q))).length;
+      if(neu < 3) continue;                                    /* sagt nach dem Verdecken nichts Neues */
+      const sw = woerter(s);
+      const treffer = richW.filter(w => hat(tw, w)).length;   /* Hinweis auf die Antwort, der sichtbar bleibt */
+      const gegen = falschW.filter(w => hat(sw, w)).length;
+      if(!treffer && t === s) continue;                         /* hat mit der Antwort nichts zu tun */
+      const p = treffer * 2 - gegen * 3 + Math.min(neu, 8) * 0.6 - (t.includes("…") ? 0.5 : 0);
+      if(p > bestP){ bestP = p; best = t; }
+    }
+    return bestP >= 2.5 ? best : "";
   }
   function A_ton(){ try{ window.EP_EXTRAS && EP_EXTRAS.api && EP_EXTRAS.api.ton && EP_EXTRAS.api.ton("klick"); }catch(e){} }
 
