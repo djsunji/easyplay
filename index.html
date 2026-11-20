@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-20-20";
+window.EP_BUILD="ep-2026-11-20-21";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -8720,7 +8720,7 @@ window.renderLib=function(){ const r=vor.apply(this,arguments); try{ const bu=do
 <script src="forscher.js"></script>
 <script src="eltern.js"></script>
 <script src="offline.js"></script>
-<script src="i18n.js"></script><script src="regionen.js"></script><script src="online.js"></script>
+<script src="i18n.js"></script><script src="regionen.js"></script><script src="online.js"></script><script src="sync.js"></script>
 <script>try{ render(); }catch(e){} setTimeout(function(){ try{ window.__epDatenLos(); }catch(e){} }, 30);</script>
 <script>/*__epFeinschliff 2026-10-17: Ränder, Profilkopf, Text einpassen*/
 (function(){
