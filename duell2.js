@@ -16,13 +16,14 @@ const team = () => { try{ return ES().team(); }catch(e){ return null; } };
 const BOTS = [{name:"Leni", bild:"leni.webp", c:"#E8364F"}, {name:"Ben", bild:"ben.webp", c:"#12A57F"}];
 
 /* ---------- Elo und Ligen: gewinnen bringt Punkte, Gegner passen sich der Stärke an ---------- */
+/* Dejan 21.11.: sechs Ligen von Eisen bis Diamant, alle starten mit 1000 Elo in Silber */
 const LIGEN = [
-  {id:"bronze", n:"Bronze", min:0, e:"🥉", c:"#C07A3A"},
-  {id:"silber", n:"Silber", min:900, e:"🥈", c:"#8A97B0"},
+  {id:"eisen", n:"Eisen", min:0, e:"🔩", c:"#6E7480"},
+  {id:"bronze", n:"Bronze", min:850, e:"🥉", c:"#C07A3A"},
+  {id:"silber", n:"Silber", min:950, e:"🥈", c:"#8A97B0"},
   {id:"gold", n:"Gold", min:1100, e:"🥇", c:"#E2A400"},
-  {id:"platin", n:"Platin", min:1300, e:"💠", c:"#22A9BB"},
-  {id:"diamant", n:"Diamant", min:1500, e:"💎", c:"#5B7CFF"},
-  {id:"champion", n:"Champion", min:1700, e:"👑", c:"#E043B8"}
+  {id:"platin", n:"Platin", min:1250, e:"💠", c:"#22A9BB"},
+  {id:"diamant", n:"Diamant", min:1450, e:"💎", c:"#5B7CFF"}
 ];
 const ELO_START = 1000;
 function eloDaten(){ const d = LS.get("ep-elo", null); return d && typeof d.r === "number" ? d : {r:ELO_START, n:0, s:0, u:0, v:0, hist:[]}; }
@@ -270,7 +271,7 @@ function du3Kopf(){
   const pro = nx ? Math.max(4, Math.min(100, Math.round((d.r - l.min) / (nx.min - l.min) * 100))) : 100;
   return `<section class="du3-kopf">
     <div class="du3-titel"><img class="du3-ic" src="img/qeels-icons/themen/duell.webp" alt=""><div><h1>Duell</h1><p>Wer weiss mehr?</p></div></div>
-    <div class="du3-elo" style="--lc:${l.c}"><small>Deine Liga</small><b>${l.e} ${h(l.n)}</b><span class="du3-zahl">${d.r} <i>Elo</i></span>
+    <div class="du3-elo" style="--lc:${l.c}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Deine Liga: ${h(l.n)}, ${d.r} Elo. Alle Ligen ansehen"><small>Deine Liga</small><b>${l.e} ${h(l.n)}</b><span class="du3-zahl">${d.r} <i>Elo</i></span>
       <span class="du3-bar"><i style="width:${pro}%"></i></span><em>${nx ? `noch ${nx.min - d.r} bis ${nx.e} ${h(nx.n)}` : "Höchste Liga!"}${d.n ? ` · ${d.s} Siege` : ""}</em></div>
         <img class="du3-kids" src="${KIDS}duo-jubel.webp" alt="">
     <button type="button" class="du3-zahn" id="du3Zahn" aria-controls="du2Ein" aria-label="Einstellungen: ${h(einstHinweis())}"><i class="du3-zm"><img src="img/grafik/diverse/zahnrad.webp?v=2" alt=""></i><span class="du3-zh">${h(einstHinweis())}</span></button></section>`;
@@ -671,4 +672,88 @@ body.dark .du-joker-msg{color:#FFE9A8}
     if(halb > 0){ R.score += halb; R.jkMsg = {i:R.i, t:"🛡️ Bens Schild: +" + halb + " Punkte trotz falscher Antwort!", nachher:true}; try{ renderDuellPlay(); }catch(e){} }
     return r;
   };
+})();
+
+/* ===== Ligen-Fenster (Dejan 21.11.): Klick auf «Deine Liga» im Duell-Kopf zeigt alle Ligen von Eisen bis Diamant,
+   wo man steht und wie viel bis zur nächsten Liga fehlt. window.EP_DUELL.ligenOeffnen() ===== */
+(function(){
+  const E = () => window.EP_DUELL || {};
+  const esc3 = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  const BILD = {bronze:"img/grafik/forscher/bronze.webp", silber:"img/grafik/forscher/silber.webp", gold:"img/grafik/forscher/gold.webp"};
+  const marke = l => `<i class="lg-marke lg-${l.id}" aria-hidden="true">${BILD[l.id] ? `<img src="${BILD[l.id]}" alt="">` : `<span>${l.e}</span>`}</i>`;
+  function html(){
+    const {eloDaten, liga, LIGEN} = E(); const d = eloDaten(), l = liga(d.r), li = LIGEN.indexOf(l);
+    const zeilen = LIGEN.map((x, i) => {
+      const bis = LIGEN[i + 1] ? LIGEN[i + 1].min - 1 : null;
+      const bereich = i === 0 ? `bis ${LIGEN[1].min - 1} Elo` : bis ? `${x.min} bis ${bis} Elo` : `ab ${x.min} Elo`;
+      const st = i < li ? "erreicht" : i === li ? "hier" : "offen";
+      let extra = "";
+      if(st === "hier"){
+        const nx = LIGEN[i + 1], pro = nx ? Math.max(4, Math.min(100, Math.round((d.r - x.min) / (nx.min - x.min) * 100))) : 100;
+        extra = `<span class="lg-bar"><i style="width:${pro}%"></i></span><em>${nx ? `Noch ${nx.min - d.r} Elo bis ${esc3(nx.n)}` : "Höchste Liga erreicht!"}</em>`;
+      }
+      return `<li class="lg-z lg-${st}" style="--lc:${x.c}">${marke(x)}<div class="lg-tx"><b>${esc3(x.n)}</b><small>${bereich}</small>${extra}</div>
+        <span class="lg-st">${st === "hier" ? "Du bist hier" : st === "erreicht" ? "✓" : "🔒"}</span></li>`;
+    }).reverse().join("");
+    return `<div class="lg-karte" role="dialog" aria-modal="true" aria-labelledby="lgTitel">
+      <button class="lg-x" type="button" aria-label="Schliessen">✕</button>
+      <div class="lg-kopf" style="--lc:${l.c}">${marke(l)}<div><small>Deine Liga</small><h2 id="lgTitel">${esc3(l.n)}</h2><p><b>${d.r}</b> Elo${d.n ? ` · ${d.s} Siege · ${d.v} Niederlagen` : ""}</p></div></div>
+      <ol class="lg-leiter">${zeilen}</ol>
+      <p class="lg-info">Gewinnst du ein Online-Duell, steigt deine Elo, verlierst du, sinkt sie. Gegen stärkere Gegner gibt ein Sieg mehr Punkte. Alle starten mit 1000 Elo in Silber.</p>
+    </div>`;
+  }
+  function oeffnen(){
+    let ov = document.getElementById("lgFenster"); if(ov) ov.remove();
+    ov = document.createElement("div"); ov.id = "lgFenster"; ov.innerHTML = html(); document.body.appendChild(ov);
+    const zu = () => { ov.remove(); document.removeEventListener("keydown", taste); };
+    const taste = e => { if(e.key === "Escape") zu(); };
+    ov.addEventListener("click", e => { if(e.target === ov || e.target.closest(".lg-x")) zu(); });
+    document.addEventListener("keydown", taste);
+    const hier = ov.querySelector(".lg-hier"); if(hier) setTimeout(() => hier.scrollIntoView({block:"nearest"}), 30);
+    ov.querySelector(".lg-x").focus();
+  }
+  if(window.EP_DUELL) window.EP_DUELL.ligenOeffnen = oeffnen;
+  document.addEventListener("click", e => { const b = e.target.closest && e.target.closest(".du3-elo"); if(b && document.getElementById("app")?.contains(b)) oeffnen(); });
+  document.addEventListener("keydown", e => { if((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("du3-elo")){ e.preventDefault(); oeffnen(); } });
+  const css = document.createElement("style"); css.id = "ep-ligen-css";
+  const MZ = "radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800)";
+  css.textContent = `
+#app .du3-elo{cursor:pointer;transition:transform .15s,box-shadow .15s}
+#app .du3-elo:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(30,20,90,.25)}
+#app .du3-elo:focus-visible{outline:3px solid #7B3FE4;outline-offset:3px}
+#app .du3-elo::after{content:"Alle Ligen ›";grid-column:1/-1;justify-self:start;margin-top:4px;font:800 .72rem Lexend,sans-serif;color:#6A4BFF}
+#lgFenster{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:16px;background:rgba(20,12,60,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:lgEin .2s ease-out}
+@keyframes lgEin{from{opacity:0}to{opacity:1}}
+#lgFenster .lg-karte{position:relative;width:min(480px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:#fff;border-radius:28px;box-shadow:0 24px 60px rgba(20,10,70,.45);color:#2E2560;font-family:Lexend,system-ui,sans-serif;animation:lgHoch .25s ease-out}
+@keyframes lgHoch{from{transform:translateY(16px) scale(.98)}to{transform:none}}
+#lgFenster .lg-x{all:unset;position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;background:rgba(255,255,255,.9);color:#2E2560;font-size:16px;box-shadow:0 2px 6px rgba(0,0,0,.15);z-index:2}
+#lgFenster .lg-x:focus-visible{outline:3px solid #7B3FE4}
+#lgFenster .lg-kopf{display:flex;align-items:center;gap:16px;padding:22px 22px 18px;background:linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F);color:#fff;border-radius:28px 28px 0 0}
+#lgFenster .lg-kopf small{font:800 .7rem Lexend,sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+#lgFenster .lg-kopf h2{margin:0;font:800 1.9rem Fredoka,Lexend,sans-serif;line-height:1.05;color:#fff}
+#lgFenster .lg-kopf p{margin:2px 0 0;font:600 .9rem Lexend,sans-serif;opacity:.95}
+#lgFenster .lg-kopf p b{font-size:1.15rem}
+#lgFenster .lg-kopf .lg-marke{width:72px;height:72px}
+#lgFenster .lg-marke{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--lc,#888) 55%,#fff) 45%,var(--lc,#888));box-shadow:0 3px 8px rgba(0,0,0,.25),inset 0 -3px 5px rgba(0,0,0,.18),inset 0 0 0 3px rgba(255,255,255,.55)}
+#lgFenster .lg-marke img{width:72%;height:72%;object-fit:contain}
+#lgFenster .lg-marke span{font-size:24px;line-height:1}
+#lgFenster .lg-kopf .lg-marke span{font-size:36px}
+#lgFenster .lg-leiter{list-style:none;margin:0;padding:16px 16px 6px;display:grid;gap:8px;position:relative}
+#lgFenster .lg-z{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:18px;background:#F7F4FF;border:2px solid #E4DEFA}
+#lgFenster .lg-tx{flex:1;min-width:0;display:grid;gap:2px}
+#lgFenster .lg-tx b{font:800 1.08rem Fredoka,Lexend,sans-serif;color:var(--lc)}
+#lgFenster .lg-tx small{font:600 .78rem Lexend,sans-serif;color:#6B6295}
+#lgFenster .lg-st{flex:none;font:800 .8rem Lexend,sans-serif;color:#7A70A8}
+#lgFenster .lg-erreicht .lg-st{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#2BD67B;color:#fff;font-size:15px}
+#lgFenster .lg-offen{opacity:.62}
+#lgFenster .lg-offen .lg-marke{filter:saturate(.5)}
+#lgFenster .lg-hier{background:#fff;border:3px solid transparent;background-image:linear-gradient(#fff,#fff),linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 8px 20px rgba(110,50,200,.25);padding:14px}
+#lgFenster .lg-hier .lg-marke{width:56px;height:56px}
+#lgFenster .lg-hier .lg-st{padding:5px 10px;border-radius:999px;background:linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F);color:#fff;white-space:nowrap}
+#lgFenster .lg-bar{display:block;height:10px;border-radius:99px;background:#ECE7FF;overflow:hidden;margin-top:6px}
+#lgFenster .lg-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#FFD54A,#FF9A3C)}
+#lgFenster .lg-tx em{font:700 .78rem Lexend,sans-serif;font-style:normal;color:#5A3FD6}
+#lgFenster .lg-info{margin:6px 18px 18px;padding:10px 14px;border-radius:16px;background:#FFF8DD;color:#5A4A10;font:600 .82rem/1.45 Lexend,sans-serif}
+@media (max-width:420px){#lgFenster .lg-kopf{padding:18px 16px 14px}#lgFenster .lg-kopf h2{font-size:1.6rem}#lgFenster .lg-kopf .lg-marke{width:60px;height:60px}#lgFenster .lg-leiter{padding:12px 10px 4px}}`;
+  document.head.appendChild(css);
 })();
