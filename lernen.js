@@ -449,7 +449,7 @@ function wdhRender(box, api){
       <section class="wdh-karte wdh-faecher" aria-label="Deine 5 Fächer">
         <h2>Deine 5 Fächer</h2>
         <ol class="wdh-balken">${w.faecher.map((n, i) => `<li class="${n ? "" : "leer"}" aria-label="Fach ${i + 1}: ${n} ${fragenWort(n)}, kommen nach ${tage(FAECHER[i])} wieder"><div class="wdh-spur"><b>${n}</b><i style="height:${Math.max(4, Math.round(n / max * 72))}%"></i></div><span>Fach ${i + 1}</span><small>${tage(FAECHER[i])}</small></li>`).join("")}</ol>
-        <div class="wdh-fuss"><span class="wdh-gelernt">🌟 ${zahl(w.gelernt)} gelernt</span><small>${zahl(w.offen)} ${w.offen === 1 ? "Frage wartet" : "Fragen warten"} in den Fächern</small></div>
+        <div class="wdh-fuss"><span class="wdh-gelernt"><img src="img/grafik/diverse/stern.webp?v=2" alt="">${zahl(w.gelernt)} gelernt</span><small>${zahl(w.offen)} ${w.offen === 1 ? "Frage wartet" : "Fragen warten"} in den Fächern</small></div>
       </section>
     </div>
     <div class="wdh-unten">

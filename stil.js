@@ -697,6 +697,13 @@ html:root body #nav #navKonto.st-anm{width:168px!important;min-width:0!important
 html:root body #nav .menubtn.st-menue{width:150px!important;min-width:0!important;height:48px!important;min-height:48px!important;flex:0 0 auto!important;padding:0!important;border:0!important;border-radius:999px!important;color:transparent!important;font-size:0!important;
   background:url(${K}menue.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s}
 #nav .menubtn.st-menue *{display:none!important}
+/* andere Sprachen: gleiche Grafik ohne eingebauten Text, Beschriftung aus data-lab */
+html:root body #nav .menubtn.st-menue.st-tx{width:auto!important;min-width:150px!important;padding:0 18px 0 0!important;border:0 solid transparent!important;border-width:0 40px 0 60px!important;border-radius:0!important;background:none!important;
+  border-image:url(${K}menue-leer.webp) 0 100 0 150 fill / 0 40px 0 60px stretch!important;color:#1F1A4D!important;font:800 17px Lexend,system-ui,sans-serif!important;display:inline-flex!important;align-items:center;justify-content:flex-start;white-space:nowrap}
+html:root body #nav .menubtn.st-menue.st-tx::after{content:attr(data-lab);margin-left:4px}
+html:root body #nav #navKonto.st-anm.st-tx{width:auto!important;min-width:168px!important;padding:0 10px 0 4px!important;border:0 solid transparent!important;border-width:0 26px 0 62px!important;border-radius:0!important;background:none!important;
+  border-image:url(${K}anmelden-leer.webp) 0 80 0 190 fill / 0 26px 0 62px stretch!important;color:#fff!important;font:800 17px Lexend,system-ui,sans-serif!important;display:inline-flex;align-items:center;white-space:nowrap}
+html:root body #nav #navKonto.st-anm.st-tx::after{content:attr(data-lab)}
 #nav .xs-knopf.st-ton{width:50px!important;height:50px!important;min-width:0!important;min-height:0!important;padding:0!important;border:0!important;border-radius:50%!important;color:transparent!important;font-size:0!important;
   background:url(${K}ton.webp) center/contain no-repeat!important;box-shadow:0 10px 22px -10px rgba(91,63,224,.6)!important;transition:transform .15s,filter .2s}
 #nav .xs-knopf.st-ton>*{opacity:0!important}
@@ -716,10 +723,16 @@ html:root body #nav #navReels.st-qeels{width:142px!important;min-width:0!importa
 `;
 document.head.appendChild(css);
 function anm(){ const b = document.getElementById("navKonto"); if(!b) return;
-  const t = (b.querySelector(".tlab") || b).textContent.trim(); const an = t === "Anmelden";
-  if(b.classList.contains("st-anm") !== an){ b.classList.toggle("st-anm", an); if(an) b.setAttribute("aria-label", "Anmelden"); } }
+  /* Abgemeldet erkennt man am fehlenden Avatar; Deutsch zeigt die Grafik mit Text, andere Sprachen die leere Grafik mit übersetztem Text */
+  const t = (b.querySelector(".tlab") || b).textContent.trim(); const an = !!t && !b.querySelector("img,svg,.av,.avatar") && !(typeof S !== "undefined" && S.profil);
+  const de = t === "Anmelden";
+  if(b.classList.contains("st-anm") !== an) b.classList.toggle("st-anm", an);
+  b.classList.toggle("st-tx", an && !de);
+  if(an){ if(b.dataset.lab !== t) b.dataset.lab = t; if(b.getAttribute("aria-label") !== t) b.setAttribute("aria-label", t); } }
 function knoepfe(){
-  const m = document.getElementById("navMenu"); if(m){ const t = (m.querySelector(".tlab") || m).textContent.trim(); m.classList.toggle("st-menue", t === "Menü"); if(t === "Menü" && !m.getAttribute("aria-label")) m.setAttribute("aria-label", "Menü"); }
+  const m = document.getElementById("navMenu"); if(m){ const t = (m.querySelector(".tlab") || m).textContent.replace(/[☰≡]/g, "").trim();
+    m.classList.add("st-menue"); m.classList.toggle("st-tx", t !== "Menü");
+    if(t && m.dataset.lab !== t) m.dataset.lab = t; if(t && m.getAttribute("aria-label") !== t) m.setAttribute("aria-label", t); }
   const q = document.getElementById("navReels"); if(q) q.classList.add("st-qeels");
   const sp = document.querySelector("#nav .xui-knopf"); if(sp) sp.classList.toggle("st-de", /Deutsch\s*$|: Deutsch/.test(sp.getAttribute("aria-label") || ""));
   const t = document.querySelector("#nav .xs-knopf"); if(t){ t.classList.add("st-ton"); const l = (t.getAttribute("aria-label") || "").toLowerCase(); t.classList.toggle("st-stumm", /töne aus/.test(l) && !/musik an/.test(l)); }
@@ -2531,7 +2544,7 @@ html body .wk2 .wk2-box li::before{content:""!important;width:24px;height:24px;b
   const PILLE = [".spr-zur", ".spr-pille", ".spr-hinweis", ".spr-fuss", ".xmt-pill", ".fq-klein", ".xa-pill", ".xfo-titel", ".xfo-pille.dunkel", ".xk-p-status",
     ".xk-nav", ".wdh-pille", ".xt-glas", ".alb-pill", ".alb-zahl", ".xf-pille", ".xf-titel", ".xf-tipp", ".xs-h2", ".xs-hinweis", ".xsw-info", ".hlf-vorschau",
     ".hlf-pille", ".xof-status", ".xof-netz", ".xof-h2", ".xof-auto", ".xof-tipp", ".xmt-top > span"];
-  const GOLDK = [".xk-btn.haupt", ".xmt-panel .xmt-go:not(.xmt-zwei)", ".fq-gross", ".wdh-gelernt", ".xmt-t.xmt-ok"];
+  const GOLDK = [".xk-btn.haupt", ".xmt-panel .xmt-go:not(.xmt-zwei)", ".fq-gross", ".xmt-t.xmt-ok"];
   const WEISSK = [".xk-btn:not(.haupt)", ".xmt-panel .xmt-go.xmt-zwei", ".xa-btn.weiss"];
   const nr = n => String(n).padStart(2, "0");
   const sel = (l, z = "") => l.map(k => `${W} ${k}${z}`).join(",");
@@ -3525,9 +3538,9 @@ html body.ep-app.ep-s-board #app .segs.rlmodus{margin:0!important}html body.ep-a
       for(const [e, n] of SYM){ if(b.textContent.trim().startsWith(e)){ b.dataset.rlz = "1"; b.innerHTML = `<i class="rl-mz"><img src="${G}${n}.webp?v=2" alt=""></i>` + b.innerHTML.replace(e, "").trim(); break; } } });
     const pk = document.querySelector("#app .rlkopf .rlpokal span"); if(pk && !pk.querySelector("img")) pk.innerHTML = `<img src="${G}pokal.webp?v=2" alt="">`;
     document.querySelectorAll("#app .rlmodus .seg").forEach(b => { if(b.dataset.rlz) return;
-      const tx = b.textContent.trim(), m = b.dataset.bm || (tx.includes("Hardcore") ? "hc" : "");
+      const tx = b.textContent.replace(/^[^\p{L}]+/u, "").trim(), m = b.dataset.bm || (b.dataset.hcb || tx.includes("Hardcore") ? "hc" : "");
       const bild = {gesamt:"pokal", season:"festkalender", hc:"flamme"}[m]; if(!bild) return;
-      b.dataset.rlz = "1"; b.innerHTML = `<img src="${G}${bild}.webp?v=2" alt=""> ${{gesamt:"Gesamt", season:"Seasons", hc:"Hardcore"}[m]}`; });
+      b.dataset.rlz = "1"; b.innerHTML = `<img src="${G}${bild}.webp?v=2" alt=""> ` + tx.replace(/[<&]/g, ""); });
   }
   let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(schmuck, 30); }).observe(document.documentElement, {childList:true, subtree:true});
 })();
@@ -4116,8 +4129,8 @@ document.head.appendChild(c);
 const G = "img/grafik/diverse/";
 function schmuck(){
   if(document.documentElement.dataset.scr !== "board") return;
-  document.querySelectorAll("#app .rl-filter .rl-fl").forEach(l => { if(l.dataset.rl3) return; l.dataset.rl3 = "1";
-    const bild = /stufe/i.test(l.textContent) ? "img/qeels-icons/stufen/koenner.webp" : /region/i.test(l.textContent) ? G + "landkarte.webp?v=2" : G + "festkalender.webp?v=2";
+  document.querySelectorAll("#app .rl-filter .rl-fz").forEach(z => { const l = z.querySelector(":scope > .rl-fl"); if(!l || l.dataset.rl3) return; l.dataset.rl3 = "1";
+    const bild = z.querySelector(".rlsegs") ? "img/qeels-icons/stufen/koenner.webp" : z.querySelector(".kpick") ? G + "landkarte.webp?v=2" : G + "festkalender.webp?v=2";
     l.insertAdjacentHTML("afterbegin", `<i><img src="${bild}" alt=""></i>`); });
   const kb = document.querySelector("#app .rlkopfleiste > b");
   if(kb && !kb.querySelector(".rl-kmz")){ kb.innerHTML = `<i class="rl-kmz"><img src="${G}pokal.webp?v=2" alt=""></i>` + kb.innerHTML.replace(/^\s*(🌍|🌱|🚀|🏅)\s*/u, ""); }
@@ -4129,3 +4142,52 @@ function schmuck(){
 }
 let t = 0; new MutationObserver(() => { clearTimeout(t); t = setTimeout(schmuck, 40); }).observe(document.documentElement, {childList:true, subtree:true});
 })();
+
+/* ===== Alle Grafik-Knöpfe (knopf-*.webp als Neun-Teile-Bild) mit runden Enden: die Rahmenbreite der Grafik wird aus der
+   echten Knopfhöhe berechnet (oben/unten = Schnitt/Bildhöhe × Höhe, Seiten = Seitenschnitt/Bildhöhe × Höhe). Feste Werte wie
+   26px 44px passten nur bei einer Höhe, sonst wurden die Enden spitz oder eckig. Gilt überall, auch für neue Knöpfe. ===== */
+(function(){
+  const HOEHE = {};            // Bildadresse -> natürliche Höhe
+  function bildHoehe(url){
+    if(HOEHE[url] !== undefined) return HOEHE[url];
+    HOEHE[url] = 0; const i = new Image(); i.onload = () => { HOEHE[url] = i.naturalHeight || 0; plan(); }; i.src = url; return 0;
+  }
+  const KAND = 'button,a,[role="button"],.seg,.big,.startlbl,[class*="btn"],[class*="knopf"],[class*="-go"],.fq-gross,.wdh-gelernt,label';
+  function passen(){
+    document.querySelectorAll(KAND).forEach(el => {
+      const cs = getComputedStyle(el), src = cs.borderImageSource;
+      if(!src || src === "none" || !/\/knopf-[^/"]*\.webp/.test(src)) { if(el.dataset.kbw){ el.style.removeProperty("border-image-width"); delete el.dataset.kbw; } return; }
+      const url = (src.match(/url\("?([^")]+)"?\)/) || [])[1]; if(!url) return;
+      const ih = bildHoehe(url); if(!ih) return;
+      const sl = cs.borderImageSlice.split(/\s+/).map(parseFloat).filter(n => !isNaN(n)); if(!sl.length) return;
+      const st = sl[0], ss = sl.length > 1 ? sl[1] : sl[0];
+      const r = el.getBoundingClientRect(); const h = r.height, w = r.width; if(h < 10 || w < 10) return;
+      let v = st / ih * h, s = ss / ih * h; if(2 * s > w) s = w / 2; if(2 * v > h) v = h / 2;
+      const wert = v.toFixed(1) + "px " + s.toFixed(1) + "px";
+      if(el.dataset.kbw !== wert){ el.style.setProperty("border-image-width", wert, "important"); el.dataset.kbw = wert; }
+    });
+  }
+  let t = 0; function plan(){ clearTimeout(t); t = setTimeout(passen, 120); }
+  new MutationObserver(plan).observe(document.documentElement, {childList:true, subtree:true});
+  addEventListener("resize", plan); addEventListener("load", plan); plan();
+})();
+
+/* ===== Sprachen: Stufenwahl (Start, Mittel, Alle) als weisse Karte mit Segmenten wie in der Rangliste, Themen-Kacheln in der
+   Farbe der gewählten Sprache (Französisch blau, Englisch rot, wie die Sprach-Karten); Wiederholen: «N gelernt» als weisse Pille
+   mit Stern statt Knopf (ist nur eine Anzeige). ===== */
+(function(){ const c = document.createElement("style"); c.id = "ep-spr-system-css";
+const W = "html body #app .xseite", E = "img/grafik/entdecken/";
+const VP = "linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F)";
+c.textContent = `
+${W} .spr-leiste .spr-stufen.spr-stufen{background:rgba(255,255,255,.96)!important;border-radius:24px!important;box-shadow:0 10px 24px rgba(30,20,90,.2)!important;padding:8px!important;gap:8px!important;align-self:center}
+${W} .spr-leiste .spr-stufen.spr-stufen > button[data-stufe]{all:unset;box-sizing:border-box;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:8px 10px!important;min-height:58px;border-radius:16px!important;background:#F7F4FF!important;border:2px solid #E4DEFA!important;color:#2E2560!important;cursor:pointer;text-align:center;box-shadow:none!important;transition:background .15s,transform .15s}
+${W} .spr-leiste .spr-stufen.spr-stufen > button[data-stufe] b{font:800 16px Lexend,system-ui,sans-serif!important;color:inherit!important;text-shadow:none!important}
+${W} .spr-leiste .spr-stufen.spr-stufen > button[data-stufe] small{font:600 11.5px Lexend,system-ui,sans-serif!important;color:inherit!important;opacity:.8;text-shadow:none!important}
+${W} .spr-leiste .spr-stufen.spr-stufen > button[data-stufe]:hover{background:#EFE9FF!important;transform:translateY(-1px)}
+${W} .spr-leiste .spr-stufen.spr-stufen > button[data-stufe][aria-pressed="true"]{background:${VP}!important;border-color:transparent!important;color:#fff!important;box-shadow:0 4px 10px rgba(110,50,200,.35)!important}
+${W} .spr-leiste .spr-stufen.spr-stufen > button[data-stufe]:focus-visible{outline:3px solid #7B3FE4;outline-offset:2px}
+${W} .spr-themen[data-sp="fr"] .spr-thema.spr-thema{border-image-source:url("${E}kachel-01.webp?v=3")!important}
+${W} .spr-themen[data-sp="en"] .spr-thema.spr-thema{border-image-source:url("${E}kachel-02.webp?v=3")!important}
+${W} .wdh-gelernt.wdh-gelernt{all:unset;display:inline-flex!important;align-items:center;gap:8px;padding:5px 14px 5px 5px!important;border-radius:999px!important;background:rgba(255,255,255,.96)!important;color:#2E2560!important;font:800 15px Lexend,system-ui,sans-serif!important;text-shadow:none!important;box-shadow:0 4px 10px rgba(30,20,90,.2)!important;border-image:none!important}
+${W} .wdh-gelernt.wdh-gelernt img{width:30px!important;height:30px!important;padding:4px;box-sizing:border-box;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF6C8,#FFD54A 55%,#E0A800);box-shadow:0 2px 5px rgba(0,0,0,.25);object-fit:contain}
+`; document.head.appendChild(c); })();

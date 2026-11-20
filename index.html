@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-20-30";
+window.EP_BUILD="ep-2026-11-21-01";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -1391,6 +1391,9 @@ a.big{text-decoration:none}
 /* Bibliothek: Beschreibung und Fakten */
 .beschr{margin:6px 0 16px;font-size:1.1rem;line-height:1.75}
 .beschr p{margin:0 0 10px}
+.beschr.leer .tx-neu-hinweis{margin:10px 0 8px;font-size:1.08rem}
+.beschr.leer .tx-neu-knopf{margin:2px 0 4px}
+.beschr.leer .tx-neu-knopf.laedt{opacity:.7;pointer-events:none}
 .beschr.leer{background:color-mix(in srgb,var(--libacc) 8%,var(--libpaper));border:2px dashed var(--libline);border-radius:14px;padding:12px 16px;font-size:1rem}
 .faktkopf{font-family:Georgia,serif;font-size:1.25rem;color:var(--libacc);margin:18px 0 8px}
 .mehrfakten{margin-top:10px}
@@ -7478,7 +7481,7 @@ function renderLibSeite(){
     const txt=S.texte[seiteKey(s)];
     const adminLeiste = S.canEdit ? `<div class="adminleiste"><span>🛠️ Nur für dich sichtbar</span>${S.sample ? `<button class="big ${txt?"alt":"gold"} small" id="textGen" type="button" ${TX.run?"disabled":""}>${txt?(S.teile[seiteKey(s)]?.v===2?"🔄 Text neu erstellen":"🔄 Ausführlich neu erstellen"):"✨ Ausführliche Beschreibung erstellen"}</button>` : `<span class="help">Die KI ist hier nicht verfügbar.</span>`}<p class="status" id="textSt" aria-live="polite"></p></div>` : "";
     const beschr = adminLeiste + (txt ? textHTML(seiteKey(s))
-      : `<div class="beschr leer"><p>📝 Eine ausführliche Beschreibung zu «${esc(s.titel)}» folgt bald. Bis dahin findest du unten die wichtigsten Fakten.</p></div>`);
+      : `<div class="beschr leer"><p>📝 Eine ausführliche Beschreibung zu «${esc(s.titel)}» folgt bald. Bis dahin findest du unten die wichtigsten Fakten.</p><p class="tx-neu-hinweis"><b>Wird der Text nicht angezeigt? Bitte lade die Seite neu.</b></p><button class="big gold small tx-neu-knopf" type="button" data-txneu="${esc(seiteKey(s))}">🔄 Seite neu laden</button></div>`);
     const karte=f=>`<div class="wk"><span class="bibst">${STUFE_EMO[f.l]||""} ${esc(stufeObj(f.l).name)}</span>${f.img?`<div class="bibimg" style="float:right">${imgSvg(f.img)}</div>`:""}<p class="wkq">${esc(f.q)}</p><p class="wka">${esc(f.a[0])}</p><p class="wke">${esc(f.e)}</p></div>`;
     const erste=s.fragen.slice(0,5), rest=s.fragen.slice(5), blick=blickListe(merk,seiteKey(s));
     inhalt = `${gipfelInfoHTML(s)}${steckHTML(s)}${olympiaHTML(s)}${blick.length?`<div class="aufeinenblick"><b>🗝️ Auf einen Blick</b><ul>${blick.map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
@@ -7780,6 +7783,19 @@ async function ladeTexteDatei(){ const cfg=window.EP_CONFIG||{}; await Promise.a
 async function ladeTexteTeil(datei){ try{ let r=await fetch(datei,{cache:"force-cache"}).catch(()=>null); if(!r||!r.ok) r=await fetch(datei); if(!r.ok) return false; const tj=await r.json(); for(const [k,v] of Object.entries(tj||{})){ const T=v&&v.teile; if(!T||!T.einleitung) continue; FT.te[k]=T; FT.t[k]=[T.einleitung,...(T.wichtigste||[]),...(T.abschnitte||[]).map(a=>a.text),...[].concat(T.gewusst||[])].filter(Boolean).join(" ").replace(/\*\*/g,""); if(Array.isArray(v.bilder)&&v.bilder.length) FT.bi[k]=v.bilder; } ftMischen(); txNeuZeichnen(Object.keys(tj||{})); return true; }catch(e){ return false; } }
 /* Nach dem Laden von Texten neu zeichnen, aber nur wenn es die offene Ansicht betrifft.
    In der Suche das Suchfeld samt Cursor behalten (sonst schliesst sich auf dem Handy die Tastatur). */
+/* Bibliothek: Knopf «Seite neu laden», wenn ein Artikeltext fehlt. Holt den Text nochmals (ohne Speicher),
+   kommt er nicht innert 4 s, lädt die ganze Seite neu (gleiche Adresse, man bleibt beim Artikel). */
+document.addEventListener("click", async e => {
+  const b = e.target.closest && e.target.closest("[data-txneu]"); if(!b) return;
+  const k = b.dataset.txneu; b.disabled = true; b.classList.add("laedt");
+  const neu = () => { try{ location.reload(); }catch(er){} };
+  const zeit = setTimeout(neu, 4000);
+  try{
+    if(TXL.idx && TXL.idx.k[k]!=null){ const d = TXL.idx.d[TXL.idx.k[k]]; if(d) delete TXL.dateien[d]; }
+    await texteFuerKeys([k]);
+    if(S.texte[k]){ clearTimeout(zeit); render(); }
+  }catch(er){}
+});
 function txNeuZeichnen(keys){
   try{ RL.aPool=null; }catch(e){}
   if(!S.screen || !/^(lib|lbib)/.test(S.screen) || document.getElementById("reels")) return;

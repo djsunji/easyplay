@@ -218,7 +218,7 @@ function startSeite(box, e){
     <div class="spr-stufen" role="group" aria-label="Stufe">${STUFEN.map(s => `<button type="button" data-stufe="${s.id}" aria-pressed="${e.stufe === s.id}"><b>${s.name}</b><small>${s.text}</small></button>`).join("")}</div>
   </div>
   ${info.text ? `<p class="spr-hinweis" role="note">🔈 ${h(info.text)}</p>` : ""}
-  <div class="spr-themen">${d.themen.map(t => { const st = themaStand(e.sp, t.id, e.stufe); if(!st.n) return "";
+  <div class="spr-themen" data-sp="${e.sp}">${d.themen.map(t => { const st = themaStand(e.sp, t.id, e.stufe); if(!st.n) return "";
     return `<button type="button" class="spr-thema" data-thema="${h(t.id)}" style="background:${t.farbe}"><span class="spr-th-emo" aria-hidden="true">${window.EP_GI?EP_GI("sprachen",t.id,t.emo):t.emo}</span><b>${h(t.name)}</b><small>${st.n} Wörter${st.sicher ? " · " + st.sicher + " sicher" : ""}</small><span class="spr-balken" role="progressbar" aria-label="Fortschritt ${h(t.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${st.prozent}"><i style="width:${st.prozent}%"></i></span></button>`; }).join("")}</div>
   <p class="spr-fuss">Tipp: Jedes Wort wandert durch 5 Fächer. Was du sicher kannst, kommt seltener wieder.</p>`;
   box.querySelectorAll("[data-sp]").forEach(b => b.onclick = () => { einstSetzen("sp", b.dataset.sp); A.ton("klick"); zeichne(); });
