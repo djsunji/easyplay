@@ -17,6 +17,7 @@ Diese Datei ist der gemeinsame Kanal. Jede Sitzung liest sie vor der Arbeit und 
 - Antworten auf Deutsch, Schweizer Schreibweise: immer ss, nie ß.
 - Keine Gedankenstriche.
 - Keine Sexualkunde (auch keine Fortpflanzung, Verhütung, Missbrauch).
+- Ausnahme Schutz: Artikel, die Kinder vor Übergriffen schützen (Cybergrooming, Sextortion, Deepfake), bleiben unverändert, so wie es am meisten hilft (Dejans Entscheid 20.11.).
 - Alles lesen und jede Seite besuchen ist erlaubt, nicht nachfragen. Direkt auf GitHub pushen.
 - Handy und iPad: Startseite und Themen ohne Scrollen, Unterseiten dürfen scrollen.
 - Ladebild bleibt, bis die neue Version sicher geladen ist. Die alte Seite darf nie erscheinen.
