@@ -316,7 +316,7 @@ window.renderDuell = function(){
       ${einstellungen()}
       ${rangSeasonHTML()}
       <details class="du2-ein" id="du2Namen"><summary>📱 Namen für «Auf einem Gerät» <span class="pf">▸</span></summary><div class="inhalt"><div class="du2-namen"><input id="duP1" class="sel" maxlength="14" placeholder="Spieler 1" value="${h((S.profil && S.profil.name || "").split(" ")[0] || "")}"><input id="duP2" class="sel" maxlength="14" placeholder="Spieler 2"></div></div></details>
-      ${typeof liveRoom === "function" && window.claude && window.claude.use ? `<details class="du2-ein"><summary>🔢 Mit PIN beitreten <span class="pf">▸</span></summary><div class="inhalt"><div class="du2-pin"><input id="duPin" class="sel" inputmode="numeric" maxlength="4" placeholder="PIN"><button class="du2-klein" id="duJoin" type="button">Beitreten</button></div><button class="du2-klein" id="duHost" type="button">Eigenes Duell mit PIN erstellen</button></div></details>` : ""}
+      ${typeof liveRoom === "function" && ((window.claude && window.claude.use) || (typeof lkSupa === "function" && lkSupa())) ? `<details class="du2-ein"><summary>🔢 Mit PIN beitreten <span class="pf">▸</span></summary><div class="inhalt"><div class="du2-pin"><input id="duPin" class="sel" inputmode="numeric" maxlength="4" placeholder="PIN"><button class="du2-klein" id="duJoin" type="button">Beitreten</button></div><button class="du2-klein" id="duHost" type="button">Eigenes Duell mit PIN erstellen</button></div></details>` : ""}
       <p class="du2-fehler" id="duErr" aria-live="polite"></p>
     </div>`;
   const ein = $("#du2Ein"); if(ein && offenEin) ein.open = true; if(ein) ein.ontoggle = () => { DU.einOffen = ein.open; };

@@ -101,15 +101,17 @@ alter table public.fehlermeldungen enable row level security;  -- keine Policy: 
 create or replace function public.fehler_melden(p_art text, p_ref text, p_titel text, p_grund text, p_text text)
 returns boolean language plpgsql security definer set search_path = public as $$
 begin
-  if auth.uid() is null then return false; end if;   -- nur angemeldete Lehrpersonen
+  -- Auch ohne Konto (Lehrerbereich auf dem Gerät): dann höchstens 20 Meldungen pro Stunde und Netz (IP)
   if p_art not in ('frage', 'bib') then return false; end if;
-  if public.bremse('fehler_melden', 60, interval '1 hour') then return false; end if;
+  if auth.uid() is null then
+    if public.bremse('fehler_melden_anon', 20, interval '1 hour') then return false; end if;
+  elsif public.bremse('fehler_melden', 60, interval '1 hour') then return false; end if;
   insert into public.fehlermeldungen (art, ref, titel, grund, text, von)
   values (p_art, left(coalesce(p_ref, ''), 100), left(coalesce(p_titel, ''), 300), left(coalesce(p_grund, ''), 100), left(coalesce(p_text, ''), 2000), auth.uid());
   return true;
 end $$;
-revoke all on function public.fehler_melden(text, text, text, text, text) from public, anon;
-grant execute on function public.fehler_melden(text, text, text, text, text) to authenticated;
+revoke all on function public.fehler_melden(text, text, text, text, text) from public;
+grant execute on function public.fehler_melden(text, text, text, text, text) to anon, authenticated;
 
 -- Für die Verwaltung (admin/index.html, Bereich «Fehlermeldungen»)
 create or replace function public.admin_fehlermeldungen(p_status text default null)

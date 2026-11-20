@@ -75,7 +75,7 @@ html.ep-boot #epBoot{display:flex;position:fixed;inset:0;z-index:99999;flex-dire
 <link rel="preload" as="image" href="img/kinder.webp">
 <script>/* Versionsprüfung: Ist diese Seite älter als die veröffentlichte Version (alter Speicher, Browser-Cache,
    Homescreen-App), alles Alte löschen und einmal frisch laden. Höchstens einmal pro 10 Minuten. */
-window.EP_BUILD="ep-2026-11-20-19";
+window.EP_BUILD="ep-2026-11-20-20";
 (function(){ try{
   if(window.claude || window.EP_NATIV || !/^https?:$/.test(location.protocol)){ window.__epVer="ok"; return; }   /* App (alles eingebaut) und Vorschau: keine Prüfung */
   /* Prüft, ob auf dem Server eine neuere Version liegt. Läuft beim Laden UND jedes Mal, wenn die Seite
@@ -3982,6 +3982,9 @@ LOGOFRAGEN.push(...CH_LOGOFRAGEN); FRAGEN.push(...CH_LOGOFRAGEN);
 
 /* ================= Live-Wettbewerb ================= */
 const ARTIFACT_URL = "https://claude.ai/artifact/7zpYtW3uEfaQcDYRds7fKs";
+/* Adresse zum Mitspielen im Live-Wettbewerb: in der claude.ai-Vorschau das Artifact, sonst easyplay.ch/live?pin=1234 */
+const LIVE_PIN0 = (()=>{ try{ const p=new URLSearchParams(location.search).get("pin"); return /^\d{4}$/.test(p||"") ? p : ""; }catch(e){ return ""; } })();
+function liveUrl(pin){ if(window.claude) return ARTIFACT_URL; const b=((window.EP_CONFIG||{}).teilenUrl||"https://easyplay.ch/").replace(/\/?$/,"/"); return b+"live"+(pin?"?pin="+pin:""); }
 const LIVE_DUR = 20000;
 const LIVE_COLORS = ["#E0312B","#1D5FB4","#F2A000","#17A35A"];
 const LIVE_SHAPES = [
@@ -3993,7 +3996,34 @@ const LIVE_SHAPES = [
 const shape = i => `<svg class="ic lshape" viewBox="0 0 48 48" aria-hidden="true">${LIVE_SHAPES[i]}</svg>`;
 const L = { room:null, sub:null, role:null, pin:null, host:null, me:null, unsub:[], tick:null, qrLoaded:false };
 
-async function liveRoom(){ if(L.room) return L.room; if(!window.claude?.use) return null; L.room = await claude.use("room"); return L.room; }
+async function liveRoom(){ if(L.room) return L.room;
+  if(window.claude?.use){ L.room = await claude.use("room"); return L.room; }
+  const sp = lkSupa(); if(!sp) return null;
+  L.room = serverRaum(sp.u); return L.room; }
+/* Räume auf dem eigenen Server (server/raum.js): gleiche Schnittstelle wie die Räume der claude.ai-Vorschau.
+   join(name) -> {presence(teil), peers(), onPeers(cb), leave()}; fragt jede Sekunde nach. */
+function serverRaum(basis){
+  const id = Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+  return { join(raum){
+    let ich = {}, liste = [], weg = false, laeuft = false, sig = "";
+    const hoerer = new Set();
+    async function abgleich(){
+      if(weg || laeuft) return; laeuft = true;
+      try{ const r = await fetch(basis + "/api/raum", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({raum, peer:id, presence:ich})});
+        if(r.ok){ const d = await r.json(); const neu = JSON.stringify(d.peers || []);
+          if(neu !== sig){ sig = neu; liste = d.peers || []; hoerer.forEach(cb => { try{ cb({peers:liste}); }catch(e){ console.warn(e); } }); } }
+      }catch(e){} finally{ laeuft = false; }
+    }
+    const t = setInterval(abgleich, 1000);
+    return {
+      presence(teil){ ich = {...ich, ...(teil || {})}; return abgleich(); },
+      peers(){ return liste; },
+      onPeers(cb){ hoerer.add(cb); return () => hoerer.delete(cb); },
+      leave(){ weg = true; clearInterval(t); hoerer.clear();
+        try{ fetch(basis + "/api/raum", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({raum, peer:id, weg:true}), keepalive:true}); }catch(e){} }
+    };
+  } };
+}
 function liveLeave(){
   L.unsub.forEach(u=>{ try{u();}catch(e){} }); L.unsub=[];
   clearInterval(L.tick); L.tick=null;
@@ -4035,7 +4065,7 @@ function renderLive(){
       <div class="mode" style="--c:var(--geld)"><span class="em">${ico("phone")}</span><h2>Mitspielen</h2>
         <p>Gib den Spiel-PIN ein, den du auf dem grossen Bildschirm siehst.</p>
         <label class="pick-lbl" for="lvPin">Spiel-PIN</label>
-        <input id="lvPin" class="pin" inputmode="numeric" maxlength="4" placeholder="1234" autocomplete="off">
+        <input id="lvPin" class="pin" inputmode="numeric" maxlength="4" placeholder="1234" autocomplete="off" value="${LIVE_PIN0}">
         <label class="pick-lbl" for="lvName">Dein Spielername</label>
         <input id="lvName" class="pin name" maxlength="16" value="${esc(S.profil?.name||"")}" placeholder="z. B. SchlauerFuchs" autocomplete="off">
         <button class="big" id="lvJoin" type="button" style="margin-top:16px">Beitreten</button>
@@ -4074,7 +4104,7 @@ function renderLive(){
 /* ---- Spielleitung ---- */
 async function liveHost(cat, n, stufe, such){
   const room = await liveRoom();
-  if(!room){ $("#lvErr").textContent="Live-Spiele funktionieren nur in der claude.ai-Ansicht dieser Seite."; return; }
+  if(!room){ $("#lvErr").textContent="Live-Spiele brauchen eine Verbindung zum easyplay-Server. Bitte prüfe das Internet."; return; }
   liveLeave();
   const q=(such||"").trim().toLowerCase();
   const all = shuffle((stufe ? pool(cat).filter(f=>f.l===stufe) : pool(cat)).filter(f=> q.length<2 || (f.q+" "+(f.a||[]).join(" ")+" "+f.e+" "+(f.s||"")+" "+(f.m||"")+" "+(THEMA[f.t]?.name||"")).toLowerCase().includes(q)));
@@ -4139,7 +4169,7 @@ function renderLiveHost(){
   if(H.phase==="lobby"){
     body = `<div class="lobby">
       <div class="joinbox"><div id="qr" class="qr"></div>
-        <div><p class="lbl">1. QR-Code scannen oder Seite öffnen</p><p class="url">${esc(ARTIFACT_URL.replace("https://",""))}</p>
+        <div><p class="lbl">1. QR-Code scannen oder Seite öffnen</p><p class="url">${esc(liveUrl(L.pin).replace("https://",""))}</p>
         <p class="lbl">2. «Wettbewerb» → «Mitspielen» und PIN eingeben</p><div class="bigpin">${L.pin}</div></div></div>
       <div class="plist"><h2>${players.length} ${players.length===1?"Person ist":"Personen sind"} dabei</h2>
         <div class="chips2">${players.map(p=>`<span class="pchip">${avatar(p.presence.av)} ${esc(p.presence.name||"Gast")}</span>`).join("") || `<span class="wait">Warte auf Mitspielende …</span>`}</div></div>
@@ -4181,7 +4211,7 @@ function scoreboard(scores, n, last){
 }
 function drawQR(){
   const box=$("#qr"); if(!box) return;
-  const make=()=>{ try{ box.innerHTML=""; new QRCode(box,{text:ARTIFACT_URL,width:220,height:220,colorDark:"#14245E",colorLight:"#ffffff"}); }catch(e){ box.innerHTML=`<p class="url">${esc(ARTIFACT_URL)}</p>`; } };
+  const make=()=>{ try{ box.innerHTML=""; new QRCode(box,{text:liveUrl(L.pin),width:220,height:220,colorDark:"#14245E",colorLight:"#ffffff"}); }catch(e){ box.innerHTML=`<p class="url">${esc(liveUrl(L.pin))}</p>`; } };
   if(window.QRCode) return make();
   if(!L.qrLoaded){ L.qrLoaded=true; const s=document.createElement("script"); s.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; s.integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"; s.crossOrigin="anonymous"; s.onload=make; s.onerror=()=>{ box.innerHTML=`<p class="url">${esc(ARTIFACT_URL)}</p>`; }; document.head.appendChild(s); }
   else setTimeout(()=>{ if(window.QRCode) make(); },500);
@@ -4192,7 +4222,7 @@ async function liveJoin(pin, name){
   if(!/^\d{4}$/.test(pin)){ $("#lvErr").textContent="Der PIN hat 4 Ziffern."; return; }
   if(!/^[\p{L}\p{N} _\-.]{2,16}$/u.test(name)){ $("#lvErr").textContent="Bitte einen Spielernamen mit 2 bis 16 Zeichen eingeben."; return; }
   const room = await liveRoom();
-  if(!room){ $("#lvErr").textContent="Live-Spiele funktionieren nur in der claude.ai-Ansicht dieser Seite."; return; }
+  if(!room){ $("#lvErr").textContent="Live-Spiele brauchen eine Verbindung zum easyplay-Server. Bitte prüfe das Internet."; return; }
   liveLeave();
   L.pin=pin; L.role="player";
   L.sub = room.join("easyplay-"+pin);
@@ -8415,7 +8445,7 @@ function renderDuell(){
   const kats=duellKats(); if(!kats.some(k=>k[0]===DU.cat)) DU.cat="alle";
   const max=Math.min(20, duellPool(DU.cat,DU.stufe).length);
   if(DU.n>max) DU.n=Math.max(3,max);
-  const online = !!window.claude?.use;
+  const online = !!window.claude?.use || !!lkSupa();
   $("#app").innerHTML = `${crumbs()}
     <div class="dukopf"><span class="dusw">⚔️</span><h1>Duell</h1><p>Wer weiss mehr? Tritt gegen eine Freundin, einen Freund oder deine Familie an. Wer zuerst richtig antwortet, holt die Punkte!</p></div>
     <div class="card dueinst">
@@ -8523,7 +8553,7 @@ function duPresence(){ if(!DU.sub) return; const R=DU.run||{}; const st={pin:DU.
   if(DU.rolle==="host"){ st.list=DU.list; st.phase=DU.phase; st.startAt=DU.startAt||0; }
   DU.sub.presence(st).catch(()=>{}); }
 async function duOnlineHost(){
-  const room=await liveRoom(); if(!room){ $("#duErr").textContent="Das Live-Duell funktioniert nur in der claude.ai-Version."; return; }
+  const room=await liveRoom(); if(!room){ $("#duErr").textContent="Das Live-Duell braucht eine Verbindung zum easyplay-Server. Bitte prüfe das Internet."; return; }
   duellLeave(); DU.mode="online"; DU.rolle="host"; DU.pin=String(Math.floor(1000+Math.random()*9000)); DU.list=duellFragen(DU.cat,DU.stufe,DU.n); DU.phase="lobby"; DU.run=null;
   DU.sub=room.join("easyplay-duell-"+DU.pin); duPresence();
   DU.unsub.push(DU.sub.onPeers(()=>{ if(S.screen==="duelllobby") renderDuellLobby(); else if(S.screen==="duellplay") { const g=duGegner(); const el=document.querySelector(".dugeg b"); if(el&&g) el.textContent=g.score||0; } else if(S.screen==="duellende") renderDuellEnde(); }));
@@ -8531,7 +8561,7 @@ async function duOnlineHost(){
 }
 async function duOnlineJoin(pin){
   if(!/^\d{4}$/.test(pin)){ $("#duErr").textContent="Der PIN hat 4 Ziffern."; return; }
-  const room=await liveRoom(); if(!room){ $("#duErr").textContent="Das Live-Duell funktioniert nur in der claude.ai-Version."; return; }
+  const room=await liveRoom(); if(!room){ $("#duErr").textContent="Das Live-Duell braucht eine Verbindung zum easyplay-Server. Bitte prüfe das Internet."; return; }
   duellLeave(); DU.mode="online"; DU.rolle="gast"; DU.pin=pin; DU.list=null; DU.run=null;
   DU.sub=room.join("easyplay-duell-"+pin); duPresence();
   DU.unsub.push(DU.sub.onPeers(()=>{ const g=duGegner();

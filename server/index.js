@@ -9,6 +9,7 @@ import { rpcAnfrage, tabellenAnfrage } from "./rest.js";
 import { statischMacher } from "./statisch.js";
 import { adminAnfrage } from "./admin.js";
 import { kontaktAnfrage } from "./kontakt.js";
+import { raumAnfrage } from "./raum.js";
 
 const E = process.env;
 const WURZEL = E.STATIC_DIR || join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -94,6 +95,14 @@ const server = createServer(async (req, res) => {
       if (req.method === "OPTIONS") return res.leer(o && herkunftErlaubt(o) ? 204 : 403);
       if (req.method === "POST" && o && !herkunftErlaubt(o)) return res.json(403, { message: "Nicht erlaubt" });
       return await kontaktAnfrage(req, res);
+    }
+    /* Räume für Live-Wettbewerb und Online-Duell (nur im Arbeitsspeicher, raum.js) */
+    if (req.pfad === "/api/raum") {
+      const o = req.headers.origin;
+      if (o && herkunftErlaubt(o)) { res.setHeader("Access-Control-Allow-Origin", o); res.setHeader("Vary", "Origin"); res.setHeader("Access-Control-Allow-Headers", "content-type"); res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS"); }
+      if (req.method === "OPTIONS") return res.leer(o && herkunftErlaubt(o) ? 204 : 403);
+      if (o && !herkunftErlaubt(o)) return res.json(403, { message: "Nicht erlaubt" });
+      return await raumAnfrage(req, res);
     }
     if (!BEREIT && (req.pfad.startsWith("/auth/v1/") || req.pfad.startsWith("/rest/v1/"))) return res.json(503, { code: "503", message: "Der Server startet noch" });
     if (req.pfad.startsWith("/api/admin/")) {
