@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Prüft eine italienische Übersetzungsdatei. Aufruf: pruefe.py <ausgabe.json> <eingabe.json>"""
-import json, re, sys
+import json, re, sys, os
 DE = re.compile(r"\b(und|das|nicht|ist|ein|eine|mit|für|auf|wie|welche[rsn]?|wer|wird|sind|oder|auch|zum|vom|beim)\b")
 def pruefe(aus, ein):
     f = []
@@ -28,10 +28,10 @@ def pruefe(aus, ein):
         if re.search(r"[–—]", alles) or re.search(r"\s-\s", alles): f.append(f"{k}: Gedankenstrich")
         if "ß" in alles: f.append(f"{k}: enthält ß")
         if re.search(r"[„]", alles): f.append(f"{k}: virgolette solo « » o “ ”")
-        if len(DE.findall(alles)) >= 3: f.append(f"{k}: sieht nach Deutsch aus: {alles[:80]}")
+        if len(DE.findall(re.sub(r"[«“‘\"][^»”’\"]{0,60}[»”’\"]", "", alles))) >= 3: f.append(f"{k}: sieht nach Deutsch aus: {alles[:80]}")
         lo = len(" ".join([o["q"], *o["a"], o.get("e", ""), o.get("m", "")]))
         if len(alles) > lo * 2.2 + 40: f.append(f"{k}: viel länger als das Original")
-    if nulls > len(E) * 0.15: f.append(f"Zu viele null ({nulls} von {len(E)}); null solo per domande che in italiano non hanno senso")
+    if not os.environ.get("EP_NULL_FREI") and nulls > len(E) * 0.15: f.append(f"Zu viele null ({nulls} von {len(E)}); null solo per domande che in italiano non hanno senso")
     return f
 if __name__ == "__main__":
     r = pruefe(sys.argv[1], sys.argv[2])

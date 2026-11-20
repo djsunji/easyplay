@@ -37,7 +37,7 @@ def pruefe(aus, ein):
         if "„" in alles: f.append(f"{k}: Anführungszeichen „ nicht erlaubt")
         if alles.count("**") % 2: f.append(f"{k}: ungerade Anzahl ** (Fettdruck)")
         de = len(DE.findall(alles)); w = max(1, len(alles.split()))
-        if de >= 8 and de / w > 0.02: f.append(f"{k}: sieht nach Deutsch aus ({de} deutsche Wörter): {alles[:80]}")
+        if E[k].get("kap") != "Sprache & Deutsch" and de >= 8 and de / w > 0.02: f.append(f"{k}: sieht nach Deutsch aus ({de} deutsche Wörter): {alles[:80]}")
         lo = len(" ".join(texte(o)))
         if len(alles) > lo * 1.9 + 200: f.append(f"{k}: viel länger als das Original")
         if len(alles) < lo * 0.55: f.append(f"{k}: viel kürzer als das Original (nichts weglassen)")
