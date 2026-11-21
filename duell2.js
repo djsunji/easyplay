@@ -254,7 +254,7 @@ function teamBox(){
       <i class="tk-glanz" aria-hidden="true"></i><i class="tk-fk f1" aria-hidden="true">✦</i><i class="tk-fk f2" aria-hidden="true">✦</i><i class="tk-fk f3" aria-hidden="true">✧</i><i class="tk-fk f4" aria-hidden="true">✦</i><i class="tk-fk f5" aria-hidden="true">✧</i><i class="tk-fk f6" aria-hidden="true">✦</i>
       <img class="tk-bild" src="${KIDS}${bild}" alt="">
       <span class="tk-name"><img src="img/grafik/duell/name-${id}.webp" alt="Team ${name}"></span>
-      <span class="tk-joker"><i class="tk-muenze" aria-hidden="true">${j.ic || ""}</i><b>${h(j.name || "")}</b><small>${h(j.kurz || "")}</small><em>Joker · 1× pro Duell</em></span>
+      <span class="tk-joker"><i class="tk-muenze" aria-hidden="true">${j.ic || ""}</i><b>${h(j.name || "")}</b><small>${h(j.kurz || "")}</small><em>Joker · 1× pro 10 Fragen</em></span>
     </button>`; };
   return `<div class="du2-team du2-team2"><h2 class="lbl tk-titel">✨ Wähle dein Team ✨</h2><div class="du2-kids">${karte("lumi", "Lumi", "lumi-sprung.webp")}${karte("milo", "Milo", "milo-sprung.webp")}${karte("leni", "Leni", "leni-sprung.webp")}${karte("ben", "Ben", "ben-sprung.webp")}</div></div>`;
 }
@@ -583,10 +583,10 @@ window.EP_DUELL = { matchStart, matchStop, BOTS, eloDaten, liga, LIGEN };
    Gilt in allen Duellen mit DU.run (Online, Zufall, Link). ===== */
 (function(){
   const J = {
-    lumi:{name:"Lumis Blick", ic:"<img src=\"img/grafik/duell/joker-lumi.webp\" alt=\"\">", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro Duell: Zwei falsche Antworten verschwinden."},
-    leni:{name:"Lenis Tipp", ic:"<img src=\"img/grafik/duell/joker-leni.webp?v=2\" alt=\"\">", kurz:"Eine falsche Antwort weg und ein Hinweis.", lang:"1× pro Duell: Eine falsche Antwort verschwindet, und du bekommst einen Hinweis, der zur richtigen Antwort führt."},
-    ben:{name:"Bens Schild", ic:"<img src=\"img/grafik/duell/joker-ben.webp?v=2\" alt=\"\">", kurz:"Falsch? Trotzdem halbe Punkte.", lang:"1× pro Duell: Ist deine Antwort falsch, bekommst du trotzdem die Hälfte der Punkte."},
-    milo:{name:"Milos zweite Chance", ic:"<img src=\"img/grafik/duell/joker-milo.webp\" alt=\"\">", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro Duell: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
+    lumi:{name:"Lumis Blick", ic:"<img src=\"img/grafik/duell/joker-lumi.webp\" alt=\"\">", kurz:"Zwei falsche Antworten verschwinden.", lang:"1× pro 10 Fragen: Zwei falsche Antworten verschwinden."},
+    leni:{name:"Lenis Tipp", ic:"<img src=\"img/grafik/duell/joker-leni.webp?v=2\" alt=\"\">", kurz:"Eine falsche Antwort weg und ein Hinweis.", lang:"1× pro 10 Fragen: Eine falsche Antwort verschwindet, und du bekommst einen Hinweis, der zur richtigen Antwort führt."},
+    ben:{name:"Bens Schild", ic:"<img src=\"img/grafik/duell/joker-ben.webp?v=2\" alt=\"\">", kurz:"Falsch? Trotzdem halbe Punkte.", lang:"1× pro 10 Fragen: Ist deine Antwort falsch, bekommst du trotzdem die Hälfte der Punkte."},
+    milo:{name:"Milos zweite Chance", ic:"<img src=\"img/grafik/duell/joker-milo.webp\" alt=\"\">", kurz:"Falsch getippt? Du darfst nochmals.", lang:"1× pro 10 Fragen: Falsch getippt? Du darfst nochmals. Die Zeit läuft weiter."}
   };
   const teamId = () => { try{ const t = window.EP_START && EP_START.team && EP_START.team(); if(t && t.id) return t.id; }catch(e){} try{ return JSON.parse(localStorage.getItem("ep-team") || "null"); }catch(e){ return null; } };
   const esc2 = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
@@ -621,6 +621,7 @@ body.dark .du-joker-msg{color:#FFE9A8}
 #app .du-joker-msg.tipp{max-width:640px;margin:4px auto 12px;padding:10px 16px 10px 52px;border-radius:18px;background:rgba(255,255,255,.97) url("img/grafik/duell/joker-leni.webp?v=2") 12px center/30px auto no-repeat;color:#2E2560!important;font:700 .98rem/1.4 Lexend,system-ui,sans-serif;text-align:left;box-shadow:0 6px 16px rgba(30,20,90,.2);border:2px solid #FFD54A}`;
   document.head.appendChild(css);
 
+  const jokerErlaubt = () => Math.max(1, Math.floor(((DU.list && DU.list.length) || 10) / 10));
   function weg2(f){ const falsch = f.opts.map((_, i) => i).filter(i => i !== f.c); for(let i = falsch.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [falsch[i], falsch[j]] = [falsch[j], falsch[i]]; } return falsch.slice(0, 2); }
 
   function schmuecken(){
@@ -631,22 +632,24 @@ body.dark .du-joker-msg{color:#FFE9A8}
     if(R.jkFalsch != null && R.jkChance === R.i && !R.aus){ const b = ans[R.jkFalsch]; if(b){ b.classList.add("jk-falsch"); b.disabled = true; } }
     if(!j) return;
     const box = document.querySelector("#app .answers"); if(!box || document.querySelector(".du-joker")) return;
-    const benutzt = !!R.jkGenutzt, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i) || (id === "leni" && R.jkTipp === R.i) || (id === "ben" && R.jkSchild === R.i && !R.aus);
+    /* Dejan 21.11.: pro 10 Fragen ein Joker (10 Fragen 1, 20 Fragen 2 …), höchstens einer pro Frage */
+    const erlaubt = jokerErlaubt(), anz = R.jkAnz || 0, rest = Math.max(0, erlaubt - anz), hierSchon = R.jkFrage === R.i;
+    const benutzt = rest <= 0 || hierSchon, aktiv = (id === "milo" && R.jkChance === R.i) || (id === "lumi" && R.jkWeg && R.jkWeg.i === R.i) || (id === "leni" && R.jkTipp === R.i) || (id === "ben" && R.jkSchild === R.i && !R.aus);
     const AKTIV = {milo:"Aktiv für diese Frage.", lumi:"Zwei Antworten sind weg.", leni:"Lies den Tipp oben bei der Frage!", ben:"Dein Schild schützt diese Frage."};
     const d = document.createElement("div"); d.className = "du-joker " + id + (aktiv ? " an" : "");
-    d.innerHTML = `<button type="button" ${benutzt || R.aus ? "disabled" : ""} aria-label="Joker ${esc2(j.name)}"><span class="ji" aria-hidden="true">${j.ic}</span>${esc2(j.name)}</button><small>${aktiv ? AKTIV[id] : benutzt ? "Schon eingesetzt." : esc2(j.kurz) + " 1× pro Duell"}</small>`;
+    d.innerHTML = `<button type="button" ${benutzt || R.aus ? "disabled" : ""} aria-label="Joker ${esc2(j.name)}"><span class="ji" aria-hidden="true">${j.ic}</span>${esc2(j.name)}</button><small>${aktiv ? AKTIV[id] : rest <= 0 ? "Alle Joker eingesetzt." : `<span>${esc2(j.kurz)}</span> <span>${rest === 1 ? "Noch 1 Joker" : "Noch " + rest + " Joker"}</span>`}</small>`;
     box.after(d);
     if(R.jkMsg && R.jkMsg.i === R.i && (!R.aus || R.jkMsg.nachher || R.jkMsg.tipp)){ const m = document.createElement("p"); m.className = "du-joker-msg" + (R.jkMsg.tipp ? " tipp" : ""); m.textContent = R.jkMsg.t;
       if(R.jkMsg.tipp) box.before(m); else d.after(m); }
     const btn = d.querySelector("button");
-    btn.onclick = () => { if(R.jkGenutzt || R.aus) return; R.jkGenutzt = true;
+    btn.onclick = () => { if((R.jkAnz || 0) >= jokerErlaubt() || R.jkFrage === R.i || R.aus) return; R.jkAnz = (R.jkAnz || 0) + 1; R.jkFrage = R.i; R.jkGenutzt = true;
       if(id === "lumi") R.jkWeg = {i:R.i, l:weg2(f)};
       else if(id === "leni"){ R.jkTipp = R.i; let t = ""; try{ t = tippText(f); }catch(e){}
         /* immer verschwindet eine falsche Antwort, dazu wenn möglich ein Hinweis, der zur richtigen Antwort führt */
         R.jkWeg = {i:R.i, l:weg2(f).slice(0, 1)};
         R.jkMsg = {i:R.i, t:t ? "Lenis Tipp: " + t : "Lenis Tipp: Eine falsche Antwort ist weg.", tipp:true}; }
       else if(id === "ben") R.jkSchild = R.i;
-      else R.jkChance = R.i;
+      else { R.jkChance = R.i; R.jkFalsch = null; }
       try{ A_ton(); }catch(e){} renderDuellPlay(); };
   }
   /* Lenis Tipp: ein hilfreicher Hinweis, ohne die Antwort zu nennen.
