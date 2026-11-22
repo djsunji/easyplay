@@ -17,13 +17,15 @@ const BOTS = [{name:"Leni", bild:"leni.webp", c:"#E8364F"}, {name:"Ben", bild:"b
 
 /* ---------- Elo und Ligen: gewinnen bringt Punkte, Gegner passen sich der Stärke an ---------- */
 /* Dejan 21.11.: sechs Ligen von Eisen bis Diamant, alle starten mit 1000 Elo in Silber */
+/* Dejans Medaillen 22.11. (img/grafik/duell/liga-<id>.webp) */
+const LG_IMG = id => `<img class="lg-ico" src="img/grafik/duell/liga-${id}.webp?v=1" alt="" style="height:1.35em;width:1.35em;vertical-align:-.32em;object-fit:contain">`;
 const LIGEN = [
-  {id:"eisen", n:"Eisen", min:0, e:"🔩", c:"#6E7480"},
-  {id:"bronze", n:"Bronze", min:850, e:"🥉", c:"#C07A3A"},
-  {id:"silber", n:"Silber", min:950, e:"🥈", c:"#8A97B0"},
-  {id:"gold", n:"Gold", min:1100, e:"🥇", c:"#E2A400"},
-  {id:"platin", n:"Platin", min:1250, e:"💠", c:"#22A9BB"},
-  {id:"diamant", n:"Diamant", min:1450, e:"💎", c:"#5B7CFF"}
+  {id:"eisen", n:"Eisen", min:0, e:LG_IMG("eisen"), c:"#6E7480"},
+  {id:"bronze", n:"Bronze", min:850, e:LG_IMG("bronze"), c:"#C07A3A"},
+  {id:"silber", n:"Silber", min:950, e:LG_IMG("silber"), c:"#8A97B0"},
+  {id:"gold", n:"Gold", min:1100, e:LG_IMG("gold"), c:"#E2A400"},
+  {id:"platin", n:"Platin", min:1250, e:LG_IMG("platin"), c:"#22A9BB"},
+  {id:"diamant", n:"Diamant", min:1450, e:LG_IMG("diamant"), c:"#5B7CFF"}
 ];
 const ELO_START = 1000;
 function eloDaten(){ const d = LS.get("ep-elo", null); return d && typeof d.r === "number" ? d : {r:ELO_START, n:0, s:0, u:0, v:0, hist:[]}; }
@@ -525,7 +527,7 @@ window.renderDuellEnde = function(){
         <div class="du2-elobar" style="--lc:${L.c}"><i style="width:${pro}%"></i></div>
         <small>${nx ? `Noch ${nx.min - r} Elo bis ${nx.e} ${nx.n}` : "Höchste Liga erreicht!"}</small></div>
     </div>
-    ${auf ? `<div class="du2-auf">⬆️ Aufstieg in die Liga ${E.ln.e} ${E.ln.n}! Deine nächsten Gegner sind stärker.</div>` : ab ? `<div class="du2-ab">⬇️ Abstieg in die Liga ${E.ln.e} ${E.ln.n}. Die nächsten Gegner sind etwas leichter, du schaffst das!</div>` : E ? `<p class="du2-mu du2-hinw">${E.delta >= 0 ? "Gewonnen: Deine nächsten Gegner werden etwas stärker." : "Verloren: Deine nächsten Gegner werden etwas leichter."}</p>` : ""}
+    ${auf ? `<div class="du2-auf">${E.ln.e} <span>Aufstieg in die Liga ${E.ln.n}! Deine nächsten Gegner sind stärker.</span></div>` : ab ? `<div class="du2-ab">${E.ln.e} <span>Abstieg in die Liga ${E.ln.n}. Die nächsten Gegner sind etwas leichter, du schaffst das!</span></div>` : E ? `<p class="du2-mu du2-hinw">${E.delta >= 0 ? "Gewonnen: Deine nächsten Gegner werden etwas stärker." : "Verloren: Deine nächsten Gegner werden etwas leichter."}</p>` : ""}
     <div class="du2-stats">
       ${tile("Richtig", `${meineR}/${n}`, g && g.i ? `${gR}/${g.i}` : "?")}
       ${tile("Ø Zeit", mz.length ? sek(schnitt(mz)) : "?", gz.length ? sek(schnitt(gz)) : "?")}
@@ -739,7 +741,7 @@ body.dark .du-joker-msg{color:#FFE9A8}
 (function(){
   const E = () => window.EP_DUELL || {};
   const esc3 = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-  const BILD = {bronze:"img/grafik/forscher/bronze.webp", silber:"img/grafik/forscher/silber.webp", gold:"img/grafik/forscher/gold.webp"};
+  const BILD = Object.fromEntries(["eisen","bronze","silber","gold","platin","diamant"].map(id => [id, `img/grafik/duell/liga-${id}.webp?v=1`]));
   const marke = l => `<i class="lg-marke lg-${l.id}" aria-hidden="true">${BILD[l.id] ? `<img src="${BILD[l.id]}" alt="">` : `<span>${l.e}</span>`}</i>`;
   function html(){
     const {eloDaten, liga, LIGEN} = E(); const d = eloDaten(), l = liga(d.r), li = LIGEN.indexOf(l);
@@ -781,7 +783,11 @@ body.dark .du-joker-msg{color:#FFE9A8}
 #app .du3-elo{cursor:pointer;transition:transform .15s,box-shadow .15s}
 #app .du3-elo:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(30,20,90,.25)}
 #app .du3-elo:focus-visible{outline:3px solid #7B3FE4;outline-offset:3px}
-#app .du3-elo::after{content:"Alle Ligen ›";grid-column:1/-1;justify-self:start;margin-top:4px;font:800 .72rem Lexend,sans-serif;color:#6A4BFF}
+#app .du3-elo::after{content:"Alle Ligen ›";}
+html[lang=en] #app .du3-elo::after{content:"All leagues ›"}
+html[lang=fr] #app .du3-elo::after{content:"Toutes les ligues ›"}
+html[lang=it] #app .du3-elo::after{content:"Tutte le leghe ›"}
+#app .du3-elo::after{grid-column:1/-1;justify-self:start;margin-top:4px;font:800 .72rem Lexend,sans-serif;color:#6A4BFF}
 #lgFenster{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:16px;background:rgba(20,12,60,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:lgEin .2s ease-out}
 @keyframes lgEin{from{opacity:0}to{opacity:1}}
 #lgFenster .lg-karte{position:relative;width:min(480px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:#fff;border-radius:28px;box-shadow:0 24px 60px rgba(20,10,70,.45);color:#2E2560;font-family:Lexend,system-ui,sans-serif;animation:lgHoch .25s ease-out}
@@ -793,9 +799,9 @@ body.dark .du-joker-msg{color:#FFE9A8}
 #lgFenster .lg-kopf h2{margin:0;font:800 1.9rem Fredoka,Lexend,sans-serif;line-height:1.05;color:#fff}
 #lgFenster .lg-kopf p{margin:2px 0 0;font:600 .9rem Lexend,sans-serif;opacity:.95}
 #lgFenster .lg-kopf p b{font-size:1.15rem}
-#lgFenster .lg-kopf .lg-marke{width:72px;height:72px}
-#lgFenster .lg-marke{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--lc,#888) 55%,#fff) 45%,var(--lc,#888));box-shadow:0 3px 8px rgba(0,0,0,.25),inset 0 -3px 5px rgba(0,0,0,.18),inset 0 0 0 3px rgba(255,255,255,.55)}
-#lgFenster .lg-marke img{width:72%;height:72%;object-fit:contain}
+#lgFenster .lg-kopf .lg-marke{width:84px;height:84px}
+#lgFenster .lg-marke{flex:none;width:52px;height:52px;display:grid;place-items:center}
+#lgFenster .lg-marke img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 3px 5px rgba(0,0,0,.28))}
 #lgFenster .lg-marke span{font-size:24px;line-height:1}
 #lgFenster .lg-kopf .lg-marke span{font-size:36px}
 #lgFenster .lg-leiter{list-style:none;margin:0;padding:16px 16px 6px;display:grid;gap:8px;position:relative}
@@ -808,12 +814,12 @@ body.dark .du-joker-msg{color:#FFE9A8}
 #lgFenster .lg-offen{opacity:.62}
 #lgFenster .lg-offen .lg-marke{filter:saturate(.5)}
 #lgFenster .lg-hier{background:#fff;border:3px solid transparent;background-image:linear-gradient(#fff,#fff),linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 8px 20px rgba(110,50,200,.25);padding:14px}
-#lgFenster .lg-hier .lg-marke{width:56px;height:56px}
+#lgFenster .lg-hier .lg-marke{width:62px;height:62px}
 #lgFenster .lg-hier .lg-st{padding:5px 10px;border-radius:999px;background:linear-gradient(135deg,#6A4BFF,#A43BE0 55%,#E8409F);color:#fff;white-space:nowrap}
 #lgFenster .lg-bar{display:block;height:10px;border-radius:99px;background:#ECE7FF;overflow:hidden;margin-top:6px}
 #lgFenster .lg-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#FFD54A,#FF9A3C)}
 #lgFenster .lg-tx em{font:700 .78rem Lexend,sans-serif;font-style:normal;color:#5A3FD6}
 #lgFenster .lg-info{margin:6px 18px 18px;padding:10px 14px;border-radius:16px;background:#FFF8DD;color:#5A4A10;font:600 .82rem/1.45 Lexend,sans-serif}
-@media (max-width:420px){#lgFenster .lg-kopf{padding:18px 16px 14px}#lgFenster .lg-kopf h2{font-size:1.6rem}#lgFenster .lg-kopf .lg-marke{width:60px;height:60px}#lgFenster .lg-leiter{padding:12px 10px 4px}}`;
+@media (max-width:420px){#lgFenster .lg-kopf{padding:18px 16px 14px}#lgFenster .lg-kopf h2{font-size:1.6rem}#lgFenster .lg-kopf .lg-marke{width:68px;height:68px}#lgFenster .lg-leiter{padding:12px 10px 4px}}`;
   document.head.appendChild(css);
 })();
